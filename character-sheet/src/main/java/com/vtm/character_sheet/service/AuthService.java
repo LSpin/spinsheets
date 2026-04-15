@@ -25,6 +25,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
+    private final NotificationService notificationService;
 
     public Map<String, Object> register(String username, String email, String password, String role) {
         if (userRepository.existsByUsername(username)) {
@@ -41,6 +42,7 @@ public class AuthService {
         user.setRole("STORYTELLER".equalsIgnoreCase(role) ? Role.STORYTELLER : Role.PLAYER);
 
         userRepository.save(user);
+        notificationService.notifyRegistration(user);
 
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
         return authResponse(token, user);
