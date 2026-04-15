@@ -11,6 +11,7 @@ import {
 } from '../api/characterApi'
 import { getGifts, addGift, removeGift, getRites, addRite, removeRite, getFetishes, addFetish, removeFetish } from '../api/werewolfApi'
 import DotRating from './DotRating'
+import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 
 // ── Constants ──
 
@@ -115,6 +116,16 @@ const INITIAL = {
   septName: '', caernLocation: '', caernType: '', septTotem: '', septLeader: '',
   // Notes
   derangement1: '', derangement2: '', notes: '',
+  // Secondary Abilities
+  hobbyTalent1Name: '', hobbyTalent1: 0,
+  hobbyTalent2Name: '', hobbyTalent2: 0,
+  hobbyTalent3Name: '', hobbyTalent3: 0,
+  profSkill1Name: '', profSkill1: 0,
+  profSkill2Name: '', profSkill2: 0,
+  profSkill3Name: '', profSkill3: 0,
+  expertKnowl1Name: '', expertKnowl1: 0,
+  expertKnowl2Name: '', expertKnowl2: 0,
+  expertKnowl3Name: '', expertKnowl3: 0,
 }
 
 function WerewolfRatingRow({ abilityKey, specKey, fields, onField, onText, max = 5 }) {
@@ -123,6 +134,29 @@ function WerewolfRatingRow({ abilityKey, specKey, fields, onField, onText, max =
       <DotRating label={label(abilityKey)} name={abilityKey} value={fields[abilityKey]} onChange={onField} max={max} />
       <input className="spec-input" type="text" name={specKey} value={fields[specKey] ?? ''} onChange={onText}
         placeholder="Specialty" aria-label={`${label(abilityKey)} specialty`} />
+    </div>
+  )
+}
+
+function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, onText, catalog, max = 5 }) {
+  const match = catalog?.find(c => c.value === fields[nameProp])
+  return (
+    <div className="custom-ability-row">
+      <input
+        type="text"
+        name={nameProp}
+        value={fields[nameProp]}
+        onChange={onText}
+        placeholder={placeholder}
+        aria-label={`${placeholder} name`}
+        className="custom-ability-name"
+        list={`${nameProp}-list`}
+      />
+      <datalist id={`${nameProp}-list`}>
+        {catalog?.map(c => <option key={c.value} value={c.value} />)}
+      </datalist>
+      <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={onField} max={max} />
+      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1', margin: 0 }}>{match.description}</p>}
     </div>
   )
 }
@@ -154,7 +188,7 @@ export default function WerewolfForm() {
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
 
-  const TABS = ['Identity', 'Attributes', 'Abilities', 'Gifts & Rites', 'Renown & Rage', 'Backgrounds', 'Merits & Flaws', 'Forms']
+  const TABS = ['Identity', 'Attributes', 'Abilities', 'Secondary Abilities', 'Gifts & Rites', 'Renown & Rage', 'Backgrounds', 'Merits & Flaws', 'Forms']
 
   useEffect(() => {
     if (isEdit) loadCharacter()
@@ -441,8 +475,34 @@ export default function WerewolfForm() {
         </div>
       </div>
 
+      {/* ── Secondary Abilities ── */}
+      <div role="tabpanel" id="tabpanel-3" aria-labelledby="tab-3" hidden={tab !== 3}>
+        <div className="form-section">
+          <div className="abilities-group">
+            <fieldset>
+              <legend>Secondary Talents</legend>
+              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+            </fieldset>
+            <fieldset>
+              <legend>Secondary Skills</legend>
+              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+            </fieldset>
+            <fieldset>
+              <legend>Secondary Knowledges</legend>
+              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
       {/* ── Gifts & Rites ── */}
-      <div hidden={tab !== 3}>
+      <div hidden={tab !== 4}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">Save your character first to add gifts, rites, and fetishes.</p>}
           {isEdit && (
@@ -539,7 +599,7 @@ export default function WerewolfForm() {
       </div>
 
       {/* ── Renown & Rage ── */}
-      <div hidden={tab !== 4}>
+      <div hidden={tab !== 5}>
         <div className="form-section">
           <fieldset>
             <legend>Rage</legend>
@@ -592,7 +652,7 @@ export default function WerewolfForm() {
       </div>
 
       {/* ── Backgrounds ── */}
-      <div hidden={tab !== 5}>
+      <div hidden={tab !== 6}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">Save your character first to add backgrounds.</p>}
           {isEdit && (
@@ -635,7 +695,7 @@ export default function WerewolfForm() {
       </div>
 
       {/* ── Merits & Flaws ── */}
-      <div hidden={tab !== 6}>
+      <div hidden={tab !== 7}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">Save your character first to add merits and flaws.</p>}
           {isEdit && (
@@ -672,7 +732,7 @@ export default function WerewolfForm() {
       </div>
 
       {/* ── Forms ── */}
-      <div hidden={tab !== 7}>
+      <div hidden={tab !== 8}>
         <div className="form-section">
           <fieldset>
             <legend>Shapeshifting Forms</legend>

@@ -10,6 +10,7 @@ import {
   getInventory, addInventoryItem, removeInventoryItem,
 } from '../api/characterApi'
 import DotRating from './DotRating'
+import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 
 // ── Constants ──
 
@@ -92,21 +93,21 @@ const INITIAL = {
   // Talents
   alertness: 0, art: 0, athletics: 0, awareness: 0, brawl: 0, empathy: 0,
   expression: 0, intimidation: 0, leadership: 0, streetwise: 0, subterfuge: 0,
-  hobbyTalent1: 0, hobbyTalent2: 0, hobbyTalent3: 0,
+  hobbyTalent1Name: '', hobbyTalent1: 0, hobbyTalent2Name: '', hobbyTalent2: 0, hobbyTalent3Name: '', hobbyTalent3: 0,
   alertnessSpec: '', artSpec: '', athleticsSpec: '', awarenessSpec: '', brawlSpec: '', empathySpec: '',
   expressionSpec: '', intimidationSpec: '', leadershipSpec: '', streetwiseSpec: '', subterfugeSpec: '',
   hobbyTalent1Spec: '', hobbyTalent2Spec: '', hobbyTalent3Spec: '',
   // Skills
   crafts: 0, drive: 0, etiquette: 0, firearms: 0, martialArts: 0, meditation: 0,
   melee: 0, research: 0, stealth: 0, survival: 0, technology: 0,
-  profSkill1: 0, profSkill2: 0, profSkill3: 0,
+  profSkill1Name: '', profSkill1: 0, profSkill2Name: '', profSkill2: 0, profSkill3Name: '', profSkill3: 0,
   craftsSpec: '', driveSpec: '', etiquetteSpec: '', firearmsSpec: '', martialArtsSpec: '', meditationSpec: '',
   meleeSpec: '', researchSpec: '', stealthSpec: '', survivalSpec: '', technologySpec: '',
   profSkill1Spec: '', profSkill2Spec: '', profSkill3Spec: '',
   // Knowledges
   academics: 0, computer: 0, cosmology: 0, enigmas: 0, esoterica: 0, investigation: 0,
   law: 0, medicine: 0, occult: 0, politics: 0, science: 0,
-  expertKnowl1: 0, expertKnowl2: 0, expertKnowl3: 0,
+  expertKnowl1Name: '', expertKnowl1: 0, expertKnowl2Name: '', expertKnowl2: 0, expertKnowl3Name: '', expertKnowl3: 0,
   academicsSpec: '', computerSpec: '', cosmologySpec: '', enigmasSpec: '', esotericaSpec: '', investigationSpec: '',
   lawSpec: '', medicineSpec: '', occultSpec: '', politicsSpec: '', scienceSpec: '',
   expertKnowl1Spec: '', expertKnowl2Spec: '', expertKnowl3Spec: '',
@@ -142,6 +143,29 @@ function MageRatingRow({ abilityKey, specKey, fields, onField, onText, max = 5 }
   )
 }
 
+function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, onText, catalog, max = 5 }) {
+  const match = catalog?.find(c => c.value === fields[nameProp])
+  return (
+    <div className="custom-ability-row">
+      <input
+        type="text"
+        name={nameProp}
+        value={fields[nameProp]}
+        onChange={onText}
+        placeholder={placeholder}
+        aria-label={`${placeholder} name`}
+        className="custom-ability-name"
+        list={`${nameProp}-list`}
+      />
+      <datalist id={`${nameProp}-list`}>
+        {catalog?.map(c => <option key={c.value} value={c.value} />)}
+      </datalist>
+      <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={onField} max={max} />
+      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1', margin: 0 }}>{match.description}</p>}
+    </div>
+  )
+}
+
 // ── Component ──
 
 export default function MageForm() {
@@ -166,7 +190,7 @@ export default function MageForm() {
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
 
-  const TABS = ['Identity', 'Attributes', 'Abilities', 'Spheres', 'Disciplines & Backgrounds', 'Merits & Flaws', 'Inventory', 'Focus & Chantry']
+  const TABS = ['Identity', 'Attributes', 'Abilities', 'Secondary Abilities', 'Spheres', 'Disciplines & Backgrounds', 'Merits & Flaws', 'Inventory', 'Focus & Chantry']
 
   useEffect(() => {
     if (isEdit) loadCharacter()
@@ -457,8 +481,34 @@ export default function MageForm() {
         </div>
       </div>
 
+      {/* ── Secondary Abilities ── */}
+      <div role="tabpanel" id="tabpanel-3" aria-labelledby="tab-3" hidden={tab !== 3}>
+        <div className="form-section">
+          <div className="abilities-group">
+            <fieldset>
+              <legend>Secondary Talents</legend>
+              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+            </fieldset>
+            <fieldset>
+              <legend>Secondary Skills</legend>
+              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+            </fieldset>
+            <fieldset>
+              <legend>Secondary Knowledges</legend>
+              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
       {/* ── Spheres ── */}
-      <div hidden={tab !== 3}>
+      <div hidden={tab !== 4}>
         <div className="form-section">
           <fieldset>
             <legend>Spheres</legend>
@@ -525,7 +575,7 @@ export default function MageForm() {
       </div>
 
       {/* ── Disciplines & Backgrounds ── */}
-      <div hidden={tab !== 4}>
+      <div hidden={tab !== 5}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">Save your character first to add disciplines and backgrounds.</p>}
           {isEdit && (
@@ -597,7 +647,7 @@ export default function MageForm() {
       </div>
 
       {/* ── Merits & Flaws ── */}
-      <div hidden={tab !== 5}>
+      <div hidden={tab !== 6}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">Save your character first to add merits and flaws.</p>}
           {isEdit && (
@@ -634,7 +684,7 @@ export default function MageForm() {
       </div>
 
       {/* ── Inventory ── */}
-      <div hidden={tab !== 6}>
+      <div hidden={tab !== 7}>
         <div className="form-section">
           {!isEdit ? (
             <p className="muted-hint">Save your character first to add inventory.</p>
@@ -698,7 +748,7 @@ export default function MageForm() {
       </div>
 
       {/* ── Focus & Chantry ── */}
-      <div hidden={tab !== 7}>
+      <div hidden={tab !== 8}>
         <div className="form-section">
           <fieldset>
             <legend>Focus</legend>

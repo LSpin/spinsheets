@@ -10,6 +10,7 @@ import {
   getInventory, addInventoryItem, removeInventoryItem,
 } from '../api/characterApi'
 import DotRating from './DotRating'
+import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 
 // ── Constants ──
 
@@ -153,12 +154,16 @@ function RatingRow({ abilityKey, specKey, fields, onField, onText, max = 5 }) {
   )
 }
 
-function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, onText, max = 5 }) {
+function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, onText, catalog, max = 5 }) {
+  const match = catalog?.find(c => c.value === fields[nameProp])
   return (
     <div className="custom-ability-row">
       <input type="text" name={nameProp} value={fields[nameProp]} onChange={onText}
-        placeholder={placeholder} aria-label={`${placeholder} name`} className="custom-ability-name" />
+        placeholder={placeholder} aria-label={`${placeholder} name`} className="custom-ability-name"
+        list={`${nameProp}-list`} />
+      {catalog && <datalist id={`${nameProp}-list`}>{catalog.map(c => <option key={c.value} value={c.value} />)}</datalist>}
       <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={onField} max={max} />
+      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1', margin: 0 }}>{match.description}</p>}
     </div>
   )
 }
@@ -465,9 +470,9 @@ export default function VampireRevisedForm() {
               )}
             </div>
             <div className="rating-grid" style={{ marginTop: 'var(--space-sm)' }}>
-              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} />
-              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} />
-              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} />
+              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
             </div>
           </fieldset>
           <fieldset>
@@ -478,9 +483,9 @@ export default function VampireRevisedForm() {
               )}
             </div>
             <div className="rating-grid" style={{ marginTop: 'var(--space-sm)' }}>
-              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} />
-              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} />
-              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} />
+              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
             </div>
           </fieldset>
           <fieldset>
@@ -491,9 +496,9 @@ export default function VampireRevisedForm() {
               )}
             </div>
             <div className="rating-grid" style={{ marginTop: 'var(--space-sm)' }}>
-              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder="Expert Knowl." fields={fields} onField={handleField} onText={handleText} />
-              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder="Expert Knowl." fields={fields} onField={handleField} onText={handleText} />
-              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder="Expert Knowl." fields={fields} onField={handleField} onText={handleText} />
+              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder="Expert Knowl." fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder="Expert Knowl." fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder="Expert Knowl." fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
             </div>
           </fieldset>
         </div>
