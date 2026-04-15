@@ -1,6 +1,10 @@
 package com.vtm.character_sheet.controller;
 
+import com.vtm.character_sheet.entity.AppUser;
 import com.vtm.character_sheet.entity.Character;
+import com.vtm.character_sheet.entity.Chronicle;
+import com.vtm.character_sheet.entity.Role;
+import com.vtm.character_sheet.repository.CharacterRepository;
 import com.vtm.character_sheet.security.CharacterAccessChecker;
 import com.vtm.character_sheet.service.CharacterService;
 import com.vtm.character_sheet.service.ChronicleService;
@@ -9,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 @RestController
@@ -18,6 +24,7 @@ public class CharacterController {
 
     private final CharacterService service;
     private final ChronicleService chronicleService;
+    private final CharacterRepository characterRepository;
     private final CharacterAccessChecker access;
 
     @GetMapping
@@ -25,12 +32,16 @@ public class CharacterController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String clan
     ) {
-        if (access.isStoryteller()) {
-            if (name != null) return service.findByName(name);
-            if (clan != null) return service.findByClan(clan);
-            return service.findAll();
+        AppUser user = access.getCurrentUser();
+        if (user.getRole() == Role.STORYTELLER) {
+            // Storytellers see their own characters + characters in their chronicles
+            LinkedHashSet<Character> result = new LinkedHashSet<>(service.findByOwner(user.getId()));
+            for (Chronicle c : chronicleService.findByStoryteller(user.getId())) {
+                result.addAll(characterRepository.findByChronicle_Id(c.getId()));
+            }
+            return new ArrayList<>(result);
         }
-        return service.findByOwner(access.getCurrentUser().getId());
+        return service.findByOwner(user.getId());
     }
 
     @GetMapping("/{id}")
