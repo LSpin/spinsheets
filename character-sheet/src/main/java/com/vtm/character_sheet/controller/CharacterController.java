@@ -3,6 +3,7 @@ package com.vtm.character_sheet.controller;
 import com.vtm.character_sheet.entity.Character;
 import com.vtm.character_sheet.security.CharacterAccessChecker;
 import com.vtm.character_sheet.service.CharacterService;
+import com.vtm.character_sheet.service.ChronicleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 public class CharacterController {
 
     private final CharacterService service;
+    private final ChronicleService chronicleService;
     private final CharacterAccessChecker access;
 
     @GetMapping
@@ -157,5 +159,25 @@ public class CharacterController {
         if (service.findById(id).isEmpty()) return ResponseEntity.notFound().build();
         service.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/chronicle/{chronicleId}")
+    public ResponseEntity<Character> joinChronicle(@PathVariable Long id, @PathVariable Long chronicleId) {
+        if (!access.canAccess(id)) return ResponseEntity.status(403).build();
+        return service.findById(id).map(character ->
+            chronicleService.findById(chronicleId).map(chronicle -> {
+                character.setChronicle(chronicle);
+                return ResponseEntity.ok(service.save(character));
+            }).orElse(ResponseEntity.notFound().build())
+        ).orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}/chronicle")
+    public ResponseEntity<Character> leaveChronicle(@PathVariable Long id) {
+        if (!access.canAccess(id)) return ResponseEntity.status(403).build();
+        return service.findById(id).map(character -> {
+            character.setChronicle(null);
+            return ResponseEntity.ok(service.save(character));
+        }).orElse(ResponseEntity.notFound().build());
     }
 }

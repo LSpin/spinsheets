@@ -5,6 +5,9 @@ import CharacterForm from './components/CharacterForm'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
+import ChronicleList from './pages/ChronicleList'
+import ChronicleDetail from './pages/ChronicleDetail'
+import ChronicleForm from './pages/ChronicleForm'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -27,6 +30,9 @@ function AppShell() {
             <nav aria-label="Primary navigation">
               <Link to="/">
                 <button>Characters</button>
+              </Link>
+              <Link to="/chronicles">
+                <button>Chronicles</button>
               </Link>
               <Link to="/characters/new">
                 <button>New character</button>
@@ -60,6 +66,21 @@ function AppShell() {
           <Route path="/characters/:id" element={
             <ProtectedRoute>
               <CharacterForm />
+            </ProtectedRoute>
+          } />
+          <Route path="/chronicles" element={
+            <ProtectedRoute>
+              <ChronicleList />
+            </ProtectedRoute>
+          } />
+          <Route path="/chronicles/new" element={
+            <ProtectedRoute>
+              <ChronicleForm />
+            </ProtectedRoute>
+          } />
+          <Route path="/chronicles/:id" element={
+            <ProtectedRoute>
+              <ChronicleDetail />
             </ProtectedRoute>
           } />
           <Route path="*" element={<Navigate to="/" replace />} />

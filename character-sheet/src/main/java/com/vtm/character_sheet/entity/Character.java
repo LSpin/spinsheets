@@ -24,6 +24,11 @@ public class Character {
     @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"hibernateLazyInitializer"})
     private AppUser owner;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chronicle_id")
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"hibernateLazyInitializer"})
+    private Chronicle chronicle;
+
     public Long getOwnerId() {
         return owner != null ? owner.getId() : null;
     }
