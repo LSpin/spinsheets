@@ -193,6 +193,47 @@ public class Character {
     // Health (0=Healthy,1=Bruised,2=Hurt,3=Injured,4=Wounded,5=Mauled,6=Crippled,7=Incapacitated,8=Torpor,9=Final Death)
     private Integer woundLevel = 0;
 
+    // ── Werewolf-specific fields ──
+
+    // W20 Identity
+    private String breed;
+    private String auspice;
+    private String tribe;
+    private String packName;
+    private String packTotem;
+    private String rank;
+
+    // W20 Abilities (unique to Garou)
+    private Integer primalUrge = 0;
+    private String primalUrgeSpec;
+    private Integer enigmas = 0;
+    private String enigmasSpec;
+    private Integer ritualAbility = 0;
+    private String ritualAbilitySpec;
+
+    // W20 Rage / Gnosis
+    private Integer rage = 1;
+    private Integer currentRage = 1;
+    private Integer gnosis = 1;
+    private Integer currentGnosis = 1;
+
+    // W20 Renown
+    private Integer glory = 0;
+    private Integer currentGlory = 0;
+    private Integer honor = 0;
+    private Integer currentHonor = 0;
+    private Integer wisdomRenown = 0;
+    private Integer currentWisdomRenown = 0;
+
+    // W20 Sept
+    private String septName;
+    private String caernLocation;
+    private String caernType;
+    private String septTotem;
+    private String septLeader;
+
+    // ── Shared fields ──
+
     // Derangements & Notes
     private String derangement1;
     private String derangement2;
@@ -230,4 +271,17 @@ public class Character {
     @JsonIgnore
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CharacterRitual> rituals = new ArrayList<>();
+
+    // W20 sub-entities
+    @JsonIgnore
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CharacterGift> gifts = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CharacterRite> rites = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CharacterFetish> fetishes = new ArrayList<>();
 }

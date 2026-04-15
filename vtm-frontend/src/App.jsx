@@ -2,11 +2,12 @@ import { BrowserRouter, Routes, Route, Navigate, useNavigate, Link } from 'react
 import { AuthProvider, useAuth } from './context/AuthContext'
 import CharacterList from './components/CharacterList'
 import CharacterForm from './components/CharacterForm'
+import CharacterRouter from './components/CharacterRouter'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import SplatSelectPage from './pages/SplatSelectPage'
-import WerewolfFormPlaceholder from './pages/WerewolfFormPlaceholder'
+import WerewolfForm from './components/WerewolfForm'
 import MageFormPlaceholder from './pages/MageFormPlaceholder'
 import ChronicleList from './pages/ChronicleList'
 import ChronicleDetail from './pages/ChronicleDetail'
@@ -73,7 +74,7 @@ function AppShell() {
           } />
           <Route path="/characters/new/werewolf" element={
             <ProtectedRoute>
-              <WerewolfFormPlaceholder />
+              <WerewolfForm />
             </ProtectedRoute>
           } />
           <Route path="/characters/new/mage" element={
@@ -83,7 +84,7 @@ function AppShell() {
           } />
           <Route path="/characters/:id" element={
             <ProtectedRoute>
-              <CharacterForm />
+              <CharacterRouter />
             </ProtectedRoute>
           } />
           <Route path="/chronicles" element={

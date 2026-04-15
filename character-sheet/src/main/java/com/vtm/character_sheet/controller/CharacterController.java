@@ -192,6 +192,34 @@ public class CharacterController {
             existing.setCurrentWillpower(updated.getCurrentWillpower());
             existing.setCurrentBlood(updated.getCurrentBlood());
             existing.setWoundLevel(updated.getWoundLevel());
+            // W20 fields
+            existing.setBreed(updated.getBreed());
+            existing.setAuspice(updated.getAuspice());
+            existing.setTribe(updated.getTribe());
+            existing.setPackName(updated.getPackName());
+            existing.setPackTotem(updated.getPackTotem());
+            existing.setRank(updated.getRank());
+            existing.setPrimalUrge(updated.getPrimalUrge());
+            existing.setPrimalUrgeSpec(updated.getPrimalUrgeSpec());
+            existing.setEnigmas(updated.getEnigmas());
+            existing.setEnigmasSpec(updated.getEnigmasSpec());
+            existing.setRitualAbility(updated.getRitualAbility());
+            existing.setRitualAbilitySpec(updated.getRitualAbilitySpec());
+            existing.setRage(updated.getRage());
+            existing.setCurrentRage(updated.getCurrentRage());
+            existing.setGnosis(updated.getGnosis());
+            existing.setCurrentGnosis(updated.getCurrentGnosis());
+            existing.setGlory(updated.getGlory());
+            existing.setCurrentGlory(updated.getCurrentGlory());
+            existing.setHonor(updated.getHonor());
+            existing.setCurrentHonor(updated.getCurrentHonor());
+            existing.setWisdomRenown(updated.getWisdomRenown());
+            existing.setCurrentWisdomRenown(updated.getCurrentWisdomRenown());
+            existing.setSeptName(updated.getSeptName());
+            existing.setCaernLocation(updated.getCaernLocation());
+            existing.setCaernType(updated.getCaernType());
+            existing.setSeptTotem(updated.getSeptTotem());
+            existing.setSeptLeader(updated.getSeptLeader());
             // Derangements & Notes
             existing.setDerangement1(updated.getDerangement1());
             existing.setDerangement2(updated.getDerangement2());
