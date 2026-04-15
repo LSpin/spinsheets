@@ -15,7 +15,7 @@ public class CharacterService {
     private final CharacterRepository repository;
 
     public List<Character> findAll() { return repository.findAll(); }
-    public List<Character> findByOwner(Long ownerId) { return repository.findByOwnerId(ownerId); }
+    public List<Character> findByOwner(Long ownerId) { return repository.findByOwner_Id(ownerId); }
     public Optional<Character> findById(Long id) { return repository.findById(id); }
     public List<Character> findByName(String name) { return repository.findByNameContainingIgnoreCase(name); }
     public List<Character> findByClan(String clan) { return repository.findByClan(clan); }

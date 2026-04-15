@@ -8,5 +8,5 @@ import java.util.List;
 public interface CharacterRepository extends JpaRepository<Character, Long> {
     List<Character> findByNameContainingIgnoreCase(String name);
     List<Character> findByClan(String clan);
-    List<Character> findByOwnerId(Long ownerId);
+    List<Character> findByOwner_Id(Long ownerId);
 }

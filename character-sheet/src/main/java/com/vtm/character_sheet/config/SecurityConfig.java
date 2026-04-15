@@ -40,6 +40,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/register", "/api/auth/login", "/api/auth/reset-password").permitAll()
                 .requestMatchers("/api/auth/reset-request").authenticated()
                 .requestMatchers("/api/merits", "/api/flaws").permitAll()
+                .requestMatchers("/", "/index.html", "/assets/**", "/favicon.svg", "/icons.svg").permitAll()
+                .requestMatchers("/login", "/register", "/reset-password", "/characters/**").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
