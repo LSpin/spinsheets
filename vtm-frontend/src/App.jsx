@@ -88,7 +88,7 @@ function AppShell() {
       </main>
 
       <footer role="contentinfo">
-        <p>VtM Character Sheet — Mind's Eye Theatre</p>
+        <p>A Fan Project WoD Chronicles Creator</p>
       </footer>
     </>
   )
