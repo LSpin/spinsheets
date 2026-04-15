@@ -22,6 +22,20 @@ const SPLATS = [
     description: 'Play as one of the Awakened — a mortal who has glimpsed the true nature of reality and wields the power to reshape it through will, belief, and paradigm.',
     color: '#6a4caa',
   },
+  {
+    id: 'vampire-revised',
+    name: 'Vampire',
+    subtitle: 'The Masquerade (Revised)',
+    description: 'Play as one of the Kindred using the classic Revised Edition rules — the definitive 1998 edition of Vampire: The Masquerade.',
+    color: '#991111',
+  },
+  {
+    id: 'kote',
+    name: 'Kindred of the East',
+    subtitle: 'The Turning',
+    description: 'Play as one of the Kuei-jin — a risen soul returned from the spirit world, balancing Yin and Yang while walking the path of Dharma.',
+    color: '#c4a32e',
+  },
 ]
 
 export default function SplatSelectPage() {

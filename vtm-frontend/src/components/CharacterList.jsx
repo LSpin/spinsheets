@@ -3,6 +3,18 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { getCharacters, deleteCharacter } from '../api/characterApi'
 
+const SPLAT_LABELS = {
+  VAMPIRE: 'Vampire',
+  WEREWOLF: 'Werewolf',
+  MAGE: 'Mage',
+  VAMPIRE_REVISED: 'Vampire (Revised)',
+  KOTE: 'Kindred of the East',
+}
+
+function splatBadgeClass(splat) {
+  return `splat-badge splat-badge--${(splat || 'vampire').toLowerCase().replace('_', '-')}`
+}
+
 export default function CharacterList() {
   const [characters, setCharacters] = useState([])
   const [loading, setLoading] = useState(true)
@@ -66,8 +78,8 @@ export default function CharacterList() {
                   {c.splat && (
                     <>
                       <dt className="sr-only">Splat</dt>
-                      <dd className={`splat-badge splat-badge--${(c.splat || 'vampire').toLowerCase()}`}>
-                        {(c.splat || 'Vampire').charAt(0) + (c.splat || 'Vampire').slice(1).toLowerCase()}
+                      <dd className={splatBadgeClass(c.splat)}>
+                        {SPLAT_LABELS[c.splat] || c.splat}
                       </dd>
                     </>
                   )}

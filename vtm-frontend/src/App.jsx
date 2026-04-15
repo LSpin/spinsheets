@@ -8,7 +8,9 @@ import RegisterPage from './pages/RegisterPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import SplatSelectPage from './pages/SplatSelectPage'
 import WerewolfForm from './components/WerewolfForm'
-import MageFormPlaceholder from './pages/MageFormPlaceholder'
+import MageForm from './components/MageForm'
+import VampireRevisedForm from './components/VampireRevisedForm'
+import KoteForm from './components/KoteForm'
 import ChronicleList from './pages/ChronicleList'
 import ChronicleDetail from './pages/ChronicleDetail'
 import ChronicleForm from './pages/ChronicleForm'
@@ -79,7 +81,17 @@ function AppShell() {
           } />
           <Route path="/characters/new/mage" element={
             <ProtectedRoute>
-              <MageFormPlaceholder />
+              <MageForm />
+            </ProtectedRoute>
+          } />
+          <Route path="/characters/new/vampire-revised" element={
+            <ProtectedRoute>
+              <VampireRevisedForm />
+            </ProtectedRoute>
+          } />
+          <Route path="/characters/new/kote" element={
+            <ProtectedRoute>
+              <KoteForm />
             </ProtectedRoute>
           } />
           <Route path="/characters/:id" element={

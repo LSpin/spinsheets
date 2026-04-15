@@ -96,6 +96,7 @@ public class CharacterController {
             existing.setLeadership(updated.getLeadership());
             existing.setStreetwise(updated.getStreetwise());
             existing.setSubterfuge(updated.getSubterfuge());
+            existing.setDodge(updated.getDodge());
             existing.setHobbyTalent1Name(updated.getHobbyTalent1Name());
             existing.setHobbyTalent1(updated.getHobbyTalent1());
             existing.setHobbyTalent2Name(updated.getHobbyTalent2Name());
@@ -111,6 +112,7 @@ public class CharacterController {
             existing.setLarceny(updated.getLarceny());
             existing.setMelee(updated.getMelee());
             existing.setPerformance(updated.getPerformance());
+            existing.setSecurity(updated.getSecurity());
             existing.setStealth(updated.getStealth());
             existing.setSurvival(updated.getSurvival());
             existing.setProfSkill1Name(updated.getProfSkill1Name());
@@ -152,6 +154,7 @@ public class CharacterController {
             existing.setAthleticsSpec(updated.getAthleticsSpec());
             existing.setAwarenessSpec(updated.getAwarenessSpec());
             existing.setBrawlSpec(updated.getBrawlSpec());
+            existing.setDodgeSpec(updated.getDodgeSpec());
             existing.setEmpathySpec(updated.getEmpathySpec());
             existing.setExpressionSpec(updated.getExpressionSpec());
             existing.setIntimidationSpec(updated.getIntimidationSpec());
@@ -167,6 +170,7 @@ public class CharacterController {
             existing.setLarcenySpec(updated.getLarcenySpec());
             existing.setMeleeSpec(updated.getMeleeSpec());
             existing.setPerformanceSpec(updated.getPerformanceSpec());
+            existing.setSecuritySpec(updated.getSecuritySpec());
             existing.setStealthSpec(updated.getStealthSpec());
             existing.setSurvivalSpec(updated.getSurvivalSpec());
             // Specialties — Knowledges
@@ -220,6 +224,52 @@ public class CharacterController {
             existing.setCaernType(updated.getCaernType());
             existing.setSeptTotem(updated.getSeptTotem());
             existing.setSeptLeader(updated.getSeptLeader());
+            // M20 fields
+            existing.setEssence(updated.getEssence());
+            existing.setAffiliation(updated.getAffiliation());
+            existing.setMageSection(updated.getMageSection());
+            existing.setArt(updated.getArt());
+            existing.setArtSpec(updated.getArtSpec());
+            existing.setMartialArts(updated.getMartialArts());
+            existing.setMartialArtsSpec(updated.getMartialArtsSpec());
+            existing.setMeditation(updated.getMeditation());
+            existing.setMeditationSpec(updated.getMeditationSpec());
+            existing.setResearch(updated.getResearch());
+            existing.setResearchSpec(updated.getResearchSpec());
+            existing.setCosmology(updated.getCosmology());
+            existing.setCosmologySpec(updated.getCosmologySpec());
+            existing.setEsoterica(updated.getEsoterica());
+            existing.setEsotericaSpec(updated.getEsotericaSpec());
+            existing.setSphereCorrespondence(updated.getSphereCorrespondence());
+            existing.setSphereEntropy(updated.getSphereEntropy());
+            existing.setSphereForces(updated.getSphereForces());
+            existing.setSphereLife(updated.getSphereLife());
+            existing.setSphereMatter(updated.getSphereMatter());
+            existing.setSphereMind(updated.getSphereMind());
+            existing.setSpherePrime(updated.getSpherePrime());
+            existing.setSphereSpirit(updated.getSphereSpirit());
+            existing.setSphereTime(updated.getSphereTime());
+            existing.setArete(updated.getArete());
+            existing.setQuintessence(updated.getQuintessence());
+            existing.setParadox(updated.getParadox());
+            existing.setParadigm(updated.getParadigm());
+            existing.setPractice(updated.getPractice());
+            existing.setInstruments(updated.getInstruments());
+            existing.setChantryName(updated.getChantryName());
+            existing.setChantryDescription(updated.getChantryDescription());
+            // KotE fields
+            existing.setPoNature(updated.getPoNature());
+            existing.setBalance(updated.getBalance());
+            existing.setDirection(updated.getDirection());
+            existing.setWu(updated.getWu());
+            existing.setDharmaName(updated.getDharmaName());
+            existing.setDharmaRating(updated.getDharmaRating());
+            existing.setHun(updated.getHun());
+            existing.setPo(updated.getPo());
+            existing.setYinChi(updated.getYinChi());
+            existing.setYangChi(updated.getYangChi());
+            existing.setDemonChi(updated.getDemonChi());
+            existing.setImbalance(updated.getImbalance());
             // Derangements & Notes
             existing.setDerangement1(updated.getDerangement1());
             existing.setDerangement2(updated.getDerangement2());

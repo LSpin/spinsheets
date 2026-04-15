@@ -144,6 +144,7 @@ public class Character {
     private String athleticsSpec;
     private String awarenessSpec;
     private String brawlSpec;
+    private String dodgeSpec;
     private String empathySpec;
     private String expressionSpec;
     private String intimidationSpec;
@@ -160,6 +161,7 @@ public class Character {
     private String larcenySpec;
     private String meleeSpec;
     private String performanceSpec;
+    private String securitySpec;
     private String stealthSpec;
     private String survivalSpec;
 
@@ -231,6 +233,80 @@ public class Character {
     private String caernType;
     private String septTotem;
     private String septLeader;
+
+    // ── Mage-specific fields ──
+
+    // M20 Identity
+    private String essence;
+    private String affiliation;
+    private String mageSection;
+
+    // M20 Abilities (unique to Mages)
+    private Integer art = 0;
+    private String artSpec;
+    private Integer martialArts = 0;
+    private String martialArtsSpec;
+    private Integer meditation = 0;
+    private String meditationSpec;
+    private Integer research = 0;
+    private String researchSpec;
+    private Integer cosmology = 0;
+    private String cosmologySpec;
+    private Integer esoterica = 0;
+    private String esotericaSpec;
+
+    // M20 Spheres
+    private Integer sphereCorrespondence = 0;
+    private Integer sphereEntropy = 0;
+    private Integer sphereForces = 0;
+    private Integer sphereLife = 0;
+    private Integer sphereMatter = 0;
+    private Integer sphereMind = 0;
+    private Integer spherePrime = 0;
+    private Integer sphereSpirit = 0;
+    private Integer sphereTime = 0;
+
+    // M20 Arete, Quintessence, Paradox
+    private Integer arete = 1;
+    private Integer quintessence = 0;
+    private Integer paradox = 0;
+
+    // M20 Focus
+    @Column(columnDefinition = "TEXT")
+    private String paradigm;
+    @Column(columnDefinition = "TEXT")
+    private String practice;
+    @Column(columnDefinition = "TEXT")
+    private String instruments;
+
+    // M20 Chantry
+    private String chantryName;
+    @Column(columnDefinition = "TEXT")
+    private String chantryDescription;
+
+    // ── Kindred of the East (KotE) fields ──
+
+    // KotE Identity
+    private String poNature;
+    private String balance;
+    private String direction;
+    private String wu;
+
+    // KotE Dharma
+    private String dharmaName;
+    private Integer dharmaRating = 0;
+
+    // KotE Soul
+    private Integer hun = 0;
+    private Integer po = 0;
+
+    // KotE Chi
+    private Integer yinChi = 0;
+    private Integer yangChi = 0;
+    private Integer demonChi = 0;
+
+    @Column(columnDefinition = "TEXT")
+    private String imbalance;
 
     // ── Shared fields ──
 

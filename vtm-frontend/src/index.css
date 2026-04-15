@@ -1100,6 +1100,18 @@ legend {
   background: rgba(154, 124, 212, 0.1);
 }
 
+.splat-badge--vampire-revised {
+  color: #cc4444;
+  border-color: rgba(204, 68, 68, 0.3);
+  background: rgba(204, 68, 68, 0.1);
+}
+
+.splat-badge--kote {
+  color: #c4a32e;
+  border-color: rgba(196, 163, 46, 0.3);
+  background: rgba(196, 163, 46, 0.1);
+}
+
 /* ── Splat selection ── */
 
 .splat-grid {

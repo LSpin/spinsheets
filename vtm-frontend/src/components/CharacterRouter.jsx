@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom'
 import { getCharacter } from '../api/characterApi'
 import CharacterForm from './CharacterForm'
 import WerewolfForm from './WerewolfForm'
+import MageForm from './MageForm'
+import VampireRevisedForm from './VampireRevisedForm'
+import KoteForm from './KoteForm'
 
 export default function CharacterRouter() {
   const { id } = useParams()
@@ -26,5 +29,8 @@ export default function CharacterRouter() {
   if (loading) return <p className="status-loading">Loading...</p>
 
   if (splat === 'WEREWOLF') return <WerewolfForm />
+  if (splat === 'MAGE') return <MageForm />
+  if (splat === 'VAMPIRE_REVISED') return <VampireRevisedForm />
+  if (splat === 'KOTE') return <KoteForm />
   return <CharacterForm />
 }
