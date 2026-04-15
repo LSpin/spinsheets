@@ -1,11 +1,13 @@
 package com.vtm.character_sheet.controller;
 
 import com.vtm.character_sheet.security.CharacterAccessChecker;
+import com.vtm.character_sheet.repository.AppUserRepository;
 import com.vtm.character_sheet.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -15,6 +17,7 @@ public class AuthController {
 
     private final AuthService authService;
     private final CharacterAccessChecker access;
+    private final AppUserRepository userRepository;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> body) {
@@ -51,6 +54,22 @@ public class AuthController {
         } catch (Exception e) {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid username or password"));
         }
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<?> listUsers() {
+        if (!access.isStoryteller()) {
+            return ResponseEntity.status(403).body(Map.of("error", "Storyteller access required"));
+        }
+        List<Map<String, Object>> users = userRepository.findAll().stream()
+                .map(u -> Map.<String, Object>of(
+                        "id", u.getId(),
+                        "username", u.getUsername(),
+                        "role", u.getRole().name(),
+                        "createdAt", u.getCreatedAt().toString()
+                ))
+                .toList();
+        return ResponseEntity.ok(users);
     }
 
     @PostMapping("/reset-request")
