@@ -1,5 +1,6 @@
 package com.vtm.character_sheet.controller;
 
+import com.vtm.character_sheet.security.CharacterAccessChecker;
 import com.vtm.character_sheet.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.Map;
 public class AuthController {
 
     private final AuthService authService;
+    private final CharacterAccessChecker access;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> body) {
@@ -48,6 +50,46 @@ public class AuthController {
             return ResponseEntity.ok(authService.login(username.trim(), password));
         } catch (Exception e) {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid username or password"));
+        }
+    }
+
+    @PostMapping("/reset-request")
+    public ResponseEntity<?> requestReset(@RequestBody Map<String, String> body) {
+        String username = body.get("username");
+        if (username == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Username is required"));
+        }
+
+        // Only Storytellers can generate reset tokens (since no email service)
+        try {
+            if (!access.isStoryteller()) {
+                return ResponseEntity.status(403)
+                        .body(Map.of("error", "Contact your Storyteller to reset your password"));
+            }
+            String token = authService.createResetToken(username.trim());
+            return ResponseEntity.ok(Map.of("resetToken", token));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> body) {
+        String token = body.get("token");
+        String newPassword = body.get("newPassword");
+
+        if (token == null || newPassword == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Token and new password are required"));
+        }
+        if (newPassword.length() < 6) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Password must be at least 6 characters"));
+        }
+
+        try {
+            authService.resetPassword(token.trim(), newPassword);
+            return ResponseEntity.ok(Map.of("message", "Password reset successfully"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 }

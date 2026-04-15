@@ -1,8 +1,10 @@
 package com.vtm.character_sheet.service;
 
 import com.vtm.character_sheet.entity.AppUser;
+import com.vtm.character_sheet.entity.PasswordResetToken;
 import com.vtm.character_sheet.entity.Role;
 import com.vtm.character_sheet.repository.AppUserRepository;
+import com.vtm.character_sheet.repository.PasswordResetTokenRepository;
 import com.vtm.character_sheet.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,13 +12,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
     private final AppUserRepository userRepository;
+    private final PasswordResetTokenRepository resetTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
@@ -48,6 +53,34 @@ public class AuthService {
         AppUser user = userRepository.findByUsername(username).orElseThrow();
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
         return authResponse(token, user);
+    }
+
+    public String createResetToken(String username) {
+        AppUser user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        PasswordResetToken resetToken = new PasswordResetToken();
+        resetToken.setToken(UUID.randomUUID().toString());
+        resetToken.setUser(user);
+        resetToken.setExpiresAt(LocalDateTime.now().plusHours(1));
+        resetTokenRepository.save(resetToken);
+
+        return resetToken.getToken();
+    }
+
+    public void resetPassword(String token, String newPassword) {
+        PasswordResetToken resetToken = resetTokenRepository.findByToken(token)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid reset token"));
+
+        if (resetToken.isUsed()) throw new IllegalArgumentException("Token already used");
+        if (resetToken.isExpired()) throw new IllegalArgumentException("Token expired");
+
+        AppUser user = resetToken.getUser();
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        resetToken.setUsed(true);
+        resetTokenRepository.save(resetToken);
     }
 
     private Map<String, Object> authResponse(String token, AppUser user) {

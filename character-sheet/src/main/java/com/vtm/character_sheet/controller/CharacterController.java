@@ -3,6 +3,7 @@ package com.vtm.character_sheet.controller;
 import com.vtm.character_sheet.entity.Character;
 import com.vtm.character_sheet.security.CharacterAccessChecker;
 import com.vtm.character_sheet.service.CharacterService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,13 +40,13 @@ public class CharacterController {
     }
 
     @PostMapping
-    public Character create(@RequestBody Character character) {
+    public Character create(@Valid @RequestBody Character character) {
         character.setOwner(access.getCurrentUser());
         return service.save(character);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Character> update(@PathVariable Long id, @RequestBody Character updated) {
+    public ResponseEntity<Character> update(@PathVariable Long id, @Valid @RequestBody Character updated) {
         if (!access.canAccess(id)) return ResponseEntity.status(403).build();
         return service.findById(id).map(existing -> {
             // Identity

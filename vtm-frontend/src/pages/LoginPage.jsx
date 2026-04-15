@@ -46,6 +46,9 @@ export default function LoginPage() {
           <p className="muted-hint">
             No account? <Link to="/register">Register here</Link>
           </p>
+          <p className="muted-hint">
+            <Link to="/reset-password">Forgot password?</Link>
+          </p>
         </form>
       </div>
     </section>

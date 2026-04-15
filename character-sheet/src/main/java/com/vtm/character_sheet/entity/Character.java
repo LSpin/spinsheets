@@ -2,6 +2,7 @@ package com.vtm.character_sheet.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -29,11 +30,15 @@ public class Character {
 
     // Identity
     @Column(nullable = false)
+    @NotBlank(message = "Name is required")
+    @Size(max = 200, message = "Name must be 200 characters or less")
     private String name;
     private String altName;
     private String concept;
     private String clan;
     private String sect;
+    @Min(value = 4, message = "Generation must be between 4 and 15")
+    @Max(value = 15, message = "Generation must be between 4 and 15")
     private Integer generation;
     private String nature;
     private String demeanor;
