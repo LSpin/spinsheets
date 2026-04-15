@@ -46,6 +46,13 @@ jobs:
           chmod 600 key.pem
           scp -o StrictHostKeyChecking=no -i key.pem \
             character-sheet/target/*.jar ubuntu@$EC2_HOST:/opt/spinsheets/app.jar
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_HOST \
-            "sudo systemctl restart spinsheets"
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_HOST << 'ENDSSH'
+            sudo tee /etc/caddy/Caddyfile > /dev/null <<'EOF'
+          spinsheets.com {
+              reverse_proxy localhost:8080
+          }
+          EOF
+            sudo systemctl reload caddy
+            sudo systemctl restart spinsheets
+          ENDSSH
           rm key.pem
