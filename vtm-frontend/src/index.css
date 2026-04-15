@@ -1070,6 +1070,114 @@ legend {
   margin-bottom: 0;
 }
 
+/* ── Splat badges ── */
+
+.splat-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+}
+
+.splat-badge--vampire {
+  color: #e05555;
+  border-color: rgba(224, 85, 85, 0.3);
+  background: rgba(224, 85, 85, 0.1);
+}
+
+.splat-badge--werewolf {
+  color: #9aab5a;
+  border-color: rgba(154, 171, 90, 0.3);
+  background: rgba(154, 171, 90, 0.1);
+}
+
+.splat-badge--mage {
+  color: #9a7cd4;
+  border-color: rgba(154, 124, 212, 0.3);
+  background: rgba(154, 124, 212, 0.1);
+}
+
+/* ── Splat selection ── */
+
+.splat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+.splat-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-ui);
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.splat-card:hover {
+  border-color: var(--splat-color, var(--color-accent));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.splat-card:focus-visible {
+  outline: 3px solid var(--splat-color, var(--color-accent-fg));
+  outline-offset: 3px;
+}
+
+.splat-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.splat-card-name {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--splat-color, var(--color-accent-fg));
+  border: none;
+  padding: 0;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.splat-card-subtitle {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.splat-card-desc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  flex: 1;
+  margin: 0;
+}
+
+.splat-card-cta {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--splat-color, var(--color-accent-fg));
+  letter-spacing: 0.03em;
+  transition: color var(--transition);
+}
+
+.splat-card:hover .splat-card-cta {
+  color: var(--color-text);
+}
+
 /* ── Links ── */
 
 a {

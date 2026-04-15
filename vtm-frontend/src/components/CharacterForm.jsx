@@ -848,7 +848,7 @@ function bloodStats(gen) {
 
 const INITIAL = {
   // Identity
-  npc: false,
+  npc: false, splat: 'VAMPIRE',
   name: '', altName: '', concept: '', clan: '', sect: '',
   generation: 8, nature: '', demeanor: '', domainHaven: '',
   visibleAge: '', totalAge: '',

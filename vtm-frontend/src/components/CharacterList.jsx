@@ -63,6 +63,14 @@ export default function CharacterList() {
               <div className="character-card-info">
                 <h3>{c.name}</h3>
                 <dl className="character-card-meta">
+                  {c.splat && (
+                    <>
+                      <dt className="sr-only">Splat</dt>
+                      <dd className={`splat-badge splat-badge--${(c.splat || 'vampire').toLowerCase()}`}>
+                        {(c.splat || 'Vampire').charAt(0) + (c.splat || 'Vampire').slice(1).toLowerCase()}
+                      </dd>
+                    </>
+                  )}
                   {c.clan && (
                     <>
                       <dt className="sr-only">Clan</dt>

@@ -5,6 +5,9 @@ import CharacterForm from './components/CharacterForm'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
+import SplatSelectPage from './pages/SplatSelectPage'
+import WerewolfFormPlaceholder from './pages/WerewolfFormPlaceholder'
+import MageFormPlaceholder from './pages/MageFormPlaceholder'
 import ChronicleList from './pages/ChronicleList'
 import ChronicleDetail from './pages/ChronicleDetail'
 import ChronicleForm from './pages/ChronicleForm'
@@ -25,7 +28,7 @@ function AppShell() {
       <a href="#main-content" className="skip-link">Skip to main content</a>
       <header role="banner">
         <div className="header-inner">
-          <h1>VtM — Character Sheet</h1>
+          <h1>WoD — Character Sheet</h1>
           {user && (
             <nav aria-label="Primary navigation">
               <Link to="/">
@@ -60,7 +63,22 @@ function AppShell() {
           } />
           <Route path="/characters/new" element={
             <ProtectedRoute>
+              <SplatSelectPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/characters/new/vampire" element={
+            <ProtectedRoute>
               <CharacterForm />
+            </ProtectedRoute>
+          } />
+          <Route path="/characters/new/werewolf" element={
+            <ProtectedRoute>
+              <WerewolfFormPlaceholder />
+            </ProtectedRoute>
+          } />
+          <Route path="/characters/new/mage" element={
+            <ProtectedRoute>
+              <MageFormPlaceholder />
             </ProtectedRoute>
           } />
           <Route path="/characters/:id" element={

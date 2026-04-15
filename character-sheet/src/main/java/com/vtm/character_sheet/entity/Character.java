@@ -35,6 +35,9 @@ public class Character {
 
     private Boolean npc = false;
 
+    @Column(length = 20)
+    private String splat = "VAMPIRE";
+
     // Identity
     @Column(nullable = false)
     @NotBlank(message = "Name is required")
