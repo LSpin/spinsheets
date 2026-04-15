@@ -1,0 +1,564 @@
+{
+  "merits": [
+    {
+      "name": "Animalistic Baby Face",
+      "cost": 2, "cost_obs": null,
+      "source": "Clan Book: Gangrel", "page": 37,
+      "description": "Gangrel only. Works the same as Baby Face, but applies to your animal features in your feral form — your beast shape appears non-threatening and easily ignored by mortals."
+    },
+    {
+      "name": "Stable Aura",
+      "cost": 1, "cost_obs": null,
+      "source": "Clan Book: Malkavian", "page": 64,
+      "description": "Your aura never shifts or changes, even during frenzy, confusion, or psychotic episodes — it reads as the same flat emotional state regardless of your actual condition."
+    },
+    {
+      "name": "Gangrel Mutations",
+      "cost": 0, "cost_obs": "Special",
+      "source": "Clan Book: Gangrel Revised", "page": 58,
+      "description": "Gangrel only. Represents a set of exotic physical mutations gained from frenzy. Options include: Toad Eyes (+2 perception, penalty vs. multiple opponents reduced), Exoskeleton (+2 Physical for strength, armour vs. bashing/lethal but easier to stake), Hide/Carapace (armour vs. bashing/lethal/aggravated, −1 dexterity), Mandible (aggravated bite, drain 3 blood/turn), Sonar (+2 in darkness/fog/smoke), Spinnerets (generate webbing, spend 1 blood), Tail (bashing damage), Claws (permanent, non-retractable; −1 fine manipulation), Venom (bite forces Physical test or lose 1 Physical Trait, heals as aggravated), Wings (+2 balance, reduced fall damage)."
+    },
+    {
+      "name": "Passable Appearance",
+      "cost": 5, "cost_obs": null,
+      "source": "Clan Book: Nosferatu Revised", "page": 72,
+      "description": "Nosferatu only. Your face is hideous but can pass for an extremely ugly human. Appearance remains zero, but your deformity is not automatically a Masquerade breach — mortals see you as grotesque, not supernatural."
+    },
+    {
+      "name": "Reptilian Companion",
+      "cost": 3, "cost_obs": null,
+      "source": "Clan Book: Nosferatu Revised", "page": 71,
+      "description": "Nosferatu only. You have a loyal reptilian companion (Physical 7, Social 0, Mental 2, Fortitude 2, Potence 2, Blood Points 12, Willpower 3) that obeys your commands and fights on your behalf."
+    },
+    {
+      "name": "Blood Marriage",
+      "cost": 5, "cost_obs": null,
+      "source": "Dark Ages: Libellus Sanguinis 2", "page": 38,
+      "description": "You are in a bond very similar to marriage with another vampire, sharing the benefits of True Love mutually. Combined with Closer Than Blood, this allows an exceptional degree of intimacy — you may even share Disciplines on occasion. You would kill and die for one another without hesitation."
+    },
+    {
+      "name": "Sleeping Invisibility",
+      "cost": 1, "cost_obs": null,
+      "source": "Dark Ages: Guide to the Low Clans", "page": 189,
+      "description": "Spend 1 additional Blood Point beyond normal Obfuscate costs to remain invisible while sleeping. Characters without Obfuscate may take this Merit to represent a latent ability that activates if they ever learn the Discipline."
+    },
+    {
+      "name": "Unbondable",
+      "cost": 3, "cost_obs": null,
+      "source": "Laws of the Night", "page": 120,
+      "description": "You cannot be blood bonded — not even partially. Your will is entirely your own. This Merit is forbidden in most Kindred houses, including the ICBN, precisely because of how threatening it is to the social order."
+    },
+    {
+      "name": "Familial Immunity",
+      "cost": 5, "cost_obs": null,
+      "source": "Clan Book: Giovanni", "page": 86,
+      "description": "Giovanni only. You do not develop a blood bond with your own mortal blood relatives, regardless of how much vitae they consume. The family bond already present supersedes the supernatural one."
+    },
+    {
+      "name": "Resonant Bond",
+      "cost": 5, "cost_obs": null,
+      "source": "Clan Book: Malkavian", "page": 66,
+      "description": "Malkavian only. If you become blood bonded to someone, that person also becomes blood bonded to you automatically and simultaneously, at the same intensity."
+    },
+    {
+      "name": "Sawblade Fangs",
+      "cost": 2, "cost_obs": null,
+      "source": "Dark Ages: Guide to the Low Clans", "page": 184,
+      "description": "Your jaw is distended and filled with irregular, knife-shaped fangs. Your bite inflicts 1 additional damage and drains an extra Blood Point per turn while feeding. However, your teeth cannot retract — keeping your mouth closed is mandatory in mortal company, and you suffer a 2-Trait penalty on Social challenges not involving Intimidation."
+    },
+    {
+      "name": "Secret Society Membership",
+      "cost": 2, "cost_obs": null,
+      "source": "Laws of the Night: Victorian Age", "page": 132,
+      "description": "You belong to a mortal secret society. While potentially a Masquerade risk, it provides knowledge relevant to the society's area of expertise and can be used once per session as if it were a single Allies, Contacts, or Herd Background."
+    },
+    {
+      "name": "Venom Glands",
+      "cost": 2, "cost_obs": null,
+      "source": "Clan Book: Followers of Set", "page": 39,
+      "description": "Followers of Set only. You have developed venom glands in the roof of your mouth. The venom is lethal to mortals and animals but has no effect on Kindred or other supernatural creatures. You always inject this venom when you bite — it typically kills mortal victims."
+    },
+    {
+      "name": "Natural Swimmer",
+      "cost": 3, "cost_obs": null,
+      "source": "Blood-Dimmed Tides", "page": 126,
+      "description": "You are as comfortable in water as on land. Your swimming speed is calculated as if your Athletics were 1 point higher, and all tests for actions performed in water gain a bonus. Aquatic characters pay only 1 point for this Merit."
+    },
+    {
+      "name": "Numbing Madness",
+      "cost": 3, "cost_obs": null,
+      "source": "Clan Book: Malkavian", "page": 64,
+      "description": "Malkavian only. Your derangement prevents you from registering injury as pain. You ignore the mechanical effects of the Bruised and Hurt wound levels entirely."
+    },
+    {
+      "name": "Time Sense",
+      "cost": 1, "cost_obs": null,
+      "source": "Laws of the Night", "page": 116,
+      "description": "You always know the exact current time without any external reference. This is particularly valuable for musicians who require precise timing, and for vampires who need to return to safety before sunrise."
+    },
+    {
+      "name": "Unshakeable Optimism",
+      "cost": 4, "cost_obs": null,
+      "source": "Laws of the Reckoning", "page": 161,
+      "description": "You naturally believe things will work out — not naively, but with genuine conviction. Each time you would recover one Willpower point, you recover two instead, as long as you continue to portray your optimistic outlook."
+    },
+    {
+      "name": "Aquatic Instinct",
+      "cost": 1, "cost_obs": null,
+      "source": "Dark Ages: Guide to the Low Clans", "page": 184,
+      "description": "You move naturally in water. Gain 1 bonus Trait on any test performed while swimming or moving in water at least up to the torso."
+    },
+    {
+      "name": "Visions",
+      "cost": 4, "cost_obs": null,
+      "source": "Laws of the Hunt", "page": 153,
+      "description": "You receive confusing but genuinely prophetic signs and visions. Determining whether a specific vision is a warning, a command, or merely symbolic is your challenge. Such episodes are often accompanied by dramatic physical sensations and severe headaches."
+    },
+    {
+      "name": "Machine Blindness",
+      "cost": 3, "cost_obs": null,
+      "source": "Clan Book: Nosferatu Revised", "page": 71,
+      "description": "Nosferatu only. Your Obfuscate functions against electronic devices, security cameras, and recordings — not just mortal eyes. Machines simply fail to capture or register your presence."
+    },
+    {
+      "name": "Cadaverous Pallor",
+      "cost": 1, "cost_obs": null,
+      "source": "Clan Book: Giovanni", "page": 85,
+      "description": "Giovanni only. You have a peculiarly corpse-like appearance — blue-tinged cheeks and lips, dark shadows under the eyes, stark pallor. You suffer a 1-Trait penalty on Appearance-based Social challenges. However, you do not suffer the standard Giovanni clan disadvantage."
+    },
+    {
+      "name": "Warm Complexion",
+      "cost": 2, "cost_obs": null,
+      "source": "Laws of the Night", "page": 113,
+      "description": "Unlike other vampires, your skin retains a healthy, warm appearance — only slightly cool to the touch. This is invaluable when interacting with mortals, although you still suffer penalties from low Humanity or Path ratings."
+    },
+    {
+      "name": "Stable Vitae",
+      "cost": 1, "cost_obs": null,
+      "source": "Clan Book: Malkavian", "page": 64,
+      "description": "Malkavian only. Ghouls you create suffer none of the normal penalties for drinking Malkavian blood. They may drink your vitae freely without increased risk of developing a derangement."
+    },
+    {
+      "name": "Nauseating Vitae",
+      "cost": 3, "cost_obs": null,
+      "source": "Clan Book: Nosferatu Revised", "page": 71,
+      "description": "Nosferatu only. When another creature feeds from you, they must succeed on a test or become nauseated, suffering a 1-Trait Physical penalty on all tests until the nausea passes. A powerful deterrent to unwanted feeding."
+    },
+    {
+      "name": "Irresistible Vitae",
+      "cost": 3, "cost_obs": null,
+      "source": "Clan Book: Followers of Set", "page": 39,
+      "description": "Followers of Set only. Your blood is supernaturally delicious and addictive. Anyone who has drunk it must drink again when given the opportunity, or spend a Willpower point to resist. Members and mortals alike are susceptible."
+    },
+    {
+      "name": "True Critic",
+      "cost": 1, "cost_obs": null,
+      "source": "Clan Book: Toreador", "page": 40,
+      "description": "Toreador only. You are a born critic who recognises art in all its forms instinctively. You receive two additional bonus Traits on all Art Appreciation tests."
+    },
+    {
+      "name": "Superior Sense",
+      "cost": 1, "cost_obs": null,
+      "source": "Vampire Player's Guide", "page": 37,
+      "description": "One of your senses is supernaturally heightened beyond even standard vampire acuity. Choose the sense when taking this Merit. You gain 2 bonus Traits on all perception challenges that rely on it."
+    },
+    {
+      "name": "Twilight Grace",
+      "cost": 2, "cost_obs": null,
+      "source": "Laws of the Night", "page": 116,
+      "description": "You suffer no penalties when acting in the hours around dawn or dusk, regardless of your Morality rating. Most vampires grow sluggish and distracted at twilight; you do not."
+    },
+    {
+      "name": "Favored by Fortune",
+      "cost": 3, "cost_obs": null,
+      "source": "Laws of the Night", "page": 120,
+      "description": "Luck seems to follow you. You have up to 3 free Retests per month that can be spent on any failed test, representing small but meaningful strokes of fortune in your favour."
+    },
+    {
+      "name": "Charmed Existence",
+      "cost": 4, "cost_obs": null,
+      "source": "Laws of the Reckoning", "page": 156,
+      "description": "Once per session you may lower the difficulty of any test by two Traits (minimum difficulty one), or place two Traits against an opponent — success implies a small stroke of luck turned things your way. Alternatively, the Storyteller may describe a minor but fortunate circumstance that aids you."
+    },
+    {
+      "name": "Wrathful Focus",
+      "cost": 2, "cost_obs": null,
+      "source": "Dark Ages: Libellus Sanguinis 1", "page": 61,
+      "description": "You gain +2 Bonus Traits on all combat challenges against the single specific target of your sworn vengeance. The Storyteller may require Willpower expenditure if you fail to pursue this target when opportunities arise. Can only apply to one individual at a time."
+    },
+    {
+      "name": "Putrid Bile",
+      "cost": 2, "cost_obs": null,
+      "source": "Clan Book: Nosferatu Revised", "page": 71,
+      "description": "Nosferatu only. You can vomit a stream of foul, stomach-churning bile as a weapon. Make a Physical challenge against a target to cover them in the substance, causing immediate distraction and revulsion. Targets so affected suffer Social penalties for the scene."
+    },
+    {
+      "name": "Disquieting Eye",
+      "cost": 2, "cost_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Something about your gaze is profoundly unsettling to mortals. You gain a bonus on Intimidation checks, but suffer a penalty on Social rolls with mortals who notice your eyes and are not accustomed to the supernatural."
+    },
+    {
+      "name": "Lightning Calculator",
+      "cost": 1, "cost_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You have an innate gift for mathematics and numbers. Any test involving mental arithmetic, accounting, or numerical reasoning is made at a bonus, and you can perform complex calculations in your head almost instantly."
+    },
+    {
+      "name": "Self-Confident",
+      "cost": 5, "cost_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "When you spend a Willpower point to gain an automatic success, you do not lose that point if the roll fails. Your self-assurance insulates you from the crushing setbacks that wear down lesser minds."
+    },
+    {
+      "name": "Dream Interpretation",
+      "cost": 1, "cost_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You have a natural ability to extract meaning from dreams — your own and others'. The Storyteller may provide you with additional clues and portents through visions during day sleep."
+    },
+    {
+      "name": "Natural Immunity",
+      "cost": 4, "cost_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your body is extraordinarily resistant to disease. You are completely immune to all mortal illnesses and suffer reduced effects from supernatural diseases and blood-borne infections."
+    },
+    {
+      "name": "Sanctity",
+      "cost": 2, "cost_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "There is something innately pure and trustworthy about your demeanour. Mortals and even some Kindred instinctively trust and feel at ease around you, giving you a bonus on non-aggressive Social interactions."
+    },
+    {
+      "name": "Clear-Headed",
+      "cost": 3, "cost_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your mind remains sharp and focused under pressure. You suffer reduced penalties from fear, panic, and mental assault, and can re-establish clarity faster than others after being stunned or dazed."
+    },
+    {
+      "name": "Versatile",
+      "cost": 1, "cost_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You adapt quickly to unfamiliar tasks. Once per scene you may attempt an action in a skill you lack at a reduced penalty, as your natural versatility partially compensates for the gap in training."
+    }
+  ],
+  "flaws": [
+    {
+      "name": "Addiction",
+      "bonus": 1, "bonus_obs": "1–3pt",
+      "source": "V20 Core", "page": null,
+      "description": "You are addicted to a specific substance or behaviour — alcohol, drugs, a particular type of prey, gambling, etc. When the opportunity to indulge arises, you must spend Willpower to resist. The point value scales with how disruptive the addiction is."
+    },
+    {
+      "name": "Allergic",
+      "bonus": 1, "bonus_obs": "1–3pt",
+      "source": "V20 Core", "page": null,
+      "description": "You have a severe allergy to a common substance. Contact causes physical discomfort and impairs you; severe exposure can be debilitating. The point value depends on how often the substance is encountered."
+    },
+    {
+      "name": "Amnesia",
+      "bonus": 2, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You cannot remember your mortal life or your early nights as a vampire. Your past is a blank — which means enemies, old allies, and unresolved obligations may surface without warning."
+    },
+    {
+      "name": "Bad Sight",
+      "bonus": 1, "bonus_obs": "1–3pt",
+      "source": "V20 Core", "page": null,
+      "description": "Your vision is impaired. You suffer penalties on all sight-based perception rolls and ranged attacks. The point value reflects severity — from minor short-sightedness (1pt) to near-blindness (3pt)."
+    },
+    {
+      "name": "Bound",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You are blood bonded to another Kindred. You must act in their best interests and cannot take actions that directly harm them without spending Willpower. The source and terms of the bond are determined with the Storyteller."
+    },
+    {
+      "name": "Cast No Reflection",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You cast no reflection in mirrors or other reflective surfaces. While this has no mechanical combat effect, it is a constant Masquerade risk in any situation involving glass, water, or polished surfaces."
+    },
+    {
+      "name": "Clan Enmity",
+      "bonus": 4, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "A specific clan holds a deep, institutionalised hatred of you — not just personal dislike, but clan-wide animosity. Members of that clan begin interactions at hostility and are far less likely to cooperate, trade, or negotiate with you."
+    },
+    {
+      "name": "Color Blindness",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You cannot distinguish colours, seeing the world in shades of grey. While mostly a roleplaying consideration, this can impair tasks requiring colour identification and may draw attention in some social contexts."
+    },
+    {
+      "name": "Cursed",
+      "bonus": 1, "bonus_obs": "1–5pt",
+      "source": "V20 Core", "page": null,
+      "description": "You bear a supernatural curse placed on you by a powerful entity. The nature, severity, and trigger of the curse are set with the Storyteller. The point value reflects how debilitating and uncontrollable the curse is."
+    },
+    {
+      "name": "Dark Secret",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You carry a secret that would cause significant social or political damage if revealed — past diablerie, a mortal family, a forbidden alliance, a crime. You must work actively to keep it hidden."
+    },
+    {
+      "name": "Deep Sleeper",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You are exceptionally difficult to rouse during the day. Waking before sundown requires significant effort or assistance — Wits + Alertness rolls at high difficulty. Sudden emergencies during day sleep may leave you vulnerable and sluggish."
+    },
+    {
+      "name": "Deformity",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You have a visible physical deformity — a missing limb, severe scarring, twisted limbs, or similar. This impairs you mechanically in relevant situations and causes Social penalties with mortals unfamiliar with the supernatural."
+    },
+    {
+      "name": "Disgrace to the Blood",
+      "bonus": 2, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You have done something your clan considers deeply shameful — broken a sacred tradition, committed a public embarrassment, or betrayed a foundational value. Your clan status is permanently impaired and elders look on you with contempt."
+    },
+    {
+      "name": "Enemy",
+      "bonus": 1, "bonus_obs": "1–5pt",
+      "source": "V20 Core", "page": null,
+      "description": "Someone actively wants you dead, ruined, or suffering. The point value reflects the enemy's power and resources: 1pt is a mortal or weak ghoul; 5pt is an elder vampire or a mortal institution with real reach."
+    },
+    {
+      "name": "Forgetful",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your memory is unreliable. You frequently forget names, appointments, instructions, and recent events. The Storyteller may periodically cause you to forget important information at inconvenient moments."
+    },
+    {
+      "name": "Hard of Hearing",
+      "bonus": 1, "bonus_obs": "1–3pt",
+      "source": "V20 Core", "page": null,
+      "description": "Your hearing is impaired. You suffer penalties on all sound-based perception rolls and may miss crucial information delivered quietly. At 3 points, you are nearly deaf and require visual confirmation of anything spoken."
+    },
+    {
+      "name": "Haunted",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "A malicious ghost or spirit is attached to you and actively works to make your unlife miserable — interfering with feeding, alerting enemies, causing accidents, and terrifying anyone close to you."
+    },
+    {
+      "name": "Hunted",
+      "bonus": 4, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "A group of hunters, a Kindred faction, or another organised force is actively pursuing you. They know enough about you to track your movements and will not stop without significant reason. Changing havens and identities provides only temporary relief."
+    },
+    {
+      "name": "Illiterate",
+      "bonus": 2, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You cannot read or write. In the modern age, this is a serious handicap — you cannot use written information, send or receive written messages, or interact with a vast portion of the information environment without help."
+    },
+    {
+      "name": "Impatient",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You have no patience for delay, negotiation, or caution. When situations require waiting or subtlety, you must succeed on Willpower rolls to avoid acting recklessly or forcing a confrontation before it is wise."
+    },
+    {
+      "name": "Infamous Sire",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your sire is notorious in Kindred society — a criminal, an outcast, a violator of the Traditions, or simply deeply despised. Their reputation colours how others see you before you even open your mouth."
+    },
+    {
+      "name": "Infertile Vitae",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your blood cannot create ghouls or childer. Those who drink it are blood bonded normally but gain no supernatural benefits, and Embrace attempts simply fail. The blood itself is supernaturally sterile."
+    },
+    {
+      "name": "Lame",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "One or both of your legs are severely impaired. Your movement speed is dramatically reduced, you cannot run effectively, and physical activities requiring lower body strength or agility suffer significant penalties."
+    },
+    {
+      "name": "Lazy",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You avoid effort at every opportunity. Whenever you could take the easy route — even if the harder route is clearly better — you must spend Willpower to choose the demanding option. Planning, preparation, and follow-through are constant struggles."
+    },
+    {
+      "name": "Mistaken Identity",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You bear a striking resemblance to another Kindred — one who may have enemies, obligations, or a troublesome reputation. Others frequently mistake you for this person, which causes complications at the worst possible moments."
+    },
+    {
+      "name": "Monstrous",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your physical appearance is visibly inhuman in ways that cannot be concealed by ordinary means. Mortals react with fear, revulsion, or flight. Every public interaction is a potential Masquerade breach."
+    },
+    {
+      "name": "Nightmares",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You are plagued by intense, disturbing nightmares during your day sleep. You wake unrestored, and particularly vivid nights may require Willpower rolls to function normally. The content of the nightmares is determined with the Storyteller."
+    },
+    {
+      "name": "Notoriety",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You have a widespread, negative reputation in Kindred society — a past act, a known character flaw, or a public failure that everyone remembers. This impairs social interactions with Kindred who know your name, which is most of them."
+    },
+    {
+      "name": "Old Flame",
+      "bonus": 2, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "A former lover — mortal or Kindred — still has a hold on your emotions. When they appear, you must spend Willpower to act against their interests or resist their requests, even when reason demands it."
+    },
+    {
+      "name": "One Arm",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You have only one functional arm. Two-handed tasks require improvisation or assistance, and you suffer significant penalties on combat and physical activities that normally require both hands."
+    },
+    {
+      "name": "One Eye",
+      "bonus": 2, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You have only one functional eye. Depth perception is impaired, giving you penalties on ranged attacks, fine manual tasks, and any activity requiring accurate spatial judgement."
+    },
+    {
+      "name": "Phobia",
+      "bonus": 1, "bonus_obs": "1–3pt",
+      "source": "V20 Core", "page": null,
+      "description": "You have an overwhelming, irrational fear of a specific thing — fire, enclosed spaces, running water, large crowds, etc. When confronted with your phobia you must make Willpower rolls to act rationally. The point value reflects how common the trigger is."
+    },
+    {
+      "name": "Prey Exclusion",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You cannot feed from a specific category of mortal — children, the elderly, a particular ethnicity, people of a certain profession, etc. Attempting to do so requires Willpower and may trigger frenzy or self-loathing."
+    },
+    {
+      "name": "Repulsed by Garlic",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You are supernaturally repulsed by garlic. Its scent causes intense discomfort, impairs your concentration, and forces you away from the source. You cannot willingly enter a space that smells strongly of it."
+    },
+    {
+      "name": "Repulsed by Mirrors",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You are deeply disturbed by mirrors and reflective surfaces — your own absent reflection triggers visceral dread. Rooms full of mirrors may require Willpower rolls to enter or remain in, and extended exposure can impair you."
+    },
+    {
+      "name": "Selective Digestion",
+      "bonus": 2, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your blood pool can only hold a specific type of vitae — animal blood, blood of a specific group, or another restriction set with the Storyteller. Blood that does not match your restriction provides only a fraction of its normal value or cannot be kept down at all."
+    },
+    {
+      "name": "Short",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You are noticeably short — significantly below average height. While this can occasionally be an advantage in stealth, it causes penalties in situations requiring physical reach, and some Kindred simply do not take you seriously."
+    },
+    {
+      "name": "Short Fuse",
+      "bonus": 2, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your temper is extremely volatile. Any provocation — real or perceived — risks triggering frenzy or at minimum a violent outburst. Willpower rolls to remain calm are at a higher difficulty, and you frenzy more easily than most."
+    },
+    {
+      "name": "Shy",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You are deeply uncomfortable in social situations, especially with strangers or large groups. You suffer penalties on Social rolls in unfamiliar company, and taking leadership or public roles requires Willpower expenditure."
+    },
+    {
+      "name": "Sire's Resentment",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your sire resents having Embraced you — whether from regret, political pressure, or genuine dislike. They provide no support, refuse requests, and may actively work against you. Their clan ties complicate your standing."
+    },
+    {
+      "name": "Slow Healing",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your supernatural healing is impaired. You heal at half the normal rate — bashing damage that would resolve in minutes takes much longer, and serious wounds linger. You spend blood normally but the results are sluggish."
+    },
+    {
+      "name": "Soft-Hearted",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You cannot bear to witness suffering, even in your enemies. When innocents are harmed in your presence — even as a consequence of your own actions — you must make Willpower rolls to continue acting effectively."
+    },
+    {
+      "name": "Thin Blood",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your vitae is weak and barely potent — characteristic of high-generation vampires far from Caine. You cannot Embrace successfully, blood bonding is difficult, and blood-powered Disciplines cost more. You exist at the fringes of Kindred society."
+    },
+    {
+      "name": "Touch of Frost",
+      "bonus": 1, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Plants wither and die at your touch, and animals instinctively avoid you. The unnatural cold that surrounds you kills greenery within moments of contact and causes domestic animals to panic, flee, or behave erratically in your presence."
+    },
+    {
+      "name": "Unnatural Aura",
+      "bonus": 2, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your supernatural nature radiates visibly. Mortals near you feel inexplicably uneasy — hairs rise, rooms feel cold, the air seems wrong. You suffer Social penalties with sensitive or perceptive mortals and are more likely to be identified as something inhuman."
+    },
+    {
+      "name": "Vulnerability to Silver",
+      "bonus": 2, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Silver causes you aggravated damage, as if you were a werewolf. While this is not publicly known, any enemy who discovers it has a significant advantage. Silver objects that would normally cause only bashing or lethal damage now burn like fire."
+    },
+    {
+      "name": "Ward",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You have sworn to protect a specific mortal — a family member, an old friend, a lover, a former charge. Their safety takes priority over your own interests. Enemies can and will use this person as leverage against you."
+    },
+    {
+      "name": "Weak-Willed",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your Willpower is unreliable and collapses under pressure. You are more susceptible to Dominate and Presence, lose Willpower faster under stress, and find it harder to spend Willpower for automatic successes. Your maximum Willpower rating is reduced."
+    },
+    {
+      "name": "Beacon of the Unholy",
+      "bonus": 2, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You radiate an aura of evil perceptible to those with religious sensitivity, True Faith, or supernatural awareness. Mortals with strong faith are instinctively repelled, and those with True Faith react to you as a direct spiritual threat. Holy objects affect you more strongly than they do most Kindred."
+    },
+    {
+      "name": "Permanent Fangs",
+      "bonus": 3, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your fangs are always extended and cannot be retracted. Speaking clearly requires effort, and your teeth are an obvious sign of the supernatural. Every interaction with a mortal who sees your mouth is a potential Masquerade breach."
+    },
+    {
+      "name": "Obvious Predator",
+      "bonus": 2, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Something in your bearing, your gaze, or the way you move marks you unmistakably as a predator. Mortals grow nervous and wary in your presence even before you do anything threatening, and animals become agitated and hostile."
+    },
+    {
+      "name": "Fourteenth Generation",
+      "bonus": 2, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "You are of the 14th generation — your blood pool maximum is 10, but only 8 points can be used effectively. You must also take the Thin Blood Flaw to represent the weakness of your vitae."
+    },
+    {
+      "name": "Fixed Generation",
+      "bonus": 5, "bonus_obs": null,
+      "source": "V20 Core", "page": null,
+      "description": "Your generation is permanently fixed and cannot be reduced through diablerie. Even if you consume the soul of an elder vampire, you gain none of the generational benefits. Your blood simply cannot grow more potent."
+    }
+  ]
+}
