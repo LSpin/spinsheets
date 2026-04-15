@@ -848,6 +848,7 @@ function bloodStats(gen) {
 
 const INITIAL = {
   // Identity
+  npc: false,
   name: '', altName: '', concept: '', clan: '', sect: '',
   generation: 8, nature: '', demeanor: '', domainHaven: '',
   visibleAge: '', totalAge: '',
@@ -983,6 +984,8 @@ export default function CharacterForm() {
   const { max: maxBlood, perTurn } = bloodStats(fields.generation)
   const isHumanity = fields.pathName.trim().toLowerCase() === 'humanity'
   const computedPath = fields.conscience + fields.selfControl
+  const isElder = fields.generation <= 7
+  const elderMax = isElder ? 9 : 5
   const { errors: validationErrors, warnings: validationWarnings } = validate(fields)
 
   useEffect(() => {
@@ -1194,7 +1197,7 @@ export default function CharacterForm() {
   function RatingRow({ abilityKey, labelText, specKey }) {
     return (
       <div className="ability-row">
-        <DotRating label={labelText ?? label(abilityKey)} name={abilityKey} value={fields[abilityKey]} onChange={handleField} />
+        <DotRating label={labelText ?? label(abilityKey)} name={abilityKey} value={fields[abilityKey]} onChange={handleField} max={elderMax} />
         {specKey && (fields[abilityKey] >= 4 || specKey) && (
           <input
             className="spec-input"
@@ -1222,7 +1225,7 @@ export default function CharacterForm() {
           aria-label={`${placeholder} name`}
           className="custom-ability-name"
         />
-        <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={handleField} />
+        <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={handleField} max={elderMax} />
       </div>
     )
   }
@@ -1356,7 +1359,21 @@ export default function CharacterForm() {
                   })}
                 </select>
               </div>
+              <div className="field">
+                <label htmlFor="npc">Type</label>
+                <div className="role-toggle" role="radiogroup" aria-label="Character type">
+                  <button type="button" className={`role-toggle-btn${!fields.npc ? ' role-toggle-btn--active' : ''}`}
+                    onClick={() => handleField('npc', false)} aria-pressed={!fields.npc}>PC</button>
+                  <button type="button" className={`role-toggle-btn${fields.npc ? ' role-toggle-btn--active' : ''}`}
+                    onClick={() => handleField('npc', true)} aria-pressed={fields.npc}>NPC</button>
+                </div>
+              </div>
             </div>
+            {isElder && (
+              <p className="role-hint" style={{ marginTop: 'var(--space-sm)' }}>
+                Elder vampire — attributes, abilities, and backgrounds can reach {elderMax} dots.
+              </p>
+            )}
           </fieldset>
 
           <fieldset>
@@ -1407,7 +1424,7 @@ export default function CharacterForm() {
                       value={a === 'appearance' && zeroAppearance ? 0 : fields[a]}
                       onChange={handleField}
                       min={a === 'appearance' && zeroAppearance ? 0 : 1}
-                      max={a === 'appearance' && zeroAppearance ? 0 : 5}
+                      max={a === 'appearance' && zeroAppearance ? 0 : elderMax}
                     />
                   ))}
                 </div>
@@ -1424,7 +1441,7 @@ export default function CharacterForm() {
             <legend>Talents</legend>
             <div className="rating-grid">
               {['alertness', 'athletics', 'awareness', 'brawl', 'empathy', 'intimidation', 'leadership', 'streetwise', 'subterfuge'].map(a =>
-                <DotRating key={a} label={label(a)} name={a} value={fields[a]} onChange={handleField} />
+                <DotRating key={a} label={label(a)} name={a} value={fields[a]} onChange={handleField} max={elderMax} />
               )}
               <RatingRow abilityKey="expression" labelText="Expression *" specKey="expressionSpec" />
             </div>
@@ -1439,7 +1456,7 @@ export default function CharacterForm() {
             <legend>Skills</legend>
             <div className="rating-grid">
               {['animalKen', 'drive', 'etiquette', 'firearms', 'larceny', 'melee', 'stealth', 'survival'].map(a =>
-                <DotRating key={a} label={label(a)} name={a} value={fields[a]} onChange={handleField} />
+                <DotRating key={a} label={label(a)} name={a} value={fields[a]} onChange={handleField} max={elderMax} />
               )}
               <RatingRow abilityKey="crafts"      labelText="Crafts *"      specKey="craftsSpec" />
               <RatingRow abilityKey="performance" labelText="Performance *" specKey="performanceSpec" />
@@ -1455,7 +1472,7 @@ export default function CharacterForm() {
             <legend>Knowledges</legend>
             <div className="rating-grid">
               {['computer', 'finance', 'investigation', 'linguistics', 'medicine', 'occult', 'politics'].map(a =>
-                <DotRating key={a} label={label(a)} name={a} value={fields[a]} onChange={handleField} />
+                <DotRating key={a} label={label(a)} name={a} value={fields[a]} onChange={handleField} max={elderMax} />
               )}
               <RatingRow abilityKey="academics"  labelText="Academics *"  specKey="academicsSpec" />
               <RatingRow abilityKey="law"         labelText="Law *"         specKey="lawSpec" />
@@ -1585,7 +1602,7 @@ export default function CharacterForm() {
                     <label htmlFor="disc-level">Level</label>
                     <select id="disc-level" value={newDiscipline.level}
                       onChange={e => setNewDiscipline(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                      {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
+                      {Array.from({ length: elderMax }, (_, i) => i + 1).map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
                   <button className="btn btn-secondary" onClick={handleAddDiscipline}>Add</button>
@@ -1621,7 +1638,7 @@ export default function CharacterForm() {
                     <label htmlFor="bg-level">Level</label>
                     <select id="bg-level" value={newBackground.level}
                       onChange={e => setNewBackground(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                      {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
+                      {Array.from({ length: elderMax }, (_, i) => i + 1).map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
                   <div className="field">
@@ -1975,7 +1992,7 @@ export default function CharacterForm() {
                       <label htmlFor="path-level">Level</label>
                       <select id="path-level" value={newPath.level}
                         onChange={e => setNewPath(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                        {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
+                        {Array.from({ length: elderMax }, (_, i) => i + 1).map(v => <option key={v} value={v}>{v}</option>)}
                       </select>
                     </div>
                     <button className="btn btn-secondary" onClick={handleAddPath}>Add</button>
@@ -2023,7 +2040,7 @@ export default function CharacterForm() {
                       <label htmlFor="ritual-level">Level</label>
                       <select id="ritual-level" value={newRitual.level}
                         onChange={e => setNewRitual(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                        {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
+                        {Array.from({ length: elderMax }, (_, i) => i + 1).map(v => <option key={v} value={v}>{v}</option>)}
                       </select>
                     </div>
                     <button className="btn btn-secondary" onClick={handleAddRitual}>Add</button>

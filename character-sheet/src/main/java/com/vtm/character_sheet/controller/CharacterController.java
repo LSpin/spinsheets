@@ -51,6 +51,7 @@ public class CharacterController {
     public ResponseEntity<Character> update(@PathVariable Long id, @Valid @RequestBody Character updated) {
         if (!access.canAccess(id)) return ResponseEntity.status(403).build();
         return service.findById(id).map(existing -> {
+            existing.setNpc(updated.getNpc());
             // Identity
             existing.setName(updated.getName());
             existing.setAltName(updated.getAltName());

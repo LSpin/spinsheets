@@ -33,6 +33,8 @@ public class Character {
         return owner != null ? owner.getId() : null;
     }
 
+    private Boolean npc = false;
+
     // Identity
     @Column(nullable = false)
     @NotBlank(message = "Name is required")
