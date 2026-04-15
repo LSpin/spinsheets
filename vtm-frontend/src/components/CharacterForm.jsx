@@ -363,6 +363,111 @@ const SORCERY_PATHS = [
       '●●●● Form of the Cobra — Transform into a large supernatural serpent.',
       '●●●●● Heart of the Serpent — Imbue a snake with a portion of your essence, creating a mystical familiar.',
     ] },
+  // ── Necromancy Paths ──
+  { value: 'The Sepulchre Path', description: 'Witness, summon, and command the spirits of the dead. The most common starting path for necromancers. (Giovanni)',
+    levels: [
+      '●  Witness of Death — Attune your senses to perceive ghosts as translucent phantoms.',
+      '●● Summon Soul — Call a specific ghost back from the Underworld for conversation.',
+      '●●● Compel Soul — Command a ghost to obey your will through a contest of wills.',
+      '●●●● Haunting — Bind a summoned ghost to a particular location or object.',
+      '●●●●● Torment — Strike a wraith as if in the lands of the dead, inflicting damage on its ectoplasmic form.',
+    ] },
+  { value: 'The Ash Path', description: 'Peer into the lands of the dead, converse with wraiths, and even cross into the Underworld. (Necromancy)',
+    levels: [
+      '●  Shroudsight — See through the Shroud into the Shadowlands and perceive ghostly structures.',
+      '●● Lifeless Tongues — Converse effortlessly with the denizens of the Underworld.',
+      '●●● Dead Hand — Reach across the Shroud to affect ghostly objects and interact with wraiths physically.',
+      '●●●● Ex Nihilo — Physically enter the Underworld through a chalk-drawn door.',
+      '●●●●● Shroud Mastery — Raise or lower the Shroud, aiding or hindering ghosts\' ability to cross.',
+    ] },
+  { value: 'The Bone Path', description: 'Animate corpses, steal souls from the living, and place spirits into freshly dead bodies. (Necromancy)',
+    levels: [
+      '●  Tremens — Make a corpse shift or move once — an arm flops, dead eyes open.',
+      '●● Apprentice\'s Brooms — Animate dead bodies to perform simple tasks like carrying or digging.',
+      '●●● Shambling Hordes — Raise multiple corpses with the ability to attack and follow orders.',
+      '●●●● Soul Stealing — Strip a soul from a living mortal body, turning it into a wraith.',
+      '●●●●● Daemonic Possession — Insert a willing soul into a freshly dead body, giving it a temporary physical home.',
+    ] },
+  { value: 'The Cenotaph Path', description: 'Discover or forge links between the living world and the Shadowlands. (Necromancy)',
+    levels: [
+      '●  A Touch of Death — Sense whether a ghost has exerted power on a person or object.',
+      '●● Reveal the Catene — Determine if an object is a fetter to a ghost by handling it.',
+      '●●● Tread Upon the Grave — Sense locations where the Shadowlands lie close to the living world.',
+      '●●●● Death Knell — Automatically sense when someone dies and becomes a ghost nearby.',
+      '●●●●● Ephemeral Binding — Turn a mundane object into a fetter for a wraith using your vitae.',
+    ] },
+  { value: 'The Corpse in the Monster', description: 'Experience the corpse as a gateway between life and death, enhancing or reducing undead traits. (Cappadocian / Harbinger of Skulls)',
+    levels: [
+      '●  Masque of Death — Assume a corpselike visage or inflict it on another vampire.',
+      '●● Cold of the Grave — Take on the unfeeling semblance of the dead, ignoring wound penalties.',
+      '●●● Curse of Life — Inflict the undesirable traits of the living upon an undead target.',
+      '●●●● Gift of the Corpse — Temporarily ignore most vampiric weaknesses — sunlight, frenzy, staking.',
+      '●●●●● Gift of Life — Experience the best of being alive for a night at an enormous blood cost.',
+    ] },
+  { value: 'The Grave\'s Decay', description: 'Channel the forces of entropy and decay, withering limbs and dissolving undead flesh. (Cappadocian / Harbinger of Skulls)',
+    levels: [
+      '●  Destroy the Husk — Turn a human corpse to a pile of unremarkable dust.',
+      '●● Rigor Mortis — Freeze a living or undead target in place as if staked.',
+      '●●● Wither — Cripple an opponent\'s limb, shriveling muscle and making bone brittle.',
+      '●●●● Corrupt the Undead Flesh — Inflict a virulent disease on an undead creature that spreads to others.',
+      '●●●●● Dissolve the Flesh — Turn vampiric flesh to dust or ash with charged vitae.',
+    ] },
+  { value: 'Path of Haunting', description: 'Weave death and shadow into illusions and terrors that haunt victims awake and asleep. (Necromancy)',
+    levels: [
+      '●  Song of the Dead — Instill an obsession with death in a listener through a haunting chant.',
+      '●● Summon Wisp — Conjure a dancing orb of pale light that can mesmerize mortals.',
+      '●●● Harrowing — Inflict horrible nightmares that prevent restful sleep and Willpower recovery.',
+      '●●●● Phantasms — Create ghostly apparitions and illusions visible to the living.',
+      '●●●●● Torment — Reduce the Shroud around a victim, attracting malicious ghosts to torment them.',
+    ] },
+  { value: 'Path of the Four Humors', description: 'Manipulate the four humors — blood, phlegm, yellow bile, black bile — as weapons of poison and decay. (Harbinger of Skulls / Lamia)',
+    levels: [
+      '●  Whispers to the Soul — Whisper undead bile into a target\'s ear, causing nightmares and lost dice.',
+      '●● Kiss of the Dark Mother — Mix vitae with black bile to double bite damage.',
+      '●●● Dark Humors — Exude a poisonous humor onto your skin that afflicts anyone who touches you.',
+      '●●●● Clutching the Shroud — Drink dead blood to gain soak dice and sense how close others are to death.',
+      '●●●●● Black Breath — Exhale a cloud of despair that drives mortals to suicide and vampires to torpor.',
+    ] },
+  { value: 'Path of the Twilight Garden', description: 'A martial path of the Lamiae, channeling the Dark Mother\'s power over life and death cycles. (Dark Ages — Lamia)',
+    levels: [
+      '●  Whispers to the Soul — Whisper a secret name of Lilith to torment a target with nightmares.',
+      '●● Kiss of the Dark Mother — Fill your mouth with caustic bile to double bite damage.',
+      '●●● Dark Humours — Transubstantiate vitae into one of four corrupted humors to poison foes.',
+      '●●●● Caul of the Neverborn — Drink dead blood to gain soak, immunity to wound penalties, and ghost sight.',
+      '●●●●● Lament of D\'hainu — Howl to unleash a miasma of despair that drives victims to suicide or torpor.',
+    ] },
+  { value: 'Vitreous Path', description: 'Control entropic energies pertaining to death — decay objects, feed on ghosts, and unleash chaos. (Nagaraja)',
+    levels: [
+      '●  Eyes of the Dead — See death\'s markings on the living, divining how and when they will die.',
+      '●● Aura of Decay — Radiate entropy to corrode and destroy nonliving objects within a yard.',
+      '●●● Soul Feast — Draw sustenance from ambient death energy or feed directly on a ghost\'s essence.',
+      '●●●● Breath of Thanatos — Exhale necromantic energy to lure Spectres or inflict wasting illness.',
+      '●●●●● Night Cry — Scream pure chaos to either aid allies or inflict aggravated damage on enemies.',
+    ] },
+  { value: 'The Nightshade Path', description: 'Study natural cycles of life and death, manipulating rot, raising verdant dead, and birthing ghosts. (Tal\'Mahe\'Ra / Bahari / Drakaina)',
+    levels: [
+      '●  Tend the Body Garden — Speed up or arrest decomposition of a corpse.',
+      '●● Witch\'s Fruit — Taint plant matter so the first creature to eat it can see the Shadowlands.',
+      '●●● Raise the Green One — Animate a corpse bound and strengthened by plant matter from fertile soil.',
+      '●●●● Wails and Whispers — Scream to add lethal damage or whisper to delay injuries on a target.',
+      '●●●●● Chthonic Womb — Kill a mortal whose blood you\'ve drunk to trap their soul, later summoning it as a ghost.',
+    ] },
+  { value: 'Path of Skulls', description: 'Spy through skulls, interrogate the dead, and consume fragments of souls. (Cappadocian — Harbinger, Dark Ages)',
+    levels: [
+      '●  Calvaria Emissius — See through the eye-sockets of any skull from a creature you personally slew.',
+      '●● Consilium Mortuus — Force a decapitated head to answer questions truthfully from vestigial memory.',
+      '●●● Ammorsus Vicarius — Animate a toothy skull as a biting weapon that channels blood back to you.',
+      '●●●● Exedo Animus — Drink a skull to gain the deceased\'s memories and identity for hours.',
+      '●●●●● Degulo — Consume a skull whole to permanently absorb one trait from the deceased.',
+    ] },
+  { value: 'Path of Woe', description: 'Threaten and destroy ghosts through faith-charged necromancy. (Rosselini, Dark Ages)',
+    levels: [
+      '●  Finding the Locus — See ectoplasmic glow around a wraith\'s fetters.',
+      '●● Expurgate the Damned — Force a hidden wraith into the physical world in a vulnerable form.',
+      '●●● Blood Scourge — Whip wraiths with sanctified vitae, inflicting aggravated damage.',
+      '●●●● Cursed Eucharist — Feed on a wraith to convert its Passion into temporary Willpower.',
+      '●●●●● Purge the Apostate\'s Soul — Scream to inflict aggravated damage on all wraiths nearby, sending them to Oblivion.',
+    ] },
 ]
 
 const RITUALS = [
@@ -490,6 +595,78 @@ const RITUALS = [
   { value: 'Bone of Eternal Thirst',         level: 7, description: 'Enchant a bone that inflicts unquenchable supernatural hunger on any vampire who touches it.' },
   { value: 'Eyes of the Ever Vigilant',      level: 7, description: 'Create permanent mystical sentinels that watch over a location and alert the caster to intrusions.' },
   { value: 'Blade of the Forbidden Flower',  level: 8, description: 'Forge a weapon of immense thaumaturgical power capable of destroying even the most resilient supernatural beings.' },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // ── Necromantic Rituals ────────────────────────────────────────────────────────
+  // ══════════════════════════════════════════════════════════════════════════════
+  // ——— Necromancy Level 1 ———
+  { value: 'Call of the Hungry Dead',        level: 1, description: 'Open a channel to the Underworld, allowing whispers of the dead to be heard at a location for one hour.' },
+  { value: 'Death\'s Communion',             level: 1, description: 'Commune briefly with the spirit world to receive cryptic answers about the recently deceased.' },
+  { value: 'Eldritch Beacon',               level: 1, description: 'Mark a target with a mystical beacon visible to ghosts and spirits, drawing their attention.' },
+  { value: 'Final Sight',                   level: 1, description: 'Touch the eyes of a corpse to see the last moments of its life as if through its own eyes.' },
+  { value: 'Foxfire',                        level: 1, description: 'Conjure ghostly, cold flames that illuminate an area with eerie pale light visible to all.' },
+  { value: 'Insight (Necromantic)',          level: 1, description: 'Meditate near a corpse to divine one fact about the circumstances of its death.' },
+  { value: 'Knowing Stone',                 level: 1, description: 'Enchant a stone that grows warm in the presence of ghosts or spiritual disturbances.' },
+  { value: 'Minestra di Morte',             level: 1, description: 'Brew a soup from graveyard soil and vitae that reveals secrets of the dead to those who consume it.' },
+  { value: 'Preserve Corpse',               level: 1, description: 'Halt the decay of a corpse indefinitely, keeping it in its current state of decomposition.' },
+  { value: 'Pull of the Grave',             level: 1, description: 'Weigh a subject down with the pull of death, making movement difficult and sluggish.' },
+  { value: 'Ritual of the Smoking Mirror',  level: 1, description: 'Use an obsidian mirror to glimpse through the Shroud and observe the Shadowlands briefly.' },
+  { value: 'Word of Insight',               level: 1, description: 'Speak a word of power to force a ghost to reveal one truth about itself or its bindings.' },
+  // ——— Necromancy Level 2 ———
+  { value: 'Antonius\'s Denial',            level: 2, description: 'Deny a ghost the ability to use one of its powers for the remainder of the night.' },
+  { value: 'Clarion Call to the Loyal',     level: 2, description: 'Send a mystical summons to all wraiths bound to the necromancer, calling them to their location.' },
+  { value: 'Draining the Well of Life',     level: 2, description: 'Drain the life force from a small area, making plants wilt and living creatures feel uneasy.' },
+  { value: 'Eyes of the Grave',             level: 2, description: 'Grant the ability to see ghosts and spiritual entities for one night without using a path power.' },
+  { value: 'Generation of the Acheron Vortex', level: 2, description: 'Create a small whirlpool of ghostly energy that pulls nearby wraiths toward it.' },
+  { value: 'Hand of Glory (Necromantic)',    level: 2, description: 'Enchant a severed hand to emit a paralyzing aura that freezes mortals who behold its flame.' },
+  { value: 'Haunting Breeze',               level: 2, description: 'Summon a cold, moaning wind that disturbs mortals and agitates ghosts in the area.' },
+  { value: 'Memento Mori',                  level: 2, description: 'Enchant an object belonging to a dead person so it causes visions of death to those who touch it.' },
+  { value: 'Parting the Veil',              level: 2, description: 'Temporarily thin the Shroud in an area, making it easier for ghosts to manifest and interact.' },
+  { value: 'Thanatos\' Caress',             level: 2, description: 'Enchant a weapon so its strikes can harm wraiths as well as the living.' },
+  { value: 'The Hand of Glory',             level: 2, description: 'Create a candle from a corpse\'s hand that reveals hidden doors and puts mortals to sleep.' },
+  { value: 'Occhio d\'Uomo Morto',          level: 2, description: 'Remove and enchant the eye of a corpse to see through the Shroud when held to one\'s own eye.' },
+  { value: 'Prepare the Vessel',            level: 2, description: 'Prepare a corpse as a suitable vessel for spiritual inhabitation or necromantic animation.' },
+  { value: 'Puppet',                        level: 2, description: 'Animate a corpse as a crude puppet, controllable for basic movements and speech.' },
+  { value: 'The Ritual of Pochtli',         level: 2, description: 'A blood sacrifice that creates a mystical anchor, binding a ghost to the mortal world more firmly.' },
+  { value: 'Totenpass',                     level: 2, description: 'Create a token that grants safe passage through the Underworld to the bearer.' },
+  { value: 'Two Centimes',                  level: 2, description: 'Place enchanted coins on a corpse\'s eyes to prevent its ghost from returning to the mortal world.' },
+  { value: 'Witch Eye',                     level: 2, description: 'Enchant an eye to perceive necromantic auras, ghosts, and spiritual residue in the area.' },
+  // ——— Necromancy Level 3 ———
+  { value: 'Blessing of Valhalla',          level: 3, description: 'Enchant a warrior so their ghost rises as a powerful spirit if they die in battle within the night.' },
+  { value: 'Blood Dance',                   level: 3, description: 'Perform a ritual dance with vitae to strengthen the bond between a ghost and its fetter.' },
+  { value: 'Death\'s Head',                 level: 3, description: 'Enchant a skull to serve as a mystical alarm, screaming when intruders enter the warded area.' },
+  { value: 'Divine Sign',                   level: 3, description: 'Receive a cryptic omen about a future event connected to death or the Underworld.' },
+  { value: 'Din of the Damned',             level: 3, description: 'Create a cacophony of ghostly wails that disorients and terrifies everyone in the area.' },
+  { value: 'Nightmare Drums',               level: 3, description: 'Beat enchanted drums to send terrifying nightmares to all sleepers within earshot.' },
+  { value: 'Ritual of the Unearthed Fetter', level: 3, description: 'Discover a ghost\'s fetters by performing a ritual over its remains or a known fetter.' },
+  { value: 'Tempesta Scudo',                level: 3, description: 'Create a mystical shield against the storms of the Underworld, protecting from Spectres.' },
+  { value: 'Tempest Prison',                level: 3, description: 'Trap a ghost within a specially prepared object, imprisoning it until the object is destroyed.' },
+  // ——— Necromancy Level 4 ———
+  { value: 'Baleful Doll',                  level: 4, description: 'Create a voodoo doll linked to a ghost, allowing you to inflict pain and compel obedience.' },
+  { value: 'Bastone Diabolico',             level: 4, description: 'Enchant a staff to channel necromantic power, enhancing path abilities when wielded.' },
+  { value: 'Cadaver\'s Touch',              level: 4, description: 'Cause a target to feel the cold grip of death, inducing paralysis and terror.' },
+  { value: 'Impregnable Soul',              level: 4, description: 'Ward a target\'s soul against possession, ghostly influence, and spiritual attacks.' },
+  { value: 'Lure of Elysium',               level: 4, description: 'Draw all wraiths in the area to a specific location, creating an irresistible pull.' },
+  { value: 'Peek Past the Shroud',          level: 4, description: 'Tear a small window in the Shroud, allowing physical objects to pass briefly between worlds.' },
+  { value: 'Point of the Needle',           level: 4, description: 'Enchant a needle that, when driven into a corpse, forces any attached ghost to appear.' },
+  { value: 'Ritual of Xipe Totec',          level: 4, description: 'Wear the skin of the dead to assume their appearance and fool both the living and ghosts.' },
+  { value: 'Summon Ethereal Horde',         level: 4, description: 'Call forth a swarm of minor ghosts to overwhelm and distract enemies.' },
+  { value: 'Vision of St. Anthony',         level: 4, description: 'Grant a mortal true sight into the Underworld for one scene, at the cost of their sanity.' },
+  { value: 'Weighing of the Heart',         level: 4, description: 'Judge a ghost\'s moral weight, determining the strength of its ties to the living world.' },
+  // ——— Necromancy Level 5 ———
+  { value: 'Chill of Oblivion',             level: 5, description: 'Radiate the cold of the void, inflicting aggravated damage on all living and undead creatures nearby.' },
+  { value: 'Dead Man\'s Hand',              level: 5, description: 'Enchant a severed hand to act as a powerful necromantic focus that amplifies all death magic.' },
+  { value: 'Enochian Passage',              level: 5, description: 'Open a stable doorway between the mortal world and the Underworld that lasts for one scene.' },
+  { value: 'Esilio',                        level: 5, description: 'Banish a ghost to the deepest reaches of the Underworld, possibly destroying it permanently.' },
+  { value: 'Grasp the Ghostly',             level: 5, description: 'Grant yourself or another the ability to physically interact with ghosts for one scene.' },
+  { value: 'Invocation of the Maelstrom',   level: 5, description: 'Summon a devastating storm in the Underworld that tears at all ghosts and spiritual structures.' },
+  { value: 'The Ferryman\'s Recall',        level: 5, description: 'Call back a ghost that has been banished or destroyed, reconstituting it from the void.' },
+  { value: 'Orphic Sojourn',                level: 5, description: 'Project your consciousness into the Underworld while your body remains in the mortal world.' },
+  { value: 'Restoration of Styx',           level: 5, description: 'Repair damage to the Shroud or reinforce it in an area, blocking ghostly intrusions.' },
+  { value: 'Treasures of Hades',            level: 5, description: 'Reach into the Underworld to retrieve ghostly objects and bring them into the mortal world.' },
+  // ——— Necromancy Level 6 ———
+  { value: 'Ghost Town',                    level: 6, description: 'Transform an entire area into a nexus between worlds where ghosts and the living coexist freely.' },
+  { value: 'Lazarus Rises',                 level: 6, description: 'Restore a ghost to full life temporarily, giving it a physical body for one night.' },
 ]
 
 const DISCIPLINES = [
@@ -1982,7 +2159,7 @@ export default function CharacterForm() {
               <>
                 {/* ── Paths ── */}
                 <fieldset>
-                  <legend>Thaumaturgy Paths</legend>
+                  <legend>Sorcery Paths</legend>
                   <TagList
                     items={sorceryPaths}
                     getLabel={p => `${p.name} ${p.level}`}
@@ -2020,7 +2197,7 @@ export default function CharacterForm() {
                 {/* ── Rituals ── */}
                 <fieldset>
                   <legend>Rituals</legend>
-                  {[1,2,3,4,5].filter(lvl => rituals.some(r => r.level === lvl)).map(lvl => (
+                  {[1,2,3,4,5,6,7,8].filter(lvl => rituals.some(r => r.level === lvl)).map(lvl => (
                     <div key={lvl} style={{ marginBottom: 'var(--space-md)' }}>
                       <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)', fontWeight: 600 }}>
                         Level {lvl}
