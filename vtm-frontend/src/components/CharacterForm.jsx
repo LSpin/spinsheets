@@ -874,9 +874,19 @@ const INITIAL = {
   expertKnowl1Name: '', expertKnowl1: 0,
   expertKnowl2Name: '', expertKnowl2: 0,
   expertKnowl3Name: '', expertKnowl3: 0,
-  // Specialties
-  expressionSpec: '', academicsSpec: '', lawSpec: '',
-  craftsSpec: '', performanceSpec: '', scienceSpec: '', technologySpec: '',
+  // Specialties — Attributes
+  strengthSpec: '', dexteritySpec: '', staminaSpec: '',
+  charismaSpec: '', manipulationSpec: '', appearanceSpec: '',
+  perceptionSpec: '', intelligenceSpec: '', witsSpec: '',
+  // Specialties — Talents
+  alertnessSpec: '', athleticsSpec: '', awarenessSpec: '', brawlSpec: '', empathySpec: '',
+  expressionSpec: '', intimidationSpec: '', leadershipSpec: '', streetwiseSpec: '', subterfugeSpec: '',
+  // Specialties — Skills
+  animalKenSpec: '', craftsSpec: '', driveSpec: '', etiquetteSpec: '', firearmsSpec: '',
+  larcenySpec: '', meleeSpec: '', performanceSpec: '', stealthSpec: '', survivalSpec: '',
+  // Specialties — Knowledges
+  academicsSpec: '', computerSpec: '', financeSpec: '', investigationSpec: '', lawSpec: '',
+  linguisticsSpec: '', medicineSpec: '', occultSpec: '', politicsSpec: '', scienceSpec: '', technologySpec: '',
   // Virtues & Path
   conscience: 1, selfControl: 1, courage: 1,
   pathName: 'Humanity', pathRating: 2,
@@ -944,6 +954,40 @@ function label(key) {
 function ordinal(n) {
   const s = ['th','st','nd','rd'], v = n % 100
   return n + (s[(v - 20) % 10] || s[v] || s[0])
+}
+
+function RatingRow({ abilityKey, specKey, fields, onField, onText, max }) {
+  return (
+    <div className="ability-row">
+      <DotRating label={label(abilityKey)} name={abilityKey} value={fields[abilityKey]} onChange={onField} max={max} />
+      <input
+        className="spec-input"
+        type="text"
+        name={specKey}
+        value={fields[specKey] ?? ''}
+        onChange={onText}
+        placeholder="Specialty"
+        aria-label={`${label(abilityKey)} specialty`}
+      />
+    </div>
+  )
+}
+
+function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, onText, max }) {
+  return (
+    <div className="custom-ability-row">
+      <input
+        type="text"
+        name={nameProp}
+        value={fields[nameProp]}
+        onChange={onText}
+        placeholder={placeholder}
+        aria-label={`${placeholder} name`}
+        className="custom-ability-name"
+      />
+      <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={onField} max={max} />
+    </div>
+  )
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -1194,41 +1238,7 @@ export default function CharacterForm() {
 
   // ── Render helpers ─────────────────────────────────────────────────────────
 
-  function RatingRow({ abilityKey, labelText, specKey }) {
-    return (
-      <div className="ability-row">
-        <DotRating label={labelText ?? label(abilityKey)} name={abilityKey} value={fields[abilityKey]} onChange={handleField} max={elderMax} />
-        {specKey && (fields[abilityKey] >= 4 || specKey) && (
-          <input
-            className="spec-input"
-            type="text"
-            name={specKey}
-            value={fields[specKey] ?? ''}
-            onChange={handleText}
-            placeholder="Specialty"
-            aria-label={`${labelText ?? label(abilityKey)} specialty`}
-          />
-        )}
-      </div>
-    )
-  }
-
-  function CustomAbilityRow({ nameProp, ratingProp, placeholder }) {
-    return (
-      <div className="custom-ability-row">
-        <input
-          type="text"
-          name={nameProp}
-          value={fields[nameProp]}
-          onChange={handleText}
-          placeholder={placeholder}
-          aria-label={`${placeholder} name`}
-          className="custom-ability-name"
-        />
-        <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={handleField} max={elderMax} />
-      </div>
-    )
-  }
+  // RatingRow and CustomAbilityRow are defined outside the component to prevent focus loss
 
   function TagList({ items, getLabel, getTooltip, onSelect, activeId, onRemove, ariaLabel }) {
     if (!items.length) return null
@@ -1417,15 +1427,25 @@ export default function CharacterForm() {
                 <legend>{legend}</legend>
                 <div className="rating-grid">
                   {attrs.map(a => (
-                    <DotRating
-                      key={a}
-                      label={a === 'appearance' && zeroAppearance ? 'Appearance (0)' : label(a)}
-                      name={a}
-                      value={a === 'appearance' && zeroAppearance ? 0 : fields[a]}
-                      onChange={handleField}
-                      min={a === 'appearance' && zeroAppearance ? 0 : 1}
-                      max={a === 'appearance' && zeroAppearance ? 0 : elderMax}
-                    />
+                    <div key={a} className="ability-row">
+                      <DotRating
+                        label={a === 'appearance' && zeroAppearance ? 'Appearance (0)' : label(a)}
+                        name={a}
+                        value={a === 'appearance' && zeroAppearance ? 0 : fields[a]}
+                        onChange={handleField}
+                        min={a === 'appearance' && zeroAppearance ? 0 : 1}
+                        max={a === 'appearance' && zeroAppearance ? 0 : elderMax}
+                      />
+                      <input
+                        className="spec-input"
+                        type="text"
+                        name={a + 'Spec'}
+                        value={fields[a + 'Spec'] ?? ''}
+                        onChange={handleText}
+                        placeholder="Specialty"
+                        aria-label={`${label(a)} specialty`}
+                      />
+                    </div>
                   ))}
                 </div>
               </fieldset>
@@ -1440,49 +1460,42 @@ export default function CharacterForm() {
           <fieldset>
             <legend>Talents</legend>
             <div className="rating-grid">
-              {['alertness', 'athletics', 'awareness', 'brawl', 'empathy', 'intimidation', 'leadership', 'streetwise', 'subterfuge'].map(a =>
-                <DotRating key={a} label={label(a)} name={a} value={fields[a]} onChange={handleField} max={elderMax} />
+              {['alertness', 'athletics', 'awareness', 'brawl', 'empathy', 'expression', 'intimidation', 'leadership', 'streetwise', 'subterfuge'].map(a =>
+                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} max={elderMax} />
               )}
-              <RatingRow abilityKey="expression" labelText="Expression *" specKey="expressionSpec" />
             </div>
             <div className="custom-abilities">
-              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder="Hobby Talent" />
-              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder="Hobby Talent" />
-              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder="Hobby Talent" />
+              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} max={elderMax} />
+              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} max={elderMax} />
+              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} max={elderMax} />
             </div>
           </fieldset>
 
           <fieldset>
             <legend>Skills</legend>
             <div className="rating-grid">
-              {['animalKen', 'drive', 'etiquette', 'firearms', 'larceny', 'melee', 'stealth', 'survival'].map(a =>
-                <DotRating key={a} label={label(a)} name={a} value={fields[a]} onChange={handleField} max={elderMax} />
+              {['animalKen', 'crafts', 'drive', 'etiquette', 'firearms', 'larceny', 'melee', 'performance', 'stealth', 'survival'].map(a =>
+                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} max={elderMax} />
               )}
-              <RatingRow abilityKey="crafts"      labelText="Crafts *"      specKey="craftsSpec" />
-              <RatingRow abilityKey="performance" labelText="Performance *" specKey="performanceSpec" />
             </div>
             <div className="custom-abilities">
-              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder="Prof. Skill" />
-              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder="Prof. Skill" />
-              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder="Prof. Skill" />
+              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} max={elderMax} />
+              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} max={elderMax} />
+              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} max={elderMax} />
             </div>
           </fieldset>
 
           <fieldset>
             <legend>Knowledges</legend>
             <div className="rating-grid">
-              {['computer', 'finance', 'investigation', 'linguistics', 'medicine', 'occult', 'politics'].map(a =>
-                <DotRating key={a} label={label(a)} name={a} value={fields[a]} onChange={handleField} max={elderMax} />
+              {['academics', 'computer', 'finance', 'investigation', 'law', 'linguistics', 'medicine', 'occult', 'politics', 'science', 'technology'].map(a =>
+                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} max={elderMax} />
               )}
-              <RatingRow abilityKey="academics"  labelText="Academics *"  specKey="academicsSpec" />
-              <RatingRow abilityKey="law"         labelText="Law *"         specKey="lawSpec" />
-              <RatingRow abilityKey="science"     labelText="Science *"     specKey="scienceSpec" />
-              <RatingRow abilityKey="technology"  labelText="Technology *"  specKey="technologySpec" />
             </div>
             <div className="custom-abilities">
-              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder="Expert Knowledge" />
-              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder="Expert Knowledge" />
-              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder="Expert Knowledge" />
+              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} max={elderMax} />
+              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} max={elderMax} />
+              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} max={elderMax} />
             </div>
           </fieldset>
         </div>

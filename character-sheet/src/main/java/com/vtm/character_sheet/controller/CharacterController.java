@@ -137,12 +137,48 @@ public class CharacterController {
             existing.setExpertKnowl2(updated.getExpertKnowl2());
             existing.setExpertKnowl3Name(updated.getExpertKnowl3Name());
             existing.setExpertKnowl3(updated.getExpertKnowl3());
-            // Specialties
+            // Specialties — Attributes
+            existing.setStrengthSpec(updated.getStrengthSpec());
+            existing.setDexteritySpec(updated.getDexteritySpec());
+            existing.setStaminaSpec(updated.getStaminaSpec());
+            existing.setCharismaSpec(updated.getCharismaSpec());
+            existing.setManipulationSpec(updated.getManipulationSpec());
+            existing.setAppearanceSpec(updated.getAppearanceSpec());
+            existing.setPerceptionSpec(updated.getPerceptionSpec());
+            existing.setIntelligenceSpec(updated.getIntelligenceSpec());
+            existing.setWitsSpec(updated.getWitsSpec());
+            // Specialties — Talents
+            existing.setAlertnessSpec(updated.getAlertnessSpec());
+            existing.setAthleticsSpec(updated.getAthleticsSpec());
+            existing.setAwarenessSpec(updated.getAwarenessSpec());
+            existing.setBrawlSpec(updated.getBrawlSpec());
+            existing.setEmpathySpec(updated.getEmpathySpec());
             existing.setExpressionSpec(updated.getExpressionSpec());
-            existing.setAcademicsSpec(updated.getAcademicsSpec());
-            existing.setLawSpec(updated.getLawSpec());
+            existing.setIntimidationSpec(updated.getIntimidationSpec());
+            existing.setLeadershipSpec(updated.getLeadershipSpec());
+            existing.setStreetwiseSpec(updated.getStreetwiseSpec());
+            existing.setSubterfugeSpec(updated.getSubterfugeSpec());
+            // Specialties — Skills
+            existing.setAnimalKenSpec(updated.getAnimalKenSpec());
             existing.setCraftsSpec(updated.getCraftsSpec());
+            existing.setDriveSpec(updated.getDriveSpec());
+            existing.setEtiquetteSpec(updated.getEtiquetteSpec());
+            existing.setFirearmsSpec(updated.getFirearmsSpec());
+            existing.setLarcenySpec(updated.getLarcenySpec());
+            existing.setMeleeSpec(updated.getMeleeSpec());
             existing.setPerformanceSpec(updated.getPerformanceSpec());
+            existing.setStealthSpec(updated.getStealthSpec());
+            existing.setSurvivalSpec(updated.getSurvivalSpec());
+            // Specialties — Knowledges
+            existing.setAcademicsSpec(updated.getAcademicsSpec());
+            existing.setComputerSpec(updated.getComputerSpec());
+            existing.setFinanceSpec(updated.getFinanceSpec());
+            existing.setInvestigationSpec(updated.getInvestigationSpec());
+            existing.setLawSpec(updated.getLawSpec());
+            existing.setLinguisticsSpec(updated.getLinguisticsSpec());
+            existing.setMedicineSpec(updated.getMedicineSpec());
+            existing.setOccultSpec(updated.getOccultSpec());
+            existing.setPoliticsSpec(updated.getPoliticsSpec());
             existing.setScienceSpec(updated.getScienceSpec());
             existing.setTechnologySpec(updated.getTechnologySpec());
             // Virtues

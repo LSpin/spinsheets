@@ -125,12 +125,51 @@ public class Character {
     private String expertKnowl3Name;
     private Integer expertKnowl3 = 0;
 
-    // Specialties (starred abilities + open slots)
+    // Specialties — Attributes
+    private String strengthSpec;
+    private String dexteritySpec;
+    private String staminaSpec;
+    private String charismaSpec;
+    private String manipulationSpec;
+    private String appearanceSpec;
+    private String perceptionSpec;
+    private String intelligenceSpec;
+    private String witsSpec;
+
+    // Specialties — Talents
+    private String alertnessSpec;
+    private String athleticsSpec;
+    private String awarenessSpec;
+    private String brawlSpec;
+    private String empathySpec;
     private String expressionSpec;
-    private String academicsSpec;
-    private String lawSpec;
+    private String intimidationSpec;
+    private String leadershipSpec;
+    private String streetwiseSpec;
+    private String subterfugeSpec;
+
+    // Specialties — Skills
+    private String animalKenSpec;
     private String craftsSpec;
+    private String driveSpec;
+    private String etiquetteSpec;
+    private String firearmsSpec;
+    private String larcenySpec;
+    private String meleeSpec;
     private String performanceSpec;
+    private String stealthSpec;
+    private String survivalSpec;
+
+    // Specialties — Knowledges
+    private String academicsSpec;
+    private String computerSpec;
+    private String financeSpec;
+    private String investigationSpec;
+    private String lawSpec;
+    private String linguisticsSpec;
+    private String medicineSpec;
+    private String occultSpec;
+    private String politicsSpec;
     private String scienceSpec;
     private String technologySpec;
 
