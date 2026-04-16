@@ -15,7 +15,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ──
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabAdvantages', 'tabDisciplinesBg', 'tabMeritsFlaws', 'tabInventory']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabDisciplinesBg', 'tabMeritsFlaws', 'tabInventory']
 
 const CLANS = [
   // ── The 13 Clans ──
@@ -465,11 +465,6 @@ export default function VampireRevisedForm() {
                 <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
-            <div className="rating-grid" style={{ marginTop: 'var(--space-sm)' }}>
-              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} t={t} />
-              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} t={t} />
-              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} t={t} />
-            </div>
           </fieldset>
           <fieldset>
             <legend>{t('skills')}</legend>
@@ -477,11 +472,6 @@ export default function VampireRevisedForm() {
               {['animalKen', 'crafts', 'drive', 'etiquette', 'firearms', 'melee', 'performance', 'security', 'stealth', 'survival'].map(a =>
                 <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
-            </div>
-            <div className="rating-grid" style={{ marginTop: 'var(--space-sm)' }}>
-              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} t={t} />
-              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} t={t} />
-              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} t={t} />
             </div>
           </fieldset>
           <fieldset>
@@ -491,17 +481,38 @@ export default function VampireRevisedForm() {
                 <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
-            <div className="rating-grid" style={{ marginTop: 'var(--space-sm)' }}>
-              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} t={t} />
-              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} t={t} />
-              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} t={t} />
-            </div>
           </fieldset>
         </div>
       </div>
 
-      {/* ── Advantages ── */}
+      {/* ── Secondary Abilities ── */}
       <div hidden={tab !== 3}>
+        <div className="form-section">
+          <div className="abilities-group">
+            <fieldset>
+              <legend>{t('secondaryTalents')}</legend>
+              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} t={t} />
+              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} t={t} />
+              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} t={t} />
+            </fieldset>
+            <fieldset>
+              <legend>{t('secondarySkills')}</legend>
+              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} t={t} />
+              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} t={t} />
+              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} t={t} />
+            </fieldset>
+            <fieldset>
+              <legend>{t('secondaryKnowledges')}</legend>
+              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} t={t} />
+              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} t={t} />
+              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} t={t} />
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Advantages ── */}
+      <div hidden={tab !== 4}>
         <div className="form-section">
           <fieldset>
             <legend>{t('virtues')}</legend>
@@ -575,7 +586,7 @@ export default function VampireRevisedForm() {
       </div>
 
       {/* ── Disciplines & Backgrounds ── */}
-      <div hidden={tab !== 4}>
+      <div hidden={tab !== 5}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">{t('saveCharFirstDiscBg')}</p>}
           {isEdit && (
@@ -647,7 +658,7 @@ export default function VampireRevisedForm() {
       </div>
 
       {/* ── Merits & Flaws ── */}
-      <div hidden={tab !== 5}>
+      <div hidden={tab !== 6}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">{t('saveCharFirstMeritsFlaw')}</p>}
           {isEdit && (
@@ -684,7 +695,7 @@ export default function VampireRevisedForm() {
       </div>
 
       {/* ── Inventory ── */}
-      <div hidden={tab !== 6}>
+      <div hidden={tab !== 7}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">{t('saveCharFirstInventory')}</p>}
           {isEdit && (
