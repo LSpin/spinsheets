@@ -13,6 +13,7 @@ import {
 import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
+import { MAGE_TRADITIONS } from '../data/mageTraditions'
 import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ──
@@ -519,8 +520,13 @@ export default function VictorianMageForm() {
                     {factionList.map(f => <option key={f} value={f}>{f}</option>)}
                   </select>
                 ) : (
-                  <input id="clan" name="clan" type="text" value={fields.clan} onChange={handleText} autoComplete="off"
-                    placeholder={fields.affiliation ? t('phFaction') : t('phSelectAffFirst')} />
+                  <>
+                    <input id="clan" name="clan" type="text" value={fields.clan} onChange={handleText} autoComplete="off"
+                      placeholder={fields.affiliation ? t('phFaction') : t('phSelectAffFirst')} list="tradition-suggestions" />
+                    <datalist id="tradition-suggestions">
+                      {MAGE_TRADITIONS.map(mt => <option key={mt.name} value={mt.name} />)}
+                    </datalist>
+                  </>
                 )}
               </div>
               <div className="field">
@@ -528,6 +534,15 @@ export default function VictorianMageForm() {
                 <input id="mageSection" name="mageSection" type="text" value={fields.mageSection} onChange={handleText} autoComplete="off" />
               </div>
             </div>
+            {(() => {
+              const tradEntry = MAGE_TRADITIONS.find(mt => mt.name === fields.clan)
+              return tradEntry ? (
+                <div style={{ marginBottom: 'var(--space-sm)' }}>
+                  <p className="archetype-desc">{tradEntry.description}</p>
+                  {tradEntry.focus && <p className="archetype-desc" style={{ marginTop: '0.25rem' }}><strong>{t('focus')}:</strong> {tradEntry.focus}</p>}
+                </div>
+              ) : null
+            })()}
             <div className="field-row">
               <div className="field">
                 <label htmlFor="npc">{t('type')}</label>

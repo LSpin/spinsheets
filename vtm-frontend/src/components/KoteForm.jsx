@@ -13,6 +13,7 @@ import {
 import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
+import { KOTE_DHARMAS } from '../data/koteDharmas'
 import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ──
@@ -632,6 +633,15 @@ export default function KoteForm() {
               </div>
             </div>
             <DotRating label={t('dharmaRating')} name="dharmaRating" value={fields.dharmaRating} onChange={handleField} min={0} max={10} />
+            {(() => {
+              const dharmaEntry = KOTE_DHARMAS.find(d => fields.dharmaName && (fields.dharmaName.includes(d.name) || d.name.includes(fields.dharmaName)))
+              return dharmaEntry ? (
+                <div style={{ marginTop: 'var(--space-sm)' }}>
+                  <p className="archetype-desc">{dharmaEntry.description}</p>
+                  {dharmaEntry.training && <p className="archetype-desc" style={{ marginTop: '0.25rem' }}><strong>{t('training')}:</strong> {dharmaEntry.training}</p>}
+                </div>
+              ) : null
+            })()}
           </fieldset>
 
           <fieldset>

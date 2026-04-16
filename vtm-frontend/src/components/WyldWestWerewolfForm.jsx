@@ -16,6 +16,8 @@ import { getGifts, addGift, removeGift, getRites, addRite, removeRite, getFetish
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { WEREWOLF_GIFTS } from '../data/werewolfGifts'
+import { WEREWOLF_RITES } from '../data/werewolfRites'
+import { WEREWOLF_TOTEMS } from '../data/werewolfTotems'
 
 // ── Constants ──
 
@@ -517,7 +519,10 @@ export default function WyldWestWerewolfForm() {
               </div>
               <div className="field">
                 <label htmlFor="packTotem">{t('packTotem')}</label>
-                <input id="packTotem" name="packTotem" type="text" value={fields.packTotem} onChange={handleText} autoComplete="off" />
+                <input id="packTotem" name="packTotem" type="text" list="totem-catalog" value={fields.packTotem} onChange={handleText} autoComplete="off" />
+                <datalist id="totem-catalog">
+                  {WEREWOLF_TOTEMS.map(t => <option key={t.name} value={t.name} />)}
+                </datalist>
               </div>
               <div className="field">
                 <label htmlFor="rank">{t('rank')}</label>
@@ -742,19 +747,27 @@ export default function WyldWestWerewolfForm() {
                     ))}
                   </ul>
                 )}
-                <div className="field-row" style={{ alignItems: 'flex-end' }}>
-                  <div className="field" style={{ flex: 2 }}>
-                    <label htmlFor="rite-name">{t('riteName')}</label>
-                    <input id="rite-name" type="text" value={newRite.name} onChange={e => setNewRite(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="rite-level">{t('level')}</label>
-                    <select id="rite-level" value={newRite.level} onChange={e => setNewRite(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                      {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
-                    </select>
-                  </div>
-                  <button className="btn btn-secondary" onClick={handleAddRite}>{t('add')}</button>
-                </div>
+                {(() => {
+                  const filtered = WEREWOLF_RITES.filter(r => r.level === newRite.level)
+                  return (
+                    <div className="field-row" style={{ alignItems: 'flex-end' }}>
+                      <div className="field">
+                        <label htmlFor="rite-level">{t('level')}</label>
+                        <select id="rite-level" value={newRite.level} onChange={e => setNewRite(p => ({ ...p, level: parseInt(e.target.value), name: '' }))}>
+                          {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
+                        </select>
+                      </div>
+                      <div className="field" style={{ flex: 2 }}>
+                        <label htmlFor="rite-name">{t('riteName')}</label>
+                        <input id="rite-name" list="rite-catalog" type="text" value={newRite.name} onChange={e => setNewRite(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder={`${filtered.length} rites available`} />
+                        <datalist id="rite-catalog">
+                          {filtered.map(r => <option key={r.name} value={r.name} />)}
+                        </datalist>
+                      </div>
+                      <button className="btn btn-secondary" onClick={handleAddRite}>{t('add')}</button>
+                    </div>
+                  )
+                })()}
               </fieldset>
 
               <fieldset>

@@ -16,6 +16,8 @@ import {
 import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
+import { VAMPIRE_DISCIPLINES } from '../data/vampireDisciplines'
+import { DERANGEMENTS } from '../data/derangements'
 import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -1011,6 +1013,38 @@ const DISCIPLINES = [
       '●●●● The Flow Within the Stone — Merge with and pass through stone as if it were water.',
       '●●●●● Armor of Terra — Transform your skin into an invulnerable shell of living stone.',
     ] },
+  { value: 'Daimoinon', description: 'Infernal powers of sin, hellfire, and dark pacts. (Baali)',
+    levels: [
+      '●  Sense the Sin — Detect a target\'s greatest vice or spiritual weakness.',
+      '●● Conflagration — Summon flames from the fires of Hell.',
+      '●●● Flames of the Netherworld — Call down infernal fire on an area.',
+      '●●●● Psychomachia — Force a target to confront their inner darkness.',
+      '●●●●● Conduit — Open a channel to dark infernal powers.',
+    ] },
+  { value: 'Mytherceria', description: 'Fey sight and faerie riddles that trap the mind. (Kiasyd)',
+    levels: [
+      '●  Fey Sight — Perceive faerie enchantments and supernatural auras.',
+      '●● Darkling Trickery — Create minor faerie-like magical effects.',
+      '●●● Goblinism — Reshape small objects with faerie magic.',
+      '●●●● Chanjelin Ward — Create a magical barrier against intrusion.',
+      '●●●●● Riddle Phantastique — Pose a riddle that traps the target\'s mind.',
+    ] },
+  { value: 'Obeah', description: 'Healing, cleansing, and spiritual protection. (Salubri)',
+    levels: [
+      '●  Sense Vitality — Assess the health and vital condition of a target.',
+      '●● Anesthetic Touch — Numb a target\'s pain with a touch.',
+      '●●● Corpore Sano — Heal aggravated wounds in a living target.',
+      '●●●● Shepherd\'s Watch — Protect a target from supernatural influence.',
+      '●●●●● Unburdening the Bestial Soul — Draw out and cleanse corruption.',
+    ] },
+  { value: 'Temporis', description: 'Manipulation of time itself — freeze, slow, and age. (True Brujah)',
+    levels: [
+      '●  Sense the Fleeting — Perceive temporal distortions and the passage of time.',
+      '●● Rampart — Create a personal temporal barrier against attacks.',
+      '●●● Nights of Belated Regret — Age an object or target rapidly.',
+      '●●●● Domain of Evernight — Slow or freeze time in an area.',
+      '●●●●● Outside the Hourglass — Step outside the flow of time entirely.',
+    ] },
 ]
 
 const BACKGROUNDS = [
@@ -1919,13 +1953,16 @@ export default function CharacterForm() {
             <div className="field-row">
               <div className="field">
                 <label htmlFor="derangement1">{t('derangement')}</label>
-                <input id="derangement1" name="derangement1" type="text" value={fields.derangement1} onChange={handleText} autoComplete="off" />
+                <input id="derangement1" name="derangement1" type="text" list="derangement-catalog" value={fields.derangement1} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
                 <label htmlFor="derangement2">{t('derangement')}</label>
-                <input id="derangement2" name="derangement2" type="text" value={fields.derangement2} onChange={handleText} autoComplete="off" />
+                <input id="derangement2" name="derangement2" type="text" list="derangement-catalog" value={fields.derangement2} onChange={handleText} autoComplete="off" />
               </div>
             </div>
+            <datalist id="derangement-catalog">
+              {DERANGEMENTS.map(d => <option key={d.name} value={d.name} />)}
+            </datalist>
             <div className="field">
               <label htmlFor="clanCurse">{t('clanCurseNotes')}</label>
               <textarea id="clanCurse" name="clanCurse" value={fields.clanCurse} onChange={handleText} rows={3} />
