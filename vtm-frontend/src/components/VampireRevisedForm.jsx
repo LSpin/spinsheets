@@ -158,7 +158,7 @@ const INITIAL = {
   // Misc
   derangement1: '', derangement2: '',
   clanCurse: '', notes: '',
-  backstory: '', appearance: '', goals: '', allies: '', enemies: '', havens: '', territories: '',
+  backstory: '', appearanceDesc: '', goals: '', allies: '', enemies: '', havens: '', territories: '',
 }
 
 // ── Helper components ──
@@ -343,13 +343,16 @@ export default function VampireRevisedForm() {
   function handleField(name, value) {
     setFields(prev => {
       const next = { ...prev, [name]: value }
-      // Auto-sync Humanity path rating
-      if ((name === 'conscience' || name === 'selfControl') &&
-          next.pathName.trim().toLowerCase() === 'humanity') {
+      const isHum = next.pathName.trim().toLowerCase() === 'humanity'
+      if ((name === 'conscience' || name === 'selfControl') && isHum) {
         next.pathRating = next.conscience + next.selfControl
       }
       if (name === 'pathName' && value.trim().toLowerCase() === 'humanity') {
         next.pathRating = next.conscience + next.selfControl
+      }
+      if (guidedMode && !isEdit && name === 'courage') {
+        next.willpower = value
+        next.currentWillpower = value
       }
       return next
     })
@@ -681,8 +684,8 @@ export default function VampireRevisedForm() {
           <fieldset>
             <legend>{t('virtues')}</legend>
             <div className="rating-grid">
-              <DotRating label={t('conscience')}  name="conscience"   value={fields.conscience}   onChange={handleField} min={1} />
-              <DotRating label={t('selfControl')} name="selfControl"  value={fields.selfControl}  onChange={handleField} min={1} />
+              <DotRating label={isHumanity ? t('conscience') : t('conviction')}  name="conscience"   value={fields.conscience}   onChange={handleField} min={1} />
+              <DotRating label={isHumanity ? t('selfControl') : t('instinct')} name="selfControl"  value={fields.selfControl}  onChange={handleField} min={1} />
               <DotRating label={t('courage')}     name="courage"      value={fields.courage}      onChange={handleField} min={1} />
             </div>
           </fieldset>
@@ -900,7 +903,7 @@ export default function VampireRevisedForm() {
           </fieldset>
           <fieldset>
             <legend>{t('appearanceLabel')}</legend>
-            <textarea name="appearance" value={fields.appearance} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
+            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
           </fieldset>
           <fieldset>
             <legend>{t('goalsLabel')}</legend>

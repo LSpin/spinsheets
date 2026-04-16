@@ -69,6 +69,10 @@ const HEALTH_LEVEL_KEYS = [
   { key: 'incapacitated',  penalty: '' },
 ]
 
+const AUSPICE_RAGE = { Ragabash: 1, Theurge: 2, Philodox: 3, Galliard: 4, Ahroun: 5 }
+const BREED_GNOSIS = { Homid: 1, Metis: 3, Lupus: 5 }
+const TRIBE_WP = { 'Black Furies': 3, 'Bone Gnawers': 4, 'Children of Gaia': 4, Fianna: 3, 'Get of Fenris': 3, 'Glass Walkers': 3, 'Red Talons': 3, 'Shadow Lords': 3, 'Silent Striders': 3, 'Silver Fangs': 3, Stargazers: 4, Uktena: 3, Wendigo: 4, 'Black Spiral Dancers': 3, Ronin: 1, 'Skin Dancers': 3 }
+
 const INITIAL = {
   npc: false, splat: 'WEREWOLF',
   name: '', altName: '', concept: '',
@@ -111,7 +115,7 @@ const INITIAL = {
   septName: '', caernLocation: '', caernType: '', septTotem: '', septLeader: '',
   // Notes
   derangement1: '', derangement2: '', notes: '',
-  backstory: '', appearance: '', goals: '', allies: '', enemies: '', havens: '', territories: '',
+  backstory: '', appearanceDesc: '', goals: '', allies: '', enemies: '', havens: '', territories: '',
   // Secondary Abilities
   hobbyTalent1Name: '', hobbyTalent1: 0,
   hobbyTalent2Name: '', hobbyTalent2: 0,
@@ -335,7 +339,24 @@ export default function WerewolfForm() {
   }
 
   function handleField(name, value) {
-    setFields(prev => ({ ...prev, [name]: value }))
+    setFields(prev => {
+      const next = { ...prev, [name]: value }
+      if (guidedMode && !isEdit) {
+        if (name === 'auspice' && AUSPICE_RAGE[value] !== undefined) {
+          next.rage = AUSPICE_RAGE[value]
+          next.currentRage = AUSPICE_RAGE[value]
+        }
+        if (name === 'breed' && BREED_GNOSIS[value] !== undefined) {
+          next.gnosis = BREED_GNOSIS[value]
+          next.currentGnosis = BREED_GNOSIS[value]
+        }
+        if (name === 'tribe' && TRIBE_WP[value] !== undefined) {
+          next.willpower = TRIBE_WP[value]
+          next.currentWillpower = TRIBE_WP[value]
+        }
+      }
+      return next
+    })
   }
 
   function handleText(e) {
@@ -928,7 +949,7 @@ export default function WerewolfForm() {
           </fieldset>
           <fieldset>
             <legend>{t('appearanceLabel')}</legend>
-            <textarea name="appearance" value={fields.appearance} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
+            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
           </fieldset>
           <fieldset>
             <legend>{t('goalsLabel')}</legend>

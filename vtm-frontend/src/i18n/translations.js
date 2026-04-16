@@ -209,7 +209,9 @@ const en = {
 
   // ── Virtues & Pools ──
   conscience: 'Conscience',
+  conviction: 'Conviction',
   selfControl: 'Self-Control',
+  instinct: 'Instinct',
   courage: 'Courage',
   willpower: 'Willpower',
   currentWillpower: 'Current Willpower',
@@ -904,7 +906,9 @@ const pt = {
 
   // ── Virtues & Pools ──
   conscience: 'Consciência',
+  conviction: 'Convicção',
   selfControl: 'Autocontrole',
+  instinct: 'Instinto',
   courage: 'Coragem',
   willpower: 'Força de Vontade',
   currentWillpower: 'Força de Vontade Atual',

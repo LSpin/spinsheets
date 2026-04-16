@@ -144,7 +144,7 @@ const INITIAL = {
   chantryName: '', chantryDescription: '',
   // Notes
   derangement1: '', derangement2: '', notes: '',
-  backstory: '', appearance: '', goals: '', allies: '', enemies: '', havens: '', territories: '',
+  backstory: '', appearanceDesc: '', goals: '', allies: '', enemies: '', havens: '', territories: '',
 }
 
 function MageRatingRow({ abilityKey, specKey, fields, onField, onText, t, max = 5 }) {
@@ -290,6 +290,12 @@ export default function MageForm() {
       : t('pointsOver').replace('{0}', Math.abs(remaining))
     return budget > 0 ? <span className={`points-remaining ${cls}`}>{text}</span> : null
   }
+
+  useEffect(() => {
+    if (guidedMode && !isEdit) {
+      setFields(prev => ({ ...prev, willpower: 5, currentWillpower: 5 }))
+    }
+  }, [guidedMode])
 
   useEffect(() => {
     if (isEdit) loadCharacter()
@@ -946,7 +952,7 @@ export default function MageForm() {
           </fieldset>
           <fieldset>
             <legend>{t('appearanceLabel')}</legend>
-            <textarea name="appearance" value={fields.appearance} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
+            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
           </fieldset>
           <fieldset>
             <legend>{t('goalsLabel')}</legend>

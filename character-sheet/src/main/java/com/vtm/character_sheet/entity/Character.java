@@ -380,7 +380,7 @@ public class Character {
     private String backstory;
 
     @Column(columnDefinition = "TEXT")
-    private String appearance;
+    private String appearanceDesc;
 
     @Column(columnDefinition = "TEXT")
     private String goals;

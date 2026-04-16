@@ -133,7 +133,7 @@ const INITIAL = {
   expertKnowl10Name: '', expertKnowl10: 0,
   // Notes
   derangement1: '', derangement2: '', notes: '',
-  backstory: '', appearance: '', goals: '', allies: '', enemies: '', havens: '', territories: '',
+  backstory: '', appearanceDesc: '', goals: '', allies: '', enemies: '', havens: '', territories: '',
 }
 
 function KoteRatingRow({ abilityKey, specKey, fields, onField, onText, t, max = 5 }) {
@@ -280,6 +280,12 @@ export default function KoteForm() {
   }
 
   const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabDharmaChi', 'tabDisciplinesBg', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
+
+  useEffect(() => {
+    if (guidedMode && !isEdit) {
+      setFields(prev => ({ ...prev, dharmaRating: 1 }))
+    }
+  }, [guidedMode])
 
   useEffect(() => {
     if (isEdit) loadCharacter()
@@ -840,7 +846,7 @@ export default function KoteForm() {
           </fieldset>
           <fieldset>
             <legend>{t('appearanceLabel')}</legend>
-            <textarea name="appearance" value={fields.appearance} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
+            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
           </fieldset>
           <fieldset>
             <legend>{t('goalsLabel')}</legend>
