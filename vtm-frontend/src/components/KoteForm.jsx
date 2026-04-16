@@ -46,6 +46,10 @@ const BACKGROUNDS = [
   { value: 'Resources' },
   { value: 'Retainers' },
   { value: 'Rites' },
+  { value: 'Haven' },
+  { value: 'Haven Security' },
+  { value: 'Haven Luxury' },
+  { value: 'Haven Size' },
 ]
 
 const HEALTH_LEVEL_KEYS = [

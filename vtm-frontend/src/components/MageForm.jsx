@@ -56,6 +56,10 @@ const BACKGROUNDS = [
   { value: 'Sanctum',    description: 'A protected and warded workspace for magical practice.' },
   { value: 'Totem',      description: 'A spirit ally bound to you or your cabal.' },
   { value: 'Wonder',     description: 'A magical item imbued with Awakened power.' },
+  { value: 'Haven',      description: 'The safety and secrecy of your primary resting place.' },
+  { value: 'Haven Security', description: 'Physical defences and countermeasures protecting your haven.' },
+  { value: 'Haven Luxury', description: 'The comfort, amenities, and opulence of your haven.' },
+  { value: 'Haven Size', description: 'The physical extent and number of rooms in your haven.' },
 ]
 
 const HEALTH_LEVEL_KEYS = [

@@ -48,6 +48,10 @@ const BACKGROUNDS = [
   { value: 'Resources', description: 'Wealth and material assets.' },
   { value: 'Rites', description: 'Knowledge and access to Garou rites.' },
   { value: 'Totem', description: 'The pack\'s patron spirit.' },
+  { value: 'Haven', description: 'The safety and secrecy of your primary resting place.' },
+  { value: 'Haven Security', description: 'Physical defences and countermeasures protecting your haven.' },
+  { value: 'Haven Luxury', description: 'The comfort, amenities, and opulence of your haven.' },
+  { value: 'Haven Size', description: 'The physical extent and number of rooms in your haven.' },
 ]
 
 const FORM_STATS = [

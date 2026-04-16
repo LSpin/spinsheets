@@ -965,6 +965,38 @@ const BACKGROUNDS = [
       '●●●● High esteem; one of the notable Kindred in the city.',
       '●●●●● Pillar of Kindred society; your word carries great weight across the sect.',
     ] },
+  { value: 'Haven', description: 'The safety and secrecy of your primary resting place.',
+    levels: [
+      '●  A cramped, insecure space — a car trunk, an attic, or a public squat.',
+      '●● A basic but private location — a rented room or basement apartment.',
+      '●●● A comfortable, secure dwelling with controlled access.',
+      '●●●● A well-appointed haven with multiple entry points and escape routes.',
+      '●●●●● A fortified, luxurious retreat virtually impervious to casual discovery.',
+    ] },
+  { value: 'Haven Security', description: 'Physical defences, alarms, and countermeasures protecting your haven.',
+    levels: [
+      '●  Basic locks and a simple alarm system.',
+      '●● Reinforced doors, security cameras, and a monitored alarm.',
+      '●●● Armed guards, electronic surveillance, and hardened entry points.',
+      '●●●● Military-grade security with redundant systems and rapid response.',
+      '●●●●● A fortress — virtually impenetrable to any conventional assault.',
+    ] },
+  { value: 'Haven Luxury', description: 'The comfort, amenities, and opulence of your haven.',
+    levels: [
+      '●  Spartan but liveable — running water, basic furniture.',
+      '●● Comfortable — decent furnishings, entertainment, and a functional kitchen.',
+      '●●● Upscale — stylish décor, quality amenities, and pleasant surroundings.',
+      '●●●● Luxurious — fine art, designer furnishings, and every modern convenience.',
+      '●●●●● Palatial — a residence of breathtaking opulence and grandeur.',
+    ] },
+  { value: 'Haven Size', description: 'The physical extent and number of rooms in your haven.',
+    levels: [
+      '●  A single room — a studio or a converted closet.',
+      '●● A small apartment — a couple of rooms and basic facilities.',
+      '●●● A spacious home — several rooms, storage, and guest space.',
+      '●●●● A large estate — multiple floors, wings, or outbuildings.',
+      '●●●●● A compound — a mansion, warehouse complex, or underground network.',
+    ] },
 ]
 
 const ARCHETYPES = [
