@@ -405,7 +405,7 @@ export default function KoteForm() {
   return (
     <div className={viewMode ? 'form-view-mode' : ''}>
       <div className="form-header">
-        <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('back')}</button>
+        <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('back')}</button>
         <h2>{fields.name || t('editKueiJin')}</h2>
         <span className="splat-badge splat-badge--kote">{t('kindredOfTheEast')}</span>
         {guidedMode && <span className="splat-badge">{t('guidedCreation')}</span>}
@@ -1029,14 +1029,14 @@ export default function KoteForm() {
 
       {/* ── Save ── */}
       <div className="form-actions">
-        <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('cancel')}</button>
+        <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
         <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
           {saving ? t('saving') : t('saveChanges')}
         </button>
       </div>
       {viewMode && (
         <div className="view-actions">
-          <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('back')}</button>
+          <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('back')}</button>
           <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}

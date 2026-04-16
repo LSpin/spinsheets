@@ -23,6 +23,7 @@ import VictorianMageForm from './components/VictorianMageForm'
 import ChronicleList from './pages/ChronicleList'
 import ChronicleDetail from './pages/ChronicleDetail'
 import ChronicleForm from './pages/ChronicleForm'
+import HomePage from './pages/HomePage'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -80,6 +81,9 @@ function AppShell() {
           {user && (
             <nav aria-label="Primary navigation">
               <Link to="/">
+                <button>{t('navHome')}</button>
+              </Link>
+              <Link to="/characters">
                 <button>{t('navCharacters')}</button>
               </Link>
               <Link to="/chronicles">
@@ -109,7 +113,8 @@ function AppShell() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/" element={
+          <Route path="/" element={<HomePage />} />
+          <Route path="/characters" element={
             <ProtectedRoute><CharacterList /></ProtectedRoute>
           } />
           <Route path="/characters/new" element={

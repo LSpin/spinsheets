@@ -1435,7 +1435,7 @@ export default function CharacterForm() {
   const { id: paramId } = __useParams()
   const __navigate = __useNavigate()
   const characterId = paramId ? Number(paramId) : null
-  const onBack = () => __navigate('/')
+  const onBack = () => __navigate('/characters')
   const [tab, setTab] = useState(0)
   const [fields, setFields] = useState(INITIAL)
   const [disciplines, setDisciplines] = useState([])
@@ -3010,7 +3010,7 @@ export default function CharacterForm() {
       </div>
       {viewMode && (
         <div className="view-actions">
-          <button className="btn btn-secondary" onClick={() => __navigate('/')}>{t('back')}</button>
+          <button className="btn btn-secondary" onClick={() => __navigate('/characters')}>{t('back')}</button>
           <button className="btn btn-primary" onClick={() => __navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}
