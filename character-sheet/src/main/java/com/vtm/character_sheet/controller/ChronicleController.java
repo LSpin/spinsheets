@@ -40,6 +40,7 @@ public class ChronicleController {
             }
             return merged;
         }
+        // Players see all chronicles, but AST chronicles will show their AST status
         return service.findAll();
     }
 

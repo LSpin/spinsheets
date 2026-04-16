@@ -37,11 +37,11 @@ public class CharacterAccessChecker {
                         if (c.getChronicle().getStoryteller().getId().equals(user.getId())) {
                             return true;
                         }
-                        // Assistant Storyteller can also access characters in their chronicles
-                        if (c.getChronicle().getAssistantStorytellers().stream()
-                                .anyMatch(ast -> ast.getId().equals(user.getId()))) {
-                            return true;
-                        }
+                    }
+                    // Assistant Storyteller (any role) can access characters in their chronicles
+                    if (c.getChronicle() != null && c.getChronicle().getAssistantStorytellers().stream()
+                            .anyMatch(ast -> ast.getId().equals(user.getId()))) {
+                        return true;
                     }
                     return false;
                 })

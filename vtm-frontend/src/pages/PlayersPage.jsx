@@ -133,7 +133,7 @@ export default function PlayersPage() {
                   )}
                 </div>
                 <div className="character-card-actions">
-                  {myChronicles.length > 0 && u.role === 'STORYTELLER' && u.id !== user?.userId && (
+                  {myChronicles.length > 0 && u.id !== user?.userId && (
                     <div style={{ display: 'flex', gap: '0.3rem', alignItems: 'center' }}>
                       <select
                         id={`ast-select-${u.id}`}
