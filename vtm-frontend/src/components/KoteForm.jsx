@@ -14,6 +14,7 @@ import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { KOTE_DHARMAS } from '../data/koteDharmas'
+import { KOTE_SHINTAI } from '../data/koteShintai'
 import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ──
@@ -285,7 +286,7 @@ export default function KoteForm() {
     return budget > 0 ? <span className={`points-remaining ${cls}`}>{text}</span> : null
   }
 
-  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabDharmaChi', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
+  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabDharmaChi', 'tabHealth', 'tabShintai', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
 
   useEffect(() => {
     if (guidedMode) {
@@ -738,11 +739,11 @@ export default function KoteForm() {
         </div>
       </div>
 
-      {/* ── Disciplines & Backgrounds ── */}
+      {/* ── Shintai & Disciplines ── */}
       <div hidden={tab !== 6}>
         <div className="form-section">
           <fieldset>
-                <legend>{t('disciplines')} ({disciplines.length})</legend>
+                <legend>{t('shintaiArts')} ({disciplines.length})</legend>
                 {disciplines.length > 0 && (
                   <ul className="tag-list">
                     {disciplines.map(d => (
@@ -753,19 +754,28 @@ export default function KoteForm() {
                     ))}
                   </ul>
                 )}
-                <div className="field-row" style={{ alignItems: 'flex-end' }}>
-                  <div className="field" style={{ flex: 2 }}>
-                    <label htmlFor="disc-name">{t('disciplineName')}</label>
-                    <input id="disc-name" type="text" value={newDiscipline.name} onChange={e => setNewDiscipline(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="disc-level">{t('level')}</label>
-                    <select id="disc-level" value={newDiscipline.level} onChange={e => setNewDiscipline(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                      {[1,2,3,4,5,6,7,8,9,10].map(v => <option key={v} value={v}>{v}</option>)}
-                    </select>
-                  </div>
-                  <button className="btn btn-secondary" onClick={handleAddDiscipline}>{t('add')}</button>
-                </div>
+                {(() => {
+                  const match = KOTE_SHINTAI.find(s => s.name === newDiscipline.name)
+                  return (
+                    <div className="field-row" style={{ alignItems: 'flex-end' }}>
+                      <div className="field" style={{ flex: 2 }}>
+                        <label htmlFor="disc-name">{t('shintaiName')}</label>
+                        <input id="disc-name" list="shintai-catalog" type="text" value={newDiscipline.name} onChange={e => setNewDiscipline(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
+                        <datalist id="shintai-catalog">
+                          {KOTE_SHINTAI.map(s => <option key={s.name} value={s.name} />)}
+                        </datalist>
+                        {match && <p className="archetype-desc" style={{ marginTop: 'var(--space-xs)' }}>{match.description}</p>}
+                      </div>
+                      <div className="field">
+                        <label htmlFor="disc-level">{t('level')}</label>
+                        <select id="disc-level" value={newDiscipline.level} onChange={e => setNewDiscipline(p => ({ ...p, level: parseInt(e.target.value) }))}>
+                          {[1,2,3,4,5,6,7,8,9,10].map(v => <option key={v} value={v}>{v}</option>)}
+                        </select>
+                      </div>
+                      <button className="btn btn-secondary" onClick={handleAddDiscipline}>{t('add')}</button>
+                    </div>
+                  )
+                })()}
               </fieldset>
         </div>
       </div>
