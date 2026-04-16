@@ -6,18 +6,21 @@ import {
   getDisciplines, addDiscipline, removeDiscipline,
   getBackgrounds, addBackground, removeBackground,
   getMeritCatalog, getFlawCatalog,
-  getMerits, addMerit, removeMerit,
-  getFlaws, addFlaw, removeFlaw,
-  getInventory, addInventoryItem, removeInventoryItem,
+  getMerits, getFlaws,
+  getInventory,
   getXpLog, addXpLogEntry, removeXpLogEntry,
 } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
+import MeritsFlawsSection from './MeritsFlawsSection'
+import InventorySection from './InventorySection'
 import { getGifts, addGift, removeGift, getRites, addRite, removeRite, getFetishes, addFetish, removeFetish } from '../api/werewolfApi'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { WEREWOLF_GIFTS } from '../data/werewolfGifts'
 import { WEREWOLF_RITES } from '../data/werewolfRites'
 import { WEREWOLF_TOTEMS } from '../data/werewolfTotems'
+import { BACKGROUNDS } from '../data/backgrounds'
+import TagInfoPanel from './TagInfoPanel'
 
 // ── Constants ──
 
@@ -39,30 +42,6 @@ const TRIBES = [
 ]
 
 const RANKS = ['Cub', 'Cliath', 'Fostern', 'Adren', 'Athro', 'Elder', 'Legend']
-
-const BACKGROUNDS = [
-  { value: 'Allies', description: 'Human friends and contacts who aid the Garou.' },
-  { value: 'Ancestors', description: 'Access to the wisdom and memories of past lives.' },
-  { value: 'Contacts', description: 'Informants and sources of information.' },
-  { value: 'Fetish', description: 'Spirit-bound objects of power.' },
-  { value: 'Kinfolk', description: 'Human or wolf relatives aware of the Garou.' },
-  { value: 'Mentor', description: 'An elder who guides and teaches.' },
-  { value: 'Pure Breed', description: 'The purity of your Garou bloodline.' },
-  { value: 'Resources', description: 'Wealth and material assets.' },
-  { value: 'Rites', description: 'Knowledge and access to Garou rites.' },
-  { value: 'Totem', description: 'The pack\'s patron spirit.' },
-  { value: 'Haven', description: 'The safety and secrecy of your primary resting place.' },
-  { value: 'Haven Security', description: 'Physical defences and countermeasures protecting your haven.' },
-  { value: 'Haven Luxury', description: 'The comfort, amenities, and opulence of your haven.' },
-  { value: 'Haven Size', description: 'The physical extent and number of rooms in your haven.' },
-  // ── Specialized (Werewolf) ──
-  { value: 'Spirit Heritage', description: 'A connection to a powerful spirit lineage that grants spiritual favours and recognition.' },
-  { value: 'Numen', description: 'Raw spiritual power that can be channelled into rites, gifts, or spirit interactions.' },
-  { value: 'Den-Realm', description: 'A personal pocket realm within the Umbra tied to your identity.' },
-  { value: 'Fate', description: 'A prophesied destiny that draws events toward you — for good or ill.' },
-  { value: 'Past Life', description: 'Vivid memories of a previous incarnation that grant knowledge and skills from another era.' },
-  { value: 'Territory', description: 'Land you patrol and defend — hunting grounds, bawn, or urban turf.' },
-]
 
 const FORM_STATS = [
   { formKey: 'homid',  str: '+0', dex: '+0', sta: '+0', man: '+0', app: '+0', diff: 6, noteKey: 'noChange' },
@@ -233,6 +212,8 @@ export default function WerewolfForm() {
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
+  const [actionError, setActionError] = useState(null)
+  const [tagInfo, setTagInfo] = useState(null)
 
   // Guided creation state
   const [attrPriority, setAttrPriority] = useState({ physical: null, social: null, mental: null })
@@ -311,7 +292,7 @@ export default function WerewolfForm() {
     return budget > 0 ? <span className={`points-remaining ${cls}`}>{text}</span> : null
   }
 
-  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabForms', 'tabBackstory', 'tabXpLog']
+  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabForms', 'tabBackstory', 'tabXpLog']
 
   useEffect(() => {
     if (characterId) loadCharacter()
@@ -320,7 +301,7 @@ export default function WerewolfForm() {
 
   async function loadCharacter() {
     try {
-      const [charRes, bgRes, giftRes, riteRes, fetishRes, meritRes, flawRes, xpRes] = await Promise.all([
+      const [charRes, bgRes, giftRes, riteRes, fetishRes, meritRes, flawRes, invRes, xpRes] = await Promise.all([
         getCharacter(characterId),
         getBackgrounds(characterId),
         getGifts(characterId),
@@ -328,6 +309,7 @@ export default function WerewolfForm() {
         getFetishes(characterId),
         getMerits(characterId),
         getFlaws(characterId),
+        getInventory(characterId),
         getXpLog(characterId),
       ])
       const data = charRes.data
@@ -342,6 +324,7 @@ export default function WerewolfForm() {
       setFetishes(fetishRes.data)
       setMerits(meritRes.data)
       setFlaws(flawRes.data)
+      setInventory(invRes.data)
       setXpLog(xpRes.data)
     } catch { setSaveError(t('failedToLoad')) }
     finally { setLoading(false) }
@@ -469,6 +452,7 @@ export default function WerewolfForm() {
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
+      {actionError && <p className="status-error" role="alert">{actionError}</p>}
 
       {/* Tabs */}
       <div className="tab-list" role="tablist">
@@ -814,10 +798,6 @@ export default function WerewolfForm() {
                   <button className="btn btn-secondary" onClick={handleAddFetish}>{t('add')}</button>
                 </div>
               </fieldset>
-              <fieldset>
-                <legend>{t('personalItemsLabel')}</legend>
-                <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} placeholder={t('personalItemsPh')} style={{ width: '100%' }} />
-              </fieldset>
             </>
         </div>
       </div>
@@ -922,15 +902,17 @@ export default function WerewolfForm() {
 
       {/* ── Backgrounds ── */}
       <div hidden={tab !== 7}>
-        <div className="form-section">
+        <div className="disc-bg-layout">
+          <div className="form-section">
             <fieldset>
               <legend>{t('backgrounds')} ({backgrounds.length})</legend>
               {backgrounds.length > 0 && (
                 <ul className="tag-list">
                   {backgrounds.map(b => (
-                    <li key={b.id} className="tag">
+                    <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
+                      onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}>
                       <span>{b.name} ({b.level}){b.description ? ` — ${b.description}` : ''}</span>
-                      <button className="tag-remove" onClick={() => { removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)) }}>×</button>
+                      <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)); if (tagInfo?.id === b.id) setTagInfo(null) }}>×</button>
                     </li>
                   ))}
                 </ul>
@@ -957,45 +939,26 @@ export default function WerewolfForm() {
                 <button className="btn btn-secondary" onClick={handleAddBackground}>{t('add')}</button>
               </div>
             </fieldset>
+          </div>
+          {tagInfo?.kind === 'background' && (() => {
+            const entry = BACKGROUNDS.find(bg => bg.value.toLowerCase() === tagInfo.name.toLowerCase())
+            return <TagInfoPanel entry={entry ? { name: entry.value, description: entry.description } : { name: tagInfo.name }} level={tagInfo.level} levels={entry?.levels} onClose={() => setTagInfo(null)} />
+          })()}
         </div>
       </div>
 
       {/* ── Merits & Flaws ── */}
       <div hidden={tab !== 8}>
-        <div className="form-section">
-            <>
-              <fieldset>
-                <legend>{t('merits')} ({merits.length})</legend>
-                {merits.length > 0 && (
-                  <ul className="tag-list">
-                    {merits.map(m => (
-                      <li key={m.id} className="tag">
-                        <span>{m.merit?.name ?? t('merits')} ({m.pointsSpent} pt)</span>
-                        <button className="tag-remove" onClick={() => { removeMerit(characterId, m.id); setMerits(prev => prev.filter(x => x.id !== m.id)) }}>×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </fieldset>
-              <fieldset>
-                <legend>{t('flaws')} ({flaws.length})</legend>
-                {flaws.length > 0 && (
-                  <ul className="tag-list">
-                    {flaws.map(f => (
-                      <li key={f.id} className="tag">
-                        <span>{f.flaw?.name ?? t('flaws')} (+{f.pointsGained} pt)</span>
-                        <button className="tag-remove" onClick={() => { removeFlaw(characterId, f.id); setFlaws(prev => prev.filter(x => x.id !== f.id)) }}>×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </fieldset>
-            </>
-        </div>
+        <MeritsFlawsSection characterId={characterId} merits={merits} setMerits={setMerits} flaws={flaws} setFlaws={setFlaws} meritCatalog={meritCatalog} flawCatalog={flawCatalog} />
+      </div>
+
+      {/* ── Inventory ── */}
+      <div hidden={tab !== 9}>
+        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
       </div>
 
       {/* ── Forms ── */}
-      <div hidden={tab !== 9}>
+      <div hidden={tab !== 10}>
         <div className="form-section">
           <fieldset>
             <legend>{t('shapeshiftingForms')}</legend>
@@ -1026,7 +989,7 @@ export default function WerewolfForm() {
       </div>
 
       {/* ── Backstory ── */}
-      <div hidden={tab !== 10}>
+      <div hidden={tab !== 11}>
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
@@ -1060,7 +1023,7 @@ export default function WerewolfForm() {
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 11}>
+      <div hidden={tab !== 12}>
         <div className="form-section">
             <>
               <div role="tablist" className="tab-list">

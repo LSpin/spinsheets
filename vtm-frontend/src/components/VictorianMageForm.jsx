@@ -4,18 +4,21 @@ import {
   getCharacter, updateCharacter,
   getBackgrounds, addBackground, removeBackground,
   getMeritCatalog, getFlawCatalog,
-  getMerits, addMerit, removeMerit,
-  getFlaws, addFlaw, removeFlaw,
-  getInventory, addInventoryItem, removeInventoryItem,
+  getMerits, getFlaws,
+  getInventory,
   getXpLog, addXpLogEntry, removeXpLogEntry,
   getRotes, addRote, removeRote,
 } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
+import MeritsFlawsSection from './MeritsFlawsSection'
+import InventorySection from './InventorySection'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { MAGE_TRADITIONS } from '../data/mageTraditions'
 import { MAGE_ROTES } from '../data/mageRotes'
 import { useLanguage } from '../i18n/LanguageContext'
+import { BACKGROUNDS } from '../data/backgrounds'
+import TagInfoPanel from './TagInfoPanel'
 
 // ── Constants ──
 
@@ -40,39 +43,6 @@ const ARCHETYPES = [
   'Survivor', 'Thrill-Seeker', 'Traditionalist', 'Trickster', 'Visionary',
 ]
 
-const BACKGROUNDS = [
-  { value: 'Allies',     description: 'Human friends and contacts who aid the mage.' },
-  { value: 'Arcane',     description: 'A supernatural tendency to be overlooked and forgotten.' },
-  { value: 'Avatar',     description: 'The strength and presence of your Awakened Avatar.' },
-  { value: 'Backup',     description: 'Access to Technocratic or organizational reinforcements.' },
-  { value: 'Contacts',   description: 'Informants and sources of information.' },
-  { value: 'Destiny',    description: 'A great fate that protects and guides you.' },
-  { value: 'Dream',      description: 'Prophetic and insightful dreams from the Tapestry.' },
-  { value: 'Fame',       description: 'Public recognition and celebrity status.' },
-  { value: 'Influence',  description: 'Political or social pull in mortal society.' },
-  { value: 'Library',    description: 'Access to occult texts, research materials, and lore.' },
-  { value: 'Mentor',     description: 'An experienced mage who guides and teaches you.' },
-  { value: 'Node',       description: 'A place of power that generates Quintessence.' },
-  { value: 'Resources',  description: 'Wealth and material assets.' },
-  { value: 'Retainers',  description: 'Loyal servants, familiars, or assistants.' },
-  { value: 'Sanctum',    description: 'A protected and warded workspace for magical practice.' },
-  { value: 'Totem',      description: 'A spirit ally bound to you or your cabal.' },
-  { value: 'Wonder',     description: 'A magical item imbued with Awakened power.' },
-  { value: 'Haven',      description: 'The safety and secrecy of your primary resting place.' },
-  { value: 'Haven Security', description: 'Physical defences and countermeasures protecting your haven.' },
-  { value: 'Haven Luxury', description: 'The comfort, amenities, and opulence of your haven.' },
-  { value: 'Haven Size', description: 'The physical extent and number of rooms in your haven.' },
-  // ── Specialized (Victorian Mage) ──
-  { value: 'Chantry', description: 'Membership in a shared Tradition chantry with communal resources and defences.' },
-  { value: 'Companion', description: 'A loyal supernatural ally — a familiar spirit, construct, or trained animal.' },
-  { value: 'Genius', description: 'Flashes of inspired insight that provide bonus dice on research and invention rolls.' },
-  { value: 'Legend', description: 'A mythic reputation among Awakened society that precedes you.' },
-  { value: 'Past Lives', description: 'Memories and skills from previous incarnations of your Avatar.' },
-  { value: 'Patron', description: 'A powerful entity — spirit, god, or Umbrood — that grants power in exchange for service.' },
-  { value: 'Secret Weapons', description: 'Hidden or occult armaments — enchanted blades, alchemical devices, or spirit-bound weapons.' },
-  { value: 'Spies', description: 'A covert network of informants planted across Awakened and mortal society.' },
-]
-
 const HEALTH_LEVEL_KEYS = [
   { key: 'healthy',        penalty: '' },
   { key: 'bruised',        penalty: '' },
@@ -83,8 +53,6 @@ const HEALTH_LEVEL_KEYS = [
   { key: 'crippled',       penalty: '−5' },
   { key: 'incapacitated',  penalty: '' },
 ]
-
-const INVENTORY_CATEGORIES = ['WEAPON', 'ARMOR', 'VEHICLE', 'EQUIPMENT', 'OTHER']
 
 const INITIAL = {
   npc: false, splat: 'VICTORIAN_MAGE',
@@ -217,7 +185,6 @@ export default function VictorianMageForm() {
   const [flawCatalog, setFlawCatalog] = useState([])
   const [inventory, setInventory] = useState([])
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
-  const [newItem, setNewItem] = useState({ name: '', category: 'EQUIPMENT', quantity: 1, damage: '', concealment: '', range: '', rate: '', clip: '', armorRating: null, handling: null, structure: null, notes: '' })
   const [rotes, setRotes] = useState([])
   const [newRote, setNewRote] = useState({ name: '', spheres: '', level: 1, description: '' })
   const [xpLog, setXpLog] = useState([])
@@ -226,6 +193,8 @@ export default function VictorianMageForm() {
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
+  const [actionError, setActionError] = useState(null)
+  const [tagInfo, setTagInfo] = useState(null)
 
   // Guided creation state
   const [attrPriority, setAttrPriority] = useState({ physical: null, social: null, mental: null })
@@ -389,22 +358,6 @@ export default function VictorianMageForm() {
     } catch {}
   }
 
-  async function handleAddItem() {
-    if (!newItem.name.trim() || !characterId) return
-    try {
-      const res = await addInventoryItem(characterId, newItem)
-      setInventory(prev => [...prev, res.data])
-      setNewItem({ name: '', category: 'EQUIPMENT', quantity: 1, damage: '', concealment: '', range: '', rate: '', clip: '', armorRating: null, handling: null, structure: null, notes: '' })
-    } catch {}
-  }
-
-  async function handleRemoveItem(id) {
-    try {
-      await removeInventoryItem(characterId, id)
-      setInventory(prev => prev.filter(i => i.id !== id))
-    } catch {}
-  }
-
   // Determine Tradition/Convention list based on affiliation
   const factionList = fields.affiliation === 'Traditions' ? TRADITIONS
     : fields.affiliation === 'Technocracy' ? TECHNOCRACY
@@ -458,6 +411,7 @@ export default function VictorianMageForm() {
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
+      {actionError && <p className="status-error" role="alert">{actionError}</p>}
 
       {/* Tabs */}
       <div className="tab-list" role="tablist">
@@ -880,15 +834,17 @@ export default function VictorianMageForm() {
 
       {/* ── Backgrounds ── */}
       <div hidden={tab !== 7}>
-        <div className="form-section">
+        <div className="disc-bg-layout">
+          <div className="form-section">
               <fieldset>
                 <legend>{t('backgrounds')} ({backgrounds.length})</legend>
                 {backgrounds.length > 0 && (
                   <ul className="tag-list">
                     {backgrounds.map(b => (
-                      <li key={b.id} className="tag">
+                      <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
+                        onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}>
                         <span>{b.name} ({b.level}){b.description ? ` — ${b.description}` : ''}</span>
-                        <button className="tag-remove" onClick={() => { removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)) }}>×</button>
+                        <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)); if (tagInfo?.id === b.id) setTagInfo(null) }}>×</button>
                       </li>
                     ))}
                   </ul>
@@ -915,101 +871,22 @@ export default function VictorianMageForm() {
                   <button className="btn btn-secondary" onClick={handleAddBackground}>{t('add')}</button>
                 </div>
               </fieldset>
+          </div>
+          {tagInfo?.kind === 'background' && (() => {
+            const entry = BACKGROUNDS.find(bg => bg.value.toLowerCase() === tagInfo.name.toLowerCase())
+            return <TagInfoPanel entry={entry ? { name: entry.value, description: entry.description } : { name: tagInfo.name }} level={tagInfo.level} levels={entry?.levels} onClose={() => setTagInfo(null)} />
+          })()}
         </div>
       </div>
 
       {/* ── Merits & Flaws ── */}
       <div hidden={tab !== 8}>
-        <div className="form-section">
-              <fieldset>
-                <legend>{t('merits')} ({merits.length})</legend>
-                {merits.length > 0 && (
-                  <ul className="tag-list">
-                    {merits.map(m => (
-                      <li key={m.id} className="tag">
-                        <span>{m.merit?.name ?? t('merit')} ({m.pointsSpent} pt)</span>
-                        <button className="tag-remove" onClick={() => { removeMerit(characterId, m.id); setMerits(prev => prev.filter(x => x.id !== m.id)) }}>×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </fieldset>
-              <fieldset>
-                <legend>{t('flaws')} ({flaws.length})</legend>
-                {flaws.length > 0 && (
-                  <ul className="tag-list">
-                    {flaws.map(f => (
-                      <li key={f.id} className="tag">
-                        <span>{f.flaw?.name ?? t('flaw')} (+{f.pointsGained} pt)</span>
-                        <button className="tag-remove" onClick={() => { removeFlaw(characterId, f.id); setFlaws(prev => prev.filter(x => x.id !== f.id)) }}>×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </fieldset>
-        </div>
+        <MeritsFlawsSection characterId={characterId} merits={merits} setMerits={setMerits} flaws={flaws} setFlaws={setFlaws} meritCatalog={meritCatalog} flawCatalog={flawCatalog} />
       </div>
 
       {/* ── Inventory ── */}
       <div hidden={tab !== 9}>
-        <div className="form-section">
-              <fieldset>
-                <legend>{t('addItem')}</legend>
-                <div className="field-row">
-                  <div className="field" style={{ flex: 2 }}>
-                    <label htmlFor="inv-name">{t('name')}</label>
-                    <input id="inv-name" type="text" value={newItem.name} onChange={e => setNewItem(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder={t('phInvItem')} />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="inv-cat">{t('category')}</label>
-                    <select id="inv-cat" value={newItem.category}
-                      onChange={e => setNewItem(p => ({ ...p, category: e.target.value }))}>
-                      {INVENTORY_CATEGORIES.map(c => <option key={c} value={c}>{c.charAt(0) + c.slice(1).toLowerCase()}</option>)}
-                    </select>
-                  </div>
-                  <div className="field" style={{ width: '70px' }}>
-                    <label htmlFor="inv-qty">{t('qty')}</label>
-                    <input id="inv-qty" type="number" min={1} value={newItem.quantity}
-                      onChange={e => setNewItem(p => ({ ...p, quantity: parseInt(e.target.value) || 1 }))} />
-                  </div>
-                </div>
-                <div className="field">
-                  <label htmlFor="inv-notes">{t('notes')}</label>
-                  <input id="inv-notes" type="text" value={newItem.notes}
-                    onChange={e => setNewItem(p => ({ ...p, notes: e.target.value }))}
-                    placeholder={t('phOptionalNotes')} autoComplete="off" />
-                </div>
-                <button type="button" className="btn btn-secondary" onClick={handleAddItem}>{t('addToInventory')}</button>
-              </fieldset>
-
-              {INVENTORY_CATEGORIES.filter(cat => inventory.some(i => i.category === cat)).map(cat => (
-                <fieldset key={cat}>
-                  <legend>{cat.charAt(0) + cat.slice(1).toLowerCase() + 's'}</legend>
-                  <table className="inv-table">
-                    <thead>
-                      <tr>
-                        <th>{t('name')}</th><th>{t('qty')}</th><th>{t('notes')}</th><th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {inventory.filter(i => i.category === cat).map(item => (
-                        <tr key={item.id}>
-                          <td>{item.name}</td>
-                          <td>{item.quantity}</td>
-                          <td className="inv-notes">{item.notes}</td>
-                          <td><button className="tag-remove" onClick={() => handleRemoveItem(item.id)}>×</button></td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </fieldset>
-              ))}
-              {inventory.length === 0 && <p className="muted-hint">{t('noItemsYet')}</p>}
-              <fieldset>
-                <legend>{t('personalItemsLabel')}</legend>
-                <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} placeholder={t('personalItemsPh')} style={{ width: '100%' }} />
-              </fieldset>
-        </div>
+        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
       </div>
 
       {/* ── Focus & Chantry ── */}

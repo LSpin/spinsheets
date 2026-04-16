@@ -5,23 +5,27 @@ import {
   getDisciplines, addDiscipline, removeDiscipline,
   getBackgrounds, addBackground, removeBackground,
   getMeritCatalog, getFlawCatalog,
-  getMerits, addMerit, removeMerit,
-  getFlaws, addFlaw, removeFlaw,
-  getInventory, addInventoryItem, removeInventoryItem,
+  getMerits, getFlaws,
+  getInventory,
   getXpLog, addXpLogEntry, removeXpLogEntry,
   getComboDisciplines, addComboDiscipline, removeComboDiscipline,
 } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
+import MeritsFlawsSection from './MeritsFlawsSection'
+import InventorySection from './InventorySection'
 import { COMBO_DISCIPLINES } from '../data/comboDisciplines'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { useLanguage } from '../i18n/LanguageContext'
 import { ELDER_POWERS } from '../data/elderPowers'
 import { VAMPIRE_DISCIPLINES } from '../data/vampireDisciplines'
+import { BACKGROUNDS } from '../data/backgrounds'
+import TagInfoPanel from './TagInfoPanel'
+import BloodSorcerySection from './BloodSorcerySection'
 
 // ── Constants ──
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBloodSorcery', 'tabBackstory', 'tabXpLog']
 
 const CLANS = [
   { value: 'Assamite',          curse: 'The Assamites are compelled to tithe vitae to their elders and are driven to hunt other Cainites. They must make a Willpower roll (Diff 6) each month without consuming Kindred vitae or gain a temporary derangement.' },
@@ -53,36 +57,6 @@ const CLANS = [
   { value: 'True Brujah',       curse: 'Emotionally dead. Cannot feel passion or strong emotion. Never frenzy, but cannot spend Willpower for automatic successes on emotional Social rolls.' },
   // ── Non-clan ──
   { value: 'Caitiff',           curse: 'No inherent curse, but Caitiff are universally despised. They pay out-of-clan costs for all Disciplines.' },
-]
-
-const BACKGROUNDS = [
-  { value: 'Allies' },
-  { value: 'Contacts' },
-  { value: 'Domain' },
-  { value: 'Fame' },
-  { value: 'Generation' },
-  { value: 'Herd' },
-  { value: 'Influence' },
-  { value: 'Mentor' },
-  { value: 'Military Force' },
-  { value: 'Resources' },
-  { value: 'Retainers' },
-  { value: 'Status' },
-  { value: 'Haven' },
-  { value: 'Haven Security' },
-  { value: 'Haven Luxury' },
-  { value: 'Haven Size' },
-  // ── Specialized (Dark Ages) ──
-  { value: 'Ancestor Ally' },
-  { value: 'Arsenal' },
-  { value: 'Church' },
-  { value: 'Clan Prestige' },
-  { value: 'Clanbook Library' },
-  { value: 'Elysium Domain' },
-  { value: 'Laboratory' },
-  { value: 'Mawla' },
-  { value: 'Spirit Slaves' },
-  { value: 'Wraith Contacts' },
 ]
 
 const HEALTH_LEVELS = [
@@ -233,13 +207,14 @@ export default function VampireDarkAgesForm() {
   const [newCombo, setNewCombo] = useState({ name: '', prerequisites: '', description: '', xpCost: '' })
   const [newDiscipline, setNewDiscipline] = useState({ name: '', level: 1 })
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
-  const [newItem, setNewItem] = useState({ name: '', notes: '' })
   const [xpLog, setXpLog] = useState([])
   const [xpSubTab, setXpSubTab] = useState(0)
   const [newXpEntry, setNewXpEntry] = useState({ type: 'XP', amount: 1, category: 'Earned', description: '' })
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
+  const [actionError, setActionError] = useState(null)
+  const [tagInfo, setTagInfo] = useState(null)
 
   const [searchParams] = useSearchParams()
   const guidedMode = searchParams.get('mode') === 'guided'
@@ -450,16 +425,6 @@ export default function VampireDarkAgesForm() {
     } catch {}
   }
 
-  // Inventory handlers
-  async function handleAddItem() {
-    if (!newItem.name.trim() || !characterId) return
-    try {
-      const res = await addInventoryItem(characterId, { name: newItem.name, category: 'EQUIPMENT', quantity: 1, notes: newItem.notes })
-      setInventory(prev => [...prev, res.data])
-      setNewItem({ name: '', notes: '' })
-    } catch {}
-  }
-
   // XP Log handlers
   async function handleAddXpEntry() {
     if (!newXpEntry.description.trim()) return
@@ -495,6 +460,7 @@ export default function VampireDarkAgesForm() {
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
+      {actionError && <p className="status-error" role="alert">{actionError}</p>}
 
       {/* Tabs */}
       <div className="tab-list" role="tablist">
@@ -845,15 +811,17 @@ export default function VampireDarkAgesForm() {
 
       {/* ── Disciplines & Backgrounds ── */}
       <div hidden={tab !== 6}>
+        <div className="disc-bg-layout">
         <div className="form-section">
           <fieldset>
                 <legend>{t('disciplines')} ({disciplines.length})</legend>
                 {disciplines.length > 0 && (
                   <ul className="tag-list">
                     {disciplines.map(d => (
-                      <li key={d.id} className="tag">
+                      <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
+                        onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'discipline' })}>
                         <span>{d.name} (Lv{d.level})</span>
-                        <button className="tag-remove" onClick={() => { removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)) }}>×</button>
+                        <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }}>×</button>
                       </li>
                     ))}
                   </ul>
@@ -985,19 +953,26 @@ export default function VampireDarkAgesForm() {
                 </div>
               </fieldset>
         </div>
+        {tagInfo?.kind === 'discipline' && (() => {
+          const entry = VAMPIRE_DISCIPLINES.find(d => d.name.toLowerCase() === tagInfo.name.toLowerCase())
+          return <TagInfoPanel entry={entry ? { name: entry.name, description: entry.clans?.length ? `Clans: ${entry.clans.join(', ')}` : undefined } : { name: tagInfo.name }} level={tagInfo.level} levels={entry?.levels} onClose={() => setTagInfo(null)} />
+        })()}
+        </div>
       </div>
 
       {/* ── Backgrounds ── */}
       <div hidden={tab !== 7}>
+        <div className="disc-bg-layout">
         <div className="form-section">
           <fieldset>
                 <legend>{t('backgrounds')} ({backgrounds.length})</legend>
                 {backgrounds.length > 0 && (
                   <ul className="tag-list">
                     {backgrounds.map(b => (
-                      <li key={b.id} className="tag">
+                      <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
+                        onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}>
                         <span>{b.name} ({b.level}){b.description ? ` — ${b.description}` : ''}</span>
-                        <button className="tag-remove" onClick={() => { removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)) }}>×</button>
+                        <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)); if (tagInfo?.id === b.id) setTagInfo(null) }}>×</button>
                       </li>
                     ))}
                   </ul>
@@ -1025,76 +1000,30 @@ export default function VampireDarkAgesForm() {
                 </div>
               </fieldset>
         </div>
+        {tagInfo?.kind === 'background' && (() => {
+          const entry = BACKGROUNDS.find(bg => bg.value.toLowerCase() === tagInfo.name.toLowerCase())
+          return <TagInfoPanel entry={entry ? { name: entry.value, description: entry.description } : { name: tagInfo.name }} level={tagInfo.level} levels={entry?.levels} onClose={() => setTagInfo(null)} />
+        })()}
+        </div>
       </div>
 
       {/* ── Merits & Flaws ── */}
       <div hidden={tab !== 8}>
-        <div className="form-section">
-          <fieldset>
-                <legend>{t('merits')} ({merits.length})</legend>
-                {merits.length > 0 && (
-                  <ul className="tag-list">
-                    {merits.map(m => (
-                      <li key={m.id} className="tag">
-                        <span>{m.merit?.name ?? t('merits')} ({m.pointsSpent} pt)</span>
-                        <button className="tag-remove" onClick={() => { removeMerit(characterId, m.id); setMerits(prev => prev.filter(x => x.id !== m.id)) }}>×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </fieldset>
-              <fieldset>
-                <legend>{t('flaws')} ({flaws.length})</legend>
-                {flaws.length > 0 && (
-                  <ul className="tag-list">
-                    {flaws.map(f => (
-                      <li key={f.id} className="tag">
-                        <span>{f.flaw?.name ?? t('flaws')} (+{f.pointsGained} pt)</span>
-                        <button className="tag-remove" onClick={() => { removeFlaw(characterId, f.id); setFlaws(prev => prev.filter(x => x.id !== f.id)) }}>×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </fieldset>
-        </div>
+        <MeritsFlawsSection characterId={characterId} merits={merits} setMerits={setMerits} flaws={flaws} setFlaws={setFlaws} meritCatalog={meritCatalog} flawCatalog={flawCatalog} />
       </div>
 
       {/* ── Inventory ── */}
       <div hidden={tab !== 9}>
-        <div className="form-section">
-          <fieldset>
-              <legend>{t('tabInventory')} ({inventory.length})</legend>
-              {inventory.length > 0 && (
-                <ul className="tag-list">
-                  {inventory.map(item => (
-                    <li key={item.id} className="tag">
-                      <span>{item.name}{item.notes ? ` — ${item.notes}` : ''}</span>
-                      <button className="tag-remove" onClick={() => { removeInventoryItem(characterId, item.id); setInventory(prev => prev.filter(x => x.id !== item.id)) }}>×</button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <div className="field-row" style={{ alignItems: 'flex-end' }}>
-                <div className="field" style={{ flex: 2 }}>
-                  <label htmlFor="item-name">{t('itemName')}</label>
-                  <input id="item-name" type="text" value={newItem.name} onChange={e => setNewItem(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
-                </div>
-                <div className="field" style={{ flex: 2 }}>
-                  <label htmlFor="item-notes">{t('notes')}</label>
-                  <input id="item-notes" type="text" value={newItem.notes} onChange={e => setNewItem(p => ({ ...p, notes: e.target.value }))} autoComplete="off" />
-                </div>
-                <button className="btn btn-secondary" onClick={handleAddItem}>{t('add')}</button>
-              </div>
-            </fieldset>
-              <fieldset>
-                <legend>{t('personalItemsLabel')}</legend>
-                <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} placeholder={t('personalItemsPh')} style={{ width: '100%' }} />
-              </fieldset>
-        </div>
+        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
+      </div>
+
+      {/* ── Blood Sorcery ── */}
+      <div hidden={tab !== 10}>
+        <BloodSorcerySection characterId={characterId} elderMax={elderMax} />
       </div>
 
       {/* ── Backstory ── */}
-      <div role="tabpanel" id="tabpanel-10" aria-labelledby="tab-10" hidden={tab !== 10}>
+      <div role="tabpanel" id="tabpanel-11" aria-labelledby="tab-11" hidden={tab !== 11}>
 
         <div className="form-section">
           <fieldset>
@@ -1129,7 +1058,7 @@ export default function VampireDarkAgesForm() {
       </div>
 
       {/* ── XP Log ── */}
-      <div role="tabpanel" id="tabpanel-11" aria-labelledby="tab-11" hidden={tab !== 11}>
+      <div role="tabpanel" id="tabpanel-12" aria-labelledby="tab-12" hidden={tab !== 12}>
         <div className="form-section">
           <div role="tablist" className="tab-list">
                 <button role="tab" className={`btn btn-secondary tab-btn${xpSubTab === 0 ? ' tab-btn--active' : ''}`}

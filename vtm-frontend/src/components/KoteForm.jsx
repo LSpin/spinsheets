@@ -5,17 +5,20 @@ import {
   getDisciplines, addDiscipline, removeDiscipline,
   getBackgrounds, addBackground, removeBackground,
   getMeritCatalog, getFlawCatalog,
-  getMerits, addMerit, removeMerit,
-  getFlaws, addFlaw, removeFlaw,
-  getInventory, addInventoryItem, removeInventoryItem,
+  getMerits, getFlaws,
+  getInventory,
   getXpLog, addXpLogEntry, removeXpLogEntry,
 } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
+import MeritsFlawsSection from './MeritsFlawsSection'
+import InventorySection from './InventorySection'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { KOTE_DHARMAS } from '../data/koteDharmas'
 import { KOTE_SHINTAI } from '../data/koteShintai'
 import { useLanguage } from '../i18n/LanguageContext'
+import { BACKGROUNDS } from '../data/backgrounds'
+import TagInfoPanel from './TagInfoPanel'
 
 // ── Constants ──
 
@@ -35,24 +38,6 @@ const DHARMAS = [
 const DIRECTIONS = ['North', 'South', 'East', 'West', 'Center']
 
 const BALANCES = ['Yin', 'Yang', 'Balanced']
-
-const BACKGROUNDS = [
-  { value: 'Allies' },
-  { value: 'Contacts' },
-  { value: 'Horoscope' },
-  { value: 'Influence' },
-  { value: 'Jade Talisman' },
-  { value: 'Magic Artifact' },
-  { value: 'Mentor' },
-  { value: 'Nushi' },
-  { value: 'Resources' },
-  { value: 'Retainers' },
-  { value: 'Rites' },
-  { value: 'Haven' },
-  { value: 'Haven Security' },
-  { value: 'Haven Luxury' },
-  { value: 'Haven Size' },
-]
 
 const HEALTH_LEVEL_KEYS = [
   { key: 'healthy',        penalty: '' },
@@ -196,7 +181,6 @@ export default function KoteForm() {
   const [inventory, setInventory] = useState([])
   const [newDiscipline, setNewDiscipline] = useState({ name: '', level: 1 })
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
-  const [newItem, setNewItem] = useState({ name: '', quantity: 1, notes: '' })
   const [xpLog, setXpLog] = useState([])
   const [xpSubTab, setXpSubTab] = useState(0)
   const [newXpEntry, setNewXpEntry] = useState({ type: 'XP', amount: 1, category: 'Earned', description: '' })
@@ -204,6 +188,7 @@ export default function KoteForm() {
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
+  const [tagInfo, setTagInfo] = useState(null)
 
   const [searchParams] = useSearchParams()
   const guidedMode = searchParams.get('mode') === 'guided'
@@ -380,15 +365,6 @@ export default function KoteForm() {
       const res = await addBackground(characterId, newBackground)
       setBackgrounds(prev => [...prev, res.data])
       setNewBackground({ name: '', level: 1, description: '' })
-    } catch {}
-  }
-
-  async function handleAddItem() {
-    if (!newItem.name.trim() || !characterId) return
-    try {
-      const res = await addInventoryItem(characterId, newItem)
-      setInventory(prev => [...prev, res.data])
-      setNewItem({ name: '', quantity: 1, notes: '' })
     } catch {}
   }
 
@@ -753,15 +729,17 @@ export default function KoteForm() {
 
       {/* ── Shintai & Disciplines ── */}
       <div hidden={tab !== 6}>
-        <div className="form-section">
-          <fieldset>
+        <div className="disc-bg-layout">
+          <div className="form-section">
+            <fieldset>
                 <legend>{t('shintaiArts')} ({disciplines.length})</legend>
                 {disciplines.length > 0 && (
                   <ul className="tag-list">
                     {disciplines.map(d => (
-                      <li key={d.id} className="tag">
+                      <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
+                        onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'discipline' })}>
                         <span>{d.name} (Lv{d.level})</span>
-                        <button className="tag-remove" onClick={() => { removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)) }}>×</button>
+                        <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }}>×</button>
                       </li>
                     ))}
                   </ul>
@@ -809,20 +787,27 @@ export default function KoteForm() {
                   )
                 })}
               </fieldset>
+          </div>
+          {tagInfo?.kind === 'discipline' && (() => {
+            const entry = KOTE_SHINTAI.find(s => s.name.toLowerCase() === tagInfo.name.toLowerCase())
+            return <TagInfoPanel entry={entry || { name: tagInfo.name }} level={tagInfo.level} onClose={() => setTagInfo(null)} />
+          })()}
         </div>
       </div>
 
       {/* ── Backgrounds ── */}
       <div hidden={tab !== 7}>
-        <div className="form-section">
-          <fieldset>
+        <div className="disc-bg-layout">
+          <div className="form-section">
+            <fieldset>
                 <legend>{t('backgrounds')} ({backgrounds.length})</legend>
                 {backgrounds.length > 0 && (
                   <ul className="tag-list">
                     {backgrounds.map(b => (
-                      <li key={b.id} className="tag">
+                      <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
+                        onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}>
                         <span>{b.name} ({b.level}){b.description ? ` — ${b.description}` : ''}</span>
-                        <button className="tag-remove" onClick={() => { removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)) }}>×</button>
+                        <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)); if (tagInfo?.id === b.id) setTagInfo(null) }}>×</button>
                       </li>
                     ))}
                   </ul>
@@ -849,78 +834,22 @@ export default function KoteForm() {
                   <button className="btn btn-secondary" onClick={handleAddBackground}>{t('add')}</button>
                 </div>
               </fieldset>
+          </div>
+          {tagInfo?.kind === 'background' && (() => {
+            const entry = BACKGROUNDS.find(bg => bg.value.toLowerCase() === tagInfo.name.toLowerCase())
+            return <TagInfoPanel entry={entry ? { name: entry.value, description: entry.description } : { name: tagInfo.name }} level={tagInfo.level} levels={entry?.levels} onClose={() => setTagInfo(null)} />
+          })()}
         </div>
       </div>
 
       {/* ── Merits & Flaws ── */}
       <div hidden={tab !== 8}>
-        <div className="form-section">
-              <fieldset>
-                <legend>{t('merits')} ({merits.length})</legend>
-                {merits.length > 0 && (
-                  <ul className="tag-list">
-                    {merits.map(m => (
-                      <li key={m.id} className="tag">
-                        <span>{m.merit?.name ?? t('merit')} ({m.pointsSpent} pt)</span>
-                        <button className="tag-remove" onClick={() => { removeMerit(characterId, m.id); setMerits(prev => prev.filter(x => x.id !== m.id)) }}>×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </fieldset>
-              <fieldset>
-                <legend>{t('flaws')} ({flaws.length})</legend>
-                {flaws.length > 0 && (
-                  <ul className="tag-list">
-                    {flaws.map(f => (
-                      <li key={f.id} className="tag">
-                        <span>{f.flaw?.name ?? t('flaw')} (+{f.pointsGained} pt)</span>
-                        <button className="tag-remove" onClick={() => { removeFlaw(characterId, f.id); setFlaws(prev => prev.filter(x => x.id !== f.id)) }}>×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </fieldset>
-        </div>
+        <MeritsFlawsSection characterId={characterId} merits={merits} setMerits={setMerits} flaws={flaws} setFlaws={setFlaws} meritCatalog={meritCatalog} flawCatalog={flawCatalog} />
       </div>
 
       {/* ── Inventory ── */}
       <div hidden={tab !== 9}>
-        <div className="form-section">
-          <fieldset>
-              <legend>{t('tabInventory')} ({inventory.length})</legend>
-              {inventory.length > 0 && (
-                <ul className="tag-list">
-                  {inventory.map(item => (
-                    <li key={item.id} className="tag">
-                      <span>{item.name}{item.quantity > 1 ? ` x${item.quantity}` : ''}{item.notes ? ` — ${item.notes}` : ''}</span>
-                      <button className="tag-remove" onClick={() => { removeInventoryItem(characterId, item.id); setInventory(prev => prev.filter(x => x.id !== item.id)) }}>×</button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <div className="field-row" style={{ alignItems: 'flex-end' }}>
-                <div className="field" style={{ flex: 2 }}>
-                  <label htmlFor="inv-name">{t('itemName')}</label>
-                  <input id="inv-name" type="text" value={newItem.name} onChange={e => setNewItem(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
-                </div>
-                <div className="field" style={{ width: '70px' }}>
-                  <label htmlFor="inv-qty">{t('qty')}</label>
-                  <input id="inv-qty" type="number" min={1} value={newItem.quantity}
-                    onChange={e => setNewItem(p => ({ ...p, quantity: parseInt(e.target.value) || 1 }))} />
-                </div>
-                <div className="field">
-                  <label htmlFor="inv-notes">{t('notes')}</label>
-                  <input id="inv-notes" type="text" value={newItem.notes} onChange={e => setNewItem(p => ({ ...p, notes: e.target.value }))} autoComplete="off" />
-                </div>
-                <button className="btn btn-secondary" onClick={handleAddItem}>{t('add')}</button>
-              </div>
-            </fieldset>
-              <fieldset>
-                <legend>{t('personalItemsLabel')}</legend>
-                <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} placeholder={t('personalItemsPh')} style={{ width: '100%' }} />
-              </fieldset>
-        </div>
+        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
       </div>
 
       {/* ── Backstory ── */}
