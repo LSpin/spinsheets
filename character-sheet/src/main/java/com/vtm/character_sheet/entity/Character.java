@@ -237,6 +237,20 @@ public class Character {
     // Health (0=Healthy,1=Bruised,2=Hurt,3=Injured,4=Wounded,5=Mauled,6=Crippled,7=Incapacitated,8=Torpor,9=Final Death)
     private Integer woundLevel = 0;
 
+    // ── Dark Ages-specific abilities ──
+    private Integer legerdemain = 0;
+    private String legerdemainSpec;
+    private Integer archery = 0;
+    private String archerySpec;
+    private Integer ride = 0;
+    private String rideSpec;
+    private Integer seneschal = 0;
+    private String seneschalSpec;
+    private Integer hearthWisdom = 0;
+    private String hearthWisdomSpec;
+    private Integer theology = 0;
+    private String theologySpec;
+
     // ── Werewolf-specific fields ──
 
     // W20 Identity

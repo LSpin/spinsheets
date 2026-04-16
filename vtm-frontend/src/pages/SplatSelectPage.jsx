@@ -7,6 +7,7 @@ const SPLATS = [
   { id: 'mage',             nameKey: 'splatMage',            subKey: 'splatMageSub',            descKey: 'splatMageDesc',            color: '#6a4caa' },
   { id: 'vampire-revised',  nameKey: 'splatVampireRevised',  subKey: 'splatVampireRevisedSub',  descKey: 'splatVampireRevisedDesc',  color: '#991111' },
   { id: 'kote',             nameKey: 'splatKote',            subKey: 'splatKoteSub',            descKey: 'splatKoteDesc',            color: '#c4a32e' },
+  { id: 'vampire-dark-ages', nameKey: 'splatDarkAges',        subKey: 'splatDarkAgesSub',        descKey: 'splatDarkAgesDesc',        color: '#5a3a1a' },
 ]
 
 export default function SplatSelectPage() {

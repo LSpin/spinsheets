@@ -13,6 +13,7 @@ import WerewolfForm from './components/WerewolfForm'
 import MageForm from './components/MageForm'
 import VampireRevisedForm from './components/VampireRevisedForm'
 import KoteForm from './components/KoteForm'
+import VampireDarkAgesForm from './components/VampireDarkAgesForm'
 import ChronicleList from './pages/ChronicleList'
 import ChronicleDetail from './pages/ChronicleDetail'
 import ChronicleForm from './pages/ChronicleForm'
@@ -102,6 +103,11 @@ function AppShell() {
           <Route path="/characters/new/kote" element={
             <ProtectedRoute>
               <KoteForm />
+            </ProtectedRoute>
+          } />
+          <Route path="/characters/new/vampire-dark-ages" element={
+            <ProtectedRoute>
+              <VampireDarkAgesForm />
             </ProtectedRoute>
           } />
           <Route path="/characters/:id" element={

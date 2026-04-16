@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
-import { getChronicle } from '../api/chronicleApi'
+import { getChronicle, addAssistantST, removeAssistantST } from '../api/chronicleApi'
 import { getCharacters } from '../api/characterApi'
 import { joinChronicle, leaveChronicle } from '../api/chronicleApi'
 
@@ -18,6 +18,7 @@ export default function ChronicleDetail() {
   const [myCharacters, setMyCharacters] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [assistantUsername, setAssistantUsername] = useState('')
 
   useEffect(() => { load() }, [id])
 
@@ -56,9 +57,31 @@ export default function ChronicleDetail() {
     }
   }
 
+  async function handleAddAssistant(e) {
+    e.preventDefault()
+    if (!assistantUsername.trim()) return
+    try {
+      await addAssistantST(id, assistantUsername.trim())
+      setAssistantUsername('')
+      load()
+    } catch {
+      setError(t('failedAddAssistant'))
+    }
+  }
+
+  async function handleRemoveAssistant(userId) {
+    try {
+      await removeAssistantST(id, userId)
+      load()
+    } catch {
+      setError(t('failedRemoveAssistant'))
+    }
+  }
+
   if (loading) return <p className="status-loading">{t('loading')}</p>
   if (!chronicle) return <p className="status-error">{t('chronicleNotFound')}</p>
 
+  const isOwner = chronicle.storyteller?.id === user?.userId
   const memberIds = new Set(members.map(m => m.id))
   const joinable = myCharacters.filter(c => !memberIds.has(c.id))
   const myMembers = myCharacters.filter(c => memberIds.has(c.id))
@@ -75,6 +98,43 @@ export default function ChronicleDetail() {
       {chronicle.description && (
         <div className="form-section">
           <p>{chronicle.description}</p>
+        </div>
+      )}
+
+      {isOwner && (
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('assistantStorytellers')}</legend>
+            {(!chronicle.assistantStorytellers || chronicle.assistantStorytellers.length === 0) && (
+              <p className="muted-hint">{t('noAssistantSTs')}</p>
+            )}
+            {chronicle.assistantStorytellers && chronicle.assistantStorytellers.length > 0 && (
+              <ul className="character-list" aria-label={t('assistantStorytellers')}>
+                {chronicle.assistantStorytellers.map(ast => (
+                  <li key={ast.id} className="character-card">
+                    <div className="character-card-info">
+                      <h3>{ast.username}</h3>
+                    </div>
+                    <div className="character-card-actions">
+                      <button className="btn btn-danger btn-sm" onClick={() => handleRemoveAssistant(ast.id)}>
+                        {t('remove')}
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <form onSubmit={handleAddAssistant} style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+              <input
+                type="text"
+                value={assistantUsername}
+                onChange={e => setAssistantUsername(e.target.value)}
+                placeholder={t('phAssistantUsername')}
+                className="input"
+              />
+              <button type="submit" className="btn btn-primary btn-sm">{t('addAssistantST')}</button>
+            </form>
+          </fieldset>
         </div>
       )}
 

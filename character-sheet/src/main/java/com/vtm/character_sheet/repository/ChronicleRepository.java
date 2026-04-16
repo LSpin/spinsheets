@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ChronicleRepository extends JpaRepository<Chronicle, Long> {
     List<Chronicle> findByStoryteller_Id(Long storytellerId);
+    List<Chronicle> findByAssistantStorytellers_Id(Long userId);
 }

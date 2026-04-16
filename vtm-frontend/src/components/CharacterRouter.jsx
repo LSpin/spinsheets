@@ -7,6 +7,7 @@ import WerewolfForm from './WerewolfForm'
 import MageForm from './MageForm'
 import VampireRevisedForm from './VampireRevisedForm'
 import KoteForm from './KoteForm'
+import VampireDarkAgesForm from './VampireDarkAgesForm'
 
 export default function CharacterRouter() {
   const { id } = useParams()
@@ -34,5 +35,6 @@ export default function CharacterRouter() {
   if (splat === 'MAGE') return <MageForm />
   if (splat === 'VAMPIRE_REVISED') return <VampireRevisedForm />
   if (splat === 'KOTE') return <KoteForm />
+  if (splat === 'VAMPIRE_DARK_AGES') return <VampireDarkAgesForm />
   return <CharacterForm />
 }

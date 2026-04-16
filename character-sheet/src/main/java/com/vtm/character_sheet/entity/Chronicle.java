@@ -9,6 +9,8 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "chronicles")
@@ -31,6 +33,15 @@ public class Chronicle {
     @JoinColumn(name = "storyteller_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private AppUser storyteller;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "chronicle_assistant_storytellers",
+        joinColumns = @JoinColumn(name = "chronicle_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "passwordHash"})
+    private Set<AppUser> assistantStorytellers = new HashSet<>();
 
     private LocalDateTime createdAt = LocalDateTime.now();
 }

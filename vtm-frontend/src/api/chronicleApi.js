@@ -18,3 +18,8 @@ export const joinChronicle = (characterId, chronicleId) =>
   api.put(`/characters/${characterId}/chronicle/${chronicleId}`)
 export const leaveChronicle = (characterId) =>
   api.delete(`/characters/${characterId}/chronicle`)
+
+export const addAssistantST = (chronicleId, username) =>
+  api.post(`/chronicles/${chronicleId}/assistants`, { username })
+export const removeAssistantST = (chronicleId, userId) =>
+  api.delete(`/chronicles/${chronicleId}/assistants/${userId}`)
