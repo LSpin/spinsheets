@@ -189,6 +189,7 @@ const INITIAL = {
   derangement1: '', derangement2: '',
   clanCurse: '', notes: '',
   backstory: '', appearanceDesc: '', goals: '', allies: '', enemies: '', havens: '', territories: '',
+  personalItems: '',
 }
 
 // ── Helper components ──
@@ -1003,6 +1004,10 @@ export default function VictorianVampireForm() {
                 <button className="btn btn-secondary" onClick={handleAddItem}>{t('add')}</button>
               </div>
             </fieldset>
+              <fieldset>
+                <legend>{t('personalItemsLabel')}</legend>
+                <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} placeholder={t('personalItemsPh')} style={{ width: '100%' }} />
+              </fieldset>
         </div>
       </div>
 

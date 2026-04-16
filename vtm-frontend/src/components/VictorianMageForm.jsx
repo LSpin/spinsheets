@@ -159,6 +159,7 @@ const INITIAL = {
   // Notes
   derangement1: '', derangement2: '', notes: '',
   backstory: '', appearanceDesc: '', goals: '', allies: '', enemies: '', havens: '', territories: '',
+  personalItems: '',
 }
 
 function MageRatingRow({ abilityKey, specKey, fields, onField, onText, t, max = 5 }) {
@@ -949,6 +950,10 @@ export default function VictorianMageForm() {
                 </fieldset>
               ))}
               {inventory.length === 0 && <p className="muted-hint">{t('noItemsYet')}</p>}
+              <fieldset>
+                <legend>{t('personalItemsLabel')}</legend>
+                <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} placeholder={t('personalItemsPh')} style={{ width: '100%' }} />
+              </fieldset>
         </div>
       </div>
 

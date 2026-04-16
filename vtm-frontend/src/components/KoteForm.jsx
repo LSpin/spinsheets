@@ -139,6 +139,7 @@ const INITIAL = {
   // Notes
   derangement1: '', derangement2: '', notes: '',
   backstory: '', appearanceDesc: '', goals: '', allies: '', enemies: '', havens: '', territories: '',
+  personalItems: '',
 }
 
 function KoteRatingRow({ abilityKey, specKey, fields, onField, onText, t, max = 5 }) {
@@ -863,6 +864,10 @@ export default function KoteForm() {
                 <button className="btn btn-secondary" onClick={handleAddItem}>{t('add')}</button>
               </div>
             </fieldset>
+              <fieldset>
+                <legend>{t('personalItemsLabel')}</legend>
+                <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} placeholder={t('personalItemsPh')} style={{ width: '100%' }} />
+              </fieldset>
         </div>
       </div>
 

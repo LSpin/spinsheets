@@ -129,6 +129,7 @@ const INITIAL = {
   // Notes
   derangement1: '', derangement2: '', notes: '',
   backstory: '', appearanceDesc: '', goals: '', allies: '', enemies: '', havens: '', territories: '',
+  personalItems: '',
   // Secondary Abilities
   hobbyTalent1Name: '', hobbyTalent1: 0,
   hobbyTalent2Name: '', hobbyTalent2: 0,
@@ -787,6 +788,10 @@ export default function WyldWestWerewolfForm() {
                   </div>
                   <button className="btn btn-secondary" onClick={handleAddFetish}>{t('add')}</button>
                 </div>
+              </fieldset>
+              <fieldset>
+                <legend>{t('personalItemsLabel')}</legend>
+                <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} placeholder={t('personalItemsPh')} style={{ width: '100%' }} />
               </fieldset>
             </>
         </div>

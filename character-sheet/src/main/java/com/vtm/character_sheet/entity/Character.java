@@ -406,6 +406,9 @@ public class Character {
     @Column(columnDefinition = "TEXT")
     private String territories;
 
+    @Column(columnDefinition = "TEXT")
+    private String personalItems;
+
     @JsonIgnore
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CharacterMerit> merits = new ArrayList<>();
