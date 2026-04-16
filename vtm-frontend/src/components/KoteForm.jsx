@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import {
-  getCharacter, createCharacter, updateCharacter,
+  getCharacter, updateCharacter,
   getDisciplines, addDiscipline, removeDiscipline,
   getBackgrounds, addBackground, removeBackground,
   getMeritCatalog, getFlawCatalog,
@@ -10,7 +10,7 @@ import {
   getInventory, addInventoryItem, removeInventoryItem,
   getXpLog, addXpLogEntry, removeXpLogEntry,
 } from '../api/characterApi'
-import { joinChronicle } from '../api/chronicleApi'
+import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -181,7 +181,6 @@ export default function KoteForm() {
   const navigate = useNavigate()
   const { t } = useLanguage()
   const characterId = paramId ? Number(paramId) : null
-  const isEdit = !!characterId
 
   const [tab, setTab] = useState(0)
   const [fields, setFields] = useState(INITIAL)
@@ -205,7 +204,7 @@ export default function KoteForm() {
 
   const [searchParams] = useSearchParams()
   const guidedMode = searchParams.get('mode') === 'guided'
-  const chronicleId = searchParams.get('chronicle')
+  const { isAutoCreating } = useAutoCreate(characterId, INITIAL)
 
   // Guided creation state
   const [attrPriority, setAttrPriority] = useState({ physical: null, social: null, mental: null })
@@ -287,13 +286,13 @@ export default function KoteForm() {
   const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabDharmaChi', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
 
   useEffect(() => {
-    if (guidedMode && !isEdit) {
+    if (guidedMode) {
       setFields(prev => ({ ...prev, dharmaRating: 1 }))
     }
   }, [guidedMode])
 
   useEffect(() => {
-    if (isEdit) loadCharacter()
+    if (characterId) loadCharacter()
     loadCatalogs()
   }, [characterId])
 
@@ -342,22 +341,10 @@ export default function KoteForm() {
   }
 
   async function handleSave() {
-    if (!fields.name.trim()) { setSaveError(t('nameRequired')); return }
     setSaving(true)
     setSaveError(null)
     try {
-      if (isEdit) {
-        await updateCharacter(characterId, fields)
-      } else {
-        const res = await createCharacter(fields)
-        // Auto-join chronicle in guided mode
-        if (guidedMode && chronicleId) {
-          try {
-            await joinChronicle(res.data.id, chronicleId)
-          } catch { /* chronicle join failed but character was created */ }
-        }
-        navigate(`/characters/${res.data.id}`, { replace: true })
-      }
+      await updateCharacter(characterId, fields)
     } catch (err) {
       setSaveError(err.response?.data?.message || t('failedToSave'))
     } finally { setSaving(false) }
@@ -409,15 +396,15 @@ export default function KoteForm() {
     } catch { setActionError(t('failedToSave')) }
   }
 
-  if (loading) return <p className="status-loading">{t('loading')}</p>
+  if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
   return (
     <div>
       <div className="form-header">
         <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('back')}</button>
-        <h2>{isEdit ? fields.name || t('editKueiJin') : t('newKueiJin')}</h2>
+        <h2>{fields.name || t('editKueiJin')}</h2>
         <span className="splat-badge splat-badge--kote">{t('kindredOfTheEast')}</span>
-        {guidedMode && !isEdit && <span className="splat-badge">{t('guidedCreation')}</span>}
+        {guidedMode && <span className="splat-badge">{t('guidedCreation')}</span>}
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
@@ -532,7 +519,7 @@ export default function KoteForm() {
           ].map(({ legend, group, attrs }) => (
             <fieldset key={legend}>
               <legend>{t(legend)}</legend>
-              {guidedMode && !isEdit && (
+              {guidedMode && (
                 <>
                   <PrioritySelector group={group} priorities={attrPriority} setPriorities={setAttrPriority} budgets={ATTR_BUDGETS} />
                   <PointsIndicator spent={getAttrSpent(group)} budget={getAttrBudget(group)} />
@@ -557,7 +544,7 @@ export default function KoteForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('talents')}</legend>
-            {guidedMode && !isEdit && (
+            {guidedMode && (
               <>
                 <PrioritySelector group="talents" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('talents')} budget={getAbilBudget('talents')} />
@@ -572,7 +559,7 @@ export default function KoteForm() {
           </fieldset>
           <fieldset>
             <legend>{t('skills')}</legend>
-            {guidedMode && !isEdit && (
+            {guidedMode && (
               <>
                 <PrioritySelector group="skills" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('skills')} budget={getAbilBudget('skills')} />
@@ -587,7 +574,7 @@ export default function KoteForm() {
           </fieldset>
           <fieldset>
             <legend>{t('knowledges')}</legend>
-            {guidedMode && !isEdit && (
+            {guidedMode && (
               <>
                 <PrioritySelector group="knowledges" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('knowledges')} budget={getAbilBudget('knowledges')} />
@@ -743,9 +730,7 @@ export default function KoteForm() {
       {/* ── Disciplines & Backgrounds ── */}
       <div hidden={tab !== 6}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">{t('saveCharFirstDiscBg')}</p>}
-          {isEdit && (
-              <fieldset>
+          <fieldset>
                 <legend>{t('disciplines')} ({disciplines.length})</legend>
                 {disciplines.length > 0 && (
                   <ul className="tag-list">
@@ -771,16 +756,13 @@ export default function KoteForm() {
                   <button className="btn btn-secondary" onClick={handleAddDiscipline}>{t('add')}</button>
                 </div>
               </fieldset>
-          )}
         </div>
       </div>
 
       {/* ── Backgrounds ── */}
       <div hidden={tab !== 7}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">{t('saveCharFirstDiscBg')}</p>}
-          {isEdit && (
-              <fieldset>
+          <fieldset>
                 <legend>{t('backgrounds')} ({backgrounds.length})</legend>
                 {backgrounds.length > 0 && (
                   <ul className="tag-list">
@@ -814,16 +796,12 @@ export default function KoteForm() {
                   <button className="btn btn-secondary" onClick={handleAddBackground}>{t('add')}</button>
                 </div>
               </fieldset>
-          )}
         </div>
       </div>
 
       {/* ── Merits & Flaws ── */}
       <div hidden={tab !== 8}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">{t('saveCharFirstMeritsFlaw')}</p>}
-          {isEdit && (
-            <>
               <fieldset>
                 <legend>{t('merits')} ({merits.length})</legend>
                 {merits.length > 0 && (
@@ -850,17 +828,13 @@ export default function KoteForm() {
                   </ul>
                 )}
               </fieldset>
-            </>
-          )}
         </div>
       </div>
 
       {/* ── Inventory ── */}
       <div hidden={tab !== 9}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">{t('saveCharFirstInventory')}</p>}
-          {isEdit && (
-            <fieldset>
+          <fieldset>
               <legend>{t('tabInventory')} ({inventory.length})</legend>
               {inventory.length > 0 && (
                 <ul className="tag-list">
@@ -889,7 +863,6 @@ export default function KoteForm() {
                 <button className="btn btn-secondary" onClick={handleAddItem}>{t('add')}</button>
               </div>
             </fieldset>
-          )}
         </div>
       </div>
 
@@ -930,10 +903,6 @@ export default function KoteForm() {
       {/* ── XP Log ── */}
       <div role="tabpanel" id="tabpanel-11" aria-labelledby="tab-11" hidden={tab !== 11}>
         <div className="form-section">
-          {!isEdit ? (
-            <p className="muted-hint">{t('saveCharFirst')}</p>
-          ) : (
-            <>
               <div role="tablist" className="tab-list">
                 <button role="tab" className={`btn btn-secondary tab-btn${xpSubTab === 0 ? ' tab-btn--active' : ''}`}
                   onClick={() => { setXpSubTab(0); setNewXpEntry(e => ({ ...e, type: 'XP', category: 'Earned' })) }}>
@@ -1029,8 +998,6 @@ export default function KoteForm() {
                   </>
                 )
               })()}
-            </>
-          )}
         </div>
       </div>
 
@@ -1038,7 +1005,7 @@ export default function KoteForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('cancel')}</button>
         <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
-          {saving ? t('saving') : isEdit ? t('saveChanges') : t('createCharacter')}
+          {saving ? t('saving') : t('saveChanges')}
         </button>
       </div>
     </div>

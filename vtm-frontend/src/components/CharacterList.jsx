@@ -22,7 +22,7 @@ function CharacterCard({ c, user, t, navigate, onDelete }) {
   return (
     <li className="character-card">
       <div className="character-card-info">
-        <h3>{c.name}</h3>
+        <h3>{c.name || t('unnamedCharacter')}</h3>
         <dl className="character-card-meta">
           {c.splat && (
             <>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 import {
-  getCharacter, createCharacter, updateCharacter,
+  getCharacter, updateCharacter,
   getDisciplines, addDiscipline, removeDiscipline,
   getBackgrounds, addBackground, removeBackground,
   getMeritCatalog, getFlawCatalog,
@@ -11,7 +11,7 @@ import {
   getInventory, addInventoryItem, removeInventoryItem,
   getXpLog, addXpLogEntry, removeXpLogEntry,
 } from '../api/characterApi'
-import { joinChronicle } from '../api/chronicleApi'
+import useAutoCreate from '../hooks/useAutoCreate'
 import { getGifts, addGift, removeGift, getRites, addRite, removeRite, getFetishes, addFetish, removeFetish } from '../api/werewolfApi'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
@@ -195,11 +195,11 @@ export default function WerewolfForm() {
   const navigate = useNavigate()
   const { t } = useLanguage()
   const characterId = paramId ? Number(paramId) : null
-  const isEdit = !!characterId
 
   const [searchParams] = useSearchParams()
   const guidedMode = searchParams.get('mode') === 'guided'
-  const chronicleId = searchParams.get('chronicle')
+
+  const { isAutoCreating } = useAutoCreate(characterId, INITIAL)
 
   const [tab, setTab] = useState(0)
   const [fields, setFields] = useState(INITIAL)
@@ -303,7 +303,7 @@ export default function WerewolfForm() {
   const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabForms', 'tabBackstory', 'tabXpLog']
 
   useEffect(() => {
-    if (isEdit) loadCharacter()
+    if (characterId) loadCharacter()
     loadCatalogs()
   }, [characterId])
 
@@ -347,7 +347,7 @@ export default function WerewolfForm() {
   function handleField(name, value) {
     setFields(prev => {
       const next = { ...prev, [name]: value }
-      if (guidedMode && !isEdit) {
+      if (guidedMode) {
         if (name === 'auspice' && AUSPICE_RAGE[value] !== undefined) {
           next.rage = AUSPICE_RAGE[value]
           next.currentRage = AUSPICE_RAGE[value]
@@ -371,22 +371,10 @@ export default function WerewolfForm() {
   }
 
   async function handleSave() {
-    if (!fields.name.trim()) { setSaveError(t('nameRequired')); return }
     setSaving(true)
     setSaveError(null)
     try {
-      if (isEdit) {
-        await updateCharacter(characterId, fields)
-      } else {
-        const res = await createCharacter(fields)
-        // Auto-join chronicle in guided mode
-        if (guidedMode && chronicleId) {
-          try {
-            await joinChronicle(res.data.id, chronicleId)
-          } catch { /* chronicle join failed but character was created */ }
-        }
-        navigate(`/characters/${res.data.id}`, { replace: true })
-      }
+      await updateCharacter(characterId, fields)
     } catch (err) {
       setSaveError(err.response?.data?.message || t('failedToSave'))
     } finally { setSaving(false) }
@@ -447,15 +435,15 @@ export default function WerewolfForm() {
     } catch { setSaveError(t('failedToSave')) }
   }
 
-  if (loading) return <p className="status-loading">{t('loading')}</p>
+  if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
   return (
     <div>
       <div className="form-header">
         <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('back')}</button>
-        <h2>{isEdit ? fields.name || t('editGarou') : t('newGarou')}</h2>
+        <h2>{fields.name || t('newGarou')}</h2>
         <span className="splat-badge splat-badge--werewolf">Werewolf</span>
-        {guidedMode && !isEdit && <span className="splat-badge">{t('guidedCreation')}</span>}
+        {guidedMode && <span className="splat-badge">{t('guidedCreation')}</span>}
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
@@ -588,7 +576,7 @@ export default function WerewolfForm() {
           ].map(({ legendKey, group, attrs }) => (
             <fieldset key={legendKey}>
               <legend>{t(legendKey)}</legend>
-              {guidedMode && !isEdit && (
+              {guidedMode && (
                 <>
                   <PrioritySelector group={group} priorities={attrPriority} setPriorities={setAttrPriority} budgets={ATTR_BUDGETS} />
                   <PointsIndicator spent={getAttrSpent(group)} budget={getAttrBudget(group)} />
@@ -613,7 +601,7 @@ export default function WerewolfForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('talents')}</legend>
-            {guidedMode && !isEdit && (
+            {guidedMode && (
               <>
                 <PrioritySelector group="talents" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('talents')} budget={getAbilBudget('talents')} />
@@ -628,7 +616,7 @@ export default function WerewolfForm() {
           </fieldset>
           <fieldset>
             <legend>{t('skills')}</legend>
-            {guidedMode && !isEdit && (
+            {guidedMode && (
               <>
                 <PrioritySelector group="skills" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('skills')} budget={getAbilBudget('skills')} />
@@ -643,7 +631,7 @@ export default function WerewolfForm() {
           </fieldset>
           <fieldset>
             <legend>{t('knowledges')}</legend>
-            {guidedMode && !isEdit && (
+            {guidedMode && (
               <>
                 <PrioritySelector group="knowledges" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('knowledges')} budget={getAbilBudget('knowledges')} />
@@ -688,8 +676,6 @@ export default function WerewolfForm() {
       {/* ── Gifts & Rites ── */}
       <div hidden={tab !== 4}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">{t('saveFirst')}</p>}
-          {isEdit && (
             <>
               <fieldset>
                 <legend>{t('gifts')} ({gifts.length})</legend>
@@ -796,7 +782,6 @@ export default function WerewolfForm() {
                 </div>
               </fieldset>
             </>
-          )}
         </div>
       </div>
 
@@ -901,8 +886,6 @@ export default function WerewolfForm() {
       {/* ── Backgrounds ── */}
       <div hidden={tab !== 7}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">{t('saveFirst')}</p>}
-          {isEdit && (
             <fieldset>
               <legend>{t('backgrounds')} ({backgrounds.length})</legend>
               {backgrounds.length > 0 && (
@@ -937,15 +920,12 @@ export default function WerewolfForm() {
                 <button className="btn btn-secondary" onClick={handleAddBackground}>{t('add')}</button>
               </div>
             </fieldset>
-          )}
         </div>
       </div>
 
       {/* ── Merits & Flaws ── */}
       <div hidden={tab !== 8}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">{t('saveFirst')}</p>}
-          {isEdit && (
             <>
               <fieldset>
                 <legend>{t('merits')} ({merits.length})</legend>
@@ -974,7 +954,6 @@ export default function WerewolfForm() {
                 )}
               </fieldset>
             </>
-          )}
         </div>
       </div>
 
@@ -1046,9 +1025,6 @@ export default function WerewolfForm() {
       {/* ── XP Log ── */}
       <div hidden={tab !== 11}>
         <div className="form-section">
-          {!isEdit ? (
-            <p className="muted-hint">{t('saveCharFirst')}</p>
-          ) : (
             <>
               <div role="tablist" className="tab-list">
                 <button role="tab" className={`btn btn-secondary tab-btn${xpSubTab === 0 ? ' tab-btn--active' : ''}`}
@@ -1146,7 +1122,6 @@ export default function WerewolfForm() {
                 )
               })()}
             </>
-          )}
         </div>
       </div>
 
@@ -1154,7 +1129,7 @@ export default function WerewolfForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('cancel')}</button>
         <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
-          {saving ? t('saving') : isEdit ? t('saveChanges') : t('createCharacter')}
+          {saving ? t('saving') : t('saveChanges')}
         </button>
       </div>
     </div>

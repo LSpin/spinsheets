@@ -43,6 +43,7 @@ public class AuthService {
 
         userRepository.save(user);
         notificationService.notifyRegistration(user);
+        notificationService.sendWelcomeEmail(user);
 
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
         return authResponse(token, user);

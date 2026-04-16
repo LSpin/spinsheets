@@ -142,6 +142,7 @@ const en = {
   formStats: 'Form Statistics',
 
   // ── Identity fields ──
+  unnamedCharacter: 'Unnamed Character',
   charName: 'Character Name',
   player: 'Player',
   chronicle: 'Chronicle',
@@ -869,6 +870,7 @@ const pt = {
   formStats: 'Estatísticas de Forma',
 
   // ── Identity fields ──
+  unnamedCharacter: 'Personagem Sem Nome',
   charName: 'Nome do Personagem',
   player: 'Jogador',
   chronicle: 'Crônica',

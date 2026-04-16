@@ -147,7 +147,7 @@ export default function ChronicleDetail() {
               {members.map(c => (
                 <li key={c.id} className="character-card">
                   <div className="character-card-info">
-                    <h3>{c.name}</h3>
+                    <h3>{c.name || t('unnamedCharacter')}</h3>
                     <dl className="character-card-meta">
                       {c.clan && <><dt className="sr-only">{t('clan')}</dt><dd>{c.clan}</dd></>}
                       {c.generation && <><dt className="sr-only">{t('generation')}</dt><dd>{c.generation}{t('thGen')}</dd></>}
@@ -181,7 +181,7 @@ export default function ChronicleDetail() {
               {joinable.map(c => (
                 <li key={c.id} className="character-card">
                   <div className="character-card-info">
-                    <h3>{c.name}</h3>
+                    <h3>{c.name || t('unnamedCharacter')}</h3>
                     <dl className="character-card-meta">
                       {c.clan && <><dt className="sr-only">{t('clan')}</dt><dd>{c.clan}</dd></>}
                       {c.chronicle && <><dt className="sr-only">{t('inChronicle')}</dt><dd>{t('inChronicle')}: {c.chronicle.name}</dd></>}

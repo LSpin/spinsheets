@@ -39,8 +39,6 @@ public class Character {
     private String splat = "VAMPIRE";
 
     // Identity
-    @Column(nullable = false)
-    @NotBlank(message = "Name is required")
     @Size(max = 200, message = "Name must be 200 characters or less")
     private String name;
     private String altName;

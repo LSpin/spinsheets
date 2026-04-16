@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams as __useParams, useNavigate as __useNavigate, useSearchParams as __useSearchParams } from 'react-router-dom'
 import {
-  getCharacter, createCharacter, updateCharacter,
+  getCharacter, updateCharacter,
   getDisciplines, addDiscipline, removeDiscipline,
   getBackgrounds, addBackground, removeBackground,
   getMerits, addMerit, removeMerit,
@@ -13,7 +13,7 @@ import {
   getXpLog, addXpLogEntry, removeXpLogEntry,
   getComboDisciplines, addComboDiscipline, removeComboDiscipline,
 } from '../api/characterApi'
-import { joinChronicle } from '../api/chronicleApi'
+import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -1141,7 +1141,6 @@ function validate(fields, t) {
   const errors = []
   const warnings = []
 
-  if (!fields.name.trim()) errors.push(t('nameRequired'))
   if (!fields.clan.trim()) warnings.push(t('clanNotSet'))
 
   const gen = fields.generation
@@ -1235,7 +1234,6 @@ export default function CharacterForm() {
   const __navigate = __useNavigate()
   const characterId = paramId ? Number(paramId) : null
   const onBack = () => __navigate('/')
-  const onCreated = (id) => __navigate(`/characters/${id}`)
   const [tab, setTab] = useState(0)
   const [fields, setFields] = useState(INITIAL)
   const [disciplines, setDisciplines] = useState([])
@@ -1269,7 +1267,7 @@ export default function CharacterForm() {
 
   const [searchParams] = __useSearchParams()
   const guidedMode = searchParams.get('mode') === 'guided'
-  const chronicleId = searchParams.get('chronicle')
+  const { isAutoCreating } = useAutoCreate(characterId, INITIAL)
 
   // Guided creation state
   const [attrPriority, setAttrPriority] = useState({ physical: null, social: null, mental: null })
@@ -1348,7 +1346,6 @@ export default function CharacterForm() {
     return budget > 0 ? <span className={`points-remaining ${cls}`}>{text}</span> : null
   }
 
-  const isEdit = !!characterId
   const { max: maxBlood, perTurn } = bloodStats(fields.generation)
   const isHumanity = fields.pathName.trim().toLowerCase() === 'humanity'
   const computedPath = fields.conscience + fields.selfControl
@@ -1357,7 +1354,7 @@ export default function CharacterForm() {
   const { errors: validationErrors, warnings: validationWarnings } = validate(fields, t)
 
   useEffect(() => {
-    if (isEdit) loadCharacter()
+    if (characterId) loadCharacter()
     loadCatalogs()
   }, [characterId])
 
@@ -1414,7 +1411,7 @@ export default function CharacterForm() {
         next.pathRating = next.conscience + next.selfControl
       }
       // Auto-sync Willpower = Courage during guided creation
-      if (guidedMode && !isEdit && name === 'courage') {
+      if (guidedMode && name === 'courage') {
         next.willpower = value
         next.currentWillpower = value
       }
@@ -1435,19 +1432,8 @@ export default function CharacterForm() {
     setSaving(true)
     setSaveError(null)
     try {
-      if (isEdit) {
-        await updateCharacter(characterId, fields)
-        onBack()
-      } else {
-        const res = await createCharacter(fields)
-        // Auto-join chronicle in guided mode
-        if (guidedMode && chronicleId) {
-          try {
-            await joinChronicle(res.data.id, chronicleId)
-          } catch { /* chronicle join failed but character was created */ }
-        }
-        onCreated(res.data.id)
-      }
+      await updateCharacter(characterId, fields)
+      onBack()
     } catch {
       setSaveError(t('failedToSave'))
     } finally {
@@ -1609,7 +1595,7 @@ export default function CharacterForm() {
   const filteredMerits = meritCatalog.filter(m => m.name.toLowerCase().includes(meritSearch.toLowerCase()))
   const filteredFlaws  = flawCatalog.filter(f => f.name.toLowerCase().includes(flawSearch.toLowerCase()))
 
-  if (loading) return <p className="status-loading" aria-live="polite">{t('loading')}</p>
+  if (loading || isAutoCreating) return <p className="status-loading" aria-live="polite">{t('loading')}</p>
 
   // ── Render helpers ─────────────────────────────────────────────────────────
 
@@ -1644,8 +1630,8 @@ export default function CharacterForm() {
     <section aria-labelledby="form-heading">
       <div className="form-header">
         <button className="btn btn-secondary" onClick={onBack}>← {t('back')}</button>
-        <h2 id="form-heading">{isEdit ? `${t('editCharacter')} — ${fields.name || t('charName')}` : t('newCharacter')}</h2>
-        {guidedMode && !isEdit && <span className="splat-badge">{t('guidedCreation')}</span>}
+        <h2 id="form-heading">{fields.name || t('charName')}</h2>
+        {guidedMode && <span className="splat-badge">{t('guidedCreation')}</span>}
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
@@ -1801,7 +1787,7 @@ export default function CharacterForm() {
             return (
               <fieldset key={legendKey}>
                 <legend>{t(legendKey)}</legend>
-                {guidedMode && !isEdit && (
+                {guidedMode && (
                   <>
                     <PrioritySelector group={group} priorities={attrPriority} setPriorities={setAttrPriority} budgets={ATTR_BUDGETS} />
                     <PointsIndicator spent={getAttrSpent(group)} budget={getAttrBudget(group)} />
@@ -1841,7 +1827,7 @@ export default function CharacterForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('talents')}</legend>
-            {guidedMode && !isEdit && (
+            {guidedMode && (
               <>
                 <PrioritySelector group="talents" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('talents')} budget={getAbilBudget('talents')} />
@@ -1857,7 +1843,7 @@ export default function CharacterForm() {
 
           <fieldset>
             <legend>{t('skills')}</legend>
-            {guidedMode && !isEdit && (
+            {guidedMode && (
               <>
                 <PrioritySelector group="skills" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('skills')} budget={getAbilBudget('skills')} />
@@ -1873,7 +1859,7 @@ export default function CharacterForm() {
 
           <fieldset>
             <legend>{t('knowledges')}</legend>
-            {guidedMode && !isEdit && (
+            {guidedMode && (
               <>
                 <PrioritySelector group="knowledges" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('knowledges')} budget={getAbilBudget('knowledges')} />
@@ -2046,9 +2032,6 @@ export default function CharacterForm() {
       <div role="tabpanel" id="tabpanel-6" aria-labelledby="tab-6" hidden={tab !== 6}>
         <div className="disc-bg-layout">
         <div className="form-section">
-          {!isEdit ? (
-            <p className="muted-hint">{t('saveFirst')}</p>
-          ) : (
               <fieldset>
                 <legend>{t('disciplines')}</legend>
                 <TagList
@@ -2082,7 +2065,6 @@ export default function CharacterForm() {
                   <p className="archetype-desc">{getLevelHint(DISCIPLINES, newDiscipline.name, newDiscipline.level)}</p>
                 )}
               </fieldset>
-          )}
         </div>
 
         {tagInfo && (() => {
@@ -2105,8 +2087,6 @@ export default function CharacterForm() {
           )
         })()}
         </div>
-        {isEdit && (
-          <>
             <hr className="divider" />
             <fieldset>
               <legend>{t('comboDisciplines')} ({comboDisciplines.length})</legend>
@@ -2144,17 +2124,12 @@ export default function CharacterForm() {
                 <button className="btn btn-secondary" style={{ alignSelf: 'flex-end' }} onClick={handleAddCombo}>{t('add')}</button>
               </div>
             </fieldset>
-          </>
-        )}
       </div>
 
       {/* ── Backgrounds ── */}
       <div role="tabpanel" id="tabpanel-7" aria-labelledby="tab-7" hidden={tab !== 7}>
         <div className="disc-bg-layout">
         <div className="form-section">
-          {!isEdit ? (
-            <p className="muted-hint">{t('saveFirst')}</p>
-          ) : (
               <fieldset>
                 <legend>{t('backgrounds')}</legend>
                 <TagList
@@ -2193,7 +2168,6 @@ export default function CharacterForm() {
                   <p className="archetype-desc">{getLevelHint(BACKGROUNDS, newBackground.name, newBackground.level)}</p>
                 )}
               </fieldset>
-          )}
         </div>
 
         {tagInfo && (() => {
@@ -2222,10 +2196,6 @@ export default function CharacterForm() {
       <div role="tabpanel" id="tabpanel-8" aria-labelledby="tab-8" hidden={tab !== 8}>
         <div className="disc-bg-layout">
           <div className="form-section">
-            {!isEdit ? (
-              <p className="muted-hint">{t('saveFirst')}</p>
-            ) : (
-              <>
                 <fieldset>
                   <legend>{t('merits')}</legend>
                   <TagList
@@ -2289,8 +2259,6 @@ export default function CharacterForm() {
                     ariaLabel="Flaw catalog"
                   />
                 </fieldset>
-              </>
-            )}
           </div>
 
           {mfInfo && (() => {
@@ -2319,10 +2287,6 @@ export default function CharacterForm() {
       {/* ── Inventory ── */}
       <div role="tabpanel" id="tabpanel-9" aria-labelledby="tab-9" hidden={tab !== 9}>
         <div className="form-section">
-          {!isEdit ? (
-            <p className="muted-hint">{t('saveCharFirstInventory')}</p>
-          ) : (
-            <>
               {/* Add new item form */}
               <fieldset>
                 <legend>{t('addItem')}</legend>
@@ -2494,8 +2458,6 @@ export default function CharacterForm() {
                 </fieldset>
               ))}
               {inventory.length === 0 && <p className="muted-hint">{t('noItemsYet')}</p>}
-            </>
-          )}
         </div>
       </div>
 
@@ -2503,10 +2465,6 @@ export default function CharacterForm() {
       <div role="tabpanel" id="tabpanel-10" aria-labelledby="tab-10" hidden={tab !== 10}>
         <div className="disc-bg-layout">
           <div className="form-section">
-            {!isEdit ? (
-              <p className="muted-hint">{t('saveCharFirstBloodSorcery')}</p>
-            ) : (
-              <>
                 {/* ── Paths ── */}
                 <fieldset>
                   <legend>{t('sorceryPaths')}</legend>
@@ -2590,8 +2548,6 @@ export default function CharacterForm() {
                     return match ? <p className="archetype-desc">{match.description}</p> : null
                   })()}
                 </fieldset>
-              </>
-            )}
           </div>
 
           {sorcInfo && (() => {
@@ -2673,10 +2629,6 @@ export default function CharacterForm() {
       {/* ── XP Log ── */}
       <div role="tabpanel" id="tabpanel-12" aria-labelledby="tab-12" hidden={tab !== 12}>
         <div className="form-section">
-          {!isEdit ? (
-            <p className="muted-hint">{t('saveCharFirst')}</p>
-          ) : (
-            <>
               <div role="tablist" className="tab-list">
                 <button role="tab" className={`btn btn-secondary tab-btn${xpSubTab === 0 ? ' tab-btn--active' : ''}`}
                   onClick={() => { setXpSubTab(0); setNewXpEntry(e => ({ ...e, type: 'XP', category: 'Earned' })) }}>
@@ -2772,8 +2724,6 @@ export default function CharacterForm() {
                   </>
                 )
               })()}
-            </>
-          )}
         </div>
       </div>
 
@@ -2785,7 +2735,7 @@ export default function CharacterForm() {
           disabled={saving || validationErrors.length > 0}
           title={validationErrors.length > 0 ? validationErrors.join(' ') : undefined}
         >
-          {saving ? t('saving') : isEdit ? t('saveChanges') : t('createCharacter')}
+          {saving ? t('saving') : t('saveChanges')}
         </button>
       </div>
     </section>
