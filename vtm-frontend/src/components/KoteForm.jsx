@@ -789,6 +789,26 @@ export default function KoteForm() {
                   )
                 })()}
               </fieldset>
+              <fieldset>
+                <legend>{t('shintaiCatalog')}</legend>
+                {['Demon', 'Soul', 'Shintai', 'Other'].map(cat => {
+                  const arts = KOTE_SHINTAI.filter(s => s.category === cat)
+                  if (arts.length === 0) return null
+                  return (
+                    <div key={cat} style={{ marginBottom: 'var(--space-sm)' }}>
+                      <strong style={{ fontSize: '0.82rem' }}>{cat} Arts</strong>
+                      <ul style={{ listStyle: 'none', padding: 0, margin: 'var(--space-xs) 0' }}>
+                        {arts.map(s => (
+                          <li key={s.name} style={{ marginBottom: 'var(--space-xs)', fontSize: '0.78rem' }}>
+                            <strong>{s.name}</strong>
+                            <br /><span style={{ color: 'var(--color-text-muted)' }}>{s.description}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )
+                })}
+              </fieldset>
         </div>
       </div>
 
