@@ -18,6 +18,7 @@ import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { VAMPIRE_DISCIPLINES } from '../data/vampireDisciplines'
 import { DERANGEMENTS } from '../data/derangements'
+import { COMBO_DISCIPLINES } from '../data/comboDisciplines'
 import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -2310,7 +2311,18 @@ export default function CharacterForm() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-sm)', marginTop: 'var(--space-sm)' }}>
                 <div className="field">
                   <label>{t('comboName')}</label>
-                  <input type="text" value={newCombo.name} onChange={e => setNewCombo(p => ({ ...p, name: e.target.value }))} placeholder={t('phComboName')} />
+                  <input type="text" list="combo-catalog" value={newCombo.name} onChange={e => {
+                    const val = e.target.value
+                    const hit = COMBO_DISCIPLINES.find(c => c.name === val)
+                    if (hit) {
+                      setNewCombo({ name: hit.name, prerequisites: hit.prerequisites, description: hit.description, xpCost: String(hit.xpCost) })
+                    } else {
+                      setNewCombo(p => ({ ...p, name: val }))
+                    }
+                  }} placeholder={t('phComboName')} />
+                  <datalist id="combo-catalog">
+                    {COMBO_DISCIPLINES.map(c => <option key={c.name} value={c.name} />)}
+                  </datalist>
                 </div>
                 <div className="field">
                   <label>{t('comboPrereqs')}</label>
