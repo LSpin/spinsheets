@@ -2,7 +2,9 @@ package com.vtm.character_sheet.service;
 
 import com.vtm.character_sheet.entity.AppUser;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +12,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
@@ -21,6 +24,19 @@ public class NotificationService {
 
     @Value("${spring.mail.username}")
     private String fromEmail;
+
+    @Value("${spring.mail.password:}")
+    private String mailPassword;
+
+    @PostConstruct
+    void checkMailConfig() {
+        if (mailPassword == null || mailPassword.isBlank()) {
+            log.warn("MAIL_PASSWORD is not set — welcome emails and registration notifications will fail. "
+                   + "Set the MAIL_PASSWORD environment variable to a Gmail App Password.");
+        } else {
+            log.info("Mail configured: from={}, notify={}", fromEmail, notifyEmail);
+        }
+    }
 
     @Async
     public void notifyRegistration(AppUser user) {
@@ -37,8 +53,9 @@ public class NotificationService {
                     user.getUsername(), user.getEmail(), user.getRole().name()
             ));
             mailSender.send(msg);
+            log.info("Registration notification sent for user: {}", user.getUsername());
         } catch (Exception e) {
-            // Don't let email failures break registration
+            log.error("Failed to send registration notification for user {}: {}", user.getUsername(), e.getMessage(), e);
         }
     }
 
@@ -52,8 +69,9 @@ public class NotificationService {
             helper.setSubject("Welcome to SpinSheets!");
             helper.setText(buildWelcomeHtml(user.getUsername()), true);
             mailSender.send(message);
+            log.info("Welcome email sent to: {}", user.getEmail());
         } catch (Exception e) {
-            // Don't let email failures break registration
+            log.error("Failed to send welcome email to {}: {}", user.getEmail(), e.getMessage(), e);
         }
     }
 
