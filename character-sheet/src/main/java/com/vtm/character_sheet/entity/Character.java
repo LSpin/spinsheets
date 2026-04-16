@@ -237,6 +237,15 @@ public class Character {
     // Health (0=Healthy,1=Bruised,2=Hurt,3=Injured,4=Wounded,5=Mauled,6=Crippled,7=Incapacitated,8=Torpor,9=Final Death)
     private Integer woundLevel = 0;
 
+    // Health track — damage type per level: null/empty = undamaged, B = bashing, L = lethal, A = aggravated
+    @Column(length = 1) private String healthBruised;
+    @Column(length = 1) private String healthHurt;
+    @Column(length = 1) private String healthInjured;
+    @Column(length = 1) private String healthWounded;
+    @Column(length = 1) private String healthMauled;
+    @Column(length = 1) private String healthCrippled;
+    @Column(length = 1) private String healthIncap;
+
     // ── Dark Ages-specific abilities ──
     private Integer legerdemain = 0;
     private String legerdemainSpec;

@@ -17,7 +17,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ──
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabDisciplinesBg', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
 
 const CLANS = [
   // ── The 13 Clans ──
@@ -159,6 +159,7 @@ const INITIAL = {
   willpower: 3, currentWillpower: 3,
   // Blood & Health
   currentBlood: 10, woundLevel: 0,
+  healthBruised: '', healthHurt: '', healthInjured: '', healthWounded: '', healthMauled: '', healthCrippled: '', healthIncap: '',
   // Misc
   derangement1: '', derangement2: '',
   clanCurse: '', notes: '',
@@ -756,12 +757,56 @@ export default function VampireRevisedForm() {
         </div>
       </div>
 
-      {/* ── Disciplines & Backgrounds ── */}
+      {/* ── Health ── */}
       <div hidden={tab !== 5}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('healthTrack')}</legend>
+            <p className="muted-hint" style={{ marginBottom: 'var(--space-md)', fontSize: '0.75rem' }}>{t('healthHint')}</p>
+            <table style={{ width: '100%', maxWidth: 500, fontSize: '0.85rem', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ borderBottom: '2px solid var(--color-border)' }}>
+                  <th style={{ padding: '0.5rem', textAlign: 'left' }}>{t('health')}</th>
+                  <th style={{ padding: '0.5rem', textAlign: 'center' }}>{t('penalty')}</th>
+                  <th style={{ padding: '0.5rem', textAlign: 'center' }}>{t('damageType')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { key: 'healthBruised',    label: 'bruised',       penalty: '' },
+                  { key: 'healthHurt',       label: 'hurt',          penalty: '-1' },
+                  { key: 'healthInjured',    label: 'injured',       penalty: '-1' },
+                  { key: 'healthWounded',    label: 'wounded',       penalty: '-2' },
+                  { key: 'healthMauled',     label: 'mauled',        penalty: '-2' },
+                  { key: 'healthCrippled',   label: 'crippled',      penalty: '-5' },
+                  { key: 'healthIncap',      label: 'incapacitated', penalty: '' },
+                ].map(h => {
+                  const val = fields[h.key] || ''
+                  const dmgLabel = val === 'A' ? t('aggDmg') : val === 'L' ? t('lethalDmg') : val === 'B' ? t('bashingDmg') : t('undamaged')
+                  const dmgColor = val === 'A' ? '#e55' : val === 'L' ? '#e95' : val === 'B' ? '#8cf' : 'var(--color-text-muted)'
+                  return (
+                    <tr key={h.key} style={{ borderBottom: '1px solid var(--color-border)', cursor: 'pointer' }}
+                      onClick={() => {
+                        const cycle = { '': 'B', B: 'L', L: 'A', A: '' }
+                        handleField(h.key, cycle[val] || '')
+                      }}>
+                      <td style={{ padding: '0.5rem', fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
+                      <td style={{ padding: '0.5rem', textAlign: 'center', color: 'var(--color-text-muted)' }}>{h.penalty || '—'}</td>
+                      <td style={{ padding: '0.5rem', textAlign: 'center', fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── Disciplines & Backgrounds ── */}
+      <div hidden={tab !== 6}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">{t('saveCharFirstDiscBg')}</p>}
           {isEdit && (
-            <>
               <fieldset>
                 <legend>{t('disciplines')} ({disciplines.length})</legend>
                 {disciplines.length > 0 && (
@@ -788,7 +833,15 @@ export default function VampireRevisedForm() {
                   <button className="btn btn-secondary" onClick={handleAddDiscipline}>{t('add')}</button>
                 </div>
               </fieldset>
+          )}
+        </div>
+      </div>
 
+      {/* ── Backgrounds ── */}
+      <div hidden={tab !== 7}>
+        <div className="form-section">
+          {!isEdit && <p className="muted-hint">{t('saveCharFirstDiscBg')}</p>}
+          {isEdit && (
               <fieldset>
                 <legend>{t('backgrounds')} ({backgrounds.length})</legend>
                 {backgrounds.length > 0 && (
@@ -823,13 +876,12 @@ export default function VampireRevisedForm() {
                   <button className="btn btn-secondary" onClick={handleAddBackground}>{t('add')}</button>
                 </div>
               </fieldset>
-            </>
           )}
         </div>
       </div>
 
       {/* ── Merits & Flaws ── */}
-      <div hidden={tab !== 6}>
+      <div hidden={tab !== 8}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">{t('saveCharFirstMeritsFlaw')}</p>}
           {isEdit && (
@@ -866,7 +918,7 @@ export default function VampireRevisedForm() {
       </div>
 
       {/* ── Inventory ── */}
-      <div hidden={tab !== 7}>
+      <div hidden={tab !== 9}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">{t('saveCharFirstInventory')}</p>}
           {isEdit && (
@@ -899,7 +951,7 @@ export default function VampireRevisedForm() {
       </div>
 
       {/* ── Backstory ── */}
-      <div role="tabpanel" id="tabpanel-8" aria-labelledby="tab-8" hidden={tab !== 8}>
+      <div role="tabpanel" id="tabpanel-10" aria-labelledby="tab-10" hidden={tab !== 10}>
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
@@ -933,7 +985,7 @@ export default function VampireRevisedForm() {
       </div>
 
       {/* ── XP Log ── */}
-      <div role="tabpanel" id="tabpanel-9" aria-labelledby="tab-9" hidden={tab !== 9}>
+      <div role="tabpanel" id="tabpanel-11" aria-labelledby="tab-11" hidden={tab !== 11}>
         <div className="form-section">
           {!isEdit ? (
             <p className="muted-hint">{t('saveCharFirst')}</p>

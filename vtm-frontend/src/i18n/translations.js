@@ -32,6 +32,7 @@ const en = {
   tabSecondaryAbilities: 'Secondary Abilities',
   tabAdvantages: 'Advantages',
   tabDisciplinesBg: 'Disciplines & Backgrounds',
+  tabDisciplines: 'Disciplines',
   tabMeritsFlaws: 'Merits & Flaws',
   tabInventory: 'Inventory',
   tabBloodSorcery: 'Blood Sorcery',
@@ -530,6 +531,16 @@ const en = {
   buyMeACoffee: 'Buy me a coffee',
 
   // ── Backstory tab ──
+  tabHealth: 'Health',
+  healthTrack: 'Health Track',
+  damageType: 'Damage Type',
+  undamaged: 'Undamaged',
+  bashingDmg: 'Bashing',
+  lethalDmg: 'Lethal',
+  aggDmg: 'Aggravated',
+  penalty: 'Penalty',
+  healthHint: 'Click to cycle: Undamaged → Bashing → Lethal → Aggravated → Undamaged',
+
   tabBackstory: 'Backstory',
   backstoryLabel: 'Backstory',
   backstoryPh: 'Write your character\'s history, origins, and how they became what they are...',
@@ -729,6 +740,7 @@ const pt = {
   tabSecondaryAbilities: 'Habilidades Secundárias',
   tabAdvantages: 'Vantagens',
   tabDisciplinesBg: 'Disciplinas & Antecedentes',
+  tabDisciplines: 'Disciplinas',
   tabMeritsFlaws: 'Qualidades & Defeitos',
   tabInventory: 'Inventário',
   tabBloodSorcery: 'Feitiçaria de Sangue',
@@ -1226,6 +1238,16 @@ const pt = {
   buyMeACoffee: 'Me pague um café',
 
   // ── Backstory tab ──
+  tabHealth: 'Saúde',
+  healthTrack: 'Trilha de Saúde',
+  damageType: 'Tipo de Dano',
+  undamaged: 'Ileso',
+  bashingDmg: 'Contusão',
+  lethalDmg: 'Letal',
+  aggDmg: 'Agravado',
+  penalty: 'Penalidade',
+  healthHint: 'Clique para alternar: Ileso → Contusão → Letal → Agravado → Ileso',
+
   tabBackstory: 'História',
   backstoryLabel: 'História de Fundo',
   backstoryPh: 'Escreva a história do seu personagem, suas origens e como se tornou o que é...',

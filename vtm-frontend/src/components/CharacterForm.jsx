@@ -19,7 +19,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabDisciplinesBg', 'tabMeritsFlaws', 'tabInventory', 'tabBloodSorcery', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBloodSorcery', 'tabBackstory', 'tabXpLog']
 
 const INVENTORY_CATEGORIES = ['WEAPON', 'ARMOR', 'VEHICLE', 'EQUIPMENT', 'OTHER']
 
@@ -1127,6 +1127,7 @@ const INITIAL = {
   willpower: 3, currentWillpower: 3,
   // Blood & Health
   currentBlood: 10, woundLevel: 0,
+  healthBruised: '', healthHurt: '', healthInjured: '', healthWounded: '', healthMauled: '', healthCrippled: '', healthIncap: '',
   // Misc
   derangement1: '', derangement2: '',
   clanCurse: '', notes: '',
@@ -1974,14 +1975,58 @@ export default function CharacterForm() {
         </div>
       </div>
 
-      {/* ── Disciplines & Backgrounds ── */}
+      {/* ── Health ── */}
       <div role="tabpanel" id="tabpanel-5" aria-labelledby="tab-5" hidden={tab !== 5}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('healthTrack')}</legend>
+            <p className="muted-hint" style={{ marginBottom: 'var(--space-md)', fontSize: '0.75rem' }}>{t('healthHint')}</p>
+            <table style={{ width: '100%', maxWidth: 500, fontSize: '0.85rem', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr style={{ borderBottom: '2px solid var(--color-border)' }}>
+                  <th style={{ padding: '0.5rem', textAlign: 'left' }}>{t('health')}</th>
+                  <th style={{ padding: '0.5rem', textAlign: 'center' }}>{t('penalty')}</th>
+                  <th style={{ padding: '0.5rem', textAlign: 'center' }}>{t('damageType')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { key: 'healthBruised',    label: 'bruised',       penalty: '' },
+                  { key: 'healthHurt',       label: 'hurt',          penalty: '-1' },
+                  { key: 'healthInjured',    label: 'injured',       penalty: '-1' },
+                  { key: 'healthWounded',    label: 'wounded',       penalty: '-2' },
+                  { key: 'healthMauled',     label: 'mauled',        penalty: '-2' },
+                  { key: 'healthCrippled',   label: 'crippled',      penalty: '-5' },
+                  { key: 'healthIncap',      label: 'incapacitated', penalty: '' },
+                ].map(h => {
+                  const val = fields[h.key] || ''
+                  const dmgLabel = val === 'A' ? t('aggDmg') : val === 'L' ? t('lethalDmg') : val === 'B' ? t('bashingDmg') : t('undamaged')
+                  const dmgColor = val === 'A' ? '#e55' : val === 'L' ? '#e95' : val === 'B' ? '#8cf' : 'var(--color-text-muted)'
+                  return (
+                    <tr key={h.key} style={{ borderBottom: '1px solid var(--color-border)', cursor: 'pointer' }}
+                      onClick={() => {
+                        const cycle = { '': 'B', B: 'L', L: 'A', A: '' }
+                        handleField(h.key, cycle[val] || '')
+                      }}>
+                      <td style={{ padding: '0.5rem', fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
+                      <td style={{ padding: '0.5rem', textAlign: 'center', color: 'var(--color-text-muted)' }}>{h.penalty || '—'}</td>
+                      <td style={{ padding: '0.5rem', textAlign: 'center', fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── Disciplines & Backgrounds ── */}
+      <div role="tabpanel" id="tabpanel-6" aria-labelledby="tab-6" hidden={tab !== 6}>
         <div className="disc-bg-layout">
         <div className="form-section">
           {!isEdit ? (
             <p className="muted-hint">{t('saveFirst')}</p>
           ) : (
-            <>
               <fieldset>
                 <legend>{t('disciplines')}</legend>
                 <TagList
@@ -2015,9 +2060,38 @@ export default function CharacterForm() {
                   <p className="archetype-desc">{getLevelHint(DISCIPLINES, newDiscipline.name, newDiscipline.level)}</p>
                 )}
               </fieldset>
+          )}
+        </div>
 
-              <hr className="divider" />
+        {tagInfo && (() => {
+          const entry = tagInfo.catalog.find(c => c.value.toLowerCase() === tagInfo.name.toLowerCase())
+          return (
+            <aside className="tag-info-panel">
+              <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
+              <p className="tag-info-panel-name">{tagInfo.name}</p>
+              {entry?.description && <p className="tag-info-panel-desc">{entry.description}</p>}
+              {entry?.levels && (
+                <ul className="tag-info-levels">
+                  {entry.levels.map((lvl, i) => (
+                    <li key={i} className={`tag-info-level${i + 1 === tagInfo.level ? ' tag-info-level--active' : ''}`}>
+                      {lvl}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </aside>
+          )
+        })()}
+        </div>
+      </div>
 
+      {/* ── Backgrounds ── */}
+      <div role="tabpanel" id="tabpanel-7" aria-labelledby="tab-7" hidden={tab !== 7}>
+        <div className="disc-bg-layout">
+        <div className="form-section">
+          {!isEdit ? (
+            <p className="muted-hint">{t('saveFirst')}</p>
+          ) : (
               <fieldset>
                 <legend>{t('backgrounds')}</legend>
                 <TagList
@@ -2056,7 +2130,6 @@ export default function CharacterForm() {
                   <p className="archetype-desc">{getLevelHint(BACKGROUNDS, newBackground.name, newBackground.level)}</p>
                 )}
               </fieldset>
-            </>
           )}
         </div>
 
@@ -2083,7 +2156,7 @@ export default function CharacterForm() {
       </div>
 
       {/* ── Merits & Flaws ── */}
-      <div role="tabpanel" id="tabpanel-6" aria-labelledby="tab-6" hidden={tab !== 6}>
+      <div role="tabpanel" id="tabpanel-8" aria-labelledby="tab-8" hidden={tab !== 8}>
         <div className="disc-bg-layout">
           <div className="form-section">
             {!isEdit ? (
@@ -2181,7 +2254,7 @@ export default function CharacterForm() {
       </div>
 
       {/* ── Inventory ── */}
-      <div role="tabpanel" id="tabpanel-7" aria-labelledby="tab-7" hidden={tab !== 7}>
+      <div role="tabpanel" id="tabpanel-9" aria-labelledby="tab-9" hidden={tab !== 9}>
         <div className="form-section">
           {!isEdit ? (
             <p className="muted-hint">{t('saveCharFirstInventory')}</p>
@@ -2364,7 +2437,7 @@ export default function CharacterForm() {
       </div>
 
       {/* ── Blood Sorcery ── */}
-      <div role="tabpanel" id="tabpanel-8" aria-labelledby="tab-8" hidden={tab !== 8}>
+      <div role="tabpanel" id="tabpanel-10" aria-labelledby="tab-10" hidden={tab !== 10}>
         <div className="disc-bg-layout">
           <div className="form-section">
             {!isEdit ? (
@@ -2501,7 +2574,7 @@ export default function CharacterForm() {
       </div>
 
       {/* ── Backstory ── */}
-      <div role="tabpanel" id="tabpanel-9" aria-labelledby="tab-9" hidden={tab !== 9}>
+      <div role="tabpanel" id="tabpanel-11" aria-labelledby="tab-11" hidden={tab !== 11}>
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
@@ -2535,7 +2608,7 @@ export default function CharacterForm() {
       </div>
 
       {/* ── XP Log ── */}
-      <div role="tabpanel" id="tabpanel-10" aria-labelledby="tab-10" hidden={tab !== 10}>
+      <div role="tabpanel" id="tabpanel-12" aria-labelledby="tab-12" hidden={tab !== 12}>
         <div className="form-section">
           {!isEdit ? (
             <p className="muted-hint">{t('saveCharFirst')}</p>
