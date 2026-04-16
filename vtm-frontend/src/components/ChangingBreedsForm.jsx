@@ -15,7 +15,7 @@ import useAutoCreate from '../hooks/useAutoCreate'
 import { getGifts, addGift, removeGift, getRites, addRite, removeRite, getFetishes, addFetish, removeFetish } from '../api/werewolfApi'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
-import { WEREWOLF_GIFTS } from '../data/werewolfGifts'
+import { FERA_GIFTS } from '../data/feraGifts'
 import { WEREWOLF_RITES } from '../data/werewolfRites'
 import { WEREWOLF_TOTEMS } from '../data/werewolfTotems'
 import { FERA_SPECIES } from '../data/changingBreeds'
@@ -696,15 +696,11 @@ export default function ChangingBreedsForm() {
                   </ul>
                 )}
                 {(() => {
-                  const breed = fields.breed || ''
-                  const auspice = fields.auspice || ''
-                  const tribe = fields.tribe || ''
-                  const filtered = WEREWOLF_GIFTS.filter(g =>
+                  const currentSpecies = fields.breed || ''
+                  const filtered = FERA_GIFTS.filter(g =>
                     g.level === newGift.level && (
-                      g.breeds.includes(breed) ||
-                      g.auspices.includes(auspice) ||
-                      g.tribes.includes(tribe) ||
-                      (g.breeds.length === 0 && g.auspices.length === 0 && g.tribes.length === 0)
+                      g.species.includes(currentSpecies) ||
+                      g.species.length === 0
                     )
                   )
                   return (
