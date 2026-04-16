@@ -11,6 +11,7 @@ import {
 } from '../api/characterApi'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
+import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ──
 
@@ -45,24 +46,16 @@ const BACKGROUNDS = [
   { value: 'Rites' },
 ]
 
-const HEALTH_LEVELS = [
-  { label: 'Healthy',        penalty: '' },
-  { label: 'Bruised',        penalty: '' },
-  { label: 'Hurt',           penalty: '−1' },
-  { label: 'Injured',        penalty: '−1' },
-  { label: 'Wounded',        penalty: '−2' },
-  { label: 'Mauled',         penalty: '−2' },
-  { label: 'Crippled',       penalty: '−5' },
-  { label: 'Incapacitated',  penalty: '' },
+const HEALTH_LEVEL_KEYS = [
+  { key: 'healthy',        penalty: '' },
+  { key: 'bruised',        penalty: '' },
+  { key: 'hurt',           penalty: '−1' },
+  { key: 'injured',        penalty: '−1' },
+  { key: 'wounded',        penalty: '−2' },
+  { key: 'mauled',         penalty: '−2' },
+  { key: 'crippled',       penalty: '−5' },
+  { key: 'incapacitated',  penalty: '' },
 ]
-
-const ABILITY_LABELS = {
-  animalKen: 'Animal Ken', martialArts: 'Martial Arts', ritualAbility: 'Rituals',
-}
-
-function label(key) {
-  return ABILITY_LABELS[key] ?? key.charAt(0).toUpperCase() + key.slice(1)
-}
 
 const INITIAL = {
   npc: false, splat: 'KOTE',
@@ -119,12 +112,12 @@ const INITIAL = {
   derangement1: '', derangement2: '', notes: '',
 }
 
-function KoteRatingRow({ abilityKey, specKey, fields, onField, onText, max = 5 }) {
+function KoteRatingRow({ abilityKey, specKey, fields, onField, onText, t, max = 5 }) {
   return (
     <div className="ability-row">
-      <DotRating label={label(abilityKey)} name={abilityKey} value={fields[abilityKey]} onChange={onField} max={max} />
+      <DotRating label={t(abilityKey)} name={abilityKey} value={fields[abilityKey]} onChange={onField} max={max} />
       <input className="spec-input" type="text" name={specKey} value={fields[specKey] ?? ''} onChange={onText}
-        placeholder="Specialty" aria-label={`${label(abilityKey)} specialty`} />
+        placeholder={t('specialty')} aria-label={`${t(abilityKey)} ${t('specialty')}`} />
     </div>
   )
 }
@@ -157,6 +150,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
 export default function KoteForm() {
   const { id: paramId } = useParams()
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const characterId = paramId ? Number(paramId) : null
   const isEdit = !!characterId
 
@@ -176,7 +170,7 @@ export default function KoteForm() {
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
 
-  const TABS = ['Identity', 'Attributes', 'Abilities', 'Secondary Abilities', 'Dharma & Chi', 'Disciplines & Backgrounds', 'Merits & Flaws', 'Inventory']
+  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabDharmaChi', 'tabDisciplinesBg', 'tabMeritsFlaws', 'tabInventory']
 
   useEffect(() => {
     if (isEdit) loadCharacter()
@@ -204,7 +198,7 @@ export default function KoteForm() {
       setMerits(meritRes.data)
       setFlaws(flawRes.data)
       setInventory(invRes.data)
-    } catch { setSaveError('Failed to load character.') }
+    } catch { setSaveError(t('failedToLoad')) }
     finally { setLoading(false) }
   }
 
@@ -226,7 +220,7 @@ export default function KoteForm() {
   }
 
   async function handleSave() {
-    if (!fields.name.trim()) { setSaveError('Name is required.'); return }
+    if (!fields.name.trim()) { setSaveError(t('nameRequired')); return }
     setSaving(true)
     setSaveError(null)
     try {
@@ -237,7 +231,7 @@ export default function KoteForm() {
         navigate(`/characters/${res.data.id}`, { replace: true })
       }
     } catch (err) {
-      setSaveError(err.response?.data?.message || 'Failed to save.')
+      setSaveError(err.response?.data?.message || t('failedToSave'))
     } finally { setSaving(false) }
   }
 
@@ -268,23 +262,23 @@ export default function KoteForm() {
     } catch {}
   }
 
-  if (loading) return <p className="status-loading">Loading...</p>
+  if (loading) return <p className="status-loading">{t('loading')}</p>
 
   return (
     <div>
       <div className="form-header">
-        <button className="btn btn-secondary" onClick={() => navigate('/')}>Back</button>
-        <h2>{isEdit ? fields.name || 'Edit Kuei-jin' : 'New Kuei-jin'}</h2>
-        <span className="splat-badge splat-badge--kote">Kindred of the East</span>
+        <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('back')}</button>
+        <h2>{isEdit ? fields.name || t('editKueiJin') : t('newKueiJin')}</h2>
+        <span className="splat-badge splat-badge--kote">{t('kindredOfTheEast')}</span>
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
 
       {/* Tabs */}
       <div className="tab-list" role="tablist">
-        {TABS.map((t, i) => (
-          <button key={t} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
-            onClick={() => setTab(i)} aria-selected={tab === i}>{t}</button>
+        {TAB_KEYS.map((tk, i) => (
+          <button key={tk} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
+            onClick={() => setTab(i)} aria-selected={tab === i}>{t(tk)}</button>
         ))}
       </div>
 
@@ -292,88 +286,88 @@ export default function KoteForm() {
       <div hidden={tab !== 0}>
         <div className="form-section">
           <fieldset>
-            <legend>Identity</legend>
+            <legend>{t('tabIdentity')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="name">Name <span aria-hidden="true">*</span></label>
+                <label htmlFor="name">{t('charName')} <span aria-hidden="true">*</span></label>
                 <input id="name" name="name" type="text" value={fields.name} onChange={handleText} required autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="altName">Alt Name</label>
+                <label htmlFor="altName">{t('altName')}</label>
                 <input id="altName" name="altName" type="text" value={fields.altName} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="concept">Concept</label>
+                <label htmlFor="concept">{t('concept')}</label>
                 <input id="concept" name="concept" type="text" value={fields.concept} onChange={handleText} autoComplete="off" />
               </div>
             </div>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="nature">Nature</label>
+                <label htmlFor="nature">{t('nature')}</label>
                 <input id="nature" name="nature" type="text" value={fields.nature} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="demeanor">Demeanor</label>
+                <label htmlFor="demeanor">{t('demeanor')}</label>
                 <input id="demeanor" name="demeanor" type="text" value={fields.demeanor} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="poNature">P'o Nature</label>
+                <label htmlFor="poNature">{t('poNature')}</label>
                 <input id="poNature" name="poNature" type="text" value={fields.poNature} onChange={handleText} autoComplete="off" />
               </div>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Kuei-jin</legend>
+            <legend>{t('kueiJin')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="balance">Balance</label>
+                <label htmlFor="balance">{t('balance')}</label>
                 <select id="balance" name="balance" value={fields.balance} onChange={handleText}>
-                  <option value="">— Select —</option>
+                  <option value="">{t('select')}</option>
                   {BALANCES.map(b => <option key={b} value={b}>{b}</option>)}
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="direction">Direction</label>
+                <label htmlFor="direction">{t('direction')}</label>
                 <select id="direction" name="direction" value={fields.direction} onChange={handleText}>
-                  <option value="">— Select —</option>
+                  <option value="">{t('select')}</option>
                   {DIRECTIONS.map(d => <option key={d} value={d}>{d}</option>)}
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="wu">Wu</label>
+                <label htmlFor="wu">{t('wu')}</label>
                 <input id="wu" name="wu" type="text" value={fields.wu} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="npc">Type</label>
-                <div className="role-toggle" role="radiogroup" aria-label="Character type">
+                <label htmlFor="npc">{t('type')}</label>
+                <div className="role-toggle" role="radiogroup" aria-label={t('type')}>
                   <button type="button" className={`role-toggle-btn${!fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', false)}>PC</button>
+                    onClick={() => handleField('npc', false)}>{t('pc')}</button>
                   <button type="button" className={`role-toggle-btn${fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', true)}>NPC</button>
+                    onClick={() => handleField('npc', true)}>{t('npc')}</button>
                 </div>
               </div>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Derangements</legend>
+            <legend>{t('derangements')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="derangement1">Derangement 1</label>
+                <label htmlFor="derangement1">{t('derangements')} 1</label>
                 <input id="derangement1" name="derangement1" type="text" value={fields.derangement1} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="derangement2">Derangement 2</label>
+                <label htmlFor="derangement2">{t('derangements')} 2</label>
                 <input id="derangement2" name="derangement2" type="text" value={fields.derangement2} onChange={handleText} autoComplete="off" />
               </div>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Notes</legend>
+            <legend>{t('notes')}</legend>
             <div className="field">
-              <textarea id="notes" name="notes" value={fields.notes} onChange={handleText} rows={5} placeholder="General notes..." />
+              <textarea id="notes" name="notes" value={fields.notes} onChange={handleText} rows={5} placeholder={t('generalNotes')} />
             </div>
           </fieldset>
         </div>
@@ -383,18 +377,18 @@ export default function KoteForm() {
       <div hidden={tab !== 1}>
         <div className="form-section">
           {[
-            { legend: 'Physical', attrs: ['strength', 'dexterity', 'stamina'] },
-            { legend: 'Social',   attrs: ['charisma', 'manipulation', 'appearance'] },
-            { legend: 'Mental',   attrs: ['perception', 'intelligence', 'wits'] },
+            { legend: 'physicalAttr', attrs: ['strength', 'dexterity', 'stamina'] },
+            { legend: 'socialAttr',   attrs: ['charisma', 'manipulation', 'appearance'] },
+            { legend: 'mentalAttr',   attrs: ['perception', 'intelligence', 'wits'] },
           ].map(({ legend, attrs }) => (
             <fieldset key={legend}>
-              <legend>{legend}</legend>
+              <legend>{t(legend)}</legend>
               <div className="rating-grid">
                 {attrs.map(a => (
                   <div key={a} className="ability-row">
-                    <DotRating label={label(a)} name={a} value={fields[a]} onChange={handleField} min={1} />
+                    <DotRating label={t(a)} name={a} value={fields[a]} onChange={handleField} min={1} />
                     <input className="spec-input" type="text" name={a + 'Spec'} value={fields[a + 'Spec'] ?? ''} onChange={handleText}
-                      placeholder="Specialty" aria-label={`${label(a)} specialty`} />
+                      placeholder={t('specialty')} aria-label={`${t(a)} ${t('specialty')}`} />
                   </div>
                 ))}
               </div>
@@ -407,26 +401,26 @@ export default function KoteForm() {
       <div hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
-            <legend>Talents</legend>
+            <legend>{t('talents')}</legend>
             <div className="rating-grid">
               {['alertness', 'athletics', 'brawl', 'dodge', 'empathy', 'expression', 'intimidation', 'leadership', 'streetwise', 'subterfuge'].map(a =>
-                <KoteRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} />
+                <KoteRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
           </fieldset>
           <fieldset>
-            <legend>Skills</legend>
+            <legend>{t('skills')}</legend>
             <div className="rating-grid">
               {['animalKen', 'crafts', 'drive', 'etiquette', 'firearms', 'martialArts', 'melee', 'performance', 'stealth', 'survival'].map(a =>
-                <KoteRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} />
+                <KoteRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
           </fieldset>
           <fieldset>
-            <legend>Knowledges</legend>
+            <legend>{t('knowledges')}</legend>
             <div className="rating-grid">
               {['academics', 'computer', 'finance', 'investigation', 'law', 'medicine', 'occult', 'politics', 'ritualAbility', 'science'].map(a =>
-                <KoteRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} />
+                <KoteRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
           </fieldset>
@@ -438,22 +432,22 @@ export default function KoteForm() {
         <div className="form-section">
           <div className="abilities-group">
             <fieldset>
-              <legend>Secondary Talents</legend>
-              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
-              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
-              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              <legend>{t('secondaryTalents')}</legend>
+              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
             </fieldset>
             <fieldset>
-              <legend>Secondary Skills</legend>
-              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
-              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
-              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              <legend>{t('secondarySkills')}</legend>
+              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
             </fieldset>
             <fieldset>
-              <legend>Secondary Knowledges</legend>
-              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
-              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
-              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              <legend>{t('secondaryKnowledges')}</legend>
+              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
             </fieldset>
           </div>
         </div>
@@ -463,61 +457,61 @@ export default function KoteForm() {
       <div hidden={tab !== 4}>
         <div className="form-section">
           <fieldset>
-            <legend>Dharma</legend>
+            <legend>{t('dharma')}</legend>
             <div className="field-row">
               <div className="field" style={{ flex: 2 }}>
-                <label htmlFor="dharmaName">Dharma</label>
+                <label htmlFor="dharmaName">{t('dharma')}</label>
                 <select id="dharmaName" name="dharmaName" value={fields.dharmaName} onChange={handleText}>
-                  <option value="">— Select —</option>
+                  <option value="">{t('select')}</option>
                   {DHARMAS.map(d => <option key={d} value={d}>{d}</option>)}
                 </select>
               </div>
             </div>
-            <DotRating label="Dharma Rating" name="dharmaRating" value={fields.dharmaRating} onChange={handleField} min={0} max={10} />
+            <DotRating label={t('dharmaRating')} name="dharmaRating" value={fields.dharmaRating} onChange={handleField} min={0} max={10} />
           </fieldset>
 
           <fieldset>
-            <legend>Soul</legend>
-            <DotRating label="Hun (Higher Soul)" name="hun" value={fields.hun} onChange={handleField} min={0} max={10} />
-            <DotRating label="P'o (Demon Soul)" name="po" value={fields.po} onChange={handleField} min={0} max={10} />
+            <legend>{t('soul')}</legend>
+            <DotRating label={t('hunHigherSoul')} name="hun" value={fields.hun} onChange={handleField} min={0} max={10} />
+            <DotRating label={t('poDemonSoul')} name="po" value={fields.po} onChange={handleField} min={0} max={10} />
           </fieldset>
 
           <fieldset>
-            <legend>Chi</legend>
-            <DotRating label="Yin Chi" name="yinChi" value={fields.yinChi} onChange={handleField} min={0} max={10} />
-            <DotRating label="Yang Chi" name="yangChi" value={fields.yangChi} onChange={handleField} min={0} max={10} />
-            <DotRating label="Demon Chi" name="demonChi" value={fields.demonChi} onChange={handleField} min={0} max={10} />
+            <legend>{t('chi')}</legend>
+            <DotRating label={t('yinChiLabel')} name="yinChi" value={fields.yinChi} onChange={handleField} min={0} max={10} />
+            <DotRating label={t('yangChiLabel')} name="yangChi" value={fields.yangChi} onChange={handleField} min={0} max={10} />
+            <DotRating label={t('demonChiLabel')} name="demonChi" value={fields.demonChi} onChange={handleField} min={0} max={10} />
           </fieldset>
 
           <fieldset>
-            <legend>Imbalance</legend>
+            <legend>{t('imbalance')}</legend>
             <div className="field">
-              <textarea id="imbalance" name="imbalance" value={fields.imbalance} onChange={handleText} rows={3} placeholder="Describe any chi imbalance effects..." />
+              <textarea id="imbalance" name="imbalance" value={fields.imbalance} onChange={handleText} rows={3} placeholder={t('phImbalance')} />
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Virtues</legend>
-            <DotRating label="Conscience" name="conscience" value={fields.conscience} onChange={handleField} min={1} />
-            <DotRating label="Self-Control" name="selfControl" value={fields.selfControl} onChange={handleField} min={1} />
-            <DotRating label="Courage" name="courage" value={fields.courage} onChange={handleField} min={1} />
+            <legend>{t('virtues')}</legend>
+            <DotRating label={t('conscience')} name="conscience" value={fields.conscience} onChange={handleField} min={1} />
+            <DotRating label={t('selfControl')} name="selfControl" value={fields.selfControl} onChange={handleField} min={1} />
+            <DotRating label={t('courage')} name="courage" value={fields.courage} onChange={handleField} min={1} />
           </fieldset>
 
           <fieldset>
-            <legend>Willpower</legend>
+            <legend>{t('willpower')}</legend>
             <div className="field-row">
-              <DotRating label="Permanent" name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
-              <DotRating label="Temporary" name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
+              <DotRating label={t('permanent')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
+              <DotRating label={t('temporary')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Health</legend>
+            <legend>{t('health')}</legend>
             <div className="field">
-              <label htmlFor="woundLevel">Current Wound Level</label>
+              <label htmlFor="woundLevel">{t('woundLevel')}</label>
               <select id="woundLevel" value={fields.woundLevel} onChange={e => handleField('woundLevel', parseInt(e.target.value))}>
-                {HEALTH_LEVELS.map((h, i) => (
-                  <option key={i} value={i}>{h.label}{h.penalty ? ` (${h.penalty})` : ''}</option>
+                {HEALTH_LEVEL_KEYS.map((h, i) => (
+                  <option key={i} value={i}>{t(h.key)}{h.penalty ? ` (${h.penalty})` : ''}</option>
                 ))}
               </select>
             </div>
@@ -528,11 +522,11 @@ export default function KoteForm() {
       {/* ── Disciplines & Backgrounds ── */}
       <div hidden={tab !== 5}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">Save your character first to add disciplines and backgrounds.</p>}
+          {!isEdit && <p className="muted-hint">{t('saveCharFirstDiscBg')}</p>}
           {isEdit && (
             <>
               <fieldset>
-                <legend>Disciplines ({disciplines.length})</legend>
+                <legend>{t('disciplines')} ({disciplines.length})</legend>
                 {disciplines.length > 0 && (
                   <ul className="tag-list">
                     {disciplines.map(d => (
@@ -545,21 +539,21 @@ export default function KoteForm() {
                 )}
                 <div className="field-row" style={{ alignItems: 'flex-end' }}>
                   <div className="field" style={{ flex: 2 }}>
-                    <label htmlFor="disc-name">Discipline Name</label>
+                    <label htmlFor="disc-name">{t('disciplineName')}</label>
                     <input id="disc-name" type="text" value={newDiscipline.name} onChange={e => setNewDiscipline(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
                   </div>
                   <div className="field">
-                    <label htmlFor="disc-level">Level</label>
+                    <label htmlFor="disc-level">{t('level')}</label>
                     <select id="disc-level" value={newDiscipline.level} onChange={e => setNewDiscipline(p => ({ ...p, level: parseInt(e.target.value) }))}>
                       {[1,2,3,4,5,6,7,8,9,10].map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
-                  <button className="btn btn-secondary" onClick={handleAddDiscipline}>Add</button>
+                  <button className="btn btn-secondary" onClick={handleAddDiscipline}>{t('add')}</button>
                 </div>
               </fieldset>
 
               <fieldset>
-                <legend>Backgrounds ({backgrounds.length})</legend>
+                <legend>{t('backgrounds')} ({backgrounds.length})</legend>
                 {backgrounds.length > 0 && (
                   <ul className="tag-list">
                     {backgrounds.map(b => (
@@ -572,24 +566,24 @@ export default function KoteForm() {
                 )}
                 <div className="field-row" style={{ alignItems: 'flex-end' }}>
                   <div className="field" style={{ flex: 2 }}>
-                    <label htmlFor="bg-name">Background</label>
+                    <label htmlFor="bg-name">{t('background')}</label>
                     <input id="bg-name" type="text" list="bg-suggestions" value={newBackground.name}
-                      onChange={e => setNewBackground(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder="e.g. Horoscope" />
+                      onChange={e => setNewBackground(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder={t('phHoroscope')} />
                     <datalist id="bg-suggestions">
                       {BACKGROUNDS.map(b => <option key={b.value} value={b.value} />)}
                     </datalist>
                   </div>
                   <div className="field">
-                    <label htmlFor="bg-level">Level</label>
+                    <label htmlFor="bg-level">{t('level')}</label>
                     <select id="bg-level" value={newBackground.level} onChange={e => setNewBackground(p => ({ ...p, level: parseInt(e.target.value) }))}>
                       {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
                   <div className="field">
-                    <label htmlFor="bg-desc">Description</label>
+                    <label htmlFor="bg-desc">{t('description')}</label>
                     <input id="bg-desc" type="text" value={newBackground.description} onChange={e => setNewBackground(p => ({ ...p, description: e.target.value }))} autoComplete="off" />
                   </div>
-                  <button className="btn btn-secondary" onClick={handleAddBackground}>Add</button>
+                  <button className="btn btn-secondary" onClick={handleAddBackground}>{t('add')}</button>
                 </div>
               </fieldset>
             </>
@@ -600,16 +594,16 @@ export default function KoteForm() {
       {/* ── Merits & Flaws ── */}
       <div hidden={tab !== 6}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">Save your character first to add merits and flaws.</p>}
+          {!isEdit && <p className="muted-hint">{t('saveCharFirstMeritsFlaw')}</p>}
           {isEdit && (
             <>
               <fieldset>
-                <legend>Merits ({merits.length})</legend>
+                <legend>{t('merits')} ({merits.length})</legend>
                 {merits.length > 0 && (
                   <ul className="tag-list">
                     {merits.map(m => (
                       <li key={m.id} className="tag">
-                        <span>{m.merit?.name ?? 'Merit'} ({m.pointsSpent} pt)</span>
+                        <span>{m.merit?.name ?? t('merit')} ({m.pointsSpent} pt)</span>
                         <button className="tag-remove" onClick={() => { removeMerit(characterId, m.id); setMerits(prev => prev.filter(x => x.id !== m.id)) }}>×</button>
                       </li>
                     ))}
@@ -617,12 +611,12 @@ export default function KoteForm() {
                 )}
               </fieldset>
               <fieldset>
-                <legend>Flaws ({flaws.length})</legend>
+                <legend>{t('flaws')} ({flaws.length})</legend>
                 {flaws.length > 0 && (
                   <ul className="tag-list">
                     {flaws.map(f => (
                       <li key={f.id} className="tag">
-                        <span>{f.flaw?.name ?? 'Flaw'} (+{f.pointsGained} pt)</span>
+                        <span>{f.flaw?.name ?? t('flaw')} (+{f.pointsGained} pt)</span>
                         <button className="tag-remove" onClick={() => { removeFlaw(characterId, f.id); setFlaws(prev => prev.filter(x => x.id !== f.id)) }}>×</button>
                       </li>
                     ))}
@@ -637,10 +631,10 @@ export default function KoteForm() {
       {/* ── Inventory ── */}
       <div hidden={tab !== 7}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">Save your character first to add inventory.</p>}
+          {!isEdit && <p className="muted-hint">{t('saveCharFirstInventory')}</p>}
           {isEdit && (
             <fieldset>
-              <legend>Inventory ({inventory.length})</legend>
+              <legend>{t('tabInventory')} ({inventory.length})</legend>
               {inventory.length > 0 && (
                 <ul className="tag-list">
                   {inventory.map(item => (
@@ -653,19 +647,19 @@ export default function KoteForm() {
               )}
               <div className="field-row" style={{ alignItems: 'flex-end' }}>
                 <div className="field" style={{ flex: 2 }}>
-                  <label htmlFor="inv-name">Item Name</label>
+                  <label htmlFor="inv-name">{t('itemName')}</label>
                   <input id="inv-name" type="text" value={newItem.name} onChange={e => setNewItem(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
                 </div>
                 <div className="field" style={{ width: '70px' }}>
-                  <label htmlFor="inv-qty">Qty</label>
+                  <label htmlFor="inv-qty">{t('qty')}</label>
                   <input id="inv-qty" type="number" min={1} value={newItem.quantity}
                     onChange={e => setNewItem(p => ({ ...p, quantity: parseInt(e.target.value) || 1 }))} />
                 </div>
                 <div className="field">
-                  <label htmlFor="inv-notes">Notes</label>
+                  <label htmlFor="inv-notes">{t('notes')}</label>
                   <input id="inv-notes" type="text" value={newItem.notes} onChange={e => setNewItem(p => ({ ...p, notes: e.target.value }))} autoComplete="off" />
                 </div>
-                <button className="btn btn-secondary" onClick={handleAddItem}>Add</button>
+                <button className="btn btn-secondary" onClick={handleAddItem}>{t('add')}</button>
               </div>
             </fieldset>
           )}
@@ -674,9 +668,9 @@ export default function KoteForm() {
 
       {/* ── Save ── */}
       <div className="form-actions">
-        <button className="btn btn-secondary" onClick={() => navigate('/')}>Cancel</button>
+        <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('cancel')}</button>
         <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
-          {saving ? 'Saving...' : isEdit ? 'Save changes' : 'Create character'}
+          {saving ? t('saving') : isEdit ? t('saveChanges') : t('createCharacter')}
         </button>
       </div>
     </div>

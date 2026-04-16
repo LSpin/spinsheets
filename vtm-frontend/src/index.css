@@ -1293,4 +1293,25 @@ a:hover {
   }
 }
 
+/* ── Language Toggle ── */
+
+.lang-toggle {
+  background: var(--color-accent, #b22);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: 0;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.lang-toggle:hover {
+  background: var(--color-accent-hover, #d33);
+  filter: brightness(1.15);
+}
+
     

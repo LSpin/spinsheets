@@ -13,10 +13,11 @@ import {
 } from '../api/characterApi'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
+import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const TABS = ['Identity', 'Attributes', 'Abilities', 'Advantages', 'Disciplines & Backgrounds', 'Merits & Flaws', 'Inventory', 'Blood Sorcery']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabAdvantages', 'tabDisciplinesBg', 'tabMeritsFlaws', 'tabInventory', 'tabBloodSorcery']
 
 const INVENTORY_CATEGORIES = ['WEAPON', 'ARMOR', 'VEHICLE', 'EQUIPMENT', 'OTHER']
 
@@ -1001,16 +1002,16 @@ const ARCHETYPES = [
 ]
 
 const HEALTH_LEVELS = [
-  { label: 'Healthy',       penalty: '' },
-  { label: 'Bruised',       penalty: '(no penalty)' },
-  { label: 'Hurt',          penalty: '−1' },
-  { label: 'Injured',       penalty: '−1' },
-  { label: 'Wounded',       penalty: '−2' },
-  { label: 'Mauled',        penalty: '−2' },
-  { label: 'Crippled',      penalty: '−5' },
-  { label: 'Incapacitated', penalty: '' },
-  { label: 'Torpor',        penalty: '' },
-  { label: 'Final Death',   penalty: '' },
+  { key: 'healthy',       penalty: '' },
+  { key: 'bruised',       penaltyKey: 'noPenalty' },
+  { key: 'hurt',          penalty: '−1' },
+  { key: 'injured',       penalty: '−1' },
+  { key: 'wounded',       penalty: '−2' },
+  { key: 'mauled',        penalty: '−2' },
+  { key: 'crippled',      penalty: '−5' },
+  { key: 'incapacitated', penalty: '' },
+  { key: 'torpor',        penalty: '' },
+  { key: 'finalDeath',    penalty: '' },
 ]
 
 const BLOOD_TABLE = {
@@ -1078,40 +1079,40 @@ const INITIAL = {
 
 // ── Validation ────────────────────────────────────────────────────────────────
 
-function validate(fields) {
+function validate(fields, t) {
   const errors = []
   const warnings = []
 
-  if (!fields.name.trim()) errors.push('Name is required.')
-  if (!fields.clan.trim()) warnings.push('Clan is not set.')
+  if (!fields.name.trim()) errors.push(t('nameRequired'))
+  if (!fields.clan.trim()) warnings.push(t('clanNotSet'))
 
   const gen = fields.generation
-  if (!gen || gen < 4 || gen > 15) errors.push('Generation must be between 4 and 15.')
+  if (!gen || gen < 4 || gen > 15) errors.push(t('genRange'))
 
   const isHumanity = fields.pathName.trim().toLowerCase() === 'humanity'
   if (isHumanity) {
     const expected = fields.conscience + fields.selfControl
     if (fields.pathRating !== expected)
-      warnings.push(`Humanity rating should equal Conscience + Self-Control (${expected}).`)
+      warnings.push(t('humanityHint').replace('{0}', expected))
   }
 
   const { max } = bloodStats(gen)
-  if (fields.currentBlood > max) errors.push(`Blood pool cannot exceed ${max} for generation ${gen}.`)
-  if (fields.currentWillpower > fields.willpower) errors.push('Current Willpower cannot exceed maximum Willpower.')
+  if (fields.currentBlood > max) errors.push(t('bloodPoolExceed').replace('{0}', max).replace('{1}', gen))
+  if (fields.currentWillpower > fields.willpower) errors.push(t('wpExceed'))
 
   const customAbilities = [
-    [fields.hobbyTalent1Name, fields.hobbyTalent1, 'Hobby Talent 1'],
-    [fields.hobbyTalent2Name, fields.hobbyTalent2, 'Hobby Talent 2'],
-    [fields.hobbyTalent3Name, fields.hobbyTalent3, 'Hobby Talent 3'],
-    [fields.profSkill1Name, fields.profSkill1, 'Prof. Skill 1'],
-    [fields.profSkill2Name, fields.profSkill2, 'Prof. Skill 2'],
-    [fields.profSkill3Name, fields.profSkill3, 'Prof. Skill 3'],
-    [fields.expertKnowl1Name, fields.expertKnowl1, 'Expert Knowl. 1'],
-    [fields.expertKnowl2Name, fields.expertKnowl2, 'Expert Knowl. 2'],
-    [fields.expertKnowl3Name, fields.expertKnowl3, 'Expert Knowl. 3'],
+    [fields.hobbyTalent1Name, fields.hobbyTalent1, `${t('phHobbyTalent')} 1`],
+    [fields.hobbyTalent2Name, fields.hobbyTalent2, `${t('phHobbyTalent')} 2`],
+    [fields.hobbyTalent3Name, fields.hobbyTalent3, `${t('phHobbyTalent')} 3`],
+    [fields.profSkill1Name, fields.profSkill1, `${t('phProfSkill')} 1`],
+    [fields.profSkill2Name, fields.profSkill2, `${t('phProfSkill')} 2`],
+    [fields.profSkill3Name, fields.profSkill3, `${t('phProfSkill')} 3`],
+    [fields.expertKnowl1Name, fields.expertKnowl1, `${t('phExpertKnowl')} 1`],
+    [fields.expertKnowl2Name, fields.expertKnowl2, `${t('phExpertKnowl')} 2`],
+    [fields.expertKnowl3Name, fields.expertKnowl3, `${t('phExpertKnowl')} 3`],
   ]
-  for (const [nameVal, rating, label] of customAbilities) {
-    if (rating > 0 && !nameVal.trim()) warnings.push(`${label} has a rating but no name.`)
+  for (const [nameVal, rating, lbl] of customAbilities) {
+    if (rating > 0 && !nameVal.trim()) warnings.push(t('ratingNoName').replace('{0}', lbl))
   }
 
   return { errors, warnings }
@@ -1134,18 +1135,20 @@ function ordinal(n) {
   return n + (s[(v - 20) % 10] || s[v] || s[0])
 }
 
-function RatingRow({ abilityKey, specKey, fields, onField, onText, max }) {
+function RatingRow({ abilityKey, specKey, fields, onField, onText, max, t }) {
+  const displayLabel = t ? t(abilityKey) : label(abilityKey)
+  const specPlaceholder = t ? t('specialty') : 'Specialty'
   return (
     <div className="ability-row">
-      <DotRating label={label(abilityKey)} name={abilityKey} value={fields[abilityKey]} onChange={onField} max={max} />
+      <DotRating label={displayLabel} name={abilityKey} value={fields[abilityKey]} onChange={onField} max={max} />
       <input
         className="spec-input"
         type="text"
         name={specKey}
         value={fields[specKey] ?? ''}
         onChange={onText}
-        placeholder="Specialty"
-        aria-label={`${label(abilityKey)} specialty`}
+        placeholder={specPlaceholder}
+        aria-label={`${displayLabel} specialty`}
       />
     </div>
   )
@@ -1175,6 +1178,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function CharacterForm() {
+  const { t, lang } = useLanguage()
   const { id: paramId } = __useParams()
   const __navigate = __useNavigate()
   const characterId = paramId ? Number(paramId) : null
@@ -1212,7 +1216,7 @@ export default function CharacterForm() {
   const computedPath = fields.conscience + fields.selfControl
   const isElder = fields.generation <= 7
   const elderMax = isElder ? 9 : 5
-  const { errors: validationErrors, warnings: validationWarnings } = validate(fields)
+  const { errors: validationErrors, warnings: validationWarnings } = validate(fields, t)
 
   useEffect(() => {
     if (isEdit) loadCharacter()
@@ -1240,7 +1244,7 @@ export default function CharacterForm() {
       setSorceryPaths(pathRes.data)
       setRituals(ritRes.data)
     } catch {
-      setSaveError('Failed to load character.')
+      setSaveError(t('failedToLoad'))
     } finally {
       setLoading(false)
     }
@@ -1252,7 +1256,7 @@ export default function CharacterForm() {
       setMeritCatalog(mRes.data)
       setFlawCatalog(fRes.data)
     } catch {
-      setActionError('Failed to load merit/flaw catalog.')
+      setActionError(t('failedToLoad'))
     }
   }
 
@@ -1292,7 +1296,7 @@ export default function CharacterForm() {
         onCreated(res.data.id)
       }
     } catch {
-      setSaveError('Failed to save character.')
+      setSaveError(t('failedToSave'))
     } finally {
       setSaving(false)
     }
@@ -1305,14 +1309,14 @@ export default function CharacterForm() {
       const res = await addDiscipline(characterId, newDiscipline)
       setDisciplines(prev => [...prev, res.data])
       setNewDiscipline({ name: '', level: 1 })
-    } catch { setActionError('Failed to add discipline.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleRemoveDiscipline(id) {
     try {
       await removeDiscipline(characterId, id)
       setDisciplines(prev => prev.filter(d => d.id !== id))
-    } catch { setActionError('Failed to remove discipline.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   // Background handlers
@@ -1322,14 +1326,14 @@ export default function CharacterForm() {
       const res = await addBackground(characterId, newBackground)
       setBackgrounds(prev => [...prev, res.data])
       setNewBackground({ name: '', level: 1, description: '' })
-    } catch { setActionError('Failed to add background.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleRemoveBackground(id) {
     try {
       await removeBackground(characterId, id)
       setBackgrounds(prev => prev.filter(b => b.id !== id))
-    } catch { setActionError('Failed to remove background.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   // Merit / Flaw handlers
@@ -1337,28 +1341,28 @@ export default function CharacterForm() {
     try {
       const res = await addMerit(characterId, { meritId: merit.id, pointsSpent: merit.cost })
       setMerits(prev => [...prev, res.data])
-    } catch { setActionError('Failed to add merit.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleRemoveMerit(id) {
     try {
       await removeMerit(characterId, id)
       setMerits(prev => prev.filter(m => m.id !== id))
-    } catch { setActionError('Failed to remove merit.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleAddFlaw(flaw) {
     try {
       const res = await addFlaw(characterId, { flawId: flaw.id, pointsGained: flaw.bonus })
       setFlaws(prev => [...prev, res.data])
-    } catch { setActionError('Failed to add flaw.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleRemoveFlaw(id) {
     try {
       await removeFlaw(characterId, id)
       setFlaws(prev => prev.filter(f => f.id !== id))
-    } catch { setActionError('Failed to remove flaw.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   // Inventory handlers
@@ -1368,14 +1372,14 @@ export default function CharacterForm() {
       const res = await addInventoryItem(characterId, newItem)
       setInventory(prev => [...prev, res.data])
       setNewItem({ name: '', category: 'EQUIPMENT', quantity: 1, damage: '', concealment: '', range: '', rate: '', clip: '', armorRating: null, handling: null, structure: null, notes: '' })
-    } catch { setActionError('Failed to add item.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleRemoveItem(id) {
     try {
       await removeInventoryItem(characterId, id)
       setInventory(prev => prev.filter(i => i.id !== id))
-    } catch { setActionError('Failed to remove item.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   // Sorcery handlers
@@ -1385,7 +1389,7 @@ export default function CharacterForm() {
       const res = await addSorceryPath(characterId, newPath)
       setSorceryPaths(prev => [...prev, res.data])
       setNewPath({ name: '', level: 1 })
-    } catch { setActionError('Failed to add path.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleRemovePath(id) {
@@ -1393,7 +1397,7 @@ export default function CharacterForm() {
       await removeSorceryPath(characterId, id)
       setSorceryPaths(prev => prev.filter(p => p.id !== id))
       if (sorcInfo?.id === id) setSorcInfo(null)
-    } catch { setActionError('Failed to remove path.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleAddRitual() {
@@ -1402,7 +1406,7 @@ export default function CharacterForm() {
       const res = await addRitual(characterId, newRitual)
       setRituals(prev => [...prev, res.data])
       setNewRitual({ name: '', level: 1, notes: '' })
-    } catch { setActionError('Failed to add ritual.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleRemoveRitual(id) {
@@ -1410,13 +1414,13 @@ export default function CharacterForm() {
       await removeRitual(characterId, id)
       setRituals(prev => prev.filter(r => r.id !== id))
       if (sorcInfo?.id === id) setSorcInfo(null)
-    } catch { setActionError('Failed to remove ritual.') }
+    } catch { setActionError(t('failedToSave')) }
   }
 
   const filteredMerits = meritCatalog.filter(m => m.name.toLowerCase().includes(meritSearch.toLowerCase()))
   const filteredFlaws  = flawCatalog.filter(f => f.name.toLowerCase().includes(flawSearch.toLowerCase()))
 
-  if (loading) return <p className="status-loading" aria-live="polite">Loading…</p>
+  if (loading) return <p className="status-loading" aria-live="polite">{t('loading')}</p>
 
   // ── Render helpers ─────────────────────────────────────────────────────────
 
@@ -1450,8 +1454,8 @@ export default function CharacterForm() {
   return (
     <section aria-labelledby="form-heading">
       <div className="form-header">
-        <button className="btn btn-secondary" onClick={onBack}>← Back</button>
-        <h2 id="form-heading">{isEdit ? `Edit — ${fields.name || 'Character'}` : 'New Character'}</h2>
+        <button className="btn btn-secondary" onClick={onBack}>← {t('back')}</button>
+        <h2 id="form-heading">{isEdit ? `${t('editCharacter')} — ${fields.name || t('charName')}` : t('newCharacter')}</h2>
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
@@ -1464,13 +1468,13 @@ export default function CharacterForm() {
       )}
 
       <div role="tablist" aria-label="Character sheet sections" className="tab-list">
-        {TABS.map((t, i) => (
+        {TAB_KEYS.map((key, i) => (
           <button
-            key={t} role="tab" id={`tab-${i}`}
+            key={key} role="tab" id={`tab-${i}`}
             aria-selected={tab === i} aria-controls={`tabpanel-${i}`}
             className={`btn btn-secondary tab-btn${tab === i ? ' tab-btn--active' : ''}`}
             onClick={() => setTab(i)}
-          >{t}</button>
+          >{t(key)}</button>
         ))}
       </div>
 
@@ -1478,46 +1482,46 @@ export default function CharacterForm() {
       <div role="tabpanel" id="tabpanel-0" aria-labelledby="tab-0" hidden={tab !== 0}>
         <div className="form-section">
           <fieldset>
-            <legend>Identity</legend>
+            <legend>{t('identity')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="name">Name (True Name) <span aria-hidden="true">*</span></label>
+                <label htmlFor="name">{t('nameTrueName')} <span aria-hidden="true">*</span></label>
                 <input id="name" name="name" type="text" value={fields.name} onChange={handleText} required autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="altName">Alt Name</label>
+                <label htmlFor="altName">{t('altName')}</label>
                 <input id="altName" name="altName" type="text" value={fields.altName} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="concept">Concept</label>
+                <label htmlFor="concept">{t('concept')}</label>
                 <input id="concept" name="concept" type="text" value={fields.concept} onChange={handleText} autoComplete="off" />
               </div>
             </div>
             <div className="field-row">
-              <ArchetypeSelect id="nature" name="nature" label="Nature" value={fields.nature} onChange={handleField} />
-              <ArchetypeSelect id="demeanor" name="demeanor" label="Demeanor" value={fields.demeanor} onChange={handleField} />
+              <ArchetypeSelect id="nature" name="nature" label={t('nature')} value={fields.nature} onChange={handleField} t={t} />
+              <ArchetypeSelect id="demeanor" name="demeanor" label={t('demeanor')} value={fields.demeanor} onChange={handleField} t={t} />
               <div className="field">
-                <label htmlFor="domainHaven">Domain / Haven</label>
+                <label htmlFor="domainHaven">{t('domainHaven')}</label>
                 <input id="domainHaven" name="domainHaven" type="text" value={fields.domainHaven} onChange={handleText} autoComplete="off" />
               </div>
             </div>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="visibleAge">Visible Age</label>
+                <label htmlFor="visibleAge">{t('visibleAge')}</label>
                 <input id="visibleAge" name="visibleAge" type="text" value={fields.visibleAge} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="totalAge">Total Age</label>
+                <label htmlFor="totalAge">{t('totalAge')}</label>
                 <input id="totalAge" name="totalAge" type="text" value={fields.totalAge} onChange={handleText} autoComplete="off" />
               </div>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Kindred</legend>
+            <legend>{t('kindred')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="clan">Clan / Ghoul / Mortal <span aria-hidden="true">*</span></label>
+                <label htmlFor="clan">{t('clan')} <span aria-hidden="true">*</span></label>
                 <select id="clan" name="clan" value={fields.clan} onChange={e => {
                   const val = e.target.value
                   handleField('clan', val)
@@ -1525,14 +1529,14 @@ export default function CharacterForm() {
                   if (entry) handleField('clanCurse', entry.curse)
                   if (val === 'Nosferatu' || val === 'Samedi') handleField('appearance', 0)
                 }}>
-                  <option value="">— Select —</option>
+                  <option value="">{t('select')}</option>
                   {CLANS.map(c => <option key={c.value} value={c.value}>{c.value}</option>)}
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="sect">Sect</label>
+                <label htmlFor="sect">{t('sect')}</label>
                 <select id="sect" name="sect" value={fields.sect} onChange={handleText}>
-                  <option value="">— Select —</option>
+                  <option value="">{t('select')}</option>
                   <option value="Camarilla">Camarilla</option>
                   <option value="Sabbat">Sabbat</option>
                   <option value="Anarch">Anarch</option>
@@ -1543,7 +1547,7 @@ export default function CharacterForm() {
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="generation">Generation</label>
+                <label htmlFor="generation">{t('generation')}</label>
                 <select id="generation" name="generation" value={fields.generation} onChange={e => handleField('generation', parseInt(e.target.value))}>
                   {Array.from({ length: 12 }, (_, i) => 15 - i).map(g => {
                     const { max, perTurn } = bloodStats(g)
@@ -1552,44 +1556,44 @@ export default function CharacterForm() {
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="npc">Type</label>
-                <div className="role-toggle" role="radiogroup" aria-label="Character type">
+                <label htmlFor="npc">{t('type')}</label>
+                <div className="role-toggle" role="radiogroup" aria-label={t('type')}>
                   <button type="button" className={`role-toggle-btn${!fields.npc ? ' role-toggle-btn--active' : ''}`}
                     onClick={() => handleField('npc', false)} aria-pressed={!fields.npc}>PC</button>
                   <button type="button" className={`role-toggle-btn${fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', true)} aria-pressed={fields.npc}>NPC</button>
+                    onClick={() => handleField('npc', true)} aria-pressed={fields.npc}>{t('npc')}</button>
                 </div>
               </div>
             </div>
             {isElder && (
               <p className="role-hint" style={{ marginTop: 'var(--space-sm)' }}>
-                Elder vampire — attributes, abilities, and backgrounds can reach {elderMax} dots.
+                {t('elderHint').replace('{0}', elderMax)}
               </p>
             )}
           </fieldset>
 
           <fieldset>
-            <legend>Derangements & Clan Curse</legend>
+            <legend>{t('clanCurseDerangements')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="derangement1">Derangement</label>
+                <label htmlFor="derangement1">{t('derangement')}</label>
                 <input id="derangement1" name="derangement1" type="text" value={fields.derangement1} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="derangement2">Derangement</label>
+                <label htmlFor="derangement2">{t('derangement')}</label>
                 <input id="derangement2" name="derangement2" type="text" value={fields.derangement2} onChange={handleText} autoComplete="off" />
               </div>
             </div>
             <div className="field">
-              <label htmlFor="clanCurse">Clan Curse / Notes on Weaknesses</label>
+              <label htmlFor="clanCurse">{t('clanCurseNotes')}</label>
               <textarea id="clanCurse" name="clanCurse" value={fields.clanCurse} onChange={handleText} rows={3} />
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Notes</legend>
+            <legend>{t('notes')}</legend>
             <div className="field">
-              <textarea id="notes" name="notes" value={fields.notes} onChange={handleText} rows={5} placeholder="General notes…" />
+              <textarea id="notes" name="notes" value={fields.notes} onChange={handleText} rows={5} placeholder={t('generalNotes')} />
             </div>
           </fieldset>
         </div>
@@ -1599,19 +1603,19 @@ export default function CharacterForm() {
       <div role="tabpanel" id="tabpanel-1" aria-labelledby="tab-1" hidden={tab !== 1}>
         <div className="form-section">
           {[
-            { legend: 'Physical', attrs: ['strength', 'dexterity', 'stamina'] },
-            { legend: 'Social',   attrs: ['charisma', 'manipulation', 'appearance'] },
-            { legend: 'Mental',   attrs: ['perception', 'intelligence', 'wits'] },
-          ].map(({ legend, attrs }) => {
+            { legendKey: 'physicalAttr', attrs: ['strength', 'dexterity', 'stamina'] },
+            { legendKey: 'socialAttr',   attrs: ['charisma', 'manipulation', 'appearance'] },
+            { legendKey: 'mentalAttr',   attrs: ['perception', 'intelligence', 'wits'] },
+          ].map(({ legendKey, attrs }) => {
             const zeroAppearance = fields.clan === 'Nosferatu' || fields.clan === 'Samedi'
             return (
-              <fieldset key={legend}>
-                <legend>{legend}</legend>
+              <fieldset key={legendKey}>
+                <legend>{t(legendKey)}</legend>
                 <div className="rating-grid">
                   {attrs.map(a => (
                     <div key={a} className="ability-row">
                       <DotRating
-                        label={a === 'appearance' && zeroAppearance ? 'Appearance (0)' : label(a)}
+                        label={a === 'appearance' && zeroAppearance ? `${t('appearance')} (0)` : t(a)}
                         name={a}
                         value={a === 'appearance' && zeroAppearance ? 0 : fields[a]}
                         onChange={handleField}
@@ -1624,8 +1628,8 @@ export default function CharacterForm() {
                         name={a + 'Spec'}
                         value={fields[a + 'Spec'] ?? ''}
                         onChange={handleText}
-                        placeholder="Specialty"
-                        aria-label={`${label(a)} specialty`}
+                        placeholder={t('specialty')}
+                        aria-label={`${t(a)} ${t('specialty')}`}
                       />
                     </div>
                   ))}
@@ -1640,44 +1644,44 @@ export default function CharacterForm() {
       <div role="tabpanel" id="tabpanel-2" aria-labelledby="tab-2" hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
-            <legend>Talents</legend>
+            <legend>{t('talents')}</legend>
             <div className="rating-grid">
               {['alertness', 'athletics', 'awareness', 'brawl', 'empathy', 'expression', 'intimidation', 'leadership', 'streetwise', 'subterfuge'].map(a =>
-                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} max={elderMax} />
+                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} max={elderMax} t={t} />
               )}
             </div>
             <div className="custom-abilities">
-              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} max={elderMax} />
-              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} max={elderMax} />
-              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} max={elderMax} />
+              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} max={elderMax} />
+              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} max={elderMax} />
+              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} max={elderMax} />
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Skills</legend>
+            <legend>{t('skills')}</legend>
             <div className="rating-grid">
               {['animalKen', 'crafts', 'drive', 'etiquette', 'firearms', 'larceny', 'melee', 'performance', 'stealth', 'survival'].map(a =>
-                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} max={elderMax} />
+                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} max={elderMax} t={t} />
               )}
             </div>
             <div className="custom-abilities">
-              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} max={elderMax} />
-              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} max={elderMax} />
-              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} max={elderMax} />
+              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} max={elderMax} />
+              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} max={elderMax} />
+              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} max={elderMax} />
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Knowledges</legend>
+            <legend>{t('knowledges')}</legend>
             <div className="rating-grid">
               {['academics', 'computer', 'finance', 'investigation', 'law', 'linguistics', 'medicine', 'occult', 'politics', 'science', 'technology'].map(a =>
-                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} max={elderMax} />
+                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} max={elderMax} t={t} />
               )}
             </div>
             <div className="custom-abilities">
-              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} max={elderMax} />
-              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} max={elderMax} />
-              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} max={elderMax} />
+              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} max={elderMax} />
+              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} max={elderMax} />
+              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} max={elderMax} />
             </div>
           </fieldset>
         </div>
@@ -1688,19 +1692,19 @@ export default function CharacterForm() {
         <div className="form-section">
 
           <fieldset>
-            <legend>Virtues</legend>
+            <legend>{t('virtues')}</legend>
             <div className="rating-grid">
-              <DotRating label="Conscience"   name="conscience"   value={fields.conscience}   onChange={handleField} min={1} />
-              <DotRating label="Self-Control" name="selfControl"  value={fields.selfControl}  onChange={handleField} min={1} />
-              <DotRating label="Courage"      name="courage"      value={fields.courage}      onChange={handleField} min={1} />
+              <DotRating label={t('conscience')}  name="conscience"   value={fields.conscience}   onChange={handleField} min={1} />
+              <DotRating label={t('selfControl')} name="selfControl"  value={fields.selfControl}  onChange={handleField} min={1} />
+              <DotRating label={t('courage')}     name="courage"      value={fields.courage}      onChange={handleField} min={1} />
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Path of Enlightenment</legend>
+            <legend>{t('pathOfEnlightenment')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="pathName">Path</label>
+                <label htmlFor="pathName">{t('pathName')}</label>
                 <select id="pathName" name="pathName" value={fields.pathName} onChange={handleText}>
                   <option value="Humanity">Humanity</option>
                   <option value="Path of Blood">Path of Blood</option>
@@ -1721,7 +1725,7 @@ export default function CharacterForm() {
               </div>
               <div className="field">
                 <label htmlFor="pathRating">
-                  Rating {isHumanity && <span className="muted">(Conscience + Self-Control = {computedPath})</span>}
+                  {t('rating')} {isHumanity && <span className="muted">({t('conscience')} + {t('selfControl')} = {computedPath})</span>}
                 </label>
                 {isHumanity
                   ? <input id="pathRating" type="number" value={computedPath} readOnly className="readonly-input" />
@@ -1732,22 +1736,22 @@ export default function CharacterForm() {
           </fieldset>
 
           <fieldset>
-            <legend>Willpower</legend>
+            <legend>{t('willpower')}</legend>
             <div className="field-row">
-              <DotRating label="Max Willpower"     name="willpower"        value={fields.willpower}        onChange={handleField} min={1} max={10} />
-              <DotRating label="Current Willpower" name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
+              <DotRating label={t('willpower')}        name="willpower"        value={fields.willpower}        onChange={handleField} min={1} max={10} />
+              <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Blood Pool — {ordinal(fields.generation)} Gen (max {maxBlood}, {perTurn}/turn)</legend>
-            <DotRating label="Current Blood" name="currentBlood" value={fields.currentBlood} onChange={handleField} min={0} max={maxBlood} />
+            <legend>{t('bloodPool')} — {ordinal(fields.generation)} Gen (max {maxBlood}, {perTurn}/turn)</legend>
+            <DotRating label={t('currentBlood')} name="currentBlood" value={fields.currentBlood} onChange={handleField} min={0} max={maxBlood} />
           </fieldset>
 
           <fieldset>
-            <legend>Health</legend>
+            <legend>{t('health')}</legend>
             <div className="field">
-              <label htmlFor="woundLevel">Current Wound Level</label>
+              <label htmlFor="woundLevel">{t('woundLevel')}</label>
               <select
                 id="woundLevel"
                 value={fields.woundLevel}
@@ -1755,7 +1759,7 @@ export default function CharacterForm() {
               >
                 {HEALTH_LEVELS.map((h, i) => (
                   <option key={i} value={i}>
-                    {h.label}{h.penalty ? ` ${h.penalty}` : ''}
+                    {t(h.key)}{h.penaltyKey ? ` ${t(h.penaltyKey)}` : h.penalty ? ` ${h.penalty}` : ''}
                   </option>
                 ))}
               </select>
@@ -1770,11 +1774,11 @@ export default function CharacterForm() {
         <div className="disc-bg-layout">
         <div className="form-section">
           {!isEdit ? (
-            <p className="muted-hint">Save the character first to add disciplines and backgrounds.</p>
+            <p className="muted-hint">{t('saveFirst')}</p>
           ) : (
             <>
               <fieldset>
-                <legend>Disciplines</legend>
+                <legend>{t('disciplines')}</legend>
                 <TagList
                   items={disciplines}
                   getLabel={d => `${d.name} ${d.level}`}
@@ -1787,20 +1791,20 @@ export default function CharacterForm() {
                 <div className="field-row">
                   <SearchableInput
                     id="disc-name"
-                    label="Discipline name"
+                    label={t('disciplineName')}
                     catalog={DISCIPLINES}
                     value={newDiscipline.name}
                     onChange={val => setNewDiscipline(p => ({ ...p, name: val }))}
-                    placeholder="e.g. Protean"
+                    placeholder={t('phDiscipline')}
                   />
                   <div className="field">
-                    <label htmlFor="disc-level">Level</label>
+                    <label htmlFor="disc-level">{t('level')}</label>
                     <select id="disc-level" value={newDiscipline.level}
                       onChange={e => setNewDiscipline(p => ({ ...p, level: parseInt(e.target.value) }))}>
                       {Array.from({ length: elderMax }, (_, i) => i + 1).map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
-                  <button className="btn btn-secondary" onClick={handleAddDiscipline}>Add</button>
+                  <button className="btn btn-secondary" onClick={handleAddDiscipline}>{t('add')}</button>
                 </div>
                 {getLevelHint(DISCIPLINES, newDiscipline.name, newDiscipline.level) && (
                   <p className="archetype-desc">{getLevelHint(DISCIPLINES, newDiscipline.name, newDiscipline.level)}</p>
@@ -1810,7 +1814,7 @@ export default function CharacterForm() {
               <hr className="divider" />
 
               <fieldset>
-                <legend>Backgrounds</legend>
+                <legend>{t('backgrounds')}</legend>
                 <TagList
                   items={backgrounds}
                   getLabel={b => `${b.name} ${b.level}`}
@@ -1823,25 +1827,25 @@ export default function CharacterForm() {
                 <div className="field-row">
                   <SearchableInput
                     id="bg-name"
-                    label="Background name"
+                    label={t('backgroundName')}
                     catalog={BACKGROUNDS}
                     value={newBackground.name}
                     onChange={val => setNewBackground(p => ({ ...p, name: val }))}
-                    placeholder="e.g. Resources"
+                    placeholder={t('phBackground')}
                   />
                   <div className="field">
-                    <label htmlFor="bg-level">Level</label>
+                    <label htmlFor="bg-level">{t('level')}</label>
                     <select id="bg-level" value={newBackground.level}
                       onChange={e => setNewBackground(p => ({ ...p, level: parseInt(e.target.value) }))}>
                       {Array.from({ length: elderMax }, (_, i) => i + 1).map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
                   <div className="field">
-                    <label htmlFor="bg-desc">Description</label>
+                    <label htmlFor="bg-desc">{t('description')}</label>
                     <input id="bg-desc" type="text" value={newBackground.description}
                       onChange={e => setNewBackground(p => ({ ...p, description: e.target.value }))} autoComplete="off" />
                   </div>
-                  <button className="btn btn-secondary" onClick={handleAddBackground}>Add</button>
+                  <button className="btn btn-secondary" onClick={handleAddBackground}>{t('add')}</button>
                 </div>
                 {getLevelHint(BACKGROUNDS, newBackground.name, newBackground.level) && (
                   <p className="archetype-desc">{getLevelHint(BACKGROUNDS, newBackground.name, newBackground.level)}</p>
@@ -1855,7 +1859,7 @@ export default function CharacterForm() {
           const entry = tagInfo.catalog.find(c => c.value.toLowerCase() === tagInfo.name.toLowerCase())
           return (
             <aside className="tag-info-panel">
-              <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>✕ close</button>
+              <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
               <p className="tag-info-panel-name">{tagInfo.name}</p>
               {entry?.description && <p className="tag-info-panel-desc">{entry.description}</p>}
               {entry?.levels && (
@@ -1878,11 +1882,11 @@ export default function CharacterForm() {
         <div className="disc-bg-layout">
           <div className="form-section">
             {!isEdit ? (
-              <p className="muted-hint">Save the character first to add merits and flaws.</p>
+              <p className="muted-hint">{t('saveFirst')}</p>
             ) : (
               <>
                 <fieldset>
-                  <legend>Merits</legend>
+                  <legend>{t('merits')}</legend>
                   <TagList
                     items={merits}
                     getLabel={m => `${m.merit.name} (${m.pointsSpent}pt)`}
@@ -1894,8 +1898,8 @@ export default function CharacterForm() {
                   <div className="catalog-search-wrap">
                     <input id="merit-search" type="search" value={meritSearch}
                       onChange={e => setMeritSearch(e.target.value)}
-                      placeholder="Search merits…"
-                      aria-label="Search merits" />
+                      placeholder={t('searchMeritsLabel')}
+                      aria-label={t('searchMeritsLabel')} />
                     <span className="catalog-search-count">
                       {filteredMerits.length > 30
                         ? `30 / ${filteredMerits.length}`
@@ -1915,7 +1919,7 @@ export default function CharacterForm() {
                 <hr className="divider" />
 
                 <fieldset>
-                  <legend>Flaws</legend>
+                  <legend>{t('flaws')}</legend>
                   <TagList
                     items={flaws}
                     getLabel={f => `${f.flaw.name} (${f.pointsGained}pt)`}
@@ -1927,8 +1931,8 @@ export default function CharacterForm() {
                   <div className="catalog-search-wrap">
                     <input id="flaw-search" type="search" value={flawSearch}
                       onChange={e => setFlawSearch(e.target.value)}
-                      placeholder="Search flaws…"
-                      aria-label="Search flaws" />
+                      placeholder={t('searchFlawsLabel')}
+                      aria-label={t('searchFlawsLabel')} />
                     <span className="catalog-search-count">
                       {filteredFlaws.length > 30
                         ? `30 / ${filteredFlaws.length}`
@@ -1953,10 +1957,10 @@ export default function CharacterForm() {
             const points = mfInfo.kind === 'merit' ? `${mfInfo.pointsSpent}pt` : `${mfInfo.pointsGained}pt`
             return (
               <aside className="tag-info-panel">
-                <button className="tag-info-panel-close" onClick={() => setMfInfo(null)}>✕ close</button>
+                <button className="tag-info-panel-close" onClick={() => setMfInfo(null)}>{t('close')}</button>
                 <p className="tag-info-panel-name">{entry.name}</p>
                 <p className="tag-info-panel-desc">
-                  {mfInfo.kind === 'merit' ? 'Merit' : 'Flaw'} · {points}
+                  {mfInfo.kind === 'merit' ? t('merit') : t('flaw')} · {points}
                   {entry.costObs ? ` (${entry.costObs})` : ''}
                   {entry.source ? ` · ${entry.source}${entry.page ? ` p.${entry.page}` : ''}` : ''}
                 </p>
@@ -1975,19 +1979,19 @@ export default function CharacterForm() {
       <div role="tabpanel" id="tabpanel-6" aria-labelledby="tab-6" hidden={tab !== 6}>
         <div className="form-section">
           {!isEdit ? (
-            <p className="muted-hint">Save the character first to add inventory.</p>
+            <p className="muted-hint">{t('saveCharFirstInventory')}</p>
           ) : (
             <>
               {/* Add new item form */}
               <fieldset>
-                <legend>Add Item</legend>
+                <legend>{t('addItem')}</legend>
                 <div className="field-row">
                   <SearchableInput
                     id="inv-name"
-                    label="Name"
+                    label={t('name')}
                     catalog={ITEM_CATALOG}
                     value={newItem.name}
-                    placeholder="e.g. Glock 17 or custom item"
+                    placeholder={t('phInvName')}
                     onChange={val => {
                       const hit = ITEM_CATALOG.find(c => c.value.toLowerCase() === val.toLowerCase())
                       if (hit) {
@@ -2010,14 +2014,14 @@ export default function CharacterForm() {
                     }}
                   />
                   <div className="field">
-                    <label htmlFor="inv-cat">Category</label>
+                    <label htmlFor="inv-cat">{t('category')}</label>
                     <select id="inv-cat" value={newItem.category}
                       onChange={e => setNewItem(p => ({ ...p, category: e.target.value }))}>
-                      {INVENTORY_CATEGORIES.map(c => <option key={c} value={c}>{c.charAt(0) + c.slice(1).toLowerCase()}</option>)}
+                      {INVENTORY_CATEGORIES.map(c => <option key={c} value={c}>{t(c.toLowerCase())}</option>)}
                     </select>
                   </div>
                   <div className="field" style={{ width: '70px' }}>
-                    <label htmlFor="inv-qty">Qty</label>
+                    <label htmlFor="inv-qty">{t('qty')}</label>
                     <input id="inv-qty" type="number" min={1} value={newItem.quantity}
                       onChange={e => setNewItem(p => ({ ...p, quantity: parseInt(e.target.value) || 1 }))} />
                   </div>
@@ -2025,108 +2029,108 @@ export default function CharacterForm() {
                 {(newItem.category === 'WEAPON') && (
                   <div className="field-row">
                     <div className="field">
-                      <label htmlFor="inv-dmg">Damage</label>
+                      <label htmlFor="inv-dmg">{t('damage')}</label>
                       <input id="inv-dmg" type="text" value={newItem.damage}
                         onChange={e => setNewItem(p => ({ ...p, damage: e.target.value }))}
-                        placeholder="e.g. Str+3 L" autoComplete="off" />
+                        placeholder={t('phDamage')} autoComplete="off" />
                     </div>
                     <div className="field" style={{ width: '80px' }}>
-                      <label htmlFor="inv-range">Range</label>
+                      <label htmlFor="inv-range">{t('range')}</label>
                       <input id="inv-range" type="text" value={newItem.range}
                         onChange={e => setNewItem(p => ({ ...p, range: e.target.value }))}
-                        placeholder="e.g. 20m" autoComplete="off" />
+                        placeholder={t('phRangeWeapon')} autoComplete="off" />
                     </div>
                     <div className="field" style={{ width: '60px' }}>
-                      <label htmlFor="inv-rate">Rate</label>
+                      <label htmlFor="inv-rate">{t('rate')}</label>
                       <input id="inv-rate" type="text" value={newItem.rate}
                         onChange={e => setNewItem(p => ({ ...p, rate: e.target.value }))}
-                        placeholder="e.g. 3" autoComplete="off" />
+                        placeholder={t('phRateWeapon')} autoComplete="off" />
                     </div>
                     <div className="field" style={{ width: '80px' }}>
-                      <label htmlFor="inv-clip">Clip</label>
+                      <label htmlFor="inv-clip">{t('clip')}</label>
                       <input id="inv-clip" type="text" value={newItem.clip}
                         onChange={e => setNewItem(p => ({ ...p, clip: e.target.value }))}
-                        placeholder="e.g. 17+1" autoComplete="off" />
+                        placeholder={t('phClipWeapon')} autoComplete="off" />
                     </div>
                     <div className="field" style={{ width: '60px' }}>
-                      <label htmlFor="inv-conc">Conc.</label>
+                      <label htmlFor="inv-conc">{t('concLabel')}</label>
                       <input id="inv-conc" type="text" value={newItem.concealment}
                         onChange={e => setNewItem(p => ({ ...p, concealment: e.target.value }))}
-                        placeholder="P/J/T/N" autoComplete="off" />
+                        placeholder={t('phConcWeapon')} autoComplete="off" />
                     </div>
                   </div>
                 )}
                 {(newItem.category === 'ARMOR') && (
                   <div className="field-row">
                     <div className="field" style={{ width: '100px' }}>
-                      <label htmlFor="inv-armor">Armor Rating</label>
+                      <label htmlFor="inv-armor">{t('armorRatingLabel')}</label>
                       <input id="inv-armor" type="number" value={newItem.armorRating ?? ''}
                         onChange={e => { const v = parseInt(e.target.value); setNewItem(p => ({ ...p, armorRating: isNaN(v) ? null : v })) }}
-                        placeholder="e.g. 2" />
+                        placeholder={t('phArmorRating')} />
                     </div>
                     <div className="field" style={{ width: '100px' }}>
-                      <label htmlFor="inv-penalty">Dex Penalty</label>
+                      <label htmlFor="inv-penalty">{t('dexPenaltyLabel')}</label>
                       <input id="inv-penalty" type="number" value={newItem.handling ?? ''}
                         onChange={e => { const v = parseInt(e.target.value); setNewItem(p => ({ ...p, handling: isNaN(v) ? null : v })) }}
-                        placeholder="e.g. -1" />
+                        placeholder={t('phDexPenalty')} />
                     </div>
                   </div>
                 )}
                 {(newItem.category === 'VEHICLE') && (
                   <div className="field-row">
                     <div className="field">
-                      <label htmlFor="inv-range-v">Top Speed</label>
+                      <label htmlFor="inv-range-v">{t('topSpeed')}</label>
                       <input id="inv-range-v" type="text" value={newItem.range}
                         onChange={e => setNewItem(p => ({ ...p, range: e.target.value }))}
-                        placeholder="e.g. 200 km/h" autoComplete="off" />
+                        placeholder={t('phTopSpeed')} autoComplete="off" />
                     </div>
                     <div className="field" style={{ width: '80px' }}>
-                      <label htmlFor="inv-handling">Maneuver</label>
+                      <label htmlFor="inv-handling">{t('maneuverLabel')}</label>
                       <input id="inv-handling" type="number" value={newItem.handling ?? ''}
                         onChange={e => { const v = parseInt(e.target.value); setNewItem(p => ({ ...p, handling: isNaN(v) ? null : v })) }}
-                        placeholder="e.g. 3" />
+                        placeholder={t('phManeuver')} />
                     </div>
                     <div className="field" style={{ width: '90px' }}>
-                      <label htmlFor="inv-struct">Structure</label>
+                      <label htmlFor="inv-struct">{t('structureLabel')}</label>
                       <input id="inv-struct" type="number" value={newItem.structure ?? ''}
                         onChange={e => { const v = parseInt(e.target.value); setNewItem(p => ({ ...p, structure: isNaN(v) ? null : v })) }}
-                        placeholder="e.g. 25" />
+                        placeholder={t('phStructure')} />
                     </div>
                     <div className="field" style={{ width: '80px' }}>
-                      <label htmlFor="inv-armor-v">Armor</label>
+                      <label htmlFor="inv-armor-v">{t('armor')}</label>
                       <input id="inv-armor-v" type="number" value={newItem.armorRating ?? ''}
                         onChange={e => { const v = parseInt(e.target.value); setNewItem(p => ({ ...p, armorRating: isNaN(v) ? null : v })) }}
-                        placeholder="e.g. 0" />
+                        placeholder={t('phArmorVehicle')} />
                     </div>
                   </div>
                 )}
                 <div className="field">
-                  <label htmlFor="inv-notes">Notes</label>
+                  <label htmlFor="inv-notes">{t('notes')}</label>
                   <input id="inv-notes" type="text" value={newItem.notes}
                     onChange={e => setNewItem(p => ({ ...p, notes: e.target.value }))}
-                    placeholder="Optional notes" autoComplete="off" />
+                    placeholder={t('phNotes')} autoComplete="off" />
                 </div>
                 <button
                   type="button"
                   className="btn btn-secondary"
                   style={{ position: 'relative', zIndex: 200 }}
                   onClick={handleAddItem}
-                >Add to inventory</button>
+                >{t('addToInventory')}</button>
               </fieldset>
 
               {/* Item list grouped by category */}
               {INVENTORY_CATEGORIES.filter(cat => inventory.some(i => i.category === cat)).map(cat => (
                 <fieldset key={cat}>
-                  <legend>{cat.charAt(0) + cat.slice(1).toLowerCase() + 's'}</legend>
+                  <legend>{t(cat.toLowerCase()) + 's'}</legend>
                   <table className="inv-table">
                     <thead>
                       <tr>
-                        <th>Name</th>
-                        <th>Qty</th>
-                        {cat === 'WEAPON' && <><th>Damage</th><th>Range</th><th>Rate</th><th>Clip</th><th>Conc.</th></>}
-                        {cat === 'ARMOR' && <><th>Rating</th><th>Dex Penalty</th></>}
-                        {cat === 'VEHICLE' && <><th>Top Speed</th><th>Maneuver</th><th>Structure</th><th>Armor</th></>}
-                        <th>Notes</th>
+                        <th>{t('name')}</th>
+                        <th>{t('qty')}</th>
+                        {cat === 'WEAPON' && <><th>{t('damage')}</th><th>{t('range')}</th><th>{t('rate')}</th><th>{t('clip')}</th><th>{t('concLabel')}</th></>}
+                        {cat === 'ARMOR' && <><th>{t('rating')}</th><th>{t('dexPenaltyLabel')}</th></>}
+                        {cat === 'VEHICLE' && <><th>{t('topSpeed')}</th><th>{t('maneuverLabel')}</th><th>{t('structureLabel')}</th><th>{t('armor')}</th></>}
+                        <th>{t('notes')}</th>
                         <th></th>
                       </tr>
                     </thead>
@@ -2148,7 +2152,7 @@ export default function CharacterForm() {
                   </table>
                 </fieldset>
               ))}
-              {inventory.length === 0 && <p className="muted-hint">No items yet.</p>}
+              {inventory.length === 0 && <p className="muted-hint">{t('noItemsYet')}</p>}
             </>
           )}
         </div>
@@ -2159,12 +2163,12 @@ export default function CharacterForm() {
         <div className="disc-bg-layout">
           <div className="form-section">
             {!isEdit ? (
-              <p className="muted-hint">Save the character first to add blood sorcery.</p>
+              <p className="muted-hint">{t('saveCharFirstBloodSorcery')}</p>
             ) : (
               <>
                 {/* ── Paths ── */}
                 <fieldset>
-                  <legend>Sorcery Paths</legend>
+                  <legend>{t('sorceryPaths')}</legend>
                   <TagList
                     items={sorceryPaths}
                     getLabel={p => `${p.name} ${p.level}`}
@@ -2177,20 +2181,20 @@ export default function CharacterForm() {
                   <div className="field-row">
                     <SearchableInput
                       id="path-name"
-                      label="Path name"
+                      label={t('pathNameLabel')}
                       catalog={SORCERY_PATHS}
                       value={newPath.name}
                       onChange={val => setNewPath(p => ({ ...p, name: val }))}
-                      placeholder="e.g. Lure of Flames"
+                      placeholder={t('phPath')}
                     />
                     <div className="field">
-                      <label htmlFor="path-level">Level</label>
+                      <label htmlFor="path-level">{t('level')}</label>
                       <select id="path-level" value={newPath.level}
                         onChange={e => setNewPath(p => ({ ...p, level: parseInt(e.target.value) }))}>
                         {Array.from({ length: elderMax }, (_, i) => i + 1).map(v => <option key={v} value={v}>{v}</option>)}
                       </select>
                     </div>
-                    <button className="btn btn-secondary" onClick={handleAddPath}>Add</button>
+                    <button className="btn btn-secondary" onClick={handleAddPath}>{t('add')}</button>
                   </div>
                   {getLevelHint(SORCERY_PATHS, newPath.name, newPath.level) && (
                     <p className="archetype-desc">{getLevelHint(SORCERY_PATHS, newPath.name, newPath.level)}</p>
@@ -2201,11 +2205,11 @@ export default function CharacterForm() {
 
                 {/* ── Rituals ── */}
                 <fieldset>
-                  <legend>Rituals</legend>
+                  <legend>{t('rituals')}</legend>
                   {[1,2,3,4,5,6,7,8].filter(lvl => rituals.some(r => r.level === lvl)).map(lvl => (
                     <div key={lvl} style={{ marginBottom: 'var(--space-md)' }}>
                       <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)', fontWeight: 600 }}>
-                        Level {lvl}
+                        {t('level')} {lvl}
                       </p>
                       <TagList
                         items={rituals.filter(r => r.level === lvl)}
@@ -2218,27 +2222,27 @@ export default function CharacterForm() {
                       />
                     </div>
                   ))}
-                  {rituals.length === 0 && <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>No rituals known yet.</p>}
+                  {rituals.length === 0 && <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>{t('noRitualsYet')}</p>}
                   <div className="field-row">
                     <SearchableInput
                       id="ritual-name"
-                      label="Ritual name"
+                      label={t('ritualNameLabel')}
                       catalog={RITUALS}
                       value={newRitual.name}
                       onChange={val => {
                         const match = RITUALS.find(r => r.value === val)
                         setNewRitual(p => ({ ...p, name: val, level: match ? match.level : p.level }))
                       }}
-                      placeholder="e.g. Blood Walk"
+                      placeholder={t('phRitual')}
                     />
                     <div className="field">
-                      <label htmlFor="ritual-level">Level</label>
+                      <label htmlFor="ritual-level">{t('level')}</label>
                       <select id="ritual-level" value={newRitual.level}
                         onChange={e => setNewRitual(p => ({ ...p, level: parseInt(e.target.value) }))}>
                         {Array.from({ length: elderMax }, (_, i) => i + 1).map(v => <option key={v} value={v}>{v}</option>)}
                       </select>
                     </div>
-                    <button className="btn btn-secondary" onClick={handleAddRitual}>Add</button>
+                    <button className="btn btn-secondary" onClick={handleAddRitual}>{t('add')}</button>
                   </div>
                   {(() => {
                     const match = RITUALS.find(r => r.value === newRitual.name)
@@ -2254,7 +2258,7 @@ export default function CharacterForm() {
               const entry = SORCERY_PATHS.find(p => p.value === sorcInfo.name)
               return (
                 <aside className="tag-info-panel">
-                  <button className="tag-info-panel-close" onClick={() => setSorcInfo(null)}>✕ close</button>
+                  <button className="tag-info-panel-close" onClick={() => setSorcInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{sorcInfo.name}</p>
                   {entry?.description && <p className="tag-info-panel-desc">{entry.description}</p>}
                   {entry?.levels && (
@@ -2272,9 +2276,9 @@ export default function CharacterForm() {
             const entry = RITUALS.find(r => r.value === sorcInfo.name)
             return (
               <aside className="tag-info-panel">
-                <button className="tag-info-panel-close" onClick={() => setSorcInfo(null)}>✕ close</button>
+                <button className="tag-info-panel-close" onClick={() => setSorcInfo(null)}>{t('close')}</button>
                 <p className="tag-info-panel-name">{sorcInfo.name}</p>
-                <p className="tag-info-panel-desc">Level {sorcInfo.level} ritual</p>
+                <p className="tag-info-panel-desc">{t('level')} {sorcInfo.level}</p>
                 {entry?.description && (
                   <p style={{ fontSize: '0.82rem', lineHeight: 1.55, color: 'var(--color-text)' }}>
                     {entry.description}
@@ -2292,14 +2296,14 @@ export default function CharacterForm() {
       </div>
 
       <div className="form-actions">
-        <button className="btn btn-secondary" onClick={onBack}>Cancel</button>
+        <button className="btn btn-secondary" onClick={onBack}>{t('cancel')}</button>
         <button
           className="btn btn-primary"
           onClick={handleSave}
           disabled={saving || validationErrors.length > 0}
           title={validationErrors.length > 0 ? validationErrors.join(' ') : undefined}
         >
-          {saving ? 'Saving…' : isEdit ? 'Save changes' : 'Create character'}
+          {saving ? t('saving') : isEdit ? t('saveChanges') : t('createCharacter')}
         </button>
       </div>
     </section>
@@ -2308,7 +2312,7 @@ export default function CharacterForm() {
 
 // ── ArchetypeSelect ───────────────────────────────────────────────────────────
 
-function ArchetypeSelect({ id, name, label: labelText, value, onChange }) {
+function ArchetypeSelect({ id, name, label: labelText, value, onChange, t }) {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const containerRef = useRef(null)
@@ -2352,7 +2356,7 @@ function ArchetypeSelect({ id, name, label: labelText, value, onChange }) {
           id={id}
           type="text"
           autoComplete="off"
-          placeholder={value || 'Search archetypes…'}
+          placeholder={value || (t ? t('searchArchetypes') : 'Search archetypes…')}
           value={open ? search : (value || '')}
           onFocus={() => { setOpen(true); setSearch('') }}
           onChange={e => setSearch(e.target.value)}
@@ -2374,7 +2378,7 @@ function ArchetypeSelect({ id, name, label: labelText, value, onChange }) {
       {open && (
         <ul className="archetype-dropdown" id={`${id}-listbox`} role="listbox">
           {filtered.length === 0 && (
-            <li className="archetype-no-results">No match</li>
+            <li className="archetype-no-results">{t ? t('noMatch') : 'No match'}</li>
           )}
           {filtered.map(a => (
             <li
@@ -2484,9 +2488,10 @@ function SearchableInput({ id, label: labelText, catalog, value, onChange, place
 // ── CatalogList ───────────────────────────────────────────────────────────────
 
 function CatalogList({ items, getCost, selectedIds, onAdd, onPreview, ariaLabel }) {
+  const { t } = useLanguage()
   return (
     <ul className="catalog-list" aria-label={ariaLabel}>
-      {items.length === 0 && <li className="catalog-empty">No matches found.</li>}
+      {items.length === 0 && <li className="catalog-empty">{t('noMatchFound')}</li>}
       {items.map(item => {
         const already = selectedIds?.has(item.id)
         return (

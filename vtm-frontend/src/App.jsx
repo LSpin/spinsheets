@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, Link } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
+import { LanguageProvider, useLanguage } from './i18n/LanguageContext'
+import LanguageToggle from './components/LanguageToggle'
 import CharacterList from './components/CharacterList'
 import CharacterForm from './components/CharacterForm'
 import CharacterRouter from './components/CharacterRouter'
@@ -25,6 +27,7 @@ function ProtectedRoute({ children }) {
 function AppShell() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const { t } = useLanguage()
 
   return (
     <>
@@ -49,6 +52,7 @@ function AppShell() {
               <button onClick={() => { logout(); navigate('/login') }}>
                 Sign out
               </button>
+              <LanguageToggle />
             </nav>
           )}
         </div>
@@ -127,10 +131,12 @@ function AppShell() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <AppShell />
-      </AuthProvider>
-    </BrowserRouter>
+    <LanguageProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <AppShell />
+        </AuthProvider>
+      </BrowserRouter>
+    </LanguageProvider>
   )
 }

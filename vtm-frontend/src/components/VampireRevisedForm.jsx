@@ -11,10 +11,11 @@ import {
 } from '../api/characterApi'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
+import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ──
 
-const TABS = ['Identity', 'Attributes', 'Abilities', 'Advantages', 'Disciplines & Backgrounds', 'Merits & Flaws', 'Inventory']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabAdvantages', 'tabDisciplinesBg', 'tabMeritsFlaws', 'tabInventory']
 
 const CLANS = [
   // ── The 13 Clans ──
@@ -60,16 +61,16 @@ const BACKGROUNDS = [
 ]
 
 const HEALTH_LEVELS = [
-  { label: 'Healthy',       penalty: '' },
-  { label: 'Bruised',       penalty: '(no penalty)' },
-  { label: 'Hurt',          penalty: '−1' },
-  { label: 'Injured',       penalty: '−1' },
-  { label: 'Wounded',       penalty: '−2' },
-  { label: 'Mauled',        penalty: '−2' },
-  { label: 'Crippled',      penalty: '−5' },
-  { label: 'Incapacitated', penalty: '' },
-  { label: 'Torpor',        penalty: '' },
-  { label: 'Final Death',   penalty: '' },
+  { key: 'healthy',       penalty: '' },
+  { key: 'bruised',       penalty: 'noPenalty' },
+  { key: 'hurt',          penalty: '−1' },
+  { key: 'injured',       penalty: '−1' },
+  { key: 'wounded',       penalty: '−2' },
+  { key: 'mauled',        penalty: '−2' },
+  { key: 'crippled',      penalty: '−5' },
+  { key: 'incapacitated', penalty: '' },
+  { key: 'torpor',        penalty: '' },
+  { key: 'finalDeath',    penalty: '' },
 ]
 
 const BLOOD_TABLE = {
@@ -81,12 +82,6 @@ const BLOOD_TABLE = {
 
 function bloodStats(gen) {
   return BLOOD_TABLE[gen] ?? { max: 10, perTurn: 1 }
-}
-
-const ABILITY_LABELS = { animalKen: 'Animal Ken' }
-
-function label(key) {
-  return ABILITY_LABELS[key] ?? key.charAt(0).toUpperCase() + key.slice(1)
 }
 
 function ordinal(n) {
@@ -144,17 +139,17 @@ const INITIAL = {
 
 // ── Helper components ──
 
-function RatingRow({ abilityKey, specKey, fields, onField, onText, max = 5 }) {
+function RatingRow({ abilityKey, specKey, fields, onField, onText, t, max = 5 }) {
   return (
     <div className="ability-row">
-      <DotRating label={label(abilityKey)} name={abilityKey} value={fields[abilityKey]} onChange={onField} max={max} />
+      <DotRating label={t(abilityKey)} name={abilityKey} value={fields[abilityKey]} onChange={onField} max={max} />
       <input className="spec-input" type="text" name={specKey} value={fields[specKey] ?? ''} onChange={onText}
-        placeholder="Specialty" aria-label={`${label(abilityKey)} specialty`} />
+        placeholder={t('specialty')} aria-label={`${t(abilityKey)} ${t('specialty')}`} />
     </div>
   )
 }
 
-function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, onText, catalog, max = 5 }) {
+function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, onText, catalog, t, max = 5 }) {
   const match = catalog?.find(c => c.value === fields[nameProp])
   return (
     <div className="custom-ability-row">
@@ -173,6 +168,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
 export default function VampireRevisedForm() {
   const { id: paramId } = useParams()
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const characterId = paramId ? Number(paramId) : null
   const isEdit = !!characterId
 
@@ -222,7 +218,7 @@ export default function VampireRevisedForm() {
       setMerits(meritRes.data)
       setFlaws(flawRes.data)
       setInventory(invRes.data)
-    } catch { setSaveError('Failed to load character.') }
+    } catch { setSaveError(t('failedToLoad')) }
     finally { setLoading(false) }
   }
 
@@ -255,7 +251,7 @@ export default function VampireRevisedForm() {
   }
 
   async function handleSave() {
-    if (!fields.name.trim()) { setSaveError('Name is required.'); return }
+    if (!fields.name.trim()) { setSaveError(t('nameRequired')); return }
     setSaving(true)
     setSaveError(null)
     try {
@@ -266,7 +262,7 @@ export default function VampireRevisedForm() {
         navigate(`/characters/${res.data.id}`, { replace: true })
       }
     } catch (err) {
-      setSaveError(err.response?.data?.message || 'Failed to save.')
+      setSaveError(err.response?.data?.message || t('failedToSave'))
     } finally { setSaving(false) }
   }
 
@@ -300,23 +296,23 @@ export default function VampireRevisedForm() {
     } catch {}
   }
 
-  if (loading) return <p className="status-loading">Loading...</p>
+  if (loading) return <p className="status-loading">{t('loading')}</p>
 
   return (
     <div>
       <div className="form-header">
-        <button className="btn btn-secondary" onClick={() => navigate('/')}>Back</button>
-        <h2>{isEdit ? fields.name || 'Edit Kindred' : 'New Kindred (Revised)'}</h2>
-        <span className="splat-badge splat-badge--vampire-revised">Vampire (Revised)</span>
+        <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('back')}</button>
+        <h2>{isEdit ? fields.name || t('editKindred') : t('newKindredRevised')}</h2>
+        <span className="splat-badge splat-badge--vampire-revised">{t('vampireRevised')}</span>
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
 
       {/* Tabs */}
       <div className="tab-list" role="tablist">
-        {TABS.map((t, i) => (
-          <button key={t} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
-            onClick={() => setTab(i)} aria-selected={tab === i}>{t}</button>
+        {TAB_KEYS.map((tk, i) => (
+          <button key={tk} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
+            onClick={() => setTab(i)} aria-selected={tab === i}>{t(tk)}</button>
         ))}
       </div>
 
@@ -324,28 +320,28 @@ export default function VampireRevisedForm() {
       <div hidden={tab !== 0}>
         <div className="form-section">
           <fieldset>
-            <legend>Identity</legend>
+            <legend>{t('tabIdentity')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="name">Name <span aria-hidden="true">*</span></label>
+                <label htmlFor="name">{t('charName')} <span aria-hidden="true">*</span></label>
                 <input id="name" name="name" type="text" value={fields.name} onChange={handleText} required autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="altName">Alt Name</label>
+                <label htmlFor="altName">{t('altName')}</label>
                 <input id="altName" name="altName" type="text" value={fields.altName} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="concept">Concept</label>
+                <label htmlFor="concept">{t('concept')}</label>
                 <input id="concept" name="concept" type="text" value={fields.concept} onChange={handleText} autoComplete="off" />
               </div>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Kindred</legend>
+            <legend>{t('kindred')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="clan">Clan / Ghoul / Mortal</label>
+                <label htmlFor="clan">{t('clan')}</label>
                 <select id="clan" name="clan" value={fields.clan} onChange={e => {
                   const val = e.target.value
                   handleField('clan', val)
@@ -353,16 +349,16 @@ export default function VampireRevisedForm() {
                   if (entry) handleField('clanCurse', entry.curse)
                   if (val === 'Nosferatu' || val === 'Samedi') handleField('appearance', 0)
                 }}>
-                  <option value="">— Select —</option>
+                  <option value="">{t('select')}</option>
                   {CLANS.map(c => <option key={c.value} value={c.value}>{c.value}</option>)}
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="sect">Sect</label>
-                <input id="sect" name="sect" type="text" value={fields.sect} onChange={handleText} autoComplete="off" placeholder="e.g. Camarilla" />
+                <label htmlFor="sect">{t('sect')}</label>
+                <input id="sect" name="sect" type="text" value={fields.sect} onChange={handleText} autoComplete="off" placeholder={t('phSect')} />
               </div>
               <div className="field">
-                <label htmlFor="generation">Generation</label>
+                <label htmlFor="generation">{t('generation')}</label>
                 <select id="generation" name="generation" value={fields.generation} onChange={e => handleField('generation', parseInt(e.target.value))}>
                   {Array.from({ length: 12 }, (_, i) => 15 - i).map(g => {
                     const { max, perTurn } = bloodStats(g)
@@ -373,63 +369,63 @@ export default function VampireRevisedForm() {
             </div>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="nature">Nature</label>
+                <label htmlFor="nature">{t('nature')}</label>
                 <input id="nature" name="nature" type="text" value={fields.nature} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="demeanor">Demeanor</label>
+                <label htmlFor="demeanor">{t('demeanor')}</label>
                 <input id="demeanor" name="demeanor" type="text" value={fields.demeanor} onChange={handleText} autoComplete="off" />
               </div>
             </div>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="domainHaven">Domain / Haven</label>
+                <label htmlFor="domainHaven">{t('domainHaven')}</label>
                 <input id="domainHaven" name="domainHaven" type="text" value={fields.domainHaven} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="visibleAge">Visible Age</label>
+                <label htmlFor="visibleAge">{t('visibleAge')}</label>
                 <input id="visibleAge" name="visibleAge" type="text" value={fields.visibleAge} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="totalAge">Total Age</label>
+                <label htmlFor="totalAge">{t('totalAge')}</label>
                 <input id="totalAge" name="totalAge" type="text" value={fields.totalAge} onChange={handleText} autoComplete="off" />
               </div>
             </div>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="npc">Type</label>
-                <div className="role-toggle" role="radiogroup" aria-label="Character type">
+                <label htmlFor="npc">{t('type')}</label>
+                <div className="role-toggle" role="radiogroup" aria-label={t('type')}>
                   <button type="button" className={`role-toggle-btn${!fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', false)}>PC</button>
+                    onClick={() => handleField('npc', false)}>{t('pc')}</button>
                   <button type="button" className={`role-toggle-btn${fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', true)}>NPC</button>
+                    onClick={() => handleField('npc', true)}>{t('npc')}</button>
                 </div>
               </div>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Clan Curse & Derangements</legend>
+            <legend>{t('clanCurseDerangements')}</legend>
             <div className="field">
-              <label htmlFor="clanCurse">Clan Curse / Notes on Weaknesses</label>
+              <label htmlFor="clanCurse">{t('clanCurseNotes')}</label>
               <textarea id="clanCurse" name="clanCurse" value={fields.clanCurse} onChange={handleText} rows={3} />
             </div>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="derangement1">Derangement</label>
+                <label htmlFor="derangement1">{t('derangements')}</label>
                 <input id="derangement1" name="derangement1" type="text" value={fields.derangement1} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="derangement2">Derangement</label>
+                <label htmlFor="derangement2">{t('derangements')}</label>
                 <input id="derangement2" name="derangement2" type="text" value={fields.derangement2} onChange={handleText} autoComplete="off" />
               </div>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Notes</legend>
+            <legend>{t('notes')}</legend>
             <div className="field">
-              <textarea id="notes" name="notes" value={fields.notes} onChange={handleText} rows={5} placeholder="General notes..." />
+              <textarea id="notes" name="notes" value={fields.notes} onChange={handleText} rows={5} placeholder={t('generalNotes')} />
             </div>
           </fieldset>
         </div>
@@ -439,18 +435,18 @@ export default function VampireRevisedForm() {
       <div hidden={tab !== 1}>
         <div className="form-section">
           {[
-            { legend: 'Physical', attrs: ['strength', 'dexterity', 'stamina'] },
-            { legend: 'Social',   attrs: ['charisma', 'manipulation', 'appearance'] },
-            { legend: 'Mental',   attrs: ['perception', 'intelligence', 'wits'] },
-          ].map(({ legend, attrs }) => (
-            <fieldset key={legend}>
-              <legend>{legend}</legend>
+            { legendKey: 'physicalAttr', attrs: ['strength', 'dexterity', 'stamina'] },
+            { legendKey: 'socialAttr',   attrs: ['charisma', 'manipulation', 'appearance'] },
+            { legendKey: 'mentalAttr',   attrs: ['perception', 'intelligence', 'wits'] },
+          ].map(({ legendKey, attrs }) => (
+            <fieldset key={legendKey}>
+              <legend>{t(legendKey)}</legend>
               <div className="rating-grid">
                 {attrs.map(a => (
                   <div key={a} className="ability-row">
-                    <DotRating label={label(a)} name={a} value={fields[a]} onChange={handleField} min={1} />
+                    <DotRating label={t(a)} name={a} value={fields[a]} onChange={handleField} min={1} />
                     <input className="spec-input" type="text" name={a + 'Spec'} value={fields[a + 'Spec'] ?? ''} onChange={handleText}
-                      placeholder="Specialty" aria-label={`${label(a)} specialty`} />
+                      placeholder={t('specialty')} aria-label={`${t(a)} ${t('specialty')}`} />
                   </div>
                 ))}
               </div>
@@ -463,42 +459,42 @@ export default function VampireRevisedForm() {
       <div hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
-            <legend>Talents</legend>
+            <legend>{t('talents')}</legend>
             <div className="rating-grid">
               {['alertness', 'athletics', 'brawl', 'dodge', 'empathy', 'expression', 'intimidation', 'leadership', 'streetwise', 'subterfuge'].map(a =>
-                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} />
+                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
             <div className="rating-grid" style={{ marginTop: 'var(--space-sm)' }}>
-              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
-              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
-              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} t={t} />
+              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} t={t} />
+              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} t={t} />
             </div>
           </fieldset>
           <fieldset>
-            <legend>Skills</legend>
+            <legend>{t('skills')}</legend>
             <div className="rating-grid">
               {['animalKen', 'crafts', 'drive', 'etiquette', 'firearms', 'melee', 'performance', 'security', 'stealth', 'survival'].map(a =>
-                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} />
+                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
             <div className="rating-grid" style={{ marginTop: 'var(--space-sm)' }}>
-              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
-              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
-              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} t={t} />
+              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} t={t} />
+              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} t={t} />
             </div>
           </fieldset>
           <fieldset>
-            <legend>Knowledges</legend>
+            <legend>{t('knowledges')}</legend>
             <div className="rating-grid">
               {['academics', 'computer', 'finance', 'investigation', 'law', 'linguistics', 'medicine', 'occult', 'politics', 'science'].map(a =>
-                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} />
+                <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
             <div className="rating-grid" style={{ marginTop: 'var(--space-sm)' }}>
-              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder="Expert Knowl." fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
-              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder="Expert Knowl." fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
-              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder="Expert Knowl." fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} t={t} />
+              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} t={t} />
+              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} t={t} />
             </div>
           </fieldset>
         </div>
@@ -508,40 +504,40 @@ export default function VampireRevisedForm() {
       <div hidden={tab !== 3}>
         <div className="form-section">
           <fieldset>
-            <legend>Virtues</legend>
+            <legend>{t('virtues')}</legend>
             <div className="rating-grid">
-              <DotRating label="Conscience"   name="conscience"   value={fields.conscience}   onChange={handleField} min={1} />
-              <DotRating label="Self-Control" name="selfControl"  value={fields.selfControl}  onChange={handleField} min={1} />
-              <DotRating label="Courage"      name="courage"      value={fields.courage}      onChange={handleField} min={1} />
+              <DotRating label={t('conscience')}  name="conscience"   value={fields.conscience}   onChange={handleField} min={1} />
+              <DotRating label={t('selfControl')} name="selfControl"  value={fields.selfControl}  onChange={handleField} min={1} />
+              <DotRating label={t('courage')}     name="courage"      value={fields.courage}      onChange={handleField} min={1} />
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Path of Enlightenment</legend>
+            <legend>{t('pathOfEnlightenment')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="pathName">Path</label>
+                <label htmlFor="pathName">{t('pathName')}</label>
                 <select id="pathName" name="pathName" value={fields.pathName} onChange={handleText}>
-                  <option value="Humanity">Humanity</option>
-                  <option value="Path of Blood">Path of Blood</option>
-                  <option value="Path of Bones">Path of Bones</option>
-                  <option value="Path of Caine">Path of Caine</option>
-                  <option value="Path of Cathari">Path of Cathari</option>
-                  <option value="Path of Death and the Soul">Path of Death and the Soul</option>
-                  <option value="Path of Feral Hearts">Path of Feral Hearts</option>
-                  <option value="Path of Harmony">Path of Harmony</option>
-                  <option value="Path of Honorable Accord">Path of Honorable Accord</option>
-                  <option value="Path of Lilith">Path of Lilith</option>
-                  <option value="Path of Metamorphosis">Path of Metamorphosis</option>
-                  <option value="Path of Night">Path of Night</option>
-                  <option value="Path of Paradox">Path of Paradox</option>
-                  <option value="Path of Power and the Inner Voice">Path of Power and the Inner Voice</option>
-                  <option value="Path of Typhon-Set">Path of Typhon-Set</option>
+                  <option value="Humanity">{t('humanity')}</option>
+                  <option value="Path of Blood">{t('pathBlood')}</option>
+                  <option value="Path of Bones">{t('pathBones')}</option>
+                  <option value="Path of Caine">{t('pathCaine')}</option>
+                  <option value="Path of Cathari">{t('pathCathari')}</option>
+                  <option value="Path of Death and the Soul">{t('pathDeathSoul')}</option>
+                  <option value="Path of Feral Hearts">{t('pathFeralHearts')}</option>
+                  <option value="Path of Harmony">{t('pathHarmony')}</option>
+                  <option value="Path of Honorable Accord">{t('pathHonorableAccord')}</option>
+                  <option value="Path of Lilith">{t('pathLilith')}</option>
+                  <option value="Path of Metamorphosis">{t('pathMetamorphosis')}</option>
+                  <option value="Path of Night">{t('pathNight')}</option>
+                  <option value="Path of Paradox">{t('pathParadox')}</option>
+                  <option value="Path of Power and the Inner Voice">{t('pathPowerInnerVoice')}</option>
+                  <option value="Path of Typhon-Set">{t('pathTyphonSet')}</option>
                 </select>
               </div>
               <div className="field">
                 <label htmlFor="pathRating">
-                  Rating {isHumanity && <span className="muted">(Conscience + Self-Control = {computedPath})</span>}
+                  {t('rating')} {isHumanity && <span className="muted">({t('conscience')} + {t('selfControl')} = {computedPath})</span>}
                 </label>
                 {isHumanity
                   ? <input id="pathRating" type="number" value={computedPath} readOnly className="readonly-input" />
@@ -552,25 +548,25 @@ export default function VampireRevisedForm() {
           </fieldset>
 
           <fieldset>
-            <legend>Willpower</legend>
+            <legend>{t('willpower')}</legend>
             <div className="field-row">
-              <DotRating label="Max Willpower"     name="willpower"        value={fields.willpower}        onChange={handleField} min={1} max={10} />
-              <DotRating label="Current Willpower" name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
+              <DotRating label={t('willpower')}        name="willpower"        value={fields.willpower}        onChange={handleField} min={1} max={10} />
+              <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Blood Pool — {ordinal(fields.generation)} Gen (max {maxBlood}, {perTurn}/turn)</legend>
-            <DotRating label="Current Blood" name="currentBlood" value={fields.currentBlood} onChange={handleField} min={0} max={maxBlood} />
+            <legend>{t('bloodPool')} — {ordinal(fields.generation)} Gen (max {maxBlood}, {perTurn}/turn)</legend>
+            <DotRating label={t('currentBlood')} name="currentBlood" value={fields.currentBlood} onChange={handleField} min={0} max={maxBlood} />
           </fieldset>
 
           <fieldset>
-            <legend>Health</legend>
+            <legend>{t('health')}</legend>
             <div className="field">
-              <label htmlFor="woundLevel">Current Wound Level</label>
+              <label htmlFor="woundLevel">{t('woundLevel')}</label>
               <select id="woundLevel" value={fields.woundLevel} onChange={e => handleField('woundLevel', parseInt(e.target.value))}>
                 {HEALTH_LEVELS.map((h, i) => (
-                  <option key={i} value={i}>{h.label}{h.penalty ? ` ${h.penalty}` : ''}</option>
+                  <option key={i} value={i}>{t(h.key)}{h.penalty ? ` ${/^[a-z]/i.test(h.penalty) ? t(h.penalty) : h.penalty}` : ''}</option>
                 ))}
               </select>
             </div>
@@ -581,11 +577,11 @@ export default function VampireRevisedForm() {
       {/* ── Disciplines & Backgrounds ── */}
       <div hidden={tab !== 4}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">Save your character first to add disciplines and backgrounds.</p>}
+          {!isEdit && <p className="muted-hint">{t('saveCharFirstDiscBg')}</p>}
           {isEdit && (
             <>
               <fieldset>
-                <legend>Disciplines ({disciplines.length})</legend>
+                <legend>{t('disciplines')} ({disciplines.length})</legend>
                 {disciplines.length > 0 && (
                   <ul className="tag-list">
                     {disciplines.map(d => (
@@ -598,21 +594,21 @@ export default function VampireRevisedForm() {
                 )}
                 <div className="field-row" style={{ alignItems: 'flex-end' }}>
                   <div className="field" style={{ flex: 2 }}>
-                    <label htmlFor="disc-name">Discipline Name</label>
-                    <input id="disc-name" type="text" value={newDiscipline.name} onChange={e => setNewDiscipline(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder="e.g. Protean" />
+                    <label htmlFor="disc-name">{t('disciplineName')}</label>
+                    <input id="disc-name" type="text" value={newDiscipline.name} onChange={e => setNewDiscipline(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder={t('phProtean')} />
                   </div>
                   <div className="field">
-                    <label htmlFor="disc-level">Level</label>
+                    <label htmlFor="disc-level">{t('level')}</label>
                     <select id="disc-level" value={newDiscipline.level} onChange={e => setNewDiscipline(p => ({ ...p, level: parseInt(e.target.value) }))}>
                       {[1,2,3,4,5,6,7,8,9,10].map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
-                  <button className="btn btn-secondary" onClick={handleAddDiscipline}>Add</button>
+                  <button className="btn btn-secondary" onClick={handleAddDiscipline}>{t('add')}</button>
                 </div>
               </fieldset>
 
               <fieldset>
-                <legend>Backgrounds ({backgrounds.length})</legend>
+                <legend>{t('backgrounds')} ({backgrounds.length})</legend>
                 {backgrounds.length > 0 && (
                   <ul className="tag-list">
                     {backgrounds.map(b => (
@@ -625,24 +621,24 @@ export default function VampireRevisedForm() {
                 )}
                 <div className="field-row" style={{ alignItems: 'flex-end' }}>
                   <div className="field" style={{ flex: 2 }}>
-                    <label htmlFor="bg-name">Background</label>
+                    <label htmlFor="bg-name">{t('background')}</label>
                     <input id="bg-name" type="text" list="bg-suggestions" value={newBackground.name}
-                      onChange={e => setNewBackground(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder="e.g. Resources" />
+                      onChange={e => setNewBackground(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder={t('phBackground')} />
                     <datalist id="bg-suggestions">
                       {BACKGROUNDS.map(b => <option key={b.value} value={b.value} />)}
                     </datalist>
                   </div>
                   <div className="field">
-                    <label htmlFor="bg-level">Level</label>
+                    <label htmlFor="bg-level">{t('level')}</label>
                     <select id="bg-level" value={newBackground.level} onChange={e => setNewBackground(p => ({ ...p, level: parseInt(e.target.value) }))}>
                       {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
                   <div className="field">
-                    <label htmlFor="bg-desc">Description</label>
+                    <label htmlFor="bg-desc">{t('description')}</label>
                     <input id="bg-desc" type="text" value={newBackground.description} onChange={e => setNewBackground(p => ({ ...p, description: e.target.value }))} autoComplete="off" />
                   </div>
-                  <button className="btn btn-secondary" onClick={handleAddBackground}>Add</button>
+                  <button className="btn btn-secondary" onClick={handleAddBackground}>{t('add')}</button>
                 </div>
               </fieldset>
             </>
@@ -653,16 +649,16 @@ export default function VampireRevisedForm() {
       {/* ── Merits & Flaws ── */}
       <div hidden={tab !== 5}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">Save your character first to add merits and flaws.</p>}
+          {!isEdit && <p className="muted-hint">{t('saveCharFirstMeritsFlaw')}</p>}
           {isEdit && (
             <>
               <fieldset>
-                <legend>Merits ({merits.length})</legend>
+                <legend>{t('merits')} ({merits.length})</legend>
                 {merits.length > 0 && (
                   <ul className="tag-list">
                     {merits.map(m => (
                       <li key={m.id} className="tag">
-                        <span>{m.merit?.name ?? 'Merit'} ({m.pointsSpent} pt)</span>
+                        <span>{m.merit?.name ?? t('merits')} ({m.pointsSpent} pt)</span>
                         <button className="tag-remove" onClick={() => { removeMerit(characterId, m.id); setMerits(prev => prev.filter(x => x.id !== m.id)) }}>×</button>
                       </li>
                     ))}
@@ -670,12 +666,12 @@ export default function VampireRevisedForm() {
                 )}
               </fieldset>
               <fieldset>
-                <legend>Flaws ({flaws.length})</legend>
+                <legend>{t('flaws')} ({flaws.length})</legend>
                 {flaws.length > 0 && (
                   <ul className="tag-list">
                     {flaws.map(f => (
                       <li key={f.id} className="tag">
-                        <span>{f.flaw?.name ?? 'Flaw'} (+{f.pointsGained} pt)</span>
+                        <span>{f.flaw?.name ?? t('flaws')} (+{f.pointsGained} pt)</span>
                         <button className="tag-remove" onClick={() => { removeFlaw(characterId, f.id); setFlaws(prev => prev.filter(x => x.id !== f.id)) }}>×</button>
                       </li>
                     ))}
@@ -690,10 +686,10 @@ export default function VampireRevisedForm() {
       {/* ── Inventory ── */}
       <div hidden={tab !== 6}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">Save your character first to add inventory items.</p>}
+          {!isEdit && <p className="muted-hint">{t('saveCharFirstInventory')}</p>}
           {isEdit && (
             <fieldset>
-              <legend>Inventory ({inventory.length})</legend>
+              <legend>{t('tabInventory')} ({inventory.length})</legend>
               {inventory.length > 0 && (
                 <ul className="tag-list">
                   {inventory.map(item => (
@@ -706,14 +702,14 @@ export default function VampireRevisedForm() {
               )}
               <div className="field-row" style={{ alignItems: 'flex-end' }}>
                 <div className="field" style={{ flex: 2 }}>
-                  <label htmlFor="item-name">Item Name</label>
+                  <label htmlFor="item-name">{t('itemName')}</label>
                   <input id="item-name" type="text" value={newItem.name} onChange={e => setNewItem(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
                 </div>
                 <div className="field" style={{ flex: 2 }}>
-                  <label htmlFor="item-notes">Notes</label>
+                  <label htmlFor="item-notes">{t('notes')}</label>
                   <input id="item-notes" type="text" value={newItem.notes} onChange={e => setNewItem(p => ({ ...p, notes: e.target.value }))} autoComplete="off" />
                 </div>
-                <button className="btn btn-secondary" onClick={handleAddItem}>Add</button>
+                <button className="btn btn-secondary" onClick={handleAddItem}>{t('add')}</button>
               </div>
             </fieldset>
           )}
@@ -722,9 +718,9 @@ export default function VampireRevisedForm() {
 
       {/* ── Save ── */}
       <div className="form-actions">
-        <button className="btn btn-secondary" onClick={() => navigate('/')}>Cancel</button>
+        <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('cancel')}</button>
         <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
-          {saving ? 'Saving...' : isEdit ? 'Save changes' : 'Create character'}
+          {saving ? t('saving') : isEdit ? t('saveChanges') : t('createCharacter')}
         </button>
       </div>
     </div>

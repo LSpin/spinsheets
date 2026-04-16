@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useLanguage } from '../i18n/LanguageContext'
 import {
   getCharacter, createCharacter, updateCharacter,
   getDisciplines, addDiscipline, removeDiscipline,
@@ -47,31 +48,23 @@ const BACKGROUNDS = [
   { value: 'Totem', description: 'The pack\'s patron spirit.' },
 ]
 
-const ABILITY_LABELS = {
-  animalKen: 'Animal Ken', primalUrge: 'Primal-Urge', ritualAbility: 'Rituals',
-}
-
-function label(key) {
-  return ABILITY_LABELS[key] ?? key.charAt(0).toUpperCase() + key.slice(1)
-}
-
 const FORM_STATS = [
-  { form: 'Homid',  str: '+0', dex: '+0', sta: '+0', man: '+0', app: '+0', diff: 6, note: 'No change' },
-  { form: 'Glabro', str: '+2', dex: '+0', sta: '+2', man: '-2', app: '-1', diff: 7, note: '' },
-  { form: 'Crinos', str: '+4', dex: '+1', sta: '+3', man: '-3', app: '0',  diff: 6, note: 'Delirium' },
-  { form: 'Hispo',  str: '+3', dex: '+2', sta: '+3', man: '-3', app: '—',  diff: 7, note: '+1 Bite dmg' },
-  { form: 'Lupus',  str: '+1', dex: '+2', sta: '+2', man: '-3', app: '—',  diff: 6, note: '-2 Perc. diff' },
+  { formKey: 'homid',  str: '+0', dex: '+0', sta: '+0', man: '+0', app: '+0', diff: 6, noteKey: 'noChange' },
+  { formKey: 'glabro', str: '+2', dex: '+0', sta: '+2', man: '-2', app: '-1', diff: 7, noteKey: '' },
+  { formKey: 'crinos', str: '+4', dex: '+1', sta: '+3', man: '-3', app: '0',  diff: 6, noteKey: 'delirium' },
+  { formKey: 'hispo',  str: '+3', dex: '+2', sta: '+3', man: '-3', app: '—',  diff: 7, noteKey: 'biteDmg' },
+  { formKey: 'lupus',  str: '+1', dex: '+2', sta: '+2', man: '-3', app: '—',  diff: 6, noteKey: 'percDiff' },
 ]
 
-const HEALTH_LEVELS = [
-  { label: 'Healthy',        penalty: '' },
-  { label: 'Bruised',        penalty: '' },
-  { label: 'Hurt',           penalty: '−1' },
-  { label: 'Injured',        penalty: '−1' },
-  { label: 'Wounded',        penalty: '−2' },
-  { label: 'Mauled',         penalty: '−2' },
-  { label: 'Crippled',       penalty: '−5' },
-  { label: 'Incapacitated',  penalty: '' },
+const HEALTH_LEVEL_KEYS = [
+  { key: 'healthy',        penalty: '' },
+  { key: 'bruised',        penalty: '' },
+  { key: 'hurt',           penalty: '−1' },
+  { key: 'injured',        penalty: '−1' },
+  { key: 'wounded',        penalty: '−2' },
+  { key: 'mauled',         penalty: '−2' },
+  { key: 'crippled',       penalty: '−5' },
+  { key: 'incapacitated',  penalty: '' },
 ]
 
 const INITIAL = {
@@ -128,12 +121,12 @@ const INITIAL = {
   expertKnowl3Name: '', expertKnowl3: 0,
 }
 
-function WerewolfRatingRow({ abilityKey, specKey, fields, onField, onText, max = 5 }) {
+function WerewolfRatingRow({ abilityKey, specKey, fields, onField, onText, max = 5, t }) {
   return (
     <div className="ability-row">
-      <DotRating label={label(abilityKey)} name={abilityKey} value={fields[abilityKey]} onChange={onField} max={max} />
+      <DotRating label={t(abilityKey)} name={abilityKey} value={fields[abilityKey]} onChange={onField} max={max} />
       <input className="spec-input" type="text" name={specKey} value={fields[specKey] ?? ''} onChange={onText}
-        placeholder="Specialty" aria-label={`${label(abilityKey)} specialty`} />
+        placeholder={t('specialty')} aria-label={`${t(abilityKey)} ${t('specialty')}`} />
     </div>
   )
 }
@@ -166,6 +159,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
 export default function WerewolfForm() {
   const { id: paramId } = useParams()
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const characterId = paramId ? Number(paramId) : null
   const isEdit = !!characterId
 
@@ -188,7 +182,7 @@ export default function WerewolfForm() {
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
 
-  const TABS = ['Identity', 'Attributes', 'Abilities', 'Secondary Abilities', 'Gifts & Rites', 'Renown & Rage', 'Backgrounds', 'Merits & Flaws', 'Forms']
+  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabRenownRage', 'tabBackgrounds', 'tabMeritsFlaws', 'tabForms']
 
   useEffect(() => {
     if (isEdit) loadCharacter()
@@ -218,7 +212,7 @@ export default function WerewolfForm() {
       setFetishes(fetishRes.data)
       setMerits(meritRes.data)
       setFlaws(flawRes.data)
-    } catch { setSaveError('Failed to load character.') }
+    } catch { setSaveError(t('failedToLoad')) }
     finally { setLoading(false) }
   }
 
@@ -240,7 +234,7 @@ export default function WerewolfForm() {
   }
 
   async function handleSave() {
-    if (!fields.name.trim()) { setSaveError('Name is required.'); return }
+    if (!fields.name.trim()) { setSaveError(t('nameRequired')); return }
     setSaving(true)
     setSaveError(null)
     try {
@@ -251,7 +245,7 @@ export default function WerewolfForm() {
         navigate(`/characters/${res.data.id}`, { replace: true })
       }
     } catch (err) {
-      setSaveError(err.response?.data?.message || 'Failed to save.')
+      setSaveError(err.response?.data?.message || t('failedToSave'))
     } finally { setSaving(false) }
   }
 
@@ -291,13 +285,13 @@ export default function WerewolfForm() {
     } catch {}
   }
 
-  if (loading) return <p className="status-loading">Loading...</p>
+  if (loading) return <p className="status-loading">{t('loading')}</p>
 
   return (
     <div>
       <div className="form-header">
-        <button className="btn btn-secondary" onClick={() => navigate('/')}>Back</button>
-        <h2>{isEdit ? fields.name || 'Edit Garou' : 'New Garou'}</h2>
+        <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('back')}</button>
+        <h2>{isEdit ? fields.name || t('editGarou') : t('newGarou')}</h2>
         <span className="splat-badge splat-badge--werewolf">Werewolf</span>
       </div>
 
@@ -305,9 +299,9 @@ export default function WerewolfForm() {
 
       {/* Tabs */}
       <div className="tab-list" role="tablist">
-        {TABS.map((t, i) => (
-          <button key={t} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
-            onClick={() => setTab(i)} aria-selected={tab === i}>{t}</button>
+        {TAB_KEYS.map((key, i) => (
+          <button key={key} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
+            onClick={() => setTab(i)} aria-selected={tab === i}>{t(key)}</button>
         ))}
       </div>
 
@@ -315,107 +309,107 @@ export default function WerewolfForm() {
       <div hidden={tab !== 0}>
         <div className="form-section">
           <fieldset>
-            <legend>Identity</legend>
+            <legend>{t('identity')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="name">Name <span aria-hidden="true">*</span></label>
+                <label htmlFor="name">{t('charName')} <span aria-hidden="true">*</span></label>
                 <input id="name" name="name" type="text" value={fields.name} onChange={handleText} required autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="altName">Deed Name</label>
+                <label htmlFor="altName">{t('deedName')}</label>
                 <input id="altName" name="altName" type="text" value={fields.altName} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="concept">Concept</label>
+                <label htmlFor="concept">{t('concept')}</label>
                 <input id="concept" name="concept" type="text" value={fields.concept} onChange={handleText} autoComplete="off" />
               </div>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Garou</legend>
+            <legend>{t('garou')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="breed">Breed</label>
+                <label htmlFor="breed">{t('breed')}</label>
                 <select id="breed" name="breed" value={fields.breed} onChange={handleText}>
-                  <option value="">— Select —</option>
+                  <option value="">{t('select')}</option>
                   {BREEDS.map(b => <option key={b} value={b}>{b}</option>)}
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="auspice">Auspice</label>
+                <label htmlFor="auspice">{t('auspice')}</label>
                 <select id="auspice" name="auspice" value={fields.auspice} onChange={handleText}>
-                  <option value="">— Select —</option>
+                  <option value="">{t('select')}</option>
                   {AUSPICES.map(a => <option key={a.value} value={a.value}>{a.value}</option>)}
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="tribe">Tribe</label>
+                <label htmlFor="tribe">{t('tribe')}</label>
                 <select id="tribe" name="tribe" value={fields.tribe} onChange={handleText}>
-                  <option value="">— Select —</option>
-                  {TRIBES.map(t => <option key={t} value={t}>{t}</option>)}
+                  <option value="">{t('select')}</option>
+                  {TRIBES.map(tr => <option key={tr} value={tr}>{tr}</option>)}
                 </select>
               </div>
             </div>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="packName">Pack Name</label>
+                <label htmlFor="packName">{t('packName')}</label>
                 <input id="packName" name="packName" type="text" value={fields.packName} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="packTotem">Pack Totem</label>
+                <label htmlFor="packTotem">{t('packTotem')}</label>
                 <input id="packTotem" name="packTotem" type="text" value={fields.packTotem} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="rank">Rank</label>
+                <label htmlFor="rank">{t('rank')}</label>
                 <select id="rank" name="rank" value={fields.rank} onChange={handleText}>
                   {RANKS.map(r => <option key={r} value={r}>{r}</option>)}
                 </select>
               </div>
               <div className="field">
-                <label htmlFor="npc">Type</label>
+                <label htmlFor="npc">{t('type')}</label>
                 <div className="role-toggle" role="radiogroup" aria-label="Character type">
                   <button type="button" className={`role-toggle-btn${!fields.npc ? ' role-toggle-btn--active' : ''}`}
                     onClick={() => handleField('npc', false)}>PC</button>
                   <button type="button" className={`role-toggle-btn${fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', true)}>NPC</button>
+                    onClick={() => handleField('npc', true)}>{t('npc')}</button>
                 </div>
               </div>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Sept</legend>
+            <legend>{t('sept')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="septName">Sept Name</label>
+                <label htmlFor="septName">{t('septName')}</label>
                 <input id="septName" name="septName" type="text" value={fields.septName} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="caernLocation">Caern Location</label>
+                <label htmlFor="caernLocation">{t('caernLocation')}</label>
                 <input id="caernLocation" name="caernLocation" type="text" value={fields.caernLocation} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="caernType">Caern Type</label>
+                <label htmlFor="caernType">{t('caernType')}</label>
                 <input id="caernType" name="caernType" type="text" value={fields.caernType} onChange={handleText} autoComplete="off" />
               </div>
             </div>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="septTotem">Sept Totem</label>
+                <label htmlFor="septTotem">{t('septTotem')}</label>
                 <input id="septTotem" name="septTotem" type="text" value={fields.septTotem} onChange={handleText} autoComplete="off" />
               </div>
               <div className="field">
-                <label htmlFor="septLeader">Sept Leader</label>
+                <label htmlFor="septLeader">{t('septLeader')}</label>
                 <input id="septLeader" name="septLeader" type="text" value={fields.septLeader} onChange={handleText} autoComplete="off" />
               </div>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Notes</legend>
+            <legend>{t('notes')}</legend>
             <div className="field">
-              <textarea id="notes" name="notes" value={fields.notes} onChange={handleText} rows={5} placeholder="General notes..." />
+              <textarea id="notes" name="notes" value={fields.notes} onChange={handleText} rows={5} placeholder={t('generalNotes')} />
             </div>
           </fieldset>
         </div>
@@ -425,18 +419,18 @@ export default function WerewolfForm() {
       <div hidden={tab !== 1}>
         <div className="form-section">
           {[
-            { legend: 'Physical', attrs: ['strength', 'dexterity', 'stamina'] },
-            { legend: 'Social',   attrs: ['charisma', 'manipulation', 'appearance'] },
-            { legend: 'Mental',   attrs: ['perception', 'intelligence', 'wits'] },
-          ].map(({ legend, attrs }) => (
-            <fieldset key={legend}>
-              <legend>{legend}</legend>
+            { legendKey: 'physicalAttr', attrs: ['strength', 'dexterity', 'stamina'] },
+            { legendKey: 'socialAttr',   attrs: ['charisma', 'manipulation', 'appearance'] },
+            { legendKey: 'mentalAttr',   attrs: ['perception', 'intelligence', 'wits'] },
+          ].map(({ legendKey, attrs }) => (
+            <fieldset key={legendKey}>
+              <legend>{t(legendKey)}</legend>
               <div className="rating-grid">
                 {attrs.map(a => (
                   <div key={a} className="ability-row">
-                    <DotRating label={label(a)} name={a} value={fields[a]} onChange={handleField} min={1} />
+                    <DotRating label={t(a)} name={a} value={fields[a]} onChange={handleField} min={1} />
                     <input className="spec-input" type="text" name={a + 'Spec'} value={fields[a + 'Spec'] ?? ''} onChange={handleText}
-                      placeholder="Specialty" aria-label={`${label(a)} specialty`} />
+                      placeholder={t('specialty')} aria-label={`${t(a)} ${t('specialty')}`} />
                   </div>
                 ))}
               </div>
@@ -449,26 +443,26 @@ export default function WerewolfForm() {
       <div hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
-            <legend>Talents</legend>
+            <legend>{t('talents')}</legend>
             <div className="rating-grid">
               {['alertness', 'athletics', 'brawl', 'empathy', 'expression', 'intimidation', 'leadership', 'primalUrge', 'streetwise', 'subterfuge'].map(a =>
-                <WerewolfRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} />
+                <WerewolfRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
           </fieldset>
           <fieldset>
-            <legend>Skills</legend>
+            <legend>{t('skills')}</legend>
             <div className="rating-grid">
               {['animalKen', 'crafts', 'drive', 'etiquette', 'firearms', 'larceny', 'melee', 'performance', 'stealth', 'survival'].map(a =>
-                <WerewolfRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} />
+                <WerewolfRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
           </fieldset>
           <fieldset>
-            <legend>Knowledges</legend>
+            <legend>{t('knowledges')}</legend>
             <div className="rating-grid">
               {['academics', 'computer', 'enigmas', 'investigation', 'law', 'medicine', 'occult', 'ritualAbility', 'science', 'technology'].map(a =>
-                <WerewolfRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} />
+                <WerewolfRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
           </fieldset>
@@ -480,22 +474,22 @@ export default function WerewolfForm() {
         <div className="form-section">
           <div className="abilities-group">
             <fieldset>
-              <legend>Secondary Talents</legend>
-              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
-              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
-              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder="Hobby Talent" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              <legend>{t('secondaryTalents')}</legend>
+              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
             </fieldset>
             <fieldset>
-              <legend>Secondary Skills</legend>
-              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
-              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
-              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder="Prof. Skill" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              <legend>{t('secondarySkills')}</legend>
+              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
             </fieldset>
             <fieldset>
-              <legend>Secondary Knowledges</legend>
-              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
-              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
-              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder="Expert Knowledge" fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              <legend>{t('secondaryKnowledges')}</legend>
+              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
             </fieldset>
           </div>
         </div>
@@ -504,11 +498,11 @@ export default function WerewolfForm() {
       {/* ── Gifts & Rites ── */}
       <div hidden={tab !== 4}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">Save your character first to add gifts, rites, and fetishes.</p>}
+          {!isEdit && <p className="muted-hint">{t('saveFirst')}</p>}
           {isEdit && (
             <>
               <fieldset>
-                <legend>Gifts ({gifts.length})</legend>
+                <legend>{t('gifts')} ({gifts.length})</legend>
                 {gifts.length > 0 && (
                   <ul className="tag-list">
                     {gifts.map(g => (
@@ -521,21 +515,21 @@ export default function WerewolfForm() {
                 )}
                 <div className="field-row" style={{ alignItems: 'flex-end' }}>
                   <div className="field" style={{ flex: 2 }}>
-                    <label htmlFor="gift-name">Gift Name</label>
+                    <label htmlFor="gift-name">{t('giftName')}</label>
                     <input id="gift-name" type="text" value={newGift.name} onChange={e => setNewGift(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
                   </div>
                   <div className="field">
-                    <label htmlFor="gift-level">Level</label>
+                    <label htmlFor="gift-level">{t('level')}</label>
                     <select id="gift-level" value={newGift.level} onChange={e => setNewGift(p => ({ ...p, level: parseInt(e.target.value) }))}>
                       {[1,2,3,4,5,6].map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
-                  <button className="btn btn-secondary" onClick={handleAddGift}>Add</button>
+                  <button className="btn btn-secondary" onClick={handleAddGift}>{t('add')}</button>
                 </div>
               </fieldset>
 
               <fieldset>
-                <legend>Rites ({rites.length})</legend>
+                <legend>{t('rites')} ({rites.length})</legend>
                 {rites.length > 0 && (
                   <ul className="tag-list">
                     {rites.map(r => (
@@ -548,26 +542,26 @@ export default function WerewolfForm() {
                 )}
                 <div className="field-row" style={{ alignItems: 'flex-end' }}>
                   <div className="field" style={{ flex: 2 }}>
-                    <label htmlFor="rite-name">Rite Name</label>
+                    <label htmlFor="rite-name">{t('riteName')}</label>
                     <input id="rite-name" type="text" value={newRite.name} onChange={e => setNewRite(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
                   </div>
                   <div className="field">
-                    <label htmlFor="rite-level">Level</label>
+                    <label htmlFor="rite-level">{t('level')}</label>
                     <select id="rite-level" value={newRite.level} onChange={e => setNewRite(p => ({ ...p, level: parseInt(e.target.value) }))}>
                       {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
-                  <button className="btn btn-secondary" onClick={handleAddRite}>Add</button>
+                  <button className="btn btn-secondary" onClick={handleAddRite}>{t('add')}</button>
                 </div>
               </fieldset>
 
               <fieldset>
-                <legend>Fetishes ({fetishes.length})</legend>
+                <legend>{t('fetishes')} ({fetishes.length})</legend>
                 {fetishes.length > 0 && (
                   <ul className="tag-list">
                     {fetishes.map(f => (
                       <li key={f.id} className="tag">
-                        <span>{f.name} (Lv{f.level}, Gnosis {f.gnosisRating})</span>
+                        <span>{f.name} (Lv{f.level}, {t('gnosis')} {f.gnosisRating})</span>
                         <button className="tag-remove" onClick={() => { removeFetish(characterId, f.id); setFetishes(prev => prev.filter(x => x.id !== f.id)) }}>×</button>
                       </li>
                     ))}
@@ -575,22 +569,22 @@ export default function WerewolfForm() {
                 )}
                 <div className="field-row" style={{ alignItems: 'flex-end' }}>
                   <div className="field" style={{ flex: 2 }}>
-                    <label htmlFor="fetish-name">Fetish Name</label>
+                    <label htmlFor="fetish-name">{t('fetishName')}</label>
                     <input id="fetish-name" type="text" value={newFetish.name} onChange={e => setNewFetish(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
                   </div>
                   <div className="field">
-                    <label htmlFor="fetish-level">Level</label>
+                    <label htmlFor="fetish-level">{t('level')}</label>
                     <select id="fetish-level" value={newFetish.level} onChange={e => setNewFetish(p => ({ ...p, level: parseInt(e.target.value) }))}>
                       {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
                   <div className="field">
-                    <label htmlFor="fetish-gnosis">Gnosis</label>
+                    <label htmlFor="fetish-gnosis">{t('gnosis')}</label>
                     <select id="fetish-gnosis" value={newFetish.gnosisRating} onChange={e => setNewFetish(p => ({ ...p, gnosisRating: parseInt(e.target.value) }))}>
                       {[1,2,3,4,5,6,7,8,9,10].map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
-                  <button className="btn btn-secondary" onClick={handleAddFetish}>Add</button>
+                  <button className="btn btn-secondary" onClick={handleAddFetish}>{t('add')}</button>
                 </div>
               </fieldset>
             </>
@@ -602,48 +596,48 @@ export default function WerewolfForm() {
       <div hidden={tab !== 5}>
         <div className="form-section">
           <fieldset>
-            <legend>Rage</legend>
+            <legend>{t('rage')}</legend>
             <div className="field-row">
-              <DotRating label="Permanent Rage" name="rage" value={fields.rage} onChange={handleField} min={0} max={10} />
-              <DotRating label="Temporary Rage" name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('permanentRage')} name="rage" value={fields.rage} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('temporaryRage')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
             </div>
           </fieldset>
           <fieldset>
-            <legend>Gnosis</legend>
+            <legend>{t('gnosis')}</legend>
             <div className="field-row">
-              <DotRating label="Permanent Gnosis" name="gnosis" value={fields.gnosis} onChange={handleField} min={0} max={10} />
-              <DotRating label="Temporary Gnosis" name="currentGnosis" value={fields.currentGnosis} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('permanentGnosis')} name="gnosis" value={fields.gnosis} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('temporaryGnosis')} name="currentGnosis" value={fields.currentGnosis} onChange={handleField} min={0} max={10} />
             </div>
           </fieldset>
           <fieldset>
-            <legend>Willpower</legend>
+            <legend>{t('willpower')}</legend>
             <div className="field-row">
-              <DotRating label="Permanent" name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
-              <DotRating label="Temporary" name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
+              <DotRating label={t('permanent')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
+              <DotRating label={t('temporary')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
           </fieldset>
           <fieldset>
-            <legend>Renown</legend>
+            <legend>{t('renown')}</legend>
             <div className="field-row">
-              <DotRating label="Glory (Perm)" name="glory" value={fields.glory} onChange={handleField} min={0} max={10} />
-              <DotRating label="Glory (Temp)" name="currentGlory" value={fields.currentGlory} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('gloryPerm')} name="glory" value={fields.glory} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('gloryTemp')} name="currentGlory" value={fields.currentGlory} onChange={handleField} min={0} max={10} />
             </div>
             <div className="field-row">
-              <DotRating label="Honor (Perm)" name="honor" value={fields.honor} onChange={handleField} min={0} max={10} />
-              <DotRating label="Honor (Temp)" name="currentHonor" value={fields.currentHonor} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('honorPerm')} name="honor" value={fields.honor} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('honorTemp')} name="currentHonor" value={fields.currentHonor} onChange={handleField} min={0} max={10} />
             </div>
             <div className="field-row">
-              <DotRating label="Wisdom (Perm)" name="wisdomRenown" value={fields.wisdomRenown} onChange={handleField} min={0} max={10} />
-              <DotRating label="Wisdom (Temp)" name="currentWisdomRenown" value={fields.currentWisdomRenown} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('wisdomPerm')} name="wisdomRenown" value={fields.wisdomRenown} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('wisdomTemp')} name="currentWisdomRenown" value={fields.currentWisdomRenown} onChange={handleField} min={0} max={10} />
             </div>
           </fieldset>
           <fieldset>
-            <legend>Health</legend>
+            <legend>{t('health')}</legend>
             <div className="field">
-              <label htmlFor="woundLevel">Current Wound Level</label>
+              <label htmlFor="woundLevel">{t('woundLevel')}</label>
               <select id="woundLevel" value={fields.woundLevel} onChange={e => handleField('woundLevel', parseInt(e.target.value))}>
-                {HEALTH_LEVELS.map((h, i) => (
-                  <option key={i} value={i}>{h.label}{h.penalty ? ` (${h.penalty})` : ''}</option>
+                {HEALTH_LEVEL_KEYS.map((h, i) => (
+                  <option key={i} value={i}>{t(h.key)}{h.penalty ? ` (${h.penalty})` : ''}</option>
                 ))}
               </select>
             </div>
@@ -654,10 +648,10 @@ export default function WerewolfForm() {
       {/* ── Backgrounds ── */}
       <div hidden={tab !== 6}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">Save your character first to add backgrounds.</p>}
+          {!isEdit && <p className="muted-hint">{t('saveFirst')}</p>}
           {isEdit && (
             <fieldset>
-              <legend>Backgrounds ({backgrounds.length})</legend>
+              <legend>{t('backgrounds')} ({backgrounds.length})</legend>
               {backgrounds.length > 0 && (
                 <ul className="tag-list">
                   {backgrounds.map(b => (
@@ -670,24 +664,24 @@ export default function WerewolfForm() {
               )}
               <div className="field-row" style={{ alignItems: 'flex-end' }}>
                 <div className="field" style={{ flex: 2 }}>
-                  <label htmlFor="bg-name">Background</label>
+                  <label htmlFor="bg-name">{t('background')}</label>
                   <input id="bg-name" type="text" list="bg-suggestions" value={newBackground.name}
-                    onChange={e => setNewBackground(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder="e.g. Ancestors" />
+                    onChange={e => setNewBackground(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder={t('phBackground')} />
                   <datalist id="bg-suggestions">
                     {BACKGROUNDS.map(b => <option key={b.value} value={b.value} />)}
                   </datalist>
                 </div>
                 <div className="field">
-                  <label htmlFor="bg-level">Level</label>
+                  <label htmlFor="bg-level">{t('level')}</label>
                   <select id="bg-level" value={newBackground.level} onChange={e => setNewBackground(p => ({ ...p, level: parseInt(e.target.value) }))}>
                     {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
                   </select>
                 </div>
                 <div className="field">
-                  <label htmlFor="bg-desc">Description</label>
+                  <label htmlFor="bg-desc">{t('description')}</label>
                   <input id="bg-desc" type="text" value={newBackground.description} onChange={e => setNewBackground(p => ({ ...p, description: e.target.value }))} autoComplete="off" />
                 </div>
-                <button className="btn btn-secondary" onClick={handleAddBackground}>Add</button>
+                <button className="btn btn-secondary" onClick={handleAddBackground}>{t('add')}</button>
               </div>
             </fieldset>
           )}
@@ -697,16 +691,16 @@ export default function WerewolfForm() {
       {/* ── Merits & Flaws ── */}
       <div hidden={tab !== 7}>
         <div className="form-section">
-          {!isEdit && <p className="muted-hint">Save your character first to add merits and flaws.</p>}
+          {!isEdit && <p className="muted-hint">{t('saveFirst')}</p>}
           {isEdit && (
             <>
               <fieldset>
-                <legend>Merits ({merits.length})</legend>
+                <legend>{t('merits')} ({merits.length})</legend>
                 {merits.length > 0 && (
                   <ul className="tag-list">
                     {merits.map(m => (
                       <li key={m.id} className="tag">
-                        <span>{m.merit?.name ?? 'Merit'} ({m.pointsSpent} pt)</span>
+                        <span>{m.merit?.name ?? t('merits')} ({m.pointsSpent} pt)</span>
                         <button className="tag-remove" onClick={() => { removeMerit(characterId, m.id); setMerits(prev => prev.filter(x => x.id !== m.id)) }}>×</button>
                       </li>
                     ))}
@@ -714,12 +708,12 @@ export default function WerewolfForm() {
                 )}
               </fieldset>
               <fieldset>
-                <legend>Flaws ({flaws.length})</legend>
+                <legend>{t('flaws')} ({flaws.length})</legend>
                 {flaws.length > 0 && (
                   <ul className="tag-list">
                     {flaws.map(f => (
                       <li key={f.id} className="tag">
-                        <span>{f.flaw?.name ?? 'Flaw'} (+{f.pointsGained} pt)</span>
+                        <span>{f.flaw?.name ?? t('flaws')} (+{f.pointsGained} pt)</span>
                         <button className="tag-remove" onClick={() => { removeFlaw(characterId, f.id); setFlaws(prev => prev.filter(x => x.id !== f.id)) }}>×</button>
                       </li>
                     ))}
@@ -735,28 +729,28 @@ export default function WerewolfForm() {
       <div hidden={tab !== 8}>
         <div className="form-section">
           <fieldset>
-            <legend>Shapeshifting Forms</legend>
+            <legend>{t('shapeshiftingForms')}</legend>
             <div style={{ overflowX: 'auto' }}>
               <table className="inv-table">
                 <thead>
                   <tr>
-                    <th>Form</th><th>Str</th><th>Dex</th><th>Sta</th><th>Man</th><th>App</th><th>Diff</th><th>Notes</th>
+                    <th>{t('form')}</th><th>{t('strength')}</th><th>{t('dexterity')}</th><th>{t('stamina')}</th><th>{t('manipulation')}</th><th>{t('appearance')}</th><th>{t('diff')}</th><th>{t('notes')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {FORM_STATS.map(f => (
-                    <tr key={f.form}>
-                      <td style={{ fontWeight: 600 }}>{f.form}</td>
+                    <tr key={f.formKey}>
+                      <td style={{ fontWeight: 600 }}>{t(f.formKey)}</td>
                       <td>{f.str}</td><td>{f.dex}</td><td>{f.sta}</td>
                       <td>{f.man}</td><td>{f.app}</td><td>{f.diff}</td>
-                      <td className="inv-notes">{f.note}</td>
+                      <td className="inv-notes">{f.noteKey ? t(f.noteKey) : ''}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
             <p className="muted-hint" style={{ marginTop: 'var(--space-sm)' }}>
-              Modifiers are applied to your base attributes. Crinos form induces Delirium in humans.
+              {t('formsHint')}
             </p>
           </fieldset>
         </div>
@@ -764,9 +758,9 @@ export default function WerewolfForm() {
 
       {/* ── Save ── */}
       <div className="form-actions">
-        <button className="btn btn-secondary" onClick={() => navigate('/')}>Cancel</button>
+        <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('cancel')}</button>
         <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
-          {saving ? 'Saving...' : isEdit ? 'Save changes' : 'Create character'}
+          {saving ? t('saving') : isEdit ? t('saveChanges') : t('createCharacter')}
         </button>
       </div>
     </div>
