@@ -1364,11 +1364,6 @@ export default function CharacterForm() {
   }
 
   function handleField(name, value) {
-    // In guided mode, cap abilities at 3 during creation
-    if (guidedMode && !isEdit) {
-      const isAbility = Object.values(ABIL_GROUPS).some(group => group.includes(name))
-      if (isAbility && value > 3) return
-    }
     setFields(prev => {
       const next = { ...prev, [name]: value }
       // Auto-sync Humanity path rating
