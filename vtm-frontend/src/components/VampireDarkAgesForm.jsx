@@ -36,7 +36,19 @@ const CLANS = [
   { value: 'Tremere',           curse: 'At the moment of Embrace, every Tremere is one step blood bonded to the Council of Seven. The clan watches its own obsessively.' },
   { value: 'Tzimisce',          curse: 'Must sleep surrounded by at least two handfuls of earth from their homeland. Each night without it, they lose one die from all pools.' },
   { value: 'Ventrue',           curse: 'Can only feed from a specific type of mortal chosen at Embrace. Blood from any other source is vomited up.' },
+  // ── Bloodlines ──
   { value: 'Baali',             curse: 'Infernalist taint — anyone with True Faith senses their corruption. Holy ground deals aggravated damage.' },
+  { value: 'Children of Osiris', curse: 'Must maintain a strict moral code and meditative discipline. If they ever frenzy or fall below Humanity 7, they lose their unique Bardo Discipline permanently.' },
+  { value: 'Gargoyle',          curse: 'Bound by Tremere sorcery as guardians. They suffer a supernatural compulsion to protect Tremere chantries and obey Tremere commands.' },
+  { value: 'Kiasyd',            curse: 'Vulnerable to cold iron — it deals aggravated damage on contact. Their alien appearance imposes −2 to Social pools with mortals and most Cainites.' },
+  { value: 'Lamia',             curse: 'Carriers of a supernatural plague. Their bite inflicts a wasting disease on mortals that slowly kills within weeks.' },
+  { value: 'Lhiannan',          curse: 'Bound to the land. Must remain within their territory or suffer cumulative −1 die penalty per night away. Cannot establish new domains easily.' },
+  { value: 'Nagaraja',          curse: 'Must consume human flesh as well as blood. Without flesh, they suffer cumulative dice pool penalties each night.' },
+  { value: 'Noiad',             curse: 'Constantly perceive echoes of the spirit world. Suffer +2 difficulty on Perception rolls in areas with weak spiritual resonance.' },
+  { value: 'Old Clan Tzimisce', curse: 'Must sleep with earth from their homeland. Refuse to learn Vicissitude, viewing it as corruption. Lack the signature Discipline of the Tzimisce.' },
+  { value: 'Samedi',            curse: 'Appear as rotting corpses. Appearance cannot exceed 0. All Social rolls except Intimidation suffer +1 difficulty.' },
+  { value: 'True Brujah',       curse: 'Emotionally dead. Cannot feel passion or strong emotion. Never frenzy, but cannot spend Willpower for automatic successes on emotional Social rolls.' },
+  // ── Non-clan ──
   { value: 'Caitiff',           curse: 'No inherent curse, but Caitiff are universally despised. They pay out-of-clan costs for all Disciplines.' },
 ]
 
