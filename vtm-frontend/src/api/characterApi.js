@@ -56,3 +56,7 @@ export const removeSorceryPath = (characterId, pathId) => api.delete(`/character
 export const getRituals = (id) => api.get(`/characters/${id}/rituals`)
 export const addRitual = (id, data) => api.post(`/characters/${id}/rituals`, data)
 export const removeRitual = (characterId, ritualId) => api.delete(`/characters/${characterId}/rituals/${ritualId}`)
+
+export const getXpLog = (id) => api.get(`/characters/${id}/xp-log`)
+export const addXpLogEntry = (id, data) => api.post(`/characters/${id}/xp-log`, data)
+export const removeXpLogEntry = (id, entryId) => api.delete(`/characters/${id}/xp-log/${entryId}`)

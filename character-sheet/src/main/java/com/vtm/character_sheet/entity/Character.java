@@ -416,4 +416,8 @@ public class Character {
     @JsonIgnore
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CharacterFetish> fetishes = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<XpLogEntry> xpLogEntries = new ArrayList<>();
 }
