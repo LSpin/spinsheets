@@ -14,6 +14,7 @@ import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { MAGE_TRADITIONS } from '../data/mageTraditions'
+import { MAGE_ROTES } from '../data/mageRotes'
 import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ──
@@ -779,7 +780,18 @@ export default function VictorianMageForm() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
                 <div className="field">
                   <label>{t('roteName')}</label>
-                  <input type="text" value={newRote.name} onChange={e => setNewRote(p => ({ ...p, name: e.target.value }))} placeholder={t('phRoteName')} />
+                  <input type="text" list="rote-catalog" value={newRote.name} onChange={e => {
+                    const val = e.target.value
+                    const hit = MAGE_ROTES.find(r => r.name === val)
+                    if (hit) {
+                      setNewRote({ name: hit.name, spheres: hit.spheres, level: hit.level, description: hit.description })
+                    } else {
+                      setNewRote(p => ({ ...p, name: val }))
+                    }
+                  }} placeholder={t('phRoteName')} />
+                  <datalist id="rote-catalog">
+                    {MAGE_ROTES.map(r => <option key={r.name} value={r.name} />)}
+                  </datalist>
                 </div>
                 <div className="field">
                   <label>{t('roteSpheres')}</label>
@@ -797,6 +809,26 @@ export default function VictorianMageForm() {
                 </div>
                 <button className="btn btn-secondary" onClick={handleAddRote}>{t('add')}</button>
               </div>
+            </fieldset>
+            <fieldset>
+              <legend>{t('roteExamples')}</legend>
+              {['Correspondence', 'Entropy', 'Forces', 'Life', 'Matter', 'Mind', 'Prime', 'Spirit', 'Time', 'Multi-Sphere Classics'].map(sphere => {
+                const rotes = MAGE_ROTES.filter(r => sphere === 'Multi-Sphere Classics' ? r.spheres.includes(',') && r.level >= 3 : r.spheres.startsWith(sphere))
+                if (rotes.length === 0) return null
+                return (
+                  <div key={sphere} style={{ marginBottom: 'var(--space-sm)' }}>
+                    <strong style={{ fontSize: '0.82rem' }}>{sphere}</strong>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: 'var(--space-xs) 0' }}>
+                      {rotes.map(r => (
+                        <li key={r.name} style={{ marginBottom: 'var(--space-xs)', fontSize: '0.78rem' }}>
+                          <strong>{r.name}</strong> <span style={{ color: 'var(--color-text-muted)' }}>({r.spheres}) — Lv{r.level}</span>
+                          <br /><span style={{ color: 'var(--color-text-muted)' }}>{r.description}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              })}
             </fieldset>
         </div>
       </div>
