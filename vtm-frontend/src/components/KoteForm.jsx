@@ -102,12 +102,33 @@ const INITIAL = {
   hobbyTalent1Name: '', hobbyTalent1: 0,
   hobbyTalent2Name: '', hobbyTalent2: 0,
   hobbyTalent3Name: '', hobbyTalent3: 0,
+  hobbyTalent4Name: '', hobbyTalent4: 0,
+  hobbyTalent5Name: '', hobbyTalent5: 0,
+  hobbyTalent6Name: '', hobbyTalent6: 0,
+  hobbyTalent7Name: '', hobbyTalent7: 0,
+  hobbyTalent8Name: '', hobbyTalent8: 0,
+  hobbyTalent9Name: '', hobbyTalent9: 0,
+  hobbyTalent10Name: '', hobbyTalent10: 0,
   profSkill1Name: '', profSkill1: 0,
   profSkill2Name: '', profSkill2: 0,
   profSkill3Name: '', profSkill3: 0,
+  profSkill4Name: '', profSkill4: 0,
+  profSkill5Name: '', profSkill5: 0,
+  profSkill6Name: '', profSkill6: 0,
+  profSkill7Name: '', profSkill7: 0,
+  profSkill8Name: '', profSkill8: 0,
+  profSkill9Name: '', profSkill9: 0,
+  profSkill10Name: '', profSkill10: 0,
   expertKnowl1Name: '', expertKnowl1: 0,
   expertKnowl2Name: '', expertKnowl2: 0,
   expertKnowl3Name: '', expertKnowl3: 0,
+  expertKnowl4Name: '', expertKnowl4: 0,
+  expertKnowl5Name: '', expertKnowl5: 0,
+  expertKnowl6Name: '', expertKnowl6: 0,
+  expertKnowl7Name: '', expertKnowl7: 0,
+  expertKnowl8Name: '', expertKnowl8: 0,
+  expertKnowl9Name: '', expertKnowl9: 0,
+  expertKnowl10Name: '', expertKnowl10: 0,
   // Notes
   derangement1: '', derangement2: '', notes: '',
 }
@@ -433,21 +454,21 @@ export default function KoteForm() {
           <div className="abilities-group">
             <fieldset>
               <legend>{t('secondaryTalents')}</legend>
-              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
-              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
-              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              {Array.from({length: 10}, (_, i) => i + 1).map(n =>
+                <CustomAbilityRow key={n} nameProp={`hobbyTalent${n}Name`} ratingProp={`hobbyTalent${n}`} placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              )}
             </fieldset>
             <fieldset>
               <legend>{t('secondarySkills')}</legend>
-              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
-              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
-              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              {Array.from({length: 10}, (_, i) => i + 1).map(n =>
+                <CustomAbilityRow key={n} nameProp={`profSkill${n}Name`} ratingProp={`profSkill${n}`} placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              )}
             </fieldset>
             <fieldset>
               <legend>{t('secondaryKnowledges')}</legend>
-              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
-              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
-              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              {Array.from({length: 10}, (_, i) => i + 1).map(n =>
+                <CustomAbilityRow key={n} nameProp={`expertKnowl${n}Name`} ratingProp={`expertKnowl${n}`} placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              )}
             </fieldset>
           </div>
         </div>

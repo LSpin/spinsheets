@@ -89,6 +89,20 @@ public class Character {
     private Integer hobbyTalent2 = 0;
     private String hobbyTalent3Name;
     private Integer hobbyTalent3 = 0;
+    private String hobbyTalent4Name;
+    private Integer hobbyTalent4 = 0;
+    private String hobbyTalent5Name;
+    private Integer hobbyTalent5 = 0;
+    private String hobbyTalent6Name;
+    private Integer hobbyTalent6 = 0;
+    private String hobbyTalent7Name;
+    private Integer hobbyTalent7 = 0;
+    private String hobbyTalent8Name;
+    private Integer hobbyTalent8 = 0;
+    private String hobbyTalent9Name;
+    private Integer hobbyTalent9 = 0;
+    private String hobbyTalent10Name;
+    private Integer hobbyTalent10 = 0;
 
     // Skills
     private Integer animalKen = 0;
@@ -108,6 +122,20 @@ public class Character {
     private Integer profSkill2 = 0;
     private String profSkill3Name;
     private Integer profSkill3 = 0;
+    private String profSkill4Name;
+    private Integer profSkill4 = 0;
+    private String profSkill5Name;
+    private Integer profSkill5 = 0;
+    private String profSkill6Name;
+    private Integer profSkill6 = 0;
+    private String profSkill7Name;
+    private Integer profSkill7 = 0;
+    private String profSkill8Name;
+    private Integer profSkill8 = 0;
+    private String profSkill9Name;
+    private Integer profSkill9 = 0;
+    private String profSkill10Name;
+    private Integer profSkill10 = 0;
 
     // Knowledges
     private Integer academics = 0;
@@ -127,6 +155,20 @@ public class Character {
     private Integer expertKnowl2 = 0;
     private String expertKnowl3Name;
     private Integer expertKnowl3 = 0;
+    private String expertKnowl4Name;
+    private Integer expertKnowl4 = 0;
+    private String expertKnowl5Name;
+    private Integer expertKnowl5 = 0;
+    private String expertKnowl6Name;
+    private Integer expertKnowl6 = 0;
+    private String expertKnowl7Name;
+    private Integer expertKnowl7 = 0;
+    private String expertKnowl8Name;
+    private Integer expertKnowl8 = 0;
+    private String expertKnowl9Name;
+    private Integer expertKnowl9 = 0;
+    private String expertKnowl10Name;
+    private Integer expertKnowl10 = 0;
 
     // Specialties — Attributes
     private String strengthSpec;

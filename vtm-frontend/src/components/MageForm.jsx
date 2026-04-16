@@ -87,23 +87,41 @@ const INITIAL = {
   alertness: 0, art: 0, athletics: 0, awareness: 0, brawl: 0, empathy: 0,
   expression: 0, intimidation: 0, leadership: 0, streetwise: 0, subterfuge: 0,
   hobbyTalent1Name: '', hobbyTalent1: 0, hobbyTalent2Name: '', hobbyTalent2: 0, hobbyTalent3Name: '', hobbyTalent3: 0,
+  hobbyTalent4Name: '', hobbyTalent4: 0, hobbyTalent5Name: '', hobbyTalent5: 0, hobbyTalent6Name: '', hobbyTalent6: 0,
+  hobbyTalent7Name: '', hobbyTalent7: 0, hobbyTalent8Name: '', hobbyTalent8: 0, hobbyTalent9Name: '', hobbyTalent9: 0,
+  hobbyTalent10Name: '', hobbyTalent10: 0,
   alertnessSpec: '', artSpec: '', athleticsSpec: '', awarenessSpec: '', brawlSpec: '', empathySpec: '',
   expressionSpec: '', intimidationSpec: '', leadershipSpec: '', streetwiseSpec: '', subterfugeSpec: '',
   hobbyTalent1Spec: '', hobbyTalent2Spec: '', hobbyTalent3Spec: '',
+  hobbyTalent4Spec: '', hobbyTalent5Spec: '', hobbyTalent6Spec: '',
+  hobbyTalent7Spec: '', hobbyTalent8Spec: '', hobbyTalent9Spec: '',
+  hobbyTalent10Spec: '',
   // Skills
   crafts: 0, drive: 0, etiquette: 0, firearms: 0, martialArts: 0, meditation: 0,
   melee: 0, research: 0, stealth: 0, survival: 0, technology: 0,
   profSkill1Name: '', profSkill1: 0, profSkill2Name: '', profSkill2: 0, profSkill3Name: '', profSkill3: 0,
+  profSkill4Name: '', profSkill4: 0, profSkill5Name: '', profSkill5: 0, profSkill6Name: '', profSkill6: 0,
+  profSkill7Name: '', profSkill7: 0, profSkill8Name: '', profSkill8: 0, profSkill9Name: '', profSkill9: 0,
+  profSkill10Name: '', profSkill10: 0,
   craftsSpec: '', driveSpec: '', etiquetteSpec: '', firearmsSpec: '', martialArtsSpec: '', meditationSpec: '',
   meleeSpec: '', researchSpec: '', stealthSpec: '', survivalSpec: '', technologySpec: '',
   profSkill1Spec: '', profSkill2Spec: '', profSkill3Spec: '',
+  profSkill4Spec: '', profSkill5Spec: '', profSkill6Spec: '',
+  profSkill7Spec: '', profSkill8Spec: '', profSkill9Spec: '',
+  profSkill10Spec: '',
   // Knowledges
   academics: 0, computer: 0, cosmology: 0, enigmas: 0, esoterica: 0, investigation: 0,
   law: 0, medicine: 0, occult: 0, politics: 0, science: 0,
   expertKnowl1Name: '', expertKnowl1: 0, expertKnowl2Name: '', expertKnowl2: 0, expertKnowl3Name: '', expertKnowl3: 0,
+  expertKnowl4Name: '', expertKnowl4: 0, expertKnowl5Name: '', expertKnowl5: 0, expertKnowl6Name: '', expertKnowl6: 0,
+  expertKnowl7Name: '', expertKnowl7: 0, expertKnowl8Name: '', expertKnowl8: 0, expertKnowl9Name: '', expertKnowl9: 0,
+  expertKnowl10Name: '', expertKnowl10: 0,
   academicsSpec: '', computerSpec: '', cosmologySpec: '', enigmasSpec: '', esotericaSpec: '', investigationSpec: '',
   lawSpec: '', medicineSpec: '', occultSpec: '', politicsSpec: '', scienceSpec: '',
   expertKnowl1Spec: '', expertKnowl2Spec: '', expertKnowl3Spec: '',
+  expertKnowl4Spec: '', expertKnowl5Spec: '', expertKnowl6Spec: '',
+  expertKnowl7Spec: '', expertKnowl8Spec: '', expertKnowl9Spec: '',
+  expertKnowl10Spec: '',
   // Spheres
   sphereCorrespondence: 0, sphereEntropy: 0, sphereForces: 0,
   sphereLife: 0, sphereMatter: 0, sphereMind: 0,
@@ -445,7 +463,7 @@ export default function MageForm() {
               {['alertness', 'art', 'athletics', 'awareness', 'brawl', 'empathy', 'expression', 'intimidation', 'leadership', 'streetwise', 'subterfuge'].map(a =>
                 <MageRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
-              {['hobbyTalent1', 'hobbyTalent2', 'hobbyTalent3'].map(a =>
+              {Array.from({length: 10}, (_, i) => `hobbyTalent${i + 1}`).map(a =>
                 <MageRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
@@ -456,7 +474,7 @@ export default function MageForm() {
               {['crafts', 'drive', 'etiquette', 'firearms', 'martialArts', 'meditation', 'melee', 'research', 'stealth', 'survival', 'technology'].map(a =>
                 <MageRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
-              {['profSkill1', 'profSkill2', 'profSkill3'].map(a =>
+              {Array.from({length: 10}, (_, i) => `profSkill${i + 1}`).map(a =>
                 <MageRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
@@ -467,7 +485,7 @@ export default function MageForm() {
               {['academics', 'computer', 'cosmology', 'enigmas', 'esoterica', 'investigation', 'law', 'medicine', 'occult', 'politics', 'science'].map(a =>
                 <MageRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
-              {['expertKnowl1', 'expertKnowl2', 'expertKnowl3'].map(a =>
+              {Array.from({length: 10}, (_, i) => `expertKnowl${i + 1}`).map(a =>
                 <MageRatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
@@ -481,21 +499,21 @@ export default function MageForm() {
           <div className="abilities-group">
             <fieldset>
               <legend>{t('secondaryTalents')}</legend>
-              <CustomAbilityRow nameProp="hobbyTalent1Name" ratingProp="hobbyTalent1" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
-              <CustomAbilityRow nameProp="hobbyTalent2Name" ratingProp="hobbyTalent2" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
-              <CustomAbilityRow nameProp="hobbyTalent3Name" ratingProp="hobbyTalent3" placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              {Array.from({length: 10}, (_, i) => i + 1).map(n =>
+                <CustomAbilityRow key={n} nameProp={`hobbyTalent${n}Name`} ratingProp={`hobbyTalent${n}`} placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              )}
             </fieldset>
             <fieldset>
               <legend>{t('secondarySkills')}</legend>
-              <CustomAbilityRow nameProp="profSkill1Name" ratingProp="profSkill1" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
-              <CustomAbilityRow nameProp="profSkill2Name" ratingProp="profSkill2" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
-              <CustomAbilityRow nameProp="profSkill3Name" ratingProp="profSkill3" placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              {Array.from({length: 10}, (_, i) => i + 1).map(n =>
+                <CustomAbilityRow key={n} nameProp={`profSkill${n}Name`} ratingProp={`profSkill${n}`} placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              )}
             </fieldset>
             <fieldset>
               <legend>{t('secondaryKnowledges')}</legend>
-              <CustomAbilityRow nameProp="expertKnowl1Name" ratingProp="expertKnowl1" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
-              <CustomAbilityRow nameProp="expertKnowl2Name" ratingProp="expertKnowl2" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
-              <CustomAbilityRow nameProp="expertKnowl3Name" ratingProp="expertKnowl3" placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              {Array.from({length: 10}, (_, i) => i + 1).map(n =>
+                <CustomAbilityRow key={n} nameProp={`expertKnowl${n}Name`} ratingProp={`expertKnowl${n}`} placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              )}
             </fieldset>
           </div>
         </div>
