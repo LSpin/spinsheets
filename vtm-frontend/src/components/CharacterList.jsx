@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
+import { useNewChar } from '../context/NewCharContext'
 import { getCharacters, deleteCharacter } from '../api/characterApi'
 
 const SPLAT_LABEL_KEYS = {
@@ -102,6 +103,7 @@ export default function CharacterList() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const { t } = useLanguage()
+  const { openNewChar } = useNewChar()
   const isST = user?.role === 'STORYTELLER'
 
   useEffect(() => { loadCharacters() }, [])
@@ -137,7 +139,7 @@ export default function CharacterList() {
         <h2 id="list-heading">
           {isST ? t('allCharactersST') : t('myCharacters')}
         </h2>
-        <button className="btn btn-primary" onClick={() => navigate('/characters/new')}>
+        <button className="btn btn-primary" onClick={openNewChar}>
           {t('newCharBtn')}
         </button>
       </div>

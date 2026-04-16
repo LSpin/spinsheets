@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, Link } from 'react-router-dom'
 import { useState, useRef, useEffect } from 'react'
 import { AuthProvider, useAuth } from './context/AuthContext'
+import { NewCharProvider } from './context/NewCharContext'
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext'
 import LanguageToggle from './components/LanguageToggle'
 import CharacterList from './components/CharacterList'
@@ -11,8 +12,6 @@ import RegisterPage from './pages/RegisterPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import SplatSelectPage from './pages/SplatSelectPage'
 import PlayersPage from './pages/PlayersPage'
-import NewCharacterModal from './components/NewCharacterModal'
-import { getChronicles } from './api/chronicleApi'
 import WerewolfForm from './components/WerewolfForm'
 import MageForm from './components/MageForm'
 import VampireRevisedForm from './components/VampireRevisedForm'
@@ -68,14 +67,6 @@ function AppShell() {
   const { user } = useAuth()
   const { t } = useLanguage()
   const isST = user?.role === 'STORYTELLER'
-  const [showNewCharModal, setShowNewCharModal] = useState(false)
-  const [chronicles, setChronicles] = useState([])
-
-  useEffect(() => {
-    if (user) {
-      getChronicles().then(res => setChronicles(res.data)).catch(() => {})
-    }
-  }, [user])
 
   return (
     <>
@@ -96,7 +87,6 @@ function AppShell() {
                   <button>{t('navPlayers')}</button>
                 </Link>
               )}
-              <button onClick={() => setShowNewCharModal(true)}>{t('navNewCharacter')}</button>
               <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
                 <UserMenu />
                 <LanguageToggle />
@@ -167,12 +157,6 @@ function AppShell() {
           ☕ {t('buyMeACoffee')}
         </a>
       </footer>
-
-      <NewCharacterModal
-        open={showNewCharModal}
-        onClose={() => setShowNewCharModal(false)}
-        chronicles={chronicles}
-      />
     </>
   )
 }
@@ -182,7 +166,9 @@ export default function App() {
     <LanguageProvider>
       <BrowserRouter>
         <AuthProvider>
-          <AppShell />
+          <NewCharProvider>
+            <AppShell />
+          </NewCharProvider>
         </AuthProvider>
       </BrowserRouter>
     </LanguageProvider>

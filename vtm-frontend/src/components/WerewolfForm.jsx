@@ -299,7 +299,7 @@ export default function WerewolfForm() {
     return budget > 0 ? <span className={`points-remaining ${cls}`}>{text}</span> : null
   }
 
-  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabRenownRage', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabForms', 'tabBackstory', 'tabXpLog']
+  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabForms', 'tabBackstory', 'tabXpLog']
 
   useEffect(() => {
     if (isEdit) loadCharacter()

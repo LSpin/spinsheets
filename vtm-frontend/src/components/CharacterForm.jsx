@@ -11,6 +11,7 @@ import {
   getSorceryPaths, addSorceryPath, removeSorceryPath,
   getRituals, addRitual, removeRitual,
   getXpLog, addXpLogEntry, removeXpLogEntry,
+  getComboDisciplines, addComboDiscipline, removeComboDiscipline,
 } from '../api/characterApi'
 import { joinChronicle } from '../api/chronicleApi'
 import DotRating from './DotRating'
@@ -1251,6 +1252,8 @@ export default function CharacterForm() {
   const [mfInfo,  setMfInfo]  = useState(null)   // merit / flaw panel
   const [inventory, setInventory] = useState([])
   const [newItem, setNewItem] = useState({ name: '', category: 'EQUIPMENT', quantity: 1, damage: '', concealment: '', range: '', rate: '', clip: '', armorRating: null, handling: null, structure: null, notes: '' })
+  const [comboDisciplines, setComboDisciplines] = useState([])
+  const [newCombo, setNewCombo] = useState({ name: '', prerequisites: '', description: '', xpCost: '' })
   const [sorceryPaths, setSorceryPaths] = useState([])
   const [rituals, setRituals] = useState([])
   const [newPath, setNewPath] = useState({ name: '', level: 1 })
@@ -1360,7 +1363,7 @@ export default function CharacterForm() {
 
   async function loadCharacter() {
     try {
-      const [charRes, discRes, bgRes, meritRes, flawRes, invRes, pathRes, ritRes, xpRes] = await Promise.all([
+      const [charRes, discRes, bgRes, meritRes, flawRes, invRes, pathRes, ritRes, xpRes, comboRes] = await Promise.all([
         getCharacter(characterId),
         getDisciplines(characterId),
         getBackgrounds(characterId),
@@ -1370,6 +1373,7 @@ export default function CharacterForm() {
         getSorceryPaths(characterId),
         getRituals(characterId),
         getXpLog(characterId),
+        getComboDisciplines(characterId),
       ])
       setFields(prev => ({ ...INITIAL, ...charRes.data }))
       setDisciplines(discRes.data)
@@ -1380,6 +1384,7 @@ export default function CharacterForm() {
       setSorceryPaths(pathRes.data)
       setRituals(ritRes.data)
       setXpLog(xpRes.data)
+      setComboDisciplines(comboRes.data)
     } catch {
       setSaveError(t('failedToLoad'))
     } finally {
@@ -1464,6 +1469,23 @@ export default function CharacterForm() {
     try {
       await removeDiscipline(characterId, id)
       setDisciplines(prev => prev.filter(d => d.id !== id))
+    } catch { setActionError(t('failedToSave')) }
+  }
+
+  async function handleAddCombo() {
+    if (!newCombo.name.trim()) return
+    try {
+      const data = { ...newCombo, xpCost: newCombo.xpCost ? parseInt(newCombo.xpCost) : null }
+      const res = await addComboDiscipline(characterId, data)
+      setComboDisciplines(prev => [...prev, res.data])
+      setNewCombo({ name: '', prerequisites: '', description: '', xpCost: '' })
+    } catch { setActionError(t('failedToSave')) }
+  }
+
+  async function handleRemoveCombo(comboId) {
+    try {
+      await removeComboDiscipline(characterId, comboId)
+      setComboDisciplines(prev => prev.filter(c => c.id !== comboId))
     } catch { setActionError(t('failedToSave')) }
   }
 
@@ -2083,6 +2105,47 @@ export default function CharacterForm() {
           )
         })()}
         </div>
+        {isEdit && (
+          <>
+            <hr className="divider" />
+            <fieldset>
+              <legend>{t('comboDisciplines')} ({comboDisciplines.length})</legend>
+              {comboDisciplines.length === 0 && <p className="muted-hint">{t('noCombosYet')}</p>}
+              {comboDisciplines.map(c => (
+                <div key={c.id} className="character-card" style={{ marginBottom: 'var(--space-sm)' }}>
+                  <div className="character-card-info">
+                    <h3 style={{ fontSize: '0.9rem' }}>{c.name}</h3>
+                    {c.prerequisites && <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{t('comboPrereqs')}: {c.prerequisites}</p>}
+                    {c.description && <p style={{ fontSize: '0.78rem' }}>{c.description}</p>}
+                    {c.xpCost && <p style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>{t('comboXpCost')}: {c.xpCost}</p>}
+                  </div>
+                  <div className="character-card-actions">
+                    <button className="btn btn-danger btn-sm" onClick={() => handleRemoveCombo(c.id)}>✕</button>
+                  </div>
+                </div>
+              ))}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-sm)', marginTop: 'var(--space-sm)' }}>
+                <div className="field">
+                  <label>{t('comboName')}</label>
+                  <input type="text" value={newCombo.name} onChange={e => setNewCombo(p => ({ ...p, name: e.target.value }))} placeholder={t('phComboName')} />
+                </div>
+                <div className="field">
+                  <label>{t('comboPrereqs')}</label>
+                  <input type="text" value={newCombo.prerequisites} onChange={e => setNewCombo(p => ({ ...p, prerequisites: e.target.value }))} placeholder={t('phComboPrereqs')} />
+                </div>
+                <div className="field" style={{ gridColumn: '1 / -1' }}>
+                  <label>{t('comboDesc')}</label>
+                  <textarea value={newCombo.description} onChange={e => setNewCombo(p => ({ ...p, description: e.target.value }))} rows={3} placeholder={t('phComboDesc')} style={{ width: '100%' }} />
+                </div>
+                <div className="field" style={{ maxWidth: 120 }}>
+                  <label>{t('comboXpCost')}</label>
+                  <input type="number" min="0" value={newCombo.xpCost} onChange={e => setNewCombo(p => ({ ...p, xpCost: e.target.value }))} />
+                </div>
+                <button className="btn btn-secondary" style={{ alignSelf: 'flex-end' }} onClick={handleAddCombo}>{t('add')}</button>
+              </div>
+            </fieldset>
+          </>
+        )}
       </div>
 
       {/* ── Backgrounds ── */}

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   getCharacter, createCharacter, updateCharacter,
-  getDisciplines, addDiscipline, removeDiscipline,
   getBackgrounds, addBackground, removeBackground,
   getMeritCatalog, getFlawCatalog,
   getMerits, addMerit, removeMerit,
@@ -187,7 +186,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
 
 // ── Component ──
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabSpheres', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabFocusChantry', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabSpheres', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabFocusChantry', 'tabBackstory', 'tabXpLog']
 
 export default function MageForm() {
   const { id: paramId } = useParams()
@@ -202,14 +201,12 @@ export default function MageForm() {
 
   const [tab, setTab] = useState(0)
   const [fields, setFields] = useState(INITIAL)
-  const [disciplines, setDisciplines] = useState([])
   const [backgrounds, setBackgrounds] = useState([])
   const [merits, setMerits] = useState([])
   const [flaws, setFlaws] = useState([])
   const [meritCatalog, setMeritCatalog] = useState([])
   const [flawCatalog, setFlawCatalog] = useState([])
   const [inventory, setInventory] = useState([])
-  const [newDiscipline, setNewDiscipline] = useState({ name: '', level: 1, notes: '' })
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
   const [newItem, setNewItem] = useState({ name: '', category: 'EQUIPMENT', quantity: 1, damage: '', concealment: '', range: '', rate: '', clip: '', armorRating: null, handling: null, structure: null, notes: '' })
   const [xpLog, setXpLog] = useState([])
@@ -309,9 +306,8 @@ export default function MageForm() {
 
   async function loadCharacter() {
     try {
-      const [charRes, discRes, bgRes, meritRes, flawRes, invRes, xpRes] = await Promise.all([
+      const [charRes, bgRes, meritRes, flawRes, invRes, xpRes] = await Promise.all([
         getCharacter(characterId),
-        getDisciplines(characterId),
         getBackgrounds(characterId),
         getMerits(characterId),
         getFlaws(characterId),
@@ -324,7 +320,6 @@ export default function MageForm() {
         for (const k of Object.keys(prev)) if (data[k] != null) next[k] = data[k]
         return next
       })
-      setDisciplines(discRes.data)
       setBackgrounds(bgRes.data)
       setMerits(meritRes.data)
       setFlaws(flawRes.data)
@@ -371,15 +366,6 @@ export default function MageForm() {
     } catch (err) {
       setSaveError(err.response?.data?.message || t('failedToSave'))
     } finally { setSaving(false) }
-  }
-
-  async function handleAddDiscipline() {
-    if (!newDiscipline.name.trim() || !characterId) return
-    try {
-      const res = await addDiscipline(characterId, newDiscipline)
-      setDisciplines(prev => [...prev, res.data])
-      setNewDiscipline({ name: '', level: 1, notes: '' })
-    } catch {}
   }
 
   async function handleAddBackground() {
@@ -711,14 +697,6 @@ export default function MageForm() {
             </div>
           </fieldset>
           <fieldset>
-            <legend>{t('virtues')}</legend>
-            <div className="rating-grid">
-              <DotRating label={t('conscience')} name="conscience" value={fields.conscience} onChange={handleField} min={1} max={5} />
-              <DotRating label={t('selfControl')} name="selfControl" value={fields.selfControl} onChange={handleField} min={1} max={5} />
-              <DotRating label={t('courage')} name="courage" value={fields.courage} onChange={handleField} min={1} max={5} />
-            </div>
-          </fieldset>
-          <fieldset>
             <legend>{t('willpower')}</legend>
             <div className="field-row">
               <DotRating label={t('permanent')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
@@ -784,43 +762,8 @@ export default function MageForm() {
         </div>
       </div>
 
-      {/* ── Disciplines & Backgrounds ── */}
-      <div hidden={tab !== 6}>
-        <div className="form-section">
-          {!isEdit && <p className="muted-hint">{t('saveCharFirstDiscBg')}</p>}
-          {isEdit && (
-              <fieldset>
-                <legend>{t('disciplines')} ({disciplines.length})</legend>
-                {disciplines.length > 0 && (
-                  <ul className="tag-list">
-                    {disciplines.map(d => (
-                      <li key={d.id} className="tag">
-                        <span>{d.name} (Lv{d.level})</span>
-                        <button className="tag-remove" onClick={() => { removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)) }}>×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <div className="field-row" style={{ alignItems: 'flex-end' }}>
-                  <div className="field" style={{ flex: 2 }}>
-                    <label htmlFor="disc-name">{t('disciplineName')}</label>
-                    <input id="disc-name" type="text" value={newDiscipline.name} onChange={e => setNewDiscipline(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="disc-level">{t('level')}</label>
-                    <select id="disc-level" value={newDiscipline.level} onChange={e => setNewDiscipline(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                      {[1,2,3,4,5,6,7,8,9,10].map(v => <option key={v} value={v}>{v}</option>)}
-                    </select>
-                  </div>
-                  <button className="btn btn-secondary" onClick={handleAddDiscipline}>{t('add')}</button>
-                </div>
-              </fieldset>
-          )}
-        </div>
-      </div>
-
       {/* ── Backgrounds ── */}
-      <div hidden={tab !== 7}>
+      <div hidden={tab !== 6}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">{t('saveCharFirstDiscBg')}</p>}
           {isEdit && (
@@ -863,7 +806,7 @@ export default function MageForm() {
       </div>
 
       {/* ── Merits & Flaws ── */}
-      <div hidden={tab !== 8}>
+      <div hidden={tab !== 7}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">{t('saveCharFirstMeritsFlaw')}</p>}
           {isEdit && (
@@ -900,7 +843,7 @@ export default function MageForm() {
       </div>
 
       {/* ── Inventory ── */}
-      <div hidden={tab !== 9}>
+      <div hidden={tab !== 8}>
         <div className="form-section">
           {!isEdit ? (
             <p className="muted-hint">{t('saveCharFirstInventory')}</p>
@@ -964,7 +907,7 @@ export default function MageForm() {
       </div>
 
       {/* ── Focus & Chantry ── */}
-      <div hidden={tab !== 10}>
+      <div hidden={tab !== 9}>
         <div className="form-section">
           <fieldset>
             <legend>{t('focus')}</legend>
@@ -1000,7 +943,7 @@ export default function MageForm() {
       </div>
 
       {/* ── Backstory ── */}
-      <div hidden={tab !== 11}>
+      <div hidden={tab !== 10}>
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
@@ -1034,7 +977,7 @@ export default function MageForm() {
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 12}>
+      <div hidden={tab !== 11}>
         <div className="form-section">
           {!isEdit ? (
             <p className="muted-hint">{t('saveCharFirst')}</p>

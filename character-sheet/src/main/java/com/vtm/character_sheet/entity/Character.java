@@ -420,6 +420,10 @@ public class Character {
 
     @JsonIgnore
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ComboDiscipline> comboDisciplines = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CharacterBackground> backgrounds = new ArrayList<>();
 
     @JsonIgnore

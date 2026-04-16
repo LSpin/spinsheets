@@ -60,3 +60,7 @@ export const removeRitual = (characterId, ritualId) => api.delete(`/characters/$
 export const getXpLog = (id) => api.get(`/characters/${id}/xp-log`)
 export const addXpLogEntry = (id, data) => api.post(`/characters/${id}/xp-log`, data)
 export const removeXpLogEntry = (id, entryId) => api.delete(`/characters/${id}/xp-log/${entryId}`)
+
+export const getComboDisciplines = (id) => api.get(`/characters/${id}/combo-disciplines`)
+export const addComboDiscipline = (id, data) => api.post(`/characters/${id}/combo-disciplines`, data)
+export const removeComboDiscipline = (id, comboId) => api.delete(`/characters/${id}/combo-disciplines/${comboId}`)
