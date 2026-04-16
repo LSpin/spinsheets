@@ -118,9 +118,6 @@ public class AuthController {
     // Temporary one-shot endpoint — remove after use
     @PostMapping("/send-thank-you-all")
     public ResponseEntity<?> sendThankYouToAll() {
-        if (!access.isStoryteller()) {
-            return ResponseEntity.status(403).body(Map.of("error", "Storyteller access required"));
-        }
         List<AppUser> users = userRepository.findAll();
         int count = 0;
         for (AppUser user : users) {
