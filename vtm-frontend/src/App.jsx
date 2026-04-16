@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, Link } from 'react-router-dom'
+import { useState, useRef, useEffect } from 'react'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext'
 import LanguageToggle from './components/LanguageToggle'
@@ -9,6 +10,7 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import SplatSelectPage from './pages/SplatSelectPage'
+import PlayersPage from './pages/PlayersPage'
 import WerewolfForm from './components/WerewolfForm'
 import MageForm from './components/MageForm'
 import VampireRevisedForm from './components/VampireRevisedForm'
@@ -26,10 +28,44 @@ function ProtectedRoute({ children }) {
   return children
 }
 
-function AppShell() {
+function UserMenu() {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const { t } = useLanguage()
+  const [open, setOpen] = useState(false)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    function handleClick(e) {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
+
+  if (!user) return null
+
+  return (
+    <div className="user-menu" ref={ref}>
+      <button className="user-menu-trigger" onClick={() => setOpen(o => !o)}>
+        {user.username} ({user.role === 'STORYTELLER' ? t('roleST') : t('rolePlayer')})
+        <span className="user-menu-arrow">{open ? '▲' : '▼'}</span>
+      </button>
+      {open && (
+        <div className="user-menu-dropdown">
+          <button onClick={() => { setOpen(false); logout(); navigate('/login') }}>
+            {t('navSignOut')}
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function AppShell() {
+  const { user } = useAuth()
+  const { t } = useLanguage()
+  const isST = user?.role === 'STORYTELLER'
 
   return (
     <>
@@ -45,16 +81,18 @@ function AppShell() {
               <Link to="/chronicles">
                 <button>{t('navChronicles')}</button>
               </Link>
+              {isST && (
+                <Link to="/players">
+                  <button>{t('navPlayers')}</button>
+                </Link>
+              )}
               <Link to="/characters/new">
                 <button>{t('navNewCharacter')}</button>
               </Link>
-              <span className="muted" style={{ alignSelf: 'center', marginLeft: 'auto' }}>
-                {user.username} ({user.role === 'STORYTELLER' ? t('roleST') : t('rolePlayer')})
-              </span>
-              <button onClick={() => { logout(); navigate('/login') }}>
-                {t('navSignOut')}
-              </button>
-              <LanguageToggle />
+              <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                <UserMenu />
+                <LanguageToggle />
+              </div>
             </nav>
           )}
           {!user && (
@@ -71,65 +109,46 @@ function AppShell() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/" element={
-            <ProtectedRoute>
-              <CharacterList />
-            </ProtectedRoute>
+            <ProtectedRoute><CharacterList /></ProtectedRoute>
           } />
           <Route path="/characters/new" element={
-            <ProtectedRoute>
-              <SplatSelectPage />
-            </ProtectedRoute>
+            <ProtectedRoute><SplatSelectPage /></ProtectedRoute>
           } />
           <Route path="/characters/new/vampire" element={
-            <ProtectedRoute>
-              <CharacterForm />
-            </ProtectedRoute>
+            <ProtectedRoute><CharacterForm /></ProtectedRoute>
           } />
           <Route path="/characters/new/werewolf" element={
-            <ProtectedRoute>
-              <WerewolfForm />
-            </ProtectedRoute>
+            <ProtectedRoute><WerewolfForm /></ProtectedRoute>
           } />
           <Route path="/characters/new/mage" element={
-            <ProtectedRoute>
-              <MageForm />
-            </ProtectedRoute>
+            <ProtectedRoute><MageForm /></ProtectedRoute>
           } />
           <Route path="/characters/new/vampire-revised" element={
-            <ProtectedRoute>
-              <VampireRevisedForm />
-            </ProtectedRoute>
+            <ProtectedRoute><VampireRevisedForm /></ProtectedRoute>
           } />
           <Route path="/characters/new/kote" element={
-            <ProtectedRoute>
-              <KoteForm />
-            </ProtectedRoute>
+            <ProtectedRoute><KoteForm /></ProtectedRoute>
           } />
           <Route path="/characters/new/vampire-dark-ages" element={
-            <ProtectedRoute>
-              <VampireDarkAgesForm />
-            </ProtectedRoute>
+            <ProtectedRoute><VampireDarkAgesForm /></ProtectedRoute>
           } />
           <Route path="/characters/:id" element={
-            <ProtectedRoute>
-              <CharacterRouter />
-            </ProtectedRoute>
+            <ProtectedRoute><CharacterRouter /></ProtectedRoute>
           } />
           <Route path="/chronicles" element={
-            <ProtectedRoute>
-              <ChronicleList />
-            </ProtectedRoute>
+            <ProtectedRoute><ChronicleList /></ProtectedRoute>
           } />
           <Route path="/chronicles/new" element={
-            <ProtectedRoute>
-              <ChronicleForm />
-            </ProtectedRoute>
+            <ProtectedRoute><ChronicleForm /></ProtectedRoute>
           } />
           <Route path="/chronicles/:id" element={
-            <ProtectedRoute>
-              <ChronicleDetail />
-            </ProtectedRoute>
+            <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
           } />
+          {isST && (
+            <Route path="/players" element={
+              <ProtectedRoute><PlayersPage /></ProtectedRoute>
+            } />
+          )}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

@@ -147,13 +147,13 @@ export default function CharacterList() {
 
       {!loading && isST && (
         <>
-          <div role="tablist" aria-label={t('navCharacters')} className="tab-list" style={{ marginBottom: 'var(--space-lg)' }}>
+          <div role="tablist" aria-label={t('navCharacters')} className="tab-list">
             <button role="tab" aria-selected={subTab === 0} onClick={() => setSubTab(0)}
-              className={subTab === 0 ? 'tab-active' : ''}>
+              className={`btn btn-secondary tab-btn${subTab === 0 ? ' tab-btn--active' : ''}`}>
               {t('playerCharacters')} ({pcs.length})
             </button>
             <button role="tab" aria-selected={subTab === 1} onClick={() => setSubTab(1)}
-              className={subTab === 1 ? 'tab-active' : ''}>
+              className={`btn btn-secondary tab-btn${subTab === 1 ? ' tab-btn--active' : ''}`}>
               {t('npcs')} ({npcs.length})
             </button>
           </div>
