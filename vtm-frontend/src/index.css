@@ -1293,6 +1293,25 @@ a:hover {
   }
 }
 
+/* ── Ko-fi Button ── */
+
+.kofi-btn {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.45rem 1rem;
+  background: #ff5e5b;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.15s, transform 0.1s;
+}
+.kofi-btn:hover {
+  background: #e04442;
+  transform: scale(1.04);
+}
+
 /* ── Modal ── */
 
 .modal-overlay {

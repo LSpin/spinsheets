@@ -525,6 +525,7 @@ const en = {
   rolePlayer: 'Player',
   roleST: 'ST',
   footerText: 'A Fan Project WoD Chronicles Creator',
+  buyMeACoffee: 'Buy me a coffee',
 
   // ── Auth pages ──
   signIn: 'Sign In',
@@ -1201,6 +1202,7 @@ const pt = {
   rolePlayer: 'Jogador',
   roleST: 'Narrador',
   footerText: 'Um Projeto de Fã — Criador de Crônicas WoD',
+  buyMeACoffee: 'Me pague um café',
 
   // ── Auth pages ──
   signIn: 'Entrar',

@@ -163,6 +163,9 @@ function AppShell() {
 
       <footer role="contentinfo">
         <p>{t('footerText')}</p>
+        <a href="https://ko-fi.com/spinsheets" target="_blank" rel="noopener noreferrer" className="kofi-btn">
+          ☕ {t('buyMeACoffee')}
+        </a>
       </footer>
 
       <NewCharacterModal
