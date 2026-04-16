@@ -1112,6 +1112,39 @@ legend {
   background: rgba(196, 163, 46, 0.1);
 }
 
+/* ── View Mode ── */
+.form-view-mode input,
+.form-view-mode select,
+.form-view-mode textarea {
+  pointer-events: none;
+  opacity: 0.85;
+  background: var(--color-surface);
+}
+.form-view-mode .btn-secondary,
+.form-view-mode .btn-primary,
+.form-view-mode .btn-danger,
+.form-view-mode .tag-remove {
+  display: none;
+}
+.form-view-mode .form-actions {
+  display: none;
+}
+.form-view-mode .view-actions {
+  display: flex;
+}
+
+.view-actions {
+  display: none;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+  padding: var(--space-md) 0;
+}
+
+/* Keep tab buttons visible in view mode */
+.form-view-mode .tab-list .btn-secondary {
+  display: inline-flex;
+}
+
 .splat-badge--victorian-vampire {
   color: #b35070;
   border-color: rgba(179, 80, 112, 0.3);

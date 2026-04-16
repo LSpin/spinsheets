@@ -64,6 +64,13 @@ function CharacterCard({ c, user, t, navigate, onDelete }) {
       <div className="character-card-actions">
         <button
           className="btn btn-secondary"
+          onClick={() => navigate(`/characters/${c.id}?mode=view`)}
+          aria-label={`${t('viewBtn')} ${c.name}`}
+        >
+          {t('viewBtn')}
+        </button>
+        <button
+          className="btn btn-secondary"
           onClick={() => navigate(`/characters/${c.id}`)}
           aria-label={`${t('edit')} ${c.name}`}
         >

@@ -251,6 +251,7 @@ export default function VampireRevisedForm() {
 
   const [searchParams] = useSearchParams()
   const guidedMode = searchParams.get('mode') === 'guided'
+  const viewMode = searchParams.get('mode') === 'view'
   const { isAutoCreating } = useAutoCreate(characterId, INITIAL)
 
   // Guided creation state
@@ -479,7 +480,7 @@ export default function VampireRevisedForm() {
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
   return (
-    <div>
+    <div className={viewMode ? 'form-view-mode' : ''}>
       <div className="form-header">
         <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('back')}</button>
         <h2>{fields.name || t('newKindredRevised')}</h2>
@@ -1166,6 +1167,12 @@ export default function VampireRevisedForm() {
           {saving ? t('saving') : t('saveChanges')}
         </button>
       </div>
+      {viewMode && (
+        <div className="view-actions">
+          <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('back')}</button>
+          <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
+        </div>
+      )}
     </div>
   )
 }

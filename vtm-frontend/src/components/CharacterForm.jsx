@@ -1468,6 +1468,7 @@ export default function CharacterForm() {
 
   const [searchParams] = __useSearchParams()
   const guidedMode = searchParams.get('mode') === 'guided'
+  const viewMode = searchParams.get('mode') === 'view'
   const { isAutoCreating } = useAutoCreate(characterId, INITIAL)
 
   // Guided creation state
@@ -1828,7 +1829,7 @@ export default function CharacterForm() {
   // ── JSX ───────────────────────────────────────────────────────────────────
 
   return (
-    <section aria-labelledby="form-heading">
+    <section aria-labelledby="form-heading" className={viewMode ? 'form-view-mode' : ''}>
       <div className="form-header">
         <button className="btn btn-secondary" onClick={onBack}>← {t('back')}</button>
         <h2 id="form-heading">{fields.name || t('charName')}</h2>
@@ -2957,6 +2958,12 @@ export default function CharacterForm() {
           {saving ? t('saving') : t('saveChanges')}
         </button>
       </div>
+      {viewMode && (
+        <div className="view-actions">
+          <button className="btn btn-secondary" onClick={() => __navigate('/')}>{t('back')}</button>
+          <button className="btn btn-primary" onClick={() => __navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
+        </div>
+      )}
     </section>
   )
 }

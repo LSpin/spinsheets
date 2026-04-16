@@ -144,10 +144,6 @@ const INITIAL = {
   spherePrime: 0, sphereSpirit: 0, sphereTime: 0,
   // Advantages
   arete: 1, quintessence: 0, paradox: 0,
-  // Virtues
-  conscience: 1, selfControl: 1, courage: 1,
-  // Path
-  pathName: 'Humanity', pathRating: 2,
   // Willpower
   willpower: 3, currentWillpower: 3,
   // Health
@@ -208,6 +204,7 @@ export default function VictorianMageForm() {
 
   const [searchParams] = useSearchParams()
   const guidedMode = searchParams.get('mode') === 'guided'
+  const viewMode = searchParams.get('mode') === 'view'
   const { isAutoCreating } = useAutoCreate(characterId, INITIAL)
 
   const [tab, setTab] = useState(0)
@@ -440,7 +437,7 @@ export default function VictorianMageForm() {
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
   return (
-    <div>
+    <div className={viewMode ? 'form-view-mode' : ''}>
       <div className="form-header">
         <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('back')}</button>
         <h2>{fields.name || t('newVictorianMage')}</h2>
@@ -1150,6 +1147,12 @@ export default function VictorianMageForm() {
           {saving ? t('saving') : t('saveChanges')}
         </button>
       </div>
+      {viewMode && (
+        <div className="view-actions">
+          <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('back')}</button>
+          <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
+        </div>
+      )}
     </div>
   )
 }
