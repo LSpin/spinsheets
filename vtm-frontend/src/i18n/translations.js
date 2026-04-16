@@ -545,6 +545,10 @@ const en = {
   confirmDelete: 'Delete {0}? This cannot be undone.',
   failedLoadChars: 'Failed to load characters.',
   failedDeleteChar: 'Failed to delete character.',
+  playerCharacters: 'Player Characters',
+  npcs: 'NPCs',
+  noNpcsYet: 'No NPCs yet.',
+  noPcsYet: 'No player characters yet.',
 
   // ── Chronicles ──
   chroniclesTitle: 'Chronicles',
@@ -1128,6 +1132,10 @@ const pt = {
   confirmDelete: 'Excluir {0}? Isso não pode ser desfeito.',
   failedLoadChars: 'Falha ao carregar personagens.',
   failedDeleteChar: 'Falha ao excluir personagem.',
+  playerCharacters: 'Personagens dos Jogadores',
+  npcs: 'NPCs',
+  noNpcsYet: 'Nenhum NPC ainda.',
+  noPcsYet: 'Nenhum personagem de jogador ainda.',
 
   // ── Chronicles ──
   chroniclesTitle: 'Crônicas',
