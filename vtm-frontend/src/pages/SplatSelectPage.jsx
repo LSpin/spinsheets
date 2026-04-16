@@ -8,6 +8,9 @@ const SPLATS = [
   { id: 'vampire-revised',  nameKey: 'splatVampireRevised',  subKey: 'splatVampireRevisedSub',  descKey: 'splatVampireRevisedDesc',  color: '#991111' },
   { id: 'kote',             nameKey: 'splatKote',            subKey: 'splatKoteSub',            descKey: 'splatKoteDesc',            color: '#c4a32e' },
   { id: 'vampire-dark-ages', nameKey: 'splatDarkAges',        subKey: 'splatDarkAgesSub',        descKey: 'splatDarkAgesDesc',        color: '#5a3a1a' },
+  { id: 'victorian-vampire', nameKey: 'splatVictorianVampire', subKey: 'splatVictorianVampireSub', descKey: 'splatVictorianVampireDesc', color: '#6b2e3e' },
+  { id: 'wyld-west-werewolf', nameKey: 'splatWyldWest',       subKey: 'splatWyldWestSub',        descKey: 'splatWyldWestDesc',        color: '#8b6914' },
+  { id: 'victorian-mage',    nameKey: 'splatVictorianMage',   subKey: 'splatVictorianMageSub',   descKey: 'splatVictorianMageDesc',   color: '#5a3a7a' },
 ]
 
 export default function SplatSelectPage() {

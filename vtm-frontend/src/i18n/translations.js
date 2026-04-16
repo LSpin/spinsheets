@@ -226,6 +226,7 @@ const en = {
   enigmas: 'Enigmas',
   ritualAbility: 'Rituals',
   cosmology: 'Cosmology',
+  culture: 'Culture',
   esoterica: 'Esoterica',
 
   // ── Virtues & Pools ──
@@ -634,6 +635,21 @@ const en = {
   splatKote: 'Kindred of the East',
   splatKoteSub: 'The Turning',
   splatKoteDesc: 'Play as one of the Kuei-jin — a risen soul returned from the spirit world, balancing Yin and Yang while walking the path of Dharma.',
+  splatVictorianVampire: 'Vampire',
+  splatVictorianVampireSub: 'Victorian Age',
+  splatVictorianVampireDesc: 'Play as one of the Kindred in the gaslit streets of the Victorian era — an age of industry, empire, and secrets lurking behind propriety.',
+  splatWyldWest: 'Werewolf',
+  splatWyldWestSub: 'The Wyld West (W20)',
+  splatWyldWestDesc: 'Play as one of the Garou on the American frontier — defend the caerns of the Wild West against the encroaching Wyrm and Weaver.',
+  splatVictorianMage: 'Mage',
+  splatVictorianMageSub: 'Victorian Age',
+  splatVictorianMageDesc: 'Play as one of the Awakened in the Victorian era — navigate the Ascension War amid a world of rapid scientific progress and occult tradition.',
+  victorianVampire: 'Victorian Vampire',
+  newVictorianVampire: 'New Victorian Vampire',
+  wyldWest: 'Wyld West',
+  newWyldWest: 'New Wyld West Garou',
+  victorianMage: 'Victorian Mage',
+  newVictorianMage: 'New Victorian Mage',
 
   // ── Character List ──
   allCharactersST: 'All Characters (Storyteller View)',
@@ -954,6 +970,7 @@ const pt = {
   enigmas: 'Enigmas',
   ritualAbility: 'Rituais',
   cosmology: 'Cosmologia',
+  culture: 'Cultura',
   esoterica: 'Esotérica',
 
   // ── Virtues & Pools ──
@@ -1361,6 +1378,21 @@ const pt = {
   splatKote: 'Vampiros do Oriente',
   splatKoteSub: 'A Virada',
   splatKoteDesc: 'Jogue como um dos Kuei-jin — uma alma ressurrecta do mundo espiritual, equilibrando Yin e Yang enquanto caminha pela trilha do Dharma.',
+  splatVictorianVampire: 'Vampiro',
+  splatVictorianVampireSub: 'Era Vitoriana',
+  splatVictorianVampireDesc: 'Jogue como um dos Membros nas ruas iluminadas a gás da era Vitoriana — uma época de indústria, império e segredos escondidos atrás da etiqueta.',
+  splatWyldWest: 'Lobisomem',
+  splatWyldWestSub: 'Oeste Selvagem (W20)',
+  splatWyldWestDesc: 'Jogue como um dos Garou na fronteira americana — defenda os caerns do Velho Oeste contra o avanço da Wyrm e da Weaver.',
+  splatVictorianMage: 'Mago',
+  splatVictorianMageSub: 'Era Vitoriana',
+  splatVictorianMageDesc: 'Jogue como um dos Despertos na era Vitoriana — navegue a Guerra da Ascensão em um mundo de rápido progresso científico e tradição oculta.',
+  victorianVampire: 'Vampiro Vitoriano',
+  newVictorianVampire: 'Novo Vampiro Vitoriano',
+  wyldWest: 'Oeste Selvagem',
+  newWyldWest: 'Novo Garou do Oeste',
+  victorianMage: 'Mago Vitoriano',
+  newVictorianMage: 'Novo Mago Vitoriano',
 
   // ── Character List ──
   allCharactersST: 'Todos os Personagens (Visão do Narrador)',

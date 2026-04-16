@@ -12,6 +12,9 @@ const SPLAT_LABEL_KEYS = {
   VAMPIRE_REVISED: 'splatVampireRevisedSub',
   KOTE: 'splatKote',
   VAMPIRE_DARK_AGES: 'splatDarkAgesSub',
+  VICTORIAN_VAMPIRE: 'splatVictorianVampireSub',
+  WYLD_WEST_WEREWOLF: 'splatWyldWestSub',
+  VICTORIAN_MAGE: 'splatVictorianMageSub',
 }
 
 function splatBadgeClass(splat) {

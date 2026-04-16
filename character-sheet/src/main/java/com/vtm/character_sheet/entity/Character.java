@@ -275,6 +275,8 @@ public class Character {
     private String enigmasSpec;
     private Integer ritualAbility = 0;
     private String ritualAbilitySpec;
+    private Integer culture = 0;
+    private String cultureSpec;
 
     // W20 Rage / Gnosis
     private Integer rage = 1;

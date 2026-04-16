@@ -1112,6 +1112,24 @@ legend {
   background: rgba(196, 163, 46, 0.1);
 }
 
+.splat-badge--victorian-vampire {
+  color: #b35070;
+  border-color: rgba(179, 80, 112, 0.3);
+  background: rgba(179, 80, 112, 0.1);
+}
+
+.splat-badge--wyld-west-werewolf {
+  color: #c4a32e;
+  border-color: rgba(196, 163, 46, 0.3);
+  background: rgba(196, 163, 46, 0.1);
+}
+
+.splat-badge--victorian-mage {
+  color: #8a6ab4;
+  border-color: rgba(138, 106, 180, 0.3);
+  background: rgba(138, 106, 180, 0.1);
+}
+
 /* ── Splat selection ── */
 
 .splat-grid {
