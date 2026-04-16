@@ -1142,6 +1142,27 @@ const BACKGROUNDS = [
       '●●●● A large estate — multiple floors, wings, or outbuildings.',
       '●●●●● A compound — a mansion, warehouse complex, or underground network.',
     ] },
+  // ── Clan-Specific & Specialized Backgrounds ──
+  { value: 'Black Hand Membership', description: 'Standing within the Black Hand (Tal\'Mahe\'Ra) — the secret sect within the Sabbat or independent of it.' },
+  { value: 'Clan Prestige', description: 'Your reputation and standing within your own clan, separate from sect status.' },
+  { value: 'Domain (Sabbat)', description: 'Territory claimed through force within the Sabbat — hunting grounds and packs answer to you.' },
+  { value: 'Elysium Domain', description: 'You control or co-control an Elysium — a neutral ground where violence is forbidden and deals are brokered.' },
+  { value: 'Military Force', description: 'Access to mortal soldiers, mercenaries, or paramilitaries who follow your command.' },
+  { value: 'Rituals (Sabbat)', description: 'Knowledge of Sabbat auctoritas and ignobilis ritae. Higher levels grant access to rarer and more powerful rites.' },
+  { value: 'Spirit Slaves', description: 'Bound wraiths or spirits forced to serve you through necromantic compulsion or blood sorcery. (Giovanni / Necromancers)' },
+  { value: 'Sabbat Status', description: 'Standing within the Sabbat hierarchy — from newly inducted to Bishop, Archbishop, or Cardinal.' },
+  { value: 'Pack Recognition', description: 'Your standing and reputation within your Sabbat pack. Higher levels mean greater authority and trust.' },
+  { value: 'Mawla', description: 'An elder or powerful figure within your clan who acts as patron — distinct from Mentor, this is a political relationship of mutual obligation.' },
+  { value: 'Herd (Expanded)', description: 'A dedicated and protected herd with specific qualities — willing donors, a blood cult, or captive vessels.' },
+  { value: 'Clanbook Library', description: 'Access to rare texts, grimoires, and clan-specific lore that provides insight into Kindred history and blood sorcery.' },
+  { value: 'Ritae', description: 'Sabbat ritae knowledge and leadership — the ability to perform and create pack rituals.' },
+  { value: 'Ancestor Ally', description: 'A torpored or active ancestor in your lineage who can be consulted for wisdom, lore, or occasional intervention.' },
+  { value: 'Arsenal', description: 'A personal weapons cache — from a locked cabinet to a hidden bunker of military hardware.' },
+  { value: 'Church (Lancea Sanctum)', description: 'Influence within a mortal religious institution that provides cover, resources, and faithful retainers.' },
+  { value: 'Domain (Camarilla)', description: 'Formally recognised Camarilla territory with the rights to feed, Embrace, and enforce the Traditions within it.' },
+  { value: 'Laboratory', description: 'A private workspace for blood sorcery, alchemy, or Vicissitude experiments — from a closet to a full chantry lab.' },
+  { value: 'Spy Network', description: 'A covert intelligence operation with planted agents, dead drops, and handlers across mortal and Kindred society.' },
+  { value: 'Wraith Contacts', description: 'Connections to the restless dead who provide information from beyond the Shroud. (Necromancers)' },
 ]
 
 const ARCHETYPES = [

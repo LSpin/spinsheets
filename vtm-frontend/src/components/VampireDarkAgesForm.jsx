@@ -56,6 +56,7 @@ const BACKGROUNDS = [
   { value: 'Allies' },
   { value: 'Contacts' },
   { value: 'Domain' },
+  { value: 'Fame' },
   { value: 'Generation' },
   { value: 'Herd' },
   { value: 'Influence' },
@@ -68,6 +69,17 @@ const BACKGROUNDS = [
   { value: 'Haven Security' },
   { value: 'Haven Luxury' },
   { value: 'Haven Size' },
+  // ── Specialized (Dark Ages) ──
+  { value: 'Ancestor Ally' },
+  { value: 'Arsenal' },
+  { value: 'Church' },
+  { value: 'Clan Prestige' },
+  { value: 'Clanbook Library' },
+  { value: 'Elysium Domain' },
+  { value: 'Laboratory' },
+  { value: 'Mawla' },
+  { value: 'Spirit Slaves' },
+  { value: 'Wraith Contacts' },
 ]
 
 const HEALTH_LEVELS = [

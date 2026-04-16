@@ -59,7 +59,9 @@ const CLANS = [
 
 const BACKGROUNDS = [
   { value: 'Allies' },
+  { value: 'Alternate Identity' },
   { value: 'Contacts' },
+  { value: 'Domain' },
   { value: 'Fame' },
   { value: 'Generation' },
   { value: 'Herd' },
@@ -72,6 +74,22 @@ const BACKGROUNDS = [
   { value: 'Haven Security' },
   { value: 'Haven Luxury' },
   { value: 'Haven Size' },
+  // ── Specialized ──
+  { value: 'Ancestor Ally' },
+  { value: 'Arsenal' },
+  { value: 'Black Hand Membership' },
+  { value: 'Church' },
+  { value: 'Clan Prestige' },
+  { value: 'Clanbook Library' },
+  { value: 'Laboratory' },
+  { value: 'Mawla' },
+  { value: 'Military Force' },
+  { value: 'Pack Recognition' },
+  { value: 'Ritae' },
+  { value: 'Sabbat Status' },
+  { value: 'Spirit Slaves' },
+  { value: 'Spy Network' },
+  { value: 'Wraith Contacts' },
 ]
 
 const HEALTH_LEVELS = [

@@ -61,7 +61,9 @@ const CLANS = [
 
 const BACKGROUNDS = [
   { value: 'Allies' },
+  { value: 'Alternate Identity' },
   { value: 'Contacts' },
+  { value: 'Domain' },
   { value: 'Fame' },
   { value: 'Generation' },
   { value: 'Herd' },
@@ -74,6 +76,19 @@ const BACKGROUNDS = [
   { value: 'Haven Security' },
   { value: 'Haven Luxury' },
   { value: 'Haven Size' },
+  // ── Specialized (Victorian) ──
+  { value: 'Ancestor Ally' },
+  { value: 'Arsenal' },
+  { value: 'Church' },
+  { value: 'Clan Prestige' },
+  { value: 'Clanbook Library' },
+  { value: 'Elysium Domain' },
+  { value: 'Laboratory' },
+  { value: 'Mawla' },
+  { value: 'Military Force' },
+  { value: 'Spirit Slaves' },
+  { value: 'Spy Network' },
+  { value: 'Wraith Contacts' },
 ]
 
 const HEALTH_LEVELS = [

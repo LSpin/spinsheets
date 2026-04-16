@@ -53,6 +53,13 @@ const BACKGROUNDS = [
   { value: 'Haven Security', description: 'Physical defences and countermeasures protecting your haven.' },
   { value: 'Haven Luxury', description: 'The comfort, amenities, and opulence of your haven.' },
   { value: 'Haven Size', description: 'The physical extent and number of rooms in your haven.' },
+  // ── Specialized (Werewolf) ──
+  { value: 'Spirit Heritage', description: 'A connection to a powerful spirit lineage that grants spiritual favours and recognition.' },
+  { value: 'Numen', description: 'Raw spiritual power that can be channelled into rites, gifts, or spirit interactions.' },
+  { value: 'Den-Realm', description: 'A personal pocket realm within the Umbra tied to your identity.' },
+  { value: 'Fate', description: 'A prophesied destiny that draws events toward you — for good or ill.' },
+  { value: 'Past Life', description: 'Vivid memories of a previous incarnation that grant knowledge and skills from another era.' },
+  { value: 'Territory', description: 'Land you patrol and defend — hunting grounds, bawn, or frontier turf.' },
 ]
 
 const FORM_STATS = [

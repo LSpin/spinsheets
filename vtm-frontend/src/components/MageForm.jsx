@@ -60,6 +60,20 @@ const BACKGROUNDS = [
   { value: 'Haven Security', description: 'Physical defences and countermeasures protecting your haven.' },
   { value: 'Haven Luxury', description: 'The comfort, amenities, and opulence of your haven.' },
   { value: 'Haven Size', description: 'The physical extent and number of rooms in your haven.' },
+  // ── Specialized (Mage) ──
+  { value: 'Certification', description: 'Official credentials within the Technocracy or mortal institutions.' },
+  { value: 'Chantry', description: 'Membership in a shared Tradition chantry with communal resources and defences.' },
+  { value: 'Cloaking', description: 'Technocratic stealth tech — devices and procedures that hide you from supernatural detection.' },
+  { value: 'Companion', description: 'A loyal supernatural ally — a familiar spirit, construct, or enhanced animal.' },
+  { value: 'Enhancement', description: 'Technocratic biological or cybernetic upgrades implanted in your body.' },
+  { value: 'Genius', description: 'Flashes of inspired insight that provide bonus dice on research and invention rolls.' },
+  { value: 'Hypercram', description: 'The ability to rapidly absorb information through supernatural concentration.' },
+  { value: 'Legend', description: 'A mythic reputation among Awakened society that precedes you.' },
+  { value: 'Past Lives', description: 'Memories and skills from previous incarnations of your Avatar.' },
+  { value: 'Patron', description: 'A powerful entity — spirit, god, or Umbrood — that grants power in exchange for service.' },
+  { value: 'Requisitions', description: 'Technocratic access to experimental devices, weapons, and vehicles on loan.' },
+  { value: 'Secret Weapons', description: 'Hidden or illegal armaments — from enchanted blades to prototype Technocratic devices.' },
+  { value: 'Spies', description: 'A covert network of informants planted across Awakened and Sleeper society.' },
 ]
 
 const HEALTH_LEVEL_KEYS = [

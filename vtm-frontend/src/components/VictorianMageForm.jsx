@@ -60,6 +60,15 @@ const BACKGROUNDS = [
   { value: 'Haven Security', description: 'Physical defences and countermeasures protecting your haven.' },
   { value: 'Haven Luxury', description: 'The comfort, amenities, and opulence of your haven.' },
   { value: 'Haven Size', description: 'The physical extent and number of rooms in your haven.' },
+  // ── Specialized (Victorian Mage) ──
+  { value: 'Chantry', description: 'Membership in a shared Tradition chantry with communal resources and defences.' },
+  { value: 'Companion', description: 'A loyal supernatural ally — a familiar spirit, construct, or trained animal.' },
+  { value: 'Genius', description: 'Flashes of inspired insight that provide bonus dice on research and invention rolls.' },
+  { value: 'Legend', description: 'A mythic reputation among Awakened society that precedes you.' },
+  { value: 'Past Lives', description: 'Memories and skills from previous incarnations of your Avatar.' },
+  { value: 'Patron', description: 'A powerful entity — spirit, god, or Umbrood — that grants power in exchange for service.' },
+  { value: 'Secret Weapons', description: 'Hidden or occult armaments — enchanted blades, alchemical devices, or spirit-bound weapons.' },
+  { value: 'Spies', description: 'A covert network of informants planted across Awakened and mortal society.' },
 ]
 
 const HEALTH_LEVEL_KEYS = [
