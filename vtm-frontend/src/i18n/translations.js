@@ -558,6 +558,33 @@ const en = {
   playerCharacters: 'Player Characters',
   npcs: 'NPCs',
   noNpcsYet: 'No NPCs yet.',
+
+  // ── New Character Modal ──
+  newCharModalTitle: 'Create a New Character',
+  forMyself: 'For Myself',
+  forMyselfDesc: 'Freeform creation — no restrictions.',
+  forAChronicle: 'For a Chronicle',
+  forAChronicleDesc: 'Guided creation with point-buy rules.',
+  or: 'or',
+  proceed: 'Proceed',
+
+  // ── Guided Creation ──
+  guidedCreation: 'Guided Creation',
+  selectPriorities: 'Select Priorities',
+  primary: 'Primary',
+  secondary: 'Secondary',
+  tertiary: 'Tertiary',
+  pointsRemaining: '{0} points remaining',
+  pointsOver: '{0} points over!',
+  attrPriorities: 'Attribute Priorities',
+  abilPriorities: 'Ability Priorities',
+  attrPoints: 'Attribute Points',
+  abilPoints: 'Ability Points',
+  maxPerAbility: 'Max 3 dots per ability during creation',
+  priorityPrimary: 'Primary ({0} pts)',
+  prioritySecondary: 'Secondary ({0} pts)',
+  priorityTertiary: 'Tertiary ({0} pts)',
+  unassigned: 'Unassigned',
   noPcsYet: 'No player characters yet.',
 
   // ── Chronicles ──
@@ -1155,6 +1182,33 @@ const pt = {
   playerCharacters: 'Personagens dos Jogadores',
   npcs: 'NPCs',
   noNpcsYet: 'Nenhum NPC ainda.',
+
+  // ── New Character Modal ──
+  newCharModalTitle: 'Criar Novo Personagem',
+  forMyself: 'Para Mim',
+  forMyselfDesc: 'Criação livre — sem restrições.',
+  forAChronicle: 'Para uma Crônica',
+  forAChronicleDesc: 'Criação guiada com regras de pontos.',
+  or: 'ou',
+  proceed: 'Prosseguir',
+
+  // ── Guided Creation ──
+  guidedCreation: 'Criação Guiada',
+  selectPriorities: 'Selecionar Prioridades',
+  primary: 'Primário',
+  secondary: 'Secundário',
+  tertiary: 'Terciário',
+  pointsRemaining: '{0} pontos restantes',
+  pointsOver: '{0} pontos acima!',
+  attrPriorities: 'Prioridades de Atributos',
+  abilPriorities: 'Prioridades de Habilidades',
+  attrPoints: 'Pontos de Atributos',
+  abilPoints: 'Pontos de Habilidades',
+  maxPerAbility: 'Máximo 3 pontos por habilidade durante a criação',
+  priorityPrimary: 'Primário ({0} pts)',
+  prioritySecondary: 'Secundário ({0} pts)',
+  priorityTertiary: 'Terciário ({0} pts)',
+  unassigned: 'Não atribuído',
   noPcsYet: 'Nenhum personagem de jogador ainda.',
 
   // ── Chronicles ──

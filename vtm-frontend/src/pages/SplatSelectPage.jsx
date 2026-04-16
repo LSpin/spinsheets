@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 
 const SPLATS = [
@@ -12,7 +12,11 @@ const SPLATS = [
 
 export default function SplatSelectPage() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const { t } = useLanguage()
+  const mode = searchParams.get('mode')
+  const chronicle = searchParams.get('chronicle')
+  const suffix = mode ? `?mode=${mode}&chronicle=${chronicle}` : ''
 
   return (
     <section aria-labelledby="splat-heading">
@@ -27,7 +31,7 @@ export default function SplatSelectPage() {
           <button
             key={splat.id}
             className="splat-card"
-            onClick={() => navigate(`/characters/new/${splat.id}`)}
+            onClick={() => navigate(`/characters/new/${splat.id}${suffix}`)}
             style={{ '--splat-color': splat.color }}
           >
             <div className="splat-card-header">

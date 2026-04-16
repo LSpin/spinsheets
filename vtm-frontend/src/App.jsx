@@ -11,6 +11,8 @@ import RegisterPage from './pages/RegisterPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import SplatSelectPage from './pages/SplatSelectPage'
 import PlayersPage from './pages/PlayersPage'
+import NewCharacterModal from './components/NewCharacterModal'
+import { getChronicles } from './api/chronicleApi'
 import WerewolfForm from './components/WerewolfForm'
 import MageForm from './components/MageForm'
 import VampireRevisedForm from './components/VampireRevisedForm'
@@ -66,6 +68,14 @@ function AppShell() {
   const { user } = useAuth()
   const { t } = useLanguage()
   const isST = user?.role === 'STORYTELLER'
+  const [showNewCharModal, setShowNewCharModal] = useState(false)
+  const [chronicles, setChronicles] = useState([])
+
+  useEffect(() => {
+    if (user) {
+      getChronicles().then(res => setChronicles(res.data)).catch(() => {})
+    }
+  }, [user])
 
   return (
     <>
@@ -86,9 +96,7 @@ function AppShell() {
                   <button>{t('navPlayers')}</button>
                 </Link>
               )}
-              <Link to="/characters/new">
-                <button>{t('navNewCharacter')}</button>
-              </Link>
+              <button onClick={() => setShowNewCharModal(true)}>{t('navNewCharacter')}</button>
               <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
                 <UserMenu />
                 <LanguageToggle />
@@ -156,6 +164,12 @@ function AppShell() {
       <footer role="contentinfo">
         <p>{t('footerText')}</p>
       </footer>
+
+      <NewCharacterModal
+        open={showNewCharModal}
+        onClose={() => setShowNewCharModal(false)}
+        chronicles={chronicles}
+      />
     </>
   )
 }
