@@ -19,6 +19,7 @@ import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../da
 import { VAMPIRE_DISCIPLINES } from '../data/vampireDisciplines'
 import { DERANGEMENTS } from '../data/derangements'
 import { COMBO_DISCIPLINES } from '../data/comboDisciplines'
+import { ELDER_POWERS } from '../data/elderPowers'
 import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -2270,6 +2271,55 @@ export default function CharacterForm() {
                   <p className="archetype-desc">{getLevelHint(DISCIPLINES, newDiscipline.name, newDiscipline.level)}</p>
                 )}
               </fieldset>
+              {isElder && (
+                <fieldset>
+                  <legend>{t('elderPowers')}</legend>
+                  <p className="muted-hint" style={{ marginBottom: 'var(--space-sm)', fontSize: '0.78rem' }}>
+                    {t('elderPowersHint')}
+                  </p>
+                  {(() => {
+                    const filterDisc = newDiscipline.name.trim()
+                    const filtered = filterDisc
+                      ? ELDER_POWERS.filter(p => p.discipline.toLowerCase().includes(filterDisc.toLowerCase()))
+                      : ELDER_POWERS
+                    const byLevel = [6, 7, 8, 9].map(lv => ({
+                      level: lv,
+                      powers: filtered.filter(p => p.level === lv),
+                    })).filter(g => g.powers.length > 0)
+                    return (
+                      <>
+                        <div className="field" style={{ marginBottom: 'var(--space-sm)' }}>
+                          <label htmlFor="elder-filter">{t('filterByDiscipline')}</label>
+                          <input id="elder-filter" list="elder-disc-filter" type="text"
+                            value={newDiscipline.name}
+                            onChange={e => setNewDiscipline(p => ({ ...p, name: e.target.value }))}
+                            placeholder={t('allDisciplines')}
+                            autoComplete="off" />
+                          <datalist id="elder-disc-filter">
+                            {[...new Set(ELDER_POWERS.map(p => p.discipline))].sort().map(d => (
+                              <option key={d} value={d} />
+                            ))}
+                          </datalist>
+                        </div>
+                        {byLevel.map(({ level, powers }) => (
+                          <div key={level} style={{ marginBottom: 'var(--space-sm)' }}>
+                            <strong style={{ fontSize: '0.82rem' }}>Level {level}</strong>
+                            <ul style={{ listStyle: 'none', padding: 0, margin: 'var(--space-xs) 0' }}>
+                              {powers.map(p => (
+                                <li key={p.name} style={{ marginBottom: 'var(--space-xs)', fontSize: '0.78rem' }}>
+                                  <strong>{p.name}</strong> <span style={{ color: 'var(--color-text-muted)' }}>({p.discipline})</span>
+                                  <br /><span style={{ color: 'var(--color-text-muted)' }}>{p.description}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                        {filtered.length === 0 && <p className="muted-hint">{t('noElderPowers')}</p>}
+                      </>
+                    )
+                  })()}
+                </fieldset>
+              )}
         </div>
 
         {tagInfo && (() => {

@@ -16,6 +16,7 @@ import { COMBO_DISCIPLINES } from '../data/comboDisciplines'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { useLanguage } from '../i18n/LanguageContext'
+import { ELDER_POWERS } from '../data/elderPowers'
 
 // ── Constants ──
 
@@ -478,6 +479,9 @@ export default function VictorianVampireForm() {
 
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
+  const isElder = fields.generation <= 7
+  const elderMax = isElder ? 9 : 5
+
   return (
     <div className={viewMode ? 'form-view-mode' : ''}>
       <div className="form-header">
@@ -861,12 +865,61 @@ export default function VictorianVampireForm() {
                   <div className="field">
                     <label htmlFor="disc-level">{t('level')}</label>
                     <select id="disc-level" value={newDiscipline.level} onChange={e => setNewDiscipline(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                      {[1,2,3,4,5,6,7,8,9,10].map(v => <option key={v} value={v}>{v}</option>)}
+                      {Array.from({ length: elderMax }, (_, i) => i + 1).map(v => <option key={v} value={v}>{v}</option>)}
                     </select>
                   </div>
                   <button className="btn btn-secondary" onClick={handleAddDiscipline}>{t('add')}</button>
                 </div>
               </fieldset>
+              {isElder && (
+                <fieldset>
+                  <legend>{t('elderPowers')}</legend>
+                  <p className="muted-hint" style={{ marginBottom: 'var(--space-sm)', fontSize: '0.78rem' }}>
+                    {t('elderPowersHint')}
+                  </p>
+                  {(() => {
+                    const filterDisc = newDiscipline.name.trim()
+                    const filtered = filterDisc
+                      ? ELDER_POWERS.filter(p => p.discipline.toLowerCase().includes(filterDisc.toLowerCase()))
+                      : ELDER_POWERS
+                    const byLevel = [6, 7, 8, 9].map(lv => ({
+                      level: lv,
+                      powers: filtered.filter(p => p.level === lv),
+                    })).filter(g => g.powers.length > 0)
+                    return (
+                      <>
+                        <div className="field" style={{ marginBottom: 'var(--space-sm)' }}>
+                          <label htmlFor="elder-filter">{t('filterByDiscipline')}</label>
+                          <input id="elder-filter" list="elder-disc-filter" type="text"
+                            value={newDiscipline.name}
+                            onChange={e => setNewDiscipline(p => ({ ...p, name: e.target.value }))}
+                            placeholder={t('allDisciplines')}
+                            autoComplete="off" />
+                          <datalist id="elder-disc-filter">
+                            {[...new Set(ELDER_POWERS.map(p => p.discipline))].sort().map(d => (
+                              <option key={d} value={d} />
+                            ))}
+                          </datalist>
+                        </div>
+                        {byLevel.map(({ level, powers }) => (
+                          <div key={level} style={{ marginBottom: 'var(--space-sm)' }}>
+                            <strong style={{ fontSize: '0.82rem' }}>Level {level}</strong>
+                            <ul style={{ listStyle: 'none', padding: 0, margin: 'var(--space-xs) 0' }}>
+                              {powers.map(p => (
+                                <li key={p.name} style={{ marginBottom: 'var(--space-xs)', fontSize: '0.78rem' }}>
+                                  <strong>{p.name}</strong> <span style={{ color: 'var(--color-text-muted)' }}>({p.discipline})</span>
+                                  <br /><span style={{ color: 'var(--color-text-muted)' }}>{p.description}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                        {filtered.length === 0 && <p className="muted-hint">{t('noElderPowers')}</p>}
+                      </>
+                    )
+                  })()}
+                </fieldset>
+              )}
               <hr className="divider" />
               <fieldset>
                 <legend>{t('comboDisciplines')} ({comboDisciplines.length})</legend>
