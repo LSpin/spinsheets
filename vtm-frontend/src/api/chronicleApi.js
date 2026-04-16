@@ -23,3 +23,12 @@ export const addAssistantST = (chronicleId, username) =>
   api.post(`/chronicles/${chronicleId}/assistants`, { username })
 export const removeAssistantST = (chronicleId, userId) =>
   api.delete(`/chronicles/${chronicleId}/assistants/${userId}`)
+
+export const getSessions = (chronicleId) =>
+  api.get(`/chronicles/${chronicleId}/sessions`)
+export const addSession = (chronicleId, data) =>
+  api.post(`/chronicles/${chronicleId}/sessions`, data)
+export const updateSession = (chronicleId, sessionId, data) =>
+  api.put(`/chronicles/${chronicleId}/sessions/${sessionId}`, data)
+export const deleteSession = (chronicleId, sessionId) =>
+  api.delete(`/chronicles/${chronicleId}/sessions/${sessionId}`)

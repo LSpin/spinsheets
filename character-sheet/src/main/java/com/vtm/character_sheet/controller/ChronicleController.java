@@ -2,10 +2,12 @@ package com.vtm.character_sheet.controller;
 
 import com.vtm.character_sheet.entity.AppUser;
 import com.vtm.character_sheet.entity.Chronicle;
+import com.vtm.character_sheet.entity.ChronicleSession;
 import com.vtm.character_sheet.entity.Role;
 import com.vtm.character_sheet.repository.AppUserRepository;
 import com.vtm.character_sheet.repository.CharacterRepository;
 import com.vtm.character_sheet.repository.ChronicleRepository;
+import com.vtm.character_sheet.repository.ChronicleSessionRepository;
 import com.vtm.character_sheet.security.CharacterAccessChecker;
 import com.vtm.character_sheet.service.ChronicleService;
 import jakarta.validation.Valid;
@@ -24,6 +26,7 @@ public class ChronicleController {
     private final ChronicleService service;
     private final CharacterRepository characterRepository;
     private final ChronicleRepository chronicleRepository;
+    private final ChronicleSessionRepository sessionRepository;
     private final AppUserRepository appUserRepository;
     private final CharacterAccessChecker access;
 
@@ -120,6 +123,62 @@ public class ChronicleController {
             }
             chronicle.getAssistantStorytellers().removeIf(ast -> ast.getId().equals(userId));
             service.save(chronicle);
+            return ResponseEntity.noContent().<Void>build();
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // ── Sessions ──
+
+    @GetMapping("/{id}/sessions")
+    public ResponseEntity<?> getSessions(@PathVariable Long id) {
+        if (service.findById(id).isEmpty()) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(sessionRepository.findByChronicleIdOrderBySessionNumberDesc(id));
+    }
+
+    @PostMapping("/{id}/sessions")
+    public ResponseEntity<?> addSession(@PathVariable Long id, @RequestBody ChronicleSession session) {
+        AppUser user = access.getCurrentUser();
+        return service.findById(id).map(chronicle -> {
+            boolean isOwner = chronicle.getStoryteller().getId().equals(user.getId());
+            boolean isAST = chronicle.getAssistantStorytellers().stream().anyMatch(a -> a.getId().equals(user.getId()));
+            if (!isOwner && !isAST) {
+                return ResponseEntity.status(403).body((Object) Map.of("error", "Only storytellers can manage sessions"));
+            }
+            session.setChronicle(chronicle);
+            return ResponseEntity.ok((Object) sessionRepository.save(session));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}/sessions/{sessionId}")
+    public ResponseEntity<?> updateSession(@PathVariable Long id, @PathVariable Long sessionId, @RequestBody ChronicleSession updated) {
+        AppUser user = access.getCurrentUser();
+        return service.findById(id).map(chronicle -> {
+            boolean isOwner = chronicle.getStoryteller().getId().equals(user.getId());
+            boolean isAST = chronicle.getAssistantStorytellers().stream().anyMatch(a -> a.getId().equals(user.getId()));
+            if (!isOwner && !isAST) {
+                return ResponseEntity.status(403).body((Object) Map.of("error", "Only storytellers can manage sessions"));
+            }
+            return sessionRepository.findById(sessionId).map(existing -> {
+                if (updated.getTitle() != null) existing.setTitle(updated.getTitle());
+                if (updated.getSessionDate() != null) existing.setSessionDate(updated.getSessionDate());
+                if (updated.getSummary() != null) existing.setSummary(updated.getSummary());
+                if (updated.getNotes() != null) existing.setNotes(updated.getNotes());
+                if (updated.getSessionNumber() != null) existing.setSessionNumber(updated.getSessionNumber());
+                return ResponseEntity.ok((Object) sessionRepository.save(existing));
+            }).orElse(ResponseEntity.notFound().build());
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}/sessions/{sessionId}")
+    public ResponseEntity<Void> deleteSession(@PathVariable Long id, @PathVariable Long sessionId) {
+        AppUser user = access.getCurrentUser();
+        return service.findById(id).map(chronicle -> {
+            boolean isOwner = chronicle.getStoryteller().getId().equals(user.getId());
+            boolean isAST = chronicle.getAssistantStorytellers().stream().anyMatch(a -> a.getId().equals(user.getId()));
+            if (!isOwner && !isAST) {
+                return ResponseEntity.status(403).<Void>build();
+            }
+            sessionRepository.deleteById(sessionId);
             return ResponseEntity.noContent().<Void>build();
         }).orElse(ResponseEntity.notFound().build());
     }
