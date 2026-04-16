@@ -989,6 +989,15 @@ export default function MageForm() {
                       <div><strong>{xpSubTab === 0 ? t('availableXP') : t('availableFreebies')}:</strong> <span style={{ color: available >= 0 ? '#8c8' : '#e55', fontWeight: 700 }}>{available}</span></div>
                     </div>
 
+                    {xpSubTab === 0 && (
+                      <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '1rem', lineHeight: 1.8 }}>
+                        <strong>{t('xpCostsHeader')}</strong><br/>
+                        {t('xpAttrCost')} · {t('xpNewAbilCost')} · {t('xpAbilCost')}<br/>
+                        {t('xpAffSphereCost')} · {t('xpOtherSphereCost')}<br/>
+                        {t('xpAreteCost')} · {t('xpBgCost')} · {t('xpWpCost')}
+                      </div>
+                    )}
+
                     {xpSubTab === 1 && (
                       <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '1rem', lineHeight: 1.8 }}>
                         <strong>{t('freebieStarting')}</strong><br/>
@@ -1007,14 +1016,30 @@ export default function MageForm() {
                         <label>{t('xpCategory')}</label>
                         <select value={newXpEntry.category} onChange={e => setNewXpEntry(p => ({ ...p, category: e.target.value }))}>
                           <option value="Earned">{t('catEarned')}</option>
-                          <option value="Attribute">{t('catAttribute')}</option>
-                          <option value="Ability">{t('catAbility')}</option>
-                          <option value="Sphere">{t('catSphere')}</option>
-                          <option value="Arete">{t('catArete')}</option>
-                          <option value="Background">{t('catBackground')}</option>
-                          <option value="Willpower">{t('catWillpower')}</option>
-                          <option value="Quintessence">{t('catQuintessence')}</option>
-                          <option value="Other">{t('catOther')}</option>
+                          {xpSubTab === 0 ? (
+                            <>
+                              <option value="Attribute">{t('catAttribute')}</option>
+                              <option value="NewAbility">{t('catNewAbility')}</option>
+                              <option value="Ability">{t('catAbility')}</option>
+                              <option value="AffinitySphere">{t('catAffinitySphere')}</option>
+                              <option value="OtherSphere">{t('catOtherSphere')}</option>
+                              <option value="Arete">{t('catArete')}</option>
+                              <option value="Background">{t('catBackground')}</option>
+                              <option value="Willpower">{t('catWillpower')}</option>
+                              <option value="Other">{t('catOther')}</option>
+                            </>
+                          ) : (
+                            <>
+                              <option value="Attribute">{t('catAttribute')}</option>
+                              <option value="Ability">{t('catAbility')}</option>
+                              <option value="Sphere">{t('catSphere')}</option>
+                              <option value="Arete">{t('catArete')}</option>
+                              <option value="Background">{t('catBackground')}</option>
+                              <option value="Willpower">{t('catWillpower')}</option>
+                              <option value="Quintessence">{t('catQuintessence')}</option>
+                              <option value="Other">{t('catOther')}</option>
+                            </>
+                          )}
                         </select>
                       </div>
                       <div className="field" style={{ flex: 2 }}>

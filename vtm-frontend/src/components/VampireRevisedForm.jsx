@@ -1093,6 +1093,16 @@ export default function VampireRevisedForm() {
                       <div><strong>{xpSubTab === 0 ? t('availableXP') : t('availableFreebies')}:</strong> <span style={{ color: available >= 0 ? '#8c8' : '#e55', fontWeight: 700 }}>{available}</span></div>
                     </div>
 
+                    {xpSubTab === 0 && (
+                      <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '1rem', lineHeight: 1.8 }}>
+                        <strong>{t('xpCostsHeader')}</strong><br/>
+                        {t('xpAttrCost')} · {t('xpNewAbilCost')} · {t('xpAbilCost')}<br/>
+                        {t('xpClanDiscCost')} · {t('xpNonClanDiscCost')}<br/>
+                        {t('xpSecPathCost')} · {t('xpNewPathCost')}<br/>
+                        {t('xpVirtueCost')} · {t('xpWpCost')} · {t('xpPathCost')}
+                      </div>
+                    )}
+
                     {xpSubTab === 1 && (
                       <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '1rem', lineHeight: 1.8 }}>
                         <strong>{t('freebieStarting')}</strong><br/>
@@ -1111,14 +1121,33 @@ export default function VampireRevisedForm() {
                         <label>{t('xpCategory')}</label>
                         <select value={newXpEntry.category} onChange={e => setNewXpEntry(p => ({ ...p, category: e.target.value }))}>
                           <option value="Earned">{t('catEarned')}</option>
-                          <option value="Attribute">{t('catAttribute')}</option>
-                          <option value="Ability">{t('catAbility')}</option>
-                          <option value="Discipline">{t('catDiscipline')}</option>
-                          <option value="Background">{t('catBackground')}</option>
-                          <option value="Virtue">{t('catVirtue')}</option>
-                          <option value="Willpower">{t('catWillpower')}</option>
-                          <option value="Humanity/Path">{t('catHumanity')}</option>
-                          <option value="Other">{t('catOther')}</option>
+                          {xpSubTab === 0 ? (
+                            <>
+                              <option value="Attribute">{t('catAttribute')}</option>
+                              <option value="NewAbility">{t('catNewAbility')}</option>
+                              <option value="Ability">{t('catAbility')}</option>
+                              <option value="ClanDisc">{t('catClanDisc')}</option>
+                              <option value="NonClanDisc">{t('catNonClanDisc')}</option>
+                              <option value="SecondaryPath">{t('catSecondaryPath')}</option>
+                              <option value="NewPath">{t('catNewPath')}</option>
+                              <option value="Background">{t('catBackground')}</option>
+                              <option value="Virtue">{t('catVirtue')}</option>
+                              <option value="Willpower">{t('catWillpower')}</option>
+                              <option value="Humanity/Path">{t('catHumanity')}</option>
+                              <option value="Other">{t('catOther')}</option>
+                            </>
+                          ) : (
+                            <>
+                              <option value="Attribute">{t('catAttribute')}</option>
+                              <option value="Ability">{t('catAbility')}</option>
+                              <option value="Discipline">{t('catDiscipline')}</option>
+                              <option value="Background">{t('catBackground')}</option>
+                              <option value="Virtue">{t('catVirtue')}</option>
+                              <option value="Willpower">{t('catWillpower')}</option>
+                              <option value="Humanity/Path">{t('catHumanity')}</option>
+                              <option value="Other">{t('catOther')}</option>
+                            </>
+                          )}
                         </select>
                       </div>
                       <div className="field" style={{ flex: 2 }}>
