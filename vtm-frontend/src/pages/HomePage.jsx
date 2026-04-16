@@ -65,6 +65,7 @@ export default function HomePage() {
             <ul className="homepage-list">
               <li>Werewolf: The Apocalypse (W20)</li>
               <li>Werewolf: The Wyld West (W20)</li>
+              <li>Changing Breeds / Fera (W20)</li>
             </ul>
           </div>
           <div className="homepage-card">

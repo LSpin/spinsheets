@@ -20,6 +20,7 @@ import VampireDarkAgesForm from './components/VampireDarkAgesForm'
 import VictorianVampireForm from './components/VictorianVampireForm'
 import WyldWestWerewolfForm from './components/WyldWestWerewolfForm'
 import VictorianMageForm from './components/VictorianMageForm'
+import ChangingBreedsForm from './components/ChangingBreedsForm'
 import ChronicleList from './pages/ChronicleList'
 import ChronicleDetail from './pages/ChronicleDetail'
 import ChronicleForm from './pages/ChronicleForm'
@@ -149,6 +150,9 @@ function AppShell() {
           } />
           <Route path="/characters/new/victorian-mage" element={
             <ProtectedRoute><VictorianMageForm /></ProtectedRoute>
+          } />
+          <Route path="/characters/new/changing-breeds" element={
+            <ProtectedRoute><ChangingBreedsForm /></ProtectedRoute>
           } />
           <Route path="/characters/:id" element={
             <ProtectedRoute><CharacterRouter /></ProtectedRoute>

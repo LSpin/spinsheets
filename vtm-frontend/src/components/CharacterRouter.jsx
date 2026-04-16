@@ -11,6 +11,7 @@ import VampireDarkAgesForm from './VampireDarkAgesForm'
 import VictorianVampireForm from './VictorianVampireForm'
 import WyldWestWerewolfForm from './WyldWestWerewolfForm'
 import VictorianMageForm from './VictorianMageForm'
+import ChangingBreedsForm from './ChangingBreedsForm'
 
 export default function CharacterRouter() {
   const { id } = useParams()
@@ -42,5 +43,6 @@ export default function CharacterRouter() {
   if (splat === 'VICTORIAN_VAMPIRE') return <VictorianVampireForm />
   if (splat === 'WYLD_WEST_WEREWOLF') return <WyldWestWerewolfForm />
   if (splat === 'VICTORIAN_MAGE') return <VictorianMageForm />
+  if (splat === 'CHANGING_BREEDS') return <ChangingBreedsForm />
   return <CharacterForm />
 }

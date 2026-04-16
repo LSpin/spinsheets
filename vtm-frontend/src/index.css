@@ -1264,6 +1264,12 @@ legend {
   background: rgba(138, 106, 180, 0.1);
 }
 
+.splat-badge--changing-breeds {
+  color: #7aaa4a;
+  border-color: rgba(122, 170, 74, 0.3);
+  background: rgba(122, 170, 74, 0.1);
+}
+
 /* ── Splat selection ── */
 
 .splat-grid {
