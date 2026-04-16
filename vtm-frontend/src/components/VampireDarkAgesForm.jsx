@@ -17,7 +17,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ──
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabDisciplinesBg', 'tabMeritsFlaws', 'tabInventory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabDisciplinesBg', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
 
 const CLANS = [
   { value: 'Assamite',          curse: 'The Assamites are compelled to tithe vitae to their elders and are driven to hunt other Cainites. They must make a Willpower roll (Diff 6) each month without consuming Kindred vitae or gain a temporary derangement.' },
@@ -149,6 +149,7 @@ const INITIAL = {
   // Misc
   derangement1: '', derangement2: '',
   clanCurse: '', notes: '',
+  backstory: '', appearance: '', goals: '', allies: '', enemies: '', havens: '', territories: '',
 }
 
 // ── Helper components ──
@@ -879,8 +880,42 @@ export default function VampireDarkAgesForm() {
         </div>
       </div>
 
-      {/* ── XP Log ── */}
+      {/* ── Backstory ── */}
       <div role="tabpanel" id="tabpanel-8" aria-labelledby="tab-8" hidden={tab !== 8}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('backstoryLabel')}</legend>
+            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} placeholder={t('backstoryPh')} style={{ width: '100%' }} />
+          </fieldset>
+          <fieldset>
+            <legend>{t('appearanceLabel')}</legend>
+            <textarea name="appearance" value={fields.appearance} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
+          </fieldset>
+          <fieldset>
+            <legend>{t('goalsLabel')}</legend>
+            <textarea name="goals" value={fields.goals} onChange={handleText} rows={4} placeholder={t('goalsPh')} style={{ width: '100%' }} />
+          </fieldset>
+          <fieldset>
+            <legend>{t('alliesLabel')}</legend>
+            <textarea name="allies" value={fields.allies} onChange={handleText} rows={4} placeholder={t('alliesPh')} style={{ width: '100%' }} />
+          </fieldset>
+          <fieldset>
+            <legend>{t('enemiesLabel')}</legend>
+            <textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} placeholder={t('enemiesPh')} style={{ width: '100%' }} />
+          </fieldset>
+          <fieldset>
+            <legend>{t('havensLabel')}</legend>
+            <textarea name="havens" value={fields.havens} onChange={handleText} rows={4} placeholder={t('havensPh')} style={{ width: '100%' }} />
+          </fieldset>
+          <fieldset>
+            <legend>{t('territoriesLabel')}</legend>
+            <textarea name="territories" value={fields.territories} onChange={handleText} rows={4} placeholder={t('territoriesPh')} style={{ width: '100%' }} />
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── XP Log ── */}
+      <div role="tabpanel" id="tabpanel-9" aria-labelledby="tab-9" hidden={tab !== 9}>
         <div className="form-section">
           {!isEdit ? (
             <p className="muted-hint">{t('saveCharFirst')}</p>

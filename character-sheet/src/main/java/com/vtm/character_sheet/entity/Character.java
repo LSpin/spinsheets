@@ -376,6 +376,27 @@ public class Character {
     @Column(columnDefinition = "TEXT")
     private String notes;
 
+    @Column(columnDefinition = "TEXT")
+    private String backstory;
+
+    @Column(columnDefinition = "TEXT")
+    private String appearance;
+
+    @Column(columnDefinition = "TEXT")
+    private String goals;
+
+    @Column(columnDefinition = "TEXT")
+    private String allies;
+
+    @Column(columnDefinition = "TEXT")
+    private String enemies;
+
+    @Column(columnDefinition = "TEXT")
+    private String havens;
+
+    @Column(columnDefinition = "TEXT")
+    private String territories;
+
     @JsonIgnore
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CharacterMerit> merits = new ArrayList<>();

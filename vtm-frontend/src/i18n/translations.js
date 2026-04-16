@@ -527,6 +527,23 @@ const en = {
   footerText: 'A Fan Project WoD Chronicles Creator',
   buyMeACoffee: 'Buy me a coffee',
 
+  // ── Backstory tab ──
+  tabBackstory: 'Backstory',
+  backstoryLabel: 'Backstory',
+  backstoryPh: 'Write your character\'s history, origins, and how they became what they are...',
+  appearanceLabel: 'Appearance',
+  appearancePh: 'Describe your character\'s physical appearance, clothing, and distinguishing features...',
+  goalsLabel: 'Goals & Motivations',
+  goalsPh: 'What drives your character? What do they want to achieve?',
+  alliesLabel: 'Allies & Contacts',
+  alliesPh: 'Describe your character\'s important allies, friends, and contacts...',
+  enemiesLabel: 'Enemies & Rivals',
+  enemiesPh: 'Who are your character\'s enemies, rivals, or antagonists?',
+  havensLabel: 'Havens & Residences',
+  havensPh: 'Describe where your character sleeps and their safe houses...',
+  territoriesLabel: 'Territories & Domains',
+  territoriesPh: 'Describe areas your character controls or frequents...',
+
   // ── Auth pages ──
   signIn: 'Sign In',
   signingIn: 'Signing in...',
@@ -1203,6 +1220,23 @@ const pt = {
   roleST: 'Narrador',
   footerText: 'Um Projeto de Fã — Criador de Crônicas WoD',
   buyMeACoffee: 'Me pague um café',
+
+  // ── Backstory tab ──
+  tabBackstory: 'História',
+  backstoryLabel: 'História de Fundo',
+  backstoryPh: 'Escreva a história do seu personagem, suas origens e como se tornou o que é...',
+  appearanceLabel: 'Aparência',
+  appearancePh: 'Descreva a aparência física, roupas e características marcantes do seu personagem...',
+  goalsLabel: 'Objetivos & Motivações',
+  goalsPh: 'O que motiva seu personagem? O que ele quer alcançar?',
+  alliesLabel: 'Aliados & Contatos',
+  alliesPh: 'Descreva os aliados, amigos e contatos importantes do seu personagem...',
+  enemiesLabel: 'Inimigos & Rivais',
+  enemiesPh: 'Quem são os inimigos, rivais ou antagonistas do seu personagem?',
+  havensLabel: 'Refúgios & Residências',
+  havensPh: 'Descreva onde seu personagem dorme e seus esconderijos...',
+  territoriesLabel: 'Territórios & Domínios',
+  territoriesPh: 'Descreva as áreas que seu personagem controla ou frequenta...',
 
   // ── Auth pages ──
   signIn: 'Entrar',
