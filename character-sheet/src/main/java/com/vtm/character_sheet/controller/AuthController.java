@@ -1,8 +1,10 @@
 package com.vtm.character_sheet.controller;
 
+import com.vtm.character_sheet.entity.AppUser;
 import com.vtm.character_sheet.security.CharacterAccessChecker;
 import com.vtm.character_sheet.repository.AppUserRepository;
 import com.vtm.character_sheet.service.AuthService;
+import com.vtm.character_sheet.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ public class AuthController {
     private final AuthService authService;
     private final CharacterAccessChecker access;
     private final AppUserRepository userRepository;
+    private final NotificationService notificationService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> body) {
@@ -110,5 +113,20 @@ public class AuthController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
+    }
+
+    // Temporary one-shot endpoint — remove after use
+    @PostMapping("/send-thank-you-all")
+    public ResponseEntity<?> sendThankYouToAll() {
+        if (!access.isStoryteller()) {
+            return ResponseEntity.status(403).body(Map.of("error", "Storyteller access required"));
+        }
+        List<AppUser> users = userRepository.findAll();
+        int count = 0;
+        for (AppUser user : users) {
+            notificationService.sendThankYouEmail(user);
+            count++;
+        }
+        return ResponseEntity.ok(Map.of("message", "Thank-you emails sent", "count", count));
     }
 }

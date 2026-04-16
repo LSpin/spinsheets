@@ -42,6 +42,20 @@ public class NotificationService {
         }
     }
 
+    public void sendThankYouEmail(AppUser user) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setFrom(fromEmail);
+            helper.setTo(user.getEmail());
+            helper.setSubject("Thank you for being part of SpinSheets!");
+            helper.setText(buildThankYouHtml(user.getUsername()), true);
+            mailSender.send(message);
+        } catch (Exception e) {
+            // log but don't fail
+        }
+    }
+
     @Async
     public void sendWelcomeEmail(AppUser user) {
         try {
@@ -79,6 +93,41 @@ public class NotificationService {
                 </div>
                 <p style="font-size: 13px; color: #888; margin-bottom: 0;">
                   If you have questions or run into any issues, reach out to your Storyteller or reply to this email.
+                </p>
+              </div>
+              <div style="background: #16213e; padding: 16px 32px; text-align: center; font-size: 12px; color: #666;">
+                &copy; SpinSheets &mdash; A World of Darkness character manager
+              </div>
+            </div>
+            """.formatted(username);
+    }
+
+    private String buildThankYouHtml(String username) {
+        return """
+            <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 560px; margin: 0 auto; background: #1a1a2e; color: #e0e0e0; border-radius: 8px; overflow: hidden;">
+              <div style="background: #16213e; padding: 28px 32px; text-align: center;">
+                <h1 style="margin: 0; font-size: 26px; color: #c4a35a; letter-spacing: 1px;">SpinSheets</h1>
+              </div>
+              <div style="padding: 32px;">
+                <h2 style="color: #c4a35a; margin-top: 0;">Thank you, %s!</h2>
+                <p style="font-size: 15px; line-height: 1.6; color: #ccc;">
+                  We wanted to take a moment to say thank you for being part of SpinSheets.
+                  Whether you're crafting your first Kindred or managing an entire chronicle,
+                  your presence in our community means the world to us.
+                </p>
+                <p style="font-size: 15px; line-height: 1.6; color: #ccc;">
+                  We've been working on some exciting updates &mdash; including new ways to build
+                  your characters freely and a growing library of gifts, disciplines, and more.
+                  We hope you enjoy what's coming.
+                </p>
+                <div style="margin: 28px 0; text-align: center;">
+                  <a href="https://spinsheets.com"
+                     style="display: inline-block; background: #c4a35a; color: #1a1a2e; padding: 12px 32px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 15px;">
+                    Visit SpinSheets
+                  </a>
+                </div>
+                <p style="font-size: 13px; color: #888; margin-bottom: 0;">
+                  As always, if you have feedback or run into any issues, feel free to reply to this email.
                 </p>
               </div>
               <div style="background: #16213e; padding: 16px 32px; text-align: center; font-size: 12px; color: #666;">
