@@ -440,6 +440,8 @@ const en = {
   formsHint: 'Modifiers are applied to your base attributes. Crinos form induces Delirium in humans.',
   cancel: 'Cancel',
   saveChanges: 'Save changes',
+  quickSave: 'Quick Save',
+  doneEditing: 'Done Editing',
   createCharacter: 'Create character',
   editGarou: 'Edit Garou',
   newGarou: 'New Garou',
@@ -551,7 +553,7 @@ const en = {
   ratingNoName: '{0} has a rating but no name.',
 
   // ── App Shell / Nav ──
-  appTitle: 'SpinSheets',
+  appTitle: 'WoD Companion',
   navCharacters: 'Characters',
   navHome: 'Home',
   // ── Homepage ──
@@ -572,7 +574,7 @@ const en = {
   sitemapCharacters: 'Characters',
   sitemapChronicles: 'Chronicles',
   sitemapAccount: 'Account',
-  footerText: 'SpinSheets is a fan project. World of Darkness and all related trademarks belong to Paradox Interactive.',
+  footerText: 'WoD Companion is a fan project. World of Darkness and all related trademarks belong to Paradox Interactive.',
   navChronicles: 'Chronicles',
   navNewCharacter: 'New character',
   navSignOut: 'Sign out',
@@ -1214,6 +1216,8 @@ const pt = {
   formsHint: 'Modificadores são aplicados aos seus atributos base. A forma Crinos induz Delírio em humanos.',
   cancel: 'Cancelar',
   saveChanges: 'Salvar alterações',
+  quickSave: 'Salvar Rápido',
+  doneEditing: 'Concluir Edição',
   createCharacter: 'Criar personagem',
   editGarou: 'Editar Garou',
   newGarou: 'Novo Garou',
@@ -1324,7 +1328,7 @@ const pt = {
   ratingNoName: '{0} tem pontuação mas sem nome.',
 
   // ── App Shell / Nav ──
-  appTitle: 'SpinSheets',
+  appTitle: 'WoD Companion',
   navHome: 'Início',
   heroTitle: 'Seu companheiro do Mundo das Trevas',
   heroSubtitle: 'Crie, gerencie e compartilhe fichas de personagem para Vampiro: A Máscara, Lobisomem: O Apocalipse, Mago: A Ascensão e Vampiros do Oriente — tudo em um só lugar.',
@@ -1343,7 +1347,7 @@ const pt = {
   sitemapCharacters: 'Personagens',
   sitemapChronicles: 'Crônicas',
   sitemapAccount: 'Conta',
-  footerText: 'SpinSheets é um projeto de fã. World of Darkness e todas as marcas relacionadas pertencem à Paradox Interactive.',
+  footerText: 'WoD Companion é um projeto de fã. World of Darkness e todas as marcas relacionadas pertencem à Paradox Interactive.',
   navCharacters: 'Personagens',
   navChronicles: 'Crônicas',
   navNewCharacter: 'Novo personagem',

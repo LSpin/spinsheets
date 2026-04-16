@@ -17,6 +17,7 @@ import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { useLanguage } from '../i18n/LanguageContext'
 import { ELDER_POWERS } from '../data/elderPowers'
+import { VAMPIRE_DISCIPLINES } from '../data/vampireDisciplines'
 
 // ── Constants ──
 
@@ -405,6 +406,17 @@ export default function VictorianVampireForm() {
     setSaveError(null)
     try {
       await updateCharacter(characterId, fields)
+    } catch (err) {
+      setSaveError(err.response?.data?.message || t('failedToSave'))
+    } finally { setSaving(false) }
+  }
+
+  async function handleDoneEditing() {
+    setSaving(true)
+    setSaveError(null)
+    try {
+      await updateCharacter(characterId, fields)
+      navigate('/characters')
     } catch (err) {
       setSaveError(err.response?.data?.message || t('failedToSave'))
     } finally { setSaving(false) }
@@ -901,6 +913,21 @@ export default function VictorianVampireForm() {
                             ))}
                           </datalist>
                         </div>
+                        {/* Show base levels 1-5 when filtering a specific discipline */}
+                        {filterDisc && (() => {
+                          const baseEntry = VAMPIRE_DISCIPLINES.find(d => d.name.toLowerCase() === filterDisc.toLowerCase())
+                          if (!baseEntry?.levels) return null
+                          return (
+                            <div style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', background: 'var(--color-bg)', borderRadius: 'var(--radius)', border: '1px solid var(--color-border)' }}>
+                              <strong style={{ fontSize: '0.82rem' }}>{baseEntry.name} — Levels 1-5</strong>
+                              <ul style={{ listStyle: 'none', padding: 0, margin: 'var(--space-xs) 0' }}>
+                                {baseEntry.levels.map((lvl, i) => (
+                                  <li key={i} style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '2px' }}>{lvl}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )
+                        })()}
                         {byLevel.map(({ level, powers }) => (
                           <div key={level} style={{ marginBottom: 'var(--space-sm)' }}>
                             <strong style={{ fontSize: '0.82rem' }}>Level {level}</strong>
@@ -1215,8 +1242,11 @@ export default function VictorianVampireForm() {
       {/* ── Save ── */}
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
-        <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
-          {saving ? t('saving') : t('saveChanges')}
+        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>
+          {saving ? t('saving') : t('quickSave')}
+        </button>
+        <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>
+          {t('doneEditing')}
         </button>
       </div>
       {viewMode && (

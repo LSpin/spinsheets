@@ -354,6 +354,17 @@ export default function KoteForm() {
     } finally { setSaving(false) }
   }
 
+  async function handleDoneEditing() {
+    setSaving(true)
+    setSaveError(null)
+    try {
+      await updateCharacter(characterId, fields)
+      navigate('/characters')
+    } catch (err) {
+      setSaveError(err.response?.data?.message || t('failedToSave'))
+    } finally { setSaving(false) }
+  }
+
   async function handleAddDiscipline() {
     if (!newDiscipline.name.trim() || !characterId) return
     try {
@@ -1030,8 +1041,11 @@ export default function KoteForm() {
       {/* ── Save ── */}
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
-        <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
-          {saving ? t('saving') : t('saveChanges')}
+        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>
+          {saving ? t('saving') : t('quickSave')}
+        </button>
+        <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>
+          {t('doneEditing')}
         </button>
       </div>
       {viewMode && (

@@ -373,6 +373,17 @@ export default function MageForm() {
     } finally { setSaving(false) }
   }
 
+  async function handleDoneEditing() {
+    setSaving(true)
+    setSaveError(null)
+    try {
+      await updateCharacter(characterId, fields)
+      navigate('/characters')
+    } catch (err) {
+      setSaveError(err.response?.data?.message || t('failedToSave'))
+    } finally { setSaving(false) }
+  }
+
   async function handleAddBackground() {
     if (!newBackground.name.trim() || !characterId) return
     try {
@@ -1148,8 +1159,11 @@ export default function MageForm() {
       {/* ── Save ── */}
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
-        <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
-          {saving ? t('saving') : t('saveChanges')}
+        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>
+          {saving ? t('saving') : t('quickSave')}
+        </button>
+        <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>
+          {t('doneEditing')}
         </button>
       </div>
       {viewMode && (

@@ -1644,6 +1644,17 @@ export default function CharacterForm() {
     }
   }
 
+  async function handleDoneEditing() {
+    setSaving(true)
+    setSaveError(null)
+    try {
+      await updateCharacter(characterId, fields)
+      __navigate('/characters')
+    } catch (err) {
+      setSaveError(err.response?.data?.message || t('failedToSave'))
+    } finally { setSaving(false) }
+  }
+
   // Discipline handlers
   async function handleAddDiscipline() {
     if (!newDiscipline.name.trim()) return
@@ -2301,6 +2312,21 @@ export default function CharacterForm() {
                             ))}
                           </datalist>
                         </div>
+                        {/* Show base levels 1-5 when filtering a specific discipline */}
+                        {filterDisc && (() => {
+                          const baseEntry = DISCIPLINES.find(d => d.value.toLowerCase() === filterDisc.toLowerCase())
+                          if (!baseEntry?.levels) return null
+                          return (
+                            <div style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', background: 'var(--color-bg)', borderRadius: 'var(--radius)', border: '1px solid var(--color-border)' }}>
+                              <strong style={{ fontSize: '0.82rem' }}>{baseEntry.value} — Levels 1–5</strong>
+                              <ul style={{ listStyle: 'none', padding: 0, margin: 'var(--space-xs) 0' }}>
+                                {baseEntry.levels.map((lvl, i) => (
+                                  <li key={i} style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '2px' }}>{lvl}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )
+                        })()}
                         {byLevel.map(({ level, powers }) => (
                           <div key={level} style={{ marginBottom: 'var(--space-sm)' }}>
                             <strong style={{ fontSize: '0.82rem' }}>Level {level}</strong>
@@ -3000,12 +3026,15 @@ export default function CharacterForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={onBack}>{t('cancel')}</button>
         <button
-          className="btn btn-primary"
+          className="btn btn-secondary"
           onClick={handleSave}
           disabled={saving || validationErrors.length > 0}
           title={validationErrors.length > 0 ? validationErrors.join(' ') : undefined}
         >
-          {saving ? t('saving') : t('saveChanges')}
+          {saving ? t('saving') : t('quickSave')}
+        </button>
+        <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>
+          {t('doneEditing')}
         </button>
       </div>
       {viewMode && (
