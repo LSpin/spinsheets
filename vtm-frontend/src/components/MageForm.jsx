@@ -8,6 +8,7 @@ import {
   getFlaws, addFlaw, removeFlaw,
   getInventory, addInventoryItem, removeInventoryItem,
   getXpLog, addXpLogEntry, removeXpLogEntry,
+  getRotes, addRote, removeRote,
 } from '../api/characterApi'
 import { joinChronicle } from '../api/chronicleApi'
 import DotRating from './DotRating'
@@ -186,7 +187,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
 
 // ── Component ──
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabSpheres', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabFocusChantry', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabSpheres', 'tabRotes', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabFocusChantry', 'tabBackstory', 'tabXpLog']
 
 export default function MageForm() {
   const { id: paramId } = useParams()
@@ -209,6 +210,8 @@ export default function MageForm() {
   const [inventory, setInventory] = useState([])
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
   const [newItem, setNewItem] = useState({ name: '', category: 'EQUIPMENT', quantity: 1, damage: '', concealment: '', range: '', rate: '', clip: '', armorRating: null, handling: null, structure: null, notes: '' })
+  const [rotes, setRotes] = useState([])
+  const [newRote, setNewRote] = useState({ name: '', spheres: '', level: 1, description: '' })
   const [xpLog, setXpLog] = useState([])
   const [xpSubTab, setXpSubTab] = useState(0)
   const [newXpEntry, setNewXpEntry] = useState({ type: 'XP', amount: 1, category: 'Earned', description: '' })
@@ -306,13 +309,14 @@ export default function MageForm() {
 
   async function loadCharacter() {
     try {
-      const [charRes, bgRes, meritRes, flawRes, invRes, xpRes] = await Promise.all([
+      const [charRes, bgRes, meritRes, flawRes, invRes, xpRes, roteRes] = await Promise.all([
         getCharacter(characterId),
         getBackgrounds(characterId),
         getMerits(characterId),
         getFlaws(characterId),
         getInventory(characterId),
         getXpLog(characterId),
+        getRotes(characterId),
       ])
       const data = charRes.data
       setFields(prev => {
@@ -325,6 +329,7 @@ export default function MageForm() {
       setFlaws(flawRes.data)
       setInventory(invRes.data)
       setXpLog(xpRes.data)
+      setRotes(roteRes.data)
     } catch { setSaveError(t('failedToLoad')) }
     finally { setLoading(false) }
   }
@@ -398,6 +403,22 @@ export default function MageForm() {
     : fields.affiliation === 'Technocracy' ? TECHNOCRACY
     : []
   const factionLabel = fields.affiliation === 'Technocracy' ? t('convention') : t('tradition')
+
+  async function handleAddRote() {
+    if (!newRote.name.trim()) return
+    try {
+      const res = await addRote(characterId, newRote)
+      setRotes(prev => [...prev, res.data])
+      setNewRote({ name: '', spheres: '', level: 1, description: '' })
+    } catch { setSaveError(t('failedToSave')) }
+  }
+
+  async function handleRemoveRote(roteId) {
+    try {
+      await removeRote(characterId, roteId)
+      setRotes(prev => prev.filter(r => r.id !== roteId))
+    } catch { setSaveError(t('failedToSave')) }
+  }
 
   async function handleAddXpEntry() {
     if (!newXpEntry.description.trim()) return
@@ -717,8 +738,55 @@ export default function MageForm() {
         </div>
       </div>
 
-      {/* ── Health ── */}
+      {/* ── Rotes ── */}
       <div hidden={tab !== 5}>
+        <div className="form-section">
+          {!isEdit ? (
+            <p className="muted-hint">{t('saveCharFirst')}</p>
+          ) : (
+            <fieldset>
+              <legend>{t('rotesLegend')} ({rotes.length})</legend>
+              {rotes.length === 0 && <p className="muted-hint">{t('noRotesYet')}</p>}
+              {rotes.map(r => (
+                <div key={r.id} className="character-card" style={{ marginBottom: 'var(--space-sm)' }}>
+                  <div className="character-card-info">
+                    <h3 style={{ fontSize: '0.9rem' }}>{r.name} <span style={{ fontWeight: 400, fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>({t('roteLevel')} {r.level})</span></h3>
+                    {r.spheres && <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{t('roteSpheres')}: {r.spheres}</p>}
+                    {r.description && <p style={{ fontSize: '0.78rem' }}>{r.description}</p>}
+                  </div>
+                  <div className="character-card-actions">
+                    <button className="btn btn-danger btn-sm" onClick={() => handleRemoveRote(r.id)}>✕</button>
+                  </div>
+                </div>
+              ))}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
+                <div className="field">
+                  <label>{t('roteName')}</label>
+                  <input type="text" value={newRote.name} onChange={e => setNewRote(p => ({ ...p, name: e.target.value }))} placeholder={t('phRoteName')} />
+                </div>
+                <div className="field">
+                  <label>{t('roteSpheres')}</label>
+                  <input type="text" value={newRote.spheres} onChange={e => setNewRote(p => ({ ...p, spheres: e.target.value }))} placeholder={t('phRoteSpheres')} />
+                </div>
+                <div className="field" style={{ maxWidth: 100 }}>
+                  <label>{t('roteLevel')}</label>
+                  <select value={newRote.level} onChange={e => setNewRote(p => ({ ...p, level: parseInt(e.target.value) }))}>
+                    {[1,2,3,4,5,6,7,8,9].map(v => <option key={v} value={v}>{v}</option>)}
+                  </select>
+                </div>
+                <div className="field" style={{ gridColumn: '1 / -1' }}>
+                  <label>{t('roteDesc')}</label>
+                  <textarea value={newRote.description} onChange={e => setNewRote(p => ({ ...p, description: e.target.value }))} rows={3} placeholder={t('phRoteDesc')} style={{ width: '100%' }} />
+                </div>
+                <button className="btn btn-secondary" onClick={handleAddRote}>{t('add')}</button>
+              </div>
+            </fieldset>
+          )}
+        </div>
+      </div>
+
+      {/* ── Health ── */}
+      <div hidden={tab !== 6}>
         <div className="form-section">
           <fieldset>
             <legend>{t('healthTrack')}</legend>
@@ -763,7 +831,7 @@ export default function MageForm() {
       </div>
 
       {/* ── Backgrounds ── */}
-      <div hidden={tab !== 6}>
+      <div hidden={tab !== 7}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">{t('saveCharFirstDiscBg')}</p>}
           {isEdit && (
@@ -806,7 +874,7 @@ export default function MageForm() {
       </div>
 
       {/* ── Merits & Flaws ── */}
-      <div hidden={tab !== 7}>
+      <div hidden={tab !== 8}>
         <div className="form-section">
           {!isEdit && <p className="muted-hint">{t('saveCharFirstMeritsFlaw')}</p>}
           {isEdit && (
@@ -843,7 +911,7 @@ export default function MageForm() {
       </div>
 
       {/* ── Inventory ── */}
-      <div hidden={tab !== 8}>
+      <div hidden={tab !== 9}>
         <div className="form-section">
           {!isEdit ? (
             <p className="muted-hint">{t('saveCharFirstInventory')}</p>
@@ -907,7 +975,7 @@ export default function MageForm() {
       </div>
 
       {/* ── Focus & Chantry ── */}
-      <div hidden={tab !== 9}>
+      <div hidden={tab !== 10}>
         <div className="form-section">
           <fieldset>
             <legend>{t('focus')}</legend>
@@ -943,7 +1011,7 @@ export default function MageForm() {
       </div>
 
       {/* ── Backstory ── */}
-      <div hidden={tab !== 10}>
+      <div hidden={tab !== 11}>
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
@@ -977,7 +1045,7 @@ export default function MageForm() {
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 11}>
+      <div hidden={tab !== 12}>
         <div className="form-section">
           {!isEdit ? (
             <p className="muted-hint">{t('saveCharFirst')}</p>

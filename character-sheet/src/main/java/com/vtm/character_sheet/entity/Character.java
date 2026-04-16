@@ -424,6 +424,10 @@ public class Character {
 
     @JsonIgnore
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CharacterRote> rotes = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CharacterBackground> backgrounds = new ArrayList<>();
 
     @JsonIgnore

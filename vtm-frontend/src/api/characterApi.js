@@ -64,3 +64,7 @@ export const removeXpLogEntry = (id, entryId) => api.delete(`/characters/${id}/x
 export const getComboDisciplines = (id) => api.get(`/characters/${id}/combo-disciplines`)
 export const addComboDiscipline = (id, data) => api.post(`/characters/${id}/combo-disciplines`, data)
 export const removeComboDiscipline = (id, comboId) => api.delete(`/characters/${id}/combo-disciplines/${comboId}`)
+
+export const getRotes = (id) => api.get(`/characters/${id}/rotes`)
+export const addRote = (id, data) => api.post(`/characters/${id}/rotes`, data)
+export const removeRote = (id, roteId) => api.delete(`/characters/${id}/rotes/${roteId}`)
