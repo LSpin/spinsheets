@@ -8,6 +8,7 @@ import {
   getMerits, addMerit, removeMerit,
   getFlaws, addFlaw, removeFlaw,
   getInventory, addInventoryItem, removeInventoryItem,
+  getXpLog, addXpLogEntry, removeXpLogEntry,
 } from '../api/characterApi'
 import { joinChronicle } from '../api/chronicleApi'
 import DotRating from './DotRating'
@@ -16,7 +17,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 
 // ── Constants ──
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabDisciplinesBg', 'tabMeritsFlaws', 'tabInventory']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabDisciplinesBg', 'tabMeritsFlaws', 'tabInventory', 'tabXpLog']
 
 const CLANS = [
   // ── The 13 Clans ──
@@ -206,6 +207,9 @@ export default function VampireRevisedForm() {
   const [newDiscipline, setNewDiscipline] = useState({ name: '', level: 1 })
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
   const [newItem, setNewItem] = useState({ name: '', notes: '' })
+  const [xpLog, setXpLog] = useState([])
+  const [xpSubTab, setXpSubTab] = useState(0)
+  const [newXpEntry, setNewXpEntry] = useState({ type: 'XP', amount: 1, category: 'Earned', description: '' })
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
@@ -302,13 +306,14 @@ export default function VampireRevisedForm() {
 
   async function loadCharacter() {
     try {
-      const [charRes, discRes, bgRes, meritRes, flawRes, invRes] = await Promise.all([
+      const [charRes, discRes, bgRes, meritRes, flawRes, invRes, xpRes] = await Promise.all([
         getCharacter(characterId),
         getDisciplines(characterId),
         getBackgrounds(characterId),
         getMerits(characterId),
         getFlaws(characterId),
         getInventory(characterId),
+        getXpLog(characterId),
       ])
       const data = charRes.data
       setFields(prev => {
@@ -321,6 +326,7 @@ export default function VampireRevisedForm() {
       setMerits(meritRes.data)
       setFlaws(flawRes.data)
       setInventory(invRes.data)
+      setXpLog(xpRes.data)
     } catch { setSaveError(t('failedToLoad')) }
     finally { setLoading(false) }
   }
@@ -403,6 +409,26 @@ export default function VampireRevisedForm() {
       setInventory(prev => [...prev, res.data])
       setNewItem({ name: '', notes: '' })
     } catch {}
+  }
+
+  // XP Log handlers
+  async function handleAddXpEntry() {
+    if (!newXpEntry.description.trim()) return
+    try {
+      const entry = { ...newXpEntry }
+      if (entry.category !== 'Earned') entry.amount = -Math.abs(entry.amount)
+      else entry.amount = Math.abs(entry.amount)
+      const res = await addXpLogEntry(characterId, entry)
+      setXpLog(prev => [res.data, ...prev])
+      setNewXpEntry({ type: xpSubTab === 0 ? 'XP' : 'FREEBIE', amount: 1, category: 'Earned', description: '' })
+    } catch { setSaveError(t('failedToSave')) }
+  }
+
+  async function handleRemoveXpEntry(entryId) {
+    try {
+      await removeXpLogEntry(characterId, entryId)
+      setXpLog(prev => prev.filter(e => e.id !== entryId))
+    } catch { setSaveError(t('failedToSave')) }
   }
 
   if (loading) return <p className="status-loading">{t('loading')}</p>
@@ -860,6 +886,113 @@ export default function VampireRevisedForm() {
                 <button className="btn btn-secondary" onClick={handleAddItem}>{t('add')}</button>
               </div>
             </fieldset>
+          )}
+        </div>
+      </div>
+
+      {/* ── XP Log ── */}
+      <div role="tabpanel" id="tabpanel-8" aria-labelledby="tab-8" hidden={tab !== 8}>
+        <div className="form-section">
+          {!isEdit ? (
+            <p className="muted-hint">{t('saveCharFirst')}</p>
+          ) : (
+            <>
+              <div role="tablist" className="tab-list">
+                <button role="tab" className={`btn btn-secondary tab-btn${xpSubTab === 0 ? ' tab-btn--active' : ''}`}
+                  onClick={() => { setXpSubTab(0); setNewXpEntry(e => ({ ...e, type: 'XP', category: 'Earned' })) }}>
+                  {t('xpTab')}
+                </button>
+                <button role="tab" className={`btn btn-secondary tab-btn${xpSubTab === 1 ? ' tab-btn--active' : ''}`}
+                  onClick={() => { setXpSubTab(1); setNewXpEntry(e => ({ ...e, type: 'FREEBIE', category: 'Earned' })) }}>
+                  {t('freebieTab')}
+                </button>
+              </div>
+
+              {/* Summary */}
+              {(() => {
+                const entries = xpLog.filter(e => e.type === (xpSubTab === 0 ? 'XP' : 'FREEBIE'))
+                const starting = xpSubTab === 1 ? 15 : 0
+                const totalEarned = entries.filter(e => e.amount > 0).reduce((s, e) => s + e.amount, 0) + starting
+                const totalSpent = entries.filter(e => e.amount < 0).reduce((s, e) => s + Math.abs(e.amount), 0)
+                const available = totalEarned - totalSpent
+
+                return (
+                  <>
+                    <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+                      <div><strong>{xpSubTab === 0 ? t('totalXP') : t('totalFreebies')}:</strong> {totalEarned}</div>
+                      <div><strong>{t('spent')}:</strong> {totalSpent}</div>
+                      <div><strong>{xpSubTab === 0 ? t('availableXP') : t('availableFreebies')}:</strong> <span style={{ color: available >= 0 ? '#8c8' : '#e55', fontWeight: 700 }}>{available}</span></div>
+                    </div>
+
+                    {xpSubTab === 1 && (
+                      <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '1rem', lineHeight: 1.8 }}>
+                        <strong>{t('freebieStarting')}</strong><br/>
+                        {t('freebieAttrCost')} · {t('freebieAbilCost')} · {t('freebieDiscCost')} · {t('freebieBgCost')}<br/>
+                        {t('freebieVirtueCost')} · {t('freebieWpCost')} · {t('freebiePathCost')}
+                      </div>
+                    )}
+
+                    {/* Add entry form */}
+                    <div className="field-row" style={{ marginBottom: '1rem' }}>
+                      <div className="field" style={{ maxWidth: 80 }}>
+                        <label>{t('amount')}</label>
+                        <input type="number" min="1" value={newXpEntry.amount} onChange={e => setNewXpEntry(p => ({ ...p, amount: parseInt(e.target.value) || 1 }))} />
+                      </div>
+                      <div className="field">
+                        <label>{t('xpCategory')}</label>
+                        <select value={newXpEntry.category} onChange={e => setNewXpEntry(p => ({ ...p, category: e.target.value }))}>
+                          <option value="Earned">{t('catEarned')}</option>
+                          <option value="Attribute">{t('catAttribute')}</option>
+                          <option value="Ability">{t('catAbility')}</option>
+                          <option value="Discipline">{t('catDiscipline')}</option>
+                          <option value="Background">{t('catBackground')}</option>
+                          <option value="Virtue">{t('catVirtue')}</option>
+                          <option value="Willpower">{t('catWillpower')}</option>
+                          <option value="Humanity/Path">{t('catHumanity')}</option>
+                          <option value="Other">{t('catOther')}</option>
+                        </select>
+                      </div>
+                      <div className="field" style={{ flex: 2 }}>
+                        <label>{t('xpDescription')}</label>
+                        <input type="text" value={newXpEntry.description} onChange={e => setNewXpEntry(p => ({ ...p, description: e.target.value }))} placeholder={xpSubTab === 0 ? 'e.g. Session reward' : 'e.g. +1 Strength'} />
+                      </div>
+                      <button className="btn btn-secondary" style={{ alignSelf: 'flex-end' }} onClick={handleAddXpEntry}>{t('addEntry')}</button>
+                    </div>
+
+                    {/* Entries list */}
+                    {entries.length === 0 && <p className="muted-hint">{xpSubTab === 0 ? t('noXpEntries') : t('noFreebieEntries')}</p>}
+                    {entries.length > 0 && (
+                      <table style={{ width: '100%', fontSize: '0.82rem', borderCollapse: 'collapse' }}>
+                        <thead>
+                          <tr style={{ borderBottom: '1px solid var(--color-border)', textAlign: 'left' }}>
+                            <th style={{ padding: '0.4rem' }}>{t('xpDate')}</th>
+                            <th style={{ padding: '0.4rem' }}>{t('xpCategory')}</th>
+                            <th style={{ padding: '0.4rem' }}>{t('xpDescription')}</th>
+                            <th style={{ padding: '0.4rem', textAlign: 'right' }}>{t('amount')}</th>
+                            <th style={{ padding: '0.4rem' }}></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {entries.map(e => (
+                            <tr key={e.id} style={{ borderBottom: '1px solid var(--color-border)' }}>
+                              <td style={{ padding: '0.4rem', whiteSpace: 'nowrap' }}>{new Date(e.createdAt).toLocaleDateString()}</td>
+                              <td style={{ padding: '0.4rem' }}>{t(`cat${e.category}`) || e.category}</td>
+                              <td style={{ padding: '0.4rem' }}>{e.description}</td>
+                              <td style={{ padding: '0.4rem', textAlign: 'right', fontWeight: 600, color: e.amount > 0 ? '#8c8' : '#e55' }}>
+                                {e.amount > 0 ? '+' : ''}{e.amount}
+                              </td>
+                              <td style={{ padding: '0.4rem' }}>
+                                <button className="btn btn-danger btn-sm" onClick={() => handleRemoveXpEntry(e.id)} style={{ fontSize: '0.7rem', padding: '0.15rem 0.4rem' }}>&#x2715;</button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+                  </>
+                )
+              })()}
+            </>
           )}
         </div>
       </div>
