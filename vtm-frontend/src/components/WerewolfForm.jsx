@@ -15,6 +15,7 @@ import { joinChronicle } from '../api/chronicleApi'
 import { getGifts, addGift, removeGift, getRites, addRite, removeRite, getFetishes, addFetish, removeFetish } from '../api/werewolfApi'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
+import { WEREWOLF_GIFTS } from '../data/werewolfGifts'
 
 // ── Constants ──
 
@@ -702,19 +703,37 @@ export default function WerewolfForm() {
                     ))}
                   </ul>
                 )}
-                <div className="field-row" style={{ alignItems: 'flex-end' }}>
-                  <div className="field" style={{ flex: 2 }}>
-                    <label htmlFor="gift-name">{t('giftName')}</label>
-                    <input id="gift-name" type="text" value={newGift.name} onChange={e => setNewGift(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="gift-level">{t('level')}</label>
-                    <select id="gift-level" value={newGift.level} onChange={e => setNewGift(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                      {[1,2,3,4,5,6].map(v => <option key={v} value={v}>{v}</option>)}
-                    </select>
-                  </div>
-                  <button className="btn btn-secondary" onClick={handleAddGift}>{t('add')}</button>
-                </div>
+                {(() => {
+                  const breed = fields.breed || ''
+                  const auspice = fields.auspice || ''
+                  const tribe = fields.tribe || ''
+                  const filtered = WEREWOLF_GIFTS.filter(g =>
+                    g.level === newGift.level && (
+                      g.breeds.includes(breed) ||
+                      g.auspices.includes(auspice) ||
+                      g.tribes.includes(tribe) ||
+                      (g.breeds.length === 0 && g.auspices.length === 0 && g.tribes.length === 0)
+                    )
+                  )
+                  return (
+                    <div className="field-row" style={{ alignItems: 'flex-end' }}>
+                      <div className="field">
+                        <label htmlFor="gift-level">{t('level')}</label>
+                        <select id="gift-level" value={newGift.level} onChange={e => setNewGift(p => ({ ...p, level: parseInt(e.target.value), name: '' }))}>
+                          {[1,2,3,4,5,6].map(v => <option key={v} value={v}>{v}</option>)}
+                        </select>
+                      </div>
+                      <div className="field" style={{ flex: 2 }}>
+                        <label htmlFor="gift-name">{t('giftName')}</label>
+                        <input id="gift-name" list="gift-catalog" type="text" value={newGift.name} onChange={e => setNewGift(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder={`${filtered.length} gifts available`} />
+                        <datalist id="gift-catalog">
+                          {filtered.map(g => <option key={g.name} value={g.name} />)}
+                        </datalist>
+                      </div>
+                      <button className="btn btn-secondary" onClick={handleAddGift}>{t('add')}</button>
+                    </div>
+                  )
+                })()}
               </fieldset>
 
               <fieldset>
