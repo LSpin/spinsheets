@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useLanguage } from '../i18n/LanguageContext'
 import { getChronicles, deleteChronicle } from '../api/chronicleApi'
 
 export default function ChronicleList() {
@@ -9,6 +10,7 @@ export default function ChronicleList() {
   const [error, setError] = useState(null)
   const navigate = useNavigate()
   const { user } = useAuth()
+  const { t } = useLanguage()
   const isST = user?.role === 'STORYTELLER'
 
   useEffect(() => { load() }, [])
@@ -19,47 +21,47 @@ export default function ChronicleList() {
       const res = await getChronicles()
       setChronicles(res.data)
     } catch {
-      setError('Failed to load chronicles.')
+      setError(t('failedLoadChronicles'))
     } finally {
       setLoading(false)
     }
   }
 
   async function handleDelete(id, name) {
-    if (!confirm(`Delete chronicle "${name}"? Characters will be removed from it but not deleted.`)) return
+    if (!confirm(t('confirmDeleteChronicle').replace('{0}', name))) return
     try {
       await deleteChronicle(id)
       setChronicles(prev => prev.filter(c => c.id !== id))
     } catch {
-      setError('Failed to delete chronicle.')
+      setError(t('failedDeleteChronicle'))
     }
   }
 
   return (
     <section aria-labelledby="chronicles-heading">
       <div className="character-list-header">
-        <h2 id="chronicles-heading">Chronicles</h2>
+        <h2 id="chronicles-heading">{t('chroniclesTitle')}</h2>
         {isST && (
           <button className="btn btn-primary" onClick={() => navigate('/chronicles/new')}>
-            New chronicle
+            {t('newChronicle')}
           </button>
         )}
       </div>
 
       {error && <p className="status-error" role="alert">{error}</p>}
-      {loading && <p className="status-loading" aria-live="polite">Loading...</p>}
+      {loading && <p className="status-loading" aria-live="polite">{t('loading')}</p>}
 
       {!loading && chronicles.length === 0 && (
         <div className="empty-state">
-          <p>No chronicles yet.</p>
+          <p>{t('noChroniclesYet')}</p>
           {isST
-            ? <p>Create a chronicle for your players to join.</p>
-            : <p>Your Storyteller hasn't created a chronicle yet.</p>}
+            ? <p>{t('stCreateChronicle')}</p>
+            : <p>{t('playerNoChronicle')}</p>}
         </div>
       )}
 
       {!loading && chronicles.length > 0 && (
-        <ul className="character-list" aria-label="Chronicle list">
+        <ul className="character-list" aria-label={t('chroniclesTitle')}>
           {chronicles.map(c => (
             <li key={c.id} className="character-card">
               <div className="character-card-info">
@@ -70,8 +72,8 @@ export default function ChronicleList() {
                 <dl className="character-card-meta">
                   {c.storyteller && (
                     <>
-                      <dt className="sr-only">Storyteller</dt>
-                      <dd>ST: {c.storyteller.username}</dd>
+                      <dt className="sr-only">{t('storytellerRole')}</dt>
+                      <dd>{t('roleST')}: {c.storyteller.username}</dd>
                     </>
                   )}
                 </dl>
@@ -80,17 +82,17 @@ export default function ChronicleList() {
                 <button
                   className="btn btn-secondary"
                   onClick={() => navigate(`/chronicles/${c.id}`)}
-                  aria-label={`View ${c.name}`}
+                  aria-label={`${t('viewBtn')} ${c.name}`}
                 >
-                  View
+                  {t('viewBtn')}
                 </button>
                 {isST && c.storyteller?.id === user.userId && (
                   <button
                     className="btn btn-danger"
                     onClick={() => handleDelete(c.id, c.name)}
-                    aria-label={`Delete ${c.name}`}
+                    aria-label={`${t('deleteBtn')} ${c.name}`}
                   >
-                    Delete
+                    {t('deleteBtn')}
                   </button>
                 )}
               </div>

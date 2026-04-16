@@ -19,7 +19,8 @@ import ChronicleForm from './pages/ChronicleForm'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
-  if (loading) return <p className="status-loading">Loading...</p>
+  const { t } = useLanguage()
+  if (loading) return <p className="status-loading">{t('loading')}</p>
   if (!user) return <Navigate to="/register" replace />
   return children
 }
@@ -34,24 +35,29 @@ function AppShell() {
       <a href="#main-content" className="skip-link">Skip to main content</a>
       <header role="banner">
         <div className="header-inner">
-          <h1>WoD — Character Sheet</h1>
+          <h1>{t('appTitle')}</h1>
           {user && (
             <nav aria-label="Primary navigation">
               <Link to="/">
-                <button>Characters</button>
+                <button>{t('navCharacters')}</button>
               </Link>
               <Link to="/chronicles">
-                <button>Chronicles</button>
+                <button>{t('navChronicles')}</button>
               </Link>
               <Link to="/characters/new">
-                <button>New character</button>
+                <button>{t('navNewCharacter')}</button>
               </Link>
               <span className="muted" style={{ alignSelf: 'center', marginLeft: 'auto' }}>
-                {user.username} ({user.role === 'STORYTELLER' ? 'ST' : 'Player'})
+                {user.username} ({user.role === 'STORYTELLER' ? t('roleST') : t('rolePlayer')})
               </span>
               <button onClick={() => { logout(); navigate('/login') }}>
-                Sign out
+                {t('navSignOut')}
               </button>
+              <LanguageToggle />
+            </nav>
+          )}
+          {!user && (
+            <nav aria-label="Language">
               <LanguageToggle />
             </nav>
           )}
@@ -123,7 +129,7 @@ function AppShell() {
       </main>
 
       <footer role="contentinfo">
-        <p>A Fan Project WoD Chronicles Creator</p>
+        <p>{t('footerText')}</p>
       </footer>
     </>
   )

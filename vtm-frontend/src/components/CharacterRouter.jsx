@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { getCharacter } from '../api/characterApi'
+import { useLanguage } from '../i18n/LanguageContext'
 import CharacterForm from './CharacterForm'
 import WerewolfForm from './WerewolfForm'
 import MageForm from './MageForm'
@@ -9,6 +10,7 @@ import KoteForm from './KoteForm'
 
 export default function CharacterRouter() {
   const { id } = useParams()
+  const { t } = useLanguage()
   const [splat, setSplat] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -26,7 +28,7 @@ export default function CharacterRouter() {
     load()
   }, [id])
 
-  if (loading) return <p className="status-loading">Loading...</p>
+  if (loading) return <p className="status-loading">{t('loading')}</p>
 
   if (splat === 'WEREWOLF') return <WerewolfForm />
   if (splat === 'MAGE') return <MageForm />
