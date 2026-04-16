@@ -29,7 +29,7 @@ function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
   const { t } = useLanguage()
   if (loading) return <p className="status-loading">{t('loading')}</p>
-  if (!user) return <Navigate to="/register" replace />
+  if (!user) return <Navigate to="/" replace />
   return children
 }
 
@@ -101,8 +101,11 @@ function AppShell() {
             </nav>
           )}
           {!user && (
-            <nav aria-label="Language">
-              <LanguageToggle />
+            <nav aria-label="Primary navigation">
+              <Link to="/"><button>{t('navHome')}</button></Link>
+              <Link to="/login"><button>{t('signIn')}</button></Link>
+              <Link to="/register"><button>{t('getStarted')}</button></Link>
+              <div style={{ marginLeft: 'auto' }}><LanguageToggle /></div>
             </nav>
           )}
         </div>
