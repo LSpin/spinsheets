@@ -1095,7 +1095,7 @@ const pt = {
   // ── KotE extras ──
   editKueiJin: 'Editar Kuei-jin',
   newKueiJin: 'Novo Kuei-jin',
-  kindredOfTheEast: 'Parentes do Leste',
+  kindredOfTheEast: 'Vampiros do Oriente',
   kueiJin: 'Kuei-jin',
   poNature: "Natureza do P'o",
   soul: 'Alma',
@@ -1222,7 +1222,7 @@ const pt = {
   splatDarkAges: 'Vampiro',
   splatDarkAgesSub: 'Idade das Trevas (V20)',
   splatDarkAgesDesc: 'Jogue como um dos Cainitas no mundo medieval — navegue a Longa Noite, a Guerra dos Príncipes e a sombra da Inquisição.',
-  splatKote: 'Parentes do Oriente',
+  splatKote: 'Vampiros do Oriente',
   splatKoteSub: 'A Virada',
   splatKoteDesc: 'Jogue como um dos Kuei-jin — uma alma ressurrecta do mundo espiritual, equilibrando Yin e Yang enquanto caminha pela trilha do Dharma.',
 

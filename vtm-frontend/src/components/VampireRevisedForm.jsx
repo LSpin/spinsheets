@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   getCharacter, createCharacter, updateCharacter,
   getDisciplines, addDiscipline, removeDiscipline,
@@ -9,6 +9,7 @@ import {
   getFlaws, addFlaw, removeFlaw,
   getInventory, addInventoryItem, removeInventoryItem,
 } from '../api/characterApi'
+import { joinChronicle } from '../api/chronicleApi'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -209,6 +210,87 @@ export default function VampireRevisedForm() {
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
 
+  const [searchParams] = useSearchParams()
+  const guidedMode = searchParams.get('mode') === 'guided'
+  const chronicleId = searchParams.get('chronicle')
+
+  // Guided creation state
+  const [attrPriority, setAttrPriority] = useState({ physical: null, social: null, mental: null })
+  const [abilPriority, setAbilPriority] = useState({ talents: null, skills: null, knowledges: null })
+
+  const ATTR_BUDGETS = { primary: 7, secondary: 5, tertiary: 3 }
+  const ABIL_BUDGETS = { primary: 13, secondary: 9, tertiary: 5 }
+
+  const ATTR_GROUPS = {
+    physical: ['strength', 'dexterity', 'stamina'],
+    social: ['charisma', 'manipulation', 'appearance'],
+    mental: ['perception', 'intelligence', 'wits'],
+  }
+  const ABIL_GROUPS = {
+    talents: ['alertness', 'athletics', 'brawl', 'dodge', 'empathy', 'expression', 'intimidation', 'leadership', 'streetwise', 'subterfuge'],
+    skills: ['animalKen', 'crafts', 'drive', 'etiquette', 'firearms', 'melee', 'performance', 'security', 'stealth', 'survival'],
+    knowledges: ['academics', 'computer', 'finance', 'investigation', 'law', 'linguistics', 'medicine', 'occult', 'politics', 'science'],
+  }
+
+  function getAttrSpent(group) {
+    return ATTR_GROUPS[group].reduce((sum, a) => sum + (fields[a] - 1), 0)
+  }
+  function getAbilSpent(group) {
+    return ABIL_GROUPS[group].reduce((sum, a) => sum + fields[a], 0)
+  }
+  function getAttrBudget(group) {
+    const priority = attrPriority[group]
+    return priority ? ATTR_BUDGETS[priority] : 0
+  }
+  function getAbilBudget(group) {
+    const priority = abilPriority[group]
+    return priority ? ABIL_BUDGETS[priority] : 0
+  }
+
+  function PrioritySelector({ group, priorities, setPriorities, budgets }) {
+    const currentPriority = priorities[group]
+    const usedPriorities = Object.values(priorities).filter(Boolean)
+
+    return (
+      <div className="priority-selector">
+        {['primary', 'secondary', 'tertiary'].map(p => {
+          const isActive = currentPriority === p
+          const isTaken = !isActive && usedPriorities.includes(p)
+          return (
+            <button
+              key={p}
+              type="button"
+              className={`priority-btn${isActive ? ' priority-btn--active' : ''}`}
+              disabled={isTaken}
+              onClick={() => {
+                setPriorities(prev => {
+                  const next = { ...prev }
+                  for (const k of Object.keys(next)) {
+                    if (next[k] === p) next[k] = null
+                  }
+                  next[group] = isActive ? null : p
+                  return next
+                })
+              }}
+            >
+              {t(`priority${p.charAt(0).toUpperCase() + p.slice(1)}`).replace('{0}', budgets[p])}
+            </button>
+          )
+        })}
+        {!currentPriority && <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{t('unassigned')}</span>}
+      </div>
+    )
+  }
+
+  function PointsIndicator({ spent, budget }) {
+    const remaining = budget - spent
+    const cls = remaining > 0 ? 'points-remaining--ok' : remaining < 0 ? 'points-remaining--over' : 'points-remaining--done'
+    const text = remaining >= 0
+      ? t('pointsRemaining').replace('{0}', remaining)
+      : t('pointsOver').replace('{0}', Math.abs(remaining))
+    return budget > 0 ? <span className={`points-remaining ${cls}`}>{text}</span> : null
+  }
+
   const { max: maxBlood, perTurn } = bloodStats(fields.generation)
   const isHumanity = fields.pathName.trim().toLowerCase() === 'humanity'
   const computedPath = fields.conscience + fields.selfControl
@@ -280,6 +362,12 @@ export default function VampireRevisedForm() {
         await updateCharacter(characterId, fields)
       } else {
         const res = await createCharacter(fields)
+        // Auto-join chronicle in guided mode
+        if (guidedMode && chronicleId) {
+          try {
+            await joinChronicle(res.data.id, chronicleId)
+          } catch { /* chronicle join failed but character was created */ }
+        }
         navigate(`/characters/${res.data.id}`, { replace: true })
       }
     } catch (err) {
@@ -325,6 +413,7 @@ export default function VampireRevisedForm() {
         <button className="btn btn-secondary" onClick={() => navigate('/')}>{t('back')}</button>
         <h2>{isEdit ? fields.name || t('editKindred') : t('newKindredRevised')}</h2>
         <span className="splat-badge splat-badge--vampire-revised">{t('vampireRevised')}</span>
+        {guidedMode && !isEdit && <span className="splat-badge">{t('guidedCreation')}</span>}
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
@@ -456,12 +545,18 @@ export default function VampireRevisedForm() {
       <div hidden={tab !== 1}>
         <div className="form-section">
           {[
-            { legendKey: 'physicalAttr', attrs: ['strength', 'dexterity', 'stamina'] },
-            { legendKey: 'socialAttr',   attrs: ['charisma', 'manipulation', 'appearance'] },
-            { legendKey: 'mentalAttr',   attrs: ['perception', 'intelligence', 'wits'] },
-          ].map(({ legendKey, attrs }) => (
+            { legendKey: 'physicalAttr', group: 'physical', attrs: ['strength', 'dexterity', 'stamina'] },
+            { legendKey: 'socialAttr',   group: 'social',   attrs: ['charisma', 'manipulation', 'appearance'] },
+            { legendKey: 'mentalAttr',   group: 'mental',   attrs: ['perception', 'intelligence', 'wits'] },
+          ].map(({ legendKey, group, attrs }) => (
             <fieldset key={legendKey}>
               <legend>{t(legendKey)}</legend>
+              {guidedMode && !isEdit && (
+                <>
+                  <PrioritySelector group={group} priorities={attrPriority} setPriorities={setAttrPriority} budgets={ATTR_BUDGETS} />
+                  <PointsIndicator spent={getAttrSpent(group)} budget={getAttrBudget(group)} />
+                </>
+              )}
               <div className="rating-grid">
                 {attrs.map(a => (
                   <div key={a} className="ability-row">
@@ -481,6 +576,13 @@ export default function VampireRevisedForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('talents')}</legend>
+            {guidedMode && !isEdit && (
+              <>
+                <PrioritySelector group="talents" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
+                <PointsIndicator spent={getAbilSpent('talents')} budget={getAbilBudget('talents')} />
+                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+              </>
+            )}
             <div className="rating-grid">
               {['alertness', 'athletics', 'brawl', 'dodge', 'empathy', 'expression', 'intimidation', 'leadership', 'streetwise', 'subterfuge'].map(a =>
                 <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
@@ -489,6 +591,13 @@ export default function VampireRevisedForm() {
           </fieldset>
           <fieldset>
             <legend>{t('skills')}</legend>
+            {guidedMode && !isEdit && (
+              <>
+                <PrioritySelector group="skills" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
+                <PointsIndicator spent={getAbilSpent('skills')} budget={getAbilBudget('skills')} />
+                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+              </>
+            )}
             <div className="rating-grid">
               {['animalKen', 'crafts', 'drive', 'etiquette', 'firearms', 'melee', 'performance', 'security', 'stealth', 'survival'].map(a =>
                 <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
@@ -497,6 +606,13 @@ export default function VampireRevisedForm() {
           </fieldset>
           <fieldset>
             <legend>{t('knowledges')}</legend>
+            {guidedMode && !isEdit && (
+              <>
+                <PrioritySelector group="knowledges" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
+                <PointsIndicator spent={getAbilSpent('knowledges')} budget={getAbilBudget('knowledges')} />
+                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+              </>
+            )}
             <div className="rating-grid">
               {['academics', 'computer', 'finance', 'investigation', 'law', 'linguistics', 'medicine', 'occult', 'politics', 'science'].map(a =>
                 <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
