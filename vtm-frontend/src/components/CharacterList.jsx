@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useNewChar } from '../context/NewCharContext'
 import { getCharacters, deleteCharacter } from '../api/characterApi'
+import { getChronicles, joinChronicle, leaveChronicle } from '../api/chronicleApi'
 
 const SPLAT_LABEL_KEYS = {
   VAMPIRE: 'splatVampire',
@@ -22,7 +23,8 @@ function splatBadgeClass(splat) {
   return `splat-badge splat-badge--${(splat || 'vampire').toLowerCase().replace('_', '-')}`
 }
 
-function CharacterCard({ c, user, t, navigate, onDelete }) {
+function CharacterCard({ c, user, t, navigate, onDelete, chronicles, onAssignChronicle }) {
+  const isST = user?.role === 'STORYTELLER'
   return (
     <li className="character-card">
       <div className="character-card-info">
@@ -54,15 +56,34 @@ function CharacterCard({ c, user, t, navigate, onDelete }) {
               <dd>{c.pathName} {c.pathRating}</dd>
             </>
           )}
-          {user?.role === 'STORYTELLER' && c.owner && (
+          {isST && c.owner && (
             <>
               <dt className="sr-only">{t('playerLabel')}</dt>
               <dd>{t('playerLabel')}: {c.owner.username}</dd>
             </>
           )}
+          {isST && c.chronicle && (
+            <>
+              <dt className="sr-only">{t('chronicle')}</dt>
+              <dd style={{ fontStyle: 'italic' }}>{c.chronicle.name}</dd>
+            </>
+          )}
         </dl>
       </div>
       <div className="character-card-actions">
+        {isST && c.npc && chronicles && chronicles.length > 0 && (
+          <select
+            value={c.chronicle?.id || ''}
+            onChange={e => onAssignChronicle(c.id, e.target.value ? Number(e.target.value) : null)}
+            style={{ fontSize: '0.78rem', maxWidth: 140 }}
+            title={t('assignChronicle')}
+          >
+            <option value="">{t('noChronicle')}</option>
+            {chronicles.map(ch => (
+              <option key={ch.id} value={ch.id}>{ch.name}</option>
+            ))}
+          </select>
+        )}
         <button
           className="btn btn-secondary"
           onClick={() => navigate(`/characters/${c.id}?mode=view`)}
@@ -89,7 +110,7 @@ function CharacterCard({ c, user, t, navigate, onDelete }) {
   )
 }
 
-function CharacterGrid({ chars, user, t, navigate, onDelete, emptyMsg }) {
+function CharacterGrid({ chars, user, t, navigate, onDelete, emptyMsg, chronicles, onAssignChronicle }) {
   if (chars.length === 0) {
     return (
       <div className="empty-state">
@@ -100,7 +121,8 @@ function CharacterGrid({ chars, user, t, navigate, onDelete, emptyMsg }) {
   return (
     <ul className="character-list" aria-label={t('navCharacters')}>
       {chars.map(c => (
-        <CharacterCard key={c.id} c={c} user={user} t={t} navigate={navigate} onDelete={onDelete} />
+        <CharacterCard key={c.id} c={c} user={user} t={t} navigate={navigate} onDelete={onDelete}
+          chronicles={chronicles} onAssignChronicle={onAssignChronicle} />
       ))}
     </ul>
   )
@@ -108,9 +130,11 @@ function CharacterGrid({ chars, user, t, navigate, onDelete, emptyMsg }) {
 
 export default function CharacterList() {
   const [characters, setCharacters] = useState([])
+  const [chronicles, setChronicles] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [subTab, setSubTab] = useState(0)
+  const [chronicleFilter, setChronicleFilter] = useState('all')
   const navigate = useNavigate()
   const { user } = useAuth()
   const { t } = useLanguage()
@@ -122,8 +146,12 @@ export default function CharacterList() {
   async function loadCharacters() {
     try {
       setLoading(true)
-      const res = await getCharacters()
-      setCharacters(res.data)
+      const [charsRes, chronRes] = await Promise.all([
+        getCharacters(),
+        isST ? getChronicles() : Promise.resolve({ data: [] }),
+      ])
+      setCharacters(charsRes.data)
+      setChronicles(chronRes.data)
     } catch {
       setError(t('failedLoadChars'))
     } finally {
@@ -141,8 +169,28 @@ export default function CharacterList() {
     }
   }
 
+  async function handleAssignChronicle(characterId, chronicleId) {
+    try {
+      if (chronicleId) {
+        const res = await joinChronicle(characterId, chronicleId)
+        setCharacters(prev => prev.map(c => c.id === characterId ? res.data : c))
+      } else {
+        const res = await leaveChronicle(characterId)
+        setCharacters(prev => prev.map(c => c.id === characterId ? res.data : c))
+      }
+    } catch {
+      setError(t('failedToSave'))
+    }
+  }
+
   const pcs = characters.filter(c => !c.npc)
   const npcs = characters.filter(c => c.npc)
+
+  const filteredNpcs = chronicleFilter === 'all'
+    ? npcs
+    : chronicleFilter === 'unassigned'
+      ? npcs.filter(c => !c.chronicle)
+      : npcs.filter(c => c.chronicle?.id === Number(chronicleFilter))
 
   return (
     <section aria-labelledby="list-heading">
@@ -173,11 +221,26 @@ export default function CharacterList() {
 
           {subTab === 0 && (
             <CharacterGrid chars={pcs} user={user} t={t} navigate={navigate} onDelete={handleDelete}
-              emptyMsg={t('noPcsYet')} />
+              emptyMsg={t('noPcsYet')} chronicles={chronicles} onAssignChronicle={handleAssignChronicle} />
           )}
           {subTab === 1 && (
-            <CharacterGrid chars={npcs} user={user} t={t} navigate={navigate} onDelete={handleDelete}
-              emptyMsg={t('noNpcsYet')} />
+            <>
+              {chronicles.length > 0 && (
+                <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('filterByChronicle')}:</label>
+                  <select value={chronicleFilter} onChange={e => setChronicleFilter(e.target.value)}
+                    style={{ fontSize: '0.85rem' }}>
+                    <option value="all">{t('allChronicles')}</option>
+                    <option value="unassigned">{t('unassigned')}</option>
+                    {chronicles.map(ch => (
+                      <option key={ch.id} value={ch.id}>{ch.name}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              <CharacterGrid chars={filteredNpcs} user={user} t={t} navigate={navigate} onDelete={handleDelete}
+                emptyMsg={t('noNpcsYet')} chronicles={chronicles} onAssignChronicle={handleAssignChronicle} />
+            </>
           )}
         </>
       )}

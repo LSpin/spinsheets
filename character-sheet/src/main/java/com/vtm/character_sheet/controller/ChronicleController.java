@@ -10,6 +10,7 @@ import com.vtm.character_sheet.repository.ChronicleRepository;
 import com.vtm.character_sheet.repository.ChronicleSessionRepository;
 import com.vtm.character_sheet.security.CharacterAccessChecker;
 import com.vtm.character_sheet.service.ChronicleService;
+import com.vtm.character_sheet.service.NotificationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ public class ChronicleController {
     private final ChronicleSessionRepository sessionRepository;
     private final AppUserRepository appUserRepository;
     private final CharacterAccessChecker access;
+    private final NotificationService notificationService;
 
     @GetMapping
     public List<Chronicle> findAll() {
@@ -189,6 +191,7 @@ public class ChronicleController {
             }
             character.setChronicle(chronicle);
             characterRepository.save(character);
+            notificationService.notifyChronicleJoin(chronicle, user, character);
             return ResponseEntity.ok((Object) Map.of("message", "Joined chronicle", "chronicleId", chronicle.getId()));
         }).orElse(ResponseEntity.notFound().build());
     }

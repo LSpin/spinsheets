@@ -774,6 +774,11 @@ const en = {
   playerCharacters: 'Player Characters',
   npcs: 'NPCs',
   noNpcsYet: 'No NPCs yet.',
+  filterByChronicle: 'Chronicle',
+  allChronicles: 'All',
+  unassigned: 'Unassigned',
+  assignChronicle: 'Assign to chronicle',
+  noChronicle: 'No chronicle',
 
   // ── New Character Modal ──
   newCharModalTitle: 'Create a New Character',
@@ -1643,6 +1648,11 @@ const pt = {
   playerCharacters: 'Personagens dos Jogadores',
   npcs: 'NPCs',
   noNpcsYet: 'Nenhum NPC ainda.',
+  filterByChronicle: 'Crônica',
+  allChronicles: 'Todas',
+  unassigned: 'Sem crônica',
+  assignChronicle: 'Associar a crônica',
+  noChronicle: 'Sem crônica',
 
   // ── New Character Modal ──
   newCharModalTitle: 'Criar Novo Personagem',

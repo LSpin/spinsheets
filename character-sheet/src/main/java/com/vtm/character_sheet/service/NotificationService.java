@@ -1,6 +1,7 @@
 package com.vtm.character_sheet.service;
 
 import com.vtm.character_sheet.entity.AppUser;
+import com.vtm.character_sheet.entity.Chronicle;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -72,6 +73,26 @@ public class NotificationService {
             log.info("Welcome email sent to: {}", user.getEmail());
         } catch (Exception e) {
             log.error("Failed to send welcome email to {}: {}", user.getEmail(), e.getMessage(), e);
+        }
+    }
+
+    @Async
+    public void notifyChronicleJoin(Chronicle chronicle, AppUser player, com.vtm.character_sheet.entity.Character character) {
+        try {
+            AppUser st = chronicle.getStoryteller();
+            SimpleMailMessage msg = new SimpleMailMessage();
+            msg.setFrom(fromEmail);
+            msg.setTo(st.getEmail());
+            msg.setSubject("SpinSheets — " + player.getUsername() + " joined " + chronicle.getName());
+            msg.setText(String.format(
+                    "%s has joined your chronicle \"%s\" with their character \"%s\".\n\n" +
+                    "Log in to SpinSheets to see your updated roster.",
+                    player.getUsername(), chronicle.getName(), character.getName()
+            ));
+            mailSender.send(msg);
+            log.info("Chronicle join notification sent to ST {} for player {}", st.getUsername(), player.getUsername());
+        } catch (Exception e) {
+            log.error("Failed to send chronicle join notification: {}", e.getMessage(), e);
         }
     }
 
