@@ -888,20 +888,20 @@ export default function CharacterForm() {
                   if (val === 'Nosferatu' || val === 'Samedi') handleField('appearance', 0)
                 }}>
                   <option value="">{t('select')}</option>
-                  {CLANS.map(c => <option key={c.value} value={c.value}>{c.value}</option>)}
+                  {CLANS.map(c => <option key={c.value} value={c.value}>{t(c.value)}</option>)}
                 </select>
               </div>
               <div className="field">
                 <label htmlFor="sect">{t('sect')}</label>
                 <select id="sect" name="sect" value={fields.sect} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  <option value="Camarilla">Camarilla</option>
-                  <option value="Sabbat">Sabbat</option>
-                  <option value="Anarch">Anarch</option>
-                  <option value="Independent">Independent</option>
-                  <option value="Autarkis">Autarkis</option>
-                  <option value="Tal'Mahe'Ra">Tal'Mahe'Ra</option>
-                  <option value="Inconnu">Inconnu</option>
+                  <option value="Camarilla">{t('Camarilla')}</option>
+                  <option value="Sabbat">{t('Sabbat')}</option>
+                  <option value="Anarch">{t('Anarch')}</option>
+                  <option value="Independent">{t('Independent')}</option>
+                  <option value="Autarkis">{t('Autarkis')}</option>
+                  <option value="Tal'Mahe'Ra">{t("Tal'Mahe'Ra")}</option>
+                  <option value="Inconnu">{t('Inconnu')}</option>
                 </select>
               </div>
               <div className="field">
@@ -1105,21 +1105,21 @@ export default function CharacterForm() {
               <div className="field">
                 <label htmlFor="pathName">{t('pathName')}</label>
                 <select id="pathName" name="pathName" value={fields.pathName} onChange={handleText}>
-                  <option value="Humanity">Humanity</option>
-                  <option value="Path of Blood">Path of Blood</option>
-                  <option value="Path of Bones">Path of Bones</option>
-                  <option value="Path of Caine">Path of Caine</option>
-                  <option value="Path of Cathari">Path of Cathari</option>
-                  <option value="Path of Death and the Soul">Path of Death and the Soul</option>
-                  <option value="Path of Feral Hearts">Path of Feral Hearts</option>
-                  <option value="Path of Harmony">Path of Harmony</option>
-                  <option value="Path of Honorable Accord">Path of Honorable Accord</option>
-                  <option value="Path of Lilith">Path of Lilith</option>
-                  <option value="Path of Metamorphosis">Path of Metamorphosis</option>
-                  <option value="Path of Night">Path of Night</option>
-                  <option value="Path of Paradox">Path of Paradox</option>
-                  <option value="Path of Power and the Inner Voice">Path of Power and the Inner Voice</option>
-                  <option value="Path of Typhon-Set">Path of Typhon-Set</option>
+                  <option value="Humanity">{t('humanity')}</option>
+                  <option value="Path of Blood">{t('pathBlood')}</option>
+                  <option value="Path of Bones">{t('pathBones')}</option>
+                  <option value="Path of Caine">{t('pathCaine')}</option>
+                  <option value="Path of Cathari">{t('pathCathari')}</option>
+                  <option value="Path of Death and the Soul">{t('pathDeathSoul')}</option>
+                  <option value="Path of Feral Hearts">{t('pathFeralHearts')}</option>
+                  <option value="Path of Harmony">{t('pathHarmony')}</option>
+                  <option value="Path of Honorable Accord">{t('pathHonorableAccord')}</option>
+                  <option value="Path of Lilith">{t('pathLilith')}</option>
+                  <option value="Path of Metamorphosis">{t('pathMetamorphosis')}</option>
+                  <option value="Path of Night">{t('pathNight')}</option>
+                  <option value="Path of Paradox">{t('pathParadox')}</option>
+                  <option value="Path of Power and the Inner Voice">{t('pathPowerInnerVoice')}</option>
+                  <option value="Path of Typhon-Set">{t('pathTyphonSet')}</option>
                 </select>
               </div>
               <div className="field">
@@ -1588,8 +1588,8 @@ function ArchetypeSelect({ id, name, label: labelText, value, onChange, t }) {
           id={id}
           type="text"
           autoComplete="off"
-          placeholder={value || (t ? t('searchArchetypes') : 'Search archetypes…')}
-          value={open ? search : (value || '')}
+          placeholder={value ? t(value) : (t ? t('searchArchetypes') : 'Search archetypes…')}
+          value={open ? search : (value ? t(value) : '')}
           onFocus={() => { setOpen(true); setSearch('') }}
           onChange={e => setSearch(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -1620,7 +1620,7 @@ function ArchetypeSelect({ id, name, label: labelText, value, onChange, t }) {
               className={`archetype-option${a.value === value ? ' archetype-option--selected' : ''}`}
               onMouseDown={() => select(a.value)}
             >
-              <span className="archetype-option-name">{a.value}</span>
+              <span className="archetype-option-name">{t(a.value)}</span>
               <span className="archetype-option-desc">{a.description}</span>
             </li>
           ))}

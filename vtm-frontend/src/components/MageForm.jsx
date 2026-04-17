@@ -438,21 +438,21 @@ export default function MageForm() {
                 <label htmlFor="nature">{t('nature')}</label>
                 <select id="nature" name="nature" value={fields.nature} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {ARCHETYPES.map(a => <option key={a} value={a}>{a}</option>)}
+                  {ARCHETYPES.map(a => <option key={a} value={a}>{t(a)}</option>)}
                 </select>
               </div>
               <div className="field">
                 <label htmlFor="demeanor">{t('demeanor')}</label>
                 <select id="demeanor" name="demeanor" value={fields.demeanor} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {ARCHETYPES.map(a => <option key={a} value={a}>{a}</option>)}
+                  {ARCHETYPES.map(a => <option key={a} value={a}>{t(a)}</option>)}
                 </select>
               </div>
               <div className="field">
                 <label htmlFor="essence">{t('essence')}</label>
                 <select id="essence" name="essence" value={fields.essence} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {ESSENCES.map(e => <option key={e} value={e}>{e}</option>)}
+                  {ESSENCES.map(e => <option key={e} value={e}>{t(e)}</option>)}
                 </select>
               </div>
             </div>
@@ -465,7 +465,7 @@ export default function MageForm() {
                 <label htmlFor="affiliation">{t('affiliation')}</label>
                 <select id="affiliation" name="affiliation" value={fields.affiliation} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {AFFILIATIONS.map(a => <option key={a} value={a}>{a}</option>)}
+                  {AFFILIATIONS.map(a => <option key={a} value={a}>{t(a)}</option>)}
                 </select>
               </div>
               <div className="field">
@@ -473,7 +473,7 @@ export default function MageForm() {
                 {factionList.length > 0 ? (
                   <select id="clan" name="clan" value={fields.clan} onChange={handleText}>
                     <option value="">{t('select')}</option>
-                    {factionList.map(f => <option key={f} value={f}>{f}</option>)}
+                    {factionList.map(f => <option key={f} value={f}>{t(f)}</option>)}
                   </select>
                 ) : (
                   <>

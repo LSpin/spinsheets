@@ -196,14 +196,14 @@ export default function KinfolkForm() {
                 <label>{t('nature')}</label>
                 <select name="nature" value={fields.nature} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {ARCHETYPES.map(a => <option key={a} value={a}>{a}</option>)}
+                  {ARCHETYPES.map(a => <option key={a} value={a}>{t(a)}</option>)}
                 </select>
               </div>
               <div className="field">
                 <label>{t('demeanor')}</label>
                 <select name="demeanor" value={fields.demeanor} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {ARCHETYPES.map(a => <option key={a} value={a}>{a}</option>)}
+                  {ARCHETYPES.map(a => <option key={a} value={a}>{t(a)}</option>)}
                 </select>
               </div>
             </div>
@@ -212,14 +212,14 @@ export default function KinfolkForm() {
                 <label>{t('kinfolkTribe')}</label>
                 <select name="clan" value={fields.clan} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {TRIBES.map(tr => <option key={tr} value={tr}>{tr}</option>)}
+                  {TRIBES.map(tr => <option key={tr} value={tr}>{t(tr)}</option>)}
                 </select>
               </div>
               <div className="field">
                 <label>{t('kinfolkBreed')}</label>
                 <select name="sire" value={fields.sire} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {BREEDS.map(b => <option key={b} value={b}>{b}</option>)}
+                  {BREEDS.map(b => <option key={b} value={b}>{t(b)}</option>)}
                 </select>
               </div>
             </div>

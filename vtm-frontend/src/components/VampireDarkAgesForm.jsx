@@ -488,7 +488,7 @@ export default function VampireDarkAgesForm() {
                   if (val === 'Nosferatu') handleField('appearance', 0)
                 }}>
                   <option value="">{t('select')}</option>
-                  {CLANS.map(c => <option key={c.value} value={c.value}>{c.value}</option>)}
+                  {CLANS.map(c => <option key={c.value} value={c.value}>{t(c.value)}</option>)}
                 </select>
               </div>
               <div className="field">

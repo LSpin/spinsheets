@@ -182,12 +182,12 @@ export default function SeventhSeaVillainForm() {
               <div className="field">
                 <label>NPC Type</label>
                 <select value={npcType} onChange={e => setNpcType(e.target.value)}>
-                  {NPC_TYPES.map(t => <option key={t.key} value={t.key}>{t.label}</option>)}
+                  {NPC_TYPES.map(nt => <option key={nt.key} value={nt.key}>{t(nt.label)}</option>)}
                 </select>
               </div>
             </div>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
-              {NPC_TYPES.find(t => t.key === npcType)?.description}
+              {NPC_TYPES.find(nt => nt.key === npcType)?.description}
             </p>
             <div className="field-row">
               <div className="field"><label>Nation / Origin</label><input name="nation" value={fields.nation} onChange={handleText} /></div>
@@ -199,14 +199,14 @@ export default function SeventhSeaVillainForm() {
                   <label>Virtue (Arcana)</label>
                   <select name="heroVirtue" value={fields.heroVirtue} onChange={handleText}>
                     <option value="">None</option>
-                    {VIRTUES.map(v => <option key={v} value={v}>{v}</option>)}
+                    {VIRTUES.map(v => <option key={v} value={v}>{t(v)}</option>)}
                   </select>
                 </div>
                 <div className="field">
                   <label>Hubris (Arcana)</label>
                   <select name="heroHubris" value={fields.heroHubris} onChange={handleText}>
                     <option value="">None</option>
-                    {HUBRISES.map(h => <option key={h} value={h}>{h}</option>)}
+                    {HUBRISES.map(h => <option key={h} value={h}>{t(h)}</option>)}
                   </select>
                 </div>
               </div>
@@ -225,7 +225,7 @@ export default function SeventhSeaVillainForm() {
                 <div className="field">
                   <label>Villain Rank</label>
                   <select name="willpower" value={fields.willpower} onChange={e => handleField('willpower', parseInt(e.target.value))}>
-                    {[1,2,3,4,5,6,7,8,9,10,12,15,20].map(r => <option key={r} value={r}>Rank {r}</option>)}
+                    {[1,2,3,4,5,6,7,8,9,10,12,15,20].map(r => <option key={r} value={r}>{t('rank')} {r}</option>)}
                   </select>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 'var(--space-md)', marginTop: 'var(--space-sm)' }}>

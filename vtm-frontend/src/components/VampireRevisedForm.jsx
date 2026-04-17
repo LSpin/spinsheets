@@ -492,7 +492,7 @@ export default function VampireRevisedForm() {
                   if (val === 'Nosferatu' || val === 'Samedi') handleField('appearance', 0)
                 }}>
                   <option value="">{t('select')}</option>
-                  {CLANS.map(c => <option key={c.value} value={c.value}>{c.value}</option>)}
+                  {CLANS.map(c => <option key={c.value} value={c.value}>{t(c.value)}</option>)}
                 </select>
               </div>
               <div className="field">

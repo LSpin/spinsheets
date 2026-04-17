@@ -476,21 +476,21 @@ export default function WerewolfForm() {
                 <label htmlFor="breed">{t('breed')}</label>
                 <select id="breed" name="breed" value={fields.breed} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {BREEDS.map(b => <option key={b} value={b}>{b}</option>)}
+                  {BREEDS.map(b => <option key={b} value={b}>{t(b)}</option>)}
                 </select>
               </div>
               <div className="field">
                 <label htmlFor="auspice">{t('auspice')}</label>
                 <select id="auspice" name="auspice" value={fields.auspice} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {AUSPICES.map(a => <option key={a.value} value={a.value}>{a.value}</option>)}
+                  {AUSPICES.map(a => <option key={a.value} value={a.value} title={a.description}>{t(a.value)}</option>)}
                 </select>
               </div>
               <div className="field">
                 <label htmlFor="tribe">{t('tribe')}</label>
                 <select id="tribe" name="tribe" value={fields.tribe} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {TRIBES.map(tr => <option key={tr} value={tr}>{tr}</option>)}
+                  {TRIBES.map(tr => <option key={tr} value={tr}>{t(tr)}</option>)}
                 </select>
               </div>
             </div>
@@ -509,7 +509,7 @@ export default function WerewolfForm() {
               <div className="field">
                 <label htmlFor="rank">{t('rank')}</label>
                 <select id="rank" name="rank" value={fields.rank} onChange={handleText}>
-                  {RANKS.map(r => <option key={r} value={r}>{r}</option>)}
+                  {RANKS.map(r => <option key={r} value={r}>{t(r)}</option>)}
                 </select>
               </div>
               <div className="field">

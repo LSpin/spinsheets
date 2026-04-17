@@ -455,7 +455,7 @@ export default function ChangingBreedsForm() {
                 <label htmlFor="breed">{t('species')}</label>
                 <select id="breed" name="breed" value={fields.breed} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {FERA_SPECIES.map(s => <option key={s.value} value={s.value}>{s.value}</option>)}
+                  {FERA_SPECIES.map(s => <option key={s.value} value={s.value}>{t(s.value)}</option>)}
                 </select>
                 {selectedSpecies && (
                   <p className="archetype-desc" style={{ margin: '0.25rem 0 0 0', fontSize: '0.78rem' }}>{selectedSpecies.description}</p>
@@ -466,7 +466,7 @@ export default function ChangingBreedsForm() {
                   <label htmlFor="tribe">{t('tribe')}</label>
                   <select id="tribe" name="tribe" value={fields.tribe} onChange={handleText}>
                     <option value="">{t('select')}</option>
-                    {selectedSpecies.tribes.map(tr => <option key={tr} value={tr}>{tr}</option>)}
+                    {selectedSpecies.tribes.map(tr => <option key={tr} value={tr}>{t(tr)}</option>)}
                   </select>
                 </div>
               )}
@@ -475,7 +475,7 @@ export default function ChangingBreedsForm() {
                   <label htmlFor="auspice">{t('aspect')}</label>
                   <select id="auspice" name="auspice" value={fields.auspice} onChange={handleText}>
                     <option value="">{t('select')}</option>
-                    {selectedSpecies.aspects.map(a => <option key={a} value={a}>{a}</option>)}
+                    {selectedSpecies.aspects.map(a => <option key={a} value={a}>{t(a)}</option>)}
                   </select>
                 </div>
               )}
@@ -495,7 +495,7 @@ export default function ChangingBreedsForm() {
               <div className="field">
                 <label htmlFor="rank">{t('rank')}</label>
                 <select id="rank" name="rank" value={fields.rank} onChange={handleText}>
-                  {RANKS.map(r => <option key={r} value={r}>{r}</option>)}
+                  {RANKS.map(r => <option key={r} value={r}>{t(r)}</option>)}
                 </select>
               </div>
               <div className="field">

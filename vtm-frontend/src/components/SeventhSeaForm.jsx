@@ -391,7 +391,7 @@ export default function SeventhSeaForm() {
                 <label>{t('7sNation')}</label>
                 <select name="nation" value={fields.nation} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {NATION_NAMES.map(n => <option key={n} value={n}>{n}</option>)}
+                  {NATION_NAMES.map(n => <option key={n} value={n}>{t(n)}</option>)}
                 </select>
               </div>
               <div className="field"><label>{t('7sReligion')}</label><input name="religion" value={fields.religion} onChange={handleText} /></div>
@@ -593,7 +593,7 @@ export default function SeventhSeaForm() {
                 <label>Active Style</label>
                 <select value={activeDuelStyle} onChange={e => setActiveDuelStyle(e.target.value)}>
                   <option value="">None (not a Duelist)</option>
-                  {DUELING_STYLES.map(s => <option key={s.name} value={s.name}>{s.name} ({s.nation})</option>)}
+                  {DUELING_STYLES.map(s => <option key={s.name} value={s.name}>{t(s.name)} ({t(s.nation)})</option>)}
                 </select>
               </div>
             </div>
@@ -642,14 +642,14 @@ export default function SeventhSeaForm() {
                 <label>{t('7sVirtue')}</label>
                 <select name="heroVirtue" value={fields.heroVirtue} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {VIRTUES.map(v => <option key={v} value={v}>{v}</option>)}
+                  {VIRTUES.map(v => <option key={v} value={v}>{t(v)}</option>)}
                 </select>
               </div>
               <div className="field">
                 <label>{t('7sHubris')}</label>
                 <select name="heroHubris" value={fields.heroHubris} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {HUBRISES.map(h => <option key={h} value={h}>{h}</option>)}
+                  {HUBRISES.map(h => <option key={h} value={h}>{t(h)}</option>)}
                 </select>
               </div>
             </div>

@@ -588,7 +588,7 @@ export default function L5RForm() {
                 <label>Clan</label>
                 <select name="l5rClan" value={fields.l5rClan} onChange={e => { handleText(e); setFields(prev => ({ ...prev, l5rClan: e.target.value, l5rFamily: '' })) }}>
                   <option value="">{t('select')}</option>
-                  {CLAN_NAMES.map(c => <option key={c} value={c}>{c}</option>)}
+                  {CLAN_NAMES.map(c => <option key={c} value={c}>{t(c)}</option>)}
                 </select>
               </div>
               <div className="field">
@@ -596,7 +596,7 @@ export default function L5RForm() {
                 {selectedFamilies.length > 0 ? (
                   <select name="l5rFamily" value={fields.l5rFamily} onChange={handleText}>
                     <option value="">{t('select')}</option>
-                    {selectedFamilies.map(f => <option key={f} value={f}>{f}</option>)}
+                    {selectedFamilies.map(f => <option key={f} value={f}>{t(f)}</option>)}
                   </select>
                 ) : (
                   <input name="l5rFamily" value={fields.l5rFamily} onChange={handleText} placeholder="Enter family name..." />
@@ -609,7 +609,7 @@ export default function L5RForm() {
                 {fields.l5rClan && CLANS[fields.l5rClan]?.schools?.length > 0 ? (
                   <select name="l5rSchool" value={fields.l5rSchool} onChange={handleText}>
                     <option value="">{t('select')}</option>
-                    {CLANS[fields.l5rClan].schools.map(s => <option key={s} value={s}>{s}</option>)}
+                    {CLANS[fields.l5rClan].schools.map(s => <option key={s} value={s}>{t(s)}</option>)}
                   </select>
                 ) : (
                   <input name="l5rSchool" value={fields.l5rSchool} onChange={handleText} placeholder="Enter school name..." />
@@ -815,7 +815,7 @@ export default function L5RForm() {
             <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Skill Reference & Mastery Abilities</summary>
             {Object.entries(SKILL_CATEGORIES).map(([category, skills]) => (
               <details key={category} style={{ marginBottom: 'var(--space-sm)', marginLeft: 'var(--space-md)' }}>
-                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{category}</summary>
+                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{t(category)}</summary>
                 <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
                   <thead><tr><th>Skill</th><th>Emphases</th><th>R3</th><th>R5</th><th>R7</th></tr></thead>
                   <tbody>
@@ -1089,14 +1089,14 @@ export default function L5RForm() {
                 <label>Affinity Element</label>
                 <select value={spellAffinity} onChange={e => setSpellAffinity(e.target.value)}>
                   <option value="">None</option>
-                  {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(el => <option key={el} value={el}>{el}</option>)}
+                  {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(el => <option key={el} value={el}>{t(el)}</option>)}
                 </select>
               </div>
               <div className="field">
                 <label>Deficiency Element</label>
                 <select value={spellDeficiency} onChange={e => setSpellDeficiency(e.target.value)}>
                   <option value="">None</option>
-                  {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(el => <option key={el} value={el}>{el}</option>)}
+                  {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(el => <option key={el} value={el}>{t(el)}</option>)}
                 </select>
               </div>
             </div>
@@ -1644,7 +1644,7 @@ Traveling pack, spare kimono, 10 koku`} />
               <div className="field">
                 <label>Current Stance</label>
                 <select value={combatStance} onChange={e => setCombatStance(e.target.value)}>
-                  {STANCES.map(s => <option key={s.name} value={s.name}>{s.name}</option>)}
+                  {STANCES.map(s => <option key={s.name} value={s.name}>{t(s.name)}</option>)}
                 </select>
               </div>
               <div className="field">

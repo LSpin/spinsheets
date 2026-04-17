@@ -434,14 +434,14 @@ export default function KoteForm() {
                 <label htmlFor="balance">{t('balance')}</label>
                 <select id="balance" name="balance" value={fields.balance} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {BALANCES.map(b => <option key={b} value={b}>{b}</option>)}
+                  {BALANCES.map(b => <option key={b} value={b}>{t(b)}</option>)}
                 </select>
               </div>
               <div className="field">
                 <label htmlFor="direction">{t('direction')}</label>
                 <select id="direction" name="direction" value={fields.direction} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {DIRECTIONS.map(d => <option key={d} value={d}>{d}</option>)}
+                  {DIRECTIONS.map(d => <option key={d} value={d}>{t(d)}</option>)}
                 </select>
               </div>
               <div className="field">
@@ -634,7 +634,7 @@ export default function KoteForm() {
                 <label htmlFor="dharmaName">{t('dharma')}</label>
                 <select id="dharmaName" name="dharmaName" value={fields.dharmaName} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {DHARMAS.map(d => <option key={d} value={d}>{d}</option>)}
+                  {DHARMAS.map(d => <option key={d} value={d}>{t(d)}</option>)}
                 </select>
               </div>
               <div className="field">

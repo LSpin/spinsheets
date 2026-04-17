@@ -185,14 +185,14 @@ export default function GhoulForm() {
                 <label>{t('nature')}</label>
                 <select name="nature" value={fields.nature} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {ARCHETYPES.map(a => <option key={a} value={a}>{a}</option>)}
+                  {ARCHETYPES.map(a => <option key={a} value={a}>{t(a)}</option>)}
                 </select>
               </div>
               <div className="field">
                 <label>{t('demeanor')}</label>
                 <select name="demeanor" value={fields.demeanor} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {ARCHETYPES.map(a => <option key={a} value={a}>{a}</option>)}
+                  {ARCHETYPES.map(a => <option key={a} value={a}>{t(a)}</option>)}
                 </select>
               </div>
             </div>
@@ -200,7 +200,7 @@ export default function GhoulForm() {
               <div className="field"><label>{t('ghoulDomitorClan')}</label>
                 <select name="clan" value={fields.clan} onChange={handleText}>
                   <option value="">{t('select')}</option>
-                  {CLANS.map(c => <option key={c} value={c}>{c}</option>)}
+                  {CLANS.map(c => <option key={c} value={c}>{t(c)}</option>)}
                 </select>
               </div>
               <div className="field"><label>{t('sire')}</label><input name="sire" value={fields.sire} onChange={handleText} placeholder={t('ghoulDomitorName')} /></div>
