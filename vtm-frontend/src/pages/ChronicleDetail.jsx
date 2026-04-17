@@ -323,28 +323,34 @@ export default function ChronicleDetail() {
         <div hidden={tab !== 2}>
           <div className="form-section">
             <fieldset>
-              <legend>{t('inviteCode')}</legend>
+              <legend>{t('inviteLink')}</legend>
               <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>
-                {t('inviteCodeHint')}
+                {t('inviteLinkHint')}
               </p>
               {chronicle.inviteCode ? (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-                  <code style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '0.15em', padding: '0.4rem 0.8rem', background: 'var(--color-bg-secondary)', borderRadius: 4 }}>
-                    {chronicle.inviteCode}
-                  </code>
-                  <button className="btn btn-secondary btn-sm" onClick={() => { navigator.clipboard.writeText(chronicle.inviteCode); }}>
-                    {t('copyCode')}
-                  </button>
-                  <button className="btn btn-secondary btn-sm" onClick={handleGenerateInviteCode}>
-                    {t('regenerateCode')}
-                  </button>
-                  <button className="btn btn-danger btn-sm" onClick={handleDisableInviteCode}>
-                    {t('disableCode')}
-                  </button>
-                </div>
+                <>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+                    <input type="text" readOnly
+                      value={`${window.location.origin}/invite/${chronicle.inviteCode}`}
+                      style={{ flex: 1, minWidth: 220, fontSize: '0.9rem', fontFamily: 'monospace' }}
+                      onClick={e => e.target.select()}
+                    />
+                    <button className="btn btn-secondary btn-sm" onClick={() => navigator.clipboard.writeText(`${window.location.origin}/invite/${chronicle.inviteCode}`)}>
+                      {t('copyLink')}
+                    </button>
+                  </div>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <button className="btn btn-secondary btn-sm" onClick={handleGenerateInviteCode}>
+                      {t('regenerateLink')}
+                    </button>
+                    <button className="btn btn-danger btn-sm" onClick={handleDisableInviteCode}>
+                      {t('disableLink')}
+                    </button>
+                  </div>
+                </>
               ) : (
                 <button className="btn btn-primary btn-sm" onClick={handleGenerateInviteCode}>
-                  {t('generateInviteCode')}
+                  {t('generateInviteLink')}
                 </button>
               )}
             </fieldset>

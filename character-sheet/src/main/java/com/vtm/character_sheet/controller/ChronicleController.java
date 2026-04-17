@@ -129,6 +129,17 @@ public class ChronicleController {
 
     // ── Invite Code ──
 
+    @GetMapping("/invite/{code}")
+    public ResponseEntity<?> getInviteInfo(@PathVariable String code) {
+        return chronicleRepository.findByInviteCode(code.trim().toUpperCase())
+                .<ResponseEntity<?>>map(chronicle -> ResponseEntity.ok(Map.of(
+                        "chronicleId", chronicle.getId(),
+                        "chronicleName", chronicle.getName(),
+                        "storyteller", chronicle.getStoryteller().getUsername()
+                )))
+                .orElse(ResponseEntity.badRequest().body(Map.of("error", "Invalid invite link")));
+    }
+
     @PostMapping("/{id}/invite-code")
     public ResponseEntity<?> generateInviteCode(@PathVariable Long id) {
         AppUser user = access.getCurrentUser();

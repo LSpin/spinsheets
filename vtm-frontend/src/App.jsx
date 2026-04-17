@@ -26,6 +26,7 @@ import ChronicleDetail from './pages/ChronicleDetail'
 import ChronicleForm from './pages/ChronicleForm'
 import HomePage from './pages/HomePage'
 import AdminPage from './pages/AdminPage'
+import InvitePage from './pages/InvitePage'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -209,6 +210,9 @@ function AppShell() {
               <ProtectedRoute><PlayersPage /></ProtectedRoute>
             } />
           )}
+          <Route path="/invite/:code" element={
+            <ProtectedRoute><InvitePage /></ProtectedRoute>
+          } />
           <Route path="/admin" element={
             <ProtectedRoute><AdminPage /></ProtectedRoute>
           } />

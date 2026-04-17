@@ -2,17 +2,12 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
-import { getChronicles, deleteChronicle, joinByInviteCode } from '../api/chronicleApi'
-import { getCharacters } from '../api/characterApi'
+import { getChronicles, deleteChronicle } from '../api/chronicleApi'
 
 export default function ChronicleList() {
   const [chronicles, setChronicles] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [inviteCode, setInviteCode] = useState('')
-  const [myCharacters, setMyCharacters] = useState([])
-  const [selectedCharId, setSelectedCharId] = useState('')
-  const [showJoin, setShowJoin] = useState(false)
   const navigate = useNavigate()
   const { user } = useAuth()
   const { t } = useLanguage()
@@ -32,29 +27,6 @@ export default function ChronicleList() {
     }
   }
 
-  async function handleOpenJoin() {
-    setShowJoin(true)
-    try {
-      const res = await getCharacters()
-      const mine = res.data.filter(c => c.ownerId === user.userId && !c.chronicle)
-      setMyCharacters(mine)
-      if (mine.length > 0) setSelectedCharId(mine[0].id)
-    } catch { /* ignore */ }
-  }
-
-  async function handleJoinByCode(e) {
-    e.preventDefault()
-    if (!inviteCode.trim() || !selectedCharId) return
-    try {
-      const res = await joinByInviteCode(inviteCode.trim(), selectedCharId)
-      setInviteCode('')
-      setShowJoin(false)
-      navigate(`/chronicles/${res.data.chronicleId}`)
-    } catch (err) {
-      setError(err.response?.data?.error || t('invalidInviteCode'))
-    }
-  }
-
   async function handleDelete(id, name) {
     if (!confirm(t('confirmDeleteChronicle').replace('{0}', name))) return
     try {
@@ -69,46 +41,14 @@ export default function ChronicleList() {
     <section aria-labelledby="chronicles-heading">
       <div className="character-list-header">
         <h2 id="chronicles-heading">{t('chroniclesTitle')}</h2>
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button className="btn btn-secondary" onClick={handleOpenJoin}>
-            {t('joinWithCode')}
+        {isST && (
+          <button className="btn btn-primary" onClick={() => navigate('/chronicles/new')}>
+            {t('newChronicle')}
           </button>
-          {isST && (
-            <button className="btn btn-primary" onClick={() => navigate('/chronicles/new')}>
-              {t('newChronicle')}
-            </button>
-          )}
-        </div>
+        )}
       </div>
 
       {error && <p className="status-error" role="alert">{error}</p>}
-
-      {showJoin && (
-        <div className="form-section" style={{ marginBottom: '1rem' }}>
-          <form onSubmit={handleJoinByCode} style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-end', flexWrap: 'wrap' }}>
-            <div className="field">
-              <label>{t('inviteCodeLabel')}</label>
-              <input type="text" value={inviteCode} onChange={e => setInviteCode(e.target.value)}
-                placeholder={t('phInviteCode')} style={{ textTransform: 'uppercase', letterSpacing: '0.1em' }} />
-            </div>
-            <div className="field">
-              <label>{t('selectCharacter')}</label>
-              <select value={selectedCharId} onChange={e => setSelectedCharId(Number(e.target.value))}>
-                {myCharacters.length === 0 && <option value="">{t('noAvailableCharacters')}</option>}
-                {myCharacters.map(c => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
-                ))}
-              </select>
-            </div>
-            <button type="submit" className="btn btn-primary btn-sm" disabled={!inviteCode.trim() || !selectedCharId}>
-              {t('joinBtn')}
-            </button>
-            <button type="button" className="btn btn-secondary btn-sm" onClick={() => setShowJoin(false)}>
-              {t('cancel')}
-            </button>
-          </form>
-        </div>
-      )}
       {loading && <p className="status-loading" aria-live="polite">{t('loading')}</p>}
 
       {!loading && chronicles.length === 0 && (

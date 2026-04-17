@@ -19,6 +19,8 @@ export const joinChronicle = (characterId, chronicleId) =>
 export const leaveChronicle = (characterId) =>
   api.delete(`/characters/${characterId}/chronicle`)
 
+export const getInviteInfo = (code) =>
+  api.get(`/chronicles/invite/${code}`)
 export const generateInviteCode = (chronicleId) =>
   api.post(`/chronicles/${chronicleId}/invite-code`)
 export const disableInviteCode = (chronicleId) =>
