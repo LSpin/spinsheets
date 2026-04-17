@@ -421,6 +421,12 @@ export default function L5RForm() {
     setNewSkillEmphases([])
   }
 
+  function handleRemoveSkill(index) {
+    const lines = (fields.l5rSkillsText || '').split('\n')
+    lines.splice(index, 1)
+    setFields(prev => ({ ...prev, l5rSkillsText: lines.join('\n') }))
+  }
+
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
   return (
@@ -588,7 +594,9 @@ export default function L5RForm() {
               </div>
               <div className="field" style={{ width: 80 }}>
                 <label>Rank</label>
-                <input type="number" min={1} max={10} value={newSkillRank} onChange={e => setNewSkillRank(parseInt(e.target.value) || 1)} />
+                <select value={newSkillRank} onChange={e => setNewSkillRank(parseInt(e.target.value))}>
+                  {[1,2,3,4,5,6,7,8,9,10].map(v => <option key={v} value={v}>{v}</option>)}
+                </select>
               </div>
               <button className="btn btn-secondary" onClick={handleAddSkill}>{t('add')}</button>
             </div>
@@ -618,7 +626,7 @@ export default function L5RForm() {
               <legend>Active Skills ({parsedSkills.length})</legend>
               <table className="inv-table">
                 <thead>
-                  <tr><th>Skill</th><th>Rank</th><th>Roll</th><th>Emphases</th><th>Mastery Unlocked</th></tr>
+                  <tr><th>Skill</th><th>Rank</th><th>Roll</th><th>Emphases</th><th>Mastery Unlocked</th><th></th></tr>
                 </thead>
                 <tbody>
                   {parsedSkills.map((s, i) => {
@@ -640,6 +648,7 @@ export default function L5RForm() {
                         <td style={{ fontWeight: 600, color: 'var(--color-accent-fg)' }}>{s.rank > 0 ? roll : '\u2014'}</td>
                         <td style={{ fontSize: '0.78rem' }}>{s.emphases || '\u2014'}</td>
                         <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{activeMasteries.length > 0 ? activeMasteries.join(' | ') : '\u2014'}</td>
+                        <td><button className="tag-remove" onClick={() => handleRemoveSkill(i)} aria-label={`Remove ${s.name}`}>{'\u00d7'}</button></td>
                       </tr>
                     )
                   })}
