@@ -15,7 +15,11 @@ export const L5R_SKILL_MASTERIES = {
   'Artisan': {
     trait: 'Awareness', type: 'High',
     emphases: ['Bonsai', 'Gardening', 'Ikebana', 'Origami', 'Painting', 'Poetry', 'Sculpture', 'Tattooing'],
-    masteries: {}
+    masteries: {
+      3: '+5 to TN of social opponents when displaying art.',
+      5: 'Create works that convey emotional states to the audience.',
+      7: 'Master artisan; creations are famous throughout Rokugan.',
+    }
   },
   'Calligraphy': {
     trait: 'Intelligence', type: 'High',
@@ -70,7 +74,11 @@ export const L5R_SKILL_MASTERIES = {
   'Lore': {
     trait: 'Intelligence', type: 'High',
     emphases: ['Bushido', 'Heraldry', 'History', 'Shadowlands', 'Spirit Realms', 'Theology', 'War'],
-    masteries: {}
+    masteries: {
+      3: '+1k0 to social rolls with those who share this Lore interest.',
+      5: 'Recall obscure details on a successful Lore topic without rolling.',
+      7: 'Considered a living authority; others defer to your expertise.',
+    }
   },
   'Medicine': {
     trait: 'Intelligence', type: 'High',
@@ -91,7 +99,11 @@ export const L5R_SKILL_MASTERIES = {
   'Perform': {
     trait: 'Varies', type: 'High',
     emphases: ['Biwa', 'Dance', 'Drums', 'Flute', 'Oratory', 'Singing', 'Storytelling'],
-    masteries: {}
+    masteries: {
+      3: '+1k0 to social rolls immediately after performing.',
+      5: 'Audiences are emotionally moved; can shift attitudes one step.',
+      7: 'Legendary performer; performances are remembered for generations.',
+    }
   },
   'Sincerity': {
     trait: 'Awareness', type: 'High',

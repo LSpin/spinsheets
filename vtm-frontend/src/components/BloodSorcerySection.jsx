@@ -101,12 +101,13 @@ export default function BloodSorcerySection({ characterId, elderMax = 5 }) {
   const [newPath, setNewPath] = useState({ name: '', level: 1 })
   const [newRitual, setNewRitual] = useState({ name: '', level: 1, notes: '' })
   const [sorcInfo, setSorcInfo] = useState(null)
+  const [actionError, setActionError] = useState(null)
 
   useEffect(() => {
     if (!characterId) return
     Promise.all([getSorceryPaths(characterId), getRituals(characterId)])
       .then(([pathRes, ritRes]) => { setSorceryPaths(pathRes.data); setRituals(ritRes.data) })
-      .catch(() => {})
+      .catch(() => { setActionError(t('failedToLoad')) })
   }, [characterId])
 
   async function handleAddPath() {
@@ -115,14 +116,14 @@ export default function BloodSorcerySection({ characterId, elderMax = 5 }) {
       const res = await addSorceryPath(characterId, newPath)
       setSorceryPaths(prev => [...prev, res.data])
       setNewPath({ name: '', level: 1 })
-    } catch {}
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleRemovePath(id) {
     try {
       await removeSorceryPath(characterId, id)
       setSorceryPaths(prev => prev.filter(p => p.id !== id))
-    } catch {}
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleAddRitual() {
@@ -131,19 +132,20 @@ export default function BloodSorcerySection({ characterId, elderMax = 5 }) {
       const res = await addRitual(characterId, newRitual)
       setRituals(prev => [...prev, res.data])
       setNewRitual({ name: '', level: 1, notes: '' })
-    } catch {}
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleRemoveRitual(id) {
     try {
       await removeRitual(characterId, id)
       setRituals(prev => prev.filter(r => r.id !== id))
-    } catch {}
+    } catch { setActionError(t('failedToSave')) }
   }
 
   return (
     <div className="disc-bg-layout">
       <div className="form-section">
+        {actionError && <p className="status-error" role="alert">{actionError}</p>}
         {/* ── Paths ── */}
         <fieldset>
           <legend>{t('sorceryPaths')}</legend>
@@ -153,6 +155,9 @@ export default function BloodSorcerySection({ characterId, elderMax = 5 }) {
                 key={p.id}
                 className={`tag${sorcInfo?.id === p.id ? ' tag--active' : ''}`}
                 onClick={() => setSorcInfo(i => i?.id === p.id ? null : { ...p, kind: 'path' })}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.currentTarget.click() } }}
                 title={getLevelHint(SORCERY_PATHS, p.name, p.level)}
               >
                 {p.name} {p.level}
@@ -199,6 +204,9 @@ export default function BloodSorcerySection({ characterId, elderMax = 5 }) {
                     key={r.id}
                     className={`tag${sorcInfo?.id === r.id ? ' tag--active' : ''}`}
                     onClick={() => setSorcInfo(i => i?.id === r.id ? null : { ...r, kind: 'ritual' })}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.currentTarget.click() } }}
                     title={RITUALS.find(c => c.value === r.name)?.description}
                   >
                     {r.name}

@@ -181,6 +181,7 @@ export default function InventorySection({ characterId, inventory, setInventory,
   const { t } = useLanguage()
   const activeCatalog = customCatalog || ITEM_CATALOG
   const [newItem, setNewItem] = useState(INITIAL_ITEM)
+  const [actionError, setActionError] = useState(null)
 
   async function handleAddItem() {
     if (!newItem.name.trim() || !characterId) return
@@ -188,18 +189,19 @@ export default function InventorySection({ characterId, inventory, setInventory,
       const res = await addInventoryItem(characterId, newItem)
       setInventory(prev => [...prev, res.data])
       setNewItem(INITIAL_ITEM)
-    } catch {}
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleRemoveItem(id) {
     try {
       await removeInventoryItem(characterId, id)
       setInventory(prev => prev.filter(i => i.id !== id))
-    } catch {}
+    } catch { setActionError(t('failedToSave')) }
   }
 
   return (
     <div className="form-section">
+      {actionError && <p className="status-error" role="alert">{actionError}</p>}
       <fieldset>
         <legend>{t('addItem')}</legend>
         <div className="field-row">

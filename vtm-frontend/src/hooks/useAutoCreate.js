@@ -34,6 +34,7 @@ export default function useAutoCreate(characterId, defaults) {
       }
     }
     autoCreate()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return { isAutoCreating: !characterId, autoCreateError: error }

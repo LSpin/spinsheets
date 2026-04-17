@@ -45,6 +45,7 @@ export default function MeritsFlawsSection({ characterId, merits, setMerits, fla
   const [meritSearch, setMeritSearch] = useState('')
   const [flawSearch, setFlawSearch] = useState('')
   const [mfInfo, setMfInfo] = useState(null)
+  const [actionError, setActionError] = useState(null)
 
   const filteredMerits = meritCatalog.filter(m => m.name.toLowerCase().includes(meritSearch.toLowerCase()))
   const filteredFlaws  = flawCatalog.filter(f => f.name.toLowerCase().includes(flawSearch.toLowerCase()))
@@ -53,32 +54,33 @@ export default function MeritsFlawsSection({ characterId, merits, setMerits, fla
     try {
       const res = await addMerit(characterId, { meritId: merit.id, pointsSpent: merit.cost })
       setMerits(prev => [...prev, res.data])
-    } catch {}
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleRemoveMerit(id) {
     try {
       await removeMerit(characterId, id)
       setMerits(prev => prev.filter(m => m.id !== id))
-    } catch {}
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleAddFlaw(flaw) {
     try {
       const res = await addFlaw(characterId, { flawId: flaw.id, pointsGained: flaw.bonus })
       setFlaws(prev => [...prev, res.data])
-    } catch {}
+    } catch { setActionError(t('failedToSave')) }
   }
 
   async function handleRemoveFlaw(id) {
     try {
       await removeFlaw(characterId, id)
       setFlaws(prev => prev.filter(f => f.id !== id))
-    } catch {}
+    } catch { setActionError(t('failedToSave')) }
   }
 
   return (
     <div className="form-section">
+      {actionError && <p className="status-error" role="alert">{actionError}</p>}
       <fieldset>
         <legend>{t('merits')}</legend>
         {merits.length > 0 && (
@@ -88,6 +90,9 @@ export default function MeritsFlawsSection({ characterId, merits, setMerits, fla
                 key={m.id}
                 className={`tag tag--clickable${m.id === mfInfo?.id ? ' tag--active' : ''}`}
                 onClick={() => setMfInfo(i => i?.id === m.id ? null : { ...m, kind: 'merit' })}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.currentTarget.click() } }}
               >
                 {m.merit?.name ?? t('merits')} ({m.pointsSpent}pt)
                 <button
@@ -131,6 +136,9 @@ export default function MeritsFlawsSection({ characterId, merits, setMerits, fla
                 key={f.id}
                 className={`tag tag--clickable${f.id === mfInfo?.id ? ' tag--active' : ''}`}
                 onClick={() => setMfInfo(i => i?.id === f.id ? null : { ...f, kind: 'flaw' })}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.currentTarget.click() } }}
               >
                 {f.flaw?.name ?? t('flaws')} ({f.pointsGained}pt)
                 <button

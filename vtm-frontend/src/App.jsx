@@ -37,6 +37,7 @@ import L5RForm from './components/L5RForm'
 import L5RPage from './pages/L5RPage'
 import AdminPage from './pages/AdminPage'
 import InvitePage from './pages/InvitePage'
+import ErrorBoundary from './components/ErrorBoundary'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -170,6 +171,7 @@ function AppShell() {
       </header>
 
       <main id="main-content" tabIndex={-1}>
+        <ErrorBoundary>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -281,6 +283,7 @@ function AppShell() {
           } />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        </ErrorBoundary>
       </main>
 
       <footer role="contentinfo">
