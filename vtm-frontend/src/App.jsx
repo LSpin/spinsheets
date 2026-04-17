@@ -32,6 +32,8 @@ import FamiliarForm from './components/FamiliarForm'
 import TotemForm from './components/TotemForm'
 import SeventhSeaForm from './components/SeventhSeaForm'
 import SeventhSeaPage from './pages/SeventhSeaPage'
+import L5RForm from './components/L5RForm'
+import L5RPage from './pages/L5RPage'
 import AdminPage from './pages/AdminPage'
 import InvitePage from './pages/InvitePage'
 
@@ -222,6 +224,12 @@ function AppShell() {
           } />
           <Route path="/7thsea/new" element={
             <ProtectedRoute><SeventhSeaForm /></ProtectedRoute>
+          } />
+          <Route path="/l5r" element={
+            <ProtectedRoute><L5RPage /></ProtectedRoute>
+          } />
+          <Route path="/l5r/new" element={
+            <ProtectedRoute><L5RForm /></ProtectedRoute>
           } />
           <Route path="/chronicles" element={
             <ProtectedRoute><ChronicleList /></ProtectedRoute>

@@ -172,6 +172,30 @@ const configs = {
       ['freebie7sTraitCost', 'freebie7sSkillCost', 'freebie7sAdvCost'],
     ],
   },
+
+  'l5r': {
+    startingFreebies: 40,
+    xpCosts: {
+      Trait:       { multiplier: 4 },
+      Skill:       { multiplier: 1 },
+      NewSkill:    { flat: 1 },
+      Emphasis:    { flat: 2 },
+      Void:        { multiplier: 6 },
+      Advantage:   {},
+      Earned:      {},
+      Other:       {},
+    },
+    freebieCosts: {
+      Trait: 12, Skill: 1, Void: 6, Advantage: 1, Other: 1,
+    },
+    xpRef: [
+      ['xpL5rTraitCost', 'xpL5rSkillCost', 'xpL5rNewSkillCost'],
+      ['xpL5rEmphasisCost', 'xpL5rVoidCost'],
+    ],
+    freebieRef: [
+      ['freebieL5rTraitCost', 'freebieL5rSkillCost', 'freebieL5rVoidCost'],
+    ],
+  },
 }
 
 export default function XpLogSection({ splat, xpLog, onAdd, onRemove, onError, t }) {

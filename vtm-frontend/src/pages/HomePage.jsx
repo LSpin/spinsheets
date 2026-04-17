@@ -34,6 +34,11 @@ export default function HomePage() {
             <p>{t('system7thSeaDesc')}</p>
             <span className="system-card-cta">{t('systemEnter')}</span>
           </Link>
+          <Link to={user ? '/l5r' : '/login'} className="system-card system-card--l5r" onClick={() => switchTheme('l5r')}>
+            <h4>{t('systemL5R')}</h4>
+            <p>{t('systemL5RDesc')}</p>
+            <span className="system-card-cta">{t('systemEnter')}</span>
+          </Link>
         </div>
       </section>
 
@@ -91,6 +96,12 @@ export default function HomePage() {
             <span className="splat-badge splat-badge--seventh-sea" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>7th Sea</span>
             <ul className="homepage-list">
               <li>7th Sea 2nd Edition</li>
+            </ul>
+          </div>
+          <div className="homepage-card">
+            <span className="splat-badge splat-badge--l5r" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>L5R</span>
+            <ul className="homepage-list">
+              <li>Legend of the Five Rings 4th Edition</li>
             </ul>
           </div>
         </div>

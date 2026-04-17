@@ -17,6 +17,7 @@ import GhoulForm from './GhoulForm'
 import FamiliarForm from './FamiliarForm'
 import TotemForm from './TotemForm'
 import SeventhSeaForm from './SeventhSeaForm'
+import L5RForm from './L5RForm'
 
 export default function CharacterRouter() {
   const { id } = useParams()
@@ -31,7 +32,7 @@ export default function CharacterRouter() {
         const res = await getCharacter(id)
         const s = res.data.splat || 'VAMPIRE'
         setSplat(s)
-        switchTheme(s === 'SEVENTH_SEA' ? '7thsea' : 'wod')
+        switchTheme(s === 'SEVENTH_SEA' ? '7thsea' : s === 'L5R' ? 'l5r' : 'wod')
       } catch {
         setSplat('VAMPIRE')
         switchTheme('wod')
@@ -57,5 +58,6 @@ export default function CharacterRouter() {
   if (splat === 'FAMILIAR') return <FamiliarForm />
   if (splat === 'TOTEM') return <TotemForm />
   if (splat === 'SEVENTH_SEA') return <SeventhSeaForm />
+  if (splat === 'L5R') return <L5RForm />
   return <CharacterForm />
 }

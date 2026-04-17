@@ -21,6 +21,7 @@ const SPLAT_LABEL_KEYS = {
   FAMILIAR: 'splatFamiliar',
   TOTEM: 'splatTotem',
   SEVENTH_SEA: 'splat7thSea',
+  L5R: 'splatL5R',
 }
 
 function splatBadgeClass(splat) {
@@ -171,7 +172,7 @@ export default function CharacterList() {
         getCharacters(),
         isST ? getChronicles() : Promise.resolve({ data: [] }),
       ])
-      setCharacters(charsRes.data.filter(c => c.splat !== 'SEVENTH_SEA'))
+      setCharacters(charsRes.data.filter(c => c.splat !== 'SEVENTH_SEA' && c.splat !== 'L5R'))
       setChronicles(chronRes.data)
     } catch {
       setError(t('failedLoadChars'))

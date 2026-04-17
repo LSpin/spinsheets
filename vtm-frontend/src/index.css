@@ -51,6 +51,15 @@
   --color-accent-hover:   #2180c0;
 }
 
+/* ── L5R theme — accent-only override ── */
+
+[data-theme="l5r"] {
+  --color-border-focus:   #c29138;
+  --color-accent:         #8b6914;
+  --color-accent-fg:      #c29138;
+  --color-accent-hover:   #d4a84a;
+}
+
 @media (forced-colors: active) {
   :root {
     --color-accent:       Highlight;
@@ -1125,6 +1134,11 @@ legend {
   color: #3498db;
 }
 
+.splat-badge--l5r {
+  background: rgba(194, 145, 56, 0.15);
+  color: #c29138;
+}
+
 .splat-badge--vampire-revised {
   color: #cc4444;
   border-color: rgba(204, 68, 68, 0.3);
@@ -1245,6 +1259,22 @@ legend {
 
 .system-card--7thsea .system-card-cta {
   color: #3498db;
+}
+
+.system-card--l5r {
+  border-color: rgba(194, 145, 56, 0.3);
+}
+
+.system-card--l5r:hover {
+  border-color: #c29138;
+}
+
+.system-card--l5r h4 {
+  color: #c29138;
+}
+
+.system-card--l5r .system-card-cta {
+  color: #c29138;
 }
 
 .homepage-systems {
@@ -1929,4 +1959,12 @@ a:hover {
 
 [data-theme="7thsea"] .tag--active {
   background: #1a1a2e;
+}
+
+[data-theme="l5r"] .tab-btn--active {
+  background: rgba(194, 145, 56, 0.1) !important;
+}
+
+[data-theme="l5r"] .tag--active {
+  background: #1a1a10;
 }

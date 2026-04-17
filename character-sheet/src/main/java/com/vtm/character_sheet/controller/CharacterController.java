@@ -300,6 +300,32 @@ public class CharacterController {
             existing.setCorruption(updated.getCorruption());
             existing.setDramaticWounds(updated.getDramaticWounds());
             existing.setHeroStories(updated.getHeroStories());
+            // L5R fields
+            existing.setL5rReflexes(updated.getL5rReflexes());
+            existing.setL5rAwareness(updated.getL5rAwareness());
+            existing.setL5rStamina7(updated.getL5rStamina7());
+            existing.setL5rWillpower7(updated.getL5rWillpower7());
+            existing.setL5rAgility(updated.getL5rAgility());
+            existing.setL5rIntelligence7(updated.getL5rIntelligence7());
+            existing.setL5rStrength7(updated.getL5rStrength7());
+            existing.setL5rPerception7(updated.getL5rPerception7());
+            existing.setL5rVoid(updated.getL5rVoid());
+            existing.setL5rCurrentVoid(updated.getL5rCurrentVoid());
+            existing.setL5rHonor(updated.getL5rHonor());
+            existing.setL5rGlory(updated.getL5rGlory());
+            existing.setL5rStatus(updated.getL5rStatus());
+            existing.setL5rInsight(updated.getL5rInsight());
+            existing.setL5rSchoolRank(updated.getL5rSchoolRank());
+            existing.setL5rWounds(updated.getL5rWounds());
+            existing.setL5rClan(updated.getL5rClan());
+            existing.setL5rFamily(updated.getL5rFamily());
+            existing.setL5rSchool(updated.getL5rSchool());
+            existing.setL5rTechniques(updated.getL5rTechniques());
+            existing.setL5rInitiative(updated.getL5rInitiative());
+            existing.setL5rArmorTN(updated.getL5rArmorTN());
+            existing.setL5rSkillsText(updated.getL5rSkillsText());
+            existing.setL5rSpells(updated.getL5rSpells());
+            existing.setL5rKata(updated.getL5rKata());
             // Derangements & Notes
             existing.setDerangement1(updated.getDerangement1());
             existing.setDerangement2(updated.getDerangement2());
@@ -333,7 +359,8 @@ public class CharacterController {
         Map.entry("CHANGING_BREEDS", "WEREWOLF"), Map.entry("TOTEM", "WEREWOLF"),
         Map.entry("MAGE", "MAGE"), Map.entry("VICTORIAN_MAGE", "MAGE"),
         Map.entry("FAMILIAR", "MAGE"),
-        Map.entry("SEVENTH_SEA", "SEVENTH_SEA")
+        Map.entry("SEVENTH_SEA", "SEVENTH_SEA"),
+        Map.entry("L5R", "L5R")
     );
 
     private boolean isSplatAllowed(Chronicle chronicle, String splat) {

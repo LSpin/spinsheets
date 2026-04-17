@@ -418,6 +418,48 @@ public class Character {
     @Column(columnDefinition = "TEXT")
     private String heroStories;
 
+    // ── Legend of the Five Rings 4th Edition fields ──
+
+    // Traits (each starts at 2, max 10)
+    private Integer l5rReflexes = 2;
+    private Integer l5rAwareness = 2;
+    private Integer l5rStamina7 = 2;
+    private Integer l5rWillpower7 = 2;
+    private Integer l5rAgility = 2;
+    private Integer l5rIntelligence7 = 2;
+    private Integer l5rStrength7 = 2;
+    private Integer l5rPerception7 = 2;
+    private Integer l5rVoid = 2;
+    private Integer l5rCurrentVoid = 2;
+
+    // Derived
+    private Integer l5rHonor = 0;
+    private Integer l5rGlory = 10;
+    private Integer l5rStatus = 10;
+    private Integer l5rInsight = 0;
+    private Integer l5rSchoolRank = 1;
+    private Integer l5rWounds = 0;
+
+    // Identity
+    private String l5rClan;
+    private String l5rFamily;
+    private String l5rSchool;
+    @Column(columnDefinition = "TEXT")
+    private String l5rTechniques;
+
+    // Combat
+    private Integer l5rInitiative = 0;
+    private Integer l5rArmorTN = 0;
+
+    @Column(columnDefinition = "TEXT")
+    private String l5rSkillsText;
+
+    @Column(columnDefinition = "TEXT")
+    private String l5rSpells;
+
+    @Column(columnDefinition = "TEXT")
+    private String l5rKata;
+
     // ── Shared fields ──
 
     // Derangements & Notes
