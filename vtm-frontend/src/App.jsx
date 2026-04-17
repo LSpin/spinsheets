@@ -35,10 +35,11 @@ function ProtectedRoute({ children }) {
 }
 
 function UserMenu() {
-  const { user, logout } = useAuth()
+  const { user, logout, deleteAccount } = useAuth()
   const navigate = useNavigate()
   const { t } = useLanguage()
   const [open, setOpen] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const ref = useRef(null)
 
   useEffect(() => {
@@ -51,6 +52,15 @@ function UserMenu() {
 
   if (!user) return null
 
+  async function handleDeleteAccount() {
+    try {
+      await deleteAccount()
+      navigate('/login')
+    } catch {
+      alert(t('deleteAccountFailed'))
+    }
+  }
+
   return (
     <div className="user-menu" ref={ref}>
       <button className="user-menu-trigger" onClick={() => setOpen(o => !o)}>
@@ -62,6 +72,28 @@ function UserMenu() {
           <button onClick={() => { setOpen(false); logout(); navigate('/login') }}>
             {t('navSignOut')}
           </button>
+          <button
+            style={{ color: '#e55' }}
+            onClick={() => { setConfirmDelete(true); setOpen(false) }}
+          >
+            {t('deleteAccount')}
+          </button>
+        </div>
+      )}
+      {confirmDelete && (
+        <div className="modal-overlay" onClick={() => setConfirmDelete(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 400 }}>
+            <h3>{t('deleteAccountTitle')}</h3>
+            <p style={{ margin: '1rem 0', lineHeight: 1.5 }}>{t('deleteAccountWarning')}</p>
+            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+              <button className="btn btn-secondary" onClick={() => setConfirmDelete(false)}>
+                {t('cancel')}
+              </button>
+              <button className="btn btn-danger" onClick={handleDeleteAccount}>
+                {t('deleteAccountConfirm')}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

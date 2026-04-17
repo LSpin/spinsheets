@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { loginApi, registerApi } from '../api/authApi'
+import { loginApi, registerApi, deleteAccountApi } from '../api/authApi'
 
 const AuthContext = createContext(null)
 
@@ -38,8 +38,13 @@ export function AuthProvider({ children }) {
     setUser(null)
   }
 
+  async function deleteAccount() {
+    await deleteAccountApi()
+    logout()
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, deleteAccount }}>
       {children}
     </AuthContext.Provider>
   )

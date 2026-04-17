@@ -72,6 +72,17 @@ public class AuthController {
         return ResponseEntity.ok(users);
     }
 
+    @DeleteMapping("/delete-account")
+    public ResponseEntity<?> deleteAccount() {
+        try {
+            String username = access.getCurrentUser().getUsername();
+            authService.deleteAccount(username);
+            return ResponseEntity.ok(Map.of("message", "Account deleted"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
     @PostMapping("/reset-request")
     public ResponseEntity<?> requestReset(@RequestBody Map<String, String> body) {
         String username = body.get("username");

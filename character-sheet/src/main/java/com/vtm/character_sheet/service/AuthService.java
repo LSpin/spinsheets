@@ -4,6 +4,8 @@ import com.vtm.character_sheet.entity.AppUser;
 import com.vtm.character_sheet.entity.PasswordResetToken;
 import com.vtm.character_sheet.entity.Role;
 import com.vtm.character_sheet.repository.AppUserRepository;
+import com.vtm.character_sheet.repository.CharacterRepository;
+import com.vtm.character_sheet.repository.ChronicleRepository;
 import com.vtm.character_sheet.repository.PasswordResetTokenRepository;
 import com.vtm.character_sheet.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -21,6 +24,8 @@ import java.util.UUID;
 public class AuthService {
 
     private final AppUserRepository userRepository;
+    private final CharacterRepository characterRepository;
+    private final ChronicleRepository chronicleRepository;
     private final PasswordResetTokenRepository resetTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
@@ -84,6 +89,27 @@ public class AuthService {
 
         resetToken.setUsed(true);
         resetTokenRepository.save(resetToken);
+    }
+
+    @Transactional
+    public void deleteAccount(String username) {
+        AppUser user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // Delete all characters owned by this user
+        characterRepository.findByOwner_Id(user.getId())
+                .forEach(c -> characterRepository.delete(c));
+
+        // Delete chronicles where user is storyteller
+        chronicleRepository.findByStoryteller_Id(user.getId())
+                .forEach(c -> chronicleRepository.delete(c));
+
+        // Remove password reset tokens
+        resetTokenRepository.findAll().stream()
+                .filter(t -> t.getUser().getId().equals(user.getId()))
+                .forEach(resetTokenRepository::delete);
+
+        userRepository.delete(user);
     }
 
     private Map<String, Object> authResponse(String token, AppUser user) {
