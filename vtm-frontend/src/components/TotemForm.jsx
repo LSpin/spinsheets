@@ -6,6 +6,7 @@ import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
 import { SPIRIT_CHARMS } from '../data/spiritCharms'
+import TagInfoPanel from './TagInfoPanel'
 
 const TOTEM_TYPES = ['Respect', 'War', 'Wisdom', 'Cunning']
 
@@ -40,6 +41,7 @@ export default function TotemForm() {
   const [fields, setFields] = useState(INITIAL)
   const [charms, setCharms] = useState([])
   const [newCharm, setNewCharm] = useState({ name: '', level: 1, notes: '' })
+  const [tagInfo, setTagInfo] = useState(null)
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
@@ -177,9 +179,10 @@ export default function TotemForm() {
             {charms.length > 0 && (
               <ul className="tag-list">
                 {charms.map(c => (
-                  <li key={c.id} className="tag tag--clickable" title={(() => { const cat = SPIRIT_CHARMS.find(sc => sc.name.toLowerCase() === c.name.toLowerCase()); return cat?.description || '' })()}>
+                  <li key={c.id} className={`tag tag--clickable${c.id === tagInfo?.id ? ' tag--active' : ''}`}
+                    onClick={() => setTagInfo(ti => ti?.id === c.id ? null : { ...c, kind: 'charm' })}>
                     <span>{c.name}</span>
-                    <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, c.id); setCharms(prev => prev.filter(x => x.id !== c.id)) }}>x</button>
+                    <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, c.id); setCharms(prev => prev.filter(x => x.id !== c.id)); if (tagInfo?.id === c.id) setTagInfo(null) }}>x</button>
                   </li>
                 ))}
               </ul>
@@ -194,11 +197,11 @@ export default function TotemForm() {
               </div>
               <button className="btn btn-secondary" onClick={handleAddCharm}>{t('add')}</button>
             </div>
-            {(() => {
-              const selected = newCharm.name ? SPIRIT_CHARMS.find(sc => sc.name.toLowerCase() === newCharm.name.toLowerCase()) : null
-              return selected ? <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>{selected.description}</p> : null
-            })()}
           </fieldset>
+          {tagInfo?.kind === 'charm' && (() => {
+            const entry = SPIRIT_CHARMS.find(sc => sc.name.toLowerCase() === tagInfo.name.toLowerCase())
+            return <TagInfoPanel entry={entry || { name: tagInfo.name }} onClose={() => setTagInfo(null)} />
+          })()}
           <fieldset>
             <legend>{t('notes')}</legend>
             <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder={t('totemCharmsPh')} />
