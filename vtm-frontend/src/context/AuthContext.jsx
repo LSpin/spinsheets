@@ -6,6 +6,7 @@ const AuthContext = createContext(null)
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [playerMode, setPlayerMode] = useState(() => localStorage.getItem('vtm_playerMode') === 'true')
 
   useEffect(() => {
     const stored = localStorage.getItem('vtm_user')
@@ -43,8 +44,19 @@ export function AuthProvider({ children }) {
     logout()
   }
 
+  function togglePlayerMode() {
+    setPlayerMode(prev => {
+      const next = !prev
+      localStorage.setItem('vtm_playerMode', String(next))
+      return next
+    })
+  }
+
+  // STs in player mode act as players for UI purposes
+  const isST = user?.role === 'STORYTELLER' && !playerMode
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, deleteAccount }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, deleteAccount, playerMode, togglePlayerMode, isST }}>
       {children}
     </AuthContext.Provider>
   )

@@ -14,10 +14,9 @@ export default function L5RPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, isST } = useAuth()
   const { t } = useLanguage()
   const { switchTheme } = useTheme()
-  const isST = user?.role === 'STORYTELLER'
 
   useEffect(() => { switchTheme('l5r') }, [])
 

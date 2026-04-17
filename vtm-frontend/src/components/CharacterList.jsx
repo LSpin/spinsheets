@@ -31,8 +31,7 @@ function splatBadgeClass(splat) {
 const WEREWOLF_SPLATS = new Set(['WEREWOLF', 'WYLD_WEST_WEREWOLF', 'CHANGING_BREEDS', 'TOTEM'])
 const MAGE_SPLATS = new Set(['MAGE', 'VICTORIAN_MAGE', 'FAMILIAR'])
 
-function CharacterCard({ c, user, t, navigate, onDelete, chronicles, onAssignChronicle }) {
-  const isST = user?.role === 'STORYTELLER'
+function CharacterCard({ c, user, isST, t, navigate, onDelete, chronicles, onAssignChronicle }) {
   const isWerewolf = WEREWOLF_SPLATS.has(c.splat)
   const isMage = MAGE_SPLATS.has(c.splat)
   return (
@@ -132,7 +131,7 @@ function CharacterCard({ c, user, t, navigate, onDelete, chronicles, onAssignChr
   )
 }
 
-function CharacterGrid({ chars, user, t, navigate, onDelete, emptyMsg, chronicles, onAssignChronicle }) {
+function CharacterGrid({ chars, user, isST, t, navigate, onDelete, emptyMsg, chronicles, onAssignChronicle }) {
   if (chars.length === 0) {
     return (
       <div className="empty-state">
@@ -143,7 +142,7 @@ function CharacterGrid({ chars, user, t, navigate, onDelete, emptyMsg, chronicle
   return (
     <ul className="character-list" aria-label={t('navCharacters')}>
       {chars.map(c => (
-        <CharacterCard key={c.id} c={c} user={user} t={t} navigate={navigate} onDelete={onDelete}
+        <CharacterCard key={c.id} c={c} user={user} isST={isST} t={t} navigate={navigate} onDelete={onDelete}
           chronicles={chronicles} onAssignChronicle={onAssignChronicle} />
       ))}
     </ul>
@@ -158,10 +157,9 @@ export default function CharacterList() {
   const [subTab, setSubTab] = useState(0)
   const [chronicleFilter, setChronicleFilter] = useState('all')
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, isST } = useAuth()
   const { t } = useLanguage()
   const { openNewChar } = useNewChar()
-  const isST = user?.role === 'STORYTELLER'
 
   useEffect(() => { loadCharacters() }, [])
 
@@ -242,7 +240,7 @@ export default function CharacterList() {
           </div>
 
           {subTab === 0 && (
-            <CharacterGrid chars={pcs} user={user} t={t} navigate={navigate} onDelete={handleDelete}
+            <CharacterGrid chars={pcs} user={user} isST={isST} t={t} navigate={navigate} onDelete={handleDelete}
               emptyMsg={t('noPcsYet')} chronicles={chronicles} onAssignChronicle={handleAssignChronicle} />
           )}
           {subTab === 1 && (
@@ -260,7 +258,7 @@ export default function CharacterList() {
                   </select>
                 </div>
               )}
-              <CharacterGrid chars={filteredNpcs} user={user} t={t} navigate={navigate} onDelete={handleDelete}
+              <CharacterGrid chars={filteredNpcs} user={user} isST={isST} t={t} navigate={navigate} onDelete={handleDelete}
                 emptyMsg={t('noNpcsYet')} chronicles={chronicles} onAssignChronicle={handleAssignChronicle} />
             </>
           )}
@@ -276,7 +274,7 @@ export default function CharacterList() {
         ) : (
           <ul className="character-list" aria-label={t('navCharacters')}>
             {characters.map(c => (
-              <CharacterCard key={c.id} c={c} user={user} t={t} navigate={navigate} onDelete={handleDelete} />
+              <CharacterCard key={c.id} c={c} user={user} isST={isST} t={t} navigate={navigate} onDelete={handleDelete} />
             ))}
           </ul>
         )

@@ -47,7 +47,7 @@ function ProtectedRoute({ children }) {
 }
 
 function UserMenu() {
-  const { user, logout, deleteAccount } = useAuth()
+  const { user, logout, deleteAccount, playerMode, togglePlayerMode } = useAuth()
   const navigate = useNavigate()
   const { t } = useLanguage()
   const [open, setOpen] = useState(false)
@@ -76,11 +76,16 @@ function UserMenu() {
   return (
     <div className="user-menu" ref={ref}>
       <button className="user-menu-trigger" onClick={() => setOpen(o => !o)}>
-        {user.username} ({user.role === 'STORYTELLER' ? t('roleST') : t('rolePlayer')})
+        {user.username} ({user.role === 'STORYTELLER' ? (playerMode ? t('rolePlayer') : t('roleST')) : t('rolePlayer')})
         <span className="user-menu-arrow">{open ? '▲' : '▼'}</span>
       </button>
       {open && (
         <div className="user-menu-dropdown">
+          {user.role === 'STORYTELLER' && (
+            <button onClick={() => { togglePlayerMode(); setOpen(false) }}>
+              {playerMode ? t('switchToST') : t('switchToPlayer')}
+            </button>
+          )}
           <button onClick={() => { setOpen(false); logout(); navigate('/login') }}>
             {t('navSignOut')}
           </button>
@@ -113,9 +118,8 @@ function UserMenu() {
 }
 
 function AppShell() {
-  const { user } = useAuth()
+  const { user, isST, playerMode, togglePlayerMode } = useAuth()
   const { t } = useLanguage()
-  const isST = user?.role === 'STORYTELLER'
 
   return (
     <>

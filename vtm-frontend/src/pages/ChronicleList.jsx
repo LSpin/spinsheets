@@ -9,9 +9,8 @@ export default function ChronicleList({ system = 'WOD', basePath = '/chronicles'
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, isST } = useAuth()
   const { t } = useLanguage()
-  const isST = user?.role === 'STORYTELLER'
 
   useEffect(() => { load() }, [])
 

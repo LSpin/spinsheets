@@ -9,9 +9,8 @@ import { joinChronicle, leaveChronicle } from '../api/chronicleApi'
 export default function ChronicleDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, isST } = useAuth()
   const { t } = useLanguage()
-  const isST = user?.role === 'STORYTELLER'
 
   const [chronicle, setChronicle] = useState(null)
   const [members, setMembers] = useState([])
