@@ -8,6 +8,7 @@ import {
 } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
+import { L5R_EQUIPMENT, L5R_EQUIPMENT_CATEGORIES } from '../data/l5rEquipment'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
@@ -633,17 +634,73 @@ Iron Forest Style (Earth 3)
       <div hidden={tab !== 7}>
         <div className="form-section">
           <fieldset>
-            <legend>Equipment &amp; Possessions</legend>
+            <legend>{t('tabL5rEquipment')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Record weapons, armor, and personal items. Samurai typically carry daisho (katana and wakizashi), travel supplies, and items befitting their station.
+              {t('l5rEquipmentHint')}
             </p>
-            <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={10} style={{ width: '100%' }} placeholder={
+            <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={
 `Katana (3k2, Samurai)
 Wakizashi (2k2, Samurai)
-Light Armor (+5 TN, Reduction 3)
-Traveling pack, spare kimono
-10 koku`} />
+Light Armor (+5 ATN, Red 3)
+Traveling pack, spare kimono, 10 koku`} />
           </fieldset>
+
+          {L5R_EQUIPMENT_CATEGORIES.map(({ key, label }) => (
+            <fieldset key={key}>
+              <legend>{label}</legend>
+              {key === 'armor' ? (
+                <table className="inv-table">
+                  <thead>
+                    <tr><th>Name</th><th>ATN Bonus</th><th>Reduction</th><th>Cost</th><th>Notes</th></tr>
+                  </thead>
+                  <tbody>
+                    {L5R_EQUIPMENT[key].map(item => (
+                      <tr key={item.name}>
+                        <td style={{ fontWeight: 600 }}>{item.name}</td>
+                        <td>+{item.atn}</td>
+                        <td>{item.reduction}</td>
+                        <td>{item.cost}</td>
+                        <td className="inv-notes">{item.notes}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : key === 'arrows' ? (
+                <table className="inv-table">
+                  <thead>
+                    <tr><th>Name</th><th>DR</th><th>Cost</th><th>Notes</th></tr>
+                  </thead>
+                  <tbody>
+                    {L5R_EQUIPMENT[key].map(item => (
+                      <tr key={item.name}>
+                        <td style={{ fontWeight: 600 }}>{item.name}</td>
+                        <td>{item.dr}</td>
+                        <td>{item.cost}</td>
+                        <td className="inv-notes">{item.notes}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <table className="inv-table">
+                  <thead>
+                    <tr><th>Name</th><th>DR</th><th>Keywords</th><th>Cost</th><th>Notes</th></tr>
+                  </thead>
+                  <tbody>
+                    {L5R_EQUIPMENT[key].map(item => (
+                      <tr key={item.name}>
+                        <td style={{ fontWeight: 600 }}>{item.name}</td>
+                        <td>{item.dr}</td>
+                        <td style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{item.keywords}</td>
+                        <td>{item.cost}</td>
+                        <td className="inv-notes">{item.notes}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </fieldset>
+          ))}
         </div>
       </div>
 
