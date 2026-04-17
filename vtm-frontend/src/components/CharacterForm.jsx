@@ -835,7 +835,6 @@ export default function CharacterForm() {
     setSaveError(null)
     try {
       await updateCharacter(characterId, fields)
-      onBack()
     } catch {
       setSaveError(t('failedToSave'))
     } finally {
