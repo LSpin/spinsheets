@@ -24,10 +24,11 @@ import { VAMPIRE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { SORCERY_PATHS, RITUALS } from '../data/bloodSorcery'
 import { useLanguage } from '../i18n/LanguageContext'
 import XpLogSection from './XpLogSection'
+import DicePoolsTab from './DicePoolsTab'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBloodSorcery', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBloodSorcery', 'tabBackstory', 'tabXpLog', 'tabDicePools']
 
 const INVENTORY_CATEGORIES = ['WEAPON', 'ARMOR', 'VEHICLE', 'EQUIPMENT', 'OTHER']
 
@@ -2112,6 +2113,11 @@ export default function CharacterForm() {
           onError={msg => setActionError(msg)}
           t={t}
         />
+      </div>
+
+      {/* ── Dice Pools ── */}
+      <div hidden={tab !== 13}>
+        <DicePoolsTab fields={fields} splat="VAMPIRE" characterId={characterId} />
       </div>
 
       <div className="form-actions">
