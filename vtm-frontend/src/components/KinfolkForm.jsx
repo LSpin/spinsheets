@@ -16,6 +16,7 @@ import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
 import { WEREWOLF_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
+import { ALL_NUMINA, PSYCHIC_NUMINA, HEDGE_MAGIC_NUMINA } from '../data/kinfolkNumina'
 import TagInfoPanel from './TagInfoPanel'
 
 const TRIBES = [
@@ -35,28 +36,6 @@ const ARCHETYPES = [
   'Traditionalist', 'Trickster', 'Visionary',
 ]
 
-const NUMINA = [
-  { name: 'Animal Psychic', description: 'Communicate with and command animals telepathically.' },
-  { name: 'Biokinesis', description: 'Control your own biological functions — heal, resist toxins, alter body.' },
-  { name: 'Clairvoyance', description: 'See distant places or events through psychic visions.' },
-  { name: 'Cyberkinesis', description: 'Interface with and control electronic systems mentally.' },
-  { name: 'Ectoplasmic Generation', description: 'Produce ectoplasm to interact with spirits.' },
-  { name: 'Empathic Healing', description: 'Absorb another\'s wounds into yourself to heal them.' },
-  { name: 'Mind Shields', description: 'Psychic barriers that protect against mental intrusion.' },
-  { name: 'Precognition', description: 'Glimpse possible futures through visions and feelings.' },
-  { name: 'Psychic Healing', description: 'Heal wounds through channelled psychic energy.' },
-  { name: 'Psychic Hypnosis', description: 'Entrance and command others through eye contact.' },
-  { name: 'Psychic Invisibility', description: 'Cloud minds so people fail to notice you.' },
-  { name: 'Psychokinesis', description: 'Move objects with your mind.' },
-  { name: 'Psychometry', description: 'Read the psychic impressions left on objects.' },
-  { name: 'Pyrokinesis', description: 'Generate and control fire with your mind.' },
-  { name: 'Sensitivity', description: 'Perceive the supernatural — sense spirits, magic, and the Umbra.' },
-  { name: 'Synergy', description: 'Link minds with others to share thoughts and coordinate actions.' },
-  { name: 'Telepathy', description: 'Read and project thoughts into another\'s mind.' },
-  { name: 'Hedge Magic', description: 'Minor ritual magic — wards, charms, potions, and folk remedies.' },
-  { name: 'Spirit Speech', description: 'Communicate with spirits across the Gauntlet.' },
-]
-
 const INITIAL = {
   npc: false, splat: 'KINFOLK',
   name: '', altName: '', concept: '', nature: '', demeanor: '',
@@ -68,11 +47,11 @@ const INITIAL = {
   charismaSpec: '', manipulationSpec: '', appearanceSpec: '',
   perceptionSpec: '', intelligenceSpec: '', witsSpec: '',
   alertness: 0, athletics: 0, awareness: 0, brawl: 0, empathy: 0,
-  expression: 0, intimidation: 0, leadership: 0, streetwise: 0, subterfuge: 0,
+  expression: 0, intimidation: 0, leadership: 0, primalUrge: 0, streetwise: 0, subterfuge: 0,
   animalKen: 0, crafts: 0, drive: 0, etiquette: 0, firearms: 0,
   larceny: 0, melee: 0, performance: 0, stealth: 0, survival: 0,
-  academics: 0, computer: 0, finance: 0, investigation: 0, law: 0,
-  medicine: 0, occult: 0, politics: 0, science: 0, technology: 0,
+  academics: 0, computer: 0, enigmas: 0, investigation: 0, law: 0,
+  medicine: 0, occult: 0, politics: 0, ritualAbility: 0, science: 0, technology: 0,
   willpower: 3, currentWillpower: 3,
   pathRating: 7, pathName: 'Humanity',
   conscience: 1, selfControl: 1, courage: 1,
@@ -249,7 +228,7 @@ export default function KinfolkForm() {
           <fieldset>
             <legend>{t('talents')}</legend>
             <div className="rating-grid">
-              {['alertness', 'athletics', 'awareness', 'brawl', 'empathy', 'expression', 'intimidation', 'leadership', 'streetwise', 'subterfuge'].map(a =>
+              {['alertness', 'athletics', 'awareness', 'brawl', 'empathy', 'expression', 'intimidation', 'leadership', 'primalUrge', 'streetwise', 'subterfuge'].map(a =>
                 <div key={a} className="ability-row"><DotRating label={t(a)} name={a} value={fields[a]} onChange={handleField} /></div>
               )}
             </div>
@@ -265,7 +244,7 @@ export default function KinfolkForm() {
           <fieldset>
             <legend>{t('knowledges')}</legend>
             <div className="rating-grid">
-              {['academics', 'computer', 'finance', 'investigation', 'law', 'medicine', 'occult', 'politics', 'science', 'technology'].map(a =>
+              {['academics', 'computer', 'enigmas', 'investigation', 'law', 'medicine', 'occult', 'politics', 'ritualAbility', 'science', 'technology'].map(a =>
                 <div key={a} className="ability-row"><DotRating label={t(a)} name={a} value={fields[a]} onChange={handleField} /></div>
               )}
             </div>
@@ -273,52 +252,80 @@ export default function KinfolkForm() {
         </div>
       </div>
 
-      {/* ── Numina (Searchable Catalogue) ── */}
+      {/* ── Numina (Expanded Catalogue with Levels) ── */}
       <div hidden={tab !== 3}>
         <div className="form-section">
           <fieldset>
             <legend>Active Numina ({disciplines.length})</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Some Kinfolk develop Numina — psychic abilities or hedge magic. These are purchased with XP. Click a Numina below to add it.
+              Kinfolk Numina have 5 levels each. Psychic Phenomena and Hedge Magic are separate categories — having both is extremely rare.
             </p>
             {disciplines.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
-                {disciplines.map(d => {
-                  const entry = NUMINA.find(n => n.name.toLowerCase() === d.name.toLowerCase())
-                  return (
-                    <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
-                      onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'numina' })}>
-                      <span>{d.name} ({d.level})</span>
-                      <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }}>x</button>
-                    </li>
-                  )
-                })}
-              </ul>
+              <table className="inv-table" style={{ marginBottom: 'var(--space-md)' }}>
+                <thead><tr><th>Numina</th><th>Level</th><th>Type</th><th>Current Ability</th><th></th></tr></thead>
+                <tbody>
+                  {disciplines.map(d => {
+                    const entry = ALL_NUMINA.find(n => n.name.toLowerCase() === d.name.toLowerCase())
+                    const levelDesc = entry?.levels?.[d.level - 1] || ''
+                    return (
+                      <tr key={d.id} style={{ cursor: 'pointer', background: d.id === tagInfo?.id ? 'rgba(224,85,85,0.08)' : 'transparent' }}
+                        onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'numina' })}>
+                        <td style={{ fontWeight: 600 }}>{d.name}</td>
+                        <td style={{ textAlign: 'center' }}>
+                          <select value={d.level} onClick={e => e.stopPropagation()} onChange={e => {
+                            const newLevel = parseInt(e.target.value)
+                            removeDiscipline(characterId, d.id).then(() =>
+                              addDiscipline(characterId, { name: d.name, level: newLevel, notes: d.notes || '' }).then(res =>
+                                setDisciplines(prev => [...prev.filter(x => x.id !== d.id), res.data])
+                              )
+                            ).catch(() => setActionError(t('failedToSave')))
+                          }}>
+                            {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
+                          </select>
+                        </td>
+                        <td style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{entry?.category || '—'}</td>
+                        <td className="inv-notes" style={{ fontSize: '0.78rem' }}>{levelDesc}</td>
+                        <td><button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }} aria-label={`Remove ${d.name}`}>×</button></td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
             )}
             {tagInfo?.kind === 'numina' && (() => {
-              const entry = NUMINA.find(n => n.name.toLowerCase() === tagInfo.name.toLowerCase())
+              const entry = ALL_NUMINA.find(n => n.name.toLowerCase() === tagInfo.name.toLowerCase())
               return (
                 <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
-                  <p className="tag-info-panel-desc">Numina · Level {tagInfo.level}</p>
-                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55, color: 'var(--color-text)' }}>{entry.description}</p>}
+                  <p className="tag-info-panel-desc">{entry?.category || 'Numina'} · Level {tagInfo.level}/5</p>
+                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.levels && (
+                    <ul className="tag-info-levels">
+                      {entry.levels.map((lvl, i) => (
+                        <li key={i} className={`tag-info-level${i + 1 === tagInfo.level ? ' tag-info-level--active' : ''}`}>
+                          {i + 1}. {lvl}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </aside>
               )
             })()}
           </fieldset>
 
+          {/* Psychic Phenomena Catalogue */}
           <fieldset>
-            <legend>Numina Catalogue ({NUMINA.length})</legend>
+            <legend>Psychic Phenomena ({PSYCHIC_NUMINA.length})</legend>
             <div className="catalog-search-wrap">
               <input type="search" value={numinaSearch} onChange={e => setNuminaSearch(e.target.value)}
-                placeholder="Search numina..." aria-label="Search numina" />
+                placeholder="Search all numina..." aria-label="Search numina" />
               <span className="catalog-search-count">
-                {NUMINA.filter(n => !numinaSearch || n.name.toLowerCase().includes(numinaSearch.toLowerCase()) || n.description.toLowerCase().includes(numinaSearch.toLowerCase())).length}
+                {ALL_NUMINA.filter(n => !numinaSearch || n.name.toLowerCase().includes(numinaSearch.toLowerCase()) || n.description.toLowerCase().includes(numinaSearch.toLowerCase())).length}
               </span>
             </div>
-            <ul className="catalog-list" aria-label="Numina catalog">
-              {NUMINA
+            <ul className="catalog-list" aria-label="Psychic phenomena catalog">
+              {PSYCHIC_NUMINA
                 .filter(n => !numinaSearch || n.name.toLowerCase().includes(numinaSearch.toLowerCase()) || n.description.toLowerCase().includes(numinaSearch.toLowerCase()))
                 .map(n => {
                   const already = disciplines.some(d => d.name.toLowerCase() === n.name.toLowerCase())
@@ -326,7 +333,7 @@ export default function KinfolkForm() {
                     <li key={n.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
                       <button className="catalog-item-btn" onClick={() => {
                         if (!already) {
-                          addDiscipline(characterId, { name: n.name, level: 1, notes: '' })
+                          addDiscipline(characterId, { name: n.name, level: 1, notes: n.category })
                             .then(res => setDisciplines(prev => [...prev, res.data]))
                             .catch(() => setActionError(t('failedToSave')))
                         } else {
@@ -339,6 +346,42 @@ export default function KinfolkForm() {
                           <span className="catalog-item-desc">{n.description}</span>
                         </div>
                         <div className="catalog-item-meta">
+                          <span className="catalog-item-cost">1-5</span>
+                          {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
+                        </div>
+                      </button>
+                    </li>
+                  )
+                })}
+            </ul>
+          </fieldset>
+
+          {/* Hedge Magic Catalogue */}
+          <fieldset>
+            <legend>Hedge Magic ({HEDGE_MAGIC_NUMINA.length})</legend>
+            <ul className="catalog-list" aria-label="Hedge magic catalog">
+              {HEDGE_MAGIC_NUMINA
+                .filter(n => !numinaSearch || n.name.toLowerCase().includes(numinaSearch.toLowerCase()) || n.description.toLowerCase().includes(numinaSearch.toLowerCase()))
+                .map(n => {
+                  const already = disciplines.some(d => d.name.toLowerCase() === n.name.toLowerCase())
+                  return (
+                    <li key={n.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                      <button className="catalog-item-btn" onClick={() => {
+                        if (!already) {
+                          addDiscipline(characterId, { name: n.name, level: 1, notes: n.category })
+                            .then(res => setDisciplines(prev => [...prev, res.data]))
+                            .catch(() => setActionError(t('failedToSave')))
+                        } else {
+                          const d = disciplines.find(d => d.name.toLowerCase() === n.name.toLowerCase())
+                          if (d) setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'numina' })
+                        }
+                      }}>
+                        <div className="catalog-item-main">
+                          <span className="catalog-item-name">{n.name} <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>— Hedge Magic</span></span>
+                          <span className="catalog-item-desc">{n.description}</span>
+                        </div>
+                        <div className="catalog-item-meta">
+                          <span className="catalog-item-cost">1-5</span>
                           {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
                         </div>
                       </button>
