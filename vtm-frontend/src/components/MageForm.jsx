@@ -259,7 +259,7 @@ export default function MageForm() {
             </button>
           )
         })}
-        {!currentPriority && <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{t('unassigned')}</span>}
+        {!currentPriority && <span className="priority-hint">{t('unassigned')}</span>}
       </div>
     )
   }
@@ -560,7 +560,7 @@ export default function MageForm() {
               <>
                 <PrioritySelector group="talents" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('talents')} budget={getAbilBudget('talents')} />
-                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+                <p className="muted-hint muted-hint--xs">{t('maxPerAbility')}</p>
               </>
             )}
             <div className="rating-grid">
@@ -578,7 +578,7 @@ export default function MageForm() {
               <>
                 <PrioritySelector group="skills" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('skills')} budget={getAbilBudget('skills')} />
-                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+                <p className="muted-hint muted-hint--xs">{t('maxPerAbility')}</p>
               </>
             )}
             <div className="rating-grid">
@@ -596,7 +596,7 @@ export default function MageForm() {
               <>
                 <PrioritySelector group="knowledges" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('knowledges')} budget={getAbilBudget('knowledges')} />
-                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+                <p className="muted-hint muted-hint--xs">{t('maxPerAbility')}</p>
               </>
             )}
             <div className="rating-grid">
@@ -619,14 +619,14 @@ export default function MageForm() {
             <div className="ability-row">
               <DotRating label={t('areteLabel')} name="arete" value={fields.arete} onChange={handleField} min={1} max={10} />
             </div>
-            <p className="muted-hint" style={{ fontSize: '0.72rem' }}>
+            <p className="muted-hint muted-hint--xs">
               {t('areteHint')}
             </p>
           </fieldset>
 
           <fieldset>
             <legend>{t('spheres')}</legend>
-            <p className="muted-hint" style={{ fontSize: '0.72rem', marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               {t('sphereMaxHint').replace('{0}', fields.arete)}
             </p>
             <div className="rating-grid">

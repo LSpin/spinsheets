@@ -252,7 +252,7 @@ export default function ChangingBreedsForm() {
             </button>
           )
         })}
-        {!currentPriority && <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{t('unassigned')}</span>}
+        {!currentPriority && <span className="priority-hint">{t('unassigned')}</span>}
       </div>
     )
   }
@@ -565,13 +565,13 @@ export default function ChangingBreedsForm() {
                       ))}
                     </div>
                     {currentFormData && !isHomid ? (
-                      <div style={{ fontSize: '0.78rem', marginBottom: '0.25rem' }}>
-                        <span style={{ color: 'var(--color-text-muted)' }}>
+                      <div className="form-stat-mods">
+                        <span>
                           {t('strength')} {currentFormData.str} · {t('dexterity')} {currentFormData.dex} · {t('stamina')} {currentFormData.sta} · {t('manipulation')} {currentFormData.man} · {t('appearance')} {currentFormData.app} · {t('diff')} {currentFormData.diff}
                         </span>
                       </div>
                     ) : (
-                      <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('homidNoMods')}</p>
+                      <p className="muted-hint muted-hint--xs">{t('homidNoMods')}</p>
                     )}
                   </fieldset>
                 )}
@@ -600,12 +600,12 @@ export default function ChangingBreedsForm() {
                           <div key={a} className="ability-row">
                             <DotRating label={t(a)} name={a} value={fields[a]} onChange={handleField} min={1} />
                             {effective !== null && effective !== fields[a] && (
-                              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: modVal > 0 ? '#8c8' : '#e55', whiteSpace: 'nowrap' }}>
+                              <span className={`attr-mod ${modVal > 0 ? 'attr-mod--buff' : 'attr-mod--nerf'}`}>
                                 = {effective} ({modStr})
                               </span>
                             )}
                             {isZeroed && (
-                              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#e55', whiteSpace: 'nowrap' }}>= N/A</span>
+                              <span className="attr-mod attr-mod--nerf">= N/A</span>
                             )}
                             <input className="spec-input" type="text" name={a + 'Spec'} value={fields[a + 'Spec'] ?? ''} onChange={handleText}
                               placeholder={t('specialty')} aria-label={`${t(a)} ${t('specialty')}`} />
@@ -630,7 +630,7 @@ export default function ChangingBreedsForm() {
               <>
                 <PrioritySelector group="talents" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('talents')} budget={getAbilBudget('talents')} />
-                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+                <p className="muted-hint muted-hint--xs">{t('maxPerAbility')}</p>
               </>
             )}
             <div className="rating-grid">
@@ -645,7 +645,7 @@ export default function ChangingBreedsForm() {
               <>
                 <PrioritySelector group="skills" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('skills')} budget={getAbilBudget('skills')} />
-                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+                <p className="muted-hint muted-hint--xs">{t('maxPerAbility')}</p>
               </>
             )}
             <div className="rating-grid">
@@ -660,7 +660,7 @@ export default function ChangingBreedsForm() {
               <>
                 <PrioritySelector group="knowledges" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('knowledges')} budget={getAbilBudget('knowledges')} />
-                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+                <p className="muted-hint muted-hint--xs">{t('maxPerAbility')}</p>
               </>
             )}
             <div className="rating-grid">
@@ -872,13 +872,13 @@ export default function ChangingBreedsForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('healthTrack')}</legend>
-            <p className="muted-hint" style={{ marginBottom: 'var(--space-md)', fontSize: '0.75rem' }}>{t('healthHint')}</p>
-            <table style={{ width: '100%', maxWidth: 500, fontSize: '0.85rem', borderCollapse: 'collapse' }}>
+            <p className="muted-hint muted-hint--sm">{t('healthHint')}</p>
+            <table className="health-track">
               <thead>
-                <tr style={{ borderBottom: '2px solid var(--color-border)' }}>
-                  <th style={{ padding: '0.5rem', textAlign: 'left' }}>{t('health')}</th>
-                  <th style={{ padding: '0.5rem', textAlign: 'center' }}>{t('penalty')}</th>
-                  <th style={{ padding: '0.5rem', textAlign: 'center' }}>{t('damageType')}</th>
+                <tr>
+                  <th>{t('health')}</th>
+                  <th>{t('penalty')}</th>
+                  <th>{t('damageType')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -895,14 +895,14 @@ export default function ChangingBreedsForm() {
                   const dmgLabel = val === 'A' ? t('aggDmg') : val === 'L' ? t('lethalDmg') : val === 'B' ? t('bashingDmg') : t('undamaged')
                   const dmgColor = val === 'A' ? '#e55' : val === 'L' ? '#e95' : val === 'B' ? '#8cf' : 'var(--color-text-muted)'
                   return (
-                    <tr key={h.key} style={{ borderBottom: '1px solid var(--color-border)', cursor: 'pointer' }}
+                    <tr key={h.key}
                       onClick={() => {
                         const cycle = { '': 'B', B: 'L', L: 'A', A: '' }
                         handleField(h.key, cycle[val] || '')
                       }}>
-                      <td style={{ padding: '0.5rem', fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
-                      <td style={{ padding: '0.5rem', textAlign: 'center', color: 'var(--color-text-muted)' }}>{h.penalty || '—'}</td>
-                      <td style={{ padding: '0.5rem', textAlign: 'center', fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                      <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
+                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '—'}</td>
+                      <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
                     </tr>
                   )
                 })}

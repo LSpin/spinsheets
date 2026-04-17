@@ -257,7 +257,7 @@ export default function KoteForm() {
             </button>
           )
         })}
-        {!currentPriority && <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{t('unassigned')}</span>}
+        {!currentPriority && <span className="priority-hint">{t('unassigned')}</span>}
       </div>
     )
   }
@@ -521,7 +521,7 @@ export default function KoteForm() {
               <>
                 <PrioritySelector group="talents" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('talents')} budget={getAbilBudget('talents')} />
-                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+                <p className="muted-hint muted-hint--xs">{t('maxPerAbility')}</p>
               </>
             )}
             <div className="rating-grid">
@@ -536,7 +536,7 @@ export default function KoteForm() {
               <>
                 <PrioritySelector group="skills" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('skills')} budget={getAbilBudget('skills')} />
-                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+                <p className="muted-hint muted-hint--xs">{t('maxPerAbility')}</p>
               </>
             )}
             <div className="rating-grid">
@@ -551,7 +551,7 @@ export default function KoteForm() {
               <>
                 <PrioritySelector group="knowledges" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('knowledges')} budget={getAbilBudget('knowledges')} />
-                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+                <p className="muted-hint muted-hint--xs">{t('maxPerAbility')}</p>
               </>
             )}
             <div className="rating-grid">

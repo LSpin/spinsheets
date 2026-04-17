@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
-import { getCharacter, updateCharacter, getXpLog, addXpLogEntry, removeXpLogEntry } from '../api/characterApi'
+import { getCharacter, updateCharacter, getXpLog, addXpLogEntry, removeXpLogEntry, getDisciplines, addDiscipline, removeDiscipline } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
+import { SPIRIT_CHARMS } from '../data/spiritCharms'
 
 const TOTEM_TYPES = ['Respect', 'War', 'Wisdom', 'Cunning']
 
@@ -37,6 +38,8 @@ export default function TotemForm() {
 
   const [tab, setTab] = useState(0)
   const [fields, setFields] = useState(INITIAL)
+  const [charms, setCharms] = useState([])
+  const [newCharm, setNewCharm] = useState({ name: '', level: 1, notes: '' })
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
@@ -49,7 +52,7 @@ export default function TotemForm() {
 
   async function loadCharacter() {
     try {
-      const [charRes, xpRes] = await Promise.all([getCharacter(characterId), getXpLog(characterId)])
+      const [charRes, xpRes, charmRes] = await Promise.all([getCharacter(characterId), getXpLog(characterId), getDisciplines(characterId)])
       const data = charRes.data
       setFields(prev => {
         const merged = { ...prev }
@@ -57,6 +60,7 @@ export default function TotemForm() {
         return merged
       })
       setXpLog(xpRes.data)
+      setCharms(charmRes.data)
     } catch { setSaveError(t('failedToLoad')) }
     finally { setLoading(false) }
   }
@@ -72,6 +76,15 @@ export default function TotemForm() {
   }
 
   async function handleDoneEditing() { await handleSave(); navigate('/characters') }
+
+  async function handleAddCharm() {
+    if (!newCharm.name.trim()) return
+    try {
+      const res = await addDiscipline(characterId, newCharm)
+      setCharms(prev => [...prev, res.data])
+      setNewCharm({ name: '', level: 1, notes: '' })
+    } catch { setActionError(t('failedToSave')) }
+  }
 
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
@@ -142,7 +155,7 @@ export default function TotemForm() {
           <fieldset>
             <legend>{t('totemEssence')}</legend>
             <DotRating label={t('totemEssence')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={50} />
-            <p className="muted-hint" style={{ fontSize: '0.72rem', marginTop: 'var(--space-xs)' }}>{t('totemEssenceHint')}</p>
+            <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>{t('totemEssenceHint')}</p>
           </fieldset>
           <fieldset>
             <legend>{t('totemBan')}</legend>
@@ -160,8 +173,35 @@ export default function TotemForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('totemCharms')}</legend>
-            <p className="muted-hint" style={{ fontSize: '0.72rem', marginBottom: 'var(--space-sm)' }}>{t('totemCharmsHint')}</p>
-            <textarea name="notes" value={fields.notes} onChange={handleText} rows={10} style={{ width: '100%' }} placeholder={t('totemCharmsPh')} />
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('totemCharmsHint')}</p>
+            {charms.length > 0 && (
+              <ul className="tag-list">
+                {charms.map(c => (
+                  <li key={c.id} className="tag tag--clickable" title={(() => { const cat = SPIRIT_CHARMS.find(sc => sc.name.toLowerCase() === c.name.toLowerCase()); return cat?.description || '' })()}>
+                    <span>{c.name}</span>
+                    <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, c.id); setCharms(prev => prev.filter(x => x.id !== c.id)) }}>x</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+              <div className="field" style={{ flex: 2 }}>
+                <label>{t('totemCharmName')}</label>
+                <input type="text" list="spirit-charm-catalog" value={newCharm.name} onChange={e => setNewCharm(p => ({ ...p, name: e.target.value }))} placeholder={t('totemCharmNamePh')} autoComplete="off" />
+                <datalist id="spirit-charm-catalog">
+                  {SPIRIT_CHARMS.map(c => <option key={c.name} value={c.name} />)}
+                </datalist>
+              </div>
+              <button className="btn btn-secondary" onClick={handleAddCharm}>{t('add')}</button>
+            </div>
+            {(() => {
+              const selected = newCharm.name ? SPIRIT_CHARMS.find(sc => sc.name.toLowerCase() === newCharm.name.toLowerCase()) : null
+              return selected ? <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>{selected.description}</p> : null
+            })()}
+          </fieldset>
+          <fieldset>
+            <legend>{t('notes')}</legend>
+            <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder={t('totemCharmsPh')} />
           </fieldset>
         </div>
       </div>

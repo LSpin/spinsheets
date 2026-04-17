@@ -288,7 +288,7 @@ export default function VampireRevisedForm() {
             </button>
           )
         })}
-        {!currentPriority && <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{t('unassigned')}</span>}
+        {!currentPriority && <span className="priority-hint">{t('unassigned')}</span>}
       </div>
     )
   }
@@ -611,7 +611,7 @@ export default function VampireRevisedForm() {
               <>
                 <PrioritySelector group="talents" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('talents')} budget={getAbilBudget('talents')} />
-                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+                <p className="muted-hint muted-hint--xs">{t('maxPerAbility')}</p>
               </>
             )}
             <div className="rating-grid">
@@ -626,7 +626,7 @@ export default function VampireRevisedForm() {
               <>
                 <PrioritySelector group="skills" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('skills')} budget={getAbilBudget('skills')} />
-                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+                <p className="muted-hint muted-hint--xs">{t('maxPerAbility')}</p>
               </>
             )}
             <div className="rating-grid">
@@ -641,7 +641,7 @@ export default function VampireRevisedForm() {
               <>
                 <PrioritySelector group="knowledges" priorities={abilPriority} setPriorities={setAbilPriority} budgets={ABIL_BUDGETS} />
                 <PointsIndicator spent={getAbilSpent('knowledges')} budget={getAbilBudget('knowledges')} />
-                <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('maxPerAbility')}</p>
+                <p className="muted-hint muted-hint--xs">{t('maxPerAbility')}</p>
               </>
             )}
             <div className="rating-grid">
@@ -758,13 +758,13 @@ export default function VampireRevisedForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('healthTrack')}</legend>
-            <p className="muted-hint" style={{ marginBottom: 'var(--space-md)', fontSize: '0.75rem' }}>{t('healthHint')}</p>
-            <table style={{ width: '100%', maxWidth: 500, fontSize: '0.85rem', borderCollapse: 'collapse' }}>
+            <p className="muted-hint muted-hint--sm">{t('healthHint')}</p>
+            <table className="health-track">
               <thead>
-                <tr style={{ borderBottom: '2px solid var(--color-border)' }}>
-                  <th style={{ padding: '0.5rem', textAlign: 'left' }}>{t('health')}</th>
-                  <th style={{ padding: '0.5rem', textAlign: 'center' }}>{t('penalty')}</th>
-                  <th style={{ padding: '0.5rem', textAlign: 'center' }}>{t('damageType')}</th>
+                <tr>
+                  <th>{t('health')}</th>
+                  <th>{t('penalty')}</th>
+                  <th>{t('damageType')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -781,14 +781,14 @@ export default function VampireRevisedForm() {
                   const dmgLabel = val === 'A' ? t('aggDmg') : val === 'L' ? t('lethalDmg') : val === 'B' ? t('bashingDmg') : t('undamaged')
                   const dmgColor = val === 'A' ? '#e55' : val === 'L' ? '#e95' : val === 'B' ? '#8cf' : 'var(--color-text-muted)'
                   return (
-                    <tr key={h.key} style={{ borderBottom: '1px solid var(--color-border)', cursor: 'pointer' }}
+                    <tr key={h.key}
                       onClick={() => {
                         const cycle = { '': 'B', B: 'L', L: 'A', A: '' }
                         handleField(h.key, cycle[val] || '')
                       }}>
-                      <td style={{ padding: '0.5rem', fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
-                      <td style={{ padding: '0.5rem', textAlign: 'center', color: 'var(--color-text-muted)' }}>{h.penalty || '—'}</td>
-                      <td style={{ padding: '0.5rem', textAlign: 'center', fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                      <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
+                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '—'}</td>
+                      <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
                     </tr>
                   )
                 })}
@@ -901,16 +901,16 @@ export default function VampireRevisedForm() {
                   <div key={c.id} className="character-card" style={{ marginBottom: 'var(--space-sm)' }}>
                     <div className="character-card-info">
                       <h3 style={{ fontSize: '0.9rem' }}>{c.name}</h3>
-                      {c.prerequisites && <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{t('comboPrereqs')}: {c.prerequisites}</p>}
-                      {c.description && <p style={{ fontSize: '0.78rem' }}>{c.description}</p>}
-                      {c.xpCost && <p style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>{t('comboXpCost')}: {c.xpCost}</p>}
+                      {c.prerequisites && <p className="detail-sm" style={{ color: 'var(--color-text-muted)' }}>{t('comboPrereqs')}: {c.prerequisites}</p>}
+                      {c.description && <p className="detail-sm">{c.description}</p>}
+                      {c.xpCost && <p className="detail-xs" style={{ color: 'var(--color-text-muted)' }}>{t('comboXpCost')}: {c.xpCost}</p>}
                     </div>
                     <div className="character-card-actions">
                       <button className="btn btn-danger btn-sm" onClick={() => handleRemoveCombo(c.id)}>✕</button>
                     </div>
                   </div>
                 ))}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-sm)', marginTop: 'var(--space-sm)' }}>
+                <div className="combo-grid">
                   <div className="field">
                     <label>{t('comboName')}</label>
                     <input type="text" list="combo-catalog" value={newCombo.name} onChange={e => {
@@ -930,11 +930,11 @@ export default function VampireRevisedForm() {
                     <label>{t('comboPrereqs')}</label>
                     <input type="text" value={newCombo.prerequisites} onChange={e => setNewCombo(p => ({ ...p, prerequisites: e.target.value }))} placeholder={t('phComboPrereqs')} />
                   </div>
-                  <div className="field" style={{ gridColumn: '1 / -1' }}>
+                  <div className="field field--full">
                     <label>{t('comboDesc')}</label>
                     <textarea value={newCombo.description} onChange={e => setNewCombo(p => ({ ...p, description: e.target.value }))} rows={3} placeholder={t('phComboDesc')} style={{ width: '100%' }} />
                   </div>
-                  <div className="field" style={{ maxWidth: 120 }}>
+                  <div className="field field--narrow">
                     <label>{t('comboXpCost')}</label>
                     <input type="number" min="0" value={newCombo.xpCost} onChange={e => setNewCombo(p => ({ ...p, xpCost: e.target.value }))} />
                   </div>

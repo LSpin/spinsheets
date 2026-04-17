@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
-import { getCharacter, updateCharacter, getXpLog, addXpLogEntry, removeXpLogEntry } from '../api/characterApi'
+import { getCharacter, updateCharacter, getXpLog, addXpLogEntry, removeXpLogEntry, getDisciplines, addDiscipline, removeDiscipline } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
+import { FAMILIAR_POWERS } from '../data/familiarPowers'
 
 const INITIAL = {
   npc: true, splat: 'FAMILIAR',
@@ -38,6 +39,8 @@ export default function FamiliarForm() {
 
   const [tab, setTab] = useState(0)
   const [fields, setFields] = useState(INITIAL)
+  const [powers, setPowers] = useState([])
+  const [newPower, setNewPower] = useState({ name: '', level: 1, notes: '' })
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
@@ -50,7 +53,7 @@ export default function FamiliarForm() {
 
   async function loadCharacter() {
     try {
-      const [charRes, xpRes] = await Promise.all([getCharacter(characterId), getXpLog(characterId)])
+      const [charRes, xpRes, powRes] = await Promise.all([getCharacter(characterId), getXpLog(characterId), getDisciplines(characterId)])
       const data = charRes.data
       setFields(prev => {
         const merged = { ...prev }
@@ -58,6 +61,7 @@ export default function FamiliarForm() {
         return merged
       })
       setXpLog(xpRes.data)
+      setPowers(powRes.data)
     } catch { setSaveError(t('failedToLoad')) }
     finally { setLoading(false) }
   }
@@ -73,6 +77,15 @@ export default function FamiliarForm() {
   }
 
   async function handleDoneEditing() { await handleSave(); navigate('/characters') }
+
+  async function handleAddPower() {
+    if (!newPower.name.trim()) return
+    try {
+      const res = await addDiscipline(characterId, newPower)
+      setPowers(prev => [...prev, res.data])
+      setNewPower({ name: '', level: 1, notes: '' })
+    } catch { setActionError(t('failedToSave')) }
+  }
 
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
@@ -158,11 +171,38 @@ export default function FamiliarForm() {
             <div className="field-row">
               <DotRating label={t('quintessence')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={20} />
             </div>
-            <p className="muted-hint" style={{ fontSize: '0.72rem', marginTop: 'var(--space-sm)' }}>{t('familiarPowerHint')}</p>
+            <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-sm)' }}>{t('familiarPowerHint')}</p>
           </fieldset>
           <fieldset>
             <legend>{t('familiarPowersList')}</legend>
-            <textarea name="notes" value={fields.notes} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={t('familiarPowersListPh')} />
+            {powers.length > 0 && (
+              <ul className="tag-list">
+                {powers.map(p => (
+                  <li key={p.id} className="tag tag--clickable" title={(() => { const cat = FAMILIAR_POWERS.find(fp => fp.name.toLowerCase() === p.name.toLowerCase()); return cat?.description || '' })()}>
+                    <span>{p.name}</span>
+                    <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, p.id); setPowers(prev => prev.filter(x => x.id !== p.id)) }}>x</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+              <div className="field" style={{ flex: 2 }}>
+                <label>{t('familiarPowerName')}</label>
+                <input type="text" list="familiar-power-catalog" value={newPower.name} onChange={e => setNewPower(p => ({ ...p, name: e.target.value }))} placeholder={t('familiarPowerNamePh')} autoComplete="off" />
+                <datalist id="familiar-power-catalog">
+                  {FAMILIAR_POWERS.map(p => <option key={p.name} value={p.name} />)}
+                </datalist>
+              </div>
+              <button className="btn btn-secondary" onClick={handleAddPower}>{t('add')}</button>
+            </div>
+            {(() => {
+              const selected = newPower.name ? FAMILIAR_POWERS.find(fp => fp.name.toLowerCase() === newPower.name.toLowerCase()) : null
+              return selected ? <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>{selected.description}</p> : null
+            })()}
+          </fieldset>
+          <fieldset>
+            <legend>{t('notes')}</legend>
+            <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder={t('familiarPowersListPh')} />
           </fieldset>
         </div>
       </div>

@@ -16,6 +16,7 @@ import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
 import { BACKGROUNDS } from '../data/backgrounds'
+import { VAMPIRE_DISCIPLINES } from '../data/vampireDisciplines'
 import TagInfoPanel from './TagInfoPanel'
 
 const ARCHETYPES = [
@@ -274,13 +275,14 @@ export default function GhoulForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('ghoulDisciplines')}</legend>
-            <p className="muted-hint" style={{ fontSize: '0.72rem', marginBottom: 'var(--space-sm)' }}>{t('ghoulDiscHint')}</p>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('ghoulDiscHint')}</p>
             {disciplines.length > 0 && (
               <ul className="tag-list">
                 {disciplines.map(d => (
-                  <li key={d.id} className="tag-item">
-                    <span>{d.name} ({d.level})</span>
-                    <button className="tag-remove" onClick={() => { removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)) }}>x</button>
+                  <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
+                    onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'discipline' })}>
+                    <span>{d.name} (Lv{d.level})</span>
+                    <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }}>x</button>
                   </li>
                 ))}
               </ul>
@@ -288,7 +290,10 @@ export default function GhoulForm() {
             <div className="field-row" style={{ alignItems: 'flex-end' }}>
               <div className="field" style={{ flex: 2 }}>
                 <label>{t('disciplineName')}</label>
-                <input type="text" value={newDisc.name} onChange={e => setNewDisc(p => ({ ...p, name: e.target.value }))} placeholder={t('phDiscipline')} />
+                <input type="text" list="ghoul-disc-catalog" value={newDisc.name} onChange={e => setNewDisc(p => ({ ...p, name: e.target.value }))} placeholder={t('phDiscipline')} autoComplete="off" />
+                <datalist id="ghoul-disc-catalog">
+                  {VAMPIRE_DISCIPLINES.map(d => <option key={d.name} value={d.name} />)}
+                </datalist>
               </div>
               <div className="field">
                 <label>{t('level')}</label>
@@ -299,6 +304,10 @@ export default function GhoulForm() {
               <button className="btn btn-secondary" onClick={handleAddDiscipline}>{t('add')}</button>
             </div>
           </fieldset>
+          {tagInfo?.kind === 'discipline' && (() => {
+            const entry = VAMPIRE_DISCIPLINES.find(d => d.name.toLowerCase() === tagInfo.name.toLowerCase())
+            return <TagInfoPanel entry={entry ? { name: entry.name, description: entry.clans?.length ? `Clans: ${entry.clans.join(', ')}` : undefined } : { name: tagInfo.name }} level={tagInfo.level} levels={entry?.levels} onClose={() => setTagInfo(null)} />
+          })()}
         </div>
       </div>
 
@@ -329,7 +338,7 @@ export default function GhoulForm() {
             <div className="field-row">
               <DotRating label={t('ghoulBloodPool')} name="currentBlood" value={fields.currentBlood} onChange={handleField} min={0} max={5} />
             </div>
-            <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('ghoulBloodHint')}</p>
+            <p className="muted-hint muted-hint--xs">{t('ghoulBloodHint')}</p>
           </fieldset>
         </div>
       </div>

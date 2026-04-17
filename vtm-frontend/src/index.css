@@ -983,6 +983,17 @@ legend {
   padding: var(--space-md) 0;
 }
 
+.muted-hint--sm {
+  font-size: 0.75rem;
+  padding: 0;
+  margin-bottom: var(--space-md);
+}
+
+.muted-hint--xs {
+  font-size: 0.72rem;
+  padding: 0;
+}
+
 .muted {
   color: var(--color-text-muted);
   font-size: 0.8rem;
@@ -1405,6 +1416,97 @@ a:hover {
     flex: 1;
     justify-content: center;
   }
+}
+
+/* ── Health track table ── */
+
+.health-track {
+  width: 100%;
+  max-width: 500px;
+  font-size: 0.85rem;
+  border-collapse: collapse;
+}
+
+.health-track th,
+.health-track td {
+  padding: 0.5rem;
+}
+
+.health-track th {
+  text-align: left;
+}
+
+.health-track th:not(:first-child),
+.health-track td:not(:first-child) {
+  text-align: center;
+}
+
+.health-track thead tr {
+  border-bottom: 2px solid var(--color-border);
+}
+
+.health-track tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+}
+
+/* ── Priority hint (unassigned label) ── */
+
+.priority-hint {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* ── Form stat modifiers (werewolf shapeshifting) ── */
+
+.form-stat-mods {
+  font-size: 0.78rem;
+  margin-bottom: 0.25rem;
+  color: var(--color-text-muted);
+}
+
+.form-stat-note {
+  margin-left: 0.5rem;
+  font-style: italic;
+  color: #c4a35a;
+}
+
+/* ── Attr modifier display ── */
+
+.attr-mod {
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.attr-mod--buff { color: #8c8; }
+.attr-mod--nerf { color: #e55; }
+
+/* ── Combo disciplines form grid ── */
+
+.combo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.combo-grid .field--full {
+  grid-column: 1 / -1;
+}
+
+.combo-grid .field--narrow {
+  max-width: 120px;
+}
+
+/* ── Combo / discipline detail text ── */
+
+.detail-sm {
+  font-size: 0.78rem;
+}
+
+.detail-xs {
+  font-size: 0.72rem;
 }
 
 /* ── Inventory table ── */
