@@ -436,8 +436,8 @@ export default function VictorianVampireForm() {
 
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
-  const isElder = fields.generation <= 7
-  const elderMax = isElder ? 9 : 5
+  const elderMax = fields.generation <= 4 ? 9 : fields.generation === 5 ? 8 : fields.generation === 6 ? 7 : fields.generation === 7 ? 6 : 5
+  const isElder = elderMax > 5
 
   return (
     <div className={viewMode ? 'form-view-mode' : ''}>

@@ -750,8 +750,8 @@ export default function CharacterForm() {
   const { max: maxBlood, perTurn } = bloodStats(fields.generation)
   const isHumanity = fields.pathName.trim().toLowerCase() === 'humanity'
   const computedPath = fields.conscience + fields.selfControl
-  const isElder = fields.generation <= 7
-  const elderMax = isElder ? 9 : 5
+  const elderMax = fields.generation <= 4 ? 9 : fields.generation === 5 ? 8 : fields.generation === 6 ? 7 : fields.generation === 7 ? 6 : 5
+  const isElder = elderMax > 5
   const { errors: validationErrors, warnings: validationWarnings } = validate(fields, t)
 
   useEffect(() => {
