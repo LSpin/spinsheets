@@ -4,9 +4,13 @@ import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
 import { getCharacters, deleteCharacter } from '../api/characterApi'
+import { getChronicles } from '../api/chronicleApi'
 
 export default function L5RPage() {
   const [characters, setCharacters] = useState([])
+  const [chronicles, setChronicles] = useState([])
+  const [showChronicleSelect, setShowChronicleSelect] = useState(false)
+  const [selectedChronicle, setSelectedChronicle] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const navigate = useNavigate()
@@ -20,8 +24,9 @@ export default function L5RPage() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await getCharacters()
-        setCharacters(res.data.filter(c => c.splat === 'L5R'))
+        const [charRes, chronRes] = await Promise.all([getCharacters(), getChronicles()])
+        setCharacters(charRes.data.filter(c => c.splat === 'L5R'))
+        setChronicles(chronRes.data.filter(c => (c.gameSystem || 'WOD') === 'L5R'))
       } catch {
         setError(t('failedLoadChars'))
       } finally {
@@ -52,10 +57,31 @@ export default function L5RPage() {
           <button className="btn btn-secondary" onClick={() => navigate('/l5r/new')}>
             {t('l5rBlankSheet')}
           </button>
+          {chronicles.length > 0 && (
+            <button className="btn btn-secondary" onClick={() => setShowChronicleSelect(true)}>
+              {t('forAChronicle')}
+            </button>
+          )}
           <button className="btn btn-secondary" onClick={() => navigate('/l5r/chronicles')}>
             {t('navChronicles')}
           </button>
         </div>
+        {showChronicleSelect && (
+          <div style={{ marginTop: 'var(--space-sm)', display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-end' }}>
+            <div className="field" style={{ flex: 1 }}>
+              <label>{t('selectChronicle')}</label>
+              <select value={selectedChronicle} onChange={e => setSelectedChronicle(e.target.value)}>
+                <option value="">{t('select')}</option>
+                {chronicles.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+              </select>
+            </div>
+            <button className="btn btn-primary" disabled={!selectedChronicle}
+              onClick={() => { navigate(`/l5r/new?mode=guided&chronicle=${selectedChronicle}`); setShowChronicleSelect(false) }}>
+              {t('proceed')}
+            </button>
+            <button className="btn btn-secondary" onClick={() => setShowChronicleSelect(false)}>{t('cancel')}</button>
+          </div>
+        )}
       </div>
 
       {error && <p className="status-error" role="alert">{error}</p>}

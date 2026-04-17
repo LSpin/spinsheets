@@ -156,6 +156,7 @@ public class ChronicleController {
                     info.put("chronicleName", chronicle.getName());
                     info.put("storyteller", chronicle.getStoryteller().getUsername());
                     info.put("allowedSplats", chronicle.getAllowedSplats());
+                    info.put("gameSystem", chronicle.getGameSystem());
                     return ResponseEntity.ok(info);
                 })
                 .orElse(ResponseEntity.badRequest().body(Map.of("error", "Invalid invite link")));

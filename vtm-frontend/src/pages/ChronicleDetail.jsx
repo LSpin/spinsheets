@@ -180,6 +180,7 @@ export default function ChronicleDetail() {
     VICTORIAN_VAMPIRE: 'VAMPIRE', KOTE: 'VAMPIRE', GHOUL: 'VAMPIRE',
     WEREWOLF: 'WEREWOLF', WYLD_WEST_WEREWOLF: 'WEREWOLF', CHANGING_BREEDS: 'WEREWOLF', TOTEM: 'WEREWOLF',
     MAGE: 'MAGE', VICTORIAN_MAGE: 'MAGE', FAMILIAR: 'MAGE',
+    SEVENTH_SEA: 'SEVENTH_SEA', L5R: 'L5R',
   }
   const memberIds = new Set(members.map(m => m.id))
   const allowedSet = chronicle.allowedSplats ? new Set(chronicle.allowedSplats.split(',')) : null

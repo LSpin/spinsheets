@@ -10,7 +10,10 @@ const SPLAT_TO_CATEGORY = {
   VICTORIAN_VAMPIRE: 'VAMPIRE', KOTE: 'VAMPIRE', GHOUL: 'VAMPIRE',
   WEREWOLF: 'WEREWOLF', WYLD_WEST_WEREWOLF: 'WEREWOLF', CHANGING_BREEDS: 'WEREWOLF', TOTEM: 'WEREWOLF',
   MAGE: 'MAGE', VICTORIAN_MAGE: 'MAGE', FAMILIAR: 'MAGE',
+  SEVENTH_SEA: 'SEVENTH_SEA', L5R: 'L5R',
 }
+
+const SYSTEM_CHRONICLE_PATH = { SEVENTH_SEA: '/7thsea/chronicles', L5R: '/l5r/chronicles' }
 
 export default function InvitePage() {
   const { code } = useParams()
@@ -59,7 +62,9 @@ export default function InvitePage() {
     setJoining(true)
     try {
       const res = await joinByInviteCode(code, selectedCharId)
-      navigate(`/chronicles/${res.data.chronicleId}`)
+      const gameSystem = invite?.gameSystem
+      const basePath = SYSTEM_CHRONICLE_PATH[gameSystem] || '/chronicles'
+      navigate(`${basePath}/${res.data.chronicleId}`)
     } catch (err) {
       setError(err.response?.data?.error || t('inviteJoinFailed'))
       setJoining(false)
