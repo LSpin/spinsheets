@@ -1931,26 +1931,6 @@ a:hover {
   filter: brightness(1.15);
 }
 
-/* ── Theme toggle ── */
-
-.theme-toggle {
-  background: var(--color-surface-raised);
-  color: var(--color-text-muted);
-  border: 1px solid var(--color-border);
-  padding: 0.4rem 0.75rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  border-radius: 4px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: border-color var(--transition), color var(--transition);
-}
-
-.theme-toggle:hover {
-  border-color: var(--color-accent-fg);
-  color: var(--color-accent-fg);
-}
-
 /* ── 7th Sea accent overrides (tab, legend use --color-accent-fg automatically) ── */
 
 [data-theme="7thsea"] .tab-btn--active {

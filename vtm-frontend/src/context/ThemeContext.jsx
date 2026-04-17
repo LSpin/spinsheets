@@ -14,12 +14,8 @@ export function ThemeProvider({ children }) {
     localStorage.setItem('spinsheets-theme', t)
   }
 
-  function toggle() {
-    switchTheme(theme === 'wod' ? '7thsea' : 'wod')
-  }
-
   return (
-    <ThemeContext.Provider value={{ theme, switchTheme, toggle }}>
+    <ThemeContext.Provider value={{ theme, switchTheme }}>
       {children}
     </ThemeContext.Provider>
   )

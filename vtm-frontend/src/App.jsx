@@ -4,7 +4,6 @@ import { AuthProvider, useAuth } from './context/AuthContext'
 import { NewCharProvider } from './context/NewCharContext'
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext'
 import LanguageToggle from './components/LanguageToggle'
-// ThemeToggle removed — theme switches automatically per system
 import { ThemeProvider } from './context/ThemeContext'
 import CharacterList from './components/CharacterList'
 import CharacterForm from './components/CharacterForm'
@@ -120,7 +119,7 @@ function UserMenu() {
 }
 
 function AppShell() {
-  const { user, isST, playerMode, togglePlayerMode } = useAuth()
+  const { user, isST } = useAuth()
   const { t } = useLanguage()
 
   return (

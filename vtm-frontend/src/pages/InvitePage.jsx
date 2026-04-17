@@ -5,13 +5,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { getInviteInfo, joinByInviteCode } from '../api/chronicleApi'
 import { getCharacters } from '../api/characterApi'
 
-const SPLAT_TO_CATEGORY = {
-  VAMPIRE: 'VAMPIRE', VAMPIRE_REVISED: 'VAMPIRE', VAMPIRE_DARK_AGES: 'VAMPIRE',
-  VICTORIAN_VAMPIRE: 'VAMPIRE', KOTE: 'VAMPIRE', GHOUL: 'VAMPIRE',
-  WEREWOLF: 'WEREWOLF', WYLD_WEST_WEREWOLF: 'WEREWOLF', CHANGING_BREEDS: 'WEREWOLF', TOTEM: 'WEREWOLF',
-  MAGE: 'MAGE', VICTORIAN_MAGE: 'MAGE', FAMILIAR: 'MAGE',
-  SEVENTH_SEA: 'SEVENTH_SEA', L5R: 'L5R',
-}
+import { SPLAT_TO_CATEGORY } from '../data/splatCategories'
 
 const SYSTEM_CHRONICLE_PATH = { SEVENTH_SEA: '/7thsea/chronicles', L5R: '/l5r/chronicles' }
 

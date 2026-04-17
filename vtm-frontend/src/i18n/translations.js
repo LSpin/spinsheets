@@ -302,8 +302,6 @@ const en = {
   pathName: 'Path',
   pathRating: 'Path Rating',
   arete: 'Arete',
-  quintessence: 'Quintessence',
-  paradox: 'Paradox',
   hun: 'Hun',
   po: 'P\'o',
   yinChi: 'Yin',
@@ -342,7 +340,6 @@ const en = {
   rate: 'Rate',
   clip: 'Clip',
   concealment: 'Concealment',
-  addToInventory: 'Add to inventory',
 
   // ── Placeholders ──
   phDiscipline: 'e.g. Dominate',
@@ -415,7 +412,6 @@ const en = {
   phProtean: 'e.g. Protean',
   torpor: 'Torpor',
   finalDeath: 'Final Death',
-  noPenalty: '(no penalty)',
   humanity: 'Humanity',
   pathBlood: 'Path of Blood',
   pathBones: 'Path of Bones',
@@ -658,7 +654,6 @@ const en = {
   adminConfirmDelete: 'Delete user "{0}" and all their characters? This cannot be undone.',
   rolePlayer: 'Player',
   roleST: 'ST',
-  footerText: "Spin's Sheets — Character sheets for tabletop RPGs.",
   buyMeACoffee: 'Buy me a coffee',
 
   // ── Backstory tab ──
@@ -865,7 +860,6 @@ const en = {
   noNpcsYet: 'No NPCs yet.',
   filterByChronicle: 'Chronicle',
   allChronicles: 'All',
-  unassigned: 'Unassigned',
   assignChronicle: 'Assign to chronicle',
   noChronicle: 'No chronicle',
 
@@ -1423,8 +1417,6 @@ const pt = {
   pathName: 'Trilha',
   pathRating: 'Nível da Trilha',
   arete: 'Arete',
-  quintessence: 'Quintessência',
-  paradox: 'Paradoxo',
   hun: 'Hun',
   po: 'P\'o',
   yinChi: 'Yin',
@@ -1463,7 +1455,6 @@ const pt = {
   rate: 'Cadência',
   clip: 'Pente',
   concealment: 'Ocultação',
-  addToInventory: 'Adicionar ao inventário',
 
   // ── Placeholders ──
   phDiscipline: 'ex. Dominação',
@@ -1536,7 +1527,6 @@ const pt = {
   phProtean: 'ex. Metamorfose',
   torpor: 'Torpor',
   finalDeath: 'Morte Final',
-  noPenalty: '(sem penalidade)',
   humanity: 'Humanidade',
   pathBlood: 'Trilha do Sangue',
   pathBones: 'Trilha dos Ossos',
@@ -1777,7 +1767,6 @@ const pt = {
   adminConfirmDelete: 'Excluir usuário "{0}" e todos os personagens? Isso não pode ser desfeito.',
   rolePlayer: 'Jogador',
   roleST: 'Narrador',
-  footerText: "Spin's Sheets — Fichas de personagem para RPGs de mesa.",
   buyMeACoffee: 'Me pague um café',
 
   // ── Backstory tab ──
@@ -1981,7 +1970,6 @@ const pt = {
   noNpcsYet: 'Nenhum NPC ainda.',
   filterByChronicle: 'Crônica',
   allChronicles: 'Todas',
-  unassigned: 'Sem crônica',
   assignChronicle: 'Associar a crônica',
   noChronicle: 'Sem crônica',
 

@@ -6,6 +6,7 @@ import { getChronicle, addAssistantST, removeAssistantST, getSessions, addSessio
 import { getCharacters } from '../api/characterApi'
 import { joinChronicle, leaveChronicle } from '../api/chronicleApi'
 import { useTheme } from '../context/ThemeContext'
+import { SPLAT_TO_CATEGORY } from '../data/splatCategories'
 
 export default function ChronicleDetail() {
   const { id } = useParams()
@@ -180,13 +181,7 @@ export default function ChronicleDetail() {
   const isOwner = chronicle.storyteller?.id === user?.userId
   const isAST = chronicle.assistantStorytellers?.some(a => a.id === user?.userId)
   const canManage = isOwner || isAST
-  const SPLAT_TO_CATEGORY = {
-    VAMPIRE: 'VAMPIRE', VAMPIRE_REVISED: 'VAMPIRE', VAMPIRE_DARK_AGES: 'VAMPIRE',
-    VICTORIAN_VAMPIRE: 'VAMPIRE', KOTE: 'VAMPIRE', GHOUL: 'VAMPIRE',
-    WEREWOLF: 'WEREWOLF', WYLD_WEST_WEREWOLF: 'WEREWOLF', CHANGING_BREEDS: 'WEREWOLF', TOTEM: 'WEREWOLF',
-    MAGE: 'MAGE', VICTORIAN_MAGE: 'MAGE', FAMILIAR: 'MAGE',
-    SEVENTH_SEA: 'SEVENTH_SEA', L5R: 'L5R',
-  }
+  // SPLAT_TO_CATEGORY imported at top of file
   const memberIds = new Set(members.map(m => m.id))
   const allowedSet = chronicle.allowedSplats ? new Set(chronicle.allowedSplats.split(',')) : null
   const joinable = myCharacters.filter(c => {
