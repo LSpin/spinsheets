@@ -4,7 +4,7 @@ import { AuthProvider, useAuth } from './context/AuthContext'
 import { NewCharProvider } from './context/NewCharContext'
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext'
 import LanguageToggle from './components/LanguageToggle'
-import { ThemeProvider } from './context/ThemeContext'
+import { ThemeProvider, useTheme } from './context/ThemeContext'
 import CharacterList from './components/CharacterList'
 import CharacterForm from './components/CharacterForm'
 import CharacterRouter from './components/CharacterRouter'
@@ -120,9 +120,13 @@ function UserMenu() {
   )
 }
 
+const THEME_TO_CHARACTERS_PATH = { wod: '/characters', '7thsea': '/7thsea', l5r: '/l5r' }
+
 function AppShell() {
   const { user, isST } = useAuth()
   const { t } = useLanguage()
+  const { theme } = useTheme()
+  const charactersPath = THEME_TO_CHARACTERS_PATH[theme] || '/characters'
 
   return (
     <>
@@ -135,7 +139,7 @@ function AppShell() {
               <Link to="/">
                 <button>{t('navHome')}</button>
               </Link>
-              <Link to="/characters">
+              <Link to={charactersPath}>
                 <button>{t('navCharacters')}</button>
               </Link>
               <Link to="/chronicles">
