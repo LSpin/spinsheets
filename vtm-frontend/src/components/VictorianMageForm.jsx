@@ -8,6 +8,7 @@ import {
   getInventory,
   getXpLog, addXpLogEntry, removeXpLogEntry,
   getRotes, addRote, removeRote,
+  getDisciplines, addDiscipline, removeDiscipline,
 } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
 import MeritsFlawsSection from './MeritsFlawsSection'
@@ -20,6 +21,7 @@ import { MAGE_ROTES } from '../data/mageRotes'
 import { SPHERE_INFO, SPHERE_KEYS, SPHERE_FIELD_MAP } from '../data/mageSpheres'
 import { useLanguage } from '../i18n/LanguageContext'
 import { MAGE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
+import { WONDER_TYPES, MAGE_WONDERS } from '../data/mageWonders'
 import TagInfoPanel from './TagInfoPanel'
 
 // ── Constants ──
@@ -165,7 +167,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
 
 // ── Component ──
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabSpheres', 'tabRotes', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabFocusChantry', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabSpheres', 'tabRotes', 'tabWonders', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabFocusChantry', 'tabBackstory', 'tabXpLog']
 
 export default function VictorianMageForm() {
   const { id: paramId } = useParams()
@@ -195,6 +197,9 @@ export default function VictorianMageForm() {
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
   const [tagInfo, setTagInfo] = useState(null)
+  const [disciplines, setDisciplines] = useState([])
+  const [wonderSearch, setWonderSearch] = useState('')
+  const [newWonder, setNewWonder] = useState({ name: '', level: 1, notes: '' })
 
   // Guided creation state
   const [attrPriority, setAttrPriority] = useState({ physical: null, social: null, mental: null })
@@ -286,7 +291,7 @@ export default function VictorianMageForm() {
 
   async function loadCharacter() {
     try {
-      const [charRes, bgRes, meritRes, flawRes, invRes, xpRes, roteRes] = await Promise.all([
+      const [charRes, bgRes, meritRes, flawRes, invRes, xpRes, roteRes, discRes] = await Promise.all([
         getCharacter(characterId),
         getBackgrounds(characterId),
         getMerits(characterId),
@@ -294,6 +299,7 @@ export default function VictorianMageForm() {
         getInventory(characterId),
         getXpLog(characterId),
         getRotes(characterId),
+        getDisciplines(characterId),
       ])
       const data = charRes.data
       setFields(prev => {
@@ -307,6 +313,7 @@ export default function VictorianMageForm() {
       setInventory(invRes.data)
       setXpLog(xpRes.data)
       setRotes(roteRes.data)
+      setDisciplines(discRes.data)
     } catch { setSaveError(t('failedToLoad')) }
     finally { setLoading(false) }
   }
@@ -665,8 +672,86 @@ export default function VictorianMageForm() {
         </div>
       </div>
 
+      {/* ── Wonders ── */}
+      <div hidden={tab !== 6}>
+        <div className="form-section">
+          <fieldset>
+            <legend>Wonders ({disciplines.length})</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Wonders are magical items — Talismans, Devices, Artifacts, Periapts, and more. Created with Prime + other Spheres.
+            </p>
+            {disciplines.length > 0 && (
+              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+                {disciplines.map(d => {
+                  const entry = MAGE_WONDERS.find(w => w.name.toLowerCase() === d.name.toLowerCase())
+                  return (
+                    <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
+                      onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'wonder' })}>
+                      <span>{d.name} (Lv{d.level})</span>
+                      <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }}>×</button>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+            {tagInfo?.kind === 'wonder' && (() => {
+              const entry = MAGE_WONDERS.find(w => w.name.toLowerCase() === tagInfo.name.toLowerCase())
+              return (
+                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                  <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
+                  <p className="tag-info-panel-name">{tagInfo.name}</p>
+                  <p className="tag-info-panel-desc">Wonder · Level {tagInfo.level}{tagInfo.notes ? ` · ${tagInfo.notes}` : ''}</p>
+                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>Spheres: {entry.spheres}. {entry.description}</p>}
+                </aside>
+              )
+            })()}
+          </fieldset>
+
+          {/* Wonder Types Reference */}
+          <fieldset>
+            <legend>Wonder Types</legend>
+            {WONDER_TYPES.map(wt => (
+              <details key={wt.key} style={{ marginBottom: 'var(--space-xs)' }}>
+                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{wt.label}</summary>
+                <p className="muted-hint muted-hint--xs" style={{ padding: 'var(--space-xs) 0' }}>{wt.description}</p>
+              </details>
+            ))}
+          </fieldset>
+
+          {/* Wonder Catalogue */}
+          <fieldset>
+            <legend>Wonder Catalogue ({MAGE_WONDERS.length})</legend>
+            <div className="catalog-search-wrap">
+              <input type="search" value={wonderSearch} onChange={e => setWonderSearch(e.target.value)} placeholder="Search wonders by name, type, spheres, or effect..." />
+              <span className="catalog-search-count">{MAGE_WONDERS.filter(w => !wonderSearch || w.name.toLowerCase().includes(wonderSearch.toLowerCase()) || w.type.toLowerCase().includes(wonderSearch.toLowerCase()) || w.spheres.toLowerCase().includes(wonderSearch.toLowerCase()) || w.description.toLowerCase().includes(wonderSearch.toLowerCase())).length}</span>
+            </div>
+            <ul className="catalog-list">
+              {MAGE_WONDERS.filter(w => !wonderSearch || w.name.toLowerCase().includes(wonderSearch.toLowerCase()) || w.type.toLowerCase().includes(wonderSearch.toLowerCase()) || w.spheres.toLowerCase().includes(wonderSearch.toLowerCase()) || w.description.toLowerCase().includes(wonderSearch.toLowerCase())).map(w => {
+                const already = disciplines.some(d => d.name.toLowerCase() === w.name.toLowerCase())
+                return (
+                  <li key={w.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                    <button className="catalog-item-btn" onClick={() => {
+                      if (!already) addDiscipline(characterId, { name: w.name, level: w.level, notes: w.type }).then(res => setDisciplines(prev => [...prev, res.data])).catch(() => {})
+                    }}>
+                      <div className="catalog-item-main">
+                        <span className="catalog-item-name">{w.name} <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>— {w.type} · {w.spheres}</span></span>
+                        <span className="catalog-item-desc">{w.description}</span>
+                      </div>
+                      <div className="catalog-item-meta">
+                        <span className="catalog-item-cost">Lv{w.level}</span>
+                        {already ? <span className="catalog-item-check">✓</span> : <span className="catalog-item-add">+</span>}
+                      </div>
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          </fieldset>
+        </div>
+      </div>
+
       {/* ── XP Log ── */}
-      <div hidden={tab !== 12}>
+      <div hidden={tab !== 13}>
         <XpLogSection
           splat="mage"
           xpLog={xpLog}

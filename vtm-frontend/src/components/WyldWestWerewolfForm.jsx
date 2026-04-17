@@ -20,6 +20,7 @@ import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../da
 import { WEREWOLF_GIFTS } from '../data/werewolfGifts'
 import { WEREWOLF_RITES } from '../data/werewolfRites'
 import { WEREWOLF_TOTEMS } from '../data/werewolfTotems'
+import { WEREWOLF_FETISHES, WEREWOLF_TALENS } from '../data/werewolfFetishes'
 import { WEREWOLF_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import TagInfoPanel from './TagInfoPanel'
 
@@ -292,7 +293,9 @@ export default function WyldWestWerewolfForm() {
     return budget > 0 ? <span className={`points-remaining ${cls}`}>{text}</span> : null
   }
 
-  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
+  const [fetishSearch, setFetishSearch] = useState('')
+
+  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
 
   useEffect(() => {
     if (characterId) loadCharacter()
@@ -793,44 +796,103 @@ export default function WyldWestWerewolfForm() {
                 })()}
               </fieldset>
 
-              <fieldset>
-                <legend>{t('fetishes')} ({fetishes.length})</legend>
-                {fetishes.length > 0 && (
-                  <ul className="tag-list">
-                    {fetishes.map(f => (
-                      <li key={f.id} className="tag">
-                        <span>{f.name} (Lv{f.level}, {t('gnosis')} {f.gnosisRating})</span>
-                        <button className="tag-remove" onClick={() => { removeFetish(characterId, f.id); setFetishes(prev => prev.filter(x => x.id !== f.id)) }}>×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <div className="field-row" style={{ alignItems: 'flex-end' }}>
-                  <div className="field" style={{ flex: 2 }}>
-                    <label htmlFor="fetish-name">{t('fetishName')}</label>
-                    <input id="fetish-name" type="text" value={newFetish.name} onChange={e => setNewFetish(p => ({ ...p, name: e.target.value }))} autoComplete="off" />
-                  </div>
-                  <div className="field">
-                    <label htmlFor="fetish-level">{t('level')}</label>
-                    <select id="fetish-level" value={newFetish.level} onChange={e => setNewFetish(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                      {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
-                    </select>
-                  </div>
-                  <div className="field">
-                    <label htmlFor="fetish-gnosis">{t('gnosis')}</label>
-                    <select id="fetish-gnosis" value={newFetish.gnosisRating} onChange={e => setNewFetish(p => ({ ...p, gnosisRating: parseInt(e.target.value) }))}>
-                      {[1,2,3,4,5,6,7,8,9,10].map(v => <option key={v} value={v}>{v}</option>)}
-                    </select>
-                  </div>
-                  <button className="btn btn-secondary" onClick={handleAddFetish}>{t('add')}</button>
-                </div>
-              </fieldset>
             </>
         </div>
       </div>
 
-      {/* ── Renown & Rage ── */}
+      {/* ── Fetishes & Talens ── */}
       <div hidden={tab !== 5}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('tabFetishes')} ({fetishes.length})</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Fetishes are permanent spirit-bound items. Talens are single-use. Activating a fetish requires a Gnosis roll.
+            </p>
+            {fetishes.length > 0 && (
+              <table className="inv-table" style={{ marginBottom: 'var(--space-md)' }}>
+                <thead><tr><th>Name</th><th>Level</th><th>Gnosis</th><th>Power</th><th></th></tr></thead>
+                <tbody>
+                  {fetishes.map(f => (
+                    <tr key={f.id}>
+                      <td style={{ fontWeight: 600 }}>{f.name}</td>
+                      <td>{f.level}</td>
+                      <td>{f.gnosisRating}</td>
+                      <td className="inv-notes">{f.power}</td>
+                      <td><button className="tag-remove" onClick={() => { removeFetish(characterId, f.id); setFetishes(prev => prev.filter(x => x.id !== f.id)) }} aria-label={`Remove ${f.name}`}>×</button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+              <div className="field" style={{ flex: 2 }}>
+                <label>Name</label>
+                <input type="text" list="fetish-catalog" value={newFetish.name} onChange={e => {
+                  const val = e.target.value
+                  const hit = WEREWOLF_FETISHES.find(f => f.name === val)
+                  if (hit) setNewFetish(p => ({ ...p, name: hit.name, level: hit.level, gnosisRating: hit.gnosis, power: hit.description }))
+                  else setNewFetish(p => ({ ...p, name: val }))
+                }} autoComplete="off" placeholder="Search fetish catalogue..." />
+                <datalist id="fetish-catalog">
+                  {WEREWOLF_FETISHES.map(f => <option key={f.name} value={f.name} />)}
+                </datalist>
+              </div>
+              <div className="field" style={{ width: 70 }}><label>Level</label>
+                <select value={newFetish.level} onChange={e => setNewFetish(p => ({ ...p, level: parseInt(e.target.value) }))}>{[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}</select>
+              </div>
+              <div className="field" style={{ width: 80 }}><label>Gnosis</label>
+                <input type="number" min={1} max={10} value={newFetish.gnosisRating} onChange={e => setNewFetish(p => ({ ...p, gnosisRating: parseInt(e.target.value) || 1 }))} />
+              </div>
+              <button className="btn btn-secondary" onClick={handleAddFetish}>{t('add')}</button>
+            </div>
+            <div className="field" style={{ marginTop: 'var(--space-sm)' }}>
+              <label>Power / Description</label>
+              <input type="text" value={newFetish.power} onChange={e => setNewFetish(p => ({ ...p, power: e.target.value }))} placeholder="Describe the fetish's power..." />
+            </div>
+          </fieldset>
+
+          {/* Fetish Catalogue */}
+          <details>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Fetish Catalogue ({WEREWOLF_FETISHES.length})</summary>
+            <div className="catalog-search-wrap" style={{ marginTop: 'var(--space-sm)' }}>
+              <input type="search" value={fetishSearch} onChange={e => setFetishSearch(e.target.value)} placeholder="Search fetishes..." />
+            </div>
+            <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
+              <thead><tr><th>Lv</th><th>Name</th><th>Gnosis</th><th>Effect</th></tr></thead>
+              <tbody>
+                {WEREWOLF_FETISHES.filter(f => !fetishSearch || f.name.toLowerCase().includes(fetishSearch.toLowerCase()) || f.description.toLowerCase().includes(fetishSearch.toLowerCase())).map(f => (
+                  <tr key={f.name}>
+                    <td style={{ fontWeight: 600, color: 'var(--color-accent-fg)' }}>{f.level}</td>
+                    <td style={{ fontWeight: 600 }}>{f.name}</td>
+                    <td>{f.gnosis}</td>
+                    <td className="inv-notes">{f.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </details>
+
+          {/* Talen Catalogue */}
+          <details style={{ marginTop: 'var(--space-md)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Talen Catalogue ({WEREWOLF_TALENS.length})</summary>
+            <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
+              <thead><tr><th>Name</th><th>Gnosis</th><th>Effect</th></tr></thead>
+              <tbody>
+                {WEREWOLF_TALENS.map(tl => (
+                  <tr key={tl.name}>
+                    <td style={{ fontWeight: 600 }}>{tl.name}</td>
+                    <td>{tl.gnosis}</td>
+                    <td className="inv-notes">{tl.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </details>
+        </div>
+      </div>
+
+      {/* ── Renown & Rage ── */}
+      <div hidden={tab !== 6}>
         <div className="form-section">
           <fieldset>
             <legend>{t('rage')}</legend>
@@ -883,7 +945,7 @@ export default function WyldWestWerewolfForm() {
       </div>
 
       {/* ── Health ── */}
-      <div hidden={tab !== 6}>
+      <div hidden={tab !== 7}>
         <div className="form-section">
           <fieldset>
             <legend>{t('healthTrack')}</legend>
@@ -928,7 +990,7 @@ export default function WyldWestWerewolfForm() {
       </div>
 
       {/* ── Backgrounds ── */}
-      <div hidden={tab !== 7}>
+      <div hidden={tab !== 8}>
         <div className="disc-bg-layout">
           <div className="form-section">
             <fieldset>
@@ -975,17 +1037,17 @@ export default function WyldWestWerewolfForm() {
       </div>
 
       {/* ── Merits & Flaws ── */}
-      <div hidden={tab !== 8}>
+      <div hidden={tab !== 9}>
         <MeritsFlawsSection characterId={characterId} merits={merits} setMerits={setMerits} flaws={flaws} setFlaws={setFlaws} meritCatalog={meritCatalog} flawCatalog={flawCatalog} />
       </div>
 
       {/* ── Inventory ── */}
-      <div hidden={tab !== 9}>
+      <div hidden={tab !== 10}>
         <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
       </div>
 
       {/* ── Backstory ── */}
-      <div hidden={tab !== 10}>
+      <div hidden={tab !== 11}>
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
@@ -1019,7 +1081,7 @@ export default function WyldWestWerewolfForm() {
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 11}>
+      <div hidden={tab !== 12}>
         <XpLogSection
           splat="werewolf"
           xpLog={xpLog}
