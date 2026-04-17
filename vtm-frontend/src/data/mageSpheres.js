@@ -1,0 +1,157 @@
+/**
+ * Mage: The Ascension (M20) — Sphere descriptions by level.
+ * Each sphere has levels 1–5 (standard) and 6–9 (Archsphere).
+ */
+export const SPHERE_INFO = {
+  correspondence: {
+    name: 'Correspondence',
+    description: 'Mastery over connections, space, and distance.',
+    levels: {
+      1: 'Immediate Spatial Perceptions — Sense distances, directions, and spatial connections. Detect warps or portals.',
+      2: 'Sense & Touch Space — Scry distant locations, extend senses across space.',
+      3: 'Pierce Space, Seal Gate — Teleport small objects, create co-spatial wards, block scrying.',
+      4: 'Rend Space, Co-locate — Open portals, exist in two places at once, distort spatial relationships.',
+      5: 'Mutate Localities — Reshape geography, create permanent gateways, overlay multiple locations.',
+      6: 'Archsphere — Weave entire regions together, collapse distances on a massive scale.',
+      7: 'Archsphere — Merge or split dimensions of space, redefine locality itself.',
+      8: 'Archsphere — Unravel the fabric of space across Realms.',
+      9: 'Archsphere — Omnipresence; exist everywhere within a defined domain simultaneously.',
+    },
+  },
+  entropy: {
+    name: 'Entropy',
+    description: 'Control over fate, probability, decay, and fortune.',
+    levels: {
+      1: 'Sense Fate & Fortune — Perceive destiny, probability, and weaknesses in patterns.',
+      2: 'Control Probability — Bless or curse luck, influence games of chance.',
+      3: 'Affect Predictable Patterns — Erode or strengthen inanimate objects, rot or mend structures.',
+      4: 'Affect Life — Age or rejuvenate living things, inflict or cure disease.',
+      5: 'Affect Thought — Decay ideas, corrode memories, unravel mental patterns.',
+      6: 'Archsphere — Command fate on a grand scale, guarantee outcomes of complex events.',
+      7: 'Archsphere — Rewrite the laws of probability for an entire region or community.',
+      8: 'Archsphere — Dissolve fundamental patterns — concepts, institutions, or forces of nature.',
+      9: 'Archsphere — Entropy incarnate; unmake or ordain anything within your domain.',
+    },
+  },
+  forces: {
+    name: 'Forces',
+    description: 'Command over energy — fire, electricity, gravity, light, sound, and kinetic force.',
+    levels: {
+      1: 'Perceive Forces — See invisible energies: radiation, radio waves, magnetic fields, gravity.',
+      2: 'Control Minor Forces — Manipulate existing forces (dim lights, amplify sound, redirect heat).',
+      3: 'Transmute Minor Forces — Create forces from nothing, convert one energy type to another.',
+      4: 'Control Major Forces — Command storms, explosions, and powerful energies.',
+      5: 'Transmute Major Forces — Create devastating blasts, transmute forces on a massive scale.',
+      6: 'Archsphere — Reshape fundamental forces of physics in a locale.',
+      7: 'Archsphere — Create or extinguish forces on a regional scale (quench all fire, silence a city).',
+      8: 'Archsphere — Command cosmological forces — redirect solar winds, manipulate gravity wells.',
+      9: 'Archsphere — Redefine how energy behaves within your domain.',
+    },
+  },
+  life: {
+    name: 'Life',
+    description: 'Power over living patterns — healing, shapeshifting, and biological control.',
+    levels: {
+      1: 'Sense Life — Perceive health, species, age, and biological patterns of living things.',
+      2: 'Alter Simple Patterns — Heal or harm simple organisms (plants, invertebrates). Purify food/drink.',
+      3: 'Alter Self, Transform Simple Life — Shapeshift minor features, heal yourself, transform simple creatures.',
+      4: 'Alter Complex Patterns — Reshape others\' bodies, heal complex life, inflict biological harm.',
+      5: 'Transform Self, Create Life — Radical shapeshifting, create new life forms, perfect healing.',
+      6: 'Archsphere — Rewrite genetic code, create chimeric life, reshape ecosystems.',
+      7: 'Archsphere — Spark or extinguish life en masse, evolve or devolve species.',
+      8: 'Archsphere — Command the life force of a region — bloom deserts or wither forests.',
+      9: 'Archsphere — Genesis; define what life means within your domain.',
+    },
+  },
+  matter: {
+    name: 'Matter',
+    description: 'Mastery over inanimate material — shape, composition, and state.',
+    levels: {
+      1: 'Matter Perceptions — Analyze material composition, detect hidden objects, sense structural weakness.',
+      2: 'Basic Transmutation — Change shape or state of matter (solid/liquid/gas), mold simple objects.',
+      3: 'Alter Form — Complex reshaping, walk through walls, harden or soften materials.',
+      4: 'Complex Transmutation — Transmute elements (lead to gold), enhance or degrade material properties.',
+      5: 'Alter Properties — Create matter from nothing, radically alter physical properties.',
+      6: 'Archsphere — Create exotic matter, substances with impossible properties.',
+      7: 'Archsphere — Reshape matter on a massive scale — sculpt mountains, transmute lakes.',
+      8: 'Archsphere — Command atomic and subatomic structure, create or destroy elements.',
+      9: 'Archsphere — Define the nature of matter within your domain.',
+    },
+  },
+  mind: {
+    name: 'Mind',
+    description: 'Influence over thoughts, emotions, dreams, and psychic awareness.',
+    levels: {
+      1: 'Sense Thoughts & Emotions — Empathy, aura reading, detect mental influence or psychic activity.',
+      2: 'Read Surface Thoughts, Mental Impulse — Telepathy, project emotions, psychic "nudge."',
+      3: 'Mental Link, Walk Among Dreams — Deep telepathy across distances, enter and shape dreams.',
+      4: 'Control Conscious Mind — Domination, possession, rewrite surface personality, psychic combat.',
+      5: 'Control Subconscious, Untether — Rewrite deep personality, astral projection, create/destroy minds.',
+      6: 'Archsphere — Group mind control, reshape the collective consciousness of a crowd.',
+      7: 'Archsphere — Rewrite memories and personalities on a massive scale.',
+      8: 'Archsphere — Awaken or extinguish consciousness itself within a region.',
+      9: 'Archsphere — Omniscience within your domain; define thought and will.',
+    },
+  },
+  prime: {
+    name: 'Prime',
+    description: 'Command over Quintessence — raw magical energy, enchantment, and the Tapestry.',
+    levels: {
+      1: 'Etheric Senses — Perceive Quintessence flow, detect magic, sense enchantment and Nodes.',
+      2: 'Fuel Pattern, Enchant Patterns — Channel Quintessence into patterns, create temporary enchantments.',
+      3: 'Channel Quintessence — Create or destroy magical items, fuel other Effects, power Wonders.',
+      4: 'Expel Base Energy — Direct Quintessential damage, anti-magic, disenchant, strip magical defenses.',
+      5: 'Alter Quintessential Flow — Create Nodes, forge Tass, supreme enchantment, alter ley lines.',
+      6: 'Archsphere — Create wellsprings of power, establish permanent magical zones.',
+      7: 'Archsphere — Reshape the Tapestry itself, redefine how magic flows in a region.',
+      8: 'Archsphere — Create or destroy Quintessence on a cosmic scale.',
+      9: 'Archsphere — Define the nature of magic within your domain.',
+    },
+  },
+  spirit: {
+    name: 'Spirit',
+    description: 'Interaction with the Umbra, spirits, and the boundary between worlds.',
+    levels: {
+      1: 'Spirit Sight — Perceive the Penumbra and spirits, sense the strength of the Gauntlet.',
+      2: 'Touch Spirit, Manipulate Gauntlet — Interact with spirits, strengthen or weaken the Gauntlet.',
+      3: 'Pierce Gauntlet, Step Sideways — Enter the Umbra, project into the spirit world.',
+      4: 'Rend Gauntlet, Seal Breach — Tear open or seal the barrier, create spirit fetters.',
+      5: 'Forge Ephemera, Bind Spirits — Create or destroy spirit matter, bind or free powerful spirits.',
+      6: 'Archsphere — Command spirit courts, reshape Umbral domains.',
+      7: 'Archsphere — Create or destroy entire Umbral Realms.',
+      8: 'Archsphere — Merge or separate the material and spirit worlds.',
+      9: 'Archsphere — Define the relationship between worlds within your domain.',
+    },
+  },
+  time: {
+    name: 'Time',
+    description: 'Mastery over temporal flow — perception, manipulation, and travel through time.',
+    levels: {
+      1: 'Time Sense — Perfect temporal awareness, detect time distortions, sense temporal magic.',
+      2: 'Past & Future Sight — Postcognition (view the past), limited precognition (glimpse likely futures).',
+      3: 'Time Manipulation — Slow or accelerate time in an area, dilate personal time.',
+      4: 'Time Determinism — Anchor yourself in time, rewind short moments, create temporal loops.',
+      5: 'Future Travel, Time Immunity — Travel through time, temporal paradox, freeze or unstick moments.',
+      6: 'Archsphere — Reshape the timeline of events, create stable time loops.',
+      7: 'Archsphere — Rewrite history on a local scale, branch timelines.',
+      8: 'Archsphere — Command time across regions — age or rejuvenate landscapes.',
+      9: 'Archsphere — Define how time flows within your domain.',
+    },
+  },
+}
+
+export const SPHERE_KEYS = [
+  'correspondence', 'entropy', 'forces', 'life', 'matter', 'mind', 'prime', 'spirit', 'time',
+]
+
+export const SPHERE_FIELD_MAP = {
+  correspondence: 'sphereCorrespondence',
+  entropy: 'sphereEntropy',
+  forces: 'sphereForces',
+  life: 'sphereLife',
+  matter: 'sphereMatter',
+  mind: 'sphereMind',
+  prime: 'spherePrime',
+  spirit: 'sphereSpirit',
+  time: 'sphereTime',
+}

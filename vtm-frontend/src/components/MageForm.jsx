@@ -17,6 +17,7 @@ import XpLogSection from './XpLogSection'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { MAGE_TRADITIONS } from '../data/mageTraditions'
 import { MAGE_ROTES } from '../data/mageRotes'
+import { SPHERE_INFO, SPHERE_KEYS, SPHERE_FIELD_MAP } from '../data/mageSpheres'
 import { useLanguage } from '../i18n/LanguageContext'
 import { BACKGROUNDS } from '../data/backgrounds'
 import TagInfoPanel from './TagInfoPanel'
@@ -610,8 +611,62 @@ export default function MageForm() {
         </div>
       </div>
 
-      {/* ── Secondary Abilities ── */}
-      <div role="tabpanel" id="tabpanel-3" aria-labelledby="tab-3" hidden={tab !== 3}>
+      {/* ── Spheres ── */}
+      <div hidden={tab !== 4}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('areteLabel')}</legend>
+            <div className="ability-row">
+              <DotRating label={t('areteLabel')} name="arete" value={fields.arete} onChange={handleField} min={1} max={10} />
+            </div>
+            <p className="muted-hint" style={{ fontSize: '0.72rem' }}>
+              {t('areteHint')}
+            </p>
+          </fieldset>
+
+          <fieldset>
+            <legend>{t('spheres')}</legend>
+            <p className="muted-hint" style={{ fontSize: '0.72rem', marginBottom: 'var(--space-sm)' }}>
+              {t('sphereMaxHint').replace('{0}', fields.arete)}
+            </p>
+            <div className="rating-grid">
+              {SPHERE_KEYS.map(key => {
+                const field = SPHERE_FIELD_MAP[key]
+                const info = SPHERE_INFO[key]
+                const val = fields[field] || 0
+                const isArchsphere = val >= 6
+                return (
+                  <div key={key} className="ability-row" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '0.25rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <DotRating label={info.name} name={field} value={val} onChange={handleField} min={0} max={Math.min(fields.arete || 1, 9)} />
+                      {isArchsphere && <span style={{ fontSize: '0.7rem', color: '#c4a35a', fontWeight: 600 }}>ARCH</span>}
+                    </div>
+                    <p style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', margin: 0, paddingLeft: 4 }}>
+                      {info.description}
+                    </p>
+                    {val > 0 && info.levels[val] && (
+                      <p style={{ fontSize: '0.72rem', color: val >= 6 ? '#c4a35a' : 'var(--color-text)', margin: 0, paddingLeft: 4, fontStyle: 'italic' }}>
+                        {val >= 6 ? `[${val}] ` : `[${val}] `}{info.levels[val]}
+                      </p>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>{t('quintessenceParadox')}</legend>
+            <div className="field-row">
+              <DotRating label={t('quintessence')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={20} />
+              <DotRating label={t('paradox')} name="paradox" value={fields.paradox} onChange={handleField} min={0} max={20} />
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── XP Log ── */}
+      <div hidden={tab !== 12}>
         <XpLogSection
           splat="mage"
           xpLog={xpLog}
