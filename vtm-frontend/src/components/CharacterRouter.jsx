@@ -28,6 +28,7 @@ export default function CharacterRouter() {
   const [splat, setSplat] = useState(null)
   const [isNpc, setIsNpc] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -36,10 +37,10 @@ export default function CharacterRouter() {
         const s = res.data.splat || 'VAMPIRE'
         setSplat(s)
         setIsNpc(!!res.data.npc)
+        setNotFound(false)
         switchTheme(s === 'SEVENTH_SEA' ? '7thsea' : s === 'L5R' ? 'l5r' : 'wod')
       } catch {
-        setSplat('VAMPIRE')
-        switchTheme('wod')
+        setNotFound(true)
       } finally {
         setLoading(false)
       }
@@ -48,6 +49,12 @@ export default function CharacterRouter() {
   }, [id])
 
   if (loading) return <p className="status-loading">{t('loading')}</p>
+  if (notFound) return (
+    <div className="empty-state" style={{ textAlign: 'center', padding: 'var(--space-2xl)' }}>
+      <h2>{t('characterNotFound')}</h2>
+      <p className="muted-hint">{t('characterNotFoundDesc')}</p>
+    </div>
+  )
 
   if (splat === 'WEREWOLF') return <WerewolfForm />
   if (splat === 'MAGE') return <MageForm />

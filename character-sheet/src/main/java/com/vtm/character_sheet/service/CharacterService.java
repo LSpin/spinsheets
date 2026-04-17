@@ -4,6 +4,7 @@ import com.vtm.character_sheet.entity.Character;
 import com.vtm.character_sheet.repository.CharacterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,5 +21,13 @@ public class CharacterService {
     public List<Character> findByName(String name) { return repository.findByNameContainingIgnoreCase(name); }
     public List<Character> findByClan(String clan) { return repository.findByClan(clan); }
     public Character save(Character character) { return repository.save(character); }
-    public void deleteById(Long id) { repository.deleteById(id); }
+
+    @Transactional
+    public void deleteById(Long id) {
+        repository.findById(id).ifPresent(character -> {
+            character.setChronicle(null);
+            repository.save(character);
+            repository.delete(character);
+        });
+    }
 }
