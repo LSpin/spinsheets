@@ -30,6 +30,10 @@ import StorytellerDiceRoller from './StorytellerDiceRoller'
 
 const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBloodSorcery', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
 
+function getLevelHint(catalog, name, level) {
+  const entry = catalog.find(c => c.value.toLowerCase() === name.toLowerCase())
+  return entry?.levels?.[level - 1] ?? ''
+}
 
 // ── Clans & Clan Curses ───────────────────────────────────────────────────────
 
