@@ -564,7 +564,347 @@ export default function KoteForm() {
       </div>
 
       {/* ── Secondary Abilities ── */}
-      <div role="tabpanel" id="tabpanel-3" aria-labelledby="tab-3" hidden={tab !== 3}>
+      <div hidden={tab !== 3}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('secondaryTalents')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              {t('secondaryAbilitiesHint')}
+            </p>
+            <div className="rating-grid">
+              {Array.from({length: 10}, (_, i) => i + 1).map(i => (
+                <CustomAbilityRow
+                  key={`hobbyTalent${i}`}
+                  nameProp={`hobbyTalent${i}Name`}
+                  ratingProp={`hobbyTalent${i}`}
+                  placeholder={t('secondaryTalent')}
+                  fields={fields}
+                  onField={handleField}
+                  onText={handleText}
+                  catalog={SECONDARY_TALENTS}
+                />
+              ))}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>{t('secondarySkills')}</legend>
+            <div className="rating-grid">
+              {Array.from({length: 10}, (_, i) => i + 1).map(i => (
+                <CustomAbilityRow
+                  key={`profSkill${i}`}
+                  nameProp={`profSkill${i}Name`}
+                  ratingProp={`profSkill${i}`}
+                  placeholder={t('secondarySkill')}
+                  fields={fields}
+                  onField={handleField}
+                  onText={handleText}
+                  catalog={SECONDARY_SKILLS}
+                />
+              ))}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>{t('secondaryKnowledges')}</legend>
+            <div className="rating-grid">
+              {Array.from({length: 10}, (_, i) => i + 1).map(i => (
+                <CustomAbilityRow
+                  key={`expertKnowl${i}`}
+                  nameProp={`expertKnowl${i}Name`}
+                  ratingProp={`expertKnowl${i}`}
+                  placeholder={t('secondaryKnowledge')}
+                  fields={fields}
+                  onField={handleField}
+                  onText={handleText}
+                  catalog={SECONDARY_KNOWLEDGES}
+                />
+              ))}
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── Dharma & Chi ── */}
+      <div hidden={tab !== 4}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('dharma')}</legend>
+            <div className="field-row">
+              <div className="field" style={{ flex: 2 }}>
+                <label htmlFor="dharmaName">{t('dharma')}</label>
+                <select id="dharmaName" name="dharmaName" value={fields.dharmaName} onChange={handleText}>
+                  <option value="">{t('select')}</option>
+                  {DHARMAS.map(d => <option key={d} value={d}>{d}</option>)}
+                </select>
+              </div>
+              <div className="field">
+                <DotRating label={t('dharmaRating')} name="dharmaRating" value={fields.dharmaRating} onChange={handleField} min={0} max={10} />
+              </div>
+            </div>
+            {fields.dharmaName && (() => {
+              const dharmaInfo = KOTE_DHARMAS.find(d => fields.dharmaName.toLowerCase().includes(d.name.toLowerCase()))
+              return dharmaInfo ? (
+                <div style={{ marginTop: 'var(--space-sm)' }}>
+                  <p className="archetype-desc">{dharmaInfo.description}</p>
+                  <p className="archetype-desc" style={{ marginTop: '0.25rem' }}><strong>Training:</strong> {dharmaInfo.training}</p>
+                </div>
+              ) : null
+            })()}
+          </fieldset>
+
+          <fieldset>
+            <legend>{t('hunPo')}</legend>
+            <div className="field-row">
+              <DotRating label="Hun" name="hun" value={fields.hun} onChange={handleField} min={0} max={10} />
+              <DotRating label="P'o" name="po" value={fields.po} onChange={handleField} min={0} max={10} />
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Chi</legend>
+            <div className="field-row">
+              <DotRating label="Yin Chi" name="yinChi" value={fields.yinChi} onChange={handleField} min={0} max={10} />
+              <DotRating label="Yang Chi" name="yangChi" value={fields.yangChi} onChange={handleField} min={0} max={10} />
+              <DotRating label="Demon Chi" name="demonChi" value={fields.demonChi} onChange={handleField} min={0} max={10} />
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>{t('virtues')}</legend>
+            <div className="field-row">
+              <DotRating label={t('conscience')} name="conscience" value={fields.conscience} onChange={handleField} min={0} max={5} />
+              <DotRating label={t('selfControl')} name="selfControl" value={fields.selfControl} onChange={handleField} min={0} max={5} />
+              <DotRating label={t('courage')} name="courage" value={fields.courage} onChange={handleField} min={0} max={5} />
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>{t('willpower')}</legend>
+            <div className="ability-row">
+              <DotRating label={t('willpower')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
+            </div>
+            <div className="ability-row">
+              <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── Health ── */}
+      <div hidden={tab !== 5}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('healthTrack')}</legend>
+            <p className="muted-hint muted-hint--sm">{t('healthHint')}</p>
+            <table className="health-track">
+              <thead>
+                <tr>
+                  <th>{t('health')}</th>
+                  <th>{t('penalty')}</th>
+                  <th>{t('damageType')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { key: 'healthBruised',    label: 'bruised',       penalty: '' },
+                  { key: 'healthHurt',       label: 'hurt',          penalty: '-1' },
+                  { key: 'healthInjured',    label: 'injured',       penalty: '-1' },
+                  { key: 'healthWounded',    label: 'wounded',       penalty: '-2' },
+                  { key: 'healthMauled',     label: 'mauled',        penalty: '-2' },
+                  { key: 'healthCrippled',   label: 'crippled',      penalty: '-5' },
+                  { key: 'healthIncap',      label: 'incapacitated', penalty: '' },
+                ].map(h => {
+                  const val = fields[h.key] || ''
+                  const dmgLabel = val === 'A' ? t('aggDmg') : val === 'L' ? t('lethalDmg') : val === 'B' ? t('bashingDmg') : t('undamaged')
+                  const dmgColor = val === 'A' ? '#e55' : val === 'L' ? '#e95' : val === 'B' ? '#8cf' : 'var(--color-text-muted)'
+                  return (
+                    <tr key={h.key}
+                      onClick={() => {
+                        const cycle = { '': 'B', B: 'L', L: 'A', A: '' }
+                        handleField(h.key, cycle[val] || '')
+                      }}>
+                      <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
+                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '—'}</td>
+                      <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── Shintai ── */}
+      <div hidden={tab !== 6}>
+        <div className="form-section">
+          <fieldset>
+            <legend>Disciplines & Shintai ({disciplines.length})</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Kuei-jin powers are divided into Demon Arts, Soul Arts, Shintai transformations, and other disciplines.
+            </p>
+            {disciplines.length > 0 && (
+              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+                {disciplines.map(d => (
+                  <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
+                    onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'discipline' })}>
+                    <span>{d.name} ({d.level})</span>
+                    <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }}>×</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {tagInfo?.kind === 'discipline' && (() => {
+              const entry = KOTE_SHINTAI.find(s => s.name.toLowerCase() === tagInfo.name.toLowerCase())
+              return (
+                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                  <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
+                  <p className="tag-info-panel-name">{tagInfo.name}</p>
+                  <p className="tag-info-panel-desc">Level {tagInfo.level}{entry ? ` · ${entry.category}` : ''}</p>
+                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                </aside>
+              )
+            })()}
+          </fieldset>
+
+          {/* Add custom discipline */}
+          <fieldset>
+            <legend>Add Discipline</legend>
+            <div className="field-row" style={{ alignItems: 'flex-end', gap: 'var(--space-sm)' }}>
+              <div className="field" style={{ flex: 2 }}>
+                <label>{t('name')}</label>
+                <input type="text" value={newDiscipline.name} onChange={e => setNewDiscipline(prev => ({ ...prev, name: e.target.value }))}
+                  placeholder="Discipline name..." list="kote-disc-list" />
+                <datalist id="kote-disc-list">
+                  {KOTE_SHINTAI.map(s => <option key={s.name} value={s.name} />)}
+                </datalist>
+              </div>
+              <div className="field" style={{ width: 70 }}>
+                <label>Level</label>
+                <select value={newDiscipline.level} onChange={e => setNewDiscipline(prev => ({ ...prev, level: parseInt(e.target.value) }))}>
+                  {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
+                </select>
+              </div>
+              <button className="btn btn-primary btn-sm" onClick={handleAddDiscipline}>{t('add')}</button>
+            </div>
+          </fieldset>
+
+          {/* Shintai Catalogue */}
+          <fieldset>
+            <legend>Shintai & Discipline Catalogue ({KOTE_SHINTAI.length})</legend>
+            {['Demon', 'Soul', 'Shintai', 'Other'].map(cat => {
+              const items = KOTE_SHINTAI.filter(s => s.category === cat)
+              return (
+                <details key={cat} style={{ marginBottom: 'var(--space-xs)' }}>
+                  <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>
+                    {cat} Arts ({items.length})
+                  </summary>
+                  <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
+                    {items.map(s => {
+                      const already = disciplines.some(d => d.name.toLowerCase() === s.name.toLowerCase())
+                      return (
+                        <li key={s.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                          <button className="catalog-item-btn" onClick={() => {
+                            if (!already) addDiscipline(characterId, { name: s.name, level: 1 }).then(res => setDisciplines(prev => [...prev, res.data])).catch(() => {})
+                          }}>
+                            <div className="catalog-item-main">
+                              <span className="catalog-item-name">{s.name}</span>
+                              <span className="catalog-item-desc">{s.description}</span>
+                            </div>
+                            <div className="catalog-item-meta">
+                              {already ? <span className="catalog-item-check">✓</span> : <span className="catalog-item-add">+</span>}
+                            </div>
+                          </button>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </details>
+              )
+            })}
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── Backgrounds ── */}
+      <div hidden={tab !== 7}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('backgrounds')} ({backgrounds.length})</legend>
+            {backgrounds.length > 0 && (
+              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+                {backgrounds.map(bg => (
+                  <li key={bg.id} className={`tag tag--clickable${bg.id === tagInfo?.id ? ' tag--active' : ''}`}
+                    onClick={() => setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' })}>
+                    <span>{bg.name} ({bg.level}){bg.description ? ` — ${bg.description}` : ''}</span>
+                    <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, bg.id); setBackgrounds(prev => prev.filter(x => x.id !== bg.id)); if (tagInfo?.id === bg.id) setTagInfo(null) }}>×</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {tagInfo?.kind === 'background' && (() => {
+              const entry = BACKGROUNDS.find(b => b.value.toLowerCase() === tagInfo.name.toLowerCase())
+              return (
+                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                  <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
+                  <p className="tag-info-panel-name">{tagInfo.name}</p>
+                  <p className="tag-info-panel-desc">Background · Level {tagInfo.level}</p>
+                  {entry?.description && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.levels && (
+                    <ul className="tag-info-levels">
+                      {entry.levels.map((lvl, i) => (
+                        <li key={i} className={`tag-info-level${i + 1 === tagInfo.level ? ' tag-info-level--active' : ''}`}>{lvl}</li>
+                      ))}
+                    </ul>
+                  )}
+                </aside>
+              )
+            })()}
+            <div className="field-row" style={{ alignItems: 'flex-end', gap: 'var(--space-sm)' }}>
+              <div className="field" style={{ flex: 2 }}>
+                <label>{t('name')}</label>
+                <input type="text" value={newBackground.name} onChange={e => setNewBackground(prev => ({ ...prev, name: e.target.value }))}
+                  placeholder="Background name..." list="bg-catalog-list" />
+                <datalist id="bg-catalog-list">
+                  {BACKGROUNDS.map(b => <option key={b.value} value={b.value} />)}
+                </datalist>
+              </div>
+              <div className="field" style={{ width: 70 }}>
+                <label>Level</label>
+                <select value={newBackground.level} onChange={e => setNewBackground(prev => ({ ...prev, level: parseInt(e.target.value) }))}>
+                  {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
+                </select>
+              </div>
+              <button className="btn btn-primary btn-sm" onClick={handleAddBackground}>{t('add')}</button>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── Merits & Flaws ── */}
+      <div hidden={tab !== 8}>
+        <MeritsFlawsSection characterId={characterId} merits={merits} setMerits={setMerits} flaws={flaws} setFlaws={setFlaws} meritCatalog={meritCatalog} flawCatalog={flawCatalog} />
+      </div>
+
+      {/* ── Inventory ── */}
+      <div hidden={tab !== 9}>
+        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
+      </div>
+
+      {/* ── Backstory ── */}
+      <div hidden={tab !== 10}>
+        <div className="form-section">
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('goalsLabel')}</legend><textarea name="goals" value={fields.goals} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('alliesLabel')}</legend><textarea name="allies" value={fields.allies} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('enemiesLabel')}</legend><textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('havensLabel')}</legend><textarea name="havens" value={fields.havens} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('territoriesLabel')}</legend><textarea name="territories" value={fields.territories} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+        </div>
+      </div>
+
+      {/* ── XP Log ── */}
+      <div hidden={tab !== 11}>
         <XpLogSection
           splat="kote"
           xpLog={xpLog}

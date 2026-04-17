@@ -23,6 +23,7 @@ import { SPHERE_INFO, SPHERE_KEYS, SPHERE_FIELD_MAP } from '../data/mageSpheres'
 import { useLanguage } from '../i18n/LanguageContext'
 import { MAGE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { WONDER_TYPES, MAGE_WONDERS } from '../data/mageWonders'
+import { PARADIGMS, PRACTICES, INSTRUMENTS } from '../data/mageFocus'
 import TagInfoPanel from './TagInfoPanel'
 
 // ── Constants ──
@@ -200,6 +201,7 @@ export default function VictorianMageForm() {
   const [tagInfo, setTagInfo] = useState(null)
   const [disciplines, setDisciplines] = useState([])
   const [wonderSearch, setWonderSearch] = useState('')
+  const [bgSearch, setBgSearch] = useState('')
   const [newWonder, setNewWonder] = useState({ name: '', level: 1, notes: '' })
 
   // Guided creation state
@@ -619,6 +621,66 @@ export default function VictorianMageForm() {
         </div>
       </div>
 
+      {/* ── Secondary Abilities ── */}
+      <div hidden={tab !== 3}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('secondaryTalents')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              {t('secondaryAbilitiesHint')}
+            </p>
+            <div className="rating-grid">
+              {Array.from({length: 10}, (_, i) => i + 1).map(i => (
+                <CustomAbilityRow
+                  key={`hobbyTalent${i}`}
+                  nameProp={`hobbyTalent${i}Name`}
+                  ratingProp={`hobbyTalent${i}`}
+                  placeholder={t('secondaryTalent')}
+                  fields={fields}
+                  onField={handleField}
+                  onText={handleText}
+                  catalog={SECONDARY_TALENTS}
+                />
+              ))}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>{t('secondarySkills')}</legend>
+            <div className="rating-grid">
+              {Array.from({length: 10}, (_, i) => i + 1).map(i => (
+                <CustomAbilityRow
+                  key={`profSkill${i}`}
+                  nameProp={`profSkill${i}Name`}
+                  ratingProp={`profSkill${i}`}
+                  placeholder={t('secondarySkill')}
+                  fields={fields}
+                  onField={handleField}
+                  onText={handleText}
+                  catalog={SECONDARY_SKILLS}
+                />
+              ))}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>{t('secondaryKnowledges')}</legend>
+            <div className="rating-grid">
+              {Array.from({length: 10}, (_, i) => i + 1).map(i => (
+                <CustomAbilityRow
+                  key={`expertKnowl${i}`}
+                  nameProp={`expertKnowl${i}Name`}
+                  ratingProp={`expertKnowl${i}`}
+                  placeholder={t('secondaryKnowledge')}
+                  fields={fields}
+                  onField={handleField}
+                  onText={handleText}
+                  catalog={SECONDARY_KNOWLEDGES}
+                />
+              ))}
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
       {/* ── Spheres ── */}
       <div hidden={tab !== 4}>
         <div className="form-section">
@@ -669,6 +731,102 @@ export default function VictorianMageForm() {
               <DotRating label={t('quintessence')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={20} />
               <DotRating label={t('paradox')} name="paradox" value={fields.paradox} onChange={handleField} min={0} max={20} />
             </div>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── Rotes ── */}
+      <div hidden={tab !== 5}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('rotes')} ({rotes.length})</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Rotes are tried-and-true magical Effects — specific spells you have practiced and perfected.
+            </p>
+            {rotes.length > 0 && (
+              <table className="rote-table" style={{ width: '100%', marginBottom: 'var(--space-md)', fontSize: '0.85rem' }}>
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: 'left' }}>{t('name')}</th>
+                    <th style={{ textAlign: 'left' }}>Spheres</th>
+                    <th>Lv</th>
+                    <th style={{ textAlign: 'left' }}>{t('description')}</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rotes.map(r => (
+                    <tr key={r.id}>
+                      <td style={{ fontWeight: 600 }}>{r.name}</td>
+                      <td style={{ color: 'var(--color-text-muted)' }}>{r.spheres}</td>
+                      <td style={{ textAlign: 'center' }}>{r.level}</td>
+                      <td style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>{r.description}</td>
+                      <td><button className="btn btn-danger btn-sm" onClick={() => handleRemoveRote(r.id)}>×</button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            <div className="field-row" style={{ alignItems: 'flex-end', gap: 'var(--space-sm)' }}>
+              <div className="field" style={{ flex: 2 }}>
+                <label>{t('name')}</label>
+                <input type="text" value={newRote.name} onChange={e => setNewRote(prev => ({ ...prev, name: e.target.value }))}
+                  placeholder="Rote name..." list="rote-catalog-list" />
+                <datalist id="rote-catalog-list">
+                  {MAGE_ROTES.map(r => <option key={r.name} value={r.name} />)}
+                </datalist>
+              </div>
+              <div className="field" style={{ flex: 1 }}>
+                <label>Spheres</label>
+                <input type="text" value={newRote.spheres} onChange={e => setNewRote(prev => ({ ...prev, spheres: e.target.value }))}
+                  placeholder="e.g. Forces 3, Prime 2" />
+              </div>
+              <div className="field" style={{ flex: 0, minWidth: 60 }}>
+                <label>Lv</label>
+                <select value={newRote.level} onChange={e => setNewRote(prev => ({ ...prev, level: parseInt(e.target.value) }))}>
+                  {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="field" style={{ marginBottom: 'var(--space-sm)' }}>
+              <label>{t('description')}</label>
+              <textarea value={newRote.description} onChange={e => setNewRote(prev => ({ ...prev, description: e.target.value }))}
+                rows={2} style={{ width: '100%' }} placeholder="What does this rote do?" />
+            </div>
+            <button className="btn btn-primary btn-sm" onClick={handleAddRote}>{t('add')}</button>
+          </fieldset>
+
+          <fieldset>
+            <legend>Rote Catalogue</legend>
+            <details>
+              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>
+                Browse {MAGE_ROTES.length} rotes...
+              </summary>
+              <ul className="catalog-list" style={{ marginTop: 'var(--space-sm)' }}>
+                {MAGE_ROTES.map(r => {
+                  const already = rotes.some(x => x.name.toLowerCase() === r.name.toLowerCase())
+                  return (
+                    <li key={r.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                      <button className="catalog-item-btn" onClick={() => {
+                        if (!already) {
+                          const entry = { name: r.name, spheres: r.spheres || '', level: r.level || 1, description: r.description || '' }
+                          addRote(characterId, entry).then(res => setRotes(prev => [...prev, res.data])).catch(() => {})
+                        }
+                      }}>
+                        <div className="catalog-item-main">
+                          <span className="catalog-item-name">{r.name} {r.spheres && <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>— {r.spheres}</span>}</span>
+                          <span className="catalog-item-desc">{r.description}</span>
+                        </div>
+                        <div className="catalog-item-meta">
+                          {r.level && <span className="catalog-item-cost">Lv{r.level}</span>}
+                          {already ? <span className="catalog-item-check">✓</span> : <span className="catalog-item-add">+</span>}
+                        </div>
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
+            </details>
           </fieldset>
         </div>
       </div>
@@ -748,6 +906,285 @@ export default function VictorianMageForm() {
               })}
             </ul>
           </fieldset>
+
+          {/* Custom Wonder Creator */}
+          <fieldset>
+            <legend>Create Custom Wonder</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Design your own Wonder. Give it a name, level, type, and description.
+            </p>
+            <div className="field-row">
+              <div className="field" style={{ flex: 2 }}>
+                <label>Wonder Name</label>
+                <input type="text" value={newWonder.name} onChange={e => setNewWonder(p => ({ ...p, name: e.target.value }))} placeholder="Name your creation..." />
+              </div>
+              <div className="field" style={{ width: 70 }}>
+                <label>Level</label>
+                <select value={newWonder.level} onChange={e => setNewWonder(p => ({ ...p, level: parseInt(e.target.value) }))}>
+                  {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
+                </select>
+              </div>
+              <div className="field">
+                <label>Type</label>
+                <select value={newWonder.notes} onChange={e => setNewWonder(p => ({ ...p, notes: e.target.value }))}>
+                  <option value="">Select type...</option>
+                  {WONDER_TYPES.map(wt => <option key={wt.key} value={wt.label}>{wt.label}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="field">
+              <label>Spheres Required</label>
+              <input type="text" value={newWonder.spheres || ''} onChange={e => setNewWonder(p => ({ ...p, spheres: e.target.value }))} placeholder="e.g. Forces 3, Prime 2" />
+            </div>
+            <div className="field">
+              <label>Description / Powers</label>
+              <textarea value={newWonder.description || ''} onChange={e => setNewWonder(p => ({ ...p, description: e.target.value }))} rows={3} style={{ width: '100%' }} placeholder="What does this Wonder do?" />
+            </div>
+            <button className="btn btn-secondary" onClick={() => {
+              if (!newWonder.name.trim()) return
+              addDiscipline(characterId, { name: newWonder.name, level: newWonder.level, notes: newWonder.notes || 'Custom' })
+                .then(res => { setDisciplines(prev => [...prev, res.data]); setNewWonder({ name: '', level: 1, notes: '' }) })
+                .catch(() => setActionError(t('failedToSave')))
+            }}>{t('add')}</button>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── Health ── */}
+      <div hidden={tab !== 7}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('healthTrack')}</legend>
+            <p className="muted-hint muted-hint--sm">{t('healthHint')}</p>
+            <table className="health-track">
+              <thead>
+                <tr>
+                  <th>{t('health')}</th>
+                  <th>{t('penalty')}</th>
+                  <th>{t('damageType')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { key: 'healthBruised',    label: 'bruised',       penalty: '' },
+                  { key: 'healthHurt',       label: 'hurt',          penalty: '-1' },
+                  { key: 'healthInjured',    label: 'injured',       penalty: '-1' },
+                  { key: 'healthWounded',    label: 'wounded',       penalty: '-2' },
+                  { key: 'healthMauled',     label: 'mauled',        penalty: '-2' },
+                  { key: 'healthCrippled',   label: 'crippled',      penalty: '-5' },
+                  { key: 'healthIncap',      label: 'incapacitated', penalty: '' },
+                ].map(h => {
+                  const val = fields[h.key] || ''
+                  const dmgLabel = val === 'A' ? t('aggDmg') : val === 'L' ? t('lethalDmg') : val === 'B' ? t('bashingDmg') : t('undamaged')
+                  const dmgColor = val === 'A' ? '#e55' : val === 'L' ? '#e95' : val === 'B' ? '#8cf' : 'var(--color-text-muted)'
+                  return (
+                    <tr key={h.key}
+                      onClick={() => {
+                        const cycle = { '': 'B', B: 'L', L: 'A', A: '' }
+                        handleField(h.key, cycle[val] || '')
+                      }}>
+                      <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
+                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '—'}</td>
+                      <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </fieldset>
+
+          <fieldset>
+            <legend>{t('willpower')}</legend>
+            <div className="ability-row">
+              <DotRating label={t('willpower')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
+            </div>
+            <div className="ability-row">
+              <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── Backgrounds ── */}
+      <div hidden={tab !== 8}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('backgrounds')} ({backgrounds.length})</legend>
+            {backgrounds.length > 0 && (
+              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+                {backgrounds.map(bg => (
+                  <li key={bg.id} className={`tag tag--clickable${bg.id === tagInfo?.id ? ' tag--active' : ''}`}
+                    onClick={() => setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' })}>
+                    <span>{bg.name} ({bg.level}){bg.description ? ` — ${bg.description}` : ''}</span>
+                    <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, bg.id); setBackgrounds(prev => prev.filter(x => x.id !== bg.id)); if (tagInfo?.id === bg.id) setTagInfo(null) }}>×</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {tagInfo?.kind === 'background' && (() => {
+              const entry = BACKGROUNDS.find(b => b.value.toLowerCase() === tagInfo.name.toLowerCase())
+              return (
+                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                  <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
+                  <p className="tag-info-panel-name">{tagInfo.name}</p>
+                  <p className="tag-info-panel-desc">Background · Level {tagInfo.level}</p>
+                  {entry?.description && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.levels && (
+                    <ul className="tag-info-levels">
+                      {entry.levels.map((lvl, i) => (
+                        <li key={i} className={`tag-info-level${i + 1 === tagInfo.level ? ' tag-info-level--active' : ''}`}>{lvl}</li>
+                      ))}
+                    </ul>
+                  )}
+                </aside>
+              )
+            })()}
+          </fieldset>
+
+          <fieldset>
+            <legend>Background Catalogue ({BACKGROUNDS.length})</legend>
+            <div className="catalog-search-wrap">
+              <input type="search" value={bgSearch} onChange={e => setBgSearch(e.target.value)}
+                placeholder="Search backgrounds..." aria-label="Search backgrounds" />
+              <span className="catalog-search-count">{BACKGROUNDS.filter(b => !bgSearch || b.value.toLowerCase().includes(bgSearch.toLowerCase()) || (b.description || '').toLowerCase().includes(bgSearch.toLowerCase())).length}</span>
+            </div>
+            <ul className="catalog-list" aria-label="Background catalogue">
+              {BACKGROUNDS
+                .filter(b => !bgSearch || b.value.toLowerCase().includes(bgSearch.toLowerCase()) || (b.description || '').toLowerCase().includes(bgSearch.toLowerCase()))
+                .map(b => {
+                  const already = backgrounds.some(bg => bg.name.toLowerCase() === b.value.toLowerCase())
+                  return (
+                    <li key={b.value} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                      <button className="catalog-item-btn" onClick={() => {
+                        if (!already) {
+                          addBackground(characterId, { name: b.value, level: 1, description: '' })
+                            .then(res => setBackgrounds(prev => [...prev, res.data]))
+                            .catch(() => setActionError(t('failedToSave')))
+                        } else {
+                          const bg = backgrounds.find(bg => bg.name.toLowerCase() === b.value.toLowerCase())
+                          if (bg) setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' })
+                        }
+                      }}>
+                        <div className="catalog-item-main">
+                          <span className="catalog-item-name">{b.value}</span>
+                          {b.description && <span className="catalog-item-desc">{b.description}</span>}
+                        </div>
+                        <div className="catalog-item-meta">
+                          {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
+                        </div>
+                      </button>
+                    </li>
+                  )
+                })}
+            </ul>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── Merits & Flaws ── */}
+      <div hidden={tab !== 9}>
+        <MeritsFlawsSection characterId={characterId} merits={merits} setMerits={setMerits} flaws={flaws} setFlaws={setFlaws} meritCatalog={meritCatalog} flawCatalog={flawCatalog} />
+      </div>
+
+      {/* ── Inventory ── */}
+      <div hidden={tab !== 10}>
+        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} catalog={VICTORIAN_INVENTORY} />
+      </div>
+
+      {/* ── Focus & Chantry ── */}
+      <div hidden={tab !== 11}>
+        <div className="form-section">
+          <fieldset>
+            <legend>Paradigm</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Your worldview — how you understand reality and magic. Choose from the M20 list or write your own.
+            </p>
+            <textarea name="paradigm" value={fields.paradigm} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="Type your paradigm or pick from below..." />
+            <details style={{ marginTop: 'var(--space-sm)' }}>
+              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>M20 Paradigms ({PARADIGMS.length})</summary>
+              <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
+                {PARADIGMS.map(p => (
+                  <li key={p.name} className="catalog-item">
+                    <button className="catalog-item-btn" onClick={() => setFields(prev => ({ ...prev, paradigm: prev.paradigm ? prev.paradigm + '\n' + p.name : p.name }))}>
+                      <div className="catalog-item-main">
+                        <span className="catalog-item-name">{p.name}</span>
+                        <span className="catalog-item-desc">{p.description}</span>
+                      </div>
+                      <div className="catalog-item-meta"><span className="catalog-item-add">+</span></div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </fieldset>
+
+          <fieldset>
+            <legend>Practice</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              The methods you use to work magic. Most mages have one primary practice and may know secondary ones.
+            </p>
+            <textarea name="practice" value={fields.practice} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="Type your practice or pick from below..." />
+            <details style={{ marginTop: 'var(--space-sm)' }}>
+              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>M20 Practices ({PRACTICES.length})</summary>
+              <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
+                {PRACTICES.map(p => (
+                  <li key={p.name} className="catalog-item">
+                    <button className="catalog-item-btn" onClick={() => setFields(prev => ({ ...prev, practice: prev.practice ? prev.practice + '\n' + p.name : p.name }))}>
+                      <div className="catalog-item-main">
+                        <span className="catalog-item-name">{p.name}</span>
+                        <span className="catalog-item-desc">{p.description}</span>
+                      </div>
+                      <div className="catalog-item-meta"><span className="catalog-item-add">+</span></div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </fieldset>
+
+          <fieldset>
+            <legend>Instruments</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              The tools and foci you use. As Arete rises, you may discard instruments. Click to add from the M20 list.
+            </p>
+            <textarea name="instruments" value={fields.instruments} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="Type your instruments or pick from below..." />
+            <details style={{ marginTop: 'var(--space-sm)' }}>
+              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>M20 Instruments ({INSTRUMENTS.length})</summary>
+              <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
+                {INSTRUMENTS.map(inst => (
+                  <li key={inst.name} className="catalog-item">
+                    <button className="catalog-item-btn" onClick={() => setFields(prev => ({ ...prev, instruments: prev.instruments ? prev.instruments + '\n' + inst.name : inst.name }))}>
+                      <div className="catalog-item-main">
+                        <span className="catalog-item-name">{inst.name}</span>
+                        <span className="catalog-item-desc">{inst.description}</span>
+                      </div>
+                      <div className="catalog-item-meta"><span className="catalog-item-add">+</span></div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </fieldset>
+
+          <fieldset>
+            <legend>Chantry</legend>
+            <div className="field-row">
+              <div className="field"><label>Chantry Name</label><input name="chantryName" value={fields.chantryName} onChange={handleText} placeholder="Name of your shared sanctum..." /></div>
+            </div>
+            <div className="field">
+              <label>Chantry Description</label>
+              <textarea name="chantryDescription" value={fields.chantryDescription} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="Location, defenses, Node rating, library, members..." />
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── Backstory ── */}
+      <div hidden={tab !== 12}>
+        <div className="form-section">
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
         </div>
       </div>
 

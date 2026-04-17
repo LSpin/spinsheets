@@ -1016,6 +1016,40 @@ export default function VictorianVampireForm() {
 
       {/* ── Backstory ── */}
       <div role="tabpanel" id="tabpanel-11" aria-labelledby="tab-11" hidden={tab !== 11}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('backstoryLabel')}</legend>
+            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} placeholder={t('backstoryPh')} style={{ width: '100%' }} />
+          </fieldset>
+          <fieldset>
+            <legend>{t('appearanceLabel')}</legend>
+            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
+          </fieldset>
+          <fieldset>
+            <legend>{t('goalsLabel')}</legend>
+            <textarea name="goals" value={fields.goals} onChange={handleText} rows={4} placeholder={t('goalsPh')} style={{ width: '100%' }} />
+          </fieldset>
+          <fieldset>
+            <legend>{t('alliesLabel')}</legend>
+            <textarea name="allies" value={fields.allies} onChange={handleText} rows={4} placeholder={t('alliesPh')} style={{ width: '100%' }} />
+          </fieldset>
+          <fieldset>
+            <legend>{t('enemiesLabel')}</legend>
+            <textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} placeholder={t('enemiesPh')} style={{ width: '100%' }} />
+          </fieldset>
+          <fieldset>
+            <legend>{t('havensLabel')}</legend>
+            <textarea name="havens" value={fields.havens} onChange={handleText} rows={4} placeholder={t('havensPh')} style={{ width: '100%' }} />
+          </fieldset>
+          <fieldset>
+            <legend>{t('territoriesLabel')}</legend>
+            <textarea name="territories" value={fields.territories} onChange={handleText} rows={4} placeholder={t('territoriesPh')} style={{ width: '100%' }} />
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── XP Log ── */}
+      <div role="tabpanel" id="tabpanel-12" aria-labelledby="tab-12" hidden={tab !== 12}>
         <XpLogSection
           splat="vampire"
           xpLog={xpLog}
