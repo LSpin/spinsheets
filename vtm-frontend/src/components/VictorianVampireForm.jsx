@@ -25,10 +25,11 @@ import TagInfoPanel from './TagInfoPanel'
 import BloodSorcerySection from './BloodSorcerySection'
 import XpLogSection from './XpLogSection'
 import DicePoolsTab from './DicePoolsTab'
+import StorytellerDiceRoller from './StorytellerDiceRoller'
 
 // ── Constants ──
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBloodSorcery', 'tabBackstory', 'tabXpLog', 'tabDicePools']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBloodSorcery', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
 
 const CLANS = [
   // ── The 13 Clans ──
@@ -1064,6 +1065,11 @@ export default function VictorianVampireForm() {
       {/* ── Dice Pools ── */}
       <div hidden={tab !== 13}>
         <DicePoolsTab fields={fields} splat="VICTORIAN_VAMPIRE" characterId={characterId} />
+      </div>
+
+      {/* ── Dice Roller ── */}
+      <div hidden={tab !== 14}>
+        <StorytellerDiceRoller />
       </div>
 
       {/* ── Save ── */}

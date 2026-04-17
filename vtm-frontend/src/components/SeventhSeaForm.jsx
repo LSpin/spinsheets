@@ -14,6 +14,7 @@ import { useTheme } from '../context/ThemeContext'
 import TagInfoPanel from './TagInfoPanel'
 import RulesReferenceTab from './RulesReferenceTab'
 import { SEVEN_SEA_RULES } from '../data/sevenSeaRules'
+import SeventhSeaDiceRoller from './SeventhSeaDiceRoller'
 
 // ── Nations with favored trait pairs (pick one for +1) ──
 const NATIONS = {
@@ -186,7 +187,7 @@ const INITIAL = {
   heroStories: '', backstory: '', notes: '', appearanceDesc: '', personalItems: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tab7sTraits', 'tab7sSkills', 'tab7sAdvantages', 'tab7sSorcery', 'tab7sDueling', 'tab7sArcana', 'tab7sBackgrounds', 'tab7sStories', 'tab7sBelongings', 'tabBackstory', 'tabXpLog', 'tabRulesRef']
+const TAB_KEYS = ['tabIdentity', 'tab7sTraits', 'tab7sSkills', 'tab7sAdvantages', 'tab7sSorcery', 'tab7sDueling', 'tab7sArcana', 'tab7sBackgrounds', 'tab7sStories', 'tab7sBelongings', 'tabBackstory', 'tabXpLog', 'tabRulesRef', 'tabDiceRoller']
 
 // ── Dueling Styles (2e Core Book) ──
 const DUELING_STYLES = [
@@ -844,6 +845,11 @@ Coded journal of trade routes`} />
       {/* ── Rules Reference ── */}
       <div hidden={tab !== 12}>
         <RulesReferenceTab rules={SEVEN_SEA_RULES} title="7th Sea Rules Reference" />
+      </div>
+
+      {/* ── Dice Roller ── */}
+      <div hidden={tab !== 13}>
+        <SeventhSeaDiceRoller />
       </div>
 
       <div className="form-actions">

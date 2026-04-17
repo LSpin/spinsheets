@@ -1139,6 +1139,50 @@ const en = {
   freebieL5rTraitCost: 'Trait: 12 pts',
   freebieL5rSkillCost: 'Skill: 1 pt',
   freebieL5rVoidCost: 'Void: 6 pts',
+
+  // ── Dice Roller: Storyteller ──
+  dicePool: 'Dice Pool',
+  diceRoll: 'Roll',
+  diceDifficulty: 'Difficulty',
+  diceSuccesses: 'successes',
+  diceBotch: 'BOTCH!',
+  diceFailure: 'Failure',
+  diceSuccess: 'Success!',
+  diceSpecialty: 'Specialty (10s count double)',
+  diceOnesSubtract: '1s subtract successes',
+  diceResult: 'Result',
+  diceHistory: 'Roll History',
+  diceClear: 'Clear',
+  diceDice: 'Dice',
+  tabDiceRoller: 'Dice Roller',
+
+  // ── Dice Roller: 7th Sea ──
+  dice7sResult: 'Dice Roller',
+  dice7sRoll: 'Roll',
+  dice7sPool: 'Dice Pool',
+  dice7sRaises: 'Raises',
+  dice7sRaise: 'Raise',
+  dice7sUnused: 'Unused',
+  dice7sSkilled: 'Skilled (15+ = 2 Raises)',
+  dice7sExploding: 'Exploding 10s',
+  dice7sSet: 'Set',
+  dice7sHistory: 'Roll History',
+  dice7sClear: 'Clear',
+
+  // ── Dice Roller: L5R ──
+  diceL5rRoll: 'Roll',
+  diceL5rRolled: 'Roll',
+  diceL5rKept: 'Keep',
+  diceL5rTN: 'TN',
+  diceL5rTotal: 'Total',
+  diceL5rBonus: 'Bonus',
+  diceL5rExploding: 'Exploding 10s',
+  diceL5rExplodes: 'Exploding 10s',
+  diceL5rEmphasis: 'Emphasis (reroll 1s)',
+  diceL5rSuccess: 'Success!',
+  diceL5rFailure: 'Failure',
+  diceL5rHistory: 'Roll History',
+  diceL5rClear: 'Clear',
 }
 
 const pt = {
@@ -2547,6 +2591,50 @@ const pt = {
 
   // ── L5R: Stances (combat) ──
   'Center': 'Centro',
+
+  // ── Dice Roller: Storyteller ──
+  dicePool: 'Pool de Dados',
+  diceRoll: 'Rolar',
+  diceDifficulty: 'Dificuldade',
+  diceSuccesses: 'sucessos',
+  diceBotch: 'DESASTRE!',
+  diceFailure: 'Falha',
+  diceSuccess: 'Sucesso!',
+  diceSpecialty: 'Especialidade (10s contam dobrado)',
+  diceOnesSubtract: '1s subtraem sucessos',
+  diceResult: 'Resultado',
+  diceHistory: 'Histórico de Rolagens',
+  diceClear: 'Limpar',
+  diceDice: 'Dados',
+  tabDiceRoller: 'Rolador de Dados',
+
+  // ── Dice Roller: 7th Sea ──
+  dice7sResult: 'Rolador de Dados',
+  dice7sRoll: 'Rolar',
+  dice7sPool: 'Pool de Dados',
+  dice7sRaises: 'Aumentos',
+  dice7sRaise: 'Aumento',
+  dice7sUnused: 'Não usados',
+  dice7sSkilled: 'Habilidoso (15+ = 2 Aumentos)',
+  dice7sExploding: '10s explodem',
+  dice7sSet: 'Conjunto',
+  dice7sHistory: 'Histórico de Rolagens',
+  dice7sClear: 'Limpar',
+
+  // ── Dice Roller: L5R ──
+  diceL5rRoll: 'Rolar',
+  diceL5rRolled: 'Rolar',
+  diceL5rKept: 'Manter',
+  diceL5rTN: 'ND',
+  diceL5rTotal: 'Total',
+  diceL5rBonus: 'Bônus',
+  diceL5rExploding: '10s explodem',
+  diceL5rExplodes: '10s explodem',
+  diceL5rEmphasis: 'Ênfase (rerolar 1s)',
+  diceL5rSuccess: 'Sucesso!',
+  diceL5rFailure: 'Falha',
+  diceL5rHistory: 'Histórico de Rolagens',
+  diceL5rClear: 'Limpar',
 }
 
 export const translations = { en, pt }

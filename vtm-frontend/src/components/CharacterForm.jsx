@@ -24,10 +24,11 @@ import { VAMPIRE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { useLanguage } from '../i18n/LanguageContext'
 import XpLogSection from './XpLogSection'
 import DicePoolsTab from './DicePoolsTab'
+import StorytellerDiceRoller from './StorytellerDiceRoller'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBloodSorcery', 'tabBackstory', 'tabXpLog', 'tabDicePools']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBloodSorcery', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
 
 
 // ── Clans & Clan Curses ───────────────────────────────────────────────────────
@@ -1516,6 +1517,11 @@ export default function CharacterForm() {
       {/* ── Dice Pools ── */}
       <div hidden={tab !== 13}>
         <DicePoolsTab fields={fields} splat="VAMPIRE" characterId={characterId} />
+      </div>
+
+      {/* ── Dice Roller ── */}
+      <div hidden={tab !== 14}>
+        <StorytellerDiceRoller />
       </div>
 
       <div className="form-actions">

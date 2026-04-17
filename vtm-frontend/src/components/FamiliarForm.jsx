@@ -8,6 +8,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { FAMILIAR_POWERS } from '../data/familiarPowers'
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
+import StorytellerDiceRoller from './StorytellerDiceRoller'
 
 const INITIAL = {
   npc: true, splat: 'FAMILIAR',
@@ -27,7 +28,7 @@ const INITIAL = {
   notes: '', backstory: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabPowers', 'tabHealth', 'tabBackstory', 'tabXpLog', 'tabDicePools']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabPowers', 'tabHealth', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
 
 export default function FamiliarForm() {
   const { id: paramId } = useParams()
@@ -243,6 +244,11 @@ export default function FamiliarForm() {
       {/* ── Dice Pools ── */}
       <div hidden={tab !== 7}>
         <DicePoolsTab fields={fields} splat="FAMILIAR" characterId={characterId} />
+      </div>
+
+      {/* ── Dice Roller ── */}
+      <div hidden={tab !== 8}>
+        <StorytellerDiceRoller />
       </div>
 
       <div className="form-actions">

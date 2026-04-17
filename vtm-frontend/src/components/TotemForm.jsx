@@ -7,6 +7,7 @@ import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
 import { SPIRIT_CHARMS } from '../data/spiritCharms'
 import TagInfoPanel from './TagInfoPanel'
+import StorytellerDiceRoller from './StorytellerDiceRoller'
 
 const TOTEM_TYPES = ['Respect', 'War', 'Wisdom', 'Cunning']
 
@@ -25,7 +26,7 @@ const INITIAL = {
   generation: 5,
 }
 
-const TAB_KEYS = ['tabIdentity', 'tabTraits', 'tabCharms', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabTraits', 'tabCharms', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
 
 export default function TotemForm() {
   const { id: paramId } = useParams()
@@ -225,6 +226,11 @@ export default function TotemForm() {
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
           onError={msg => setActionError(msg)} t={t} />
+      </div>
+
+      {/* ── Dice Roller ── */}
+      <div hidden={tab !== 5}>
+        <StorytellerDiceRoller />
       </div>
 
       <div className="form-actions">

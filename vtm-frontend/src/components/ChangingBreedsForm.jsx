@@ -25,6 +25,7 @@ import { FERA_SPECIES } from '../data/changingBreeds'
 import { WEREWOLF_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
+import StorytellerDiceRoller from './StorytellerDiceRoller'
 
 // ── Constants ──
 
@@ -271,7 +272,7 @@ export default function ChangingBreedsForm() {
   const [fetishSearch, setFetishSearch] = useState('')
   const [bgSearch, setBgSearch] = useState('')
 
-  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog', 'tabDicePools']
+  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
 
   useEffect(() => {
     if (characterId) loadCharacter()
@@ -1101,6 +1102,11 @@ export default function ChangingBreedsForm() {
       {/* ── Dice Pools ── */}
       <div hidden={tab !== 13}>
         <DicePoolsTab fields={fields} splat="CHANGING_BREEDS" characterId={characterId} />
+      </div>
+
+      {/* ── Dice Roller ── */}
+      <div hidden={tab !== 14}>
+        <StorytellerDiceRoller />
       </div>
 
       {/* ── Save ── */}

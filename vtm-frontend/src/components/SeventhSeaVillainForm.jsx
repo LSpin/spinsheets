@@ -6,6 +6,7 @@ import DotRating from './DotRating'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
 import TagInfoPanel from './TagInfoPanel'
+import SeventhSeaDiceRoller from './SeventhSeaDiceRoller'
 
 const VILLAIN_RANKS = [
   { rank: 1, description: 'Minor nuisance — a bandit captain, petty noble, or small-time crook.' },
@@ -91,7 +92,7 @@ const HUBRISES = [
   'The Glyph — Curious', 'The Emperor — Imperious', 'Swords — Loyal',
 ]
 
-const TAB_KEYS = ['tabIdentity', 'tab7sVillainStats', 'tab7sTraits', 'tab7sAdvantages', 'tab7sSchemes', 'tabBackstory']
+const TAB_KEYS = ['tabIdentity', 'tab7sVillainStats', 'tab7sTraits', 'tab7sAdvantages', 'tab7sSchemes', 'tabBackstory', 'tabDiceRoller']
 
 export default function SeventhSeaVillainForm() {
   const { id: paramId } = useParams()
@@ -415,6 +416,11 @@ Consequence if unchecked: Civil war engulfs Castille`} />
           <fieldset><legend>Appearance</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>ST Notes</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="Session plans, player interactions, weaknesses..." /></fieldset>
         </div>
+      </div>
+
+      {/* ── Dice Roller ── */}
+      <div hidden={tab !== 6}>
+        <SeventhSeaDiceRoller />
       </div>
 
       <div className="form-actions">

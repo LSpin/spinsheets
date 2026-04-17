@@ -25,6 +25,7 @@ import { WEREWOLF_FETISHES, WEREWOLF_TALENS } from '../data/werewolfFetishes'
 import { WEREWOLF_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
+import StorytellerDiceRoller from './StorytellerDiceRoller'
 
 // ── Constants ──
 
@@ -298,7 +299,7 @@ export default function WyldWestWerewolfForm() {
   const [fetishSearch, setFetishSearch] = useState('')
   const [bgSearch, setBgSearch] = useState('')
 
-  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog', 'tabDicePools']
+  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
 
   useEffect(() => {
     if (characterId) loadCharacter()
@@ -1117,6 +1118,11 @@ export default function WyldWestWerewolfForm() {
       {/* ── Dice Pools ── */}
       <div hidden={tab !== 13}>
         <DicePoolsTab fields={fields} splat="WYLD_WEST_WEREWOLF" characterId={characterId} />
+      </div>
+
+      {/* ── Dice Roller ── */}
+      <div hidden={tab !== 14}>
+        <StorytellerDiceRoller />
       </div>
 
       {/* ── Save ── */}

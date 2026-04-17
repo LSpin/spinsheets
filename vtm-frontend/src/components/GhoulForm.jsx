@@ -19,6 +19,7 @@ import { VAMPIRE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { VAMPIRE_DISCIPLINES } from '../data/vampireDisciplines'
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
+import StorytellerDiceRoller from './StorytellerDiceRoller'
 
 const ARCHETYPES = [
   'Architect', 'Autocrat', 'Bon Vivant', 'Bravo', 'Caregiver', 'Celebrant', 'Child',
@@ -62,7 +63,7 @@ const INITIAL = {
   notes: '', backstory: '', appearanceDesc: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabDisciplines', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog', 'tabDicePools']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabDisciplines', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
 
 export default function GhoulForm() {
   const { id: paramId } = useParams()
@@ -423,6 +424,11 @@ export default function GhoulForm() {
       {/* ── Dice Pools ── */}
       <div hidden={tab !== 11}>
         <DicePoolsTab fields={fields} splat="GHOUL" characterId={characterId} />
+      </div>
+
+      {/* ── Dice Roller ── */}
+      <div hidden={tab !== 12}>
+        <StorytellerDiceRoller />
       </div>
 
       <div className="form-actions">

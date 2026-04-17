@@ -19,6 +19,7 @@ import { useTheme } from '../context/ThemeContext'
 import TagInfoPanel from './TagInfoPanel'
 import RulesReferenceTab from './RulesReferenceTab'
 import { L5R_RULES } from '../data/l5rRules'
+import L5RDiceRoller from './L5RDiceRoller'
 
 // ── Clans & Families ──
 const CLANS = {
@@ -283,7 +284,7 @@ const INITIAL = {
   backstory: '', notes: '', appearanceDesc: '', personalItems: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tabL5rRings', 'tabL5rSkills', 'tabL5rAdvantages', 'tabL5rTechniques', 'tabL5rSpells', 'tabL5rKata', 'tabL5rEquipment', 'tabL5rCombat', 'tabBackstory', 'tabXpLog', 'tabRulesRef']
+const TAB_KEYS = ['tabIdentity', 'tabL5rRings', 'tabL5rSkills', 'tabL5rAdvantages', 'tabL5rTechniques', 'tabL5rSpells', 'tabL5rKata', 'tabL5rEquipment', 'tabL5rCombat', 'tabBackstory', 'tabXpLog', 'tabRulesRef', 'tabDiceRoller']
 
 export default function L5RForm() {
   const { id: paramId } = useParams()
@@ -1848,6 +1849,11 @@ Traveling pack, spare kimono, 10 koku`} />
       {/* ── Rules Reference ── */}
       <div hidden={tab !== 11}>
         <RulesReferenceTab rules={L5R_RULES} title="L5R Rules Reference" />
+      </div>
+
+      {/* ── Dice Roller ── */}
+      <div hidden={tab !== 12}>
+        <L5RDiceRoller />
       </div>
 
       <div className="form-actions">
