@@ -113,30 +113,30 @@ const INITIAL = {
 const TAB_KEYS = ['tabIdentity', 'tab7sTraits', 'tab7sSkills', 'tab7sAdvantages', 'tab7sArcana', 'tab7sBackgrounds', 'tab7sStories', 'tabInventory', 'tabBackstory', 'tabXpLog']
 
 const TRAITS = [
-  { key: 'traitBrawn', label: '7sBrawn' },
-  { key: 'traitFinesse', label: '7sFinesse' },
-  { key: 'traitResolve', label: '7sResolve' },
-  { key: 'traitWits7s', label: '7sWits' },
-  { key: 'traitPanache', label: '7sPanache' },
+  { key: 'traitBrawn', label: 'traitBrawn' },
+  { key: 'traitFinesse', label: 'traitFinesse' },
+  { key: 'traitResolve', label: 'traitResolve' },
+  { key: 'traitWits7s', label: 'traitWits7s' },
+  { key: 'traitPanache', label: 'traitPanache' },
 ]
 
 const SKILLS = [
-  { key: 'skillAim', label: '7sAim' },
-  { key: 'skillAthletics7s', label: '7sAthletics' },
-  { key: 'skillBrawl7s', label: '7sBrawl' },
-  { key: 'skillConvince', label: '7sConvince' },
-  { key: 'skillEmpathy7s', label: '7sEmpathy' },
-  { key: 'skillHide', label: '7sHide' },
-  { key: 'skillIntimidate7s', label: '7sIntimidate' },
-  { key: 'skillNotice', label: '7sNotice' },
-  { key: 'skillPerform7s', label: '7sPerform' },
-  { key: 'skillRide7s', label: '7sRide' },
-  { key: 'skillSailing', label: '7sSailing' },
-  { key: 'skillScholarship', label: '7sScholarship' },
-  { key: 'skillTempt', label: '7sTempt' },
-  { key: 'skillTheft', label: '7sTheft' },
-  { key: 'skillWarfare', label: '7sWarfare' },
-  { key: 'skillWeaponry', label: '7sWeaponry' },
+  { key: 'skillAim', label: 'skillAim' },
+  { key: 'skillAthletics7s', label: 'skillAthletics7s' },
+  { key: 'skillBrawl7s', label: 'skillBrawl7s' },
+  { key: 'skillConvince', label: 'skillConvince' },
+  { key: 'skillEmpathy7s', label: 'skillEmpathy7s' },
+  { key: 'skillHide', label: 'skillHide' },
+  { key: 'skillIntimidate7s', label: 'skillIntimidate7s' },
+  { key: 'skillNotice', label: 'skillNotice' },
+  { key: 'skillPerform7s', label: 'skillPerform7s' },
+  { key: 'skillRide7s', label: 'skillRide7s' },
+  { key: 'skillSailing', label: 'skillSailing' },
+  { key: 'skillScholarship', label: 'skillScholarship' },
+  { key: 'skillTempt', label: 'skillTempt' },
+  { key: 'skillTheft', label: 'skillTheft' },
+  { key: 'skillWarfare', label: 'skillWarfare' },
+  { key: 'skillWeaponry', label: 'skillWeaponry' },
 ]
 
 export default function SeventhSeaForm() {
