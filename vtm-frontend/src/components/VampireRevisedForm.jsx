@@ -15,6 +15,7 @@ import MeritsFlawsSection from './MeritsFlawsSection'
 import InventorySection from './InventorySection'
 import { COMBO_DISCIPLINES } from '../data/comboDisciplines'
 import DotRating from './DotRating'
+import XpLogSection from './XpLogSection'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { useLanguage } from '../i18n/LanguageContext'
 import { ELDER_POWERS } from '../data/elderPowers'
@@ -213,8 +214,6 @@ export default function VampireRevisedForm() {
   const [newDiscipline, setNewDiscipline] = useState({ name: '', level: 1 })
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
   const [xpLog, setXpLog] = useState([])
-  const [xpSubTab, setXpSubTab] = useState(0)
-  const [newXpEntry, setNewXpEntry] = useState({ type: 'XP', amount: 1, category: 'Earned', description: '' })
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
@@ -431,24 +430,7 @@ export default function VampireRevisedForm() {
   }
 
   // XP Log handlers
-  async function handleAddXpEntry() {
-    if (!newXpEntry.description.trim()) return
-    try {
-      const entry = { ...newXpEntry }
-      if (entry.category !== 'Earned') entry.amount = -Math.abs(entry.amount)
-      else entry.amount = Math.abs(entry.amount)
-      const res = await addXpLogEntry(characterId, entry)
-      setXpLog(prev => [res.data, ...prev])
-      setNewXpEntry({ type: xpSubTab === 0 ? 'XP' : 'FREEBIE', amount: 1, category: 'Earned', description: '' })
-    } catch { setSaveError(t('failedToSave')) }
-  }
 
-  async function handleRemoveXpEntry(entryId) {
-    try {
-      await removeXpLogEntry(characterId, entryId)
-      setXpLog(prev => prev.filter(e => e.id !== entryId))
-    } catch { setSaveError(t('failedToSave')) }
-  }
 
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
@@ -1031,166 +1013,14 @@ export default function VampireRevisedForm() {
 
       {/* ── Backstory ── */}
       <div role="tabpanel" id="tabpanel-11" aria-labelledby="tab-11" hidden={tab !== 11}>
-        <div className="form-section">
-          <fieldset>
-            <legend>{t('backstoryLabel')}</legend>
-            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} placeholder={t('backstoryPh')} style={{ width: '100%' }} />
-          </fieldset>
-          <fieldset>
-            <legend>{t('appearanceLabel')}</legend>
-            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
-          </fieldset>
-          <fieldset>
-            <legend>{t('goalsLabel')}</legend>
-            <textarea name="goals" value={fields.goals} onChange={handleText} rows={4} placeholder={t('goalsPh')} style={{ width: '100%' }} />
-          </fieldset>
-          <fieldset>
-            <legend>{t('alliesLabel')}</legend>
-            <textarea name="allies" value={fields.allies} onChange={handleText} rows={4} placeholder={t('alliesPh')} style={{ width: '100%' }} />
-          </fieldset>
-          <fieldset>
-            <legend>{t('enemiesLabel')}</legend>
-            <textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} placeholder={t('enemiesPh')} style={{ width: '100%' }} />
-          </fieldset>
-          <fieldset>
-            <legend>{t('havensLabel')}</legend>
-            <textarea name="havens" value={fields.havens} onChange={handleText} rows={4} placeholder={t('havensPh')} style={{ width: '100%' }} />
-          </fieldset>
-          <fieldset>
-            <legend>{t('territoriesLabel')}</legend>
-            <textarea name="territories" value={fields.territories} onChange={handleText} rows={4} placeholder={t('territoriesPh')} style={{ width: '100%' }} />
-          </fieldset>
-        </div>
-      </div>
-
-      {/* ── XP Log ── */}
-      <div role="tabpanel" id="tabpanel-12" aria-labelledby="tab-12" hidden={tab !== 12}>
-        <div className="form-section">
-              <div role="tablist" className="tab-list">
-                <button role="tab" className={`btn btn-secondary tab-btn${xpSubTab === 0 ? ' tab-btn--active' : ''}`}
-                  onClick={() => { setXpSubTab(0); setNewXpEntry(e => ({ ...e, type: 'XP', category: 'Earned' })) }}>
-                  {t('xpTab')}
-                </button>
-                <button role="tab" className={`btn btn-secondary tab-btn${xpSubTab === 1 ? ' tab-btn--active' : ''}`}
-                  onClick={() => { setXpSubTab(1); setNewXpEntry(e => ({ ...e, type: 'FREEBIE', category: 'Earned' })) }}>
-                  {t('freebieTab')}
-                </button>
-              </div>
-
-              {/* Summary */}
-              {(() => {
-                const entries = xpLog.filter(e => e.type === (xpSubTab === 0 ? 'XP' : 'FREEBIE'))
-                const starting = xpSubTab === 1 ? 15 : 0
-                const totalEarned = entries.filter(e => e.amount > 0).reduce((s, e) => s + e.amount, 0) + starting
-                const totalSpent = entries.filter(e => e.amount < 0).reduce((s, e) => s + Math.abs(e.amount), 0)
-                const available = totalEarned - totalSpent
-
-                return (
-                  <>
-                    <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-                      <div><strong>{xpSubTab === 0 ? t('totalXP') : t('totalFreebies')}:</strong> {totalEarned}</div>
-                      <div><strong>{t('spent')}:</strong> {totalSpent}</div>
-                      <div><strong>{xpSubTab === 0 ? t('availableXP') : t('availableFreebies')}:</strong> <span style={{ color: available >= 0 ? '#8c8' : '#e55', fontWeight: 700 }}>{available}</span></div>
-                    </div>
-
-                    {xpSubTab === 0 && (
-                      <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '1rem', lineHeight: 1.8 }}>
-                        <strong>{t('xpCostsHeader')}</strong><br/>
-                        {t('xpAttrCost')} · {t('xpNewAbilCost')} · {t('xpAbilCost')}<br/>
-                        {t('xpClanDiscCost')} · {t('xpNonClanDiscCost')}<br/>
-                        {t('xpSecPathCost')} · {t('xpNewPathCost')}<br/>
-                        {t('xpVirtueCost')} · {t('xpWpCost')} · {t('xpPathCost')}
-                      </div>
-                    )}
-
-                    {xpSubTab === 1 && (
-                      <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '1rem', lineHeight: 1.8 }}>
-                        <strong>{t('freebieStarting')}</strong><br/>
-                        {t('freebieAttrCost')} · {t('freebieAbilCost')} · {t('freebieDiscCost')} · {t('freebieBgCost')}<br/>
-                        {t('freebieVirtueCost')} · {t('freebieWpCost')} · {t('freebiePathCost')}
-                      </div>
-                    )}
-
-                    {/* Add entry form */}
-                    <div className="field-row" style={{ marginBottom: '1rem' }}>
-                      <div className="field" style={{ maxWidth: 80 }}>
-                        <label>{t('amount')}</label>
-                        <input type="number" min="1" value={newXpEntry.amount} onChange={e => setNewXpEntry(p => ({ ...p, amount: parseInt(e.target.value) || 1 }))} />
-                      </div>
-                      <div className="field">
-                        <label>{t('xpCategory')}</label>
-                        <select value={newXpEntry.category} onChange={e => setNewXpEntry(p => ({ ...p, category: e.target.value }))}>
-                          <option value="Earned">{t('catEarned')}</option>
-                          {xpSubTab === 0 ? (
-                            <>
-                              <option value="Attribute">{t('catAttribute')}</option>
-                              <option value="NewAbility">{t('catNewAbility')}</option>
-                              <option value="Ability">{t('catAbility')}</option>
-                              <option value="ClanDisc">{t('catClanDisc')}</option>
-                              <option value="NonClanDisc">{t('catNonClanDisc')}</option>
-                              <option value="SecondaryPath">{t('catSecondaryPath')}</option>
-                              <option value="NewPath">{t('catNewPath')}</option>
-                              <option value="Background">{t('catBackground')}</option>
-                              <option value="Virtue">{t('catVirtue')}</option>
-                              <option value="Willpower">{t('catWillpower')}</option>
-                              <option value="Humanity/Path">{t('catHumanity')}</option>
-                              <option value="Other">{t('catOther')}</option>
-                            </>
-                          ) : (
-                            <>
-                              <option value="Attribute">{t('catAttribute')}</option>
-                              <option value="Ability">{t('catAbility')}</option>
-                              <option value="Discipline">{t('catDiscipline')}</option>
-                              <option value="Background">{t('catBackground')}</option>
-                              <option value="Virtue">{t('catVirtue')}</option>
-                              <option value="Willpower">{t('catWillpower')}</option>
-                              <option value="Humanity/Path">{t('catHumanity')}</option>
-                              <option value="Other">{t('catOther')}</option>
-                            </>
-                          )}
-                        </select>
-                      </div>
-                      <div className="field" style={{ flex: 2 }}>
-                        <label>{t('xpDescription')}</label>
-                        <input type="text" value={newXpEntry.description} onChange={e => setNewXpEntry(p => ({ ...p, description: e.target.value }))} placeholder={xpSubTab === 0 ? 'e.g. Session reward' : 'e.g. +1 Strength'} />
-                      </div>
-                      <button className="btn btn-secondary" style={{ alignSelf: 'flex-end' }} onClick={handleAddXpEntry}>{t('addEntry')}</button>
-                    </div>
-
-                    {/* Entries list */}
-                    {entries.length === 0 && <p className="muted-hint">{xpSubTab === 0 ? t('noXpEntries') : t('noFreebieEntries')}</p>}
-                    {entries.length > 0 && (
-                      <table style={{ width: '100%', fontSize: '0.82rem', borderCollapse: 'collapse' }}>
-                        <thead>
-                          <tr style={{ borderBottom: '1px solid var(--color-border)', textAlign: 'left' }}>
-                            <th style={{ padding: '0.4rem' }}>{t('xpDate')}</th>
-                            <th style={{ padding: '0.4rem' }}>{t('xpCategory')}</th>
-                            <th style={{ padding: '0.4rem' }}>{t('xpDescription')}</th>
-                            <th style={{ padding: '0.4rem', textAlign: 'right' }}>{t('amount')}</th>
-                            <th style={{ padding: '0.4rem' }}></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {entries.map(e => (
-                            <tr key={e.id} style={{ borderBottom: '1px solid var(--color-border)' }}>
-                              <td style={{ padding: '0.4rem', whiteSpace: 'nowrap' }}>{new Date(e.createdAt).toLocaleDateString()}</td>
-                              <td style={{ padding: '0.4rem' }}>{t(`cat${e.category}`) || e.category}</td>
-                              <td style={{ padding: '0.4rem' }}>{e.description}</td>
-                              <td style={{ padding: '0.4rem', textAlign: 'right', fontWeight: 600, color: e.amount > 0 ? '#8c8' : '#e55' }}>
-                                {e.amount > 0 ? '+' : ''}{e.amount}
-                              </td>
-                              <td style={{ padding: '0.4rem' }}>
-                                <button className="btn btn-danger btn-sm" onClick={() => handleRemoveXpEntry(e.id)} style={{ fontSize: '0.7rem', padding: '0.15rem 0.4rem' }}>&#x2715;</button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    )}
-                  </>
-                )
-              })()}
-        </div>
+        <XpLogSection
+          splat="vampire"
+          xpLog={xpLog}
+          onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
+          onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
+          onError={msg => setActionError(msg)}
+          t={t}
+        />
       </div>
 
       {/* ── Save ── */}
