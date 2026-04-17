@@ -78,6 +78,7 @@ public class ChronicleController {
             }
             existing.setName(updated.getName());
             existing.setDescription(updated.getDescription());
+            existing.setAllowedSplats(updated.getAllowedSplats());
             return ResponseEntity.ok(service.save(existing));
         }).orElse(ResponseEntity.notFound().build());
     }
@@ -129,16 +130,34 @@ public class ChronicleController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
+    // ── Allowed Splats ──
+
+    @PutMapping("/{id}/allowed-splats")
+    public ResponseEntity<?> updateAllowedSplats(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        AppUser user = access.getCurrentUser();
+        return service.findById(id).map(chronicle -> {
+            if (!chronicle.getStoryteller().getId().equals(user.getId())) {
+                return ResponseEntity.status(403).body((Object) Map.of("error", "Only the chronicle owner can change allowed types"));
+            }
+            chronicle.setAllowedSplats(body.get("allowedSplats"));
+            service.save(chronicle);
+            return ResponseEntity.ok((Object) Map.of("allowedSplats", chronicle.getAllowedSplats()));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
     // ── Invite Code ──
 
     @GetMapping("/invite/{code}")
     public ResponseEntity<?> getInviteInfo(@PathVariable String code) {
         return chronicleRepository.findByInviteCode(code.trim().toUpperCase())
-                .<ResponseEntity<?>>map(chronicle -> ResponseEntity.ok(Map.of(
-                        "chronicleId", chronicle.getId(),
-                        "chronicleName", chronicle.getName(),
-                        "storyteller", chronicle.getStoryteller().getUsername()
-                )))
+                .<ResponseEntity<?>>map(chronicle -> {
+                    Map<String, Object> info = new HashMap<>();
+                    info.put("chronicleId", chronicle.getId());
+                    info.put("chronicleName", chronicle.getName());
+                    info.put("storyteller", chronicle.getStoryteller().getUsername());
+                    info.put("allowedSplats", chronicle.getAllowedSplats());
+                    return ResponseEntity.ok(info);
+                })
                 .orElse(ResponseEntity.badRequest().body(Map.of("error", "Invalid invite link")));
     }
 
@@ -188,6 +207,9 @@ public class ChronicleController {
             AppUser user = access.getCurrentUser();
             if (!character.getOwner().getId().equals(user.getId())) {
                 return ResponseEntity.status(403).body((Object) Map.of("error", "You can only add your own characters"));
+            }
+            if (!isSplatAllowed(chronicle, character.getSplat())) {
+                return ResponseEntity.badRequest().body((Object) Map.of("error", "This character type is not allowed in this chronicle"));
             }
             character.setChronicle(chronicle);
             characterRepository.save(character);
@@ -250,5 +272,24 @@ public class ChronicleController {
             sessionRepository.deleteById(sessionId);
             return ResponseEntity.noContent().<Void>build();
         }).orElse(ResponseEntity.notFound().build());
+    }
+
+    // ── Helpers ──
+
+    private static final Map<String, String> SPLAT_CATEGORY = Map.ofEntries(
+        Map.entry("VAMPIRE", "VAMPIRE"), Map.entry("VAMPIRE_REVISED", "VAMPIRE"),
+        Map.entry("VAMPIRE_DARK_AGES", "VAMPIRE"), Map.entry("VICTORIAN_VAMPIRE", "VAMPIRE"),
+        Map.entry("KOTE", "VAMPIRE"), Map.entry("GHOUL", "VAMPIRE"),
+        Map.entry("WEREWOLF", "WEREWOLF"), Map.entry("WYLD_WEST_WEREWOLF", "WEREWOLF"),
+        Map.entry("CHANGING_BREEDS", "WEREWOLF"), Map.entry("TOTEM", "WEREWOLF"),
+        Map.entry("MAGE", "MAGE"), Map.entry("VICTORIAN_MAGE", "MAGE"),
+        Map.entry("FAMILIAR", "MAGE")
+    );
+
+    private boolean isSplatAllowed(Chronicle chronicle, String splat) {
+        String allowed = chronicle.getAllowedSplats();
+        if (allowed == null || allowed.isBlank()) return true;
+        String category = SPLAT_CATEGORY.getOrDefault(splat, splat);
+        return Arrays.asList(allowed.split(",")).contains(category);
     }
 }

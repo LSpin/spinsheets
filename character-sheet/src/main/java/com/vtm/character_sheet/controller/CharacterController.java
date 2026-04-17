@@ -13,9 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/characters")
@@ -287,13 +285,33 @@ public class CharacterController {
         return ResponseEntity.noContent().build();
     }
 
+    private static final Map<String, String> SPLAT_CATEGORY = Map.ofEntries(
+        Map.entry("VAMPIRE", "VAMPIRE"), Map.entry("VAMPIRE_REVISED", "VAMPIRE"),
+        Map.entry("VAMPIRE_DARK_AGES", "VAMPIRE"), Map.entry("VICTORIAN_VAMPIRE", "VAMPIRE"),
+        Map.entry("KOTE", "VAMPIRE"), Map.entry("GHOUL", "VAMPIRE"),
+        Map.entry("WEREWOLF", "WEREWOLF"), Map.entry("WYLD_WEST_WEREWOLF", "WEREWOLF"),
+        Map.entry("CHANGING_BREEDS", "WEREWOLF"), Map.entry("TOTEM", "WEREWOLF"),
+        Map.entry("MAGE", "MAGE"), Map.entry("VICTORIAN_MAGE", "MAGE"),
+        Map.entry("FAMILIAR", "MAGE")
+    );
+
+    private boolean isSplatAllowed(Chronicle chronicle, String splat) {
+        String allowed = chronicle.getAllowedSplats();
+        if (allowed == null || allowed.isBlank()) return true;
+        String category = SPLAT_CATEGORY.getOrDefault(splat, splat);
+        return Arrays.asList(allowed.split(",")).contains(category);
+    }
+
     @PutMapping("/{id}/chronicle/{chronicleId}")
-    public ResponseEntity<Character> joinChronicle(@PathVariable Long id, @PathVariable Long chronicleId) {
+    public ResponseEntity<?> joinChronicle(@PathVariable Long id, @PathVariable Long chronicleId) {
         if (!access.canAccess(id)) return ResponseEntity.status(403).build();
         return service.findById(id).map(character ->
             chronicleService.findById(chronicleId).map(chronicle -> {
+                if (!isSplatAllowed(chronicle, character.getSplat())) {
+                    return ResponseEntity.badRequest().body((Object) Map.of("error", "This character type is not allowed in this chronicle"));
+                }
                 character.setChronicle(chronicle);
-                return ResponseEntity.ok(service.save(character));
+                return ResponseEntity.ok((Object) service.save(character));
             }).orElse(ResponseEntity.notFound().build())
         ).orElse(ResponseEntity.notFound().build());
     }

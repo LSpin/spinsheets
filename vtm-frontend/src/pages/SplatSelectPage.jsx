@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
+import { getChronicle } from '../api/chronicleApi'
 
-const TABS = [
-  { key: 'vampire', labelKey: 'splatVampire' },
-  { key: 'werewolf', labelKey: 'splatWerewolf' },
-  { key: 'mage', labelKey: 'splatMage' },
+const ALL_TABS = [
+  { key: 'vampire', labelKey: 'splatVampire', category: 'VAMPIRE' },
+  { key: 'werewolf', labelKey: 'splatWerewolf', category: 'WEREWOLF' },
+  { key: 'mage', labelKey: 'splatMage', category: 'MAGE' },
 ]
 
 const SPLATS = {
@@ -34,10 +35,28 @@ export default function SplatSelectPage() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const { t } = useLanguage()
-  const [tab, setTab] = useState('vampire')
   const mode = searchParams.get('mode')
   const chronicle = searchParams.get('chronicle')
   const suffix = mode ? `?mode=${mode}&chronicle=${chronicle}` : ''
+
+  const [allowedCategories, setAllowedCategories] = useState(null)
+
+  useEffect(() => {
+    if (!chronicle) return
+    getChronicle(chronicle).then(res => {
+      const raw = res.data.chronicle.allowedSplats
+      if (raw) setAllowedCategories(new Set(raw.split(',')))
+    }).catch(() => {})
+  }, [chronicle])
+
+  const TABS = allowedCategories
+    ? ALL_TABS.filter(tb => allowedCategories.has(tb.category))
+    : ALL_TABS
+
+  const [tab, setTab] = useState('vampire')
+  const activeTab = TABS.some(tb => tb.key === tab) ? tab : TABS[0]?.key
+
+  if (!activeTab) return null
 
   return (
     <section aria-labelledby="splat-heading">
@@ -49,12 +68,12 @@ export default function SplatSelectPage() {
       </p>
       <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)' }}>
         {TABS.map(tb => (
-          <button key={tb.key} role="tab" className={`btn btn-secondary${tab === tb.key ? ' tab-btn--active' : ''}`}
-            onClick={() => setTab(tb.key)} aria-selected={tab === tb.key}>{t(tb.labelKey)}</button>
+          <button key={tb.key} role="tab" className={`btn btn-secondary${activeTab === tb.key ? ' tab-btn--active' : ''}`}
+            onClick={() => setTab(tb.key)} aria-selected={activeTab === tb.key}>{t(tb.labelKey)}</button>
         ))}
       </div>
       <div className="splat-grid">
-        {SPLATS[tab].map(splat => (
+        {SPLATS[activeTab].map(splat => (
           <button
             key={splat.id}
             className="splat-card"

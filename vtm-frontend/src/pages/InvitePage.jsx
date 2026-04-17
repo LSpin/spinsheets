@@ -5,6 +5,13 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { getInviteInfo, joinByInviteCode } from '../api/chronicleApi'
 import { getCharacters } from '../api/characterApi'
 
+const SPLAT_TO_CATEGORY = {
+  VAMPIRE: 'VAMPIRE', VAMPIRE_REVISED: 'VAMPIRE', VAMPIRE_DARK_AGES: 'VAMPIRE',
+  VICTORIAN_VAMPIRE: 'VAMPIRE', KOTE: 'VAMPIRE', GHOUL: 'VAMPIRE',
+  WEREWOLF: 'WEREWOLF', WYLD_WEST_WEREWOLF: 'WEREWOLF', CHANGING_BREEDS: 'WEREWOLF', TOTEM: 'WEREWOLF',
+  MAGE: 'MAGE', VICTORIAN_MAGE: 'MAGE', FAMILIAR: 'MAGE',
+}
+
 export default function InvitePage() {
   const { code } = useParams()
   const navigate = useNavigate()
@@ -26,7 +33,16 @@ export default function InvitePage() {
           getCharacters(),
         ])
         setInvite(inviteRes.data)
-        const available = charsRes.data.filter(c => c.ownerId === user?.userId && !c.chronicle)
+        const allowedRaw = inviteRes.data.allowedSplats
+        const allowedSet = allowedRaw ? new Set(allowedRaw.split(',')) : null
+        const available = charsRes.data.filter(c => {
+          if (c.ownerId !== user?.userId || c.chronicle) return false
+          if (allowedSet) {
+            const cat = SPLAT_TO_CATEGORY[c.splat] || c.splat
+            if (!allowedSet.has(cat)) return false
+          }
+          return true
+        })
         setMyCharacters(available)
         if (available.length > 0) setSelectedCharId(available[0].id)
       } catch {

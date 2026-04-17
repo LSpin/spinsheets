@@ -28,6 +28,9 @@ export const disableInviteCode = (chronicleId) =>
 export const joinByInviteCode = (code, characterId) =>
   api.post('/chronicles/join', { code, characterId })
 
+export const updateAllowedSplats = (chronicleId, allowedSplats) =>
+  api.put(`/chronicles/${chronicleId}/allowed-splats`, { allowedSplats })
+
 export const addAssistantST = (chronicleId, username) =>
   api.post(`/chronicles/${chronicleId}/assistants`, { username })
 export const removeAssistantST = (chronicleId, userId) =>

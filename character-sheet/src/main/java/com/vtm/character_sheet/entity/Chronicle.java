@@ -46,5 +46,8 @@ public class Chronicle {
     @Column(unique = true, length = 8)
     private String inviteCode;
 
+    @Column(length = 50)
+    private String allowedSplats;
+
     private LocalDateTime createdAt = LocalDateTime.now();
 }

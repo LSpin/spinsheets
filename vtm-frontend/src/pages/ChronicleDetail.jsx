@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
-import { getChronicle, addAssistantST, removeAssistantST, getSessions, addSession, updateSession, deleteSession, generateInviteCode, disableInviteCode } from '../api/chronicleApi'
+import { getChronicle, addAssistantST, removeAssistantST, getSessions, addSession, updateSession, deleteSession, generateInviteCode, disableInviteCode, updateAllowedSplats } from '../api/chronicleApi'
 import { getCharacters } from '../api/characterApi'
 import { joinChronicle, leaveChronicle } from '../api/chronicleApi'
 
@@ -102,6 +102,31 @@ export default function ChronicleDetail() {
     }
   }
 
+  const SPLAT_CATEGORIES = ['VAMPIRE', 'WEREWOLF', 'MAGE']
+
+  function getAllowedSet() {
+    const raw = chronicle?.allowedSplats
+    if (!raw) return new Set(SPLAT_CATEGORIES)
+    return new Set(raw.split(','))
+  }
+
+  async function handleToggleSplat(category) {
+    const current = getAllowedSet()
+    if (current.has(category)) {
+      if (current.size <= 1) return
+      current.delete(category)
+    } else {
+      current.add(category)
+    }
+    const value = current.size === 3 ? null : [...current].join(',')
+    try {
+      await updateAllowedSplats(id, value)
+      setChronicle(prev => ({ ...prev, allowedSplats: value }))
+    } catch {
+      setError(t('failedToSave'))
+    }
+  }
+
   async function handleAddSession() {
     if (!newSession.title.trim()) return
     try {
@@ -150,8 +175,22 @@ export default function ChronicleDetail() {
   const isOwner = chronicle.storyteller?.id === user?.userId
   const isAST = chronicle.assistantStorytellers?.some(a => a.id === user?.userId)
   const canManage = isOwner || isAST
+  const SPLAT_TO_CATEGORY = {
+    VAMPIRE: 'VAMPIRE', VAMPIRE_REVISED: 'VAMPIRE', VAMPIRE_DARK_AGES: 'VAMPIRE',
+    VICTORIAN_VAMPIRE: 'VAMPIRE', KOTE: 'VAMPIRE', GHOUL: 'VAMPIRE',
+    WEREWOLF: 'WEREWOLF', WYLD_WEST_WEREWOLF: 'WEREWOLF', CHANGING_BREEDS: 'WEREWOLF', TOTEM: 'WEREWOLF',
+    MAGE: 'MAGE', VICTORIAN_MAGE: 'MAGE', FAMILIAR: 'MAGE',
+  }
   const memberIds = new Set(members.map(m => m.id))
-  const joinable = myCharacters.filter(c => !memberIds.has(c.id))
+  const allowedSet = chronicle.allowedSplats ? new Set(chronicle.allowedSplats.split(',')) : null
+  const joinable = myCharacters.filter(c => {
+    if (memberIds.has(c.id)) return false
+    if (allowedSet) {
+      const cat = SPLAT_TO_CATEGORY[c.splat] || c.splat
+      if (!allowedSet.has(cat)) return false
+    }
+    return true
+  })
 
   return (
     <section>
@@ -322,6 +361,24 @@ export default function ChronicleDetail() {
       {isOwner && (
         <div hidden={tab !== 2}>
           <div className="form-section">
+            <fieldset>
+              <legend>{t('allowedCharTypes')}</legend>
+              <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>
+                {t('allowedCharTypesHint')}
+              </p>
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                {SPLAT_CATEGORIES.map(cat => {
+                  const checked = getAllowedSet().has(cat)
+                  return (
+                    <label key={cat} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer' }}>
+                      <input type="checkbox" checked={checked} onChange={() => handleToggleSplat(cat)} />
+                      {t('splat' + cat.charAt(0) + cat.slice(1).toLowerCase())}
+                    </label>
+                  )
+                })}
+              </div>
+            </fieldset>
+
             <fieldset>
               <legend>{t('inviteLink')}</legend>
               <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>
