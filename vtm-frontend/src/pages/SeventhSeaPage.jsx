@@ -52,6 +52,9 @@ export default function SeventhSeaPage() {
           <button className="btn btn-secondary" onClick={() => navigate('/7thsea/new')}>
             {t('7sBlankHero')}
           </button>
+          <button className="btn btn-secondary" onClick={() => navigate('/7thsea/chronicles')}>
+            {t('navChronicles')}
+          </button>
         </div>
       </div>
 

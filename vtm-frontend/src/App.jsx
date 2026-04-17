@@ -225,17 +225,35 @@ function AppShell() {
           <Route path="/7thsea/new" element={
             <ProtectedRoute><SeventhSeaForm /></ProtectedRoute>
           } />
+          <Route path="/7thsea/chronicles" element={
+            <ProtectedRoute><ChronicleList system="SEVENTH_SEA" basePath="/7thsea/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/7thsea/chronicles/new" element={
+            <ProtectedRoute><ChronicleForm system="SEVENTH_SEA" basePath="/7thsea/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/7thsea/chronicles/:id" element={
+            <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
+          } />
           <Route path="/l5r" element={
             <ProtectedRoute><L5RPage /></ProtectedRoute>
           } />
           <Route path="/l5r/new" element={
             <ProtectedRoute><L5RForm /></ProtectedRoute>
           } />
+          <Route path="/l5r/chronicles" element={
+            <ProtectedRoute><ChronicleList system="L5R" basePath="/l5r/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/l5r/chronicles/new" element={
+            <ProtectedRoute><ChronicleForm system="L5R" basePath="/l5r/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/l5r/chronicles/:id" element={
+            <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
+          } />
           <Route path="/chronicles" element={
-            <ProtectedRoute><ChronicleList /></ProtectedRoute>
+            <ProtectedRoute><ChronicleList system="WOD" basePath="/chronicles" /></ProtectedRoute>
           } />
           <Route path="/chronicles/new" element={
-            <ProtectedRoute><ChronicleForm /></ProtectedRoute>
+            <ProtectedRoute><ChronicleForm system="WOD" basePath="/chronicles" /></ProtectedRoute>
           } />
           <Route path="/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>

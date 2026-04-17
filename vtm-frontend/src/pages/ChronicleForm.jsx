@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 import { createChronicle } from '../api/chronicleApi'
 
-export default function ChronicleForm() {
+export default function ChronicleForm({ system = 'WOD', basePath = '/chronicles' }) {
   const navigate = useNavigate()
   const { t } = useLanguage()
   const [name, setName] = useState('')
@@ -17,8 +17,8 @@ export default function ChronicleForm() {
     setSubmitting(true)
     setError(null)
     try {
-      const res = await createChronicle({ name: name.trim(), description: description.trim() })
-      navigate(`/chronicles/${res.data.id}`)
+      const res = await createChronicle({ name: name.trim(), description: description.trim(), gameSystem: system })
+      navigate(`${basePath}/${res.data.id}`)
     } catch (err) {
       setError(err.response?.data?.error || t('failedCreateChronicle'))
     } finally {
@@ -29,7 +29,7 @@ export default function ChronicleForm() {
   return (
     <section aria-labelledby="new-chronicle-heading">
       <div className="form-header">
-        <button className="btn btn-secondary" onClick={() => navigate('/chronicles')}>{t('back')}</button>
+        <button className="btn btn-secondary" onClick={() => navigate(basePath)}>{t('back')}</button>
         <h2 id="new-chronicle-heading">{t('newChronicleTitle')}</h2>
       </div>
       <div className="form-section" style={{ maxWidth: 500 }}>

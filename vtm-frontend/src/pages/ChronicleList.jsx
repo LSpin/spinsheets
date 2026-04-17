@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { getChronicles, deleteChronicle } from '../api/chronicleApi'
 
-export default function ChronicleList() {
+export default function ChronicleList({ system = 'WOD', basePath = '/chronicles' }) {
   const [chronicles, setChronicles] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -19,7 +19,7 @@ export default function ChronicleList() {
     try {
       setLoading(true)
       const res = await getChronicles()
-      setChronicles(res.data)
+      setChronicles(res.data.filter(c => (c.gameSystem || 'WOD') === system))
     } catch {
       setError(t('failedLoadChronicles'))
     } finally {
@@ -42,7 +42,7 @@ export default function ChronicleList() {
       <div className="character-list-header">
         <h2 id="chronicles-heading">{t('chroniclesTitle')}</h2>
         {isST && (
-          <button className="btn btn-primary" onClick={() => navigate('/chronicles/new')}>
+          <button className="btn btn-primary" onClick={() => navigate(`${basePath}/new`)}>
             {t('newChronicle')}
           </button>
         )}
@@ -81,7 +81,7 @@ export default function ChronicleList() {
               <div className="character-card-actions">
                 <button
                   className="btn btn-secondary"
-                  onClick={() => navigate(`/chronicles/${c.id}`)}
+                  onClick={() => navigate(`${basePath}/${c.id}`)}
                   aria-label={`${t('viewBtn')} ${c.name}`}
                 >
                   {t('viewBtn')}

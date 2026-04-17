@@ -52,6 +52,9 @@ export default function L5RPage() {
           <button className="btn btn-secondary" onClick={() => navigate('/l5r/new')}>
             {t('l5rBlankSheet')}
           </button>
+          <button className="btn btn-secondary" onClick={() => navigate('/l5r/chronicles')}>
+            {t('navChronicles')}
+          </button>
         </div>
       </div>
 
