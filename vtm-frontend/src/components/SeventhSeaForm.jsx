@@ -3,12 +3,10 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   getCharacter, updateCharacter,
   getBackgrounds, addBackground, removeBackground,
-  getInventory,
   getXpLog, addXpLogEntry, removeXpLogEntry,
   getDisciplines, addDiscipline, removeDiscipline,
 } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
-import InventorySection from './InventorySection'
 import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -161,7 +159,7 @@ const INITIAL = {
   heroStories: '', backstory: '', notes: '', appearanceDesc: '', personalItems: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tab7sTraits', 'tab7sSkills', 'tab7sAdvantages', 'tab7sSorcery', 'tab7sDueling', 'tab7sArcana', 'tab7sBackgrounds', 'tab7sStories', 'tabInventory', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tab7sTraits', 'tab7sSkills', 'tab7sAdvantages', 'tab7sSorcery', 'tab7sDueling', 'tab7sArcana', 'tab7sBackgrounds', 'tab7sStories', 'tab7sBelongings', 'tabBackstory', 'tabXpLog']
 
 // ── Dueling Styles (2e Core Book) ──
 const DUELING_STYLES = [
@@ -210,7 +208,6 @@ export default function SeventhSeaForm() {
   const [fields, setFields] = useState(INITIAL)
   const [backgrounds, setBackgrounds] = useState([])
   const [disciplines, setDisciplines] = useState([])
-  const [inventory, setInventory] = useState([])
   const [xpLog, setXpLog] = useState([])
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
   const [newAdv, setNewAdv] = useState({ name: '', level: 1, notes: '' })
@@ -226,9 +223,9 @@ export default function SeventhSeaForm() {
 
   async function loadCharacter() {
     try {
-      const [charRes, bgRes, discRes, invRes, xpRes] = await Promise.all([
+      const [charRes, bgRes, discRes, xpRes] = await Promise.all([
         getCharacter(characterId), getBackgrounds(characterId), getDisciplines(characterId),
-        getInventory(characterId), getXpLog(characterId),
+        getXpLog(characterId),
       ])
       const data = charRes.data
       setFields(prev => {
@@ -238,7 +235,7 @@ export default function SeventhSeaForm() {
       })
       setBackgrounds(bgRes.data)
       setDisciplines(discRes.data)
-      setInventory(invRes.data); setXpLog(xpRes.data)
+      setXpLog(xpRes.data)
     } catch { setSaveError(t('failedToLoad')) }
     finally { setLoading(false) }
   }
@@ -592,9 +589,22 @@ Story 2: [Title]
         </div>
       </div>
 
-      {/* ── Inventory ── */}
+      {/* ── Belongings ── */}
       <div hidden={tab !== 9}>
-        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('7sBelongings')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              7th Sea uses abstract Wealth rather than detailed inventories. List notable possessions: signature weapons, ships, heirlooms, and other meaningful items.
+            </p>
+            <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={10} style={{ width: '100%' }} placeholder={
+`Signature sword (Castillian rapier, family heirloom)
+Ship: The Silver Gull (brigantine, 20 crew)
+Porté-marked locket (blooded to my mother)
+Eisen dracheneisen pauldron (left shoulder)
+Coded journal of trade routes`} />
+          </fieldset>
+        </div>
       </div>
 
       {/* ── Backstory ── */}
