@@ -257,6 +257,7 @@ export default function L5RForm() {
   const [advSearch, setAdvSearch] = useState('')
   const [disadvSearch, setDisadvSearch] = useState('')
   const [spellSearch, setSpellSearch] = useState('')
+  const [kataSearch, setKataSearch] = useState('')
   const [newSkillName, setNewSkillName] = useState('')
   const [newSkillRank, setNewSkillRank] = useState(1)
   const [newSkillEmphases, setNewSkillEmphases] = useState([])
@@ -451,6 +452,25 @@ export default function L5RForm() {
       }
     }
     setFields(prev => ({ ...prev, l5rSpells: lines.join('\n') }))
+  }
+
+  // ── Kata parsing (same pattern) ──
+  function parseKata(text) {
+    if (!text) return []
+    return text.split('\n').filter(l => l.trim()).map(line => line.trim()).filter(Boolean)
+  }
+  const parsedKata = parseKata(fields.l5rKata)
+
+  function handleAddKata(kata) {
+    const line = `${kata.name} (${kata.ring} ${kata.mastery})`
+    const current = fields.l5rKata || ''
+    setFields(prev => ({ ...prev, l5rKata: current ? current + '\n' + line : line }))
+  }
+
+  function handleRemoveKata(index) {
+    const lines = (fields.l5rKata || '').split('\n').filter(l => l.trim())
+    lines.splice(index, 1)
+    setFields(prev => ({ ...prev, l5rKata: lines.join('\n') }))
   }
 
   function handleRemoveSkill(index) {
@@ -1159,23 +1179,21 @@ export default function L5RForm() {
       {/* ── Kata Catalogue ── */}
       <div hidden={tab !== 6}>
         <div className="form-section">
-          {/* ── Active Kata Dashboard ── */}
+          {/* ── Active Kata ── */}
           <fieldset>
             <legend>Active Kata</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Kata cost XP equal to their Mastery Level. Executing a Kata is a Simple Action. Only one Kata may be active at a time.
+              Executing a Kata is a Simple Action. Only one may be active at a time. Select from your known kata.
             </p>
             <div className="field-row">
               <div className="field" style={{ flex: 2 }}>
-                <label>Select Active Kata</label>
+                <label>Currently Active</label>
                 <select value={activeKata} onChange={e => setActiveKata(e.target.value)}>
                   <option value="">None</option>
-                  {L5R_KATA.filter(k => {
-                    const ringVal = k.ring === 'Air' ? airRing : k.ring === 'Earth' ? earthRing : k.ring === 'Fire' ? fireRing : k.ring === 'Water' ? waterRing : voidRing
-                    return ringVal >= k.mastery
-                  }).map(k => (
-                    <option key={k.name} value={k.name}>{k.name} ({k.ring} {k.mastery})</option>
-                  ))}
+                  {parsedKata.map((line, i) => {
+                    const match = L5R_KATA.find(k => line.toLowerCase().includes(k.name.toLowerCase()))
+                    return <option key={i} value={match?.name || line}>{line}</option>
+                  })}
                 </select>
               </div>
             </div>
@@ -1185,48 +1203,125 @@ export default function L5RForm() {
               return (
                 <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', marginBottom: 0, background: 'rgba(194,145,56,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
                   <div style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{kata.name}</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)' }}>{kata.ring} Ring {kata.mastery} | {kata.schools}</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)' }}>{kata.ring} {kata.mastery} | {kata.schools}</div>
                   <div style={{ fontSize: '0.9rem' }}>{kata.effect}</div>
                 </div>
               )
             })()}
           </fieldset>
 
+          {/* ── Known Kata List ── */}
           <fieldset>
-            <legend>Known Kata</legend>
-            <textarea name="l5rKata" value={fields.l5rKata} onChange={handleText} rows={5} style={{ width: '100%' }} placeholder="List your known kata here..." />
+            <legend>Known Kata ({parsedKata.length})</legend>
+            {parsedKata.length > 0 ? (
+              <table className="inv-table">
+                <thead><tr><th>Kata</th><th>Details</th><th></th></tr></thead>
+                <tbody>
+                  {parsedKata.map((line, i) => {
+                    const match = L5R_KATA.find(k => line.toLowerCase().includes(k.name.toLowerCase()))
+                    return (
+                      <tr key={i} style={{ background: activeKata === match?.name ? 'rgba(194,145,56,0.08)' : 'transparent' }}>
+                        <td style={{ fontWeight: 600 }}>
+                          {match && <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.7rem', marginRight: '0.3rem' }}>{'\u25CF'}</span>}
+                          {match?.name || line}
+                        </td>
+                        <td className="inv-notes" style={{ fontSize: '0.78rem' }}>
+                          {match ? `${match.ring} ${match.mastery} — ${match.effect}` : ''}
+                        </td>
+                        <td><button className="tag-remove" onClick={() => handleRemoveKata(i)}>{'\u00d7'}</button></td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            ) : (
+              <p className="muted-hint muted-hint--xs">No kata learned yet. Browse the catalogue below to add kata.</p>
+            )}
           </fieldset>
 
-          {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(ringName => {
-            const katas = L5R_KATA.filter(k => k.ring === ringName)
-            if (katas.length === 0) return null
-            const ringVal = ringName === 'Air' ? airRing : ringName === 'Earth' ? earthRing : ringName === 'Fire' ? fireRing : ringName === 'Water' ? waterRing : voidRing
-            return (
-              <fieldset key={ringName}>
-                <legend>{ringName} Kata (Ring: {ringVal})</legend>
-                <table className="inv-table">
-                  <thead>
-                    <tr><th>Name</th><th>{ringName}</th><th>Schools</th><th>Effect</th></tr>
-                  </thead>
-                  <tbody>
-                    {katas.map(k => {
-                      const qualified = ringVal >= k.mastery
-                      return (
-                        <tr key={k.name} style={{ opacity: qualified ? 1 : 0.4, background: activeKata === k.name ? 'rgba(194,145,56,0.1)' : 'transparent' }}>
-                          <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>
-                            {qualified ? '\u2713 ' : ''}{k.name}
-                          </td>
-                          <td>{k.mastery}</td>
-                          <td style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{k.schools}</td>
-                          <td className="inv-notes">{k.effect}</td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
-              </fieldset>
-            )
-          })}
+          {/* ── Kata Catalogue (searchable) ── */}
+          <fieldset>
+            <legend>Kata Catalogue ({L5R_KATA.length} kata)</legend>
+            <div className="catalog-search-wrap">
+              <input type="search" value={kataSearch} onChange={e => setKataSearch(e.target.value)}
+                placeholder="Search kata by name, ring, school, or effect..." aria-label="Search kata" />
+              <span className="catalog-search-count">
+                {L5R_KATA.filter(k => {
+                  const q = kataSearch.toLowerCase()
+                  return !q || k.name.toLowerCase().includes(q) || k.ring.toLowerCase().includes(q) || k.schools.toLowerCase().includes(q) || k.effect.toLowerCase().includes(q)
+                }).length}
+              </span>
+            </div>
+
+            {kataSearch ? (
+              <ul className="catalog-list" aria-label="Kata search results">
+                {L5R_KATA
+                  .filter(k => {
+                    const q = kataSearch.toLowerCase()
+                    return k.name.toLowerCase().includes(q) || k.ring.toLowerCase().includes(q) || k.schools.toLowerCase().includes(q) || k.effect.toLowerCase().includes(q)
+                  })
+                  .slice(0, 30)
+                  .map(k => {
+                    const ringVal = k.ring === 'Air' ? airRing : k.ring === 'Earth' ? earthRing : k.ring === 'Fire' ? fireRing : k.ring === 'Water' ? waterRing : voidRing
+                    const qualified = ringVal >= k.mastery
+                    const already = parsedKata.some(line => line.toLowerCase().includes(k.name.toLowerCase()))
+                    return (
+                      <li key={k.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`} style={{ opacity: qualified ? 1 : 0.5 }}>
+                        <button className="catalog-item-btn" onClick={() => { if (!already && qualified) handleAddKata(k) }}>
+                          <div className="catalog-item-main">
+                            <span className="catalog-item-name">{k.name} <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>— {k.schools}</span></span>
+                            <span className="catalog-item-desc">{k.effect}</span>
+                          </div>
+                          <div className="catalog-item-meta">
+                            <span className="catalog-item-cost">{k.ring} {k.mastery}</span>
+                            {already ? <span className="catalog-item-check">{'\u2713'}</span> : qualified ? <span className="catalog-item-add">+</span> : <span style={{ color: '#e55', fontSize: '0.7rem' }}>{'\u2717'}</span>}
+                          </div>
+                        </button>
+                      </li>
+                    )
+                  })}
+              </ul>
+            ) : (
+              ['Air', 'Earth', 'Fire', 'Water', 'Void'].map(ringName => {
+                const katas = L5R_KATA.filter(k => k.ring === ringName)
+                if (katas.length === 0) return null
+                const ringVal = ringName === 'Air' ? airRing : ringName === 'Earth' ? earthRing : ringName === 'Fire' ? fireRing : ringName === 'Water' ? waterRing : voidRing
+                return (
+                  <details key={ringName} style={{ marginBottom: 'var(--space-sm)' }}>
+                    <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>
+                      {ringName} Kata ({katas.length}) — Ring: {ringVal}
+                    </summary>
+                    <ul className="catalog-list" aria-label={`${ringName} kata`}>
+                      {katas.map(k => {
+                        const qualified = ringVal >= k.mastery
+                        const already = parsedKata.some(line => line.toLowerCase().includes(k.name.toLowerCase()))
+                        return (
+                          <li key={k.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`} style={{ opacity: qualified ? 1 : 0.5 }}>
+                            <button className="catalog-item-btn" onClick={() => { if (!already && qualified) handleAddKata(k) }}>
+                              <div className="catalog-item-main">
+                                <span className="catalog-item-name">{k.name} <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>— {k.schools}</span></span>
+                                <span className="catalog-item-desc">{k.effect}</span>
+                              </div>
+                              <div className="catalog-item-meta">
+                                <span className="catalog-item-cost">ML {k.mastery}</span>
+                                {already ? <span className="catalog-item-check">{'\u2713'}</span> : qualified ? <span className="catalog-item-add">+</span> : <span style={{ color: '#e55', fontSize: '0.7rem' }}>{'\u2717'}</span>}
+                              </div>
+                            </button>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </details>
+                )
+              })
+            )}
+          </fieldset>
+
+          {/* ── Raw Data ── */}
+          <details>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Raw Kata Data</summary>
+            <textarea name="l5rKata" value={fields.l5rKata} onChange={handleText} rows={5} style={{ width: '100%', marginTop: 'var(--space-sm)' }} placeholder="Kata are added from the catalogue above. Edit directly here if needed." />
+          </details>
         </div>
       </div>
 
