@@ -34,8 +34,9 @@ import InvitePage from './pages/InvitePage'
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
   const { t } = useLanguage()
+  const location = window.location.pathname + window.location.search
   if (loading) return <p className="status-loading">{t('loading')}</p>
-  if (!user) return <Navigate to="/" replace />
+  if (!user) return <Navigate to={`/login?redirect=${encodeURIComponent(location)}`} replace />
   return children
 }
 

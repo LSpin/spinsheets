@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 
 export default function LoginPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const { t } = useLanguage()
+  const redirect = searchParams.get('redirect')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
@@ -18,7 +20,7 @@ export default function LoginPage() {
     setSubmitting(true)
     try {
       await login(username, password)
-      navigate('/')
+      navigate(redirect || '/')
     } catch (err) {
       setError(err.response?.data?.error || t('loginFailed'))
     } finally {
