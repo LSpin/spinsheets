@@ -15,15 +15,18 @@ const SPLATS = {
     { id: 'vampire-dark-ages', nameKey: 'splatDarkAges',         subKey: 'splatDarkAgesSub',         descKey: 'splatDarkAgesDesc',         color: '#5a3a1a' },
     { id: 'victorian-vampire', nameKey: 'splatVictorianVampire', subKey: 'splatVictorianVampireSub', descKey: 'splatVictorianVampireDesc', color: '#6b2e3e' },
     { id: 'kote',              nameKey: 'splatKote',             subKey: 'splatKoteSub',             descKey: 'splatKoteDesc',             color: '#c4a32e' },
+    { id: 'ghoul',             nameKey: 'splatGhoul',            subKey: 'splatGhoulSub',            descKey: 'splatGhoulDesc',            color: '#884444' },
   ],
   werewolf: [
     { id: 'werewolf',           nameKey: 'splatWerewolf',  subKey: 'splatWerewolfSub',  descKey: 'splatWerewolfDesc',  color: '#7a8b3a' },
     { id: 'wyld-west-werewolf', nameKey: 'splatWyldWest',       subKey: 'splatWyldWestSub',       descKey: 'splatWyldWestDesc',       color: '#8b6914' },
     { id: 'changing-breeds',    nameKey: 'splatChangingBreeds', subKey: 'splatChangingBreedsSub', descKey: 'splatChangingBreedsDesc', color: '#5a7a3a' },
+    { id: 'totem',              nameKey: 'splatTotem',            subKey: 'splatTotemSub',            descKey: 'splatTotemDesc',            color: '#4a6a2a' },
   ],
   mage: [
     { id: 'mage',           nameKey: 'splatMage',          subKey: 'splatMageSub',          descKey: 'splatMageDesc',          color: '#6a4caa' },
     { id: 'victorian-mage', nameKey: 'splatVictorianMage', subKey: 'splatVictorianMageSub', descKey: 'splatVictorianMageDesc', color: '#5a3a7a' },
+    { id: 'familiar',       nameKey: 'splatFamiliar',      subKey: 'splatFamiliarSub',      descKey: 'splatFamiliarDesc',      color: '#7a5aaa' },
   ],
 }
 

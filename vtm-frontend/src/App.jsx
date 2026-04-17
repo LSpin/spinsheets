@@ -25,6 +25,9 @@ import ChronicleList from './pages/ChronicleList'
 import ChronicleDetail from './pages/ChronicleDetail'
 import ChronicleForm from './pages/ChronicleForm'
 import HomePage from './pages/HomePage'
+import GhoulForm from './components/GhoulForm'
+import FamiliarForm from './components/FamiliarForm'
+import TotemForm from './components/TotemForm'
 import AdminPage from './pages/AdminPage'
 import InvitePage from './pages/InvitePage'
 
@@ -192,6 +195,15 @@ function AppShell() {
           } />
           <Route path="/characters/new/changing-breeds" element={
             <ProtectedRoute><ChangingBreedsForm /></ProtectedRoute>
+          } />
+          <Route path="/characters/new/ghoul" element={
+            <ProtectedRoute><GhoulForm /></ProtectedRoute>
+          } />
+          <Route path="/characters/new/familiar" element={
+            <ProtectedRoute><FamiliarForm /></ProtectedRoute>
+          } />
+          <Route path="/characters/new/totem" element={
+            <ProtectedRoute><TotemForm /></ProtectedRoute>
           } />
           <Route path="/characters/:id" element={
             <ProtectedRoute><CharacterRouter /></ProtectedRoute>

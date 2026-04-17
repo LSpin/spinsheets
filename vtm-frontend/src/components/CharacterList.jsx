@@ -17,6 +17,9 @@ const SPLAT_LABEL_KEYS = {
   WYLD_WEST_WEREWOLF: 'splatWyldWestSub',
   VICTORIAN_MAGE: 'splatVictorianMageSub',
   CHANGING_BREEDS: 'splatChangingBreedsSub',
+  GHOUL: 'splatGhoul',
+  FAMILIAR: 'splatFamiliar',
+  TOTEM: 'splatTotem',
 }
 
 function splatBadgeClass(splat) {

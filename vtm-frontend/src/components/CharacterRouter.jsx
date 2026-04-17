@@ -12,6 +12,9 @@ import VictorianVampireForm from './VictorianVampireForm'
 import WyldWestWerewolfForm from './WyldWestWerewolfForm'
 import VictorianMageForm from './VictorianMageForm'
 import ChangingBreedsForm from './ChangingBreedsForm'
+import GhoulForm from './GhoulForm'
+import FamiliarForm from './FamiliarForm'
+import TotemForm from './TotemForm'
 
 export default function CharacterRouter() {
   const { id } = useParams()
@@ -44,5 +47,8 @@ export default function CharacterRouter() {
   if (splat === 'WYLD_WEST_WEREWOLF') return <WyldWestWerewolfForm />
   if (splat === 'VICTORIAN_MAGE') return <VictorianMageForm />
   if (splat === 'CHANGING_BREEDS') return <ChangingBreedsForm />
+  if (splat === 'GHOUL') return <GhoulForm />
+  if (splat === 'FAMILIAR') return <FamiliarForm />
+  if (splat === 'TOTEM') return <TotemForm />
   return <CharacterForm />
 }
