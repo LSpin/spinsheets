@@ -246,6 +246,11 @@ export default function L5RForm() {
   const [combatStance, setCombatStance] = useState('Attack')
   const [equippedArmor, setEquippedArmor] = useState('None')
   const [defenseSkill, setDefenseSkill] = useState(0)
+  const [equippedWeapon, setEquippedWeapon] = useState('')
+  const [equippedArrow, setEquippedArrow] = useState('Willow Leaf')
+  const [spellAffinity, setSpellAffinity] = useState('')
+  const [spellDeficiency, setSpellDeficiency] = useState('')
+  const [activeKata, setActiveKata] = useState('')
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
@@ -348,6 +353,17 @@ export default function L5RForm() {
   const moveFree = waterRing * 5
   const moveSimple = waterRing * 10
   const moveMax = waterRing * 20
+
+  // ── Weapon computations ──
+  const ALL_WEAPONS = [
+    ...L5R_EQUIPMENT.swords, ...L5R_EQUIPMENT.polearms, ...L5R_EQUIPMENT.spears,
+    ...L5R_EQUIPMENT.heavyWeapons, ...L5R_EQUIPMENT.knives, ...L5R_EQUIPMENT.staves,
+    ...L5R_EQUIPMENT.chain, ...L5R_EQUIPMENT.warFans,
+  ]
+  const selectedWeapon = ALL_WEAPONS.find(w => w.name === equippedWeapon)
+  const isBow = L5R_EQUIPMENT.bows.some(b => b.name === equippedWeapon)
+  const selectedBow = L5R_EQUIPMENT.bows.find(b => b.name === equippedWeapon)
+  const selectedArrow = L5R_EQUIPMENT.arrows.find(a => a.name === equippedArrow)
 
   // Wound rank from current wounds
   const woundsPerRank = earthRing * 2
@@ -649,6 +665,59 @@ Rank 3: ...`} />
       {/* ── Spells ── */}
       <div hidden={tab !== 5}>
         <div className="form-section">
+          {/* ── Spell Casting Calculator ── */}
+          <fieldset>
+            <legend>Spell Casting Dashboard</legend>
+            <div className="field-row">
+              <div className="field">
+                <label>Affinity Element</label>
+                <select value={spellAffinity} onChange={e => setSpellAffinity(e.target.value)}>
+                  <option value="">None</option>
+                  {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(el => <option key={el} value={el}>{el}</option>)}
+                </select>
+              </div>
+              <div className="field">
+                <label>Deficiency Element</label>
+                <select value={spellDeficiency} onChange={e => setSpellDeficiency(e.target.value)}>
+                  <option value="">None</option>
+                  {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(el => <option key={el} value={el}>{el}</option>)}
+                </select>
+              </div>
+            </div>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Affinity spells cost 1 fewer spell slot. Deficiency spells cost 1 extra spell slot. Casting Roll = Ring + School Rank (rolled) / Ring (kept).
+            </p>
+            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+              <thead>
+                <tr><th>Element</th><th>Ring</th><th>Casting Roll</th><th>Affinity / Deficiency</th></tr>
+              </thead>
+              <tbody>
+                {[
+                  { name: 'Air', ring: airRing },
+                  { name: 'Earth', ring: earthRing },
+                  { name: 'Fire', ring: fireRing },
+                  { name: 'Water', ring: waterRing },
+                  { name: 'Void', ring: voidRing },
+                ].map(el => {
+                  const isAffinity = spellAffinity === el.name
+                  const isDeficiency = spellDeficiency === el.name
+                  const schoolRank = fields.l5rSchoolRank || 1
+                  const castingRoll = `${el.ring + schoolRank}k${el.ring}`
+                  return (
+                    <tr key={el.name} style={{ background: isAffinity ? 'rgba(136,204,136,0.08)' : isDeficiency ? 'rgba(224,85,85,0.08)' : 'transparent' }}>
+                      <td style={{ fontWeight: 600 }}>{el.name}</td>
+                      <td>{el.ring}</td>
+                      <td style={{ fontWeight: 600 }}>{castingRoll}</td>
+                      <td style={{ color: isAffinity ? '#8c8' : isDeficiency ? '#e55' : 'var(--color-text-muted)' }}>
+                        {isAffinity ? 'Affinity \u2713' : isDeficiency ? 'Deficiency \u2717' : '\u2014'}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </fieldset>
+
           <fieldset>
             <legend>{t('tabL5rSpells')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
@@ -668,17 +737,21 @@ Path to Inner Peace (ML 1, TN 15) — Heal Wound Rank x 2
 — Fire (Deficiency) —
 — Void —`} />
           </fieldset>
-          <fieldset>
-            <legend>Spell Elements Reference</legend>
-            {['Air — Illusion, misdirection, wind, sound. Casting: Air + School Rank.',
-              'Earth — Protection, endurance, jade, stone. Casting: Earth + School Rank.',
-              'Fire — Destruction, knowledge, light, heat. Casting: Fire + School Rank.',
-              'Water — Healing, movement, perception, cold. Casting: Water + School Rank.',
-              'Void — Enlightenment, self, anti-magic. Casting: Void + School Rank.',
-            ].map(line => (
-              <p key={line} className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>{line}</p>
-            ))}
-          </fieldset>
+
+          <details style={{ marginBottom: 'var(--space-md)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Spell Elements Reference</summary>
+            <div style={{ padding: 'var(--space-sm) 0' }}>
+              {['Air \u2014 Illusion, misdirection, wind, sound. Casting: Air + School Rank.',
+                'Earth \u2014 Protection, endurance, jade, stone. Casting: Earth + School Rank.',
+                'Fire \u2014 Destruction, knowledge, light, heat. Casting: Fire + School Rank.',
+                'Water \u2014 Healing, movement, perception, cold. Casting: Water + School Rank.',
+                'Void \u2014 Enlightenment, self, anti-magic. Casting: Void + School Rank.',
+              ].map(line => (
+                <p key={line} className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>{line}</p>
+              ))}
+            </div>
+          </details>
+
           <details style={{ marginBottom: 'var(--space-md)' }}>
             <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Kiho Reference (Monks)</summary>
             <div style={{ padding: 'var(--space-sm) 0' }}>
@@ -695,32 +768,69 @@ Path to Inner Peace (ML 1, TN 15) — Heal Wound Rank x 2
       {/* ── Kata Catalogue ── */}
       <div hidden={tab !== 6}>
         <div className="form-section">
+          {/* ── Active Kata Dashboard ── */}
           <fieldset>
-            <legend>{t('tabL5rKata')}</legend>
+            <legend>Active Kata</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Kata cost XP equal to their Mastery Level. Executing a Kata is a Simple Action. Only one Kata may be active at a time.
             </p>
+            <div className="field-row">
+              <div className="field" style={{ flex: 2 }}>
+                <label>Select Active Kata</label>
+                <select value={activeKata} onChange={e => setActiveKata(e.target.value)}>
+                  <option value="">None</option>
+                  {L5R_KATA.filter(k => {
+                    const ringVal = k.ring === 'Air' ? airRing : k.ring === 'Earth' ? earthRing : k.ring === 'Fire' ? fireRing : k.ring === 'Water' ? waterRing : voidRing
+                    return ringVal >= k.mastery
+                  }).map(k => (
+                    <option key={k.name} value={k.name}>{k.name} ({k.ring} {k.mastery})</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            {activeKata && (() => {
+              const kata = L5R_KATA.find(k => k.name === activeKata)
+              if (!kata) return null
+              return (
+                <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', marginBottom: 0, background: 'rgba(194,145,56,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                  <div style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{kata.name}</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)' }}>{kata.ring} Ring {kata.mastery} | {kata.schools}</div>
+                  <div style={{ fontSize: '0.9rem' }}>{kata.effect}</div>
+                </div>
+              )
+            })()}
+          </fieldset>
+
+          <fieldset>
+            <legend>Known Kata</legend>
             <textarea name="l5rKata" value={fields.l5rKata} onChange={handleText} rows={5} style={{ width: '100%' }} placeholder="List your known kata here..." />
           </fieldset>
-          {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(ring => {
-            const katas = L5R_KATA.filter(k => k.ring === ring)
+
+          {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(ringName => {
+            const katas = L5R_KATA.filter(k => k.ring === ringName)
             if (katas.length === 0) return null
+            const ringVal = ringName === 'Air' ? airRing : ringName === 'Earth' ? earthRing : ringName === 'Fire' ? fireRing : ringName === 'Water' ? waterRing : voidRing
             return (
-              <fieldset key={ring}>
-                <legend>{ring} Kata</legend>
+              <fieldset key={ringName}>
+                <legend>{ringName} Kata (Ring: {ringVal})</legend>
                 <table className="inv-table">
                   <thead>
-                    <tr><th>Name</th><th>{ring}</th><th>Schools</th><th>Effect</th></tr>
+                    <tr><th>Name</th><th>{ringName}</th><th>Schools</th><th>Effect</th></tr>
                   </thead>
                   <tbody>
-                    {katas.map(k => (
-                      <tr key={k.name}>
-                        <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{k.name}</td>
-                        <td>{k.mastery}</td>
-                        <td style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{k.schools}</td>
-                        <td className="inv-notes">{k.effect}</td>
-                      </tr>
-                    ))}
+                    {katas.map(k => {
+                      const qualified = ringVal >= k.mastery
+                      return (
+                        <tr key={k.name} style={{ opacity: qualified ? 1 : 0.4, background: activeKata === k.name ? 'rgba(194,145,56,0.1)' : 'transparent' }}>
+                          <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>
+                            {qualified ? '\u2713 ' : ''}{k.name}
+                          </td>
+                          <td>{k.mastery}</td>
+                          <td style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{k.schools}</td>
+                          <td className="inv-notes">{k.effect}</td>
+                        </tr>
+                      )
+                    })}
                   </tbody>
                 </table>
               </fieldset>
@@ -990,11 +1100,128 @@ Path to Inner Peace (ML 1, TN 15) — Heal Wound Rank x 2
       {/* ── Equipment ── */}
       <div hidden={tab !== 9}>
         <div className="form-section">
+          {/* ── Loadout Dashboard ── */}
           <fieldset>
-            <legend>{t('tabL5rEquipment')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              {t('l5rEquipmentHint')}
-            </p>
+            <legend>Loadout Dashboard</legend>
+            <div className="field-row">
+              <div className="field" style={{ flex: 2 }}>
+                <label>Equipped Weapon</label>
+                <select value={equippedWeapon} onChange={e => setEquippedWeapon(e.target.value)}>
+                  <option value="">None</option>
+                  <optgroup label="Melee Weapons">
+                    {ALL_WEAPONS.map(w => <option key={w.name} value={w.name}>{w.name} ({w.dr})</option>)}
+                  </optgroup>
+                  <optgroup label="Bows">
+                    {L5R_EQUIPMENT.bows.map(b => <option key={b.name} value={b.name}>{b.name} ({b.dr})</option>)}
+                  </optgroup>
+                </select>
+              </div>
+              {isBow && (
+                <div className="field">
+                  <label>Arrow Type</label>
+                  <select value={equippedArrow} onChange={e => setEquippedArrow(e.target.value)}>
+                    {L5R_EQUIPMENT.arrows.map(a => <option key={a.name} value={a.name}>{a.name} ({a.dr})</option>)}
+                  </select>
+                </div>
+              )}
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-md)', marginTop: 'var(--space-sm)' }}>
+              {/* Damage card */}
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Damage</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>
+                  {(() => {
+                    if (isBow && selectedBow && selectedArrow) {
+                      const bowStr = parseInt((selectedBow.dr.match(/Str\s*(\d+)/) || [])[1]) || 0
+                      const arrowMatch = selectedArrow.dr.match(/(\d+)k(\d+)/)
+                      if (arrowMatch) {
+                        const arrowRolled = parseInt(arrowMatch[1])
+                        const arrowKept = parseInt(arrowMatch[2])
+                        return `${bowStr + arrowRolled}k${arrowKept}`
+                      }
+                      return selectedArrow.dr
+                    }
+                    if (selectedWeapon) {
+                      const drMatch = selectedWeapon.dr.match(/(\d+)k(\d+)/)
+                      if (drMatch) {
+                        const rolled = parseInt(drMatch[1])
+                        const kept = parseInt(drMatch[2])
+                        const str = fields.l5rStrength7 || 2
+                        return `${rolled + str}k${kept}`
+                      }
+                      return selectedWeapon.dr
+                    }
+                    return '\u2014'
+                  })()}
+                </div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                  {(() => {
+                    if (isBow && selectedBow && selectedArrow) {
+                      const bowStr = parseInt((selectedBow.dr.match(/Str\s*(\d+)/) || [])[1]) || 0
+                      return `${selectedBow.name} (Str ${bowStr}) + ${selectedArrow.name} (${selectedArrow.dr})`
+                    }
+                    if (selectedWeapon) {
+                      return `${selectedWeapon.dr} + Str ${fields.l5rStrength7 || 2}`
+                    }
+                    return 'No weapon equipped'
+                  })()}
+                </div>
+              </div>
+
+              {/* Attack Roll card */}
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Attack Roll</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>
+                  {(() => {
+                    if (isBow) {
+                      const ref = fields.l5rReflexes || 2
+                      return `Xk${ref}`
+                    }
+                    if (selectedWeapon) {
+                      const agi = fields.l5rAgility || 2
+                      return `Xk${agi}`
+                    }
+                    return '\u2014'
+                  })()}
+                </div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                  {(() => {
+                    if (isBow) return `Reflexes + Kyujutsu: Xk${fields.l5rReflexes || 2}`
+                    if (selectedWeapon) return `Agility + [Weapon Skill]: Xk${fields.l5rAgility || 2}`
+                    return 'No weapon equipped'
+                  })()}
+                </div>
+              </div>
+
+              {/* Armor card (display only) */}
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Armor</div>
+                <div style={{ fontSize: '1.4rem', fontWeight: 700 }}>
+                  {armorData ? `+${armorATN} ATN` : 'None'}
+                </div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                  {armorData ? `${armorData.name}, Red ${armorReduction}` : 'No armor equipped'}
+                </div>
+              </div>
+
+              {/* Weapon info card */}
+              {(selectedWeapon || isBow) && (
+                <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Keywords</div>
+                  <div style={{ fontSize: '0.9rem', fontWeight: 600, marginTop: 'var(--space-xs)' }}>
+                    {selectedWeapon ? selectedWeapon.keywords : selectedBow ? selectedBow.keywords : ''}
+                  </div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', marginTop: 'var(--space-xs)' }}>
+                    {selectedWeapon ? selectedWeapon.notes : selectedBow ? selectedBow.notes : ''}
+                  </div>
+                </div>
+              )}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Personal Items</legend>
             <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={
 `Katana (3k2, Samurai)
 Wakizashi (2k2, Samurai)
@@ -1003,60 +1230,62 @@ Traveling pack, spare kimono, 10 koku`} />
           </fieldset>
 
           {L5R_EQUIPMENT_CATEGORIES.map(({ key, label }) => (
-            <fieldset key={key}>
-              <legend>{label}</legend>
-              {key === 'armor' ? (
-                <table className="inv-table">
-                  <thead>
-                    <tr><th>Name</th><th>ATN Bonus</th><th>Reduction</th><th>Cost</th><th>Notes</th></tr>
-                  </thead>
-                  <tbody>
-                    {L5R_EQUIPMENT[key].map(item => (
-                      <tr key={item.name}>
-                        <td style={{ fontWeight: 600 }}>{item.name}</td>
-                        <td>+{item.atn}</td>
-                        <td>{item.reduction}</td>
-                        <td>{item.cost}</td>
-                        <td className="inv-notes">{item.notes}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : key === 'arrows' ? (
-                <table className="inv-table">
-                  <thead>
-                    <tr><th>Name</th><th>DR</th><th>Cost</th><th>Notes</th></tr>
-                  </thead>
-                  <tbody>
-                    {L5R_EQUIPMENT[key].map(item => (
-                      <tr key={item.name}>
-                        <td style={{ fontWeight: 600 }}>{item.name}</td>
-                        <td>{item.dr}</td>
-                        <td>{item.cost}</td>
-                        <td className="inv-notes">{item.notes}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : (
-                <table className="inv-table">
-                  <thead>
-                    <tr><th>Name</th><th>DR</th><th>Keywords</th><th>Cost</th><th>Notes</th></tr>
-                  </thead>
-                  <tbody>
-                    {L5R_EQUIPMENT[key].map(item => (
-                      <tr key={item.name}>
-                        <td style={{ fontWeight: 600 }}>{item.name}</td>
-                        <td>{item.dr}</td>
-                        <td style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{item.keywords}</td>
-                        <td>{item.cost}</td>
-                        <td className="inv-notes">{item.notes}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-            </fieldset>
+            <details key={key} style={{ marginBottom: 'var(--space-sm)' }}>
+              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{label} Catalogue</summary>
+              <div style={{ padding: 'var(--space-sm) 0' }}>
+                {key === 'armor' ? (
+                  <table className="inv-table">
+                    <thead>
+                      <tr><th>Name</th><th>ATN Bonus</th><th>Reduction</th><th>Cost</th><th>Notes</th></tr>
+                    </thead>
+                    <tbody>
+                      {L5R_EQUIPMENT[key].map(item => (
+                        <tr key={item.name}>
+                          <td style={{ fontWeight: 600 }}>{item.name}</td>
+                          <td>+{item.atn}</td>
+                          <td>{item.reduction}</td>
+                          <td>{item.cost}</td>
+                          <td className="inv-notes">{item.notes}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : key === 'arrows' ? (
+                  <table className="inv-table">
+                    <thead>
+                      <tr><th>Name</th><th>DR</th><th>Cost</th><th>Notes</th></tr>
+                    </thead>
+                    <tbody>
+                      {L5R_EQUIPMENT[key].map(item => (
+                        <tr key={item.name}>
+                          <td style={{ fontWeight: 600 }}>{item.name}</td>
+                          <td>{item.dr}</td>
+                          <td>{item.cost}</td>
+                          <td className="inv-notes">{item.notes}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <table className="inv-table">
+                    <thead>
+                      <tr><th>Name</th><th>DR</th><th>Keywords</th><th>Cost</th><th>Notes</th></tr>
+                    </thead>
+                    <tbody>
+                      {L5R_EQUIPMENT[key].map(item => (
+                        <tr key={item.name}>
+                          <td style={{ fontWeight: 600 }}>{item.name}</td>
+                          <td>{item.dr}</td>
+                          <td style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{item.keywords}</td>
+                          <td>{item.cost}</td>
+                          <td className="inv-notes">{item.notes}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </details>
           ))}
         </div>
       </div>
