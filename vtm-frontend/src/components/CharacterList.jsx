@@ -27,10 +27,12 @@ function splatBadgeClass(splat) {
 }
 
 const WEREWOLF_SPLATS = new Set(['WEREWOLF', 'WYLD_WEST_WEREWOLF', 'CHANGING_BREEDS', 'TOTEM'])
+const MAGE_SPLATS = new Set(['MAGE', 'VICTORIAN_MAGE', 'FAMILIAR'])
 
 function CharacterCard({ c, user, t, navigate, onDelete, chronicles, onAssignChronicle }) {
   const isST = user?.role === 'STORYTELLER'
   const isWerewolf = WEREWOLF_SPLATS.has(c.splat)
+  const isMage = MAGE_SPLATS.has(c.splat)
   return (
     <li className="character-card">
       <div className="character-card-info">
@@ -56,13 +58,19 @@ function CharacterCard({ c, user, t, navigate, onDelete, chronicles, onAssignChr
               <dd>{t('rage')}: {c.rage}</dd>
             </>
           )}
-          {!isWerewolf && c.generation && (
+          {isMage && c.arete > 0 && (
+            <>
+              <dt className="sr-only">{t('areteLabel')}</dt>
+              <dd>{t('areteLabel')}: {c.arete}</dd>
+            </>
+          )}
+          {!isWerewolf && !isMage && c.generation && (
             <>
               <dt className="sr-only">{t('generation')}</dt>
               <dd>{c.generation}{t('thGeneration')}</dd>
             </>
           )}
-          {!isWerewolf && c.pathName && (
+          {!isWerewolf && !isMage && c.pathName && (
             <>
               <dt className="sr-only">{t('pathName')}</dt>
               <dd>{c.pathName} {c.pathRating}</dd>
