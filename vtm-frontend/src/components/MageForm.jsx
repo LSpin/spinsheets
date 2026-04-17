@@ -22,6 +22,7 @@ import { SPHERE_INFO, SPHERE_KEYS, SPHERE_FIELD_MAP } from '../data/mageSpheres'
 import { useLanguage } from '../i18n/LanguageContext'
 import { MAGE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { WONDER_TYPES, MAGE_WONDERS } from '../data/mageWonders'
+import { PARADIGMS, PRACTICES, INSTRUMENTS } from '../data/mageFocus'
 import TagInfoPanel from './TagInfoPanel'
 
 // ── Constants ──
@@ -903,6 +904,47 @@ export default function MageForm() {
               })}
             </ul>
           </fieldset>
+
+          {/* Custom Wonder Creator */}
+          <fieldset>
+            <legend>Create Custom Wonder</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Design your own Wonder. Give it a name, level, type, and description.
+            </p>
+            <div className="field-row">
+              <div className="field" style={{ flex: 2 }}>
+                <label>Wonder Name</label>
+                <input type="text" value={newWonder.name} onChange={e => setNewWonder(p => ({ ...p, name: e.target.value }))} placeholder="Name your creation..." />
+              </div>
+              <div className="field" style={{ width: 70 }}>
+                <label>Level</label>
+                <select value={newWonder.level} onChange={e => setNewWonder(p => ({ ...p, level: parseInt(e.target.value) }))}>
+                  {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
+                </select>
+              </div>
+              <div className="field">
+                <label>Type</label>
+                <select value={newWonder.notes} onChange={e => setNewWonder(p => ({ ...p, notes: e.target.value }))}>
+                  <option value="">Select type...</option>
+                  {WONDER_TYPES.map(wt => <option key={wt.key} value={wt.label}>{wt.label}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="field">
+              <label>Spheres Required</label>
+              <input type="text" value={newWonder.spheres || ''} onChange={e => setNewWonder(p => ({ ...p, spheres: e.target.value }))} placeholder="e.g. Forces 3, Prime 2" />
+            </div>
+            <div className="field">
+              <label>Description / Powers</label>
+              <textarea value={newWonder.description || ''} onChange={e => setNewWonder(p => ({ ...p, description: e.target.value }))} rows={3} style={{ width: '100%' }} placeholder="What does this Wonder do?" />
+            </div>
+            <button className="btn btn-secondary" onClick={() => {
+              if (!newWonder.name.trim()) return
+              addDiscipline(characterId, { name: newWonder.name, level: newWonder.level, notes: newWonder.notes || 'Custom' })
+                .then(res => { setDisciplines(prev => [...prev, res.data]); setNewWonder({ name: '', level: 1, notes: '' }) })
+                .catch(() => setActionError(t('failedToSave')))
+            }}>{t('add')}</button>
+          </fieldset>
         </div>
       </div>
 
@@ -1027,24 +1069,75 @@ export default function MageForm() {
           <fieldset>
             <legend>Paradigm</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Your worldview — how you understand reality and magic. What is the universe? How does your magic work?
+              Your worldview — how you understand reality and magic. Choose from the M20 list or write your own.
             </p>
-            <textarea name="paradigm" value={fields.paradigm} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="e.g. Everything is Data, A World of Gods and Monsters, Might is Right..." />
+            <textarea name="paradigm" value={fields.paradigm} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="Type your paradigm or pick from below..." />
+            <details style={{ marginTop: 'var(--space-sm)' }}>
+              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>M20 Paradigms ({PARADIGMS.length})</summary>
+              <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
+                {PARADIGMS.map(p => (
+                  <li key={p.name} className="catalog-item">
+                    <button className="catalog-item-btn" onClick={() => setFields(prev => ({ ...prev, paradigm: prev.paradigm ? prev.paradigm + '\n' + p.name : p.name }))}>
+                      <div className="catalog-item-main">
+                        <span className="catalog-item-name">{p.name}</span>
+                        <span className="catalog-item-desc">{p.description}</span>
+                      </div>
+                      <div className="catalog-item-meta"><span className="catalog-item-add">+</span></div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </details>
           </fieldset>
+
           <fieldset>
             <legend>Practice</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              The methods you use to work magic — your tradition's approach to bending reality.
+              The methods you use to work magic. Most mages have one primary practice and may know secondary ones.
             </p>
-            <textarea name="practice" value={fields.practice} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="e.g. High Ritual Magick, Chaos Magick, Hypertech, Yoga, Voudoun..." />
+            <textarea name="practice" value={fields.practice} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="Type your practice or pick from below..." />
+            <details style={{ marginTop: 'var(--space-sm)' }}>
+              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>M20 Practices ({PRACTICES.length})</summary>
+              <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
+                {PRACTICES.map(p => (
+                  <li key={p.name} className="catalog-item">
+                    <button className="catalog-item-btn" onClick={() => setFields(prev => ({ ...prev, practice: prev.practice ? prev.practice + '\n' + p.name : p.name }))}>
+                      <div className="catalog-item-main">
+                        <span className="catalog-item-name">{p.name}</span>
+                        <span className="catalog-item-desc">{p.description}</span>
+                      </div>
+                      <div className="catalog-item-meta"><span className="catalog-item-add">+</span></div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </details>
           </fieldset>
+
           <fieldset>
             <legend>Instruments</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              The tools and foci you use to perform magic. As you advance in Arete, you may discard instruments.
+              The tools and foci you use. As Arete rises, you may discard instruments. Click to add from the M20 list.
             </p>
-            <textarea name="instruments" value={fields.instruments} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="e.g. Wand, Herbs, Computer, Sacred texts, Dance, Blood sacrifice, Meditation..." />
+            <textarea name="instruments" value={fields.instruments} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="Type your instruments or pick from below..." />
+            <details style={{ marginTop: 'var(--space-sm)' }}>
+              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>M20 Instruments ({INSTRUMENTS.length})</summary>
+              <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
+                {INSTRUMENTS.map(inst => (
+                  <li key={inst.name} className="catalog-item">
+                    <button className="catalog-item-btn" onClick={() => setFields(prev => ({ ...prev, instruments: prev.instruments ? prev.instruments + '\n' + inst.name : inst.name }))}>
+                      <div className="catalog-item-main">
+                        <span className="catalog-item-name">{inst.name}</span>
+                        <span className="catalog-item-desc">{inst.description}</span>
+                      </div>
+                      <div className="catalog-item-meta"><span className="catalog-item-add">+</span></div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </details>
           </fieldset>
+
           <fieldset>
             <legend>Chantry</legend>
             <div className="field-row">
@@ -1052,7 +1145,7 @@ export default function MageForm() {
             </div>
             <div className="field">
               <label>Chantry Description</label>
-              <textarea name="chantryDescription" value={fields.chantryDescription} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="Describe the chantry — its location, defenses, Node rating, library, and members..." />
+              <textarea name="chantryDescription" value={fields.chantryDescription} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="Location, defenses, Node rating, library, members..." />
             </div>
           </fieldset>
         </div>
