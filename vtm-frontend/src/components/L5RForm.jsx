@@ -198,6 +198,64 @@ const WOUND_RANKS = [
   { name: 'Out', penalty: 'Cannot act' },
 ]
 
+const SCHOOL_EQUIPMENT = {
+  'Hida Bushi': ['Daisho (Katana & Wakizashi)', 'Heavy Armor', 'Tetsubo or Dai Tsuchi', 'Jade Finger'],
+  'Hiruma Bushi': ['Daisho', 'Light Armor or Ashigaru', 'Bow (Yumi)', 'Survival Kit'],
+  'Hiruma Scout': ['Daisho', 'Light Armor', 'Bow (Han-kyu or Yumi)', 'Jade Finger', 'Camouflage Face Paint'],
+  'Kaiu Engineer': ['Daisho', 'Heavy Armor or Riding Armor', 'Dai Tsuchi or War Fan', 'Engineering Kit', 'Toolkit'],
+  'Kuni Shugenja': ['Wakizashi', 'Scroll Satchel', 'Jade Finger', 'Face Paint'],
+  'Kuni Witch Hunter': ['Daisho', 'Light Armor', 'Jade Pendant', 'Crystal of Air'],
+  'Toritaka Bushi': ['Daisho', 'Light Armor', 'Yari or Yumi', 'Jade Finger'],
+  'Yasuki Courtier': ['Wakizashi', 'Calligraphy Set', 'Merchant\'s Scales', 'Fine Clothing'],
+  'Hida Pragmatist': ['Daisho', 'Ashigaru Armor', 'Improvised Weapons', 'Rope'],
+  'Asahina Shugenja': ['Wakizashi', 'Scroll Satchel', 'Incense', 'Fine Brush Set'],
+  'Daidoji Iron Warrior': ['Daisho', 'Heavy Armor', 'Yari', 'Iron Fan'],
+  'Doji Courtier': ['Wakizashi', 'Fine Clothing (2 sets)', 'Personal Seal', 'Fan'],
+  'Doji Magistrate': ['Daisho', 'Light Armor', 'Jitte', 'Magistrate\'s Badge'],
+  'Kakita Bushi': ['Daisho', 'Light Armor or Fine Clothing', 'Dueling Practice Sword'],
+  'Kakita Artisan': ['Wakizashi', 'Artisan Tools', 'Fine Clothing', 'Personal Gallery'],
+  'Kitsuki Investigator': ['Daisho', 'Light Armor or Fine Clothing', 'Magnifying Lens', 'Calligraphy Set'],
+  'Mirumoto Bushi': ['Daisho', 'Light Armor', 'Sturdy Clothing'],
+  'Tamori Shugenja': ['Wakizashi', 'Scroll Satchel', 'Alchemical Ingredients', 'Mortar & Pestle'],
+  'Togashi Tattooed Order': ['Bo or Tonfa', 'Simple Robes', 'Meditation Beads'],
+  'Akodo Bushi': ['Daisho', 'Light Armor or Heavy Armor', 'War Fan', 'Military Text'],
+  'Ikoma Bard': ['Wakizashi', 'Fine Clothing (2 sets)', 'Historical Scrolls', 'Musical Instrument'],
+  "Ikoma Lion's Shadow": ['Daisho', 'Light Armor', 'Disguise Kit', 'Forgery Kit'],
+  'Kitsu Shugenja': ['Wakizashi', 'Scroll Satchel', 'Incense', 'Ancestral Shrine (portable)'],
+  'Matsu Berserker': ['Daisho', 'Light Armor', 'War Paint', 'Sturdy Clothing'],
+  'Kitsune Shugenja': ['Wakizashi', 'Scroll Satchel', 'Animal Companion (Fox)'],
+  'Moshi Shugenja': ['Wakizashi', 'Scroll Satchel', 'Prayer Beads', 'Sunstone'],
+  'Tsuruchi Archer': ['Daisho', 'Yumi (Dai-kyu)', 'Arrows (20)', 'Light Armor'],
+  'Tsuruchi Bounty Hunter': ['Daisho', 'Yumi', 'Arrows (20)', 'Manacles', 'Traveling Pack'],
+  'Yoritomo Bushi': ['Daisho', 'Light Armor', 'Kama or Parangu', 'Sailing Gear'],
+  'Yoritomo Courtier': ['Wakizashi', 'Fine Clothing', 'Merchant Ledger', 'Seal of Authority'],
+  'Agasha Shugenja': ['Wakizashi', 'Scroll Satchel', 'Alchemical Ingredients'],
+  'Isawa Shugenja': ['Wakizashi', 'Scroll Satchel', 'Prayer Beads', 'Elemental Focus'],
+  'Isawa Tensai': ['Wakizashi', 'Scroll Satchel', 'Elemental Focus (chosen element)'],
+  'Shiba Bushi': ['Daisho', 'Light Armor', 'Naginata or Yari'],
+  'Asako Loremaster': ['Wakizashi', 'Fine Clothing', 'Historical Texts (3)', 'Calligraphy Set'],
+  'Bayushi Bushi': ['Daisho', 'Light Armor', 'Scorpion Mask', 'Knife (concealed)'],
+  'Bayushi Courtier': ['Wakizashi', 'Fine Clothing (2 sets)', 'Scorpion Mask', 'Blackmail Documents'],
+  'Shosuro Infiltrator': ['Daisho or Ninja-to', 'Light Armor or Dark Clothing', 'Disguise Kit', 'Poison (1 dose)'],
+  'Soshi Shugenja': ['Wakizashi', 'Scroll Satchel', 'Scorpion Mask', 'Cipher Book'],
+  'Yogo Shugenja': ['Wakizashi', 'Scroll Satchel', 'Ward Papers', 'Jade Finger'],
+  'Chuda Shugenja': ['Wakizashi', 'Scroll Satchel', 'Obsidian Mirror'],
+  'Daigotsu Bushi': ['Daisho', 'Light Armor', 'Spider Clan Mon'],
+  'Daigotsu Courtier': ['Wakizashi', 'Fine Clothing', 'Coded Correspondence'],
+  'Goju Ninja': ['Ninja-to', 'Dark Clothing', 'Shuriken (10)', 'Smoke Bombs'],
+  'Ninube Shugenja': ['Wakizashi', 'Scroll Satchel', 'Shadow Talisman'],
+  'Ide Emissary': ['Wakizashi', 'Fine Clothing (foreign style)', 'Travel Papers', 'Gift Set'],
+  'Iuchi Shugenja': ['Wakizashi', 'Scroll Satchel', 'Riding Horse', 'Travel Supplies'],
+  'Moto Bushi': ['Daisho or Scimitar', 'Light Armor or Riding Armor', 'Gaijin Riding Horse', 'War Paint'],
+  'Moto Vindicator': ['Daisho', 'Heavy Armor', 'Gaijin Riding Horse', 'Jade Finger'],
+  'Shinjo Bushi': ['Daisho', 'Riding Armor', 'Unicorn Riding Horse', 'Yumi'],
+  'Utaku Battle Maiden': ['Daisho', 'Riding Armor', 'Utaku Steed', 'Battle Standard'],
+  'Miya Herald': ['Wakizashi', 'Fine Clothing', 'Imperial Travel Papers', 'Herald\'s Fan'],
+  'Otomo Courtier': ['Wakizashi', 'Fine Clothing (3 sets)', 'Imperial Seal (minor)', 'Calligraphy Set'],
+  'Seppun Guardsman': ['Daisho', 'Heavy Armor', 'Yari', 'Imperial Mon'],
+  'Seppun Shugenja': ['Wakizashi', 'Scroll Satchel', 'Imperial Prayer Beads'],
+}
+
 const INITIAL = {
   npc: false, splat: 'L5R',
   name: '', altName: '', concept: '',
@@ -223,7 +281,7 @@ const INITIAL = {
   backstory: '', notes: '', appearanceDesc: '', personalItems: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tabL5rRings', 'tabL5rSkills', 'tabL5rAdvantages', 'tabL5rTechniques', 'tabL5rSpells', 'tabL5rKata', 'tabL5rCombat', 'tabL5rDerived', 'tabL5rEquipment', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabL5rRings', 'tabL5rSkills', 'tabL5rAdvantages', 'tabL5rTechniques', 'tabL5rSpells', 'tabL5rKata', 'tabL5rEquipment', 'tabL5rCombat', 'tabBackstory', 'tabXpLog']
 
 export default function L5RForm() {
   const { id: paramId } = useParams()
@@ -1325,266 +1383,8 @@ export default function L5RForm() {
         </div>
       </div>
 
-      {/* ── Combat & Stances (Interactive) ── */}
+      {/* ── Equipment (tab 7) ── */}
       <div hidden={tab !== 7}>
-        <div className="form-section">
-          {/* ── Live Combat Dashboard ── */}
-          <fieldset>
-            <legend>Combat Dashboard</legend>
-            <div className="field-row">
-              <div className="field">
-                <label>Current Stance</label>
-                <select value={combatStance} onChange={e => setCombatStance(e.target.value)}>
-                  {STANCES.map(s => <option key={s.name} value={s.name}>{s.name}</option>)}
-                </select>
-              </div>
-              <div className="field">
-                <label>Equipped Armor</label>
-                <select value={equippedArmor} onChange={e => setEquippedArmor(e.target.value)}>
-                  <option value="None">None (No Armor)</option>
-                  {L5R_EQUIPMENT.armor.map(a => <option key={a.name} value={a.name}>{a.name} (+{typeof a.atn === 'number' ? a.atn : a.atn} ATN, Red {a.reduction})</option>)}
-                </select>
-              </div>
-              <div className="field">
-                <label>Defense Skill Rank</label>
-                <select value={defenseSkill} onChange={e => setDefenseSkill(parseInt(e.target.value))}>
-                  {[0,1,2,3,4,5,6,7,8,9,10].map(v => <option key={v} value={v}>{v}</option>)}
-                </select>
-              </div>
-            </div>
-
-            {stanceNotes && (
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)', fontStyle: 'italic' }}>
-                {combatStance}: {stanceNotes}
-              </p>
-            )}
-
-            {/* Live stats grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-md)', marginTop: 'var(--space-sm)' }}>
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Armor TN</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: stanceATNmod < 0 ? '#e55' : stanceATNmod > 0 ? '#8c8' : 'var(--color-text)' }}>{totalATN}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
-                  {baseATN} base{armorATN > 0 ? ` + ${armorATN} armor` : ''}{stanceATNmod !== 0 ? ` ${stanceATNmod > 0 ? '+' : ''}${stanceATNmod} stance` : ''}
-                </div>
-              </div>
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Initiative</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{initRoll}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Insight Rank {fields.l5rSchoolRank || 1} / Reflexes {fields.l5rReflexes}</div>
-              </div>
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Reduction</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{armorReduction}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>{armorData ? armorData.name : 'No armor'}</div>
-              </div>
-              {stanceAttackMod && (
-                <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Attack Bonus</div>
-                  <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#8c8' }}>{stanceAttackMod}</div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Full Attack stance</div>
-                </div>
-              )}
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Wound Status</div>
-                <div style={{ fontSize: '1.4rem', fontWeight: 700, color: currentPenalty === 0 ? '#8c8' : currentPenalty >= 40 ? '#e55' : '#e95' }}>{currentWoundRank}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
-                  {currentPenalty === 999 ? 'Incapacitated' : currentPenalty > 0 ? `+${currentPenalty} TN penalty` : 'No penalty'}
-                </div>
-              </div>
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Movement</div>
-                <div style={{ fontSize: '1.4rem', fontWeight: 700 }}>{moveFree}'{combatStance === 'Full Attack' ? ` +5'` : ''}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Free / {moveSimple}' Simple / {moveMax}' Max</div>
-              </div>
-            </div>
-          </fieldset>
-
-          {/* ── Wounds Tracker ── */}
-          <fieldset>
-            <legend>Wounds ({fields.l5rWounds || 0} total)</legend>
-            <div className="field-row">
-              <div className="field" style={{ maxWidth: 120 }}>
-                <label>Current Wounds</label>
-                <input type="number" name="l5rWounds" value={fields.l5rWounds} onChange={handleText} min={0} />
-              </div>
-              <div className="field" style={{ maxWidth: 120 }}>
-                <label>Void Points</label>
-                <DotRating label="" name="l5rCurrentVoid" value={fields.l5rCurrentVoid} onChange={handleField} min={0} max={fields.l5rVoid} />
-              </div>
-            </div>
-            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
-              <thead>
-                <tr><th>Rank</th><th>TN Penalty</th><th>Threshold</th><th></th></tr>
-              </thead>
-              <tbody>
-                <tr style={{ background: w <= healthyThreshold ? 'rgba(136,204,136,0.08)' : 'transparent' }}>
-                  <td style={{ fontWeight: 600 }}>Healthy</td><td>+0</td><td>0 – {healthyThreshold}</td>
-                  <td>{w <= healthyThreshold && w > 0 ? `${w}/${healthyThreshold}` : ''}</td>
-                </tr>
-                {WOUND_RANKS.slice(1, -1).map((wr, i) => {
-                  const lo = healthyThreshold + i * woundsPerRank + 1
-                  const hi = healthyThreshold + (i + 1) * woundsPerRank
-                  const inRank = w >= lo && w <= hi
-                  return (
-                    <tr key={wr.name} style={{ background: inRank ? 'rgba(224,85,85,0.08)' : 'transparent' }}>
-                      <td style={{ fontWeight: 600 }}>{wr.name}</td>
-                      <td>{wr.penalty}</td>
-                      <td>{lo} – {hi}</td>
-                      <td>{inRank ? `${w - lo + 1}/${woundsPerRank}` : ''}</td>
-                    </tr>
-                  )
-                })}
-                <tr style={{ background: w > healthyThreshold + 6 * woundsPerRank ? 'rgba(224,85,85,0.15)' : 'transparent' }}>
-                  <td style={{ fontWeight: 600 }}>Out</td><td>Cannot act</td><td>{healthyThreshold + 6 * woundsPerRank + 1}+</td><td></td>
-                </tr>
-              </tbody>
-            </table>
-          </fieldset>
-
-          {/* ── Reference Tables ── */}
-          <details style={{ marginBottom: 'var(--space-md)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Stance Reference</summary>
-            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
-              <thead><tr><th>Stance</th><th>Ring</th><th>Effect</th></tr></thead>
-              <tbody>
-                {STANCES.map(s => (
-                  <tr key={s.name} style={{ background: combatStance === s.name ? 'rgba(194,145,56,0.1)' : 'transparent' }}>
-                    <td style={{ fontWeight: 600 }}>{s.name}</td>
-                    <td style={{ color: 'var(--color-accent-fg)' }}>{s.ring}</td>
-                    <td className="inv-notes">{s.description}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </details>
-
-          <details style={{ marginBottom: 'var(--space-md)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Maneuver Reference</summary>
-            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
-              <thead><tr><th>Maneuver</th><th>Raises</th><th>Effect</th></tr></thead>
-              <tbody>
-                {MANEUVERS.map(m => (
-                  <tr key={m.name}>
-                    <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{m.name}</td>
-                    <td>{m.raises}</td>
-                    <td className="inv-notes">{m.description}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </details>
-
-          <details>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Void Point Uses</summary>
-            <div style={{ padding: 'var(--space-sm) 0' }}>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>+1k1 to a Skill, Trait, Ring, or Spell Casting roll (not damage)</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Temporarily treat a Skill Rank 0 as Rank 1</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Reduce Wounds from one source by 10</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Increase Armor TN by 10 for one Round</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Increase Initiative Score by 10 for the skirmish</p>
-              <p className="muted-hint muted-hint--xs">Exchange Initiative Score with a willing target</p>
-            </div>
-          </details>
-        </div>
-      </div>
-
-      {/* ── Derived Stats ── */}
-      <div hidden={tab !== 8}>
-        <div className="form-section">
-          <fieldset>
-            <legend>Honor, Glory &amp; Status</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Values stored as 0-100. Displayed as X.X (divide by 10). Starting Honor depends on school; Glory and Status default to 1.0.
-            </p>
-            <div className="field-row">
-              <div className="field">
-                <label>Honor ({(fields.l5rHonor / 10).toFixed(1)})</label>
-                <input type="number" name="l5rHonor" value={fields.l5rHonor} onChange={handleText} min={0} max={100} />
-              </div>
-              <div className="field">
-                <label>Glory ({(fields.l5rGlory / 10).toFixed(1)})</label>
-                <input type="number" name="l5rGlory" value={fields.l5rGlory} onChange={handleText} min={0} max={100} />
-              </div>
-              <div className="field">
-                <label>Status ({(fields.l5rStatus / 10).toFixed(1)})</label>
-                <input type="number" name="l5rStatus" value={fields.l5rStatus} onChange={handleText} min={0} max={100} />
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Insight &amp; School Rank</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Insight = (All Rings x 10) + total skill ranks. School Rank advances at Insight thresholds: 150 (R2), 175 (R3), 200 (R4), 225 (R5).
-            </p>
-            <div className="field-row">
-              <div className="field">
-                <label>Rings Total: {airRing + earthRing + fireRing + waterRing + voidRing}</label>
-                <p className="muted-hint muted-hint--xs">
-                  Air {airRing} + Earth {earthRing} + Fire {fireRing} + Water {waterRing} + Void {voidRing}
-                </p>
-              </div>
-            </div>
-            <div className="field-row">
-              <div className="field">
-                <label>Insight</label>
-                <input type="number" name="l5rInsight" value={fields.l5rInsight} onChange={handleText} min={0} />
-              </div>
-              <div className="field">
-                <label>School Rank</label>
-                <input type="number" name="l5rSchoolRank" value={fields.l5rSchoolRank} onChange={handleText} min={1} max={10} />
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Combat Stats</legend>
-            <div className="field-row">
-              <div className="field">
-                <label>Initiative</label>
-                <input type="number" name="l5rInitiative" value={fields.l5rInitiative} onChange={handleText} min={0} />
-              </div>
-              <div className="field">
-                <label>Armor TN (Reflexes x 5 + 5 = {fields.l5rReflexes * 5 + 5})</label>
-                <input type="number" name="l5rArmorTN" value={fields.l5rArmorTN} onChange={handleText} min={0} />
-              </div>
-              <div className="field">
-                <label>Current Wounds</label>
-                <input type="number" name="l5rWounds" value={fields.l5rWounds} onChange={handleText} min={0} />
-              </div>
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Wound Rank Reference</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Each Wound Rank holds Earth Ring x 2 Wounds. Total Wounds per rank = Stamina x 2 (or Earth x 2).
-            </p>
-            <table style={{ width: '100%', fontSize: '0.85rem', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr>
-                  <th style={{ textAlign: 'left', padding: 'var(--space-xs)', borderBottom: '1px solid var(--color-border)' }}>Wound Rank</th>
-                  <th style={{ textAlign: 'left', padding: 'var(--space-xs)', borderBottom: '1px solid var(--color-border)' }}>TN Penalty</th>
-                  <th style={{ textAlign: 'left', padding: 'var(--space-xs)', borderBottom: '1px solid var(--color-border)' }}>Wounds ({earthRing * 2} per rank)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {WOUND_RANKS.map((wr, i) => (
-                  <tr key={wr.name}>
-                    <td style={{ padding: 'var(--space-xs)', borderBottom: '1px solid var(--color-border)' }}>{wr.name}</td>
-                    <td style={{ padding: 'var(--space-xs)', borderBottom: '1px solid var(--color-border)' }}>{wr.penalty}</td>
-                    <td style={{ padding: 'var(--space-xs)', borderBottom: '1px solid var(--color-border)' }}>{i < WOUND_RANKS.length - 1 ? `${earthRing * 2 * (i + 1)}` : '—'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </fieldset>
-        </div>
-      </div>
-
-      {/* ── Equipment ── */}
-      <div hidden={tab !== 9}>
         <div className="form-section">
           {/* ── Loadout Dashboard ── */}
           <fieldset>
@@ -1600,6 +1400,13 @@ export default function L5RForm() {
                   <optgroup label="Bows">
                     {L5R_EQUIPMENT.bows.map(b => <option key={b.name} value={b.name}>{b.name} ({b.dr})</option>)}
                   </optgroup>
+                </select>
+              </div>
+              <div className="field">
+                <label>Equipped Armor</label>
+                <select value={equippedArmor} onChange={e => setEquippedArmor(e.target.value)}>
+                  <option value="None">None (No Armor)</option>
+                  {L5R_EQUIPMENT.armor.map(a => <option key={a.name} value={a.name}>{a.name} (+{typeof a.atn === 'number' ? a.atn : a.atn} ATN, Red {a.reduction})</option>)}
                 </select>
               </div>
               {isBow && (
@@ -1706,6 +1513,16 @@ export default function L5RForm() {
             </div>
           </fieldset>
 
+          {/* ── School Equipment ── */}
+          {fields.l5rSchool && SCHOOL_EQUIPMENT[fields.l5rSchool] && (
+            <fieldset>
+              <legend>Starting Equipment — {fields.l5rSchool}</legend>
+              <ul style={{ listStyle: 'disc', paddingLeft: 'var(--space-lg)', fontSize: '0.85rem' }}>
+                {SCHOOL_EQUIPMENT[fields.l5rSchool].map(item => <li key={item} style={{ marginBottom: 'var(--space-xs)' }}>{item}</li>)}
+              </ul>
+            </fieldset>
+          )}
+
           <fieldset>
             <legend>Personal Items</legend>
             <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={
@@ -1776,8 +1593,202 @@ Traveling pack, spare kimono, 10 koku`} />
         </div>
       </div>
 
+      {/* ── Combat & Derived Stats (tab 8) ── */}
+      <div hidden={tab !== 8}>
+        <div className="form-section">
+          {/* ── Stance Dashboard ── */}
+          <fieldset>
+            <legend>Combat Dashboard</legend>
+            <div className="field-row">
+              <div className="field">
+                <label>Current Stance</label>
+                <select value={combatStance} onChange={e => setCombatStance(e.target.value)}>
+                  {STANCES.map(s => <option key={s.name} value={s.name}>{s.name}</option>)}
+                </select>
+              </div>
+              <div className="field">
+                <label>Defense Skill Rank</label>
+                <select value={defenseSkill} onChange={e => setDefenseSkill(parseInt(e.target.value))}>
+                  {[0,1,2,3,4,5,6,7,8,9,10].map(v => <option key={v} value={v}>{v}</option>)}
+                </select>
+              </div>
+            </div>
+
+            {stanceNotes && (
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)', fontStyle: 'italic' }}>
+                {combatStance}: {stanceNotes}
+              </p>
+            )}
+
+            {/* Live stats grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-md)', marginTop: 'var(--space-sm)' }}>
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Armor TN</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: stanceATNmod < 0 ? '#e55' : stanceATNmod > 0 ? '#8c8' : 'var(--color-text)' }}>{totalATN}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                  {baseATN} base{armorATN > 0 ? ` + ${armorATN} armor` : ''}{stanceATNmod !== 0 ? ` ${stanceATNmod > 0 ? '+' : ''}${stanceATNmod} stance` : ''}
+                </div>
+              </div>
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Initiative</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{initRoll}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Insight Rank {fields.l5rSchoolRank || 1} / Reflexes {fields.l5rReflexes}</div>
+              </div>
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Reduction</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{armorReduction}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>{armorData ? armorData.name : 'No armor'}</div>
+              </div>
+              {stanceAttackMod && (
+                <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Attack Bonus</div>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#8c8' }}>{stanceAttackMod}</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Full Attack stance</div>
+                </div>
+              )}
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Wound Status</div>
+                <div style={{ fontSize: '1.4rem', fontWeight: 700, color: currentPenalty === 0 ? '#8c8' : currentPenalty >= 40 ? '#e55' : '#e95' }}>{currentWoundRank}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                  {currentPenalty === 999 ? 'Incapacitated' : currentPenalty > 0 ? `+${currentPenalty} TN penalty` : 'No penalty'}
+                </div>
+              </div>
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Movement</div>
+                <div style={{ fontSize: '1.4rem', fontWeight: 700 }}>{moveFree}'{combatStance === 'Full Attack' ? ` +5'` : ''}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Free / {moveSimple}' Simple / {moveMax}' Max</div>
+              </div>
+            </div>
+          </fieldset>
+
+          {/* ── Derived Stats (inline) ── */}
+          <fieldset>
+            <legend>Honor, Glory, Status &amp; Insight</legend>
+            <div className="field-row">
+              <div className="field">
+                <label>Honor ({(fields.l5rHonor / 10).toFixed(1)})</label>
+                <input type="number" name="l5rHonor" value={fields.l5rHonor} onChange={handleText} min={0} max={100} />
+              </div>
+              <div className="field">
+                <label>Glory ({(fields.l5rGlory / 10).toFixed(1)})</label>
+                <input type="number" name="l5rGlory" value={fields.l5rGlory} onChange={handleText} min={0} max={100} />
+              </div>
+              <div className="field">
+                <label>Status ({(fields.l5rStatus / 10).toFixed(1)})</label>
+                <input type="number" name="l5rStatus" value={fields.l5rStatus} onChange={handleText} min={0} max={100} />
+              </div>
+            </div>
+            <div className="field-row">
+              <div className="field">
+                <label>Insight (Rings {(airRing + earthRing + fireRing + waterRing + voidRing) * 10} + Skills {totalSkillRanks} = {(airRing + earthRing + fireRing + waterRing + voidRing) * 10 + totalSkillRanks})</label>
+                <input type="number" name="l5rInsight" value={fields.l5rInsight} onChange={handleText} min={0} />
+              </div>
+              <div className="field">
+                <label>School Rank</label>
+                <input type="number" name="l5rSchoolRank" value={fields.l5rSchoolRank} onChange={handleText} min={1} max={10} />
+              </div>
+              <div className="field">
+                <label>Armor TN (override)</label>
+                <input type="number" name="l5rArmorTN" value={fields.l5rArmorTN} onChange={handleText} min={0} />
+              </div>
+              <div className="field">
+                <label>Initiative (override)</label>
+                <input type="number" name="l5rInitiative" value={fields.l5rInitiative} onChange={handleText} min={0} />
+              </div>
+            </div>
+          </fieldset>
+
+          {/* ── Wounds Tracker ── */}
+          <fieldset>
+            <legend>Wounds ({fields.l5rWounds || 0} total)</legend>
+            <div className="field-row">
+              <div className="field" style={{ maxWidth: 120 }}>
+                <label>Current Wounds</label>
+                <input type="number" name="l5rWounds" value={fields.l5rWounds} onChange={handleText} min={0} />
+              </div>
+              <div className="field" style={{ maxWidth: 120 }}>
+                <label>Void Points</label>
+                <DotRating label="" name="l5rCurrentVoid" value={fields.l5rCurrentVoid} onChange={handleField} min={0} max={fields.l5rVoid} />
+              </div>
+            </div>
+            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+              <thead>
+                <tr><th>Rank</th><th>TN Penalty</th><th>Threshold</th><th></th></tr>
+              </thead>
+              <tbody>
+                <tr style={{ background: w <= healthyThreshold ? 'rgba(136,204,136,0.08)' : 'transparent' }}>
+                  <td style={{ fontWeight: 600 }}>Healthy</td><td>+0</td><td>0 – {healthyThreshold}</td>
+                  <td>{w <= healthyThreshold && w > 0 ? `${w}/${healthyThreshold}` : ''}</td>
+                </tr>
+                {WOUND_RANKS.slice(1, -1).map((wr, i) => {
+                  const lo = healthyThreshold + i * woundsPerRank + 1
+                  const hi = healthyThreshold + (i + 1) * woundsPerRank
+                  const inRank = w >= lo && w <= hi
+                  return (
+                    <tr key={wr.name} style={{ background: inRank ? 'rgba(224,85,85,0.08)' : 'transparent' }}>
+                      <td style={{ fontWeight: 600 }}>{wr.name}</td>
+                      <td>{wr.penalty}</td>
+                      <td>{lo} – {hi}</td>
+                      <td>{inRank ? `${w - lo + 1}/${woundsPerRank}` : ''}</td>
+                    </tr>
+                  )
+                })}
+                <tr style={{ background: w > healthyThreshold + 6 * woundsPerRank ? 'rgba(224,85,85,0.15)' : 'transparent' }}>
+                  <td style={{ fontWeight: 600 }}>Out</td><td>Cannot act</td><td>{healthyThreshold + 6 * woundsPerRank + 1}+</td><td></td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
+
+          {/* ── Reference Tables (collapsed) ── */}
+          <details style={{ marginBottom: 'var(--space-md)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Stance Reference</summary>
+            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+              <thead><tr><th>Stance</th><th>Ring</th><th>Effect</th></tr></thead>
+              <tbody>
+                {STANCES.map(s => (
+                  <tr key={s.name} style={{ background: combatStance === s.name ? 'rgba(194,145,56,0.1)' : 'transparent' }}>
+                    <td style={{ fontWeight: 600 }}>{s.name}</td>
+                    <td style={{ color: 'var(--color-accent-fg)' }}>{s.ring}</td>
+                    <td className="inv-notes">{s.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </details>
+
+          <details style={{ marginBottom: 'var(--space-md)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Maneuver Reference</summary>
+            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+              <thead><tr><th>Maneuver</th><th>Raises</th><th>Effect</th></tr></thead>
+              <tbody>
+                {MANEUVERS.map(m => (
+                  <tr key={m.name}>
+                    <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{m.name}</td>
+                    <td>{m.raises}</td>
+                    <td className="inv-notes">{m.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </details>
+
+          <details>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Void Point Uses</summary>
+            <div style={{ padding: 'var(--space-sm) 0' }}>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>+1k1 to a Skill, Trait, Ring, or Spell Casting roll (not damage)</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Temporarily treat a Skill Rank 0 as Rank 1</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Reduce Wounds from one source by 10</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Increase Armor TN by 10 for one Round</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Increase Initiative Score by 10 for the skirmish</p>
+              <p className="muted-hint muted-hint--xs">Exchange Initiative Score with a willing target</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
       {/* ── Backstory ── */}
-      <div hidden={tab !== 10}>
+      <div hidden={tab !== 9}>
         <div className="form-section">
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
@@ -1786,7 +1797,7 @@ Traveling pack, spare kimono, 10 koku`} />
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 11}>
+      <div hidden={tab !== 10}>
         <XpLogSection splat="l5r" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
