@@ -290,6 +290,7 @@ export default function L5RForm() {
   const { switchTheme } = useTheme()
   const [searchParams] = useSearchParams()
   const viewMode = searchParams.get('mode') === 'view'
+  const guidedMode = searchParams.get('mode') === 'guided'
   const characterId = paramId || null
 
   useEffect(() => { switchTheme('l5r') }, [])
@@ -537,6 +538,19 @@ export default function L5RForm() {
     setFields(prev => ({ ...prev, l5rSkillsText: lines.join('\n') }))
   }
 
+  // ── Guided mode XP tracking ──
+  const XP_BUDGET = 40
+  const advXpSpent = disciplines.reduce((sum, d) => sum + (d.level || 0), 0)
+  const disadvXpGained = backgrounds.reduce((sum, b) => sum + (b.level || 0), 0)
+  const traitXpSpent = [
+    fields.l5rReflexes, fields.l5rAwareness, fields.l5rStamina7, fields.l5rWillpower7,
+    fields.l5rAgility, fields.l5rIntelligence7, fields.l5rStrength7, fields.l5rPerception7,
+  ].reduce((sum, v) => { let cost = 0; for (let r = 3; r <= (v || 2); r++) cost += r * 4; return sum + cost }, 0)
+  const voidXpSpent = (() => { let cost = 0; for (let r = 3; r <= (fields.l5rVoid || 2); r++) cost += r * 6; return cost })()
+  const totalXpSpent = traitXpSpent + voidXpSpent + totalSkillRanks + advXpSpent
+  const totalXpAvailable = XP_BUDGET + disadvXpGained
+  const xpRemaining = totalXpAvailable - totalXpSpent
+
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
   return (
@@ -545,6 +559,7 @@ export default function L5RForm() {
         <button className="btn btn-secondary" onClick={() => navigate('/l5r')}>{t('back')}</button>
         <h2>{fields.name || t('editL5rCharacter')}</h2>
         <span className="splat-badge splat-badge--l5r">L5R</span>
+        {guidedMode && <span className="splat-badge">{t('guidedCreation')}</span>}
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
@@ -626,6 +641,22 @@ export default function L5RForm() {
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Each Ring equals the lower of its two Traits. Starting characters begin with all Traits at 2.
             </p>
+            {guidedMode && (
+              <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-md)', flexWrap: 'wrap', fontSize: '0.85rem', padding: 'var(--space-sm)', background: 'var(--color-surface-raised)', borderRadius: 'var(--radius-sm)' }}>
+                <div><strong>XP Budget:</strong> {totalXpAvailable}</div>
+                <div><strong>Traits:</strong> <span style={{ color: '#e95' }}>-{traitXpSpent}</span></div>
+                <div><strong>Void:</strong> <span style={{ color: '#e95' }}>-{voidXpSpent}</span></div>
+                <div><strong>Skills:</strong> <span style={{ color: '#e95' }}>-{totalSkillRanks}</span></div>
+                <div><strong>Advantages:</strong> <span style={{ color: '#e95' }}>-{advXpSpent}</span></div>
+                <div><strong>Disadvantages:</strong> <span style={{ color: '#8c8' }}>+{disadvXpGained}</span></div>
+                <div><strong>Remaining:</strong> <span style={{ color: xpRemaining >= 0 ? '#8c8' : '#e55', fontWeight: 700 }}>{xpRemaining} XP</span></div>
+              </div>
+            )}
+            {guidedMode && (
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+                Trait cost: new rank {'\u00d7'} 4 XP (e.g. 2{'\u2192'}3 = 12 XP). Void cost: new rank {'\u00d7'} 6 XP.
+              </p>
+            )}
 
             {/* Air */}
             <fieldset style={{ marginBottom: 'var(--space-md)' }}>
@@ -686,6 +717,7 @@ export default function L5RForm() {
               <div><strong>Insight from Skills:</strong> {totalSkillRanks}</div>
               <div><strong>Insight from Rings:</strong> {(airRing + earthRing + fireRing + waterRing + voidRing) * 10}</div>
               <div><strong>Total Insight:</strong> <span style={{ color: 'var(--color-accent-fg)', fontWeight: 700 }}>{(airRing + earthRing + fireRing + waterRing + voidRing) * 10 + totalSkillRanks}</span></div>
+              {guidedMode && <div><strong>Skill XP:</strong> <span style={{ color: '#e95' }}>-{totalSkillRanks}</span> · <strong>Remaining:</strong> <span style={{ color: xpRemaining >= 0 ? '#8c8' : '#e55', fontWeight: 700 }}>{xpRemaining} XP</span></div>}
             </div>
           </fieldset>
 
@@ -812,6 +844,13 @@ export default function L5RForm() {
           {/* ── Advantages ── */}
           <fieldset>
             <legend>Advantages ({disciplines.length})</legend>
+            {guidedMode && (
+              <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-md)', fontSize: '0.85rem', padding: 'var(--space-sm)', background: 'var(--color-surface-raised)', borderRadius: 'var(--radius-sm)' }}>
+                <div><strong>Advantage XP:</strong> <span style={{ color: '#e95' }}>-{advXpSpent}</span></div>
+                <div><strong>Disadvantage XP:</strong> <span style={{ color: '#8c8' }}>+{disadvXpGained}</span></div>
+                <div><strong>Total Remaining:</strong> <span style={{ color: xpRemaining >= 0 ? '#8c8' : '#e55', fontWeight: 700 }}>{xpRemaining} XP</span></div>
+              </div>
+            )}
             {disciplines.length > 0 && (
               <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
                 {disciplines.map(d => {
