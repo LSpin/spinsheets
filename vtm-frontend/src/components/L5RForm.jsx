@@ -256,6 +256,7 @@ export default function L5RForm() {
   const [activeKata, setActiveKata] = useState('')
   const [advSearch, setAdvSearch] = useState('')
   const [disadvSearch, setDisadvSearch] = useState('')
+  const [spellSearch, setSpellSearch] = useState('')
   const [newSkillName, setNewSkillName] = useState('')
   const [newSkillRank, setNewSkillRank] = useState(1)
   const [newSkillEmphases, setNewSkillEmphases] = useState([])
@@ -420,6 +421,36 @@ export default function L5RForm() {
     setNewSkillName('')
     setNewSkillRank(1)
     setNewSkillEmphases([])
+  }
+
+  // ── Spell parsing (same pattern as skills) ──
+  function parseSpells(text) {
+    if (!text) return []
+    return text.split('\n').filter(l => l.trim() && !l.trim().startsWith('—')).map(line => {
+      const match = line.match(/^(.+?)\s*(?:\(([^)]*)\))?\s*$/)
+      if (!match) return { raw: line, name: line.trim(), details: '' }
+      return { raw: line, name: match[1].trim(), details: match[2] || '' }
+    }).filter(s => s.name)
+  }
+  const parsedSpells = parseSpells(fields.l5rSpells)
+
+  function handleAddSpell(spell) {
+    const line = `${spell.name} (ML ${spell.mastery}, ${spell.element})`
+    const current = fields.l5rSpells || ''
+    setFields(prev => ({ ...prev, l5rSpells: current ? current + '\n' + line : line }))
+  }
+
+  function handleRemoveSpell(index) {
+    const lines = (fields.l5rSpells || '').split('\n')
+    // Count non-header lines to find the right one
+    let nonHeaderIdx = -1
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].trim() && !lines[i].trim().startsWith('—')) {
+        nonHeaderIdx++
+        if (nonHeaderIdx === index) { lines.splice(i, 1); break }
+      }
+    }
+    setFields(prev => ({ ...prev, l5rSpells: lines.join('\n') }))
   }
 
   function handleRemoveSkill(index) {
@@ -928,10 +959,10 @@ export default function L5RForm() {
         </div>
       </div>
 
-      {/* ── Spells ── */}
+      {/* ── Spells (Interactive) ── */}
       <div hidden={tab !== 5}>
         <div className="form-section">
-          {/* ── Spell Casting Calculator ── */}
+          {/* ── Casting Dashboard ── */}
           <fieldset>
             <legend>Spell Casting Dashboard</legend>
             <div className="field-row">
@@ -950,12 +981,9 @@ export default function L5RForm() {
                 </select>
               </div>
             </div>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Affinity spells cost 1 fewer spell slot. Deficiency spells cost 1 extra spell slot. Casting Roll = Ring + School Rank (rolled) / Ring (kept).
-            </p>
             <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
               <thead>
-                <tr><th>Element</th><th>Ring</th><th>Casting Roll</th><th>Affinity / Deficiency</th></tr>
+                <tr><th>Element</th><th>Ring</th><th>Casting Roll</th><th>Status</th></tr>
               </thead>
               <tbody>
                 {[
@@ -965,17 +993,15 @@ export default function L5RForm() {
                   { name: 'Water', ring: waterRing },
                   { name: 'Void', ring: voidRing },
                 ].map(el => {
-                  const isAffinity = spellAffinity === el.name
-                  const isDeficiency = spellDeficiency === el.name
-                  const schoolRank = fields.l5rSchoolRank || 1
-                  const castingRoll = `${el.ring + schoolRank}k${el.ring}`
+                  const isAff = spellAffinity === el.name
+                  const isDef = spellDeficiency === el.name
                   return (
-                    <tr key={el.name} style={{ background: isAffinity ? 'rgba(136,204,136,0.08)' : isDeficiency ? 'rgba(224,85,85,0.08)' : 'transparent' }}>
+                    <tr key={el.name} style={{ background: isAff ? 'rgba(136,204,136,0.08)' : isDef ? 'rgba(224,85,85,0.08)' : 'transparent' }}>
                       <td style={{ fontWeight: 600 }}>{el.name}</td>
                       <td>{el.ring}</td>
-                      <td style={{ fontWeight: 600 }}>{castingRoll}</td>
-                      <td style={{ color: isAffinity ? '#8c8' : isDeficiency ? '#e55' : 'var(--color-text-muted)' }}>
-                        {isAffinity ? 'Affinity \u2713' : isDeficiency ? 'Deficiency \u2717' : '\u2014'}
+                      <td style={{ fontWeight: 600 }}>{el.ring + (fields.l5rSchoolRank || 1)}k{el.ring}</td>
+                      <td style={{ color: isAff ? '#8c8' : isDef ? '#e55' : 'var(--color-text-muted)' }}>
+                        {isAff ? 'Affinity (−1 slot)' : isDef ? 'Deficiency (+1 slot)' : '—'}
                       </td>
                     </tr>
                   )
@@ -984,94 +1010,147 @@ export default function L5RForm() {
             </table>
           </fieldset>
 
+          {/* ── Known Spells ── */}
           <fieldset>
-            <legend>{t('tabL5rSpells')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Record spells by element and mastery level. All shugenja know Sense, Commune, and Summon for their affinity element. Spell Casting Roll = Ring + School Rank.
-            </p>
-            <textarea name="l5rSpells" value={fields.l5rSpells} onChange={handleText} rows={12} style={{ width: '100%' }} placeholder={
-`— Air (Affinity) —
-Tempest of Air (ML 1, Range 300', TN 15) — 2k2 damage
-By the Light of the Moon (ML 1, TN 10) — See invisible
-
-— Earth —
-Jade Strike (ML 1, Range 300', TN 15) — 2k2 vs Tainted
-
-— Water —
-Path to Inner Peace (ML 1, TN 15) — Heal Wound Rank x 2
-
-— Fire (Deficiency) —
-— Void —`} />
+            <legend>Known Spells ({parsedSpells.length})</legend>
+            {parsedSpells.length > 0 ? (
+              <table className="inv-table">
+                <thead><tr><th>Spell</th><th>Details</th><th></th></tr></thead>
+                <tbody>
+                  {parsedSpells.map((s, i) => {
+                    const catalogMatch = L5R_SPELLS.find(sp => s.name.toLowerCase().includes(sp.name.toLowerCase()))
+                    return (
+                      <tr key={i}>
+                        <td style={{ fontWeight: 600 }}>
+                          {catalogMatch && <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.7rem', marginRight: '0.3rem' }}>{'\u25CF'}</span>}
+                          {s.name}
+                        </td>
+                        <td className="inv-notes" style={{ fontSize: '0.78rem' }}>
+                          {s.details || (catalogMatch ? `ML ${catalogMatch.mastery}, ${catalogMatch.element} — ${catalogMatch.description}` : '')}
+                        </td>
+                        <td><button className="tag-remove" onClick={() => handleRemoveSpell(i)} aria-label={`Remove ${s.name}`}>{'\u00d7'}</button></td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            ) : (
+              <p className="muted-hint muted-hint--xs">No spells added yet. Use the catalogue below to add spells, or edit the raw data directly.</p>
+            )}
           </fieldset>
 
+          {/* ── Spell Catalogue (searchable, click to add) ── */}
           <fieldset>
-            <legend>Spell Catalogue</legend>
-            {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(elem => {
-              const ringMap = { Air: airRing, Earth: earthRing, Fire: fireRing, Water: waterRing, Void: voidRing }
-              const ring = ringMap[elem]
-              const castingAbility = ring + (fields.l5rSchoolRank || 1)
-              const elemSpells = L5R_SPELLS.filter(s => s.element === elem)
-              const isAff = spellAffinity === elem
-              const isDef = spellDeficiency === elem
-              return (
-                <details key={elem} style={{ marginBottom: 'var(--space-sm)' }}>
-                  <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: isAff ? '#8c8' : isDef ? '#e55' : 'var(--color-accent-fg)' }}>
-                    {elem} Spells ({elemSpells.length}) — Ring {ring}, Cast {castingAbility}k{ring}
-                    {isAff && ' ★ Affinity'}{isDef && ' ✗ Deficiency'}
-                  </summary>
-                  <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
-                    <thead><tr><th>ML</th><th>Spell</th><th>Effect</th></tr></thead>
-                    <tbody>
+            <legend>Spell Catalogue ({L5R_SPELLS.length} spells)</legend>
+            <div className="catalog-search-wrap">
+              <input type="search" value={spellSearch} onChange={e => setSpellSearch(e.target.value)}
+                placeholder="Search spells by name, element, or effect..." aria-label="Search spells" />
+              <span className="catalog-search-count">
+                {L5R_SPELLS.filter(s => {
+                  const q = spellSearch.toLowerCase()
+                  return !q || s.name.toLowerCase().includes(q) || s.element.toLowerCase().includes(q) || s.description.toLowerCase().includes(q)
+                }).length}
+              </span>
+            </div>
+
+            {spellSearch ? (
+              <ul className="catalog-list" aria-label="Spell search results">
+                {L5R_SPELLS
+                  .filter(s => {
+                    const q = spellSearch.toLowerCase()
+                    return s.name.toLowerCase().includes(q) || s.element.toLowerCase().includes(q) || s.description.toLowerCase().includes(q)
+                  })
+                  .slice(0, 30)
+                  .map(s => {
+                    const ringMap = { Air: airRing, Earth: earthRing, Fire: fireRing, Water: waterRing, Void: voidRing }
+                    const canCast = s.mastery <= (ringMap[s.element] || 2) + (fields.l5rSchoolRank || 1)
+                    const already = parsedSpells.some(p => p.name.toLowerCase().includes(s.name.toLowerCase()))
+                    const isAff = spellAffinity === s.element
+                    const isDef = spellDeficiency === s.element
+                    return (
+                      <li key={s.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                        <button className="catalog-item-btn" onClick={() => { if (!already) handleAddSpell(s) }}>
+                          <div className="catalog-item-main">
+                            <span className="catalog-item-name">
+                              {s.name}
+                              {!canCast && <span style={{ color: '#e55', fontSize: '0.72rem', marginLeft: '0.3rem' }}>(too high)</span>}
+                            </span>
+                            <span className="catalog-item-desc">{s.description}</span>
+                          </div>
+                          <div className="catalog-item-meta">
+                            <span className="catalog-item-cost" style={{ color: isAff ? '#8c8' : isDef ? '#e55' : undefined }}>
+                              {s.element} {s.mastery}
+                            </span>
+                            {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
+                          </div>
+                        </button>
+                      </li>
+                    )
+                  })}
+              </ul>
+            ) : (
+              ['Air', 'Earth', 'Fire', 'Water', 'Void'].map(elem => {
+                const ringMap = { Air: airRing, Earth: earthRing, Fire: fireRing, Water: waterRing, Void: voidRing }
+                const ring = ringMap[elem]
+                const castMax = ring + (fields.l5rSchoolRank || 1)
+                const elemSpells = L5R_SPELLS.filter(s => s.element === elem)
+                const isAff = spellAffinity === elem
+                const isDef = spellDeficiency === elem
+                return (
+                  <details key={elem} style={{ marginBottom: 'var(--space-sm)' }}>
+                    <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: isAff ? '#8c8' : isDef ? '#e55' : 'var(--color-accent-fg)' }}>
+                      {elem} ({elemSpells.length}) — Cast {ring + (fields.l5rSchoolRank || 1)}k{ring}
+                      {isAff && ' ★ Affinity'}{isDef && ' ✗ Deficiency'}
+                    </summary>
+                    <ul className="catalog-list" aria-label={`${elem} spells`}>
                       {elemSpells.map(s => {
-                        const canCast = s.mastery <= castingAbility
+                        const canCast = s.mastery <= castMax
+                        const already = parsedSpells.some(p => p.name.toLowerCase().includes(s.name.toLowerCase()))
                         return (
-                          <tr key={s.name} style={{ opacity: canCast ? 1 : 0.4 }}>
-                            <td style={{ fontWeight: 600, color: 'var(--color-accent-fg)' }}>{s.mastery}</td>
-                            <td style={{ fontWeight: 600 }}>{s.name}{canCast ? '' : ' ✗'}</td>
-                            <td className="inv-notes">{s.description}</td>
-                          </tr>
+                          <li key={s.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`} style={{ opacity: canCast ? 1 : 0.5 }}>
+                            <button className="catalog-item-btn" onClick={() => { if (!already) handleAddSpell(s) }}>
+                              <div className="catalog-item-main">
+                                <span className="catalog-item-name">{s.name}</span>
+                                <span className="catalog-item-desc">{s.description}</span>
+                              </div>
+                              <div className="catalog-item-meta">
+                                <span className="catalog-item-cost">ML {s.mastery}</span>
+                                {already ? <span className="catalog-item-check">{'\u2713'}</span> : canCast ? <span className="catalog-item-add">+</span> : <span style={{ color: '#e55', fontSize: '0.7rem' }}>{'\u2717'}</span>}
+                              </div>
+                            </button>
+                          </li>
                         )
                       })}
-                    </tbody>
-                  </table>
-                </details>
-              )
-            })}
+                    </ul>
+                  </details>
+                )
+              })
+            )}
           </fieldset>
 
-          <details style={{ marginBottom: 'var(--space-md)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Spell Elements Reference</summary>
-            <div style={{ padding: 'var(--space-sm) 0' }}>
-              {['Air \u2014 Illusion, misdirection, wind, sound. Casting: Air + School Rank.',
-                'Earth \u2014 Protection, endurance, jade, stone. Casting: Earth + School Rank.',
-                'Fire \u2014 Destruction, knowledge, light, heat. Casting: Fire + School Rank.',
-                'Water \u2014 Healing, movement, perception, cold. Casting: Water + School Rank.',
-                'Void \u2014 Enlightenment, self, anti-magic. Casting: Void + School Rank.',
-              ].map(line => (
-                <p key={line} className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>{line}</p>
-              ))}
-            </div>
+          {/* ── Raw Data ── */}
+          <details>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Raw Spell Data</summary>
+            <textarea name="l5rSpells" value={fields.l5rSpells} onChange={handleText} rows={8} style={{ width: '100%', marginTop: 'var(--space-sm)' }} placeholder="Spells are added from the catalogue above. You can also edit directly here." />
           </details>
 
-          <details style={{ marginBottom: 'var(--space-md)' }}>
+          {/* ── References (collapsed) ── */}
+          <details style={{ marginTop: 'var(--space-md)' }}>
             <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Kiho Reference (Monks)</summary>
             <div style={{ padding: 'var(--space-sm) 0' }}>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Cost:</strong> Mastery Level in XP. Requires Ring + School Rank ≥ Mastery Level.</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Cost:</strong> Mastery Level in XP. Requires Ring + School Rank {'\u2265'} Mastery Level.</p>
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Types:</strong> Internal (self-buff), Kharmic (non-offensive), Martial (via unarmed strike), Mystical (supernatural).</p>
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Limits:</strong> One each of Internal/Kharmic/Mystical active. Multiple Martial allowed but one per strike.</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Non-Brotherhood:</strong> Tattoo orders pay 1.5x cost. Shugenja pay 2x and use Ring only (no School Rank).</p>
-              <p className="muted-hint muted-hint--xs"><strong>Atemi:</strong> Nerve-cluster attacks deal no damage but deliver Kiho effects. Must touch bare skin; armor doubles ATN against atemi.</p>
+              <p className="muted-hint muted-hint--xs"><strong>Non-Brotherhood:</strong> Tattoo orders pay 1.5x. Shugenja pay 2x, use Ring only.</p>
             </div>
           </details>
 
-          <details style={{ marginBottom: 'var(--space-md)' }}>
+          <details>
             <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: '#e55' }}>Maho — Blood Magic (Forbidden)</summary>
             <div style={{ padding: 'var(--space-sm) 0' }}>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Maho</strong> spells are cast using the caster's own blood (or a victim's). They do not require spell slots.</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Casting:</strong> Maho spells use the caster's own blood. The caster inflicts Wounds on themselves or a willing/restrained target equal to the spell's Mastery Level × 5.</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Taint:</strong> Each time a Maho spell is cast, the caster gains a point of Shadowlands Taint. This is cumulative and cannot be removed by normal means.</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Detection:</strong> Maho leaves a spiritual residue. Shugenja can detect recent Maho use with Sense spells (TN 15 + caster's Taint Rank × 5).</p>
-              <p className="muted-hint muted-hint--xs"><strong>Consequences:</strong> Practicing Maho is a capital offense in Rokugan. Discovery means immediate execution. The Kuni Witch Hunters actively seek out Maho practitioners.</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Casting:</strong> Inflict Wounds = ML {'\u00d7'} 5 on self or target. No spell slots needed.</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Taint:</strong> +1 Shadowlands Taint per casting. Cumulative, cannot be removed.</p>
+              <p className="muted-hint muted-hint--xs"><strong>Consequences:</strong> Capital offense. Immediate execution on discovery.</p>
             </div>
           </details>
         </div>
