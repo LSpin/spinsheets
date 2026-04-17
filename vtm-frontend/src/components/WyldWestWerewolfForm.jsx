@@ -341,19 +341,17 @@ export default function WyldWestWerewolfForm() {
   function handleField(name, value) {
     setFields(prev => {
       const next = { ...prev, [name]: value }
-      if (guidedMode) {
-        if (name === 'auspice' && AUSPICE_RAGE[value] !== undefined) {
-          next.rage = AUSPICE_RAGE[value]
-          next.currentRage = AUSPICE_RAGE[value]
-        }
-        if (name === 'breed' && BREED_GNOSIS[value] !== undefined) {
-          next.gnosis = BREED_GNOSIS[value]
-          next.currentGnosis = BREED_GNOSIS[value]
-        }
-        if (name === 'tribe' && TRIBE_WP[value] !== undefined) {
-          next.willpower = TRIBE_WP[value]
-          next.currentWillpower = TRIBE_WP[value]
-        }
+      if (name === 'auspice' && AUSPICE_RAGE[value] !== undefined) {
+        next.rage = AUSPICE_RAGE[value]
+        next.currentRage = AUSPICE_RAGE[value]
+      }
+      if (name === 'breed' && BREED_GNOSIS[value] !== undefined) {
+        next.gnosis = BREED_GNOSIS[value]
+        next.currentGnosis = BREED_GNOSIS[value]
+      }
+      if (name === 'tribe' && TRIBE_WP[value] !== undefined) {
+        next.willpower = TRIBE_WP[value]
+        next.currentWillpower = TRIBE_WP[value]
       }
       return next
     })

@@ -26,8 +26,11 @@ function splatBadgeClass(splat) {
   return `splat-badge splat-badge--${(splat || 'vampire').toLowerCase().replace('_', '-')}`
 }
 
+const WEREWOLF_SPLATS = new Set(['WEREWOLF', 'WYLD_WEST_WEREWOLF', 'CHANGING_BREEDS', 'TOTEM'])
+
 function CharacterCard({ c, user, t, navigate, onDelete, chronicles, onAssignChronicle }) {
   const isST = user?.role === 'STORYTELLER'
+  const isWerewolf = WEREWOLF_SPLATS.has(c.splat)
   return (
     <li className="character-card">
       <div className="character-card-info">
@@ -47,13 +50,19 @@ function CharacterCard({ c, user, t, navigate, onDelete, chronicles, onAssignChr
               <dd>{c.clan}</dd>
             </>
           )}
-          {c.generation && (
+          {isWerewolf && c.rage != null && (
+            <>
+              <dt className="sr-only">{t('rage')}</dt>
+              <dd>{t('rage')}: {c.rage}</dd>
+            </>
+          )}
+          {!isWerewolf && c.generation && (
             <>
               <dt className="sr-only">{t('generation')}</dt>
               <dd>{c.generation}{t('thGeneration')}</dd>
             </>
           )}
-          {c.pathName && (
+          {!isWerewolf && c.pathName && (
             <>
               <dt className="sr-only">{t('pathName')}</dt>
               <dd>{c.pathName} {c.pathRating}</dd>

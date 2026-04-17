@@ -318,6 +318,8 @@ export default function ChangingBreedsForm() {
       if (name === 'breed') {
         const speciesEntry = FERA_SPECIES.find(s => s.value === value)
         if (speciesEntry) {
+          next.rage = speciesEntry.rage
+          next.currentRage = speciesEntry.rage
           next.gnosis = speciesEntry.gnosis
           next.currentGnosis = speciesEntry.gnosis
           next.willpower = speciesEntry.willpower
