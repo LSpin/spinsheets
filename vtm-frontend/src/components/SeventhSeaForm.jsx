@@ -24,7 +24,7 @@ const NATIONS = [
 const ADVANTAGES = [
   { name: 'Academy', cost: 4, description: 'You attended a formal military academy.' },
   { name: 'Able Drinker', cost: 1, description: 'Alcohol has little effect on you.' },
-  { name: 'An Honest Misunderstanding', cost: 1, description: 'You can replace Raises on social Risk with Raises from another Skill.' },
+  { name: 'An Honest Misunderstanding', cost: 1, description: 'Replace Raises on social Risk with Raises from another Skill.' },
   { name: 'Bar Fighter', cost: 3, description: 'When you perform a Brawl attack, deal extra wounds equal to your Ranks.' },
   { name: 'Barterer', cost: 3, description: 'Spend a Hero Point to acquire an item through trade.' },
   { name: 'Boxer', cost: 4, description: 'Spend a Hero Point to add your Brawl to your damage.' },
@@ -44,16 +44,14 @@ const ADVANTAGES = [
   { name: 'Hard to Kill', cost: 3, description: 'You gain extra Dramatic Wounds before becoming Helpless.' },
   { name: 'Indomitable Will', cost: 3, description: 'Spend a Hero Point to resist mental influence or torture.' },
   { name: 'Inspire Generosity', cost: 3, description: 'Spend a Hero Point to convince someone to give you something.' },
-  { name: 'Jack of All Trades', cost: 2, description: 'Spend a Hero Point to gain 1 Rank in a Skill you have 0 Ranks in for one Risk.' },
+  { name: 'Jack of All Trades', cost: 2, description: 'Gain 1 Rank in a Skill you have 0 Ranks in for one Risk.' },
   { name: 'Keen Senses', cost: 2, description: 'You can notice hidden details others miss.' },
-  { name: 'Landsricht', cost: 2, description: 'You have the legal right to settle disputes among commoners.' },
   { name: 'Large', cost: 2, description: 'You are bigger than average, gaining benefits in physical contests.' },
   { name: 'Leadership', cost: 4, description: 'Spend a Hero Point to inspire and lead a group effectively.' },
   { name: 'Left-Handed', cost: 3, description: 'Your unexpected fighting style gives you an edge in combat.' },
   { name: 'Linguist', cost: 2, description: 'You speak, read, and write an additional language.' },
   { name: 'Lyceum', cost: 4, description: 'You attended a school of sorcery.' },
   { name: 'Married to the Sea', cost: 3, description: 'Spend a Hero Point to navigate through dangerous waters safely.' },
-  { name: 'Masterpiece Crafter', cost: 5, description: 'Spend a Hero Point to craft an item of exceptional quality.' },
   { name: 'Miracle Worker', cost: 4, description: 'Spend a Hero Point to stabilize a dying character.' },
   { name: 'Opportunist', cost: 4, description: 'Spend a Hero Point to take an action outside your normal turn.' },
   { name: 'Patron', cost: 3, description: 'You have a wealthy patron who provides financial support.' },
@@ -67,7 +65,7 @@ const ADVANTAGES = [
   { name: 'Survivalist', cost: 3, description: 'Spend a Hero Point to find food, water, and shelter in the wilderness.' },
   { name: 'Team Player', cost: 4, description: 'Spend a Hero Point to give your Raises to an ally.' },
   { name: 'Tenure', cost: 2, description: 'You hold a position at a university or similar institution.' },
-  { name: 'Together We Are Strong', cost: 4, description: 'Spend a Hero Point and add your Ranks in a Skill to an ally\'s Risk.' },
+  { name: 'Together We Are Strong', cost: 4, description: 'Add your Ranks in a Skill to an ally\'s Risk.' },
   { name: 'Valiant Spirit', cost: 3, description: 'When facing a Villain, gain bonus dice.' },
   { name: 'Wily', cost: 3, description: 'Spend a Hero Point to escape bonds, grapples, or confinement.' },
 ]
@@ -89,55 +87,33 @@ const INITIAL = {
   npc: false, splat: 'SEVENTH_SEA',
   name: '', altName: '', concept: '',
   nation: '', religion: '',
-  nature: '', // Background identity
-  demeanor: '', // Membership identity
-  // Traits
+  nature: '', demeanor: '',
   traitBrawn: 2, traitFinesse: 2, traitResolve: 2, traitWits7s: 2, traitPanache: 2,
-  // Skills
   skillAim: 0, skillAthletics7s: 0, skillBrawl7s: 0, skillConvince: 0,
   skillEmpathy7s: 0, skillHide: 0, skillIntimidate7s: 0, skillNotice: 0,
   skillPerform7s: 0, skillRide7s: 0, skillSailing: 0, skillScholarship: 0,
   skillTempt: 0, skillTheft: 0, skillWarfare: 0, skillWeaponry: 0,
-  // Arcana
   heroVirtue: '', heroHubris: '',
-  // Sorcery
   sorceryDesc: '',
-  // Resources
   heroPoints: 0, wealth7s: 0, corruption: 0, dramaticWounds: 0,
-  // Willpower
   willpower: 0, currentWillpower: 0,
-  // Stories & Notes
   heroStories: '', backstory: '', notes: '', appearanceDesc: '', personalItems: '',
 }
 
 const TAB_KEYS = ['tabIdentity', 'tab7sTraits', 'tab7sSkills', 'tab7sAdvantages', 'tab7sArcana', 'tab7sBackgrounds', 'tab7sStories', 'tabInventory', 'tabBackstory', 'tabXpLog']
 
-const TRAITS = [
-  { key: 'traitBrawn', label: 'traitBrawn' },
-  { key: 'traitFinesse', label: 'traitFinesse' },
-  { key: 'traitResolve', label: 'traitResolve' },
-  { key: 'traitWits7s', label: 'traitWits7s' },
-  { key: 'traitPanache', label: 'traitPanache' },
+const TRAIT_KEYS = ['traitBrawn', 'traitFinesse', 'traitResolve', 'traitWits7s', 'traitPanache']
+const SKILL_KEYS = [
+  'skillAim', 'skillAthletics7s', 'skillBrawl7s', 'skillConvince',
+  'skillEmpathy7s', 'skillHide', 'skillIntimidate7s', 'skillNotice',
+  'skillPerform7s', 'skillRide7s', 'skillSailing', 'skillScholarship',
+  'skillTempt', 'skillTheft', 'skillWarfare', 'skillWeaponry',
 ]
 
-const SKILLS = [
-  { key: 'skillAim', label: 'skillAim' },
-  { key: 'skillAthletics7s', label: 'skillAthletics7s' },
-  { key: 'skillBrawl7s', label: 'skillBrawl7s' },
-  { key: 'skillConvince', label: 'skillConvince' },
-  { key: 'skillEmpathy7s', label: 'skillEmpathy7s' },
-  { key: 'skillHide', label: 'skillHide' },
-  { key: 'skillIntimidate7s', label: 'skillIntimidate7s' },
-  { key: 'skillNotice', label: 'skillNotice' },
-  { key: 'skillPerform7s', label: 'skillPerform7s' },
-  { key: 'skillRide7s', label: 'skillRide7s' },
-  { key: 'skillSailing', label: 'skillSailing' },
-  { key: 'skillScholarship', label: 'skillScholarship' },
-  { key: 'skillTempt', label: 'skillTempt' },
-  { key: 'skillTheft', label: 'skillTheft' },
-  { key: 'skillWarfare', label: 'skillWarfare' },
-  { key: 'skillWeaponry', label: 'skillWeaponry' },
-]
+// Guided creation budgets (7th Sea 2e)
+const TRAIT_BUDGET = 2   // bonus points on top of base 2 each
+const SKILL_BUDGET = 10  // total skill points
+const ADVANTAGE_BUDGET = 5 // advantage points
 
 export default function SeventhSeaForm() {
   const { id: paramId } = useParams()
@@ -146,6 +122,7 @@ export default function SeventhSeaForm() {
   const { switchTheme } = useTheme()
   const [searchParams] = useSearchParams()
   const viewMode = searchParams.get('mode') === 'view'
+  const guidedMode = searchParams.get('mode') === 'guided'
   const characterId = paramId || null
 
   useEffect(() => { switchTheme('7thsea') }, [])
@@ -155,7 +132,7 @@ export default function SeventhSeaForm() {
   const [tab, setTab] = useState(0)
   const [fields, setFields] = useState(INITIAL)
   const [backgrounds, setBackgrounds] = useState([])
-  const [disciplines, setDisciplines] = useState([]) // used for Advantages
+  const [disciplines, setDisciplines] = useState([])
   const [inventory, setInventory] = useState([])
   const [xpLog, setXpLog] = useState([])
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
@@ -201,7 +178,7 @@ export default function SeventhSeaForm() {
 
   async function handleDoneEditing() {
     await handleSave()
-    navigate('/characters')
+    navigate('/7thsea')
   }
 
   async function handleAddBackground() {
@@ -216,10 +193,26 @@ export default function SeventhSeaForm() {
   async function handleAddAdvantage() {
     if (!newAdv.name.trim()) return
     try {
-      const res = await addDiscipline(characterId, newAdv)
+      const hit = ADVANTAGES.find(a => a.name === newAdv.name)
+      const adv = hit ? { name: hit.name, level: hit.cost, notes: '' } : newAdv
+      const res = await addDiscipline(characterId, adv)
       setDisciplines(prev => [...prev, res.data])
       setNewAdv({ name: '', level: 1, notes: '' })
     } catch { setActionError(t('failedToSave')) }
+  }
+
+  // ── Guided mode budget trackers ──
+  const traitSpent = TRAIT_KEYS.reduce((sum, k) => sum + (fields[k] - 2), 0)
+  const skillSpent = SKILL_KEYS.reduce((sum, k) => sum + fields[k], 0)
+  const advSpent = disciplines.reduce((sum, d) => sum + (d.level || 0), 0)
+
+  function PointsBudget({ spent, budget }) {
+    const remaining = budget - spent
+    const cls = remaining > 0 ? 'points-remaining--ok' : remaining < 0 ? 'points-remaining--over' : 'points-remaining--done'
+    const text = remaining >= 0
+      ? t('pointsRemaining').replace('{0}', remaining)
+      : t('pointsOver').replace('{0}', Math.abs(remaining))
+    return budget > 0 ? <span className={`points-remaining ${cls}`}>{text}</span> : null
   }
 
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
@@ -227,9 +220,10 @@ export default function SeventhSeaForm() {
   return (
     <div className={viewMode ? 'form-view-mode' : ''}>
       <div className="form-header">
-        <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('back')}</button>
+        <button className="btn btn-secondary" onClick={() => navigate('/7thsea')}>{t('back')}</button>
         <h2>{fields.name || t('edit7sHero')}</h2>
         <span className="splat-badge splat-badge--seventh-sea">{t('seventhSea')}</span>
+        {guidedMode && <span className="splat-badge">{t('guidedCreation')}</span>}
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
@@ -262,7 +256,7 @@ export default function SeventhSeaForm() {
               <div className="field"><label>{t('7sReligion')}</label><input name="religion" value={fields.religion} onChange={handleText} /></div>
             </div>
             <div className="field-row">
-              <div className="field"><label>{t('7sBackground')}</label><input name="nature" value={fields.nature} onChange={handleText} /></div>
+              <div className="field"><label>{t('7sBackground')}</label><input name="nature" value={fields.nature} onChange={handleText} placeholder={t('7sPhBackground')} /></div>
               <div className="field"><label>{t('7sMembership')}</label><input name="demeanor" value={fields.demeanor} onChange={handleText} /></div>
             </div>
             <div className="field-row">
@@ -283,10 +277,12 @@ export default function SeventhSeaForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tab7sTraits')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('traitsHint')}</p>
+            {guidedMode && <PointsBudget spent={traitSpent} budget={TRAIT_BUDGET} />}
             <div className="rating-grid">
-              {TRAITS.map(({ key, label }) => (
+              {TRAIT_KEYS.map(key => (
                 <div key={key} className="ability-row">
-                  <DotRating label={t(label)} name={key} value={fields[key]} onChange={handleField} min={1} max={5} />
+                  <DotRating label={t(key)} name={key} value={fields[key]} onChange={handleField} min={1} max={5} />
                 </div>
               ))}
             </div>
@@ -299,10 +295,12 @@ export default function SeventhSeaForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tab7sSkills')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('skillsHint')}</p>
+            {guidedMode && <PointsBudget spent={skillSpent} budget={SKILL_BUDGET} />}
             <div className="rating-grid">
-              {SKILLS.map(({ key, label }) => (
+              {SKILL_KEYS.map(key => (
                 <div key={key} className="ability-row">
-                  <DotRating label={t(label)} name={key} value={fields[key]} onChange={handleField} max={5} />
+                  <DotRating label={t(key)} name={key} value={fields[key]} onChange={handleField} max={guidedMode ? 3 : 5} />
                 </div>
               ))}
             </div>
@@ -316,12 +314,13 @@ export default function SeventhSeaForm() {
           <fieldset>
             <legend>{t('tab7sAdvantages')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('7sAdvantagesHint')}</p>
+            {guidedMode && <PointsBudget spent={advSpent} budget={ADVANTAGE_BUDGET} />}
             {disciplines.length > 0 && (
               <ul className="tag-list">
                 {disciplines.map(d => (
                   <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'advantage' })}>
-                    <span>{d.name} ({t('7sCost')}: {d.level})</span>
+                    <span>{d.name} ({d.level} pt{d.level !== 1 ? 's' : ''})</span>
                     <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }}>x</button>
                   </li>
                 ))}
@@ -330,7 +329,17 @@ export default function SeventhSeaForm() {
             <div className="field-row" style={{ alignItems: 'flex-end' }}>
               <div className="field" style={{ flex: 2 }}>
                 <label>{t('7sAdvantageName')}</label>
-                <input type="text" list="seventh-sea-adv-catalog" value={newAdv.name} onChange={e => setNewAdv(p => ({ ...p, name: e.target.value }))} placeholder={t('7sPhAdvantage')} autoComplete="off" />
+                <input type="text" list="seventh-sea-adv-catalog" value={newAdv.name}
+                  onChange={e => {
+                    const val = e.target.value
+                    const hit = ADVANTAGES.find(a => a.name === val)
+                    if (hit) {
+                      setNewAdv({ name: hit.name, level: hit.cost, notes: '' })
+                    } else {
+                      setNewAdv(p => ({ ...p, name: val }))
+                    }
+                  }}
+                  placeholder={t('7sPhAdvantage')} autoComplete="off" />
                 <datalist id="seventh-sea-adv-catalog">
                   {ADVANTAGES.map(a => <option key={a.name} value={a.name} />)}
                 </datalist>
@@ -346,7 +355,7 @@ export default function SeventhSeaForm() {
           </fieldset>
           {tagInfo?.kind === 'advantage' && (() => {
             const entry = ADVANTAGES.find(a => a.name.toLowerCase() === tagInfo.name.toLowerCase())
-            return <TagInfoPanel entry={entry ? { name: entry.name, description: `${t('7sCost')}: ${entry.cost}. ${entry.description}` } : { name: tagInfo.name }} level={tagInfo.level} onClose={() => setTagInfo(null)} />
+            return <TagInfoPanel entry={entry ? { name: entry.name, description: `Cost: ${entry.cost}. ${entry.description}` } : { name: tagInfo.name }} onClose={() => setTagInfo(null)} />
           })()}
         </div>
       </div>
@@ -356,6 +365,7 @@ export default function SeventhSeaForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('7sArcana')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('arcanaHint')}</p>
             <div className="field-row">
               <div className="field">
                 <label>{t('7sVirtue')}</label>
@@ -378,8 +388,8 @@ export default function SeventhSeaForm() {
             <div className="rating-grid">
               <div className="ability-row"><DotRating label={t('7sHeroPoints')} name="heroPoints" value={fields.heroPoints} onChange={handleField} min={0} max={3} /></div>
               <div className="ability-row"><DotRating label={t('7sWealth')} name="wealth7s" value={fields.wealth7s} onChange={handleField} min={0} max={5} /></div>
-              <div className="ability-row"><DotRating label={t('7sCorruption')} name="corruption" value={fields.corruption} onChange={handleField} min={0} max={3} /></div>
               <div className="ability-row"><DotRating label={t('7sDramaticWounds')} name="dramaticWounds" value={fields.dramaticWounds} onChange={handleField} min={0} max={4} /></div>
+              <div className="ability-row"><DotRating label={t('7sCorruption')} name="corruption" value={fields.corruption} onChange={handleField} min={0} max={3} /></div>
             </div>
           </fieldset>
           <fieldset>
@@ -427,6 +437,7 @@ export default function SeventhSeaForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tab7sStories')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('7sStoriesHint')}</p>
             <textarea name="heroStories" value={fields.heroStories} onChange={handleText} rows={10} style={{ width: '100%' }} placeholder={t('7sPhStories')} />
           </fieldset>
         </div>
@@ -455,13 +466,13 @@ export default function SeventhSeaForm() {
       </div>
 
       <div className="form-actions">
-        <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
+        <button className="btn btn-secondary" onClick={() => navigate('/7thsea')}>{t('cancel')}</button>
         <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       {viewMode && (
         <div className="view-actions">
-          <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('back')}</button>
+          <button className="btn btn-secondary" onClick={() => navigate('/7thsea')}>{t('back')}</button>
           <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}

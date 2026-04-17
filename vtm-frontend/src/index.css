@@ -42,23 +42,13 @@
   --transition: 150ms ease;
 }
 
-/* ── 7th Sea theme — dark nautical blues ── */
+/* ── 7th Sea theme — accent-only override ── */
 
 [data-theme="7thsea"] {
-  --color-bg:             #060d14;
-  --color-surface:        #0c1a28;
-  --color-surface-raised: #132438;
-  --color-border:         #1a3050;
   --color-border-focus:   #3498db;
-  --color-text:           #e8eff5;
-  --color-text-muted:     #8aa4bd;
   --color-accent:         #1a6fa8;
   --color-accent-fg:      #3498db;
   --color-accent-hover:   #2180c0;
-  --color-accent-text:    #ffffff;
-  --color-danger:         #e74c3c;
-  --color-danger-hover:   #ff6655;
-  --color-warning:        #f1c40f;
 }
 
 @media (forced-colors: active) {
@@ -1931,30 +1921,12 @@ a:hover {
   color: var(--color-accent-fg);
 }
 
-/* ── 7th Sea tab overrides ── */
+/* ── 7th Sea accent overrides (tab, legend use --color-accent-fg automatically) ── */
 
 [data-theme="7thsea"] .tab-btn--active {
-  border-color: #3498db !important;
-  color: #3498db !important;
   background: rgba(52, 152, 219, 0.1) !important;
 }
 
-[data-theme="7thsea"] .role-toggle-btn--active {
-  background: #1a6fa8;
-  border-color: #3498db;
-}
-
-[data-theme="7thsea"] .points-remaining--ok {
-  color: #2ecc71;
-  background: rgba(46, 204, 113, 0.1);
-}
-
 [data-theme="7thsea"] .tag--active {
-  border-color: #3498db;
-  background: #0c1a28;
-}
-
-[data-theme="7thsea"] legend {
-  color: #3498db;
-  border-bottom-color: #1a3050;
+  background: #1a1a2e;
 }

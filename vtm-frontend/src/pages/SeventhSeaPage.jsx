@@ -45,9 +45,14 @@ export default function SeventhSeaPage() {
     <section aria-labelledby="7s-heading">
       <div className="character-list-header">
         <h2 id="7s-heading">{t('7sMyHeroes')}</h2>
-        <button className="btn btn-primary" onClick={() => navigate('/7thsea/new')}>
-          {t('7sNewHero')}
-        </button>
+        <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
+          <button className="btn btn-primary" onClick={() => navigate('/7thsea/new?mode=guided')}>
+            {t('7sNewHero')}
+          </button>
+          <button className="btn btn-secondary" onClick={() => navigate('/7thsea/new')}>
+            {t('7sBlankHero')}
+          </button>
+        </div>
       </div>
 
       {error && <p className="status-error" role="alert">{error}</p>}
