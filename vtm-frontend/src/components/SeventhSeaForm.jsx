@@ -12,6 +12,7 @@ import InventorySection from './InventorySection'
 import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
+import { useTheme } from '../context/ThemeContext'
 import TagInfoPanel from './TagInfoPanel'
 
 const NATIONS = [
@@ -106,7 +107,7 @@ const INITIAL = {
   // Willpower
   willpower: 0, currentWillpower: 0,
   // Stories & Notes
-  heroStories: '', backstory: '', notes: '', appearanceDesc: '',
+  heroStories: '', backstory: '', notes: '', appearanceDesc: '', personalItems: '',
 }
 
 const TAB_KEYS = ['tabIdentity', 'tab7sTraits', 'tab7sSkills', 'tab7sAdvantages', 'tab7sArcana', 'tab7sBackgrounds', 'tab7sStories', 'tabInventory', 'tabBackstory', 'tabXpLog']
@@ -142,9 +143,12 @@ export default function SeventhSeaForm() {
   const { id: paramId } = useParams()
   const navigate = useNavigate()
   const { t } = useLanguage()
+  const { switchTheme } = useTheme()
   const [searchParams] = useSearchParams()
   const viewMode = searchParams.get('mode') === 'view'
   const characterId = paramId || null
+
+  useEffect(() => { switchTheme('7thsea') }, [])
 
   const { isAutoCreating } = useAutoCreate(characterId, INITIAL)
 
@@ -393,9 +397,9 @@ export default function SeventhSeaForm() {
             {backgrounds.length > 0 && (
               <ul className="tag-list">
                 {backgrounds.map(b => (
-                  <li key={b.id} className="tag-item" onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}>
+                  <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`} onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}>
                     <span>{b.name} ({b.level}){b.description ? ` — ${b.description}` : ''}</span>
-                    <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)) }}>x</button>
+                    <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)); if (tagInfo?.id === b.id) setTagInfo(null) }}>x</button>
                   </li>
                 ))}
               </ul>

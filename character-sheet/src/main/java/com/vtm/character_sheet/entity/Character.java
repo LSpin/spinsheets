@@ -45,8 +45,6 @@ public class Character {
     private String concept;
     private String clan;
     private String sect;
-    @Min(value = 4, message = "Generation must be between 4 and 15")
-    @Max(value = 15, message = "Generation must be between 4 and 15")
     private Integer generation;
     private String nature;
     private String demeanor;

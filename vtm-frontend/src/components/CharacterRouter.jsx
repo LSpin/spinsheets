@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { getCharacter } from '../api/characterApi'
 import { useLanguage } from '../i18n/LanguageContext'
+import { useTheme } from '../context/ThemeContext'
 import CharacterForm from './CharacterForm'
 import WerewolfForm from './WerewolfForm'
 import MageForm from './MageForm'
@@ -20,6 +21,7 @@ import SeventhSeaForm from './SeventhSeaForm'
 export default function CharacterRouter() {
   const { id } = useParams()
   const { t } = useLanguage()
+  const { switchTheme } = useTheme()
   const [splat, setSplat] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -27,9 +29,12 @@ export default function CharacterRouter() {
     async function load() {
       try {
         const res = await getCharacter(id)
-        setSplat(res.data.splat || 'VAMPIRE')
+        const s = res.data.splat || 'VAMPIRE'
+        setSplat(s)
+        switchTheme(s === 'SEVENTH_SEA' ? '7thsea' : 'wod')
       } catch {
         setSplat('VAMPIRE')
+        switchTheme('wod')
       } finally {
         setLoading(false)
       }

@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
+import { useTheme } from '../context/ThemeContext'
 
 export default function HomePage() {
   const { user } = useAuth()
   const { t } = useLanguage()
+  const { switchTheme } = useTheme()
 
   return (
     <div className="homepage">
@@ -22,12 +24,12 @@ export default function HomePage() {
       <section className="homepage-systems">
         <h3>{t('chooseSystem')}</h3>
         <div className="system-grid">
-          <Link to={user ? '/characters' : '/login'} className="system-card system-card--wod">
+          <Link to={user ? '/characters' : '/login'} className="system-card system-card--wod" onClick={() => switchTheme('wod')}>
             <h4>{t('systemWoD')}</h4>
             <p>{t('systemWoDDesc')}</p>
             <span className="system-card-cta">{t('systemEnter')}</span>
           </Link>
-          <Link to={user ? '/characters' : '/login'} className="system-card system-card--7thsea">
+          <Link to={user ? '/characters' : '/login'} className="system-card system-card--7thsea" onClick={() => switchTheme('7thsea')}>
             <h4>{t('system7thSea')}</h4>
             <p>{t('system7thSeaDesc')}</p>
             <span className="system-card-cta">{t('systemEnter')}</span>
