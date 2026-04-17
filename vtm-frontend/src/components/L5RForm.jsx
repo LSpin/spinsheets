@@ -243,6 +243,9 @@ export default function L5RForm() {
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
   const [newAdv, setNewAdv] = useState({ name: '', level: 1, notes: '' })
   const [tagInfo, setTagInfo] = useState(null)
+  const [combatStance, setCombatStance] = useState('Attack')
+  const [equippedArmor, setEquippedArmor] = useState('None')
+  const [defenseSkill, setDefenseSkill] = useState(0)
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
@@ -316,6 +319,51 @@ export default function L5RForm() {
 
   // Families filtered by selected clan
   const selectedFamilies = fields.l5rClan && CLANS[fields.l5rClan] ? CLANS[fields.l5rClan].families : []
+
+  // ── Combat computations ──
+  const armorData = L5R_EQUIPMENT.armor.find(a => a.name === equippedArmor)
+  const armorATN = armorData ? (typeof armorData.atn === 'number' ? armorData.atn : parseInt(armorData.atn) || 0) : 0
+  const armorReduction = armorData ? armorData.reduction : 0
+  const baseATN = fields.l5rReflexes * 5 + 5
+
+  let stanceATNmod = 0
+  let stanceAttackMod = ''
+  let stanceNotes = ''
+  if (combatStance === 'Defense') {
+    stanceATNmod = airRing + defenseSkill
+    stanceNotes = 'Cannot attack. Add Air Ring + Defense Skill to ATN.'
+  } else if (combatStance === 'Full Defense') {
+    stanceATNmod = Math.ceil((defenseSkill + fields.l5rReflexes) * 2.5)
+    stanceNotes = 'Complex Action (roll Defense/Reflexes, add half). Only Free Actions.'
+  } else if (combatStance === 'Full Attack') {
+    stanceATNmod = -10
+    stanceAttackMod = '+2k1'
+    stanceNotes = 'May only attack/move closer. +5 ft movement. Cannot use ranged.'
+  } else if (combatStance === 'Center') {
+    stanceNotes = 'Spend Void Point. Cannot attack. Next turn: +1k1+Void to one roll.'
+  }
+
+  const totalATN = baseATN + armorATN + stanceATNmod
+  const initRoll = `${fields.l5rSchoolRank || 1}k${fields.l5rReflexes}`
+  const moveFree = waterRing * 5
+  const moveSimple = waterRing * 10
+  const moveMax = waterRing * 20
+
+  // Wound rank from current wounds
+  const woundsPerRank = earthRing * 2
+  const healthyThreshold = earthRing * 5
+  let currentWoundRank = 'Healthy'
+  let currentPenalty = 0
+  const w = fields.l5rWounds || 0
+  if (w <= healthyThreshold) { currentWoundRank = 'Healthy'; currentPenalty = 0 }
+  else {
+    const pastHealthy = w - healthyThreshold
+    const rankIndex = Math.min(Math.floor((pastHealthy - 1) / woundsPerRank), 6)
+    const penalties = [3, 5, 10, 15, 20, 40, 999]
+    const names = ['Nicked', 'Grazed', 'Hurt', 'Injured', 'Crippled', 'Down', 'Out']
+    currentWoundRank = names[rankIndex] || 'Out'
+    currentPenalty = penalties[rankIndex] || 999
+  }
 
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
@@ -681,40 +729,144 @@ Path to Inner Peace (ML 1, TN 15) — Heal Wound Rank x 2
         </div>
       </div>
 
-      {/* ── Combat & Stances ── */}
+      {/* ── Combat & Stances (Interactive) ── */}
       <div hidden={tab !== 7}>
         <div className="form-section">
+          {/* ── Live Combat Dashboard ── */}
           <fieldset>
-            <legend>{t('tabL5rCombat')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Choose a Stance at the start of combat, then change it at the beginning of each Turn. Initiative = Insight Rank / Reflexes (keep Reflexes). Armor TN = Reflexes × 5 + 5 + armor.
-            </p>
+            <legend>Combat Dashboard</legend>
+            <div className="field-row">
+              <div className="field">
+                <label>Current Stance</label>
+                <select value={combatStance} onChange={e => setCombatStance(e.target.value)}>
+                  {STANCES.map(s => <option key={s.name} value={s.name}>{s.name}</option>)}
+                </select>
+              </div>
+              <div className="field">
+                <label>Equipped Armor</label>
+                <select value={equippedArmor} onChange={e => setEquippedArmor(e.target.value)}>
+                  <option value="None">None (No Armor)</option>
+                  {L5R_EQUIPMENT.armor.map(a => <option key={a.name} value={a.name}>{a.name} (+{typeof a.atn === 'number' ? a.atn : a.atn} ATN, Red {a.reduction})</option>)}
+                </select>
+              </div>
+              <div className="field">
+                <label>Defense Skill Rank</label>
+                <select value={defenseSkill} onChange={e => setDefenseSkill(parseInt(e.target.value))}>
+                  {[0,1,2,3,4,5,6,7,8,9,10].map(v => <option key={v} value={v}>{v}</option>)}
+                </select>
+              </div>
+            </div>
+
+            {stanceNotes && (
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)', fontStyle: 'italic' }}>
+                {combatStance}: {stanceNotes}
+              </p>
+            )}
+
+            {/* Live stats grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-md)', marginTop: 'var(--space-sm)' }}>
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Armor TN</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: stanceATNmod < 0 ? '#e55' : stanceATNmod > 0 ? '#8c8' : 'var(--color-text)' }}>{totalATN}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                  {baseATN} base{armorATN > 0 ? ` + ${armorATN} armor` : ''}{stanceATNmod !== 0 ? ` ${stanceATNmod > 0 ? '+' : ''}${stanceATNmod} stance` : ''}
+                </div>
+              </div>
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Initiative</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{initRoll}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Insight Rank {fields.l5rSchoolRank || 1} / Reflexes {fields.l5rReflexes}</div>
+              </div>
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Reduction</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{armorReduction}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>{armorData ? armorData.name : 'No armor'}</div>
+              </div>
+              {stanceAttackMod && (
+                <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Attack Bonus</div>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#8c8' }}>{stanceAttackMod}</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Full Attack stance</div>
+                </div>
+              )}
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Wound Status</div>
+                <div style={{ fontSize: '1.4rem', fontWeight: 700, color: currentPenalty === 0 ? '#8c8' : currentPenalty >= 40 ? '#e55' : '#e95' }}>{currentWoundRank}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                  {currentPenalty === 999 ? 'Incapacitated' : currentPenalty > 0 ? `+${currentPenalty} TN penalty` : 'No penalty'}
+                </div>
+              </div>
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Movement</div>
+                <div style={{ fontSize: '1.4rem', fontWeight: 700 }}>{moveFree}'{combatStance === 'Full Attack' ? ` +5'` : ''}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Free / {moveSimple}' Simple / {moveMax}' Max</div>
+              </div>
+            </div>
           </fieldset>
 
+          {/* ── Wounds Tracker ── */}
           <fieldset>
-            <legend>Stances</legend>
-            <table className="inv-table">
+            <legend>Wounds ({fields.l5rWounds || 0} total)</legend>
+            <div className="field-row">
+              <div className="field" style={{ maxWidth: 120 }}>
+                <label>Current Wounds</label>
+                <input type="number" name="l5rWounds" value={fields.l5rWounds} onChange={handleText} min={0} />
+              </div>
+              <div className="field" style={{ maxWidth: 120 }}>
+                <label>Void Points</label>
+                <DotRating label="" name="l5rCurrentVoid" value={fields.l5rCurrentVoid} onChange={handleField} min={0} max={fields.l5rVoid} />
+              </div>
+            </div>
+            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
               <thead>
-                <tr><th>Stance</th><th>Ring</th><th>Effect</th></tr>
+                <tr><th>Rank</th><th>TN Penalty</th><th>Threshold</th><th></th></tr>
               </thead>
               <tbody>
+                <tr style={{ background: w <= healthyThreshold ? 'rgba(136,204,136,0.08)' : 'transparent' }}>
+                  <td style={{ fontWeight: 600 }}>Healthy</td><td>+0</td><td>0 – {healthyThreshold}</td>
+                  <td>{w <= healthyThreshold && w > 0 ? `${w}/${healthyThreshold}` : ''}</td>
+                </tr>
+                {WOUND_RANKS.slice(1, -1).map((wr, i) => {
+                  const lo = healthyThreshold + i * woundsPerRank + 1
+                  const hi = healthyThreshold + (i + 1) * woundsPerRank
+                  const inRank = w >= lo && w <= hi
+                  return (
+                    <tr key={wr.name} style={{ background: inRank ? 'rgba(224,85,85,0.08)' : 'transparent' }}>
+                      <td style={{ fontWeight: 600 }}>{wr.name}</td>
+                      <td>{wr.penalty}</td>
+                      <td>{lo} – {hi}</td>
+                      <td>{inRank ? `${w - lo + 1}/${woundsPerRank}` : ''}</td>
+                    </tr>
+                  )
+                })}
+                <tr style={{ background: w > healthyThreshold + 6 * woundsPerRank ? 'rgba(224,85,85,0.15)' : 'transparent' }}>
+                  <td style={{ fontWeight: 600 }}>Out</td><td>Cannot act</td><td>{healthyThreshold + 6 * woundsPerRank + 1}+</td><td></td>
+                </tr>
+              </tbody>
+            </table>
+          </fieldset>
+
+          {/* ── Reference Tables ── */}
+          <details style={{ marginBottom: 'var(--space-md)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Stance Reference</summary>
+            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+              <thead><tr><th>Stance</th><th>Ring</th><th>Effect</th></tr></thead>
+              <tbody>
                 {STANCES.map(s => (
-                  <tr key={s.name}>
-                    <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{s.name}</td>
+                  <tr key={s.name} style={{ background: combatStance === s.name ? 'rgba(194,145,56,0.1)' : 'transparent' }}>
+                    <td style={{ fontWeight: 600 }}>{s.name}</td>
                     <td style={{ color: 'var(--color-accent-fg)' }}>{s.ring}</td>
                     <td className="inv-notes">{s.description}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </fieldset>
+          </details>
 
-          <fieldset>
-            <legend>Maneuvers</legend>
-            <table className="inv-table">
-              <thead>
-                <tr><th>Maneuver</th><th>Raises</th><th>Effect</th></tr>
-              </thead>
+          <details style={{ marginBottom: 'var(--space-md)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Maneuver Reference</summary>
+            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+              <thead><tr><th>Maneuver</th><th>Raises</th><th>Effect</th></tr></thead>
               <tbody>
                 {MANEUVERS.map(m => (
                   <tr key={m.name}>
@@ -725,23 +877,19 @@ Path to Inner Peace (ML 1, TN 15) — Heal Wound Rank x 2
                 ))}
               </tbody>
             </table>
-          </fieldset>
+          </details>
 
-          <fieldset>
-            <legend>Movement</legend>
-            <p className="muted-hint muted-hint--xs">Free Action: Water × 5 ft. Simple Action: Water × 10 ft. Max per round: Water × 20 ft.</p>
-            <p className="muted-hint muted-hint--xs">Basic terrain: no penalty. Moderate: Water -1. Difficult: Water -2.</p>
-          </fieldset>
-
-          <fieldset>
-            <legend>Void Point Uses</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>+1k1 to a Skill, Trait, Ring, or Spell Casting roll (not damage)</p>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Temporarily treat a Skill Rank 0 as Rank 1</p>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Reduce Wounds from one source by 10</p>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Increase Armor TN by 10 for one Round</p>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Increase Initiative Score by 10 for the skirmish</p>
-            <p className="muted-hint muted-hint--xs">Exchange Initiative Score with a willing target</p>
-          </fieldset>
+          <details>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Void Point Uses</summary>
+            <div style={{ padding: 'var(--space-sm) 0' }}>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>+1k1 to a Skill, Trait, Ring, or Spell Casting roll (not damage)</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Temporarily treat a Skill Rank 0 as Rank 1</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Reduce Wounds from one source by 10</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Increase Armor TN by 10 for one Round</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Increase Initiative Score by 10 for the skirmish</p>
+              <p className="muted-hint muted-hint--xs">Exchange Initiative Score with a willing target</p>
+            </div>
+          </details>
         </div>
       </div>
 
