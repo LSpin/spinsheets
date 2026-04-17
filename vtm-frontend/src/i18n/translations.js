@@ -630,6 +630,7 @@ const en = {
   // ── Homepage ──
   heroTitle: "Spin's Sheets",
   heroSubtitle: 'Character sheets for your tabletop RPGs',
+  joinCta: 'Create an account or sign in to get started',
   getStarted: 'Get Started',
   chooseSystem: 'Choose Your Game',
   systemWoD: 'World of Darkness',
@@ -1767,6 +1768,7 @@ const pt = {
   navHome: 'Início',
   heroTitle: "Spin's Sheets",
   heroSubtitle: 'Fichas de personagem para seus RPGs de mesa',
+  joinCta: 'Crie uma conta ou entre para começar',
   getStarted: 'Começar',
   chooseSystem: 'Escolha Seu Jogo',
   systemWoD: 'Mundo das Trevas',

@@ -1189,9 +1189,28 @@ legend {
 
 .homepage-cta {
   display: flex;
-  gap: var(--space-sm);
+  gap: var(--space-md);
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.homepage-auth-cta {
+  text-align: center;
+  padding: var(--space-xl) var(--space-lg);
+  margin-bottom: var(--space-xl);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.homepage-auth-cta h3 {
+  margin-bottom: var(--space-lg);
+  font-size: 1.15rem;
+}
+
+.btn-lg {
+  padding: var(--space-sm) var(--space-xl);
+  font-size: 1.05rem;
 }
 
 /* ── System selector cards ── */

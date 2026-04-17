@@ -15,13 +15,17 @@ export default function HomePage() {
       <section className="homepage-hero">
         <h2>{t('heroTitle')}</h2>
         <p className="homepage-subtitle">{t('heroSubtitle')}</p>
-        {!user && (
-          <div className="homepage-cta">
-            <Link to="/register" className="btn btn-primary">{t('getStarted')}</Link>
-            <Link to="/login" className="btn btn-secondary">{t('signIn')}</Link>
-          </div>
-        )}
       </section>
+
+      {!user && (
+        <section className="homepage-auth-cta">
+          <h3>{t('joinCta')}</h3>
+          <div className="homepage-cta">
+            <Link to="/register" className="btn btn-primary btn-lg">{t('getStarted')}</Link>
+            <Link to="/login" className="btn btn-secondary btn-lg">{t('signIn')}</Link>
+          </div>
+        </section>
+      )}
 
       <section className="homepage-systems">
         <h3>{t('chooseSystem')}</h3>
