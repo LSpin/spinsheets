@@ -135,11 +135,36 @@ const HUBRISES = [
 
 // ── Backgrounds (2e Core Book) ──
 const BACKGROUND_CATALOG = [
-  'Aristocrat', 'Army Officer', 'Archaeologist', 'Artist', 'Courtier',
-  'Criminal', 'Doctor', 'Disenfranchised', 'Duelist', 'Engineer', 'Explorer',
-  'Farmkid', 'Hexe', 'Hunter', 'Jenny/Jack', 'Knight Errant', 'Marine',
-  'Merchant', 'Missionary', 'Orphan', 'Performer', 'Pirate', 'Priest',
-  'Pugilist', 'Sailor', 'Scholar', 'Servant', 'Soldier', 'Spy', 'Touched by Sidhe',
+  { name: 'Aristocrat', description: 'Born to privilege. Skills: Empathy, Intimidate, Ride, Scholarship, Weaponry. Quirk: Earn a Hero Point when you prove a noble is your peer.' },
+  { name: 'Army Officer', description: 'Military leader. Skills: Aim, Intimidate, Notice, Warfare, Weaponry. Quirk: Earn a Hero Point when you lead soldiers into a dangerous situation.' },
+  { name: 'Archaeologist', description: 'Ruins explorer. Skills: Athletics, Empathy, Notice, Scholarship, Theft. Quirk: Earn a Hero Point when you explore ancient ruins.' },
+  { name: 'Artist', description: 'Creative soul. Skills: Convince, Empathy, Notice, Perform, Tempt. Quirk: Earn a Hero Point when you create a meaningful work of art.' },
+  { name: 'Courtier', description: 'Political player. Skills: Convince, Empathy, Perform, Scholarship, Tempt. Quirk: Earn a Hero Point when you turn the tide of court politics.' },
+  { name: 'Criminal', description: 'Underworld figure. Skills: Athletics, Hide, Intimidate, Theft, Weaponry. Quirk: Earn a Hero Point when you break the law for a good reason.' },
+  { name: 'Doctor', description: 'Physician and healer. Skills: Convince, Empathy, Notice, Scholarship, Tempt. Quirk: Earn a Hero Point when you tend to the injured or sick.' },
+  { name: 'Disenfranchised', description: 'Lost everything. Skills: Athletics, Empathy, Hide, Notice, Theft. Quirk: Earn a Hero Point when you stand up for the downtrodden.' },
+  { name: 'Duelist', description: 'Swordfighter. Skills: Athletics, Empathy, Intimidate, Perform, Weaponry. Quirk: Earn a Hero Point when you resort to the blade to resolve conflict.' },
+  { name: 'Engineer', description: 'Builder and inventor. Skills: Convince, Notice, Scholarship, Tempt, Warfare. Quirk: Earn a Hero Point when you solve a problem with technology.' },
+  { name: 'Explorer', description: 'Globe-trotter. Skills: Athletics, Convince, Notice, Sailing, Scholarship. Quirk: Earn a Hero Point when you venture into uncharted territory.' },
+  { name: 'Farmkid', description: 'Rural upbringing. Skills: Athletics, Empathy, Notice, Ride, Survival. Quirk: Earn a Hero Point when you solve a problem with simple common sense.' },
+  { name: 'Hexe', description: 'Eisen witch. Skills: Athletics, Convince, Empathy, Intimidate, Notice. Quirk: Earn a Hero Point when you use forbidden knowledge to help others.' },
+  { name: 'Hunter', description: 'Tracker and scout. Skills: Aim, Athletics, Hide, Notice, Ride. Quirk: Earn a Hero Point when you track your quarry into danger.' },
+  { name: 'Jenny/Jack', description: 'Companion for hire. Skills: Convince, Empathy, Notice, Perform, Tempt. Quirk: Earn a Hero Point when you use your charm to defuse a dangerous situation.' },
+  { name: 'Knight Errant', description: 'Wandering warrior. Skills: Athletics, Intimidate, Ride, Warfare, Weaponry. Quirk: Earn a Hero Point when you defend the innocent.' },
+  { name: 'Marine', description: 'Ship soldier. Skills: Aim, Athletics, Notice, Sailing, Warfare. Quirk: Earn a Hero Point when you board an enemy vessel.' },
+  { name: 'Merchant', description: 'Trader. Skills: Convince, Empathy, Notice, Scholarship, Tempt. Quirk: Earn a Hero Point when you strike a profitable but fair deal.' },
+  { name: 'Missionary', description: 'Religious envoy. Skills: Convince, Empathy, Notice, Scholarship, Tempt. Quirk: Earn a Hero Point when you convert someone to your faith.' },
+  { name: 'Orphan', description: 'Raised alone. Skills: Athletics, Empathy, Hide, Notice, Theft. Quirk: Earn a Hero Point when you protect someone who cannot protect themselves.' },
+  { name: 'Performer', description: 'Entertainer. Skills: Athletics, Convince, Empathy, Perform, Tempt. Quirk: Earn a Hero Point when your performance changes hearts or minds.' },
+  { name: 'Pirate', description: 'Sea raider. Skills: Athletics, Intimidate, Notice, Sailing, Theft. Quirk: Earn a Hero Point when you take from the rich and give to the poor.' },
+  { name: 'Priest', description: 'Cleric. Skills: Convince, Empathy, Notice, Perform, Scholarship. Quirk: Earn a Hero Point when you tend to the spiritual needs of others.' },
+  { name: 'Pugilist', description: 'Bare-knuckle fighter. Skills: Athletics, Brawl, Intimidate, Notice, Perform. Quirk: Earn a Hero Point when you resolve conflict with your fists.' },
+  { name: 'Sailor', description: 'Seafarer. Skills: Athletics, Notice, Sailing, Scholarship, Weaponry. Quirk: Earn a Hero Point when you put the safety of your crew before your own.' },
+  { name: 'Scholar', description: 'Academic. Skills: Convince, Empathy, Notice, Scholarship, Tempt. Quirk: Earn a Hero Point when you put learning above personal safety.' },
+  { name: 'Servant', description: 'In service to others. Skills: Athletics, Empathy, Hide, Notice, Tempt. Quirk: Earn a Hero Point when you go above and beyond for your master.' },
+  { name: 'Soldier', description: 'Professional warrior. Skills: Aim, Athletics, Intimidate, Notice, Weaponry. Quirk: Earn a Hero Point when you stick to your orders despite complications.' },
+  { name: 'Spy', description: 'Infiltrator. Skills: Convince, Empathy, Hide, Notice, Tempt. Quirk: Earn a Hero Point when you uncover a secret that changes the situation.' },
+  { name: 'Touched by Sidhe', description: 'Fae-touched (Avalon). Skills: Athletics, Convince, Empathy, Notice, Perform. Quirk: Earn a Hero Point when you let the Sidhe\'s influence guide your actions.' },
 ]
 
 const INITIAL = {
@@ -212,6 +237,10 @@ export default function SeventhSeaForm() {
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
   const [newAdv, setNewAdv] = useState({ name: '', level: 1, notes: '' })
   const [tagInfo, setTagInfo] = useState(null)
+  const [advSearch, setAdvSearch] = useState('')
+  const [bgSearch, setBgSearch] = useState('')
+  const [activeDuelStyle, setActiveDuelStyle] = useState('')
+  const [newStory, setNewStory] = useState({ title: '', goal: '', reward: '', steps: '' })
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
@@ -270,6 +299,41 @@ export default function SeventhSeaForm() {
       setDisciplines(prev => [...prev, res.data])
       setNewAdv({ name: '', level: 1, notes: '' })
     } catch { setActionError(t('failedToSave')) }
+  }
+
+  // ── Story helpers ──
+  function parseStories(text) {
+    if (!text) return []
+    const stories = []
+    let current = null
+    for (const line of text.split('\n')) {
+      const trimmed = line.trim()
+      if (!trimmed) continue
+      if (trimmed.match(/^Story \d+:|^###|^---/) || (!current && trimmed)) {
+        if (current) stories.push(current)
+        current = { title: trimmed.replace(/^Story \d+:\s*/, '').replace(/^###\s*/, ''), lines: [] }
+      } else if (current) {
+        current.lines.push(trimmed)
+      }
+    }
+    if (current) stories.push(current)
+    return stories
+  }
+  const parsedStories = parseStories(fields.heroStories)
+
+  function handleAddStory() {
+    if (!newStory.title.trim()) return
+    const stepLines = newStory.steps ? newStory.steps.split('\n').filter(s => s.trim()).map((s, i) => `  Step ${i + 1}: ${s.trim()}`).join('\n') : ''
+    const block = `Story ${parsedStories.length + 1}: ${newStory.title}\nGoal: ${newStory.goal}\nReward: ${newStory.reward}${stepLines ? '\n' + stepLines : ''}`
+    const current = fields.heroStories || ''
+    setFields(prev => ({ ...prev, heroStories: current ? current + '\n\n' + block : block }))
+    setNewStory({ title: '', goal: '', reward: '', steps: '' })
+  }
+
+  function handleRemoveStory(index) {
+    const blocks = (fields.heroStories || '').split(/\n\n+/)
+    blocks.splice(index, 1)
+    setFields(prev => ({ ...prev, heroStories: blocks.join('\n\n') }))
   }
 
   // ── Guided mode budget trackers ──
@@ -389,6 +453,35 @@ export default function SeventhSeaForm() {
               ))}
             </div>
           </fieldset>
+          <details style={{ marginTop: 'var(--space-sm)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Risk Roll Calculator</summary>
+            <fieldset>
+              <legend>Risk Roll Calculator</legend>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+                Risks are resolved by rolling Trait + Skill in d10s, making sets of 10.
+              </p>
+              <table className="inv-table">
+                <thead><tr><th>Skill</th><th>Rank</th><th>Brawn</th><th>Finesse</th><th>Resolve</th><th>Wits</th><th>Panache</th></tr></thead>
+                <tbody>
+                  {SKILL_KEYS.map(key => {
+                    const rank = fields[key] || 0
+                    if (rank === 0) return null
+                    return (
+                      <tr key={key}>
+                        <td style={{ fontWeight: 600 }}>{t(key)}</td>
+                        <td style={{ textAlign: 'center' }}>{rank}</td>
+                        {TRAIT_KEYS.map(tk => (
+                          <td key={tk} style={{ textAlign: 'center', color: 'var(--color-accent-fg)', fontWeight: 600 }}>
+                            {rank + fields[tk]}d10
+                          </td>
+                        ))}
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </fieldset>
+          </details>
         </div>
       </div>
 
@@ -410,34 +503,50 @@ export default function SeventhSeaForm() {
                 ))}
               </ul>
             )}
-            <div className="field-row" style={{ alignItems: 'flex-end' }}>
-              <div className="field" style={{ flex: 2 }}>
-                <label>{t('7sAdvantageName')}</label>
-                <input type="text" list="seventh-sea-adv-catalog" value={newAdv.name}
-                  onChange={e => {
-                    const val = e.target.value
-                    const hit = ADVANTAGES.find(a => a.name === val)
-                    if (hit) setNewAdv({ name: hit.name, level: hit.cost, notes: '' })
-                    else setNewAdv(p => ({ ...p, name: val }))
-                  }}
-                  placeholder={t('7sPhAdvantage')} autoComplete="off" />
-                <datalist id="seventh-sea-adv-catalog">
-                  {ADVANTAGES.map(a => <option key={a.name} value={a.name} />)}
-                </datalist>
-              </div>
-              <div className="field">
-                <label>{t('7sCost')}</label>
-                <select value={newAdv.level} onChange={e => setNewAdv(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                  {[1, 2, 3, 4, 5].map(v => <option key={v} value={v}>{v}</option>)}
-                </select>
-              </div>
-              <button className="btn btn-secondary" onClick={handleAddAdvantage}>{t('add')}</button>
-            </div>
           </fieldset>
           {tagInfo?.kind === 'advantage' && (() => {
             const entry = ADVANTAGES.find(a => a.name.toLowerCase() === tagInfo.name.toLowerCase())
             return <TagInfoPanel entry={entry ? { name: entry.name, description: `Cost: ${entry.cost}. ${entry.description}` } : { name: tagInfo.name }} onClose={() => setTagInfo(null)} />
           })()}
+          <fieldset>
+            <legend>Advantage Catalogue ({ADVANTAGES.length})</legend>
+            <div className="catalog-search-wrap">
+              <input type="search" value={advSearch} onChange={e => setAdvSearch(e.target.value)}
+                placeholder="Search advantages..." aria-label="Search advantages" />
+              <span className="catalog-search-count">{ADVANTAGES.filter(a => a.name.toLowerCase().includes(advSearch.toLowerCase()) || a.description.toLowerCase().includes(advSearch.toLowerCase())).length}</span>
+            </div>
+            <ul className="catalog-list" aria-label="Advantage catalog">
+              {ADVANTAGES
+                .filter(a => a.name.toLowerCase().includes(advSearch.toLowerCase()) || a.description.toLowerCase().includes(advSearch.toLowerCase()))
+                .slice(0, 30)
+                .map(a => {
+                  const already = disciplines.some(d => d.name.toLowerCase() === a.name.toLowerCase())
+                  return (
+                    <li key={a.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                      <button className="catalog-item-btn" onClick={() => {
+                        if (!already) {
+                          addDiscipline(characterId, { name: a.name, level: a.cost, notes: '' })
+                            .then(res => setDisciplines(prev => [...prev, res.data]))
+                            .catch(() => setActionError(t('failedToSave')))
+                        } else {
+                          const d = disciplines.find(d => d.name.toLowerCase() === a.name.toLowerCase())
+                          if (d) setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'advantage' })
+                        }
+                      }}>
+                        <div className="catalog-item-main">
+                          <span className="catalog-item-name">{a.name}</span>
+                          <span className="catalog-item-desc">{a.description}</span>
+                        </div>
+                        <div className="catalog-item-meta">
+                          <span className="catalog-item-cost">{a.cost}pt</span>
+                          {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
+                        </div>
+                      </button>
+                    </li>
+                  )
+                })}
+            </ul>
+          </fieldset>
         </div>
       </div>
 
@@ -476,17 +585,43 @@ export default function SeventhSeaForm() {
       <div hidden={tab !== 5}>
         <div className="form-section">
           <fieldset>
-            <legend>{t('tab7sDueling')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
-              Purchase the "Duelist Academy" Advantage (5 pts) to learn a style. Each style uses a specific Trait and grants unique Maneuvers.
-            </p>
-            {DUELING_STYLES.map(s => (
-              <details key={s.name} style={{ marginBottom: 'var(--space-sm)' }}>
-                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{s.name} <span style={{ fontWeight: 400, fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>— {s.nation}</span></summary>
-                <p style={{ fontSize: '0.85rem', lineHeight: 1.6, padding: 'var(--space-sm) 0' }}>{s.description}</p>
-              </details>
-            ))}
+            <legend>Your Dueling Style</legend>
+            <div className="field-row">
+              <div className="field" style={{ flex: 2 }}>
+                <label>Active Style</label>
+                <select value={activeDuelStyle} onChange={e => setActiveDuelStyle(e.target.value)}>
+                  <option value="">None (not a Duelist)</option>
+                  {DUELING_STYLES.map(s => <option key={s.name} value={s.name}>{s.name} ({s.nation})</option>)}
+                </select>
+              </div>
+            </div>
+            {activeDuelStyle && (() => {
+              const style = DUELING_STYLES.find(s => s.name === activeDuelStyle)
+              if (!style) return null
+              return (
+                <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', marginBottom: 0, background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                  <div style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{style.name}</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)' }}>{style.nation}</div>
+                  <div style={{ fontSize: '0.9rem' }}>{style.description}</div>
+                </div>
+              )
+            })()}
           </fieldset>
+          <details style={{ marginTop: 'var(--space-sm)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)', marginBottom: 'var(--space-sm)' }}>Style Reference</summary>
+            <fieldset>
+              <legend>{t('tab7sDueling')}</legend>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
+                Purchase the "Duelist Academy" Advantage (5 pts) to learn a style. Each style uses a specific Trait and grants unique Maneuvers.
+              </p>
+              {DUELING_STYLES.map(s => (
+                <details key={s.name} style={{ marginBottom: 'var(--space-sm)' }}>
+                  <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{s.name} <span style={{ fontWeight: 400, fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>— {s.nation}</span></summary>
+                  <p style={{ fontSize: '0.85rem', lineHeight: 1.6, padding: 'var(--space-sm) 0' }}>{s.description}</p>
+                </details>
+              ))}
+            </fieldset>
+          </details>
           <fieldset>
             <legend>{t('7sDuelingNotes')}</legend>
             <textarea name="altName" value={fields.altName} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="Your dueling style, maneuvers learned, and notes..." />
@@ -535,7 +670,7 @@ export default function SeventhSeaForm() {
           <fieldset>
             <legend>{t('tab7sBackgrounds')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Choose 2 Backgrounds. Each provides a Quirk, Skills, and Advantages. Use the description field for your Quirk.
+              Choose 2 Backgrounds. Each provides a Quirk, Skills, and Advantages.
             </p>
             {backgrounds.length > 0 && (
               <ul className="tag-list">
@@ -547,24 +682,48 @@ export default function SeventhSeaForm() {
                 ))}
               </ul>
             )}
-            <div className="field-row" style={{ alignItems: 'flex-end' }}>
-              <div className="field" style={{ flex: 2 }}>
-                <label>{t('background')}</label>
-                <input type="text" list="bg-7s-catalog" value={newBackground.name} onChange={e => setNewBackground(p => ({ ...p, name: e.target.value }))} placeholder="Aristocrat, Pirate, Sailor..." autoComplete="off" />
-                <datalist id="bg-7s-catalog">
-                  {BACKGROUND_CATALOG.map(b => <option key={b} value={b} />)}
-                </datalist>
-              </div>
-              <div className="field" style={{ flex: 2 }}>
-                <label>Quirk</label>
-                <input type="text" value={newBackground.description} onChange={e => setNewBackground(p => ({ ...p, description: e.target.value }))} placeholder="Earn a Hero Point when you..." />
-              </div>
-              <button className="btn btn-secondary" onClick={handleAddBackground}>{t('add')}</button>
-            </div>
           </fieldset>
-          {tagInfo?.kind === 'background' && (
-            <TagInfoPanel entry={{ name: tagInfo.name, description: tagInfo.description ? `Quirk: ${tagInfo.description}` : undefined }} onClose={() => setTagInfo(null)} />
-          )}
+          {tagInfo?.kind === 'background' && (() => {
+            const entry = BACKGROUND_CATALOG.find(bg => bg.name.toLowerCase() === tagInfo.name.toLowerCase())
+            return <TagInfoPanel entry={entry ? { name: entry.name, description: entry.description } : { name: tagInfo.name, description: tagInfo.description ? `Quirk: ${tagInfo.description}` : undefined }} onClose={() => setTagInfo(null)} />
+          })()}
+          <fieldset>
+            <legend>Background Catalogue ({BACKGROUND_CATALOG.length})</legend>
+            <div className="catalog-search-wrap">
+              <input type="search" value={bgSearch} onChange={e => setBgSearch(e.target.value)}
+                placeholder="Search backgrounds..." aria-label="Search backgrounds" />
+              <span className="catalog-search-count">{BACKGROUND_CATALOG.filter(b => b.name.toLowerCase().includes(bgSearch.toLowerCase()) || b.description.toLowerCase().includes(bgSearch.toLowerCase())).length}</span>
+            </div>
+            <ul className="catalog-list" aria-label="Background catalog">
+              {BACKGROUND_CATALOG
+                .filter(b => b.name.toLowerCase().includes(bgSearch.toLowerCase()) || b.description.toLowerCase().includes(bgSearch.toLowerCase()))
+                .map(b => {
+                  const already = backgrounds.some(bg => bg.name.toLowerCase() === b.name.toLowerCase())
+                  return (
+                    <li key={b.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                      <button className="catalog-item-btn" onClick={() => {
+                        if (!already) {
+                          addBackground(characterId, { name: b.name, level: 1, description: '' })
+                            .then(res => setBackgrounds(prev => [...prev, res.data]))
+                            .catch(() => setActionError(t('failedToSave')))
+                        } else {
+                          const bg = backgrounds.find(bg => bg.name.toLowerCase() === b.name.toLowerCase())
+                          if (bg) setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' })
+                        }
+                      }}>
+                        <div className="catalog-item-main">
+                          <span className="catalog-item-name">{b.name}</span>
+                          <span className="catalog-item-desc">{b.description}</span>
+                        </div>
+                        <div className="catalog-item-meta">
+                          {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
+                        </div>
+                      </button>
+                    </li>
+                  )
+                })}
+            </ul>
+          </fieldset>
         </div>
       </div>
 
@@ -572,20 +731,74 @@ export default function SeventhSeaForm() {
       <div hidden={tab !== 8}>
         <div className="form-section">
           <fieldset>
-            <legend>{t('tab7sStories')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('7sStoriesHint')}</p>
-            <textarea name="heroStories" value={fields.heroStories} onChange={handleText} rows={12} style={{ width: '100%' }} placeholder={
-`Story 1: [Title]
-Goal: What do you want to achieve?
-Reward: (e.g. +1 Skill Rank, a 3-pt Advantage, +1 Trait)
-Steps (number determines reward value):
-  Step 1: ...
-  Step 2: ...
-  Step 3: ...
-
-Story 2: [Title]
-...`} />
+            <legend>{t('tab7sStories')} ({parsedStories.length})</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Stories replace XP. Define a Goal, a Reward, and Steps. The number of steps determines the reward value: 1 step = 1-pt Advantage or Skill Rank, 3 steps = 3-pt Advantage, 5 steps = +1 Trait.
+            </p>
           </fieldset>
+
+          {/* Active Stories */}
+          {parsedStories.length > 0 && (
+            <fieldset>
+              <legend>Active Stories</legend>
+              {parsedStories.map((story, i) => (
+                <div key={i} className="form-section" style={{ padding: 'var(--space-md)', marginBottom: 'var(--space-sm)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{story.title}</div>
+                    <button className="tag-remove" onClick={() => handleRemoveStory(i)}>{'\u00d7'}</button>
+                  </div>
+                  {story.lines.map((line, j) => (
+                    <p key={j} className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>{line}</p>
+                  ))}
+                </div>
+              ))}
+            </fieldset>
+          )}
+
+          {/* Add Story Form */}
+          <fieldset>
+            <legend>New Story</legend>
+            <div className="field-row">
+              <div className="field" style={{ flex: 2 }}>
+                <label>Story Title</label>
+                <input type="text" value={newStory.title} onChange={e => setNewStory(p => ({ ...p, title: e.target.value }))} placeholder="The Lost Heir of Castille..." />
+              </div>
+              <div className="field" style={{ flex: 2 }}>
+                <label>Reward</label>
+                <input type="text" value={newStory.reward} onChange={e => setNewStory(p => ({ ...p, reward: e.target.value }))} placeholder="+1 Resolve, 3-pt Advantage, etc." />
+              </div>
+            </div>
+            <div className="field">
+              <label>Goal / Ending</label>
+              <input type="text" value={newStory.goal} onChange={e => setNewStory(p => ({ ...p, goal: e.target.value }))} placeholder="What does the ending of this story look like?" />
+            </div>
+            <div className="field">
+              <label>Steps (one per line)</label>
+              <textarea value={newStory.steps} onChange={e => setNewStory(p => ({ ...p, steps: e.target.value }))} rows={3} style={{ width: '100%' }} placeholder={"Find the old map in the library\nSail to the island\nConfront the usurper"} />
+            </div>
+            <button className="btn btn-secondary" onClick={handleAddStory}>{t('add')}</button>
+          </fieldset>
+
+          {/* Raw Data */}
+          <details>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Raw Story Data</summary>
+            <textarea name="heroStories" value={fields.heroStories} onChange={handleText} rows={8} style={{ width: '100%', marginTop: 'var(--space-sm)' }} placeholder="Stories are added from the form above. Edit directly here if needed." />
+          </details>
+
+          {/* Story Rewards Reference */}
+          <details style={{ marginTop: 'var(--space-md)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Story Rewards Reference</summary>
+            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+              <thead><tr><th>Steps</th><th>Reward</th></tr></thead>
+              <tbody>
+                <tr><td style={{ fontWeight: 600 }}>1</td><td>1-pt Advantage or new Skill Rank</td></tr>
+                <tr><td style={{ fontWeight: 600 }}>2</td><td>2-pt Advantage</td></tr>
+                <tr><td style={{ fontWeight: 600 }}>3</td><td>3-pt Advantage</td></tr>
+                <tr><td style={{ fontWeight: 600 }}>4</td><td>4-pt Advantage</td></tr>
+                <tr><td style={{ fontWeight: 600 }}>5</td><td>5-pt Advantage or +1 to a Trait</td></tr>
+              </tbody>
+            </table>
+          </details>
         </div>
       </div>
 
