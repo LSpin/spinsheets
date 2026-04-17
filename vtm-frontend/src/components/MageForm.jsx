@@ -200,6 +200,7 @@ export default function MageForm() {
   const [tagInfo, setTagInfo] = useState(null)
   const [disciplines, setDisciplines] = useState([])
   const [wonderSearch, setWonderSearch] = useState('')
+  const [bgSearch, setBgSearch] = useState('')
   const [newWonder, setNewWonder] = useState({ name: '', level: 1, notes: '' })
 
   // Guided creation state
@@ -1013,42 +1014,68 @@ export default function MageForm() {
                 {backgrounds.map(bg => (
                   <li key={bg.id} className={`tag tag--clickable${bg.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' })}>
-                    <span>{bg.name} ({bg.level})</span>
+                    <span>{bg.name} ({bg.level}){bg.description ? ` — ${bg.description}` : ''}</span>
                     <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, bg.id); setBackgrounds(prev => prev.filter(x => x.id !== bg.id)); if (tagInfo?.id === bg.id) setTagInfo(null) }}>×</button>
                   </li>
                 ))}
               </ul>
             )}
-            {tagInfo?.kind === 'background' && (
-              <TagInfoPanel
-                tag={tagInfo}
-                catalog={BACKGROUNDS}
-                onClose={() => setTagInfo(null)}
-                t={t}
-              />
-            )}
-            <div className="field-row" style={{ alignItems: 'flex-end', gap: 'var(--space-sm)' }}>
-              <div className="field" style={{ flex: 2 }}>
-                <label>{t('name')}</label>
-                <input type="text" value={newBackground.name} onChange={e => setNewBackground(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="Background name..." list="bg-catalog-list" />
-                <datalist id="bg-catalog-list">
-                  {BACKGROUNDS.map(b => <option key={b.name} value={b.name} />)}
-                </datalist>
-              </div>
-              <div className="field" style={{ flex: 0, minWidth: 60 }}>
-                <label>{t('level')}</label>
-                <select value={newBackground.level} onChange={e => setNewBackground(prev => ({ ...prev, level: parseInt(e.target.value) }))}>
-                  {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
-                </select>
-              </div>
-              <button className="btn btn-primary btn-sm" onClick={handleAddBackground}>{t('add')}</button>
+            {tagInfo?.kind === 'background' && (() => {
+              const entry = BACKGROUNDS.find(b => b.value.toLowerCase() === tagInfo.name.toLowerCase())
+              return (
+                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                  <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
+                  <p className="tag-info-panel-name">{tagInfo.name}</p>
+                  <p className="tag-info-panel-desc">Background · Level {tagInfo.level}</p>
+                  {entry?.description && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.levels && (
+                    <ul className="tag-info-levels">
+                      {entry.levels.map((lvl, i) => (
+                        <li key={i} className={`tag-info-level${i + 1 === tagInfo.level ? ' tag-info-level--active' : ''}`}>{lvl}</li>
+                      ))}
+                    </ul>
+                  )}
+                </aside>
+              )
+            })()}
+          </fieldset>
+
+          <fieldset>
+            <legend>Background Catalogue ({BACKGROUNDS.length})</legend>
+            <div className="catalog-search-wrap">
+              <input type="search" value={bgSearch} onChange={e => setBgSearch(e.target.value)}
+                placeholder="Search backgrounds..." aria-label="Search backgrounds" />
+              <span className="catalog-search-count">{BACKGROUNDS.filter(b => !bgSearch || b.value.toLowerCase().includes(bgSearch.toLowerCase()) || (b.description || '').toLowerCase().includes(bgSearch.toLowerCase())).length}</span>
             </div>
-            <div className="field" style={{ marginTop: 'var(--space-sm)' }}>
-              <label>{t('description')}</label>
-              <textarea value={newBackground.description} onChange={e => setNewBackground(prev => ({ ...prev, description: e.target.value }))}
-                rows={2} style={{ width: '100%' }} placeholder="Optional description..." />
-            </div>
+            <ul className="catalog-list" aria-label="Background catalogue">
+              {BACKGROUNDS
+                .filter(b => !bgSearch || b.value.toLowerCase().includes(bgSearch.toLowerCase()) || (b.description || '').toLowerCase().includes(bgSearch.toLowerCase()))
+                .map(b => {
+                  const already = backgrounds.some(bg => bg.name.toLowerCase() === b.value.toLowerCase())
+                  return (
+                    <li key={b.value} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                      <button className="catalog-item-btn" onClick={() => {
+                        if (!already) {
+                          addBackground(characterId, { name: b.value, level: 1, description: '' })
+                            .then(res => setBackgrounds(prev => [...prev, res.data]))
+                            .catch(() => setActionError(t('failedToSave')))
+                        } else {
+                          const bg = backgrounds.find(bg => bg.name.toLowerCase() === b.value.toLowerCase())
+                          if (bg) setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' })
+                        }
+                      }}>
+                        <div className="catalog-item-main">
+                          <span className="catalog-item-name">{b.value}</span>
+                          {b.description && <span className="catalog-item-desc">{b.description}</span>}
+                        </div>
+                        <div className="catalog-item-meta">
+                          {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
+                        </div>
+                      </button>
+                    </li>
+                  )
+                })}
+            </ul>
           </fieldset>
         </div>
       </div>

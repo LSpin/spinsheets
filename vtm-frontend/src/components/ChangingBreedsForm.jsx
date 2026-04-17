@@ -268,6 +268,7 @@ export default function ChangingBreedsForm() {
   }
 
   const [fetishSearch, setFetishSearch] = useState('')
+  const [bgSearch, setBgSearch] = useState('')
 
   const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
 
@@ -976,48 +977,67 @@ export default function ChangingBreedsForm() {
 
       {/* ── Backgrounds ── */}
       <div hidden={tab !== 8}>
-        <div className="disc-bg-layout">
-          <div className="form-section">
-            <fieldset>
-              <legend>{t('backgrounds')} ({backgrounds.length})</legend>
-              {backgrounds.length > 0 && (
-                <ul className="tag-list">
-                  {backgrounds.map(b => (
-                    <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
-                      onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}>
-                      <span>{b.name} ({b.level}){b.description ? ` — ${b.description}` : ''}</span>
-                      <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)); if (tagInfo?.id === b.id) setTagInfo(null) }}>×</button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              <div className="field-row" style={{ alignItems: 'flex-end' }}>
-                <div className="field" style={{ flex: 2 }}>
-                  <label htmlFor="bg-name">{t('background')}</label>
-                  <input id="bg-name" type="text" list="bg-suggestions" value={newBackground.name}
-                    onChange={e => setNewBackground(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder={t('phBackground')} />
-                  <datalist id="bg-suggestions">
-                    {BACKGROUNDS.map(b => <option key={b.value} value={b.value} />)}
-                  </datalist>
-                </div>
-                <div className="field">
-                  <label htmlFor="bg-level">{t('level')}</label>
-                  <select id="bg-level" value={newBackground.level} onChange={e => setNewBackground(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                    {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
-                  </select>
-                </div>
-                <div className="field">
-                  <label htmlFor="bg-desc">{t('description')}</label>
-                  <input id="bg-desc" type="text" value={newBackground.description} onChange={e => setNewBackground(p => ({ ...p, description: e.target.value }))} autoComplete="off" />
-                </div>
-                <button className="btn btn-secondary" onClick={handleAddBackground}>{t('add')}</button>
-              </div>
-            </fieldset>
-          </div>
-          {tagInfo?.kind === 'background' && (() => {
-            const entry = BACKGROUNDS.find(bg => bg.value.toLowerCase() === tagInfo.name.toLowerCase())
-            return <TagInfoPanel entry={entry ? { name: entry.value, description: entry.description } : { name: tagInfo.name }} level={tagInfo.level} levels={entry?.levels} onClose={() => setTagInfo(null)} />
-          })()}
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('backgrounds')} ({backgrounds.length})</legend>
+            {backgrounds.length > 0 && (
+              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+                {backgrounds.map(b => (
+                  <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
+                    onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}>
+                    <span>{b.name} ({b.level}){b.description ? ` — ${b.description}` : ''}</span>
+                    <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)); if (tagInfo?.id === b.id) setTagInfo(null) }}>×</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {tagInfo?.kind === 'background' && (() => {
+              const entry = BACKGROUNDS.find(bg => bg.value.toLowerCase() === tagInfo.name.toLowerCase())
+              return (
+                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                  <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
+                  <p className="tag-info-panel-name">{tagInfo.name}</p>
+                  <p className="tag-info-panel-desc">Background · Level {tagInfo.level}</p>
+                  {entry?.description && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.levels && (
+                    <ul className="tag-info-levels">
+                      {entry.levels.map((lvl, i) => (
+                        <li key={i} className={`tag-info-level${i + 1 === tagInfo.level ? ' tag-info-level--active' : ''}`}>{lvl}</li>
+                      ))}
+                    </ul>
+                  )}
+                </aside>
+              )
+            })()}
+          </fieldset>
+          <fieldset>
+            <legend>Background Catalogue ({BACKGROUNDS.length})</legend>
+            <div className="catalog-search-wrap">
+              <input type="search" value={bgSearch} onChange={e => setBgSearch(e.target.value)} placeholder="Search backgrounds..." />
+              <span className="catalog-search-count">{BACKGROUNDS.filter(b => !bgSearch || b.value.toLowerCase().includes(bgSearch.toLowerCase()) || (b.description || '').toLowerCase().includes(bgSearch.toLowerCase())).length}</span>
+            </div>
+            <ul className="catalog-list">
+              {BACKGROUNDS.filter(b => !bgSearch || b.value.toLowerCase().includes(bgSearch.toLowerCase()) || (b.description || '').toLowerCase().includes(bgSearch.toLowerCase())).map(b => {
+                const already = backgrounds.some(bg => bg.name.toLowerCase() === b.value.toLowerCase())
+                return (
+                  <li key={b.value} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                    <button className="catalog-item-btn" onClick={() => {
+                      if (!already) addBackground(characterId, { name: b.value, level: 1, description: '' }).then(res => setBackgrounds(prev => [...prev, res.data])).catch(() => setActionError(t('failedToSave')))
+                      else { const bg = backgrounds.find(bg => bg.name.toLowerCase() === b.value.toLowerCase()); if (bg) setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' }) }
+                    }}>
+                      <div className="catalog-item-main">
+                        <span className="catalog-item-name">{b.value}</span>
+                        {b.description && <span className="catalog-item-desc">{b.description}</span>}
+                      </div>
+                      <div className="catalog-item-meta">
+                        {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
+                      </div>
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          </fieldset>
         </div>
       </div>
 
