@@ -17,18 +17,18 @@ import TagInfoPanel from './TagInfoPanel'
 
 // ── Clans & Families ──
 const CLANS = {
-  'Crab': ['Hida', 'Hiruma', 'Kaiu', 'Kuni', 'Toritaka', 'Yasuki'],
-  'Crane': ['Asahina', 'Daidoji', 'Doji', 'Kakita'],
-  'Dragon': ['Kitsuki', 'Mirumoto', 'Tamori', 'Togashi'],
-  'Lion': ['Akodo', 'Ikoma', 'Kitsu', 'Matsu'],
-  'Mantis': ['Kitsune', 'Moshi', 'Tsuruchi', 'Yoritomo'],
-  'Phoenix': ['Agasha', 'Isawa', 'Shiba'],
-  'Scorpion': ['Bayushi', 'Shosuro', 'Soshi', 'Yogo'],
-  'Spider': ['Chuda', 'Daigotsu', 'Goju', 'Ninube'],
-  'Unicorn': ['Horiuchi', 'Ide', 'Iuchi', 'Moto', 'Shinjo', 'Utaku'],
-  'Imperial': ['Miya', 'Otomo', 'Seppun'],
-  'Minor Clan': [],
-  'Ronin': [],
+  'Crab': { families: ['Hida', 'Hiruma', 'Kaiu', 'Kuni', 'Toritaka', 'Yasuki'], schools: ['Hida Bushi', 'Hiruma Bushi', 'Hiruma Scout', 'Kaiu Engineer', 'Kuni Shugenja', 'Kuni Witch Hunter', 'Toritaka Bushi', 'Yasuki Courtier', 'Hida Pragmatist'] },
+  'Crane': { families: ['Asahina', 'Daidoji', 'Doji', 'Kakita'], schools: ['Asahina Shugenja', 'Daidoji Iron Warrior', 'Doji Courtier', 'Doji Magistrate', 'Kakita Bushi', 'Kakita Artisan'] },
+  'Dragon': { families: ['Kitsuki', 'Mirumoto', 'Tamori', 'Togashi'], schools: ['Kitsuki Investigator', 'Mirumoto Bushi', 'Tamori Shugenja', 'Togashi Tattooed Order'] },
+  'Lion': { families: ['Akodo', 'Ikoma', 'Kitsu', 'Matsu'], schools: ['Akodo Bushi', 'Ikoma Bard', 'Ikoma Lion\'s Shadow', 'Kitsu Shugenja', 'Matsu Berserker'] },
+  'Mantis': { families: ['Kitsune', 'Moshi', 'Tsuruchi', 'Yoritomo'], schools: ['Kitsune Shugenja', 'Moshi Shugenja', 'Tsuruchi Archer', 'Tsuruchi Bounty Hunter', 'Yoritomo Bushi', 'Yoritomo Courtier'] },
+  'Phoenix': { families: ['Agasha', 'Isawa', 'Shiba'], schools: ['Agasha Shugenja', 'Isawa Shugenja', 'Isawa Tensai', 'Shiba Bushi', 'Asako Loremaster'] },
+  'Scorpion': { families: ['Bayushi', 'Shosuro', 'Soshi', 'Yogo'], schools: ['Bayushi Bushi', 'Bayushi Courtier', 'Shosuro Infiltrator', 'Soshi Shugenja', 'Yogo Shugenja'] },
+  'Spider': { families: ['Chuda', 'Daigotsu', 'Goju', 'Ninube'], schools: ['Chuda Shugenja', 'Daigotsu Bushi', 'Daigotsu Courtier', 'Goju Ninja', 'Ninube Shugenja'] },
+  'Unicorn': { families: ['Horiuchi', 'Ide', 'Iuchi', 'Moto', 'Shinjo', 'Utaku'], schools: ['Ide Emissary', 'Iuchi Shugenja', 'Moto Bushi', 'Moto Vindicator', 'Shinjo Bushi', 'Utaku Battle Maiden'] },
+  'Imperial': { families: ['Miya', 'Otomo', 'Seppun'], schools: ['Miya Herald', 'Otomo Courtier', 'Seppun Guardsman', 'Seppun Shugenja'] },
+  'Minor Clan': { families: [], schools: [] },
+  'Ronin': { families: [], schools: ['Ronin (Various)'] },
 }
 const CLAN_NAMES = Object.keys(CLANS)
 
@@ -79,59 +79,108 @@ const MANEUVERS = [
 // ── Advantages catalogue ──
 const L5R_ADVANTAGES = [
   { name: 'Absolute Direction', cost: 1, description: 'You always know which direction is north.' },
-  { name: 'Allies', cost: 'Variable', description: 'Social connections willing to help you.' },
-  { name: 'Balance', cost: 2, description: '+1k0 to resist Intimidation and Temptation when adding Honor.' },
-  { name: 'Bland', cost: 2, description: 'Others have difficulty recognizing you. +10 TN to identify you.' },
-  { name: 'Clear Thinker', cost: 3, description: '+1k0 to resist confusion or manipulation.' },
-  { name: 'Crab Hands', cost: 3, description: 'Treat unfamiliar weapons as if you had 1 rank.' },
-  { name: 'Dangerous Beauty', cost: 3, description: '+1k0 to Temptation against opposite sex.' },
+  { name: 'Allies', cost: 'Variable', description: 'Social connections willing to help you. Cost = Influence + Devotion.' },
+  { name: 'Balance', cost: 2, description: '+1k0 to resist Intimidation/Temptation when adding Honor.' },
+  { name: 'Battle Healing', cost: 5, description: 'Expend spell slots to heal one Wound Rank on a Rokugani you touch.' },
+  { name: 'Blackmail', cost: 'Variable', description: 'You possess proof of another\'s dark secret. Cost = their Status.' },
+  { name: 'Bland', cost: 2, description: '+10 TN for others to recognize or identify you.' },
+  { name: 'Blissful Betrothal', cost: 3, description: 'Happy arranged marriage. Gentry, Social Position, Wealth cost 2 less.' },
+  { name: 'Blood of Osano-Wo', cost: 4, description: 'Immune to natural weather damage. Reduce elemental spell damage by 1k1.' },
+  { name: 'Chosen by the Oracles', cost: 6, description: '+1k1 to all Ring Rolls using one chosen Ring.' },
+  { name: 'Clear Thinker', cost: 3, description: '+1k0 on Contested Rolls vs. confusion or manipulation.' },
+  { name: 'Crab Hands', cost: 3, description: 'Treat unfamiliar Weapon Skills as Rank 1 instead of Unskilled.' },
+  { name: 'Crafty', cost: 3, description: 'Treat Low Skills at Rank 0 as Rank 1 (avoid Unskilled penalties).' },
+  { name: 'Dangerous Beauty', cost: 3, description: '+1k0 to Temptation rolls against the opposite sex.' },
   { name: 'Daredevil', cost: 3, description: '+3k1 instead of +1k1 when spending Void on Athletics.' },
-  { name: 'Different School', cost: 5, description: 'Attend a school from another Clan.' },
-  { name: 'Elemental Blessing', cost: 4, description: 'Reduce cost to raise Traits of one Ring by 1 XP.' },
-  { name: 'Great Destiny', cost: 5, description: 'Once per session, survive an otherwise fatal blow.' },
-  { name: 'Inheritance', cost: 'Variable', description: 'You have inherited a powerful or valuable item.' },
+  { name: 'Darling of the Court', cost: 2, description: 'You are adored by courtiers and gain social advantages at court.' },
+  { name: 'Different School', cost: 5, description: 'Attend a school of a different Clan.' },
+  { name: 'Elemental Blessing', cost: 4, description: 'Reduce XP cost to raise both Traits of one Ring by 1.' },
+  { name: 'Fame', cost: 3, description: 'Your Glory Rank is effectively 1 higher for recognition.' },
+  { name: 'Forbidden Knowledge', cost: 5, description: 'You possess dangerous lore. +1k0 to one Lore of your choice.' },
+  { name: 'Friend of the Elements', cost: 4, description: 'One element\'s kami are friendlier to you. +1k0 to spells of that element.' },
+  { name: 'Great Destiny', cost: 5, description: 'Once per session, survive what would otherwise kill you.' },
+  { name: 'Hands of Stone', cost: 6, description: 'Unarmed damage is 0k2 instead of 0k1.' },
+  { name: 'Hero of the People', cost: 2, description: 'Peasants love and trust you, providing aid when possible.' },
+  { name: 'Higher Purpose', cost: 3, description: '+1k0 to rolls directly related to your chosen cause.' },
+  { name: 'Inheritance', cost: 5, description: 'You have inherited a significant item (weapon, armor, etc.).' },
+  { name: 'Inner Gift', cost: 7, description: 'You possess a minor supernatural gift (GM approval required).' },
   { name: 'Irreproachable', cost: 2, description: '+1k0 to resist Temptation and Intimidation.' },
-  { name: 'Kharmic Tie', cost: 1, description: 'Deep spiritual bond with another PC.' },
-  { name: 'Large', cost: 4, description: 'You are significantly larger than average. +1k0 damage.' },
-  { name: 'Luck', cost: 3, description: 'Reroll once per session (keep better result).' },
-  { name: 'Quick', cost: 3, description: '+1k0 to Initiative rolls.' },
-  { name: 'Sacred Weapon', cost: 'Variable', description: 'A weapon of spiritual significance.' },
+  { name: 'Ishiken-Do', cost: 8, description: 'You can cast Void spells. Extremely rare.' },
+  { name: 'Kharmic Tie', cost: 1, description: 'Deep spiritual bond with another PC. Shared fate.' },
+  { name: 'Large', cost: 4, description: 'Significantly larger than average. +1k0 to damage rolls.' },
+  { name: 'Leadership', cost: 6, description: '+1k0 to Battle rolls. Followers have higher morale.' },
+  { name: 'Luck', cost: '3/6/9', description: 'Reroll 1/2/3 times per session (keep better result).' },
+  { name: 'Magic Resistance', cost: '2/4/6', description: '+5/+10/+15 to TN of all spells targeting you.' },
+  { name: 'Multiple Schools', cost: 10, description: 'You have trained in a second School (requires GM approval).' },
+  { name: 'Paragon', cost: 7, description: 'Embody a tenet of Bushido. Gain a special benefit related to it.' },
+  { name: 'Perceived Honor', cost: 3, description: 'Your Honor appears 1 Rank higher for social purposes.' },
+  { name: 'Precise Memory', cost: 3, description: 'You can recall details with near-perfect accuracy.' },
+  { name: 'Quick', cost: 6, description: '+1k0 to all Initiative rolls.' },
+  { name: 'Quick Healer', cost: 3, description: 'Heal twice as fast as normal.' },
+  { name: 'Read Lips', cost: 4, description: 'You can read lips with an Investigation/Perception roll.' },
+  { name: 'Sacred Weapon', cost: 'Variable', description: 'A weapon of spiritual significance with special properties.' },
   { name: 'Sage', cost: 4, description: '+1k0 to all Lore Skill Rolls.' },
-  { name: 'Sensation', cost: 3, description: '+1k0 to Artisan and Perform Skill Rolls.' },
-  { name: 'Social Position', cost: 'Variable', description: 'Higher Status than normal.' },
-  { name: 'Strength of the Earth', cost: 2, description: 'Reduce Wound TN penalties by 3.' },
-  { name: 'Touch of the Spirit Realms', cost: 'Variable', description: 'Mystical connection to a spirit realm.' },
-  { name: 'Wary', cost: 3, description: '+1k1 to contested Investigation rolls to detect ambush.' },
-  { name: 'Wealthy', cost: 'Variable', description: 'Greater starting resources.' },
+  { name: 'Sensation', cost: 3, description: '+1k0 to all Artisan and Perform Skill Rolls.' },
+  { name: 'Silent', cost: 3, description: '+1k0 to all Stealth Skill Rolls.' },
+  { name: 'Social Position', cost: 6, description: 'Status Rank 1 higher than normal for your School/Family.' },
+  { name: 'Soul of Artistry', cost: 4, description: 'Pick one Artisan skill. You gain +1k1 with it.' },
+  { name: 'Strength of the Earth', cost: 3, description: 'Reduce all Wound TN penalties by 3.' },
+  { name: 'Tactician', cost: 4, description: '+1k0 to all Battle Skill Rolls.' },
+  { name: 'Touch of the Spirit Realms', cost: 5, description: 'Mystical connection to a spirit realm with minor benefits.' },
+  { name: 'Virtuous', cost: 3, description: '+1k0 to resist any temptation to act dishonorably.' },
+  { name: 'Voice', cost: 3, description: '+1k0 to any Social Skill Roll involving speaking.' },
+  { name: 'Wary', cost: 3, description: '+1k1 to Investigation rolls to detect ambush or surprise.' },
+  { name: 'Way of the Land', cost: 2, description: 'You know a specific region intimately. No movement penalties there.' },
+  { name: 'Wealthy', cost: '1-5', description: 'Greater starting koku and resources.' },
 ]
 
 // ── Disadvantages catalogue ──
 const L5R_DISADVANTAGES = [
   { name: 'Antisocial', cost: '2/4', description: '-1k0 or -1k1 to all Social Skill Rolls.' },
-  { name: 'Bad Eyesight', cost: 3, description: '-1k1 to ranged attacks and Perception rolls.' },
-  { name: 'Bad Fortune', cost: 3, description: 'Something unpleasant is in store for you.' },
+  { name: 'Ascetic', cost: 2, description: 'No material possessions beyond essentials. Half Glory awards.' },
+  { name: 'Bad Eyesight', cost: 3, description: '-1k1 to ranged attacks and Perception-based rolls.' },
+  { name: 'Bad Fortune', cost: 3, description: 'Kharma has cursed you (Secret Love, Evil Eye, Unknown Enemy, etc.).' },
   { name: 'Bad Health', cost: 4, description: 'Earth Ring -1 for Wound Ranks and disease resistance.' },
-  { name: 'Bitter Betrothal', cost: 2, description: 'Arranged marriage that neither party wants.' },
-  { name: 'Blackmailed', cost: 'Variable', description: 'Someone knows your dark secret.' },
-  { name: 'Black Sheep', cost: 3, description: 'Your family is disgusted with you.' },
+  { name: 'Bitter Betrothal', cost: 2, description: 'Unhappy arranged marriage causing domestic difficulties.' },
+  { name: 'Blackmailed', cost: 'Variable', description: 'Someone knows your dark secret. Cost = your Status.' },
+  { name: 'Black Sheep', cost: 3, description: 'Your family is disgusted with you. No welcome at home.' },
+  { name: 'Blind', cost: 6, description: '-3k3 ranged, -1k1 melee. Armor TN = Reflexes + 5.' },
   { name: 'Brash', cost: 3, description: 'Must roll Willpower TN 25 or attack when insulted.' },
   { name: 'Can\'t Lie', cost: 2, description: 'Psychologically incapable of telling lies.' },
+  { name: 'Cast Out', cost: '1/3', description: 'Denounced by monks. They treat your Glory as Infamy.' },
   { name: 'Compulsion', cost: '2-4', description: 'Hopelessly compelled to partake in an activity.' },
-  { name: 'Contrary', cost: 3, description: 'Compelled to share opinions and argue.' },
+  { name: 'Contrary', cost: 3, description: 'Must share opinions and argue in every discussion.' },
+  { name: 'Cursed by the Realm', cost: 4, description: 'Penalties when dealing with spirits from a specific realm.' },
+  { name: 'Dark Fate', cost: 3, description: 'Destined to die a terrible, specific death.' },
+  { name: 'Dark Secret', cost: 4, description: 'You hide a shameful truth that would destroy you if revealed.' },
+  { name: 'Disbeliever', cost: 3, description: 'You doubt the spiritual world. -1k0 to interact with spirits/kami.' },
+  { name: 'Dishonored', cost: 5, description: 'You have been publicly shamed. Status effectively 0.' },
+  { name: 'Disturbing Countenance', cost: 3, description: 'Something unsettling about your appearance. -1k0 to social rolls.' },
   { name: 'Doubt', cost: 4, description: '-1k1 when using one specific Skill.' },
-  { name: 'Failure of Bushido', cost: 'Variable', description: 'Weak in one tenet of Bushido.' },
-  { name: 'Fascination', cost: 1, description: 'Obsessed with a specific topic.' },
-  { name: 'Greedy', cost: 3, description: 'Will go to great lengths to acquire wealth.' },
-  { name: 'Haunted', cost: 3, description: 'A restless spirit follows you.' },
+  { name: 'Driven', cost: 2, description: 'Obsessed with a goal. Must pursue it at risk of Honor loss.' },
+  { name: 'Epilepsy', cost: 4, description: 'Seizures under stress. Roll Stamina TN 20 or be incapacitated.' },
+  { name: 'Failure of Bushido', cost: 'Variable', description: 'Weak in one tenet of Bushido. Specific penalties apply.' },
+  { name: 'Fascination', cost: 1, description: 'Obsessed with a specific topic. Must investigate when encountered.' },
+  { name: 'Frail Mind', cost: 3, description: '-1k0 to resist Fear effects and Intimidation.' },
+  { name: 'Greedy', cost: 3, description: 'Will go to great lengths to acquire wealth and material goods.' },
+  { name: 'Gullible', cost: 4, description: '-1k1 to detect lies and resist manipulation.' },
+  { name: 'Haunted', cost: 3, description: 'A restless spirit follows you and causes problems.' },
   { name: 'Hostage', cost: 3, description: 'You are a political hostage in another Clan.' },
   { name: 'Idealistic', cost: 2, description: 'Naive about the darker side of the world.' },
+  { name: 'Infamous', cost: 2, description: 'Your Glory functions as Infamy. People distrust you.' },
   { name: 'Insensitive', cost: 2, description: '-1k0 to Courtier and Etiquette rolls.' },
-  { name: 'Lost Love', cost: 3, description: 'Someone you loved is dead or gone.' },
-  { name: 'Obligation', cost: 'Variable', description: 'You owe a significant debt to someone.' },
-  { name: 'Small', cost: 3, description: 'You are smaller than average. -1k0 to damage.' },
+  { name: 'Jealousy', cost: 3, description: 'Consumed by envy of another\'s success or possessions.' },
+  { name: 'Lame', cost: 4, description: 'Water Ring -1 for movement. -1k0 to Athletics.' },
+  { name: 'Lost Love', cost: 3, description: 'Someone you loved is dead or gone. Emotional vulnerability.' },
+  { name: 'Low Pain Threshold', cost: 4, description: 'Wound TN penalties are 3 points worse per rank.' },
+  { name: 'Obligation', cost: 'Variable', description: 'You owe a significant debt to someone of influence.' },
+  { name: 'Obtuse', cost: 3, description: '-1k0 to Investigation and Perception rolls.' },
+  { name: 'Overconfident', cost: 3, description: 'You believe you can handle any situation. Reckless behavior.' },
+  { name: 'Permanent Wound', cost: 4, description: 'You have a wound that never fully heals. Always at Nicked.' },
+  { name: 'Small', cost: 3, description: 'Smaller than average. -1k0 to damage rolls.' },
   { name: 'Sworn Enemy', cost: 'Variable', description: 'Someone of influence wants you ruined or dead.' },
-  { name: 'True Love', cost: 3, description: 'In love with someone, creating vulnerability.' },
-  { name: 'Wrath of the Kami', cost: 3, description: '-1k0 to spell casting with one element.' },
+  { name: 'True Love', cost: 3, description: 'In love with someone. Creates vulnerability and obligations.' },
+  { name: 'Wrath of the Kami', cost: 3, description: '-1k0 to spell casting with one specific element.' },
 ]
 
 // ── Wound Rank table reference ──
@@ -266,7 +315,7 @@ export default function L5RForm() {
   const voidRing = fields.l5rVoid
 
   // Families filtered by selected clan
-  const selectedFamilies = fields.l5rClan && CLANS[fields.l5rClan] ? CLANS[fields.l5rClan] : []
+  const selectedFamilies = fields.l5rClan && CLANS[fields.l5rClan] ? CLANS[fields.l5rClan].families : []
 
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
@@ -318,7 +367,17 @@ export default function L5RForm() {
               </div>
             </div>
             <div className="field-row">
-              <div className="field"><label>School</label><input name="l5rSchool" value={fields.l5rSchool} onChange={handleText} placeholder="e.g. Kakita Bushi School" /></div>
+              <div className="field">
+                <label>School</label>
+                {fields.l5rClan && CLANS[fields.l5rClan]?.schools?.length > 0 ? (
+                  <select name="l5rSchool" value={fields.l5rSchool} onChange={handleText}>
+                    <option value="">{t('select')}</option>
+                    {CLANS[fields.l5rClan].schools.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                ) : (
+                  <input name="l5rSchool" value={fields.l5rSchool} onChange={handleText} placeholder="Enter school name..." />
+                )}
+              </div>
             </div>
             <div className="field-row">
               <div className="field">
@@ -572,6 +631,16 @@ Path to Inner Peace (ML 1, TN 15) — Heal Wound Rank x 2
               <p key={line} className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>{line}</p>
             ))}
           </fieldset>
+          <details style={{ marginBottom: 'var(--space-md)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Kiho Reference (Monks)</summary>
+            <div style={{ padding: 'var(--space-sm) 0' }}>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Cost:</strong> Mastery Level in XP. Requires Ring + School Rank ≥ Mastery Level.</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Types:</strong> Internal (self-buff), Kharmic (non-offensive), Martial (via unarmed strike), Mystical (supernatural).</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Limits:</strong> One each of Internal/Kharmic/Mystical active. Multiple Martial allowed but one per strike.</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Non-Brotherhood:</strong> Tattoo orders pay 1.5x cost. Shugenja pay 2x and use Ring only (no School Rank).</p>
+              <p className="muted-hint muted-hint--xs"><strong>Atemi:</strong> Nerve-cluster attacks deal no damage but deliver Kiho effects. Must touch bare skin; armor doubles ATN against atemi.</p>
+            </div>
+          </details>
         </div>
       </div>
 
