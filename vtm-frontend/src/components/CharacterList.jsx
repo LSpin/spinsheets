@@ -100,6 +100,7 @@ function CharacterCard({ c, user, isST, t, navigate, onDelete, chronicles, onAss
             onChange={e => onAssignChronicle(c.id, e.target.value ? Number(e.target.value) : null)}
             style={{ fontSize: '0.78rem', maxWidth: 140 }}
             title={t('assignChronicle')}
+            aria-label={t('assignChronicle')}
           >
             <option value="">{t('noChronicle')}</option>
             {chronicles.map(ch => (
@@ -251,8 +252,8 @@ export default function CharacterList() {
             <>
               {chronicles.length > 0 && (
                 <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <label style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('filterByChronicle')}:</label>
-                  <select value={chronicleFilter} onChange={e => setChronicleFilter(e.target.value)}
+                  <label htmlFor="chronicle-filter" style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('filterByChronicle')}:</label>
+                  <select id="chronicle-filter" value={chronicleFilter} onChange={e => setChronicleFilter(e.target.value)}
                     style={{ fontSize: '0.85rem' }}>
                     <option value="all">{t('allChronicles')}</option>
                     <option value="unassigned">{t('unassigned')}</option>

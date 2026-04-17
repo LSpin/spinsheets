@@ -23,9 +23,10 @@ export default function NewCharacterModal({ open, onClose, chronicles }) {
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-labelledby="newchar-modal-title"
+      onKeyDown={e => { if (e.key === 'Escape') onClose() }}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
-        <h3>{t('newCharModalTitle')}</h3>
+        <h3 id="newchar-modal-title">{t('newCharModalTitle')}</h3>
         <div className="modal-options">
           <button className="modal-option-btn" onClick={handleForMyself}>
             <span className="modal-option-icon">🎭</span>

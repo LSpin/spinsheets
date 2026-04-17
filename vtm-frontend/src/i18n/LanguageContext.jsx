@@ -4,12 +4,17 @@ import { translations } from './translations'
 const LanguageContext = createContext()
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState(() => localStorage.getItem('spinsheets-lang') || 'en')
+  const [lang, setLang] = useState(() => {
+    const saved = localStorage.getItem('spinsheets-lang') || 'en'
+    document.documentElement.lang = saved
+    return saved
+  })
 
   function toggle() {
     const next = lang === 'en' ? 'pt' : 'en'
     setLang(next)
     localStorage.setItem('spinsheets-lang', next)
+    document.documentElement.lang = next
   }
 
   function t(key) {

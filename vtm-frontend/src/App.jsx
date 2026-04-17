@@ -99,9 +99,10 @@ function UserMenu() {
         </div>
       )}
       {confirmDelete && (
-        <div className="modal-overlay" onClick={() => setConfirmDelete(false)}>
+        <div className="modal-overlay" onClick={() => setConfirmDelete(false)} role="dialog" aria-modal="true" aria-labelledby="delete-modal-title"
+          onKeyDown={e => { if (e.key === 'Escape') setConfirmDelete(false) }}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: 400 }}>
-            <h3>{t('deleteAccountTitle')}</h3>
+            <h3 id="delete-modal-title">{t('deleteAccountTitle')}</h3>
             <p style={{ margin: '1rem 0', lineHeight: 1.5 }}>{t('deleteAccountWarning')}</p>
             <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
               <button className="btn btn-secondary" onClick={() => setConfirmDelete(false)}>

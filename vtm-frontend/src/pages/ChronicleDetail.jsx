@@ -351,7 +351,7 @@ export default function ChronicleDetail() {
                   {canManage && (
                     <div className="character-card-actions">
                       <button className="btn btn-secondary btn-sm" onClick={() => setEditingSession({ ...s })}>{t('edit')}</button>
-                      <button className="btn btn-danger btn-sm" onClick={() => handleDeleteSession(s.id)}>✕</button>
+                      <button className="btn btn-danger btn-sm" onClick={() => handleDeleteSession(s.id)} aria-label={`${t('deleteBtn')} ${s.title}`}>✕</button>
                     </div>
                   )}
                 </>

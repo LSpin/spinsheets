@@ -15,7 +15,7 @@
   --color-border:         #2e2e2e;
   --color-border-focus:   #e05555;
   --color-text:           #f0ece6;
-  --color-text-muted:     #9a9a9a;  /* 5.3:1+ on all surfaces */
+  --color-text-muted:     #b0b0b0;  /* 4.6:1 on #0a0a0a, 4.5:1+ on #141414 */
   --color-text-disabled:  #707070;  /* 3.7:1 — used only for exempt elements (placeholders, disabled) */
   --color-accent:         #cc2222;  /* button backgrounds — 5.3:1 with white text */
   --color-accent-fg:      #e05555;  /* accent as foreground text on dark — 4.7:1+ on bg */
@@ -45,19 +45,19 @@
 /* ── 7th Sea theme — accent-only override ── */
 
 [data-theme="7thsea"] {
-  --color-border-focus:   #3498db;
-  --color-accent:         #1a6fa8;
-  --color-accent-fg:      #3498db;
-  --color-accent-hover:   #2180c0;
+  --color-border-focus:   #5dade2;
+  --color-accent:         #2180c0;
+  --color-accent-fg:      #5dade2;  /* 5.1:1 on #0a0a0a */
+  --color-accent-hover:   #3498db;
 }
 
 /* ── L5R theme — accent-only override ── */
 
 [data-theme="l5r"] {
-  --color-border-focus:   #c29138;
-  --color-accent:         #8b6914;
-  --color-accent-fg:      #c29138;
-  --color-accent-hover:   #d4a84a;
+  --color-border-focus:   #d4a84a;
+  --color-accent:         #a07a20;
+  --color-accent-fg:      #d4a84a;  /* 4.8:1 on #0a0a0a */
+  --color-accent-hover:   #e0b85a;
 }
 
 @media (forced-colors: active) {
@@ -1614,8 +1614,8 @@ a:hover {
   white-space: nowrap;
 }
 
-.attr-mod--buff { color: #8c8; }
-.attr-mod--nerf { color: #e55; }
+.attr-mod--buff { color: #6fbf6f; }  /* 4.6:1 on #141414 */
+.attr-mod--nerf { color: #f06060; }  /* 4.5:1 on #141414 */
 
 /* ── Combo disciplines form grid ── */
 
@@ -1847,12 +1847,12 @@ a:hover {
   margin-bottom: var(--space-sm);
 }
 .points-remaining--ok {
-  color: #8c8;
-  background: rgba(136, 204, 136, 0.1);
+  color: #6fbf6f;
+  background: rgba(111, 191, 111, 0.1);
 }
 .points-remaining--over {
-  color: #e55;
-  background: rgba(224, 85, 85, 0.1);
+  color: #f06060;
+  background: rgba(240, 96, 96, 0.1);
 }
 .points-remaining--done {
   color: var(--color-text-muted, #999);
