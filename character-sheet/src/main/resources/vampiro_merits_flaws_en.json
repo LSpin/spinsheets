@@ -35,7 +35,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Livro do Clã Toreador",
+      "fonte": "Clanbook: Toreador",
       "pagina": 40,
       "descricao": "Toreador with this Merit are more likely to become enraptured (Clan Flaw) when viewing items with a craftsmanship level of 2. However, when using Aura Perception, the player may request additional information from the Storyteller. The information is at the Storyteller's discretion, but may include specific details about the target's Clan, tribe, etc.; whether magic has been used on the target and of what type; and details the target may be obscuring, such as true age, size, etc.",
       "name": "Greater Colors"
@@ -131,7 +131,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 113,
       "descricao": "No penalty for actions performed with the off-hand.",
       "name": "Ambidestry"
@@ -147,7 +147,7 @@
     {
       "custo": 4,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 120,
       "descricao": "You gain 1 additional Temporary Willpower Trait (True Love) per session. Your True Love must be rescued from time to time.",
       "name": "True Love"
@@ -211,7 +211,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Livro do Clã Gangrel",
+      "fonte": "Clanbook: Gangrel",
       "pagina": 37,
       "descricao": "Works the same as Baby Face for the Gangrel's animal form.",
       "name": "TBD"
@@ -331,7 +331,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Livro do Clã Malkav",
+      "fonte": "Clanbook: Malkavian",
       "pagina": 64,
       "descricao": "The aura never changes, not even when you are confused, in Frenzy, or in a psychotic episode.",
       "name": "TBD"
@@ -339,7 +339,7 @@
     {
       "custo": null,
       "custo_obs": null,
-      "fonte": "Livro do Clã Giovanni",
+      "fonte": "Clanbook: Giovanni",
       "pagina": 86,
       "descricao": "Giovanni only. You begin play with a partial blood bond to another Giovanni Member (if there is no appropriate player to represent such a character, the Storyteller should work with you to create one). You gain the Basic level of Potence, Vigor, in addition to your other Disciplines, and you may learn the first Intermediate level with your starting Discipline levels. If you spend eight Free Traits on this Merit, you come to play with partial bonds to two Giovanni Members or a full bond to one, and you also gain the Basic level of the Fortitude Discipline, Endurance.",
       "name": "Proxy Kiss"
@@ -427,7 +427,7 @@
     {
       "custo": 3,
       "custo_obs": null,
-      "fonte": "Livro do Clã Toreador",
+      "fonte": "Clanbook: Toreador",
       "pagina": 40,
       "descricao": "Blasé does not negate the Toreador Clan Flaw. ICBN HR: You gain Ties in Presence Challenges. \n(Original: Vampires with this merit automatically resist levels 1-4 of the Presence Discipline used against them, including combo powers using levels up to 4. However, if the Presence user is more than two generations older than the target, the target must spend one Willpower Trait to resist.)",
       "name": "Blasé"
@@ -507,7 +507,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 116,
       "descricao": "You are Café-com-Leite. Ask the Storytellers for assistance.",
       "name": "Common Sense"
@@ -547,7 +547,7 @@
     {
       "custo": 5,
       "custo_obs": null,
-      "fonte": "Livro do Clã Toreador",
+      "fonte": "Clanbook: Toreador",
       "pagina": 40,
       "descricao": "You possess a very powerful ghoul, bound to you by a blood bond. The ghoul has 6 points to distribute among any Disciplines except Thaumaturgy, with at least 1 point required in Potence. Additionally, the ghoul is highly competent, with 15 points to distribute among Attributes, 27 points to distribute among Abilities, and 5 points to apply to Backgrounds. They have reasonably good ratings in Virtues and Willpower and will do anything you ask of them, for they love you deeply. However, they may also become jealous of any relationship you have with others.",
       "name": "Powerful Ghoul"
@@ -587,7 +587,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 116,
       "descricao": "Gain a Social or Mental retest when the situation might violate your code of honor.",
       "name": "Code of Honor"
@@ -627,7 +627,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 116,
       "descricao": "Suffers no penalties from distractions or external phenomena.",
       "name": "Concentration"
@@ -763,7 +763,7 @@
     {
       "custo": 4,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 113,
       "descricao": "Due to being over 6'6\" tall and over 265 lbs, you have 1 extra Vitality level.",
       "name": "Huge Size"
@@ -883,7 +883,7 @@
     {
       "custo": 3,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 113,
       "descricao": "For every two Blood Points drunk, you absorb 3.",
       "name": "Efficient Digestion"
@@ -923,7 +923,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 118,
       "descricao": "Some Cainite owes you a Minor Favor.",
       "name": "Debt of Gratitude (1)"
@@ -931,7 +931,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 118,
       "descricao": "Some Cainite owes you a Major Favor.",
       "name": "Debt of Gratitude (2)"
@@ -939,7 +939,7 @@
     {
       "custo": 3,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 118,
       "descricao": "Some Cainite owes you a Blood Favor.",
       "name": "Debt of Gratitude (4)"
@@ -971,7 +971,7 @@
     {
       "custo": 3,
       "custo_obs": null,
-      "fonte": "Livro do Clã Toreador",
+      "fonte": "Clanbook: Toreador",
       "pagina": 40,
       "descricao": "As per the Toreador Genre Packet 2018: You were born with unmatched artistic gifts. To create art, the member gains a bonus of two mental attribute Traits on all their tests. With this ability, the member is able to develop artistically on their own, without the need for a tutor (up to the 5th level of a given Artistic Ability).",
       "name": "Gifted"
@@ -1019,7 +1019,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 113,
       "descricao": "Grants 2 Bonus Traits on tests involving balance.",
       "name": "Catlike Balance"
@@ -1091,7 +1091,7 @@
     {
       "custo": 7,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 120,
       "descricao": "God, Allah, Buddha, any Faith. You gain 1 True Faith, which may be used as True Faith. You may repel other Vampires with a Social Challenge by saying \"In the name of XXXX\" while brandishing your holy symbol. If you win, the vampire flees, and even if you lose they cannot approach within 10 steps unless they overbid a True Faith challenge against your True Faith. Morality 9 or higher required.",
       "name": "True Faith"
@@ -1195,7 +1195,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Livro do Clã Tremere",
+      "fonte": "Clanbook: Tremere",
       "pagina": 66,
       "descricao": "Tremere. You have a natural instinct for the flavors of blood. When you taste blood, you can tell whether the blood is from a vampire, and can automatically sense its potency (generation). There is no test or cost. If the blood is not from a vampire, you only know that much — you cannot specifically differentiate Lupine or faerie blood from human blood without other testing methods.",
       "name": "Attuned Taste"
@@ -1251,7 +1251,7 @@
     {
       "custo": 3,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 120,
       "descricao": "Once per Session you may make a static Mental challenge Difficulty 8 (or higher according to the Storyteller) to interpret something, a vision, etc.",
       "name": "Oracular Ability"
@@ -1267,7 +1267,7 @@
     {
       "custo": 3,
       "custo_obs": null,
-      "fonte": "Livro do Clã Lasombra",
+      "fonte": "Clanbook: Lasombra",
       "pagina": 64,
       "descricao": "If you are at sea/ocean or within sight of it, you gain one Trait on any Self-Control/Instinct challenge and gain a temporary Willpower Trait.",
       "name": "Pelagic Harmony"
@@ -1307,7 +1307,7 @@
     {
       "custo": 3,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 120,
       "descricao": "You cannot be blood bonded, not even partially. Forbidden in most Houses - including ICBN.",
       "name": "TBD"
@@ -1323,7 +1323,7 @@
     {
       "custo": 5,
       "custo_obs": null,
-      "fonte": "Livro do Clã Giovanni",
+      "fonte": "Clanbook: Giovanni",
       "pagina": 86,
       "descricao": "You do not develop a blood bond with your own blood relatives.",
       "name": "TBD"
@@ -1347,7 +1347,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 113,
       "descricao": "You are able to ingest food without vomiting - but you do not digest it.",
       "name": "Eat Food"
@@ -1459,7 +1459,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 118,
       "descricao": "Grants 2 bonus Traits on Leadership tests (including Presence). Must possess at least 6 Social Traits to take this Merit.",
       "name": "Natural Leader"
@@ -1475,7 +1475,7 @@
     {
       "custo": 5,
       "custo_obs": null,
-      "fonte": "Livro do Clã Malkav",
+      "fonte": "Clanbook: Malkavian",
       "pagina": 66,
       "descricao": "If you become blood bonded to someone, that someone will also become blood bonded to you.",
       "name": "TBD"
@@ -1499,7 +1499,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 116,
       "descricao": "Grants 3 bonus Traits on tests related to languages. Doubles the number of Languages learned.",
       "name": "Natural Linguist"
@@ -1595,7 +1595,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 120,
       "descricao": "You are able to hear the Restless Dead.",
       "name": "Medium (2)"
@@ -1635,7 +1635,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 116,
       "descricao": "1 Turn is enough to memorize a page. You may have a small 'cheat sheet' notebook due to never forgetting anything. If you need to memorize something you were distracted from (due to combat, for example), a static mental challenge Difficulty 6 is required.",
       "name": "Eidetic Memory"
@@ -1675,7 +1675,7 @@
     {
       "custo": 3,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 120,
       "descricao": "You have an Restless Dead as a guide.",
       "name": "Spirit Mentor"
@@ -1739,7 +1739,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Livro do Clã Setita",
+      "fonte": "Clanbook: Followers of Set",
       "pagina": 39,
       "descricao": "You have developed venom glands in the roof of your mouth. The venom is virulent, though Kindred and other supernatural creatures are not affected by it. You, of course, are immune. When you bite, you always inject this venom, usually killing your human victims.",
       "name": "TBD"
@@ -1787,7 +1787,7 @@
     {
       "custo": 3,
       "custo_obs": null,
-      "fonte": "Livro do Clã Malkav",
+      "fonte": "Clanbook: Malkavian",
       "pagina": 64,
       "descricao": "You do not feel that you are injured. Ignore the effects of being Bruised and Hurt.",
       "name": "TBD"
@@ -1795,7 +1795,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 116,
       "descricao": "You have an Exact Sense of Time — useful for musicians, or for returning home before sunrise.",
       "name": "TBD"
@@ -1803,7 +1803,7 @@
     {
       "custo": 6,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 120,
       "descricao": "Whenever you lose a test that could result in your death, you gain a Retest (can be used up to 9 times).",
       "name": "Nine Lives"
@@ -2099,7 +2099,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 119,
       "descricao": "Grants 2 bonus Traits on tests against any form of Magic. This bonus applies to both beneficial and detrimental effects. Forbidden for those with Blood Magic.",
       "name": "Magic Resistance"
@@ -2107,7 +2107,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Livro do Clã Giovanni",
+      "fonte": "Clanbook: Giovanni",
       "pagina": 85,
       "descricao": "You have a peculiarly cadaverous appearance that gives you a one Trait resolution penalty on all Social Challenges based on Appearance-related Traits. You should use special makeup to represent the blue around the cheeks and lips, black under the eyes, and a general white around the rest of the face as a good start. However, you do not suffer from the normal Giovanni disadvantage.",
       "name": "TBD"
@@ -2115,7 +2115,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Livro do Clã Setita",
+      "fonte": "Clanbook: Followers of Set",
       "pagina": 39,
       "descricao": "Alcohol, narcotics, and similar addictive substances have little or no effect on you. You may drink from such sources with impunity.",
       "name": "Drug Resistance"
@@ -2139,7 +2139,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 113,
       "descricao": "Unlike vampires who grow pale, your skin retains a healthy appearance, being only slightly cold to the touch. This Merit is of great value when interacting with mortals, although you still suffer from the Negative Traits conferred by low Humanity or Path (which are results of your innate monstrousness rather than appearance).",
       "name": "TBD"
@@ -2155,7 +2155,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Livro do Clã Malkav",
+      "fonte": "Clanbook: Malkavian",
       "pagina": 64,
       "descricao": "The ghouls you create suffer none of the normal penalties for drinking Malkavian blood — they may drink your blood at will, without any increased chance of developing a derangement.",
       "name": "TBD"
@@ -2211,7 +2211,7 @@
     {
       "custo": 3,
       "custo_obs": null,
-      "fonte": "Livro do Clã Setita",
+      "fonte": "Clanbook: Followers of Set",
       "pagina": 39,
       "descricao": "Setites only. Your blood is especially delicious to others, Members or otherwise, containing a substance they find physically delightful and addictive. Having drunk your blood, they must drink again, or spend 1 Willpower in moments when they have the opportunity to drink it.",
       "name": "TBD"
@@ -2243,7 +2243,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Livro do Clã Toreador",
+      "fonte": "Clanbook: Toreador",
       "pagina": 40,
       "descricao": "COORD APPROVAL FOR NON-TOREADORS. Vampires with this merit receive +3 Traits on any Self-Control/Instinct challenge to avoid Frenzy when the Frenzy is triggered by the smell, sight, or taste of blood.",
       "name": "Controlled Thirst"
@@ -2275,7 +2275,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 118,
       "descricao": "RP. You are treated as if you had one additional Status.",
       "name": "Prestige Sire"
@@ -2347,7 +2347,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Livro do Clã Toreador",
+      "fonte": "Clanbook: Toreador",
       "pagina": 40,
       "descricao": "As per the Toreador Genre Packet 2018: The member is a true born critic. You know and recognize art in all its forms, anywhere. You receive two additional bonus Traits on all your Art Appreciation tests.",
       "name": "TBD"
@@ -2371,7 +2371,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Livro do Clã Lasombra",
+      "fonte": "Clanbook: Lasombra",
       "pagina": 63,
       "descricao": "You may call for a static mental challenge against 7 Traits to detect the approach of bad weather.",
       "name": "Weather Sense"
@@ -2379,7 +2379,7 @@
     {
       "custo": 1,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 112,
       "descricao": "Grants 2 bonus Traits for the heightened sense. May be purchased multiple times.",
       "name": "Acute Sense"
@@ -2451,7 +2451,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 116,
       "descricao": "You suffer no penalties when acting in the morning, regardless of your Morality level.",
       "name": "TBD"
@@ -2459,7 +2459,7 @@
     {
       "custo": 3,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 120,
       "descricao": "You have up to 3 free Retests per Month.",
       "name": "TBD"
@@ -2483,7 +2483,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Livro do Clã Toreador",
+      "fonte": "Clanbook: Toreador",
       "pagina": 40,
       "descricao": "-",
       "name": "Mortal Double"
@@ -2507,7 +2507,7 @@
     {
       "custo": 3,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 113,
       "descricao": "When engaging in danger (at minimum Difficulty 8 with some Detrimental Effect - or in combat facing someone far superior to you or at a numerical disadvantage) gain 1 Trait on the test.",
       "name": "Daredevil"
@@ -2515,7 +2515,7 @@
     {
       "custo": 3,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 116,
       "descricao": "Grants 1 bonus Trait for Self-Control/Instinct and Courage tests. Forbidden for Brujahs.",
       "name": "Calm Heart"
@@ -2731,7 +2731,7 @@
     {
       "custo": 2,
       "custo_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 113,
       "descricao": "Grants 2 bonus Traits on tests involving your voice.",
       "name": "Enchanting Voice"
@@ -2757,34 +2757,34 @@
     {
       "bonus": 2,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 114,
       "descricao": "Your total blood is 10, but you can only use 8. Purchase the Thin Blood Flaw.",
-      "name": "14ª Geração"
+      "name": "14th Generation"
     },
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 115,
       "descricao": "You can only take 1 step per action - use of a Cane is mandatory.",
-      "name": "Aleijado"
+      "name": "Lame"
     },
     {
       "bonus": null,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 120,
       "descricao": "You have some curse - speak with the Storyteller.",
-      "name": "Amaldiçoado"
+      "name": "Cursed"
     },
     {
       "bonus": 2,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 117,
       "descricao": "You are screwed. The Storyteller may hide your character sheet from you.",
-      "name": "Aminésia"
+      "name": "Amnesia"
     },
     {
       "bonus": 1,
@@ -2792,12 +2792,12 @@
       "fonte": "Laws of the Hunt",
       "pagina": 145,
       "descricao": "You are unable to Read and Write. (Could also represent Dyslexia)",
-      "name": "Analfabeto"
+      "name": "Illiterate"
     },
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Nosferatu",
+      "fonte": "Clanbook: Nosferatu",
       "pagina": 73,
       "descricao": "You automatically fail any tests involving smell and taste. (Auspex does not function through these senses)",
       "name": "Anosmia"
@@ -2808,7 +2808,7 @@
       "fonte": "Dark Ages: Guide to the Low Clans",
       "pagina": 186,
       "descricao": "You gain the Gangrel Clan Flaw Wandering Lineage (You cannot remain in the same location for more than 3 days, otherwise you suffer a +1/day penalty on your tests)",
-      "name": "Ansia em Vagar (Munderlust)"
+      "name": "Munderlust"
     },
     {
       "bonus": 1,
@@ -2816,7 +2816,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 165,
       "descricao": "Perhaps you belong to a specific group - gothic, punk, raver, etc. - or perhaps you simply have a truly unique sense of style, but either way, your appearance immediately makes you stand out in a crowd (at least among more common people). In addition to occasionally attracting the negative attention of others who disapprove of your group or style, you are also easily remembered by other people. Any attempt to track you through witnesses has two additional Traits. Obviously, this Flaw also requires that you wear clothing and makeup appropriate to mark your unique appearance, and repeated failure to do so will force you to pay off this Flaw.",
-      "name": "Aparência Excentrica (Eccentric Appearance)"
+      "name": "Eccentric Appearance"
     },
     {
       "bonus": 1,
@@ -2824,31 +2824,31 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 174,
       "descricao": "No matter how old you are, you appear to be underage for many adult activities and can count on the possibility of being questioned, dismissed, and harassed by those who believe you are nothing more than a minor. You have a 1 Trait penalty on all attempts to persuade others that you are in fact of legal age, as well as on all Social Challenges with those inclined to distrust the young (concert bouncers, cynical police officers, etc.). If you do not already have an appearance that simulates this Flaw, we recommend a description tag to alert other players of your apparent youth.",
-      "name": "Aparência Jovial (Youthful Appearance)"
+      "name": "Youthful Appearance"
     },
     {
       "bonus": 4,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 121,
       "descricao": "There is no ecstasy in your Kiss.",
-      "name": "Aperto dos Amaldiçoados"
+      "name": "Grip of the Damned"
     },
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 121,
       "descricao": "A Restless Dead Haunts you.",
-      "name": "Assombrado"
+      "name": "Haunted"
     },
     {
       "bonus": 4,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Setita",
+      "fonte": "Clanbook: Followers of Set",
       "pagina": 39,
       "descricao": "The Gift Scent of the Wyrm automatically flags you - exclusive to Setites.",
-      "name": "Aura de Ápolis"
+      "name": "Aura of the Outcast"
     },
     {
       "bonus": 2,
@@ -2856,7 +2856,7 @@
       "fonte": "Dark Ages: Guide to the Low Clans",
       "pagina": 190,
       "descricao": "You radiate supernatural power. Perhaps you were a mage in life, inadvertently fed upon someone of the Fair Folk, or studied the twisted sorcery of the Tremere. All attempts to sense magic on or around you gain 2 Bonus Traits. Your aura also shows the shimmer of magical use to Aura Reading and similar powers, as long as the observer scores at least one success. Assamites of the sorcerer caste may not take this Flaw.",
-      "name": "Aura Mística (Mistical Aura)"
+      "name": "Mistical Aura"
     },
     {
       "bonus": 3,
@@ -2864,7 +2864,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 171,
       "descricao": "Money makes the world go round, and you intend to ride the carousel for all it is worth. Everything is secondary to the pursuit of wealth, and you are capable of doing some extreme things as long as there is enough money in it for you. Whenever you are offered a bribe, even from a monster or other repugnant figure, you must spend a Willpower Trait or make a Willpower test against six Traits to avoid accepting the bribe. This difficulty increases by one if you are certain the required task will not harm anyone (that you know of). Additionally, you must make a similar test to avoid searching the bodies or residences of fallen opponents for valuables, or looting fallen allies for the same.",
-      "name": "Avareza (Moneygrubbing)"
+      "name": "Moneygrubbing"
     },
     {
       "bonus": 4,
@@ -2872,15 +2872,15 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 172,
       "descricao": "Once per session, the Storyteller may add 2 Traits to the difficulty of a test, and if you fail, it is due to some completely random and wholly unfortunate factor that suddenly arises. Additionally, you seem to be the target of a minor but endless stream of karmic jokes, which the Storyteller will likely evoke descriptively as the chronicle progresses.",
-      "name": "Azarado (Unlucky)"
+      "name": "Unlucky"
     },
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 118,
       "descricao": "If another predator (Vampires, Lupines, etc.) enters your territory uninvited, you must test Self-Control/Instinct to avoid entering Frenzy.",
-      "name": "Bairrismo"
+      "name": "Parochialism"
     },
     {
       "bonus": 2,
@@ -2888,7 +2888,7 @@
       "fonte": "Laws of the Hunt",
       "pagina": 146,
       "descricao": "Whenever you make a test that you believe you will fail (at the Storyteller's discretion), you suffer a 2 Trait Penalty on the test. (You may spend 1 Willpower to negate the penalty.)",
-      "name": "Baixa autoestima (Low Self-Image)"
+      "name": "Low Self-Image"
     },
     {
       "bonus": null,
@@ -2896,7 +2896,7 @@
       "fonte": "Dark Ages: Guide to the Low Clans",
       "pagina": 189,
       "descricao": "Every time you fix your gaze upon a reflective surface, you see the Beast glaring sideways back at you. If this horror is visible only to you, this Flaw costs only one point. If the mirror betrays your monstrous nature to anyone who looks, this Flaw is worth two points. Even at the one-point intensity, mages and other gifted souls may occasionally catch a glimpse of your true nature for a moment. Even ordinary mortals may sense that something is faintly wrong with you. Gain 2 Penalty Traits on any Social tests (except intimidation) with mortals who have seen your reflection.",
-      "name": "Besta no Espelho (Beast in the Mirror)"
+      "name": "Beast in the Mirror"
     },
     {
       "bonus": 6,
@@ -2904,7 +2904,7 @@
       "fonte": "Dark Ages: Guide to the Low Clans",
       "pagina": 186,
       "descricao": "Some part of your withered soul recognizes its own damnation. Perhaps your Beast regrets its hunger, or your self-destructive impulse overrides its instincts. Whenever you are in a position to test Rotschreck, test Courage normally. However, a failure does not lead to Red Fear. Instead, you seek out the source of danger and embrace destruction — snatching a torch by its flames or flinging yourself into sunlight. It is possible for characters with this Flaw to develop 'normal' survival instincts, but it will never be easy.",
-      "name": "Besta Suicida"
+      "name": "Suicidal Beast"
     },
     {
       "bonus": 1,
@@ -2912,31 +2912,31 @@
       "fonte": "Laws of the Night: Camarilla Guide",
       "pagina": 79,
       "descricao": "You are always accompanied by a cold and unsettling breeze.",
-      "name": "Brisa Gélida (Cold Breeze)"
+      "name": "Cold Breeze"
     },
     {
       "bonus": 2,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 118,
       "descricao": "You suffer a 1 Trait penalty on Self-Control/Instinct tests. Cannot be taken by Brujahs.",
-      "name": "Cabeça Quente"
+      "name": "Hot-Headed"
     },
     {
       "bonus": 4,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 119,
       "descricao": "A Hunter (or group of hunters) is on your trail.",
-      "name": "Caçado"
+      "name": "Hunted"
     },
     {
       "bonus": 2,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 114,
       "descricao": "You suffer 2 Penalty Traits on tests involving perception and depth — including ranged attacks.",
-      "name": "Caolho"
+      "name": "One Eye"
     },
     {
       "bonus": null,
@@ -2944,7 +2944,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 173,
       "descricao": "You have a permanent physical mark that is easy to remember — a prominent tattoo, scars, or a birthmark. Not only does this make it easier to identify you, but all attempts to locate you based on witness interviews increase by a number of Traits equal to the value of this Flaw. This Flaw is worth one Trait if the feature can be easily covered by clothing, two Traits if it cannot, and must be represented by appropriate makeup or description cards.",
-      "name": "Característica Distintiva (Distinguishing Characteristic)"
+      "name": "Distinguishing Characteristic"
     },
     {
       "bonus": 3,
@@ -2952,23 +2952,23 @@
       "fonte": "Laws of the Hunt",
       "pagina": 155,
       "descricao": "Spectres can see you normally through the Shroud, and can cause problems with that.",
-      "name": "Carne de Espectro (Spectre Meat)"
+      "name": "Spectre Meat"
     },
     {
       "bonus": 6,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 116,
       "descricao": "Blind. Loses ties where vision is a determining factor (manual dexterity, for example). Automatically fails vision-based tests. Generally cannot be affected by Dominate, but can still use Aura Perception.",
-      "name": "Cegueira"
+      "name": "Blind"
     },
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 114,
       "descricao": "You suffer a 1 Trait Penalty on social interactions with Mortals.",
-      "name": "Cheiro de Tumulo"
+      "name": "Smell of the Grave"
     },
     {
       "bonus": 1,
@@ -2976,7 +2976,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 166,
       "descricao": "Nothing says your sense of style isn't perfectly fine, but your sense of occasion could definitely use some improvement, at least when it comes to what you should — and shouldn't — wear depending on the situation. Whether due to work restrictions, wardrobe limitations, or sheer force of habit, you always seem to be caught wearing high heels when you need to chase someone, or tight clothing that restricts your movement when you're trying to climb a chain-link fence. You are assumed to begin each session somehow dressed in a manner completely inappropriate for physical scenes, and are therefore considered to have a 1 Trait Penalty related to athletics or combat, unless you specifically acquire extra clothing in-game and take the time to change during the game/session. This Flaw should be simulated as safely as possible with appropriate costuming, but if you ignore or easily circumvent this Flaw too frequently, you may be required to buy it off, as it is obvious you have finally learned to dress appropriately for any occasion.",
-      "name": "Comoda Impraticavel (Impractical Dresser)"
+      "name": "Impractical Dresser"
     },
     {
       "bonus": 1,
@@ -2984,7 +2984,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 166,
       "descricao": "Whatever intangible quality makes people open up to others, you simply do not have it. No matter what you are like on the inside, you habitually project a cold and hostile demeanor to those around you, and most don't bother trying to get to know you any better than that. You are two Traits down on all Social tests with someone during the first scene in which you meet them, due to your innate difficulty in presenting a pleasant face to others. This differs from the Negative Trait Callow, as it represents an ineptitude at presenting yourself well rather than actual emotional isolation, although the two may be combined to create a truly heartless and distant S.O.B.",
-      "name": "Comportamento Frio (Icy Demeanor)"
+      "name": "Icy Demeanor"
     },
     {
       "bonus": 2,
@@ -2992,7 +2992,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 169,
       "descricao": "Saving money is difficult when there are so many cool things to buy, and you tend to overextend your finances by purchasing brand-name goods and a host of products you don't really need. Add two Traits to the difficulty of all tests related to the use of your Resources, and reduce by one third the value of the monthly allowance it would normally provide, to reflect the amount of money you spend.",
-      "name": "Comprador Compulsivo (Conspicuous Consumer)"
+      "name": "Conspicuous Consumer"
     },
     {
       "bonus": 2,
@@ -3000,23 +3000,23 @@
       "fonte": "Laws of the Hunt",
       "pagina": 146,
       "descricao": "You become confused when exposed to excessive stimuli (very crowded and noisy places). You receive a 2 Trait penalty when in such locations. You may spend 1 Willpower to ignore this penalty for one scene.",
-      "name": "Confuso"
+      "name": "Confused"
     },
     {
       "bonus": 4,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 118,
       "descricao": "Must purchase Eat Food. You need to eat liver/heart/kidneys in order to drink blood.",
-      "name": "Consumo Conspícuo"
+      "name": "Conspicuous Consumption"
     },
     {
       "bonus": 5,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Nosferatu",
+      "fonte": "Clanbook: Nosferatu",
       "pagina": 74,
       "descricao": "Living in close proximity to you is capable of spreading dangerous diseases (the Black Plague, anyone?).",
-      "name": "Contagioso"
+      "name": "Contagious"
     },
     {
       "bonus": 4,
@@ -3024,7 +3024,7 @@
       "fonte": "Dark Ages: Guide to the High Clans",
       "pagina": 205,
       "descricao": "You gain the True Brujah Clan flaw.",
-      "name": "Coração Atrofiado (Atrophied Heart)"
+      "name": "Atrophied Heart"
     },
     {
       "bonus": 5,
@@ -3032,7 +3032,7 @@
       "fonte": "Dark Ages: Road of The Beast",
       "pagina": 75,
       "descricao": "You have the Brujah Clan flaw — cannot be acquired by Brujahs.",
-      "name": "Coração da Besta (Hear of The Beast)"
+      "name": "Heart of the Beast"
     },
     {
       "bonus": 1,
@@ -3040,15 +3040,15 @@
       "fonte": "Laws of the Night",
       "pagina": 117,
       "descricao": "Spend 1 Willpower to cause pain or suffering to someone. You must have Humanity 4 or higher to have this Flaw.",
-      "name": "Coração Mole"
+      "name": "Soft-Hearted"
     },
     {
       "bonus": 4,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Setita",
+      "fonte": "Clanbook: Followers of Set",
       "pagina": 39,
       "descricao": "Having removed your heart with the fifth level of Serpentis, you have lost it! The heart may be in the possession of an enemy, or simply lost.",
-      "name": "Coração Perdido"
+      "name": "Lost Heart"
     },
     {
       "bonus": 1,
@@ -3056,7 +3056,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 164,
       "descricao": "You are incredibly cautious around strange people and, worse still, around crowds. You suffer a 1 Trait penalty on all Social Challenges with people you do not know, and a 2 Trait penalty on all Social Challenges addressing a crowd of any kind (+10 people). And yes, these penalties are cumulative for crowds composed of more strangers than familiar faces.",
-      "name": "Cronicamente Tímido (Chronically Shy)"
+      "name": "Chronically Shy"
     },
     {
       "bonus": 4,
@@ -3064,15 +3064,15 @@
       "fonte": "Leis da Noite: Camarilla Guide",
       "pagina": 35,
       "descricao": "You cannot cope with the fact that you need blood to stay alive. You must pass a Courage test every time you feed, or you will be unable to go through with it.",
-      "name": "Culpado (Guilt-Wracked)"
+      "name": "Guilt-Wracked"
     },
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 115,
       "descricao": "Healing 1 lethal costs 2 Blood Points. You can only heal 1 Aggravated per Week.",
-      "name": "Cura Demorada"
+      "name": "Slow Healing"
     },
     {
       "bonus": 2,
@@ -3080,7 +3080,7 @@
       "fonte": "The Shinig Host",
       "pagina": 116,
       "descricao": "You cannot resist mysteries or puzzles of any nature, and when confronted with a situation in which you might be tempted to investigate, you must make a Static Mental Challenge against a number of Traits determined by the Storyteller. You may resist the temptation while spending a Willpower Trait, but if another mystery comes along...",
-      "name": "Curiosidade (Curiosity)"
+      "name": "Curiosity"
     },
     {
       "bonus": 1,
@@ -3088,7 +3088,7 @@
       "fonte": "Leis da Noite - Dark Ages: The Long Night",
       "pagina": 72,
       "descricao": "This flaw prevents you from seeing colors; you see only white, black, and shades of gray (this is not quite how real color blindness works).",
-      "name": "Daltonico (Color Blindness)"
+      "name": "Color Blindness"
     },
     {
       "bonus": null,
@@ -3096,7 +3096,7 @@
       "fonte": "Dark Ages: Guide to the High Clans",
       "pagina": 206,
       "descricao": "You have already begun to fall into the Beast's clutches. Reduce your starting Path score by one point for each point gained from this flaw.",
-      "name": "Defenerado (Degenerate)"
+      "name": "Degenerate"
     },
     {
       "bonus": 2,
@@ -3104,55 +3104,55 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 178,
       "descricao": "Nobody puts you on guard duty unless they have no choice, and you are likely to be the first to fall asleep during planning sessions — you cannot help it, but it is practically impossible for you to stand still and pay attention to anything for any length of time. If you are ever required to perform an action that demands more than ten minutes of constant supervision, such as standing guard outside a stronghold or watching for signs of activity at a monster's lair, you must make a Willpower test against six Traits. Failure means you become distracted in some way; you do not have to abandon your post immediately, but you suffer a two-Trait penalty for the rest of the scene on all Perception-related tests due to your inattentiveness.",
-      "name": "Défice de Atenção (Attention-Deficit Disorder)"
+      "name": "Attention-Deficit Disorder"
     },
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 113,
       "descricao": "You suffer a 2 Trait penalty on Hearing tests.",
-      "name": "Deficiência Auditiva"
+      "name": "Hard of Hearing"
     },
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 114,
       "descricao": "You suffer a 2 Trait penalty on Vision tests when not wearing glasses or lenses.",
-      "name": "Deficiência Visual"
+      "name": "Bad Sight"
     },
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 114,
       "descricao": "You suffer a 2 Trait penalty on Vision tests.",
-      "name": "Deficiência Visual"
+      "name": "Bad Sight"
     },
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 114,
       "descricao": "You suffer a 1 Trait penalty on physical interactions and 2 on Social interactions.",
-      "name": "Deformidade"
+      "name": "Deformity"
     },
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Nosferatu",
+      "fonte": "Clanbook: Nosferatu",
       "pagina": 72,
       "descricao": "Due to your square teeth, you must make a Physical test to sink your teeth into someone's neck.",
-      "name": "Dentes Rombudos"
+      "name": "Blunt Fangs"
     },
     {
       "bonus": 2,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 114,
       "descricao": "Appearance 0. You suffer a 2 Trait penalty on Social tests other than Intimidation.",
-      "name": "Desfigurado"
+      "name": "Disfigured"
     },
     {
       "bonus": 5,
@@ -3160,7 +3160,7 @@
       "fonte": "Dark Ages: Guide to the Low Clans",
       "pagina": 190,
       "descricao": "Your Beast hungers for more than blood. Every time you feed, you steal one Willpower point from your victim for every three Blood Points taken. Unfortunately, your parasitic soul cannot sustain itself by any other means. You cannot recover Willpower by any other method. Worse still, you must spend one Willpower point each night after awakening or lose one permanent Willpower point. If your permanent Willpower drops to zero, you suffer the Final Death, your body decaying to ash as your parasitic soul feeds upon itself. Characters with this Flaw do not need to spend Willpower while in torpor.",
-      "name": "Devorador de Almas (Soul Eater)"
+      "name": "Soul Eater"
     },
     {
       "bonus": 2,
@@ -3173,7 +3173,7 @@
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 117,
       "descricao": "Stutter or Tourette's. You suffer a 2 Trait penalty on tests involving speech.",
       "name": "Dificuldade na Fala"
@@ -3184,7 +3184,7 @@
       "fonte": "Dark Ages: Guide to the High Clans",
       "pagina": 204,
       "descricao": "For every two Blood Points drunk, you absorb 1 - Blood from Cainites still provides you full benefit, which may lead you toward the forbidden thirst of Amaranth.",
-      "name": "Digestão Deficiente (Poor Digestion)"
+      "name": "Poor Digestion"
     },
     {
       "bonus": 2,
@@ -3192,7 +3192,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 178,
       "descricao": "Although not necessarily stupid or uneducated, you have a tremendous difficulty reading the printed word, so that even the simplest documents often take a great deal of time to work through. You are two Traits down on all tests to decipher maps or read documents of any kind, and such activities take half the time they would take another character to reflect the additional difficulty you have when working with such sources.",
-      "name": "Disléxico"
+      "name": "Dyslexic"
     },
     {
       "bonus": 3,
@@ -3200,7 +3200,7 @@
       "fonte": "Leis da Noite - Dark Ages: The Long Night",
       "pagina": 75,
       "descricao": "You forget names, appointments, etc. You must win a Static Mental Challenge with a difficulty determined by the Storyteller to remember anything beyond your own name, address, and phone number during stressful situations.",
-      "name": "Distraido (Absente-Minded)"
+      "name": "Absente-Minded"
     },
     {
       "bonus": 3,
@@ -3208,7 +3208,7 @@
       "fonte": "Dark Ages: Guide to the High Clans",
       "pagina": 205,
       "descricao": "You gain the Toreador Clan Flaw.",
-      "name": "Encantado pela Beleza (Enraptured by Beauty)"
+      "name": "Enraptured by Beauty"
     },
     {
       "bonus": null,
@@ -3216,7 +3216,7 @@
       "fonte": "Dark Ages: Libellus Sanguinis",
       "pagina": 28,
       "descricao": "Animals are very fond of you. Every night when you rise from your slumber, they are there waiting. They follow you as a group, looking to you for leadership. They gather from the surrounding areas, usually all creatures of one particular type congregating during the day around your resting place. They disperse while you sleep only to reunite with the coming of night. With 2 pts the affected animals are small like rats and mice, which may go unnoticed. With 3 pts they are larger and draw more attention, such as cats. With 4 pts you are followed by creatures that are difficult to ignore such as wolves, bears, or deer. People may use this to locate your haven or track your movements, and it makes it difficult for you to avoid detection if you remain in the same place for too long.",
-      "name": "Encantador de Animais (Pied Piper)"
+      "name": "Pied Piper"
     },
     {
       "bonus": null,
@@ -3232,7 +3232,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 164,
       "descricao": "Yes, yes, we have all heard how much you appreciate the fine arts, classical music, the finest wines, and the sublime atmosphere of a good French restaurant - the problem is that we have also heard how much abuse you heap upon those who display the slightest knowledge or enjoyment of pop culture. In short, it is obvious to everyone that you are a cultural snob of the worst kind and must do your best to roleplay this unpleasant distaste for all things \"popular\" as accurately as possible. Furthermore, when it comes to dealing with people who are not equally snobbish about such things (read: almost everyone), you are two Traits down on all Social Challenges.",
-      "name": "Esnobe (Cultural Snob)"
+      "name": "Cultural Snob"
     },
     {
       "bonus": null,
@@ -3240,12 +3240,12 @@
       "fonte": "Dark Ages: Guide to the Low Clans",
       "pagina": 189,
       "descricao": "You are too strange or unsettling to forget. You may have distinctive features or a mystical aura, but the effect is the same: anyone attempting to locate you through Investigation receives 1 bonus Trait per point invested in this Flaw. Fortunately, Creepy does not interfere with active Stealth attempts. However, you always stand out in a crowd and cannot hide in anonymity. Even characters with Obfuscate must contend with your attention-worthy appearance, unless they spend extra Traits when activating Obfuscate to temporarily cancel the Creepy penalty on a one-for-one basis.",
-      "name": "Esquisito (Uncanny)"
+      "name": "Uncanny"
     },
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 113,
       "descricao": "You may only take 2 steps to move with an action.",
       "name": "Estatura Baixa"
@@ -3253,18 +3253,18 @@
     {
       "bonus": 2,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Malkav",
+      "fonte": "Clanbook: Malkavian",
       "pagina": 66,
       "descricao": "You lose 1 extra Blood Point when you awaken. You suffer a 1 Trait penalty on social challenges due to the stigmata.",
-      "name": "Estigmata"
+      "name": "Stigmata"
     },
     {
       "bonus": 4,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Malkav",
+      "fonte": "Clanbook: Malkavian",
       "pagina": 66,
       "descricao": "You lose 1 extra Blood Point when you awaken. You suffer a 2 Trait penalty on social challenges due to the stigmata. You suffer a 1 Trait penalty on challenges involving vision due to constantly weeping blood.",
-      "name": "Estigmata"
+      "name": "Stigmata"
     },
     {
       "bonus": 2,
@@ -3272,7 +3272,7 @@
       "fonte": "Leis da Noite: Victorian Age",
       "pagina": 132,
       "descricao": "You have a highly sensitive palate for vitae, so much so that you scoff at the idea of absorbing vitae from mortals you consider unsuitable in all but the most dire of circumstances. Exactly what it is about this blood that you find so disagreeable may vary — perhaps the poor health of the lower classes produces a horrible taste, or perhaps you despise the cloying, sickly flavor of the pampered aristocracy. Choose one type of vitae that you find unpleasant for the purposes of this Flaw (subject to Storyteller approval, of course). This Flaw cannot be combined with the Prey Exclusion Flaw and is more than merely a matter of distaste. To keep down any blood from a source you consider unsuitable, you must make a Physical challenge against a difficulty of eight Traits (retested with Survival) for each Blood Trait of the offending type you wish to retain. Anything else is immediately and messily regurgitated. Ventrue cannot take this Flaw.",
-      "name": "Estomago Frágil (Frail Stomach)"
+      "name": "Frail Stomach"
     },
     {
       "bonus": 2,
@@ -3280,7 +3280,7 @@
       "fonte": "Dark Ages: Guide to the Low Clans",
       "pagina": 187,
       "descricao": "In life, you were a mage, capable of reshaping creation with the force of your will. That power is lost to you forever, replaced by the curse of Caine. Despite this, you have not severed all ties with your former Society. If this trait is a Flaw, your former associates view you as a liability. They may not actively hunt you (unless you take the Enemy Flaw), but they regard you as a monster and a traitor and will treat you accordingly. This trait is extremely rare outside Clan Tremere.",
-      "name": "Ex-Mago (Former Magus)"
+      "name": "Former Magus"
     },
     {
       "bonus": 2,
@@ -3288,7 +3288,7 @@
       "fonte": "Dark Ages: Road of Sins",
       "pagina": 74,
       "descricao": "You are, in a word, jaded. You have seen and done everything, at least twice — probably more than that, in whatever pleases you most — and virtually nothing makes you cry out in orgasmic satisfaction anymore. Needless to say, getting an impetuous or violent reaction out of you requires more than it does for most, and your Beast, unfortunately, is just as bored with the simpler and more common perversions as you are. Your inner monster grows restless frequently and is difficult to control, and you have begun searching for some pastime exotic enough to keep your Beast entertained. Unfortunately, you have not yet been able to find such a pastime. And fortunately, you have started to enjoy the search a little. Because your Beast is so restless and irritable, you suffer a 2 Trait penalty on all tests to resist Frenzy and to control it (Instinct) once it has already begun.",
-      "name": "Exausto (Faded)"
+      "name": "Faded"
     },
     {
       "bonus": 2,
@@ -3296,15 +3296,15 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 179,
       "descricao": "Perhaps you are a talented and somewhat self-assured individual, or perhaps you are simply a show-off with a wholly unfounded opinion of your own merit, but either way you tend to underestimate your opposition while overestimating your own capabilities. Once per session the Storyteller may secretly add +3 Difficulty Traits to a test to reflect how your inflated opinion of yourself led you to draw the wrong conclusion about your situation. You also tend to be reckless.",
-      "name": "Excesso de confiança (Overconfident)"
+      "name": "Overconfident"
     },
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 117,
       "descricao": "You do not feed from a specific type of mortal. If you do feed from them, you must make a Conscience/Conviction test Difficulty 4 or enter Frenzy. If you witness someone feeding from your Prey Exclusion, you must make a Self-Control/Instinct test Difficulty 4 against the target. Forbidden for Ventrue.",
-      "name": "Exclusão a Presa"
+      "name": "Prey Exclusion"
     },
     {
       "bonus": 2,
@@ -3320,7 +3320,7 @@
       "fonte": "Dark Ages: Road of The Beast",
       "pagina": 75,
       "descricao": "You have the Gangrel Clan Flaw — cannot be taken by Gangrel.",
-      "name": "Face da Besta (Face of the Beast)"
+      "name": "Face of the Beast"
     },
     {
       "bonus": 3,
@@ -3341,7 +3341,7 @@
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Nosferatu",
+      "fonte": "Clanbook: Nosferatu",
       "pagina": 72,
       "descricao": "Lose all ties in stealth tests due to your foul odor.",
       "name": "Fedor"
@@ -3352,12 +3352,12 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 175,
       "descricao": "At some point in the past you suffered a serious injury, and it continues to hurt to this day - you suffer a 1 Trait penalty on all Athletics tests due to the discomfort, and must roleplay dealing with this old war wound accordingly.",
-      "name": "Ferimento Antigo (Old Injury)"
+      "name": "Old Injury"
     },
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 115,
       "descricao": "You wake every night at the Vitality level of Wounded (lethal), though you may be healed normally.",
       "name": "Ferimento Permanente"
@@ -3373,7 +3373,7 @@
     {
       "bonus": 2,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 117,
       "descricao": "You have a fear of something that, when confronted with it, requires a Courage test Difficulty 3 (at minimum, depending on the Storyteller) or you enter Rotschreck.",
       "name": "Fobia"
@@ -3384,12 +3384,12 @@
       "fonte": "The Shinig Host",
       "pagina": 103,
       "descricao": "There is always something wrong with everything you create. All items crafted by you have at least one Negative Trait (Heavy, Noisy, Fragile), and even if you attempt to correct this flaw, another will appear to take its place. Your items may also have more than one flaw, depending on the haste of the maker. You also receive a permanent negative Trait of Repugnant or Callous due to your abrasive attitudes.",
-      "name": "Frustração Sem #@%$#*$@ Fim (Endless #@%$#*$@ Frustration)"
+      "name": "Endless #@%$#*$@ Frustration"
     },
     {
       "bonus": 5,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 121,
       "descricao": "You have a terrible doom. Whenever the Storyteller deems it appropriate, they may require you to spend 1 Willpower or you will suffer a 1 Trait penalty for the entire game due to a vision of imminent suffering and death.",
       "name": "Futuro Negro"
@@ -3400,7 +3400,7 @@
       "fonte": "Leis da Noite: Victorian Age",
       "pagina": 133,
       "descricao": "The opposite of Downey, you tend to take everything and everyone at face value, which can be a very dangerous weak point for the Undead. For every two Traits dedicated to this flaw, up to six, you are left with one fewer Trait on all Social Challenges involving deceit and trickery. You had better hope that no one of suitably predatory nature knows about this little flaw, dove.",
-      "name": "Gulpudo (Gulpy)"
+      "name": "Gulpy"
     },
     {
       "bonus": 2,
@@ -3408,12 +3408,12 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 170,
       "descricao": "Telling lies or even distorting the truth is contrary to your nature, so much so that you will not do it unless it is necessary to save human lives. Naturally, this lack of practice tends to make you a poor deceiver when you attempt to distort the truth, and you are at 2 Traits down on any Social Challenge involving deception.",
-      "name": "Honesto ao Extremo (Honest to a Fault)"
+      "name": "Honest to a Fault"
     },
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 119,
       "descricao": "RP. You have a double who runs amok out there.",
       "name": "Identidade Trocada"
@@ -3424,12 +3424,12 @@
       "fonte": "Laws of the Hunt: Players Guide",
       "pagina": 86,
       "descricao": "You are elderly (70 years old), your Physical Traits cap is reduced by 1. You may take this flaw more than once, for every additional 10 years of age.",
-      "name": "Idoso (Aging)"
+      "name": "Aging"
     },
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 121,
       "descricao": "You have no Reflexes. Lasombras cannot purchase this Flaw.",
       "name": "Imagem sem Reflexo"
@@ -3437,7 +3437,7 @@
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 121,
       "descricao": "You can only cross running water when you are at least 15 meters above it. Pipes do not count as running water.",
       "name": "Incapaz de Atravessar Agua Corrente"
@@ -3448,12 +3448,12 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 169,
       "descricao": "You cannot help it — you naturally take people at face value, whether due to an optimistic view of people or simply a limited amount of contact with people whose motivations are not as noble as your own. You not only take them at their word, but also do reckless things, such as accepting a ride home from recent acquaintances or walking through bad areas at night, simply because you truly do not believe anything bad can happen. You have 2 Penalty Traits on all attempts to detect a lie or judge the character of someone you met during that session.",
-      "name": "Incauto (Trusting)"
+      "name": "Trusting"
     },
     {
       "bonus": 5,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Nosferatu",
+      "fonte": "Clanbook: Nosferatu",
       "pagina": 74,
       "descricao": "You cannot speak clearly — perhaps your tongue rotted and fell out during the Embrace. You require the Linguistics Ability to communicate in sign language.",
       "name": "Incoerente"
@@ -3461,26 +3461,26 @@
     {
       "bonus": 5,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Brujah",
+      "fonte": "Clanbook: Brujah",
       "pagina": 69,
       "descricao": "You lose ties when making tests to resist Frenzy.",
-      "name": "Incontrolável (Uncontrollable)"
+      "name": "Uncontrollable"
     },
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Malkav",
+      "fonte": "Clanbook: Malkavian",
       "pagina": 66,
       "descricao": "Your bite transmits the Clan's madness to mortals.",
-      "name": "Infecsioso"
+      "name": "Infectious"
     },
     {
       "bonus": 2,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Nosferatu",
+      "fonte": "Clanbook: Nosferatu",
       "pagina": 73,
       "descricao": "You suffer 1 Penalty Trait on Self-Control/Instinct tests due to itching. At the start of each game session — after the hunting roll — you must make 4 Simple Tests; for each failure you lose 1 Blood Point due to the parasites.",
-      "name": "Infestação Parasitária (2)"
+      "name": "2"
     },
     {
       "bonus": 4,
@@ -3488,7 +3488,7 @@
       "fonte": "Dark Ages: Guide to the Low Clans",
       "pagina": 185,
       "descricao": "Fungi and Maggots. You suffer 1 Penalty Trait on Self-Control/Instinct tests due to itching. At the start of each game session — after the hunting roll — you must make 4 Simple Tests; for each failure you lose 1 Blood Point due to the parasites.",
-      "name": "Infestação Parasitária (4)"
+      "name": "4"
     },
     {
       "bonus": 7,
@@ -3496,12 +3496,12 @@
       "fonte": "Dark Ages: Guide to the Low Clans",
       "pagina": 185,
       "descricao": "Fungi, Maggots, and other flying insects. You suffer 1 Penalty Trait on Self-Control/Instinct tests due to itching. At the start of each game session — after the hunting roll — you must make 4 Simple Tests; for each failure you lose 1 Blood Point due to the parasites. You also receive 1 Penalty Trait on Stealth and on Social Challenges that are not Intimidation.",
-      "name": "Infestação Parasitária (7)"
+      "name": "7"
     },
     {
       "bonus": null,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 119,
       "descricao": "You have one enemy (or a powerful organization) who opposes you.",
       "name": "Inimigo"
@@ -3520,7 +3520,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 166,
       "descricao": "Relating to people in an emotional context is a strange and uncomfortable experience for you, and your typical method of avoiding that discomfort — being very blunt about everything — does not usually help smooth things over either. More often than not you end up apologizing without knowing exactly what you did to offend someone, as you have difficulty understanding how other people are feeling. You have 1 Penalty Trait on all Social Challenges with someone under the influence of a strong emotion of any kind, and 2 Penalty Traits on all uses of the Empathy Ability (these penalties are cumulative).",
-      "name": "Insensível (Insensitive)"
+      "name": "Insensitive"
     },
     {
       "bonus": 1,
@@ -3528,7 +3528,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 163,
       "descricao": "You see nothing wrong with getting what you want through social pressure or physical force when it suits you. Beyond these charming characteristics, you do not tend to behave well when forced to follow a more forceful personality and tend to be a troublemaker when you are not in command. You have a 1 Trait penalty on all social challenges when you are not the authority figure, due to your irritation.",
-      "name": "Intimidador (Bully)"
+      "name": "Bully"
     },
     {
       "bonus": 2,
@@ -3536,7 +3536,7 @@
       "fonte": "Leis da Noite: Camarilla Guide",
       "pagina": 36,
       "descricao": "You begin blood bonded to another player.",
-      "name": "Laçado"
+      "name": "Bound"
     },
     {
       "bonus": 2,
@@ -3544,7 +3544,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 170,
       "descricao": "There are many words for people like you, but regardless of how you want to look at things, even you admit that you rarely hold out long when it comes to resisting the sensual charms of the gender you favor. All attempts to seduce you have two additional Traits, and in general you make very poor decisions when it comes to people you find physically attractive, which should be roleplayed according to the Mind's Eye Theatre rules.",
-      "name": "Lascivo (Lustful)"
+      "name": "Lustful"
     },
     {
       "bonus": null,
@@ -3560,15 +3560,15 @@
       "fonte": "Dark Ages: Guide to the High Clans",
       "pagina": 208,
       "descricao": "You gain the Tzimisce Clan Flaw.",
-      "name": "Ligado com a Terra (Bound to the Earth)"
+      "name": "Bound to the Earth"
     },
     {
       "bonus": 2,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Setita",
+      "fonte": "Clanbook: Followers of Set",
       "pagina": 39,
       "descricao": "Your tongue is forked and whip-like, resembling that of a snake. You speak with a distinctive hissing sound, like thisss, Ssssetite. This tongue deals no aggravated damage and does not drain blood.",
-      "name": "Lingua Bifurcada"
+      "name": "Forked Tongue"
     },
     {
       "bonus": 1,
@@ -3576,15 +3576,15 @@
       "fonte": "Laws of the Hunt: Players Guide",
       "pagina": 100,
       "descricao": "You speak unpleasant truths — or unpleasant things that are going to happen. You may deny this at the cost of 1 Willpower.",
-      "name": "Lingua de Bardo (Bard's Tongue)"
+      "name": "Bard's Tongue"
     },
     {
       "bonus": 2,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 117,
       "descricao": "You suffer a 1 Trait penalty on Self-Control/Instinct tests during the Crescent, Waning, or Half Moon. During the Full Moon the penalty is 2 Traits.",
-      "name": "Lunático (MoonMad)"
+      "name": "MoonMad"
     },
     {
       "bonus": 4,
@@ -3600,7 +3600,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 153,
       "descricao": "You have an obvious tell when you attempt to lie — perhaps you stutter, change the tone of your voice, or simply lose your composure and begin to spiral worse and worse. Regardless, you must roleplay this difficulty whenever possible, and you have a 2 Trait penalty on all tests involving deception in a social situation.",
-      "name": "Mal Mentiroso (Bad Liar)"
+      "name": "Bad Liar"
     },
     {
       "bonus": 2,
@@ -3608,7 +3608,7 @@
       "fonte": "Dirty Secrets of the Black Hand",
       "pagina": 81,
       "descricao": "Either you practiced infernal diablerie and then attempted to sever the ties, or you have enraged infernal diabolists — whether Baali, Sabbat members, or mortal cultists. Whatever the case, you are the target of a demon's malevolent efforts. This demon constantly attempts to cause every manner of trouble for you, but will rarely be powerful enough to confront you directly.",
-      "name": "Maldição Demoniaca (Demon Plague)"
+      "name": "Demon Plague"
     },
     {
       "bonus": 5,
@@ -3616,7 +3616,7 @@
       "fonte": "Dark Ages: Guide to the High Clans",
       "pagina": 209,
       "descricao": "You radiate an aura of spiritual decay and death. Insects die when they fly too close to you, while small plants wither and die within a few centimeters of your presence. Even large trees deteriorate at the spot where you touch them. Large animals, including humans, suffer one level of lethal damage for every hour they spend near you. Such damage shows no external sign and manifests as an inexplicable weakness. You suffer a 2 Trait penalty on all Social tests that do not involve intimidation. Unlike the Freezing Touch Flaw, you actually leave a trail of withered grass and dried leaves as you walk.",
-      "name": "Mão de Hades (Hand of Hades)"
+      "name": "Hand of Hades"
     },
     {
       "bonus": 3,
@@ -3624,7 +3624,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 176,
       "descricao": "When you are under pressure, your hands have a tendency to shake uncontrollably, making it difficult to perform actions that require any kind of manual dexterity (such as reloading a revolver or picking a lock). You may be as courageous as any other hunter, but you still suffer from this dangerous quirk and suffer a penalty of one Trait on all tests involving fine coordination. You must make a Physical Challenge against a difficulty of five Traits (retest with Firearms) to reload a revolver or shotgun during combat; a failure means your turn was wasted and you must attempt to reload again in another round.",
-      "name": "Mãos Trêmulas (Shaky Hands)"
+      "name": "Shaky Hands"
     },
     {
       "bonus": 2,
@@ -3632,7 +3632,7 @@
       "fonte": "Laws of the Wild",
       "pagina": 152,
       "descricao": "Herbivores flee from you, and predators consider you a threat. You cannot have the Animal Empathy Ability.",
-      "name": "Marca do Predador (Mark of Predator)"
+      "name": "Mark of Predator"
     },
     {
       "bonus": 2,
@@ -3640,7 +3640,7 @@
       "fonte": "Dark Ages: Guide to the High Clans",
       "pagina": 205,
       "descricao": "The individual with this Flaw loses -2 Traits on all interactions involving artists or art critics, and on any attempt at Intimidation of any kind.",
-      "name": "Mau gosto (Poor Taste)"
+      "name": "Poor Taste"
     },
     {
       "bonus": 2,
@@ -3648,15 +3648,15 @@
       "fonte": "Lore of Clans",
       "pagina": 87,
       "descricao": "Gangrel: You can only summon, speak with, and command one specific type of animal — crows, rats, and so forth — with Animalism. Your Storyteller is the best judge of which types of animals are appropriate for this Flaw, but the choice should be quite limiting. Other animals do not respond in any way to your use of Animalism.",
-      "name": "Membro de Matilha (Member of the Pack)"
+      "name": "Member of the Pack"
     },
     {
       "bonus": 4,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 119,
       "descricao": "RP. You are a Deserter.",
-      "name": "Membro de Seita sob Observação"
+      "name": "Sect Member Under Observation"
     },
     {
       "bonus": 2,
@@ -3664,7 +3664,7 @@
       "fonte": "The Shinig Host",
       "pagina": 116,
       "descricao": "You possess a chaotic and wild mind, and have difficulty keeping your focus on one subject for very long. You suffer a penalty of 1 Trait on any successive tests in a prolonged confrontation (not including combat, but including actions such as craft) as a result of your inability to keep your mind focused.",
-      "name": "Mente Selvagem (Wyld Mind)"
+      "name": "Wyld Mind"
     },
     {
       "bonus": 2,
@@ -3672,12 +3672,12 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 169,
       "descricao": "Whether you are good at it or not, you tend to inject your own special blend of untruth into what you say, ranging from small lies to falsehoods that can potentially harm others (especially when it comes to fellow hunters). At this point you may even believe the lies you invent, since you tell them so frequently. Regardless, you must roleplay this constant level of fabrication as best you can; furthermore, to tell the complete truth about a situation, you must spend a Willpower Trait or win a Willpower Challenge against four Traits. This is also the case when you must tell a truth that openly exposes a previous lie.",
-      "name": "Mentiroso Compulsivo (Compulsive Liar)"
+      "name": "Compulsive Liar"
     },
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 115,
       "descricao": "Appearance 0, you cannot initiate social tests other than Intimidation. Nosferatu and Samedis cannot have this Flaw.",
       "name": "Monstruoso"
@@ -3701,7 +3701,7 @@
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 114,
       "descricao": "Make a simple test after hunting; if you lose, the mortal contracts a serious disease.",
       "name": "Mordida Infecciosa"
@@ -3717,7 +3717,7 @@
     {
       "bonus": 4,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 115,
       "descricao": "Mute. Must have Linguistics to communicate in sign language.",
       "name": "Mudo"
@@ -3728,7 +3728,7 @@
       "fonte": "State of Grace",
       "pagina": 0,
       "descricao": "The vampire who possesses this Flaw is barred from entering any private location, mortal residence, or communal dwelling to which they have not explicitly received an invitation from one of the residents. In places with firm traditions of hospitality, the vampire must be invited according to all the formal customs of the location. In less formal places, the invitation must be clear and explicit. The invitation need not come from the owner of the home, but the vampire cannot circumvent this Flaw by receiving an invitation from just anyone who does not have an intimate connection to the dwelling. A common Flaw for accepted members among the Ashirra.",
-      "name": "Não Convidado"
+      "name": "Uninvited"
     },
     {
       "bonus": 1,
@@ -3736,7 +3736,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 167,
       "descricao": "Bringing up subjects that you know others would rather avoid is extremely uncomfortable for you, and you often find yourself giving in and accepting compromises you will later regret. It is not that you are weak — it is simply that you hate being seen as a source of unhappiness to those you care about, so much so that you will do almost anything to avoid it if possible. Whenever you are the bearer of bad news or must tell a friend or acquaintance something unpleasant, you are at a 2 Trait penalty on all Social Challenges for the rest of the scene, as a result of your hesitation and distress.",
-      "name": "Não-confrontacional (Nonconfrontational)"
+      "name": "Nonconfrontational"
     },
     {
       "bonus": 4,
@@ -3744,7 +3744,7 @@
       "fonte": "Nosferatu Clan Book",
       "pagina": 73,
       "descricao": "You enjoy the company of corpses. RP.",
-      "name": "Necrófilo"
+      "name": "Necrophile"
     },
     {
       "bonus": 2,
@@ -3752,7 +3752,7 @@
       "fonte": "Dark Ages: Road of The Beast",
       "pagina": 75,
       "descricao": "During conversations, you cannot help but reframe everything in terms of the hunt. You do not speak of rivals or enemies — you speak of prey. You do not speak of nations and circles — you speak of territories and packs. This Flaw may seem peculiar at first, but it quickly becomes irritating. This Flaw must be roleplayed, and the Storyteller should apply penalties to your social tests (generally a 1 Trait penalty, but the penalty may be greater depending on circumstances) whenever they see fit.\nAlternatively, you may speak little, but act as though you are always on the hunt. You shift position rapidly, crane your neck to listen and then leap suddenly onto a table, move slowly and furtively through a room, bare your teeth when angered, and so on.",
-      "name": "Obcecado pela Caçada (Obcessed with the Hunt)"
+      "name": "Obcessed with the Hunt"
     },
     {
       "bonus": 2,
@@ -3768,7 +3768,7 @@
       "fonte": "Leis da Noite - Dark Ages: Faith and Fire",
       "pagina": 138,
       "descricao": "You hate one thing — be it a type of people, a Clan, or an ideal — and will do everything in your power to harm it.",
-      "name": "Ódio (Hatred)"
+      "name": "Hatred"
     },
     {
       "bonus": 1,
@@ -3776,7 +3776,7 @@
       "fonte": "The Shining Host",
       "pagina": 108,
       "descricao": "Your eyes are a startling color, perhaps blazing crimson or the color of a full moon. Whatever they are, they are clearly not normal. This makes you easy to track by anyone who knows your... distinction. You must describe the unusual color of your eyes to everyone you meet.",
-      "name": "Olhos de Changeling (Changeling’s Eyes)"
+      "name": "Changeling’s Eyes"
     },
     {
       "bonus": 2,
@@ -3808,20 +3808,20 @@
       "fonte": "Laws of the Wild",
       "pagina": 149,
       "descricao": "You have had a quirk since birth. You gain one of the following Negative Traits (which cannot be bought off): Callous, Forgetful, Impatient, Submissive, Gullible, Condescending, Naive, Ignorant, Violent, Tactless.",
-      "name": "Peculiaridade (Quirk)"
+      "name": "Quirk"
     },
     {
       "bonus": 5,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 115,
       "descricao": "When you receive wounds, you gain the Negative Trait Repugnant - it goes away when you heal or sleep.",
-      "name": "Pele Cadavérica"
+      "name": "Cadaverous Skin"
     },
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Nosferatu",
+      "fonte": "Clanbook: Nosferatu",
       "pagina": 73,
       "descricao": "Gain the Negative Physical Trait Crippled x3. You automatically lose tests that require the use of both legs (such as Dancing, for example).",
       "name": "Perna Atrofiada"
@@ -3829,7 +3829,7 @@
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 117,
       "descricao": "When you have nightmares (at the Storyteller's discretion), you suffer a 1 Trait penalty on all tests.",
       "name": "Pesadelos"
@@ -3840,7 +3840,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 171,
       "descricao": "No matter how hard you try, you always seem to fall in with the wrong crowd. Your \"friends\" tend to be opportunists, petty criminals, and other unsavory types, and suffice to say your romantic history is probably long, tragic, and highly repetitive. You suffer a 2 Trait penalty on all Challenges related to Conscience, Empathy, or Intuition in social situations, due to your difficulty in judging people correctly, and at the Storyteller's discretion you may occasionally face difficulties with Backgrounds such as Allies or Contacts if they involve your questionable associates.",
-      "name": "Péssimo Juiz de Caráter (Poor Judge of Character)"
+      "name": "Poor Judge of Character"
     },
     {
       "bonus": 1,
@@ -3853,10 +3853,10 @@
     {
       "bonus": 4,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 115,
       "descricao": "You spend 1 additional Blood Point when waking. Anyone who drinks from your Blood must make a Simple test; if they lose, they contract your Disease.",
-      "name": "Portador de Doença Contagiosa"
+      "name": "Disease Carrier"
     },
     {
       "bonus": 3,
@@ -3864,15 +3864,15 @@
       "fonte": "Laws of the Wild",
       "pagina": 142,
       "descricao": "You are a passionate creature, always on an emotional rollercoaster of life's joys, rages, and sorrows. You lose Ties in any attempt to influence you emotionally - unless you manage to Overbid against the Challenger. You may spend Willpower to maintain emotional control, but even so the Traits of the challenge are lost.",
-      "name": "Pouco Auto-Controle (Low Sef Control)"
+      "name": "Low Sef Control"
     },
     {
       "bonus": 2,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Brujah",
+      "fonte": "Clanbook: Brujah",
       "pagina": 69,
       "descricao": "You lose all Ties in Social Challenges with mortals that do not involve Intimidation.",
-      "name": "Predador Óbvio (Obvious Predator)"
+      "name": "Obvious Predator"
     },
     {
       "bonus": 3,
@@ -3880,7 +3880,7 @@
       "fonte": "Laws of the Night: Sabbat Guide",
       "pagina": 72,
       "descricao": "You avoid anything that requires effort on your part. For any actions that require preparation, there is a good chance you will not have prepared adequately. You lose one Trait for any spontaneous actions (including combat, unless it is part of a planned offensive).",
-      "name": "Preguiçoso"
+      "name": "Lazy"
     },
     {
       "bonus": 1,
@@ -3901,10 +3901,10 @@
     {
       "bonus": 2,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 121,
       "descricao": "You suffer a 2 Trait penalty on Social tests with Mortals.",
-      "name": "Presença Sinistra"
+      "name": "Eerie Presence"
     },
     {
       "bonus": null,
@@ -3912,7 +3912,7 @@
       "fonte": "Leis da Noite - Dark Ages: Faith and Fire",
       "pagina": 139,
       "descricao": "You maintained your faith after the Embrace and suffer because your beliefs forbid you from drinking the blood necessary to survive. For 2 Points you voluntarily restrict your feeding to animals or blood that has been drained through a ritual (very common among Jews and Muslims). With 4 Points you refuse to feed unless you are starving (3 Blood Points), and even then you may fall victim to depression or self-loathing for several nights after the forbidden act. Most of these vampires follow a path of Heaven.",
-      "name": "Proibição Religiosa"
+      "name": "Religious Prohibition"
     },
     {
       "bonus": 3,
@@ -3925,10 +3925,10 @@
     {
       "bonus": 4,
       "bonus_obs": null,
-      "fonte": "Livro do Clã Nosferatu",
+      "fonte": "Clanbook: Nosferatu",
       "pagina": 74,
       "descricao": "You continue to rot. Whenever you receive damage, make a Simple Test; on a failure the damage becomes aggravated due to accelerated putrefaction.",
-      "name": "Putrescência"
+      "name": "Putrescence"
     },
     {
       "bonus": 2,
@@ -3936,7 +3936,7 @@
       "fonte": "Lore of Clans",
       "pagina": 87,
       "descricao": "Gangrel: Whenever you are cornered or physically restrained (such as by a cage or handcuffs), you suffer from acute anxiety. The difficulties of any test made under such circumstances are increased by 2 Traits.",
-      "name": "Rato em uma Gaiola (Rat in a Cage)"
+      "name": "Rat in a Cage"
     },
     {
       "bonus": 2,
@@ -3944,12 +3944,12 @@
       "fonte": "Dark Ages: Road of Humanity",
       "pagina": 74,
       "descricao": "Whenever a Cainite with this Flaw spends more than one Blood Point, he immediately gains the Negative Traits Bestial x2 in addition to any other Negative Traits he may already possess, and has 2 fewer Traits in all Social Traits (except Intimidation, which gains 1 Bonus Trait). This effect lasts five minutes/rounds minus the character's Humanity level, to a minimum of one minute/round, but during that time it must be represented by makeup or description if possible, and certainly roleplayed as powerfully as possible. Spending multiple Blood Traits is cumulative with the duration of this effect, although the Negative Traits and other penalties are not cumulative.",
-      "name": "Reflexo da Besta (Beast's Reflexction)"
+      "name": "Beast's Reflexction"
     },
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 121,
       "descricao": "When confronted with Garlic, spend 1 Willpower to ignore it for the scene, or else retreat 3 steps.",
       "name": "Repulsa a Alho"
@@ -3957,7 +3957,7 @@
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 121,
       "descricao": "When confronted with Crosses, spend 1 Willpower to ignore it for the scene. When struck by Crosses the damage becomes Aggravated and it is not possible to reduce this damage with Fortitude.",
       "name": "Repulsa a Cruzes"
@@ -3965,7 +3965,7 @@
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 119,
       "descricao": "RP",
       "name": "Ressentimento do Senhor"
@@ -3973,7 +3973,7 @@
     {
       "bonus": 4,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 115,
       "descricao": "All Blood Point costs are doubled. Cannot create a blood bond. To Embrace someone, the victim must win a Simple Test.",
       "name": "Sangue Fraco"
@@ -3992,7 +3992,7 @@
       "fonte": "Dark Ages: Guide to the High Clans",
       "pagina": 209,
       "descricao": "You are no longer able to drink mortal blood to sustain yourself and must feed on the vitae of other vampires. The sight, smell, or taste of human blood does not cause you Frenzy, as you no longer see it as sustenance.",
-      "name": "Sede de Caim (Thirst of Caine)"
+      "name": "Thirst of Caine"
     },
     {
       "bonus": 2,
@@ -4000,7 +4000,7 @@
       "fonte": "Leis da Noite: Camarilla Guide",
       "pagina": 35,
       "descricao": "The sight of innocence awakens your beast. You must make a Self-Control Test to avoid entering Frenzy.",
-      "name": "Sede de Inocência"
+      "name": "Thirst for Innocence"
     },
     {
       "bonus": 7,
@@ -4021,7 +4021,7 @@
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 119,
       "descricao": "You have a Dark Secret; when it is revealed you gain 1 appropriate Negative Trait or lose 1 Status.",
       "name": "Segredo Sombrio"
@@ -4040,7 +4040,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 177,
       "descricao": "Good evening, Zoro! Maps, compasses, even GPS technology and a personal guide - none of it is effective, you still get lost. You have trouble finding your way in all but the most familiar environments, and have 2 fewer Traits on any test to navigate or attempt to find your way to a location. This does not include tracking a target, though it can make for an interesting trip home, especially if it took you through some bad parts of town...",
-      "name": "Sem Senso de Direção (No Sense of Direction)"
+      "name": "No Sense of Direction"
     },
     {
       "bonus": 1,
@@ -4056,7 +4056,7 @@
       "fonte": "Dark Ages: Guide to the High Clans",
       "pagina": 203,
       "descricao": "You display the semblance of death upon your face and pallor, revealing your true condition to all who see you. You cannot simulate a flush of color as other Cainites can, and your condition increases the difficulty of social challenges that are not intimidation-based by +1 Trait.",
-      "name": "Semblante da Morte (Visage of Death)"
+      "name": "Visage of Death"
     },
     {
       "bonus": 2,
@@ -4069,7 +4069,7 @@
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 119,
       "descricao": "RP. People treat you as if you had 1 less Status.",
       "name": "Senhor Indigno"
@@ -4077,7 +4077,7 @@
     {
       "bonus": 5,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 122,
       "descricao": "Sunlight inflicts double damage on you. Moonlight inflicts 1 lethal damage per turn.",
       "name": "Sensibilidade a Luz"
@@ -4088,7 +4088,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 165,
       "descricao": "You have a very active sense of humor, but it is not exactly that of a healthy person - in fact, you tend to find amusing what other people consider disturbing or utterly disgusting, and therefore have a dreadful tendency to make inappropriate jokes at the worst possible moments. Whenever you encounter a bloody scene or an uncomfortable moment (such as someone consoling a crying victim, someone recounting a rape, etc.), you suffer a 2 Trait Penalty on Social tests due to your habit of belittling the situation or the people involved in it. Needless to say, you should roleplay this behavior to the best of your ability, as long as you remember to keep all jokes in character.",
-      "name": "Senso de Humor Macabro (Ghoulish Sense of Humor)"
+      "name": "Ghoulish Sense of Humor"
     },
     {
       "bonus": 1,
@@ -4096,12 +4096,12 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 168,
       "descricao": "A bull in the social china shop, you tend to attract many unfortunate outbursts or icy stares in group situations because you miss the small social cues that other people naturally pick up on regarding taboo topics or sensitive personal matters. This is different from the Tactless Negative Trait because it reflects a broader range of inappropriate behaviors beyond merely verbal ones, from overstaying your welcome at parties to steamrolling over a person who is obviously emotionally compromised.",
-      "name": "Socialmente Óbvio (Socially Oblivious)"
+      "name": "Socially Oblivious"
     },
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 117,
       "descricao": "Waking during the day requires a static Mental Challenge Difficulty 10, even if in danger.",
       "name": "Sono Pesado"
@@ -4117,7 +4117,7 @@
     {
       "bonus": 4,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 115,
       "descricao": "Deaf. Generally immune to Domination. You suffer a 3 Trait Penalty on Perception and Alertness tests - when applicable. Must have Linguistics to communicate in sign language.",
       "name": "Surdez"
@@ -4136,7 +4136,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 168,
       "descricao": "All of your beliefs have your full and unwavering support, and anyone who attempts to challenge them will be the target of as much grief as you can muster. Whenever someone questions one of your beliefs, you are two Traits down on all Social Challenges involving that character for the rest of the scene, as you naturally close yourself off to them (not to mention the embarrassment if they are actually right).",
-      "name": "Teimoso (Stubborn)"
+      "name": "Stubborn"
     },
     {
       "bonus": 1,
@@ -4144,12 +4144,12 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 178,
       "descricao": "Roleplay this inability to properly recall such details. Should it become essential to remember such information, you must make a Mental Challenge against five Traits to recall what you are looking for; failure means you simply cannot manage it for the time being. (After all, you meet so many people in a day.)",
-      "name": "Terível com Nomes (Terrible With Names)"
+      "name": "Terrible With Names"
     },
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 117,
       "descricao": "You suffer a 2 Trait Penalty on Social interactions when with 3 or more people. This increases to a 3 Trait Penalty for groups of 10 or more people.",
       "name": "Timidez"
@@ -4157,7 +4157,7 @@
     {
       "bonus": 1,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 121,
       "descricao": "You are very cold to the touch, and plants wither and die in your presence.",
       "name": "Toque do Congaleamento"
@@ -4168,7 +4168,7 @@
       "fonte": "Laws of the Hunt",
       "pagina": 143,
       "descricao": "You only have one arm. You have no penalties for \"Off-Hand\", but receive a 2 Trait penalty on tests that involve the use of both hands.",
-      "name": "Um Braço"
+      "name": "One Arm"
     },
     {
       "bonus": 1,
@@ -4176,7 +4176,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 165,
       "descricao": "You cannot help it - whenever there is a possible wager on the table, you simply must take it. This is bad news because although you likely have vast experience with gambling, you are also addicted to it, meaning you tend to lose far more than you win because you cannot walk away from the table when you are ahead. Beyond the obvious impact this can have on your Resources, you must also make a Willpower test against four Traits to pass up a chance to gamble. Once you have started, you must spend a Willpower Trait or make another test to stop gambling for any reason short of a direct threat, regardless of whether you are winning (\"I am ahead now, so why stop?\") or losing (\"I have to at least break even!\").",
-      "name": "VIciado em Jogos de Azar (Gambling Addict)"
+      "name": "Gambling Addict"
     },
     {
       "bonus": 3,
@@ -4184,15 +4184,15 @@
       "fonte": "Laws of the Hunt",
       "pagina": 146,
       "descricao": "Humans only.",
-      "name": "Viciado em Sangue Vampírico"
+      "name": "Addicted to Vampiric Blood"
     },
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 114,
       "descricao": "You can only feed on blood mixed with the substance to which you are addicted - it gives you an appropriate Negative Trait (Lethargic for alcohol, Impatient for cocaine, etc.)",
-      "name": "Vício"
+      "name": "Addiction"
     },
     {
       "bonus": 3,
@@ -4200,7 +4200,7 @@
       "fonte": "Leis da Noite: Victorian Age",
       "pagina": 135,
       "descricao": "Some attitudes are hard to die, especially in an era like this, where perspectives are stratified and reinforced by hundreds of years of common knowledge. It is impossible not to see class and ethnic distinctions; these people are, frankly, inherently different from you. The difficulty of all Challenges related to Empathy, Leadership, Subterfuge, and Investigation increases by two if they involve people from a different social or economic group than your own, simply because you are more likely to see your own prejudices in action rather than the evidence before your eyes. Your behavior, if properly roleplayed, may well make many social activities more difficult among these groups as well, since your antipathy and disdain for them are very hard to hide.",
-      "name": "Viés Perigoso (Dangerous Bias)"
+      "name": "Dangerous Bias"
     },
     {
       "bonus": 1,
@@ -4208,15 +4208,15 @@
       "fonte": "Dark Ages: Guide to the High Clans",
       "pagina": 203,
       "descricao": "Your eyes never close — not ever. Perhaps you stared too deeply into the abyss, or removed your eyelids to keep yourself more alert. This detail likely makes more attentive observers uncomfortable (+1 Trait Penalty on Social Tests in friendly social interactions with any character).",
-      "name": "Vigília Incessante (Unblinking Vigil)"
+      "name": "Unblinking Vigil"
     },
     {
       "bonus": 2,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 118,
       "descricao": "Whenever an opportunity for revenge arises, you must take it unless you spend 1 Willpower.",
-      "name": "Vingança"
+      "name": "Vengeance"
     },
     {
       "bonus": 2,
@@ -4224,7 +4224,7 @@
       "fonte": "Leis da Noite: Camarilla Guide",
       "pagina": 36,
       "descricao": "Everything around you appears dead and decaying (as if you were looking at the shadowlands). You gain the Negative Social Trait Callous and the Negative Mental Trait Oblivious. On the other hand, you have 2 Bonus Traits for Social Tests based on Appearance (such as Gorgeous or Seductive).",
-      "name": "Visão da Morte"
+      "name": "Death Sight"
     },
     {
       "bonus": 2,
@@ -4232,7 +4232,7 @@
       "fonte": "Laws of the Reckoning",
       "pagina": 175,
       "descricao": "You have great difficulty moving in low-light conditions. You suffer a 2 Trait Penalty on all tests made in low light (such as those attempted by mere starlight or a single flashlight beam) and suffer an additional 1 Trait Penalty from a Characteristic in all combat conditions while fighting in conditions of little or no light.",
-      "name": "Visão Noturna Deficiente (Poor Night Vision)"
+      "name": "Poor Night Vision"
     },
     {
       "bonus": 5,
@@ -4240,12 +4240,12 @@
       "fonte": "Leis da Noite: Sabat Guide",
       "pagina": 73,
       "descricao": "You are incapable of performing the Embrace on anyone (blood bonds and ghouls function normally). ICBN: Cannot establish blood bonds or ghouls.",
-      "name": "VItae Infertil (Infertile Vitae)"
+      "name": "Infertile Vitae"
     },
     {
       "bonus": 3,
       "bonus_obs": null,
-      "fonte": "Leis da Noite",
+      "fonte": "Laws of the Night",
       "pagina": 118,
       "descricao": "You cannot make tests to resist Domination (but remain immune to those of weaker Generation). You suffer a 2 Trait Penalty on Social and Mental tests. You cannot have Willpower higher than 3, regardless of your generation.",
       "name": "Vontade Fraca"
@@ -4272,7 +4272,7 @@
       "fonte": "Laws of the Wild: Hyogokai",
       "pagina": 118,
       "descricao": "Born under an ill omen, you attract misfortune and complications wherever you go. Others consider you unlucky and often attribute failures and bad luck to your mere presence. Once per session, the Storyteller may declare one of your actions as 'bad luck,' giving your opponent an automatic success on a specific non-lethal challenge. You may use both this Flaw and the Auspicious Birth Merit to represent a character whose birth presents mixed blessings to those around them, as luck is in the eye of the beholder.",
-      "name": "Nascimento Insidioso (Insidios Birth)"
+      "name": "Insidios Birth"
     },
     {
       "bonus": 2,
@@ -4304,7 +4304,7 @@
       "fonte": "Kindred of The Ebony Kingdom",
       "pagina": 89,
       "descricao": "Flaw available only to those of 12th Generation or higher. Your Generation never decreases; if you commit Diablerie you will have the benefits for one scene, after which you will vomit blood.",
-      "name": "Geração Fixa (Fixed Generation)"
+      "name": "Fixed Generation"
     },
     {
       "bonus": 3,
@@ -4312,7 +4312,7 @@
       "fonte": "Kindred of The Ebony Kingdom",
       "pagina": 90,
       "descricao": "You have no experience in the outdoors (believing the outside world is full of catastrophes, etc). Any outdoor action (survival, hunting, etc) has a 2 Trait penalty.",
-      "name": "Medo Rural (Rural Fear)"
+      "name": "Rural Fear"
     },
     {
       "bonus": 2,
@@ -4320,7 +4320,7 @@
       "fonte": "Kindred of The Ebony Kingdom",
       "pagina": 90,
       "descricao": "You are followed everywhere by ill omens. Crows fly overhead, black dogs trail you, an owl hoots before you speak, etc.",
-      "name": "Atormentado (Plagued)"
+      "name": "Plagued"
     },
     {
       "bonus": 2,
@@ -4328,7 +4328,7 @@
       "fonte": "Kindred of The Ebony Kingdom",
       "pagina": 90,
       "descricao": "You are dead inside, without any empathy or concern for mortals; you rationalize all social actions. You may never bid more Social Traits than your Mental Traits.",
-      "name": "Indiferente (Unfelling)"
+      "name": "Unfelling"
     }
   ]
 }

@@ -102,6 +102,67 @@ public class DataLoader implements CommandLineRunner {
         } catch (Exception e) {
             log.warn("No patch file found or patch failed: {}", e.getMessage());
         }
+
+        // One-time migration: translate Portuguese flaw names to English
+        try {
+            List<Flaw> allFlaws = flawService.findAll();
+            java.util.Map<String, String> ptToEn = java.util.Map.ofEntries(
+                java.util.Map.entry("14ª Geração", "14th Generation"),
+                java.util.Map.entry("Aleijado", "Lame"),
+                java.util.Map.entry("Amaldiçoado", "Cursed"),
+                java.util.Map.entry("Aminésia", "Amnesia"),
+                java.util.Map.entry("Analfabeto", "Illiterate"),
+                java.util.Map.entry("Aperto dos Amaldiçoados", "Grip of the Damned"),
+                java.util.Map.entry("Assombrado", "Haunted"),
+                java.util.Map.entry("Bairrismo", "Parochialism"),
+                java.util.Map.entry("Cabeça Quente", "Hot-Headed"),
+                java.util.Map.entry("Caçado", "Hunted"),
+                java.util.Map.entry("Caolho", "One Eye"),
+                java.util.Map.entry("Cegueira", "Blind"),
+                java.util.Map.entry("Confuso", "Confused"),
+                java.util.Map.entry("Contagioso", "Contagious"),
+                java.util.Map.entry("Deformidade", "Deformity"),
+                java.util.Map.entry("Desfigurado", "Disfigured"),
+                java.util.Map.entry("Disléxico", "Dyslexic"),
+                java.util.Map.entry("Laçado", "Bound"),
+                java.util.Map.entry("Necrófilo", "Necrophile"),
+                java.util.Map.entry("Preguiçoso", "Lazy"),
+                java.util.Map.entry("Putrescência", "Putrescence"),
+                java.util.Map.entry("Um Braço", "One Arm"),
+                java.util.Map.entry("Vingança", "Vengeance"),
+                java.util.Map.entry("Estigmata", "Stigmata"),
+                java.util.Map.entry("Infecsioso", "Infectious"),
+                java.util.Map.entry("Coração Mole", "Soft-Hearted"),
+                java.util.Map.entry("Coração Perdido", "Lost Heart"),
+                java.util.Map.entry("Dentes Rombudos", "Blunt Fangs"),
+                java.util.Map.entry("Cheiro de Tumulo", "Smell of the Grave"),
+                java.util.Map.entry("Cura Demorada", "Slow Healing"),
+                java.util.Map.entry("Besta Suicida", "Suicidal Beast"),
+                java.util.Map.entry("Consumo Conspícuo", "Conspicuous Consumption")
+            );
+            int renamed = 0;
+            for (Flaw f : allFlaws) {
+                // Direct match
+                if (ptToEn.containsKey(f.getName())) {
+                    f.setName(ptToEn.get(f.getName()));
+                    renamed++;
+                }
+                // Extract English from parentheses pattern "Portuguese (English)"
+                else if (f.getName().contains("(") && f.getName().contains(")")) {
+                    String en = f.getName().replaceAll(".*\\(([^)]+)\\).*", "$1").trim();
+                    if (!en.equals(f.getName())) {
+                        f.setName(en);
+                        renamed++;
+                    }
+                }
+            }
+            if (renamed > 0) {
+                flawService.saveAll(allFlaws);
+                log.info("Migrated {} flaw names from Portuguese to English.", renamed);
+            }
+        } catch (Exception e) {
+            log.warn("Flaw name migration failed: {}", e.getMessage());
+        }
     }
 
     private String getText(JsonNode node, String field) {
