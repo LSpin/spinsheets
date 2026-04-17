@@ -9,6 +9,7 @@ import {
   getXpLog, addXpLogEntry, removeXpLogEntry,
   getDisciplines, addDiscipline, removeDiscipline,
 } from '../api/characterApi'
+import { getGifts, addGift, removeGift, getFetishes, addFetish, removeFetish } from '../api/werewolfApi'
 import useAutoCreate from '../hooks/useAutoCreate'
 import MeritsFlawsSection from './MeritsFlawsSection'
 import InventorySection from './InventorySection'
@@ -17,6 +18,8 @@ import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
 import { WEREWOLF_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { ALL_NUMINA, PSYCHIC_NUMINA, HEDGE_MAGIC_NUMINA } from '../data/kinfolkNumina'
+import { WEREWOLF_GIFTS } from '../data/werewolfGifts'
+import { WEREWOLF_FETISHES, WEREWOLF_TALENS } from '../data/werewolfFetishes'
 import TagInfoPanel from './TagInfoPanel'
 
 const TRIBES = [
@@ -59,7 +62,7 @@ const INITIAL = {
   notes: '', backstory: '', appearanceDesc: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabNumina', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabNumina', 'tabGifts', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
 
 export default function KinfolkForm() {
   const { id: paramId } = useParams()
@@ -82,6 +85,12 @@ export default function KinfolkForm() {
   const [xpLog, setXpLog] = useState([])
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
   const [disciplines, setDisciplines] = useState([])
+  const [gifts, setGifts] = useState([])
+  const [fetishes, setFetishes] = useState([])
+  const [newGift, setNewGift] = useState({ name: '', level: 1, tribe: '', breed: '', auspice: '' })
+  const [newFetish, setNewFetish] = useState({ name: '', level: 1, gnosisRating: 5, power: '' })
+  const [giftSearch, setGiftSearch] = useState('')
+  const [fetishSearch, setFetishSearch] = useState('')
   const [numinaSearch, setNuminaSearch] = useState('')
   const [tagInfo, setTagInfo] = useState(null)
   const [loading, setLoading] = useState(!!characterId)
@@ -93,14 +102,16 @@ export default function KinfolkForm() {
 
   async function loadCharacter() {
     try {
-      const [charRes, bgRes, discRes, meritRes, flawRes, mcRes, fcRes, invRes, xpRes] = await Promise.all([
+      const [charRes, bgRes, discRes, giftRes, fetishRes, meritRes, flawRes, mcRes, fcRes, invRes, xpRes] = await Promise.all([
         getCharacter(characterId), getBackgrounds(characterId), getDisciplines(characterId),
+        getGifts(characterId), getFetishes(characterId),
         getMerits(characterId), getFlaws(characterId), getMeritCatalog(), getFlawCatalog(),
         getInventory(characterId), getXpLog(characterId),
       ])
       const data = charRes.data
       setFields(prev => { const m = { ...prev }; for (const k in prev) { if (data[k] !== undefined && data[k] !== null) m[k] = data[k] }; return m })
       setBackgrounds(bgRes.data); setDisciplines(discRes.data)
+      setGifts(giftRes.data); setFetishes(fetishRes.data)
       setMerits(meritRes.data); setFlaws(flawRes.data)
       setMeritCatalog(mcRes.data); setFlawCatalog(fcRes.data)
       setInventory(invRes.data); setXpLog(xpRes.data)
@@ -120,6 +131,34 @@ export default function KinfolkForm() {
       setBackgrounds(prev => [...prev, res.data])
       setNewBackground({ name: '', level: 1, description: '' })
     } catch { setActionError(t('failedToSave')) }
+  }
+
+  async function handleAddGift() {
+    if (!newGift.name.trim()) return
+    try {
+      const res = await addGift(characterId, newGift)
+      setGifts(prev => [...prev, res.data])
+      setNewGift({ name: '', level: 1, tribe: '', breed: '', auspice: '' })
+    } catch { setActionError(t('failedToSave')) }
+  }
+
+  async function handleAddFetish() {
+    if (!newFetish.name.trim()) return
+    try {
+      const res = await addFetish(characterId, newFetish)
+      setFetishes(prev => [...prev, res.data])
+      setNewFetish({ name: '', level: 1, gnosisRating: 5, power: '' })
+    } catch { setActionError(t('failedToSave')) }
+  }
+
+  async function handleRemoveGift(id) {
+    try { await removeGift(characterId, id); setGifts(prev => prev.filter(g => g.id !== id)) }
+    catch { setActionError(t('failedToSave')) }
+  }
+
+  async function handleRemoveFetish(id) {
+    try { await removeFetish(characterId, id); setFetishes(prev => prev.filter(f => f.id !== id)) }
+    catch { setActionError(t('failedToSave')) }
   }
 
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
@@ -398,8 +437,160 @@ export default function KinfolkForm() {
         </div>
       </div>
 
-      {/* ── Advantages (Virtues, Willpower, Humanity) ── */}
+      {/* ── Gifts ── */}
       <div hidden={tab !== 4}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('tabGifts')} ({gifts.length})</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Kinfolk can learn Gifts that don't require Gnosis to activate (unless they have the Gnosis Merit). Common Kinfolk Gifts include Blur of the Milky Eye, Falling Touch, and Persuasion.
+            </p>
+            {gifts.length > 0 && (
+              <table className="inv-table" style={{ marginBottom: 'var(--space-md)' }}>
+                <thead><tr><th>Gift</th><th>Level</th><th></th></tr></thead>
+                <tbody>
+                  {gifts.map(g => (
+                    <tr key={g.id}>
+                      <td style={{ fontWeight: 600 }}>{g.name}</td>
+                      <td>{g.level}</td>
+                      <td><button className="tag-remove" onClick={() => handleRemoveGift(g.id)} aria-label={`Remove ${g.name}`}>×</button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+              <div className="field" style={{ flex: 2 }}>
+                <label>Gift Name</label>
+                <input type="text" list="kinfolk-gift-catalog" value={newGift.name} onChange={e => {
+                  const val = e.target.value
+                  const hit = WEREWOLF_GIFTS.find(g => g.name === val)
+                  if (hit) setNewGift(p => ({ ...p, name: hit.name, level: hit.level }))
+                  else setNewGift(p => ({ ...p, name: val }))
+                }} autoComplete="off" placeholder="Search gifts..." />
+                <datalist id="kinfolk-gift-catalog">
+                  {WEREWOLF_GIFTS.filter(g => g.level <= 3).map(g => <option key={g.name} value={g.name} />)}
+                </datalist>
+              </div>
+              <div className="field" style={{ width: 70 }}><label>Level</label>
+                <select value={newGift.level} onChange={e => setNewGift(p => ({ ...p, level: parseInt(e.target.value) }))}>{[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}</select>
+              </div>
+              <button className="btn btn-secondary" onClick={handleAddGift}>{t('add')}</button>
+            </div>
+          </fieldset>
+
+          <details>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Gift Catalogue (Level 1-3, no Gnosis cost)</summary>
+            <div className="catalog-search-wrap" style={{ marginTop: 'var(--space-sm)' }}>
+              <input type="search" value={giftSearch} onChange={e => setGiftSearch(e.target.value)} placeholder="Search gifts..." />
+            </div>
+            <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
+              <thead><tr><th>Lv</th><th>Gift</th><th>Tribes / Breeds</th></tr></thead>
+              <tbody>
+                {WEREWOLF_GIFTS.filter(g => g.level <= 3).filter(g => !giftSearch || g.name.toLowerCase().includes(giftSearch.toLowerCase()) || (g.tribes || []).join(' ').toLowerCase().includes(giftSearch.toLowerCase())).slice(0, 40).map(g => (
+                  <tr key={g.name}>
+                    <td style={{ fontWeight: 600, color: 'var(--color-accent-fg)' }}>{g.level}</td>
+                    <td style={{ fontWeight: 600 }}>{g.name}</td>
+                    <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{[...(g.tribes || []), ...(g.breeds || []), ...(g.auspices || [])].join(', ') || '—'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </details>
+        </div>
+      </div>
+
+      {/* ── Fetishes & Talens ── */}
+      <div hidden={tab !== 5}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('tabFetishes')} ({fetishes.length})</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Fetishes are spirit-bound items. Talens are single-use. Kinfolk with the Gnosis Merit can activate fetishes; otherwise a Garou ally must activate them.
+            </p>
+            {fetishes.length > 0 && (
+              <table className="inv-table" style={{ marginBottom: 'var(--space-md)' }}>
+                <thead><tr><th>Name</th><th>Level</th><th>Gnosis</th><th>Power</th><th></th></tr></thead>
+                <tbody>
+                  {fetishes.map(f => (
+                    <tr key={f.id}>
+                      <td style={{ fontWeight: 600 }}>{f.name}</td>
+                      <td>{f.level}</td>
+                      <td>{f.gnosisRating}</td>
+                      <td className="inv-notes">{f.power}</td>
+                      <td><button className="tag-remove" onClick={() => handleRemoveFetish(f.id)} aria-label={`Remove ${f.name}`}>×</button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+              <div className="field" style={{ flex: 2 }}>
+                <label>Name</label>
+                <input type="text" list="kinfolk-fetish-catalog" value={newFetish.name} onChange={e => {
+                  const val = e.target.value
+                  const hit = WEREWOLF_FETISHES.find(f => f.name === val)
+                  if (hit) setNewFetish({ name: hit.name, level: hit.level, gnosisRating: hit.gnosis, power: hit.description })
+                  else setNewFetish(p => ({ ...p, name: val }))
+                }} autoComplete="off" placeholder="Search fetishes..." />
+                <datalist id="kinfolk-fetish-catalog">
+                  {WEREWOLF_FETISHES.map(f => <option key={f.name} value={f.name} />)}
+                </datalist>
+              </div>
+              <div className="field" style={{ width: 70 }}><label>Level</label>
+                <select value={newFetish.level} onChange={e => setNewFetish(p => ({ ...p, level: parseInt(e.target.value) }))}>{[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}</select>
+              </div>
+              <div className="field" style={{ width: 80 }}><label>Gnosis</label>
+                <input type="number" min={1} max={10} value={newFetish.gnosisRating} onChange={e => setNewFetish(p => ({ ...p, gnosisRating: parseInt(e.target.value) || 5 }))} />
+              </div>
+              <button className="btn btn-secondary" onClick={handleAddFetish}>{t('add')}</button>
+            </div>
+            <div className="field" style={{ marginTop: 'var(--space-sm)' }}>
+              <label>Power / Description</label>
+              <input type="text" value={newFetish.power} onChange={e => setNewFetish(p => ({ ...p, power: e.target.value }))} placeholder="Describe the fetish's power..." />
+            </div>
+          </fieldset>
+
+          <details>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Fetish Catalogue ({WEREWOLF_FETISHES.length})</summary>
+            <div className="catalog-search-wrap" style={{ marginTop: 'var(--space-sm)' }}>
+              <input type="search" value={fetishSearch} onChange={e => setFetishSearch(e.target.value)} placeholder="Search fetishes..." />
+            </div>
+            <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
+              <thead><tr><th>Lv</th><th>Name</th><th>Gnosis</th><th>Effect</th></tr></thead>
+              <tbody>
+                {WEREWOLF_FETISHES.filter(f => !fetishSearch || f.name.toLowerCase().includes(fetishSearch.toLowerCase()) || f.description.toLowerCase().includes(fetishSearch.toLowerCase())).map(f => (
+                  <tr key={f.name}>
+                    <td style={{ fontWeight: 600, color: 'var(--color-accent-fg)' }}>{f.level}</td>
+                    <td style={{ fontWeight: 600 }}>{f.name}</td>
+                    <td>{f.gnosis}</td>
+                    <td className="inv-notes">{f.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </details>
+
+          <details style={{ marginTop: 'var(--space-md)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Talen Catalogue ({WEREWOLF_TALENS.length})</summary>
+            <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
+              <thead><tr><th>Name</th><th>Gnosis</th><th>Effect</th></tr></thead>
+              <tbody>
+                {WEREWOLF_TALENS.map(tl => (
+                  <tr key={tl.name}>
+                    <td style={{ fontWeight: 600 }}>{tl.name}</td>
+                    <td>{tl.gnosis}</td>
+                    <td className="inv-notes">{tl.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </details>
+        </div>
+      </div>
+
+      {/* ── Advantages (Virtues, Willpower, Humanity) ── */}
+      <div hidden={tab !== 6}>
         <div className="form-section">
           <fieldset>
             <legend>{t('virtues')}</legend>
@@ -427,7 +618,7 @@ export default function KinfolkForm() {
       </div>
 
       {/* ── Health ── */}
-      <div hidden={tab !== 5}>
+      <div hidden={tab !== 7}>
         <div className="form-section">
           <fieldset>
             <legend>{t('health')}</legend>
@@ -441,7 +632,7 @@ export default function KinfolkForm() {
       </div>
 
       {/* ── Backgrounds ── */}
-      <div hidden={tab !== 6}>
+      <div hidden={tab !== 8}>
         <div className="form-section">
           <fieldset>
             <legend>{t('backgrounds')}</legend>
@@ -477,17 +668,17 @@ export default function KinfolkForm() {
       </div>
 
       {/* ── Merits & Flaws ── */}
-      <div hidden={tab !== 7}>
+      <div hidden={tab !== 9}>
         <MeritsFlawsSection characterId={characterId} merits={merits} setMerits={setMerits} flaws={flaws} setFlaws={setFlaws} meritCatalog={meritCatalog} flawCatalog={flawCatalog} />
       </div>
 
       {/* ── Inventory ── */}
-      <div hidden={tab !== 8}>
+      <div hidden={tab !== 10}>
         <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
       </div>
 
       {/* ── Backstory ── */}
-      <div hidden={tab !== 9}>
+      <div hidden={tab !== 11}>
         <div className="form-section">
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
@@ -495,7 +686,7 @@ export default function KinfolkForm() {
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 10}>
+      <div hidden={tab !== 12}>
         <XpLogSection splat="werewolf" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
