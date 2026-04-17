@@ -13,6 +13,7 @@ import {
 import useAutoCreate from '../hooks/useAutoCreate'
 import MeritsFlawsSection from './MeritsFlawsSection'
 import InventorySection from './InventorySection'
+import { WYLD_WEST_INVENTORY } from '../data/wyldWestInventory'
 import { getGifts, addGift, removeGift, getRites, addRite, removeRite, getFetishes, addFetish, removeFetish } from '../api/werewolfApi'
 import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
@@ -1043,7 +1044,7 @@ export default function WyldWestWerewolfForm() {
 
       {/* ── Inventory ── */}
       <div hidden={tab !== 10}>
-        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
+        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} catalog={WYLD_WEST_INVENTORY} />
       </div>
 
       {/* ── Backstory ── */}

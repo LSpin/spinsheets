@@ -13,6 +13,7 @@ import {
 import useAutoCreate from '../hooks/useAutoCreate'
 import MeritsFlawsSection from './MeritsFlawsSection'
 import InventorySection from './InventorySection'
+import { VICTORIAN_INVENTORY } from '../data/victorianInventory'
 import { COMBO_DISCIPLINES } from '../data/comboDisciplines'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
@@ -1005,7 +1006,7 @@ export default function VictorianVampireForm() {
 
       {/* ── Inventory ── */}
       <div hidden={tab !== 9}>
-        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
+        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} catalog={VICTORIAN_INVENTORY} />
       </div>
 
       {/* ── Blood Sorcery ── */}

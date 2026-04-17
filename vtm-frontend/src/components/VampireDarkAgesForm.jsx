@@ -13,6 +13,7 @@ import {
 import useAutoCreate from '../hooks/useAutoCreate'
 import MeritsFlawsSection from './MeritsFlawsSection'
 import InventorySection from './InventorySection'
+import { DARK_AGES_INVENTORY } from '../data/darkAgesInventory'
 import { COMBO_DISCIPLINES } from '../data/comboDisciplines'
 import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
@@ -996,7 +997,7 @@ export default function VampireDarkAgesForm() {
 
       {/* ── Inventory ── */}
       <div hidden={tab !== 9}>
-        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
+        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} catalog={DARK_AGES_INVENTORY} />
       </div>
 
       {/* ── Blood Sorcery ── */}

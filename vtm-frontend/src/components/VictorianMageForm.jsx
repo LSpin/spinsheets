@@ -13,6 +13,7 @@ import {
 import useAutoCreate from '../hooks/useAutoCreate'
 import MeritsFlawsSection from './MeritsFlawsSection'
 import InventorySection from './InventorySection'
+import { VICTORIAN_INVENTORY } from '../data/victorianInventory'
 import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'

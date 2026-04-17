@@ -1,0 +1,61 @@
+// Wyld West (1880s American Frontier) equipment catalogue
+// For Werewolf: The Wyld West
+
+export const WYLD_WEST_INVENTORY = [
+  // ── Melee Weapons ──
+  { value: 'Bowie Knife',          category: 'WEAPON', damage: 'Str+2 L',  range: '',     rate: '1', clip: '—', concealment: 'J', description: 'The frontier\'s favourite blade. Heavy and versatile.' },
+  { value: 'Hunting Knife',        category: 'WEAPON', damage: 'Str+1 L',  range: '',     rate: '1', clip: '—', concealment: 'P', description: 'Standard skinning and camp knife. Every frontiersman carries one.' },
+  { value: 'Tomahawk',             category: 'WEAPON', damage: 'Str+2 L',  range: '10m',  rate: '1', clip: '—', concealment: 'J', description: 'Hand axe. Can be thrown effectively. Used by Native Americans and settlers alike.' },
+  { value: 'Cavalry Sabre',        category: 'WEAPON', damage: 'Str+3 L',  range: '',     rate: '1', clip: '—', concealment: 'N', description: 'Military-issue curved sword. Standard for mounted troops.' },
+  { value: 'War Club',             category: 'WEAPON', damage: 'Str+3 B',  range: '',     rate: '1', clip: '—', concealment: 'N', description: 'Native American stone or wood war club. Devastating blunt force.' },
+  { value: 'Wooden Stake',         category: 'WEAPON', damage: 'Str+1 L',  range: '',     rate: '1', clip: '—', concealment: 'J', description: 'Sharpened wood. Paralyzes vampires on a heart strike.' },
+  { value: 'Pickaxe',              category: 'WEAPON', damage: 'Str+3 L',  range: '',     rate: '1', clip: '—', concealment: 'N', description: 'Mining tool. Improvised but lethal weapon in desperate hands.' },
+  { value: 'Bullwhip',             category: 'WEAPON', damage: 'Str+1 L',  range: '3m',   rate: '1', clip: '—', concealment: 'T', description: 'Cattle whip. Can disarm or entangle. Reach advantage.' },
+  { value: 'Lance',                category: 'WEAPON', damage: 'Str+3 L',  range: '',     rate: '1', clip: '—', concealment: 'N', description: 'Long wooden spear for mounted combat. Double damage on a charge.' },
+  { value: 'Silver Klaive',        category: 'WEAPON', damage: 'Str+2 Agg', range: '',    rate: '1', clip: '—', concealment: 'N', description: 'Spirit-bound silver blade. Deals aggravated damage. Sacred to the Garou.' },
+  // ── Firearms ──
+  { value: 'Derringer',            category: 'WEAPON', damage: '3L',       range: '5m',   rate: '1', clip: '2', concealment: 'P', description: 'Pocket pistol. Two shots, then a slow reload. A gambler\'s holdout.' },
+  { value: 'Colt Peacemaker',      category: 'WEAPON', damage: '4L',       range: '15m',  rate: '2', clip: '6', concealment: 'J', description: 'The iconic six-shooter. The most common revolver on the frontier.' },
+  { value: 'Colt Dragoon',         category: 'WEAPON', damage: '5L',       range: '15m',  rate: '2', clip: '6', concealment: 'J', description: 'Heavy .44 calibre revolver. Fearsome stopping power.' },
+  { value: 'Smith & Wesson Schofield', category: 'WEAPON', damage: '4L',   range: '15m',  rate: '2', clip: '6', concealment: 'J', description: 'Top-break revolver. Faster to reload than the Colt.' },
+  { value: 'Remington 1875',       category: 'WEAPON', damage: '4L',       range: '15m',  rate: '2', clip: '6', concealment: 'J', description: 'Reliable frontier revolver. Solid and dependable.' },
+  { value: 'Sharps Rifle',         category: 'WEAPON', damage: '7L',       range: '200m', rate: '1', clip: '1', concealment: 'N', description: 'Single-shot buffalo rifle. Legendary accuracy at extreme range.' },
+  { value: 'Winchester 1873',      category: 'WEAPON', damage: '5L',       range: '100m', rate: '2', clip: '12', concealment: 'N', description: '"The Gun That Won the West." Lever-action repeater. Fast and reliable.' },
+  { value: 'Henry Rifle',          category: 'WEAPON', damage: '5L',       range: '100m', rate: '2', clip: '15', concealment: 'N', description: 'Lever-action with a 15-round tube magazine. Excellent firepower.' },
+  { value: 'Springfield Trapdoor',  category: 'WEAPON', damage: '6L',       range: '150m', rate: '1', clip: '1', concealment: 'N', description: 'US Army standard issue. Single-shot .45-70 with long range.' },
+  { value: 'Coach Gun (Sawn-Off)',  category: 'WEAPON', damage: '7L',       range: '10m',  rate: '1', clip: '2', concealment: 'T', description: 'Short double-barrel shotgun. Stagecoach guards and outlaws carry these.' },
+  { value: 'Shotgun (Double)',      category: 'WEAPON', damage: '8L',       range: '15m',  rate: '1', clip: '2', concealment: 'N', description: 'Full-length double-barrel 12-gauge. Devastating at close quarters.' },
+  { value: 'Gatling Gun',          category: 'WEAPON', damage: '6L',       range: '100m', rate: '10', clip: '100', concealment: 'N', description: 'Hand-cranked multi-barrel weapon. Requires mounting. Terrifying.' },
+  { value: 'Dynamite Stick',       category: 'WEAPON', damage: '8L',       range: '15m',  rate: '1', clip: '1', concealment: 'J', description: 'Mining explosive. 5m blast radius. Fuse must be lit first.' },
+  // ── Ranged (Non-Firearm) ──
+  { value: 'Hunting Bow',          category: 'WEAPON', damage: 'Str+2 L',  range: '40m',  rate: '1', clip: '—', concealment: 'N', description: 'Traditional bow. Silent. Used by Native Americans and frontiersmen.' },
+  { value: 'Lasso',                category: 'WEAPON', damage: '—',        range: '10m',  rate: '1', clip: '—', concealment: 'N', description: 'Rope lariat. Used to entangle rather than damage. Dex+Athletics to throw.' },
+  // ── Armour ──
+  { value: 'Heavy Leather Duster',  category: 'ARMOR', armorRating: 1, handling: 0, description: 'Long leather coat. Provides minimal protection. Common frontier wear.' },
+  { value: 'Buffalo Hide Vest',     category: 'ARMOR', armorRating: 1, handling: 0, description: 'Thick buffalo leather. Worn by hunters and scouts.' },
+  { value: 'Cavalry Breastplate',   category: 'ARMOR', armorRating: 2, handling: -1, description: 'Steel plate worn under a uniform coat. Uncommon but effective.' },
+  // ── Vehicles / Transport ──
+  { value: 'Riding Horse',         category: 'VEHICLE', range: '50 km/h', handling: 3, structure: 10, armorRating: 0, description: 'Essential frontier transport. Every character needs one.' },
+  { value: 'War Horse',            category: 'VEHICLE', range: '50 km/h', handling: 3, structure: 15, armorRating: 0, description: 'Trained for battle. Won\'t spook at gunfire. Stronger and braver.' },
+  { value: 'Stagecoach',           category: 'VEHICLE', range: '20 km/h', handling: 2, structure: 25, armorRating: 0, description: 'Horse-drawn coach. Seats 6-9. Carries mail and passengers between towns.' },
+  { value: 'Covered Wagon',        category: 'VEHICLE', range: '10 km/h', handling: 1, structure: 30, armorRating: 0, description: 'The prairie schooner. Slow but carries everything a settler owns.' },
+  { value: 'Buckboard',            category: 'VEHICLE', range: '15 km/h', handling: 2, structure: 15, armorRating: 0, description: 'Simple open wagon. Light, fast for a horse-drawn vehicle.' },
+  { value: 'Railway Handcar',      category: 'VEHICLE', range: '15 km/h', handling: 1, structure: 20, armorRating: 0, description: 'Human-powered rail vehicle. Gets you down the tracks if no train is coming.' },
+  { value: 'Canoe / Raft',         category: 'VEHICLE', range: '5 km/h',  handling: 2, structure: 8,  armorRating: 0, description: 'River transport. Essential for wilderness travel.' },
+  // ── Equipment ──
+  { value: 'Silver Bullets (6)',    category: 'EQUIPMENT', description: 'Specially cast silver rounds. Deal aggravated damage to werewolves. Expensive.' },
+  { value: 'Rope (50 ft)',         category: 'EQUIPMENT', description: 'Hemp or horsehair rope. Essential frontier tool.' },
+  { value: 'Bedroll',              category: 'EQUIPMENT', description: 'Canvas and wool sleeping roll. Necessary for trail life.' },
+  { value: 'Canteen',              category: 'EQUIPMENT', description: 'Water container. Holds about a day\'s water supply.' },
+  { value: 'Trail Rations (1 week)', category: 'EQUIPMENT', description: 'Jerky, hardtack, dried beans. Not pleasant but keeps you alive.' },
+  { value: 'Lantern (Oil)',        category: 'EQUIPMENT', description: 'Oil lantern. 4-6 hours of light. Fragile.' },
+  { value: 'Matches (box)',        category: 'EQUIPMENT', description: 'Lucifer matches. Essential for fire-starting.' },
+  { value: 'Spyglass',             category: 'EQUIPMENT', description: 'Brass telescope. See far in open country.' },
+  { value: 'Compass',              category: 'EQUIPMENT', description: 'Magnetic compass. Essential for navigation in the wilderness.' },
+  { value: 'Medicine Pouch',       category: 'EQUIPMENT', description: 'Herbs, bandages, and folk remedies. −1 difficulty on Medicine rolls for frontier injuries.' },
+  { value: 'Fetish Pouch',         category: 'EQUIPMENT', description: 'A leather bag containing spiritual items — feathers, bones, herbs. Used in rites.' },
+  { value: 'Mining Kit',           category: 'EQUIPMENT', description: 'Pick, pan, shovel, sluice. For prospecting gold and silver.' },
+  { value: 'Saddle & Tack',        category: 'EQUIPMENT', description: 'Western saddle, bridle, saddlebags. Required for effective riding.' },
+  { value: 'Manacles',             category: 'EQUIPMENT', description: 'Iron shackles. For transporting prisoners.' },
+  { value: 'Holy Water',           category: 'EQUIPMENT', description: 'Blessed water. Deals aggravated damage to vampires.' },
+]

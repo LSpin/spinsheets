@@ -177,8 +177,9 @@ function SearchableInput({ id, label: labelText, catalog, value, onChange, place
 
 // ── InventorySection ──
 
-export default function InventorySection({ characterId, inventory, setInventory, personalItems, onPersonalItemsChange }) {
+export default function InventorySection({ characterId, inventory, setInventory, personalItems, onPersonalItemsChange, catalog: customCatalog }) {
   const { t } = useLanguage()
+  const activeCatalog = customCatalog || ITEM_CATALOG
   const [newItem, setNewItem] = useState(INITIAL_ITEM)
 
   async function handleAddItem() {
@@ -205,11 +206,11 @@ export default function InventorySection({ characterId, inventory, setInventory,
           <SearchableInput
             id="inv-name"
             label={t('name')}
-            catalog={ITEM_CATALOG}
+            catalog={activeCatalog}
             value={newItem.name}
             placeholder={t('phInvName')}
             onChange={val => {
-              const hit = ITEM_CATALOG.find(c => c.value.toLowerCase() === val.toLowerCase())
+              const hit = activeCatalog.find(c => c.value.toLowerCase() === val.toLowerCase())
               if (hit) {
                 setNewItem(p => ({
                   ...p,

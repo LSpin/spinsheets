@@ -1,0 +1,56 @@
+// Victorian Age (1880s-1900s) equipment catalogue
+// For Victorian Vampire and Victorian Mage
+
+export const VICTORIAN_INVENTORY = [
+  // ── Melee Weapons ──
+  { value: 'Walking Cane',          category: 'WEAPON', damage: 'Str+1 B',  range: '',     rate: '1', clip: '—', concealment: 'N', description: 'A gentleman\'s walking stick. Unremarkable and always at hand.' },
+  { value: 'Sword Cane',            category: 'WEAPON', damage: 'Str+2 L',  range: '',     rate: '1', clip: '—', concealment: 'N', description: 'A concealed blade within a walking cane. Draw is a free action if the ruse is undetected.' },
+  { value: 'Cavalry Sabre',         category: 'WEAPON', damage: 'Str+3 L',  range: '',     rate: '1', clip: '—', concealment: 'N', description: 'Military-issue curved blade. Standard for officers and cavalry.' },
+  { value: 'Rapier',                category: 'WEAPON', damage: 'Str+2 L',  range: '',     rate: '1', clip: '—', concealment: 'N', description: 'Light thrusting sword. +1 die to parry. Favoured for duelling.' },
+  { value: 'Hunting Knife',         category: 'WEAPON', damage: 'Str+1 L',  range: '',     rate: '1', clip: '—', concealment: 'P', description: 'Heavy-bladed knife for skinning and camp work. Easily concealed.' },
+  { value: 'Bowie Knife',           category: 'WEAPON', damage: 'Str+2 L',  range: '',     rate: '1', clip: '—', concealment: 'J', description: 'Large fighting knife. Popular in the colonies and among adventurers.' },
+  { value: 'Stiletto',              category: 'WEAPON', damage: 'Str+1 L',  range: '',     rate: '1', clip: '—', concealment: 'P', description: 'Thin-bladed dagger designed for piercing. Easily hidden in a sleeve or boot.' },
+  { value: 'Hatchet',               category: 'WEAPON', damage: 'Str+2 L',  range: '',     rate: '1', clip: '—', concealment: 'J', description: 'Small hand axe. Common tool doubling as a weapon.' },
+  { value: 'Wooden Stake',          category: 'WEAPON', damage: 'Str+1 L',  range: '',     rate: '1', clip: '—', concealment: 'J', description: 'Sharpened wood. Paralyzes vampires on a heart strike (Diff 9).' },
+  { value: 'Silver-Headed Cane',    category: 'WEAPON', damage: 'Str+1 B',  range: '',     rate: '1', clip: '—', concealment: 'N', description: 'A cane with a heavy silver head. Deals aggravated damage to werewolves.' },
+  // ── Ranged Weapons ──
+  { value: 'Derringer',             category: 'WEAPON', damage: '3L',       range: '5m',   rate: '1', clip: '2', concealment: 'P', description: 'Tiny double-barrelled pocket pistol. Two shots, then reload. A lady\'s or gambler\'s last resort.' },
+  { value: 'Pocket Revolver',       category: 'WEAPON', damage: '3L',       range: '8m',   rate: '2', clip: '5', concealment: 'P', description: 'Small-calibre revolver. Easily concealed in a coat pocket or reticule.' },
+  { value: 'Service Revolver',      category: 'WEAPON', damage: '4L',       range: '15m',  rate: '2', clip: '6', concealment: 'J', description: 'Webley or Colt Army model. Standard military and police sidearm.' },
+  { value: 'Heavy Revolver',        category: 'WEAPON', damage: '5L',       range: '15m',  rate: '2', clip: '6', concealment: 'J', description: 'Large-calibre revolver (.44 or .45). Devastating stopping power.' },
+  { value: 'Hunting Rifle',         category: 'WEAPON', damage: '6L',       range: '150m', rate: '1', clip: '1', concealment: 'N', description: 'Single-shot or bolt-action big game rifle. Accurate at range, slow to reload.' },
+  { value: 'Lever-Action Rifle',    category: 'WEAPON', damage: '5L',       range: '100m', rate: '2', clip: '8', concealment: 'N', description: 'Winchester or Marlin repeater. Fast follow-up shots. The frontier\'s favourite.' },
+  { value: 'Double-Barrel Shotgun', category: 'WEAPON', damage: '7L',       range: '15m',  rate: '1', clip: '2', concealment: 'N', description: 'Side-by-side 12-gauge. Devastating at close range. Two barrels, then break open to reload.' },
+  { value: 'Coaching Gun',          category: 'WEAPON', damage: '7L',       range: '10m',  rate: '1', clip: '2', concealment: 'T', description: 'Sawn-off double-barrel. Carriage guards and ne\'er-do-wells carry these.' },
+  { value: 'Crossbow',              category: 'WEAPON', damage: '5L',       range: '30m',  rate: '1', clip: '1', concealment: 'N', description: 'Silent. Useful when gunfire would draw unwanted attention.' },
+  { value: 'Hunting Bow',           category: 'WEAPON', damage: 'Str+2 L',  range: '40m',  rate: '1', clip: '—', concealment: 'N', description: 'Traditional longbow. Silent and effective in skilled hands.' },
+  // ── Armour ──
+  { value: 'Heavy Overcoat',        category: 'ARMOR', armorRating: 1, handling: 0,  description: 'A thick wool or leather coat. Provides minimal protection without being conspicuous.' },
+  { value: 'Leather Jerkin',        category: 'ARMOR', armorRating: 1, handling: 0,  description: 'Tough leather worn under clothing. Common among labourers and fighters.' },
+  { value: 'Chain Mail Vest',       category: 'ARMOR', armorRating: 2, handling: -1, description: 'Concealed chainmail worn under a waistcoat. Heavy but effective against blades.' },
+  { value: 'Steel Breastplate',     category: 'ARMOR', armorRating: 3, handling: -2, description: 'An archaic piece worn by eccentrics or the desperate. Obvious and uncomfortable.' },
+  // ── Vehicles / Transport ──
+  { value: 'Hansom Cab',            category: 'VEHICLE', range: '20 km/h', handling: 2, structure: 15, armorRating: 0, description: 'Two-wheeled horse-drawn cab. London\'s iconic transport. Seats two passengers.' },
+  { value: 'Four-in-Hand Carriage', category: 'VEHICLE', range: '30 km/h', handling: 2, structure: 25, armorRating: 0, description: 'Horse-drawn carriage with a four-horse team. Comfortable, seats four to six.' },
+  { value: 'Brougham',              category: 'VEHICLE', range: '25 km/h', handling: 2, structure: 20, armorRating: 0, description: 'Enclosed carriage for one or two. Discreet, private, favoured by Kindred.' },
+  { value: 'Landau',                category: 'VEHICLE', range: '25 km/h', handling: 2, structure: 20, armorRating: 0, description: 'Open-top convertible carriage. Fashionable for afternoon outings.' },
+  { value: 'Riding Horse',          category: 'VEHICLE', range: '40 km/h', handling: 3, structure: 10, armorRating: 0, description: 'A dependable mount. Faster than any carriage in open country.' },
+  { value: 'Steam Launch',          category: 'VEHICLE', range: '15 km/h', handling: 2, structure: 30, armorRating: 0, description: 'Small steam-powered boat. Useful on the Thames or coastal waterways.' },
+  { value: 'Steamship Passage',     category: 'VEHICLE', range: '—',       handling: 1, structure: 100, armorRating: 0, description: 'Passage on a steam liner. Slow but comfortable. Private cabin essential for Kindred.' },
+  { value: 'Railway Carriage',      category: 'VEHICLE', range: '80 km/h', handling: 1, structure: 80, armorRating: 0, description: 'Travel by rail. Fast, reliable, but on a fixed schedule and route.' },
+  // ── Equipment ──
+  { value: 'Lantern (Oil)',         category: 'EQUIPMENT', description: 'Reliable light source. Burns for 4-6 hours per filling.' },
+  { value: 'Silver Mirror',         category: 'EQUIPMENT', description: 'A pocket mirror. Useful for checking around corners — and for detecting the undead.' },
+  { value: 'Holy Water',            category: 'EQUIPMENT', description: 'Blessed water from a church. Deals aggravated damage to vampires and demons on contact.' },
+  { value: 'Crucifix',              category: 'EQUIPMENT', description: 'Symbol of faith. May repel vampires if wielded with True Faith.' },
+  { value: 'Garlic',                category: 'EQUIPMENT', description: 'Pungent bulb. Some vampires are repelled by it (Flaw-dependent).' },
+  { value: 'Doctor\'s Bag',         category: 'EQUIPMENT', description: 'Leather bag with surgical instruments, bandages, laudanum, and smelling salts.' },
+  { value: 'Lockpick Set',          category: 'EQUIPMENT', description: 'Delicate tools for opening locks. −1 difficulty to pick Victorian-era locks.' },
+  { value: 'Disguise Kit',          category: 'EQUIPMENT', description: 'Theatrical make-up, wigs, false moustaches, spectacles. For infiltration.' },
+  { value: 'Spyglass',              category: 'EQUIPMENT', description: 'A brass telescope. Extends vision range significantly.' },
+  { value: 'Writing Case',          category: 'EQUIPMENT', description: 'Portable leather case with pen, ink, paper, and blotter. For correspondence.' },
+  { value: 'Camera (Plate)',        category: 'EQUIPMENT', description: 'Large-format plate camera. Requires minutes of exposure. Bulky but produces evidence.' },
+  { value: 'Pocket Watch',          category: 'EQUIPMENT', description: 'Essential accessory. Keeps time and looks distinguished.' },
+  { value: 'Opera Glasses',         category: 'EQUIPMENT', description: 'Small binoculars. Useful at the theatre or for discreet observation.' },
+  { value: 'Silver Bullets (6)',     category: 'EQUIPMENT', description: 'Specially cast silver rounds. Deal aggravated damage to werewolves.' },
+]
