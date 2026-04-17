@@ -283,7 +283,8 @@ public class ChronicleController {
         Map.entry("WEREWOLF", "WEREWOLF"), Map.entry("WYLD_WEST_WEREWOLF", "WEREWOLF"),
         Map.entry("CHANGING_BREEDS", "WEREWOLF"), Map.entry("TOTEM", "WEREWOLF"),
         Map.entry("MAGE", "MAGE"), Map.entry("VICTORIAN_MAGE", "MAGE"),
-        Map.entry("FAMILIAR", "MAGE")
+        Map.entry("FAMILIAR", "MAGE"),
+        Map.entry("SEVENTH_SEA", "SEVENTH_SEA")
     );
 
     private boolean isSplatAllowed(Chronicle chronicle, String splat) {

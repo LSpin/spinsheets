@@ -1111,6 +1111,11 @@ legend {
   background: rgba(154, 124, 212, 0.1);
 }
 
+.splat-badge--seventh-sea {
+  background: rgba(26, 82, 118, 0.15);
+  color: #3498db;
+}
+
 .splat-badge--vampire-revised {
   color: #cc4444;
   border-color: rgba(204, 68, 68, 0.3);
@@ -1153,6 +1158,97 @@ legend {
   gap: var(--space-sm);
   justify-content: center;
   flex-wrap: wrap;
+}
+
+/* ── System selector cards ── */
+
+.system-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-xl);
+  margin-top: var(--space-lg);
+}
+
+.system-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+
+.system-card:hover {
+  transform: translateY(-2px);
+}
+
+.system-card h4 {
+  font-size: 1.4rem;
+  margin-bottom: var(--space-sm);
+}
+
+.system-card p {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  flex: 1;
+  line-height: 1.5;
+}
+
+.system-card-cta {
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-top: var(--space-md);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.system-card--wod {
+  border-color: rgba(224, 85, 85, 0.3);
+}
+
+.system-card--wod:hover {
+  border-color: var(--color-accent-fg);
+}
+
+.system-card--wod h4 {
+  color: var(--color-accent-fg);
+}
+
+.system-card--wod .system-card-cta {
+  color: var(--color-accent-fg);
+}
+
+.system-card--7thsea {
+  border-color: rgba(52, 152, 219, 0.3);
+}
+
+.system-card--7thsea:hover {
+  border-color: #3498db;
+}
+
+.system-card--7thsea h4 {
+  color: #3498db;
+}
+
+.system-card--7thsea .system-card-cta {
+  color: #3498db;
+}
+
+.homepage-systems {
+  margin-top: var(--space-xl);
+}
+
+.homepage-systems h3 {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-md);
 }
 
 .homepage-features,

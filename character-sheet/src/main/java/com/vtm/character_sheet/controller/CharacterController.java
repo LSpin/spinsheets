@@ -268,11 +268,51 @@ public class CharacterController {
             existing.setYangChi(updated.getYangChi());
             existing.setDemonChi(updated.getDemonChi());
             existing.setImbalance(updated.getImbalance());
+            // 7th Sea fields
+            existing.setTraitBrawn(updated.getTraitBrawn());
+            existing.setTraitFinesse(updated.getTraitFinesse());
+            existing.setTraitResolve(updated.getTraitResolve());
+            existing.setTraitWits7s(updated.getTraitWits7s());
+            existing.setTraitPanache(updated.getTraitPanache());
+            existing.setSkillAim(updated.getSkillAim());
+            existing.setSkillAthletics7s(updated.getSkillAthletics7s());
+            existing.setSkillBrawl7s(updated.getSkillBrawl7s());
+            existing.setSkillConvince(updated.getSkillConvince());
+            existing.setSkillEmpathy7s(updated.getSkillEmpathy7s());
+            existing.setSkillHide(updated.getSkillHide());
+            existing.setSkillIntimidate7s(updated.getSkillIntimidate7s());
+            existing.setSkillNotice(updated.getSkillNotice());
+            existing.setSkillPerform7s(updated.getSkillPerform7s());
+            existing.setSkillRide7s(updated.getSkillRide7s());
+            existing.setSkillSailing(updated.getSkillSailing());
+            existing.setSkillScholarship(updated.getSkillScholarship());
+            existing.setSkillTempt(updated.getSkillTempt());
+            existing.setSkillTheft(updated.getSkillTheft());
+            existing.setSkillWarfare(updated.getSkillWarfare());
+            existing.setSkillWeaponry(updated.getSkillWeaponry());
+            existing.setHeroVirtue(updated.getHeroVirtue());
+            existing.setHeroHubris(updated.getHeroHubris());
+            existing.setNation(updated.getNation());
+            existing.setReligion(updated.getReligion());
+            existing.setSorceryDesc(updated.getSorceryDesc());
+            existing.setHeroPoints(updated.getHeroPoints());
+            existing.setWealth7s(updated.getWealth7s());
+            existing.setCorruption(updated.getCorruption());
+            existing.setDramaticWounds(updated.getDramaticWounds());
+            existing.setHeroStories(updated.getHeroStories());
             // Derangements & Notes
             existing.setDerangement1(updated.getDerangement1());
             existing.setDerangement2(updated.getDerangement2());
             existing.setClanCurse(updated.getClanCurse());
             existing.setNotes(updated.getNotes());
+            existing.setBackstory(updated.getBackstory());
+            existing.setAppearanceDesc(updated.getAppearanceDesc());
+            existing.setGoals(updated.getGoals());
+            existing.setAllies(updated.getAllies());
+            existing.setEnemies(updated.getEnemies());
+            existing.setHavens(updated.getHavens());
+            existing.setTerritories(updated.getTerritories());
+            existing.setPersonalItems(updated.getPersonalItems());
             return ResponseEntity.ok(service.save(existing));
         }).orElse(ResponseEntity.notFound().build());
     }
@@ -292,7 +332,8 @@ public class CharacterController {
         Map.entry("WEREWOLF", "WEREWOLF"), Map.entry("WYLD_WEST_WEREWOLF", "WEREWOLF"),
         Map.entry("CHANGING_BREEDS", "WEREWOLF"), Map.entry("TOTEM", "WEREWOLF"),
         Map.entry("MAGE", "MAGE"), Map.entry("VICTORIAN_MAGE", "MAGE"),
-        Map.entry("FAMILIAR", "MAGE")
+        Map.entry("FAMILIAR", "MAGE"),
+        Map.entry("SEVENTH_SEA", "SEVENTH_SEA")
     );
 
     private boolean isSplatAllowed(Chronicle chronicle, String splat) {

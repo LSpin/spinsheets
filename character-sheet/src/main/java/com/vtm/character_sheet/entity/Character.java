@@ -373,6 +373,53 @@ public class Character {
     @Column(columnDefinition = "TEXT")
     private String imbalance;
 
+    // ── 7th Sea 2nd Edition fields ──
+
+    // Traits (1-5)
+    private Integer traitBrawn = 2;
+    private Integer traitFinesse = 2;
+    private Integer traitResolve = 2;
+    private Integer traitWits7s = 2;
+    private Integer traitPanache = 2;
+
+    // Skills (0-5)
+    private Integer skillAim = 0;
+    private Integer skillAthletics7s = 0;
+    private Integer skillBrawl7s = 0;
+    private Integer skillConvince = 0;
+    private Integer skillEmpathy7s = 0;
+    private Integer skillHide = 0;
+    private Integer skillIntimidate7s = 0;
+    private Integer skillNotice = 0;
+    private Integer skillPerform7s = 0;
+    private Integer skillRide7s = 0;
+    private Integer skillSailing = 0;
+    private Integer skillScholarship = 0;
+    private Integer skillTempt = 0;
+    private Integer skillTheft = 0;
+    private Integer skillWarfare = 0;
+    private Integer skillWeaponry = 0;
+
+    // Arcana
+    private String heroVirtue;
+    private String heroHubris;
+
+    // Identity
+    private String nation;
+    private String religion;
+    @Column(columnDefinition = "TEXT")
+    private String sorceryDesc;
+
+    // Resources
+    private Integer heroPoints = 0;
+    private Integer wealth7s = 0;
+    private Integer corruption = 0;
+    private Integer dramaticWounds = 0;
+
+    // Stories
+    @Column(columnDefinition = "TEXT")
+    private String heroStories;
+
     // ── Shared fields ──
 
     // Derangements & Notes

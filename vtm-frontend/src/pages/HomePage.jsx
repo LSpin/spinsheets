@@ -17,12 +17,22 @@ export default function HomePage() {
             <Link to="/login" className="btn btn-secondary">{t('signIn')}</Link>
           </div>
         )}
-        {user && (
-          <div className="homepage-cta">
-            <Link to="/characters" className="btn btn-primary">{t('navCharacters')}</Link>
-            <Link to="/characters/new" className="btn btn-secondary">{t('newCharBtn')}</Link>
-          </div>
-        )}
+      </section>
+
+      <section className="homepage-systems">
+        <h3>{t('chooseSystem')}</h3>
+        <div className="system-grid">
+          <Link to={user ? '/characters' : '/login'} className="system-card system-card--wod">
+            <h4>{t('systemWoD')}</h4>
+            <p>{t('systemWoDDesc')}</p>
+            <span className="system-card-cta">{t('systemEnter')}</span>
+          </Link>
+          <Link to={user ? '/characters' : '/login'} className="system-card system-card--7thsea">
+            <h4>{t('system7thSea')}</h4>
+            <p>{t('system7thSeaDesc')}</p>
+            <span className="system-card-cta">{t('systemEnter')}</span>
+          </Link>
+        </div>
       </section>
 
       <section className="homepage-features">
@@ -75,6 +85,12 @@ export default function HomePage() {
               <li>Victorian Age Mage</li>
             </ul>
           </div>
+          <div className="homepage-card">
+            <span className="splat-badge splat-badge--seventh-sea" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>7th Sea</span>
+            <ul className="homepage-list">
+              <li>7th Sea 2nd Edition</li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -105,10 +121,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      <footer className="homepage-footer">
-        <p>{t('footerText')}</p>
-      </footer>
     </div>
   )
 }

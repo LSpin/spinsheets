@@ -7,6 +7,7 @@ const ALL_TABS = [
   { key: 'vampire', labelKey: 'splatVampire', category: 'VAMPIRE' },
   { key: 'werewolf', labelKey: 'splatWerewolf', category: 'WEREWOLF' },
   { key: 'mage', labelKey: 'splatMage', category: 'MAGE' },
+  { key: 'seventhsea', labelKey: 'splat7thSea', category: 'SEVENTH_SEA' },
 ]
 
 const SPLATS = {
@@ -28,6 +29,9 @@ const SPLATS = {
     { id: 'mage',           nameKey: 'splatMage',          subKey: 'splatMageSub',          descKey: 'splatMageDesc',          color: '#6a4caa' },
     { id: 'victorian-mage', nameKey: 'splatVictorianMage', subKey: 'splatVictorianMageSub', descKey: 'splatVictorianMageDesc', color: '#5a3a7a' },
     { id: 'familiar',       nameKey: 'splatFamiliar',      subKey: 'splatFamiliarSub',      descKey: 'splatFamiliarDesc',      color: '#7a5aaa' },
+  ],
+  seventhsea: [
+    { id: 'seventh-sea', nameKey: 'splat7thSea', subKey: 'splat7thSeaSub', descKey: 'splat7thSeaDesc', color: '#1a5276' },
   ],
 }
 

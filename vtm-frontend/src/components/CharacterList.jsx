@@ -20,6 +20,7 @@ const SPLAT_LABEL_KEYS = {
   GHOUL: 'splatGhoul',
   FAMILIAR: 'splatFamiliar',
   TOTEM: 'splatTotem',
+  SEVENTH_SEA: 'splat7thSea',
 }
 
 function splatBadgeClass(splat) {

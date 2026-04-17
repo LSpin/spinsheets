@@ -15,6 +15,7 @@ import ChangingBreedsForm from './ChangingBreedsForm'
 import GhoulForm from './GhoulForm'
 import FamiliarForm from './FamiliarForm'
 import TotemForm from './TotemForm'
+import SeventhSeaForm from './SeventhSeaForm'
 
 export default function CharacterRouter() {
   const { id } = useParams()
@@ -50,5 +51,6 @@ export default function CharacterRouter() {
   if (splat === 'GHOUL') return <GhoulForm />
   if (splat === 'FAMILIAR') return <FamiliarForm />
   if (splat === 'TOTEM') return <TotemForm />
+  if (splat === 'SEVENTH_SEA') return <SeventhSeaForm />
   return <CharacterForm />
 }

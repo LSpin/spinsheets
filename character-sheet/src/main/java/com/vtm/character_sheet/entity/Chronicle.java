@@ -49,5 +49,8 @@ public class Chronicle {
     @Column(length = 50)
     private String allowedSplats;
 
+    @Column(length = 20)
+    private String gameSystem = "WOD";
+
     private LocalDateTime createdAt = LocalDateTime.now();
 }
