@@ -17,6 +17,8 @@ import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
 import TagInfoPanel from './TagInfoPanel'
+import RulesReferenceTab from './RulesReferenceTab'
+import { L5R_RULES } from '../data/l5rRules'
 
 // ── Clans & Families ──
 const CLANS = {
@@ -281,7 +283,7 @@ const INITIAL = {
   backstory: '', notes: '', appearanceDesc: '', personalItems: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tabL5rRings', 'tabL5rSkills', 'tabL5rAdvantages', 'tabL5rTechniques', 'tabL5rSpells', 'tabL5rKata', 'tabL5rEquipment', 'tabL5rCombat', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabL5rRings', 'tabL5rSkills', 'tabL5rAdvantages', 'tabL5rTechniques', 'tabL5rSpells', 'tabL5rKata', 'tabL5rEquipment', 'tabL5rCombat', 'tabBackstory', 'tabXpLog', 'tabRulesRef']
 
 export default function L5RForm() {
   const { id: paramId } = useParams()
@@ -1841,6 +1843,11 @@ Traveling pack, spare kimono, 10 koku`} />
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
           onError={msg => setActionError(msg)} t={t} />
+      </div>
+
+      {/* ── Rules Reference ── */}
+      <div hidden={tab !== 11}>
+        <RulesReferenceTab rules={L5R_RULES} title="L5R Rules Reference" />
       </div>
 
       <div className="form-actions">
