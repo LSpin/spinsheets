@@ -19,6 +19,13 @@ export const joinChronicle = (characterId, chronicleId) =>
 export const leaveChronicle = (characterId) =>
   api.delete(`/characters/${characterId}/chronicle`)
 
+export const generateInviteCode = (chronicleId) =>
+  api.post(`/chronicles/${chronicleId}/invite-code`)
+export const disableInviteCode = (chronicleId) =>
+  api.delete(`/chronicles/${chronicleId}/invite-code`)
+export const joinByInviteCode = (code, characterId) =>
+  api.post('/chronicles/join', { code, characterId })
+
 export const addAssistantST = (chronicleId, username) =>
   api.post(`/chronicles/${chronicleId}/assistants`, { username })
 export const removeAssistantST = (chronicleId, userId) =>

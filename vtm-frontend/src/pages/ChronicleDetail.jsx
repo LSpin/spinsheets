@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
-import { getChronicle, addAssistantST, removeAssistantST, getSessions, addSession, updateSession, deleteSession } from '../api/chronicleApi'
+import { getChronicle, addAssistantST, removeAssistantST, getSessions, addSession, updateSession, deleteSession, generateInviteCode, disableInviteCode } from '../api/chronicleApi'
 import { getCharacters } from '../api/characterApi'
 import { joinChronicle, leaveChronicle } from '../api/chronicleApi'
 
@@ -81,6 +81,24 @@ export default function ChronicleDetail() {
       load()
     } catch {
       setError(t('failedRemoveAssistant'))
+    }
+  }
+
+  async function handleGenerateInviteCode() {
+    try {
+      const res = await generateInviteCode(id)
+      setChronicle(prev => ({ ...prev, inviteCode: res.data.inviteCode }))
+    } catch {
+      setError(t('failedToSave'))
+    }
+  }
+
+  async function handleDisableInviteCode() {
+    try {
+      await disableInviteCode(id)
+      setChronicle(prev => ({ ...prev, inviteCode: null }))
+    } catch {
+      setError(t('failedToSave'))
     }
   }
 
@@ -304,6 +322,33 @@ export default function ChronicleDetail() {
       {isOwner && (
         <div hidden={tab !== 2}>
           <div className="form-section">
+            <fieldset>
+              <legend>{t('inviteCode')}</legend>
+              <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>
+                {t('inviteCodeHint')}
+              </p>
+              {chronicle.inviteCode ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+                  <code style={{ fontSize: '1.2rem', fontWeight: 700, letterSpacing: '0.15em', padding: '0.4rem 0.8rem', background: 'var(--color-bg-secondary)', borderRadius: 4 }}>
+                    {chronicle.inviteCode}
+                  </code>
+                  <button className="btn btn-secondary btn-sm" onClick={() => { navigator.clipboard.writeText(chronicle.inviteCode); }}>
+                    {t('copyCode')}
+                  </button>
+                  <button className="btn btn-secondary btn-sm" onClick={handleGenerateInviteCode}>
+                    {t('regenerateCode')}
+                  </button>
+                  <button className="btn btn-danger btn-sm" onClick={handleDisableInviteCode}>
+                    {t('disableCode')}
+                  </button>
+                </div>
+              ) : (
+                <button className="btn btn-primary btn-sm" onClick={handleGenerateInviteCode}>
+                  {t('generateInviteCode')}
+                </button>
+              )}
+            </fieldset>
+
             <fieldset>
               <legend>{t('assistantStorytellers')}</legend>
               {(!chronicle.assistantStorytellers || chronicle.assistantStorytellers.length === 0) && (

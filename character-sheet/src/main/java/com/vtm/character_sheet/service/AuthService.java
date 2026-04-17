@@ -109,6 +109,10 @@ public class AuthService {
                 .filter(t -> t.getUser().getId().equals(user.getId()))
                 .forEach(resetTokenRepository::delete);
 
+        // Send notifications before deleting
+        notificationService.notifyAccountDeletion(user);
+        notificationService.sendAccountDeletedEmail(user);
+
         userRepository.delete(user);
     }
 

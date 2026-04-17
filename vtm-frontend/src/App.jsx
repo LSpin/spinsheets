@@ -25,6 +25,7 @@ import ChronicleList from './pages/ChronicleList'
 import ChronicleDetail from './pages/ChronicleDetail'
 import ChronicleForm from './pages/ChronicleForm'
 import HomePage from './pages/HomePage'
+import AdminPage from './pages/AdminPage'
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -127,6 +128,11 @@ function AppShell() {
                   <button>{t('navPlayers')}</button>
                 </Link>
               )}
+              {user?.username === 'spin' && (
+                <Link to="/admin">
+                  <button>{t('navAdmin')}</button>
+                </Link>
+              )}
               <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
                 <UserMenu />
                 <LanguageToggle />
@@ -203,6 +209,9 @@ function AppShell() {
               <ProtectedRoute><PlayersPage /></ProtectedRoute>
             } />
           )}
+          <Route path="/admin" element={
+            <ProtectedRoute><AdminPage /></ProtectedRoute>
+          } />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

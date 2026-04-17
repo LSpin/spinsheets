@@ -43,5 +43,8 @@ public class Chronicle {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "passwordHash"})
     private Set<AppUser> assistantStorytellers = new HashSet<>();
 
+    @Column(unique = true, length = 8)
+    private String inviteCode;
+
     private LocalDateTime createdAt = LocalDateTime.now();
 }

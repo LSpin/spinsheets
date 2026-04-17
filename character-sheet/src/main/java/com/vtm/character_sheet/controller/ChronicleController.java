@@ -127,6 +127,61 @@ public class ChronicleController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
+    // ── Invite Code ──
+
+    @PostMapping("/{id}/invite-code")
+    public ResponseEntity<?> generateInviteCode(@PathVariable Long id) {
+        AppUser user = access.getCurrentUser();
+        return service.findById(id).map(chronicle -> {
+            if (!chronicle.getStoryteller().getId().equals(user.getId())) {
+                return ResponseEntity.status(403).body((Object) Map.of("error", "Only the chronicle owner can manage invite codes"));
+            }
+            String code = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+            chronicle.setInviteCode(code);
+            service.save(chronicle);
+            return ResponseEntity.ok((Object) Map.of("inviteCode", code));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}/invite-code")
+    public ResponseEntity<?> disableInviteCode(@PathVariable Long id) {
+        AppUser user = access.getCurrentUser();
+        return service.findById(id).map(chronicle -> {
+            if (!chronicle.getStoryteller().getId().equals(user.getId())) {
+                return ResponseEntity.status(403).<Object>body(Map.of("error", "Only the chronicle owner can manage invite codes"));
+            }
+            chronicle.setInviteCode(null);
+            service.save(chronicle);
+            return ResponseEntity.ok((Object) Map.of("message", "Invite code disabled"));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/join")
+    public ResponseEntity<?> joinByInviteCode(@RequestBody Map<String, Object> body) {
+        String code = (String) body.get("code");
+        Number charIdNum = (Number) body.get("characterId");
+        if (code == null || charIdNum == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Code and characterId are required"));
+        }
+        Long characterId = charIdNum.longValue();
+
+        Optional<Chronicle> opt = chronicleRepository.findByInviteCode(code.trim().toUpperCase());
+        if (opt.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid invite code"));
+        }
+
+        Chronicle chronicle = opt.get();
+        return characterRepository.findById(characterId).map(character -> {
+            AppUser user = access.getCurrentUser();
+            if (!character.getOwner().getId().equals(user.getId())) {
+                return ResponseEntity.status(403).body((Object) Map.of("error", "You can only add your own characters"));
+            }
+            character.setChronicle(chronicle);
+            characterRepository.save(character);
+            return ResponseEntity.ok((Object) Map.of("message", "Joined chronicle", "chronicleId", chronicle.getId()));
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
     // ── Sessions ──
 
     @GetMapping("/{id}/sessions")

@@ -75,6 +75,74 @@ public class NotificationService {
         }
     }
 
+    @Async
+    public void notifyAccountDeletion(AppUser user) {
+        try {
+            SimpleMailMessage msg = new SimpleMailMessage();
+            msg.setFrom(fromEmail);
+            msg.setTo(notifyEmail);
+            msg.setSubject("SpinSheets — Account deleted: " + user.getUsername());
+            msg.setText(String.format(
+                    "A user has deleted their account on SpinSheets.\n\n" +
+                    "Username: %s\n" +
+                    "Email: %s\n" +
+                    "Role: %s\n",
+                    user.getUsername(), user.getEmail(), user.getRole().name()
+            ));
+            mailSender.send(msg);
+            log.info("Account deletion notification sent for user: {}", user.getUsername());
+        } catch (Exception e) {
+            log.error("Failed to send deletion notification for user {}: {}", user.getUsername(), e.getMessage(), e);
+        }
+    }
+
+    @Async
+    public void sendAccountDeletedEmail(AppUser user) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setFrom(fromEmail);
+            helper.setTo(user.getEmail());
+            helper.setSubject("Your SpinSheets account has been deleted");
+            helper.setText(buildDeletionHtml(user.getUsername()), true);
+            mailSender.send(message);
+            log.info("Account deletion email sent to: {}", user.getEmail());
+        } catch (Exception e) {
+            log.error("Failed to send deletion email to {}: {}", user.getEmail(), e.getMessage(), e);
+        }
+    }
+
+    private String buildDeletionHtml(String username) {
+        return """
+            <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 560px; margin: 0 auto; background: #1a1a2e; color: #e0e0e0; border-radius: 8px; overflow: hidden;">
+              <div style="background: #16213e; padding: 28px 32px; text-align: center;">
+                <h1 style="margin: 0; font-size: 26px; color: #c4a35a; letter-spacing: 1px;">SpinSheets</h1>
+              </div>
+              <div style="padding: 32px;">
+                <h2 style="color: #c4a35a; margin-top: 0;">Farewell, %s.</h2>
+                <p style="font-size: 15px; line-height: 1.6; color: #ccc;">
+                  Your SpinSheets account and all associated characters have been permanently deleted.
+                </p>
+                <p style="font-size: 15px; line-height: 1.6; color: #ccc;">
+                  If this was a mistake or you change your mind, you are always welcome to create a new account.
+                </p>
+                <div style="margin: 28px 0; text-align: center;">
+                  <a href="https://spinsheets.com/register"
+                     style="display: inline-block; background: #c4a35a; color: #1a1a2e; padding: 12px 32px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 15px;">
+                    Create New Account
+                  </a>
+                </div>
+                <p style="font-size: 13px; color: #888; margin-bottom: 0;">
+                  Thank you for being part of the World of Darkness.
+                </p>
+              </div>
+              <div style="background: #16213e; padding: 16px 32px; text-align: center; font-size: 12px; color: #666;">
+                &copy; SpinSheets &mdash; A World of Darkness character manager
+              </div>
+            </div>
+            """.formatted(username);
+    }
+
     private String buildWelcomeHtml(String username) {
         return """
             <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 560px; margin: 0 auto; background: #1a1a2e; color: #e0e0e0; border-radius: 8px; overflow: hidden;">

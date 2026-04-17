@@ -4,8 +4,10 @@ import com.vtm.character_sheet.entity.Chronicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ChronicleRepository extends JpaRepository<Chronicle, Long> {
     List<Chronicle> findByStoryteller_Id(Long storytellerId);
     List<Chronicle> findByAssistantStorytellers_Id(Long userId);
+    Optional<Chronicle> findByInviteCode(String inviteCode);
 }
