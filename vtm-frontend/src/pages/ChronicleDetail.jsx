@@ -102,7 +102,10 @@ export default function ChronicleDetail() {
     }
   }
 
-  const SPLAT_CATEGORIES = ['VAMPIRE', 'WEREWOLF', 'MAGE']
+  const gameSystem = chronicle?.gameSystem || 'WOD'
+  const isWoD = gameSystem === 'WOD'
+  const chronicleBasePath = gameSystem === 'SEVENTH_SEA' ? '/7thsea/chronicles' : gameSystem === 'L5R' ? '/l5r/chronicles' : '/chronicles'
+  const SPLAT_CATEGORIES = isWoD ? ['VAMPIRE', 'WEREWOLF', 'MAGE'] : gameSystem === 'SEVENTH_SEA' ? ['SEVENTH_SEA'] : gameSystem === 'L5R' ? ['L5R'] : ['VAMPIRE', 'WEREWOLF', 'MAGE']
 
   function getAllowedSet() {
     const raw = chronicle?.allowedSplats
@@ -186,17 +189,20 @@ export default function ChronicleDetail() {
   const allowedSet = chronicle.allowedSplats ? new Set(chronicle.allowedSplats.split(',')) : null
   const joinable = myCharacters.filter(c => {
     if (memberIds.has(c.id)) return false
-    if (allowedSet) {
-      const cat = SPLAT_TO_CATEGORY[c.splat] || c.splat
-      if (!allowedSet.has(cat)) return false
-    }
+    // Filter by game system first
+    const charCategory = SPLAT_TO_CATEGORY[c.splat] || c.splat
+    if (gameSystem === 'SEVENTH_SEA' && charCategory !== 'SEVENTH_SEA') return false
+    if (gameSystem === 'L5R' && charCategory !== 'L5R') return false
+    if (gameSystem === 'WOD' && (charCategory === 'SEVENTH_SEA' || charCategory === 'L5R')) return false
+    // Then filter by allowed splats within the system
+    if (allowedSet && !allowedSet.has(charCategory)) return false
     return true
   })
 
   return (
     <section>
       <div className="form-header">
-        <button className="btn btn-secondary" onClick={() => navigate('/chronicles')}>{t('back')}</button>
+        <button className="btn btn-secondary" onClick={() => navigate(chronicleBasePath)}>{t('back')}</button>
         <h2>{chronicle.name}</h2>
       </div>
 
@@ -362,23 +368,25 @@ export default function ChronicleDetail() {
       {isOwner && (
         <div hidden={tab !== 2}>
           <div className="form-section">
-            <fieldset>
-              <legend>{t('allowedCharTypes')}</legend>
-              <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>
-                {t('allowedCharTypesHint')}
-              </p>
-              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                {SPLAT_CATEGORIES.map(cat => {
-                  const checked = getAllowedSet().has(cat)
-                  return (
-                    <label key={cat} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer' }}>
-                      <input type="checkbox" checked={checked} onChange={() => handleToggleSplat(cat)} />
-                      {t('splat' + cat.charAt(0) + cat.slice(1).toLowerCase())}
-                    </label>
-                  )
-                })}
-              </div>
-            </fieldset>
+            {isWoD && (
+              <fieldset>
+                <legend>{t('allowedCharTypes')}</legend>
+                <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>
+                  {t('allowedCharTypesHint')}
+                </p>
+                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                  {SPLAT_CATEGORIES.map(cat => {
+                    const checked = getAllowedSet().has(cat)
+                    return (
+                      <label key={cat} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer' }}>
+                        <input type="checkbox" checked={checked} onChange={() => handleToggleSplat(cat)} />
+                        {t('splat' + cat.charAt(0) + cat.slice(1).toLowerCase())}
+                      </label>
+                    )
+                  })}
+                </div>
+              </fieldset>
+            )}
 
             <fieldset>
               <legend>{t('inviteLink')}</legend>
