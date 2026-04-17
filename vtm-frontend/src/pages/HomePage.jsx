@@ -63,6 +63,14 @@ export default function HomePage() {
             <h4>{t('featureTracking')}</h4>
             <p>{t('featureTrackingDesc')}</p>
           </div>
+          <div className="homepage-card">
+            <h4>{t('featureInteractive')}</h4>
+            <p>{t('featureInteractiveDesc')}</p>
+          </div>
+          <div className="homepage-card">
+            <h4>{t('featureVillains')}</h4>
+            <p>{t('featureVillainsDesc')}</p>
+          </div>
         </div>
       </section>
 
@@ -72,66 +80,47 @@ export default function HomePage() {
           <div className="homepage-card">
             <span className="splat-badge splat-badge--vampire" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Vampire</span>
             <ul className="homepage-list">
-              <li>Vampire: The Masquerade (V20)</li>
-              <li>Vampire: The Masquerade (Revised)</li>
-              <li>Vampire: The Dark Ages (V20)</li>
+              <li>V: The Masquerade (V20)</li>
+              <li>V: The Masquerade (Revised)</li>
+              <li>V: The Dark Ages (V20)</li>
               <li>Victorian Age Vampire</li>
               <li>Kindred of the East</li>
+              <li>Ghouls</li>
             </ul>
           </div>
           <div className="homepage-card">
             <span className="splat-badge splat-badge--werewolf" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Werewolf</span>
             <ul className="homepage-list">
-              <li>Werewolf: The Apocalypse (W20)</li>
-              <li>Werewolf: The Wyld West (W20)</li>
-              <li>Changing Breeds / Fera (W20)</li>
+              <li>W: The Apocalypse (W20)</li>
+              <li>W: The Wyld West (W20)</li>
+              <li>Changing Breeds / Fera</li>
+              <li>Totems</li>
             </ul>
           </div>
           <div className="homepage-card">
             <span className="splat-badge splat-badge--mage" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Mage</span>
             <ul className="homepage-list">
-              <li>Mage: The Ascension (M20)</li>
+              <li>M: The Ascension (M20)</li>
               <li>Victorian Age Mage</li>
+              <li>Familiars</li>
             </ul>
           </div>
           <div className="homepage-card">
             <span className="splat-badge splat-badge--seventh-sea" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>7th Sea</span>
             <ul className="homepage-list">
               <li>7th Sea 2nd Edition</li>
+              <li>Heroes & Villains</li>
+              <li>8 Sorcery Traditions</li>
+              <li>11 Dueling Styles</li>
             </ul>
           </div>
           <div className="homepage-card">
             <span className="splat-badge splat-badge--l5r" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>L5R</span>
             <ul className="homepage-list">
-              <li>Legend of the Five Rings 4th Edition</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="homepage-sitemap">
-        <h3>{t('sitemapTitle')}</h3>
-        <div className="homepage-grid">
-          <div className="homepage-card">
-            <h4>{t('sitemapCharacters')}</h4>
-            <ul className="homepage-list">
-              <li><Link to="/characters">{t('navCharacters')}</Link></li>
-              <li><Link to="/characters/new">{t('newCharBtn')}</Link></li>
-            </ul>
-          </div>
-          <div className="homepage-card">
-            <h4>{t('sitemapChronicles')}</h4>
-            <ul className="homepage-list">
-              <li><Link to="/chronicles">{t('navChronicles')}</Link></li>
-            </ul>
-          </div>
-          <div className="homepage-card">
-            <h4>{t('sitemapAccount')}</h4>
-            <ul className="homepage-list">
-              {!user && <li><Link to="/register">{t('getStarted')}</Link></li>}
-              {!user && <li><Link to="/login">{t('signIn')}</Link></li>}
-              {user && <li><Link to="/characters">{t('navCharacters')}</Link></li>}
-              <li><Link to="/reset-password">{t('resetPasswordTitle')}</Link></li>
+              <li>L5R 4th Edition</li>
+              <li>55 Schools (9 Clans)</li>
+              <li>197 Spells · 26 Kata</li>
+              <li>Interactive Combat</li>
             </ul>
           </div>
         </div>
