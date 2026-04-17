@@ -86,36 +86,78 @@ export default function SeventhSeaPage() {
       {error && <p className="status-error" role="alert">{error}</p>}
       {loading && <p className="status-loading">{t('loading')}</p>}
 
-      {!loading && characters.length === 0 && (
-        <div className="empty-state">
-          <p>{t('7sNoHeroesYet')}</p>
-          <p>{t('7sCreateFirst')}</p>
-        </div>
-      )}
+      {/* ── Heroes ── */}
+      {!loading && (() => {
+        const heroes = characters.filter(c => !c.npc)
+        return heroes.length === 0 ? (
+          <div className="empty-state">
+            <p>{t('7sNoHeroesYet')}</p>
+            <p>{t('7sCreateFirst')}</p>
+          </div>
+        ) : (
+          <ul className="character-list" aria-label={t('7sMyHeroes')}>
+            {heroes.map(c => (
+              <li key={c.id} className="character-card">
+                <div className="character-card-info">
+                  <h3>{c.name || t('unnamedCharacter')}</h3>
+                  <dl className="character-card-meta">
+                    <dt className="sr-only">System</dt>
+                    <dd className="splat-badge splat-badge--seventh-sea">7th Sea</dd>
+                    {c.nation && <><dt className="sr-only">{t('7sNation')}</dt><dd>{c.nation}</dd></>}
+                    {c.concept && <><dt className="sr-only">{t('concept')}</dt><dd>{c.concept}</dd></>}
+                    {isST && c.owner && <><dt className="sr-only">{t('playerLabel')}</dt><dd>{t('playerLabel')}: {c.owner.username}</dd></>}
+                  </dl>
+                </div>
+                <div className="character-card-actions">
+                  <button className="btn btn-secondary" onClick={() => navigate(`/characters/${c.id}?mode=view`)}>{t('viewBtn')}</button>
+                  <button className="btn btn-secondary" onClick={() => navigate(`/characters/${c.id}`)}>{t('edit')}</button>
+                  <button className="btn btn-danger" onClick={() => handleDelete(c.id, c.name)}>{t('deleteBtn')}</button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )
+      })()}
 
-      {!loading && characters.length > 0 && (
-        <ul className="character-list" aria-label={t('7sMyHeroes')}>
-          {characters.map(c => (
-            <li key={c.id} className="character-card">
-              <div className="character-card-info">
-                <h3>{c.name || t('unnamedCharacter')}</h3>
-                <dl className="character-card-meta">
-                  <dt className="sr-only">System</dt>
-                  <dd className="splat-badge splat-badge--seventh-sea">7th Sea</dd>
-                  {c.nation && <><dt className="sr-only">{t('7sNation')}</dt><dd>{c.nation}</dd></>}
-                  {c.concept && <><dt className="sr-only">{t('concept')}</dt><dd>{c.concept}</dd></>}
-                  {isST && c.owner && <><dt className="sr-only">{t('playerLabel')}</dt><dd>{t('playerLabel')}: {c.owner.username}</dd></>}
-                </dl>
-              </div>
-              <div className="character-card-actions">
-                <button className="btn btn-secondary" onClick={() => navigate(`/characters/${c.id}?mode=view`)}>{t('viewBtn')}</button>
-                <button className="btn btn-secondary" onClick={() => navigate(`/characters/${c.id}`)}>{t('edit')}</button>
-                <button className="btn btn-danger" onClick={() => handleDelete(c.id, c.name)}>{t('deleteBtn')}</button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* ── Villains & Monsters (ST only) ── */}
+      {!loading && isST && (() => {
+        const villains = characters.filter(c => c.npc)
+        return (
+          <div style={{ marginTop: 'var(--space-xl)' }}>
+            <div className="character-list-header">
+              <h2>Villains & Monsters</h2>
+              <button className="btn btn-primary" style={{ background: '#8b2020' }} onClick={() => navigate('/7thsea/villain/new')}>
+                New Villain / Monster
+              </button>
+            </div>
+            {villains.length === 0 ? (
+              <div className="empty-state"><p>No villains or monsters yet. Create one to challenge your players.</p></div>
+            ) : (
+              <ul className="character-list" aria-label="Villains & Monsters">
+                {villains.map(c => (
+                  <li key={c.id} className="character-card">
+                    <div className="character-card-info">
+                      <h3>{c.name || 'Unnamed Villain'}</h3>
+                      <dl className="character-card-meta">
+                        <dt className="sr-only">Type</dt>
+                        <dd className="splat-badge" style={{ background: 'rgba(224,85,85,0.15)', color: '#e55' }}>
+                          {c.willpower > 0 ? `Villain Rank ${c.willpower}` : 'NPC'}
+                        </dd>
+                        {c.nation && <><dt className="sr-only">Origin</dt><dd>{c.nation}</dd></>}
+                        {c.concept && <><dt className="sr-only">Concept</dt><dd>{c.concept}</dd></>}
+                      </dl>
+                    </div>
+                    <div className="character-card-actions">
+                      <button className="btn btn-secondary" onClick={() => navigate(`/characters/${c.id}`)}>{t('edit')}</button>
+                      <button className="btn btn-danger" onClick={() => handleDelete(c.id, c.name)}>{t('deleteBtn')}</button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )
+      })()}
     </section>
   )
 }

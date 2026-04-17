@@ -17,6 +17,7 @@ import GhoulForm from './GhoulForm'
 import FamiliarForm from './FamiliarForm'
 import TotemForm from './TotemForm'
 import SeventhSeaForm from './SeventhSeaForm'
+import SeventhSeaVillainForm from './SeventhSeaVillainForm'
 import L5RForm from './L5RForm'
 
 export default function CharacterRouter() {
@@ -24,6 +25,7 @@ export default function CharacterRouter() {
   const { t } = useLanguage()
   const { switchTheme } = useTheme()
   const [splat, setSplat] = useState(null)
+  const [isNpc, setIsNpc] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -32,6 +34,7 @@ export default function CharacterRouter() {
         const res = await getCharacter(id)
         const s = res.data.splat || 'VAMPIRE'
         setSplat(s)
+        setIsNpc(!!res.data.npc)
         switchTheme(s === 'SEVENTH_SEA' ? '7thsea' : s === 'L5R' ? 'l5r' : 'wod')
       } catch {
         setSplat('VAMPIRE')
@@ -57,6 +60,7 @@ export default function CharacterRouter() {
   if (splat === 'GHOUL') return <GhoulForm />
   if (splat === 'FAMILIAR') return <FamiliarForm />
   if (splat === 'TOTEM') return <TotemForm />
+  if (splat === 'SEVENTH_SEA' && isNpc) return <SeventhSeaVillainForm />
   if (splat === 'SEVENTH_SEA') return <SeventhSeaForm />
   if (splat === 'L5R') return <L5RForm />
   return <CharacterForm />

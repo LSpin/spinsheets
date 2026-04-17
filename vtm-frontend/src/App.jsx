@@ -31,6 +31,7 @@ import GhoulForm from './components/GhoulForm'
 import FamiliarForm from './components/FamiliarForm'
 import TotemForm from './components/TotemForm'
 import SeventhSeaForm from './components/SeventhSeaForm'
+import SeventhSeaVillainForm from './components/SeventhSeaVillainForm'
 import SeventhSeaPage from './pages/SeventhSeaPage'
 import L5RForm from './components/L5RForm'
 import L5RPage from './pages/L5RPage'
@@ -226,6 +227,9 @@ function AppShell() {
           } />
           <Route path="/7thsea/new" element={
             <ProtectedRoute><SeventhSeaForm /></ProtectedRoute>
+          } />
+          <Route path="/7thsea/villain/new" element={
+            <ProtectedRoute><SeventhSeaVillainForm /></ProtectedRoute>
           } />
           <Route path="/7thsea/chronicles" element={
             <ProtectedRoute><ChronicleList system="SEVENTH_SEA" basePath="/7thsea/chronicles" /></ProtectedRoute>

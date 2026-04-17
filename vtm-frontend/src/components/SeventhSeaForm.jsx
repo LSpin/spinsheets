@@ -201,35 +201,6 @@ const DUELING_STYLES = [
   { name: 'Valroux', nation: 'Montaigne', description: 'Classic fencing — elegant, precise, and lethal. The quintessential rapier school. Uses Finesse. Maneuvers: Slash, Feint, Lunge.' },
 ]
 
-// ── Villain & Monster data (ST tools) ──
-const VILLAIN_RANKS = [
-  { rank: 1, description: 'Minor nuisance — a bandit captain, petty noble, or small-time crook.' },
-  { rank: 2, description: 'Local threat — a corrupt magistrate, smuggler boss, or rogue knight.' },
-  { rank: 3, description: 'Regional menace — a pirate captain, cult leader, or ambitious baron.' },
-  { rank: 5, description: 'National threat — a master spy, admiral, or dark sorcerer.' },
-  { rank: 8, description: 'Continental power — a secret society grandmaster or warlord.' },
-  { rank: 10, description: 'Legendary villain — a figure who reshapes nations.' },
-  { rank: 15, description: 'Mythic antagonist — the stuff of legend and nightmare.' },
-  { rank: 20, description: 'World-ending threat — demigod-level power.' },
-]
-
-const MONSTER_QUALITIES = [
-  { name: 'Aquatic', description: 'Can breathe and move freely underwater.' },
-  { name: 'Armored', description: 'Natural armor. Takes 1 fewer Wound from each hit.' },
-  { name: 'Crushing', description: 'Grapple attacks deal extra Wounds.' },
-  { name: 'Elemental', description: 'Tied to an element. Immune to it; vulnerable to its opposite.' },
-  { name: 'Fear', description: 'Heroes must spend a Hero Point to act against it or flee.' },
-  { name: 'Flying', description: 'Melee attacks against it cost 1 extra Raise.' },
-  { name: 'Infectious', description: 'Bite or touch spreads disease or curse.' },
-  { name: 'Nocturnal', description: 'Gains bonus Strength after dark.' },
-  { name: 'Poisonous', description: 'Attacks deliver venom — ongoing Wounds.' },
-  { name: 'Regenerating', description: 'Heals Wounds each Round unless killed by a specific method.' },
-  { name: 'Shapeshifting', description: 'Can change form to deceive or ambush.' },
-  { name: 'Swarming', description: 'Mass of small creatures. Cannot be targeted individually.' },
-  { name: 'Tentacled', description: 'Multiple grasping limbs. Can attack multiple targets.' },
-  { name: 'Undead', description: 'Immune to fear, poison, and disease.' },
-]
-
 const TRAIT_KEYS = ['traitBrawn', 'traitFinesse', 'traitResolve', 'traitWits7s', 'traitPanache']
 const TRAIT_LABEL = { traitBrawn: 'Brawn', traitFinesse: 'Finesse', traitResolve: 'Resolve', traitWits7s: 'Wits', traitPanache: 'Panache' }
 const SKILL_KEYS = [
@@ -441,11 +412,6 @@ export default function SeventhSeaForm() {
                 </div>
               </div>
             </div>
-            {fields.npc && (
-              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-sm)' }}>
-                NPC Types: <strong>Villain</strong> (has Rank, Schemes, Advantages) · <strong>Henchman</strong> (Strength rating, fights alone) · <strong>Brute Squad</strong> (Strength = number of brutes) · <strong>Monster</strong> (unique Qualities). Set Villain Rank on the Arcana tab.
-              </p>
-            )}
           </fieldset>
         </div>
       </div>
@@ -696,89 +662,7 @@ export default function SeventhSeaForm() {
             </div>
           </fieldset>
 
-          {/* ── Villain / Monster (ST only, NPC toggle) ── */}
-          {fields.npc && (
-            <fieldset>
-              <legend>Villain Stats</legend>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-                For Storyteller use. Villain Rank determines Strength, Influence, and Danger Points per scene.
-              </p>
-              <div className="field-row">
-                <div className="field">
-                  <label>Villain Rank</label>
-                  <select name="willpower" value={fields.willpower} onChange={e => handleField('willpower', parseInt(e.target.value))}>
-                    <option value={0}>Not a Villain (Brute/Henchman)</option>
-                    {[1,2,3,4,5,6,7,8,9,10,12,15,20].map(r => <option key={r} value={r}>Rank {r}</option>)}
-                  </select>
-                </div>
-              </div>
-              {fields.willpower > 0 && (() => {
-                const vRank = fields.willpower
-                const strength = vRank + 2
-                const influence = vRank + 2
-                const danger = Math.ceil(vRank / 2)
-                const desc = VILLAIN_RANKS.find(v => v.rank <= vRank)
-                return (
-                  <>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 'var(--space-md)', marginTop: 'var(--space-sm)' }}>
-                      <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>Strength</div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{strength}</div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>dice rolled</div>
-                      </div>
-                      <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>Influence</div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{influence}</div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>social dice</div>
-                      </div>
-                      <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                        <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>Danger Pts</div>
-                        <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{danger}</div>
-                        <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>per scene</div>
-                      </div>
-                    </div>
-                    {desc && <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-sm)' }}>{desc.description}</p>}
-                  </>
-                )
-              })()}
-              <details style={{ marginTop: 'var(--space-md)' }}>
-                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Villain Rank Reference</summary>
-                <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
-                  <thead><tr><th>Rank</th><th>Str</th><th>Inf</th><th>DP</th><th>Description</th></tr></thead>
-                  <tbody>
-                    {VILLAIN_RANKS.map(v => (
-                      <tr key={v.rank} style={{ background: fields.willpower === v.rank ? 'rgba(52,152,219,0.08)' : 'transparent' }}>
-                        <td style={{ fontWeight: 600 }}>{v.rank}</td>
-                        <td>{v.rank + 2}</td>
-                        <td>{v.rank + 2}</td>
-                        <td>{Math.ceil(v.rank / 2)}</td>
-                        <td className="inv-notes">{v.description}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </details>
-            </fieldset>
-          )}
-
-          {fields.npc && (
-            <fieldset>
-              <legend>Monster Qualities</legend>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-                For monsters and supernatural creatures. Use the Sorcery tab for unique ability details.
-              </p>
-              <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
-                {MONSTER_QUALITIES.map(q => (
-                  <details key={q.name} style={{ marginBottom: 'var(--space-xs)' }}>
-                    <summary style={{ cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-accent-fg)', padding: '0.2rem 0.5rem', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
-                      {q.name}
-                    </summary>
-                    <p className="muted-hint muted-hint--xs" style={{ padding: 'var(--space-xs)', maxWidth: 300 }}>{q.description}</p>
-                  </details>
-                ))}
-              </div>
-            </fieldset>
-          )}
+          {/* Villain/Monster creation is now a separate form at /7thsea/villain/new */}
         </div>
       </div>
 
