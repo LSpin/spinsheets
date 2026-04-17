@@ -253,6 +253,9 @@ export default function L5RForm() {
   const [spellAffinity, setSpellAffinity] = useState('')
   const [spellDeficiency, setSpellDeficiency] = useState('')
   const [activeKata, setActiveKata] = useState('')
+  const [newSkillName, setNewSkillName] = useState('')
+  const [newSkillRank, setNewSkillRank] = useState(1)
+  const [newSkillEmphases, setNewSkillEmphases] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
@@ -381,6 +384,39 @@ export default function L5RForm() {
     const names = ['Nicked', 'Grazed', 'Hurt', 'Injured', 'Crippled', 'Down', 'Out']
     currentWoundRank = names[rankIndex] || 'Out'
     currentPenalty = penalties[rankIndex] || 999
+  }
+
+  // ── Skill parsing & computations ──
+  function parseSkills(text) {
+    if (!text) return []
+    return text.split('\n').filter(l => l.trim()).map(line => {
+      const match = line.match(/^([A-Za-z :'\-]+?)(?:\s*\(([^)]*)\))?\s*(\d+)?\s*$/)
+      if (!match) return { raw: line, name: '', emphases: '', rank: 0 }
+      return { raw: line, name: match[1].trim(), emphases: match[2] || '', rank: parseInt(match[3]) || 0 }
+    }).filter(s => s.name)
+  }
+
+  const parsedSkills = parseSkills(fields.l5rSkillsText)
+  const totalSkillRanks = parsedSkills.reduce((sum, s) => sum + s.rank, 0)
+
+  const TRAIT_VALUES = {
+    'Awareness': fields.l5rAwareness, 'Reflexes': fields.l5rReflexes,
+    'Stamina': fields.l5rStamina7, 'Willpower': fields.l5rWillpower7,
+    'Agility': fields.l5rAgility, 'Intelligence': fields.l5rIntelligence7,
+    'Strength': fields.l5rStrength7, 'Perception': fields.l5rPerception7,
+    'Void': fields.l5rVoid, 'Various': fields.l5rAwareness, 'Varies': fields.l5rAwareness,
+  }
+
+  function handleAddSkill() {
+    if (!newSkillName) return
+    const emphStr = newSkillEmphases.length > 0 ? ` (${newSkillEmphases.join(', ')})` : ''
+    const line = `${newSkillName}${emphStr} ${newSkillRank}`
+    const current = fields.l5rSkillsText
+    const updated = current ? current + '\n' + line : line
+    setFields(prev => ({ ...prev, l5rSkillsText: updated }))
+    setNewSkillName('')
+    setNewSkillRank(1)
+    setNewSkillEmphases([])
   }
 
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
@@ -521,31 +557,112 @@ export default function L5RForm() {
         </div>
       </div>
 
-      {/* ── Skills ── */}
+      {/* ── Skills (Interactive) ── */}
       <div hidden={tab !== 2}>
         <div className="form-section">
+          {/* Skill Summary */}
           <fieldset>
-            <legend>Skills</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              List your skills with ranks and emphases. Format: &quot;Kenjutsu (Katana) 3, Etiquette 2, Lore: Bushido 2&quot;
-            </p>
-            <textarea name="l5rSkillsText" value={fields.l5rSkillsText} onChange={handleText} rows={10} style={{ width: '100%' }} placeholder={
-`Kenjutsu (Katana) 3
-Etiquette 2
-Investigation 3
-Lore: Bushido 2
-Iaijutsu (Focus) 3
-Sincerity 2
-Defense 2`} />
+            <legend>Skill Summary</legend>
+            <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-sm)', flexWrap: 'wrap' }}>
+              <div><strong>Total Skill Ranks:</strong> {totalSkillRanks}</div>
+              <div><strong>Insight from Skills:</strong> {totalSkillRanks}</div>
+              <div><strong>Insight from Rings:</strong> {(airRing + earthRing + fireRing + waterRing + voidRing) * 10}</div>
+              <div><strong>Total Insight:</strong> <span style={{ color: 'var(--color-accent-fg)', fontWeight: 700 }}>{(airRing + earthRing + fireRing + waterRing + voidRing) * 10 + totalSkillRanks}</span></div>
+            </div>
           </fieldset>
 
+          {/* Add Skill Form */}
           <fieldset>
-            <legend>Skill Reference & Mastery Abilities</legend>
+            <legend>Add Skill</legend>
+            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+              <div className="field" style={{ flex: 2 }}>
+                <label>Skill</label>
+                <select value={newSkillName} onChange={e => { setNewSkillName(e.target.value); setNewSkillEmphases([]) }}>
+                  <option value="">Select skill...</option>
+                  {Object.entries(L5R_SKILL_MASTERIES).map(([name, data]) => (
+                    <option key={name} value={name}>{name} ({data.trait}) — {data.type}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="field" style={{ width: 80 }}>
+                <label>Rank</label>
+                <input type="number" min={1} max={10} value={newSkillRank} onChange={e => setNewSkillRank(parseInt(e.target.value) || 1)} />
+              </div>
+              <button className="btn btn-secondary" onClick={handleAddSkill}>{t('add')}</button>
+            </div>
+            {newSkillName && L5R_SKILL_MASTERIES[newSkillName]?.emphases?.length > 0 && (
+              <div style={{ marginTop: 'var(--space-sm)' }}>
+                <label style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>Emphases (click to add):</label>
+                <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap', marginTop: 'var(--space-xs)' }}>
+                  {L5R_SKILL_MASTERIES[newSkillName].emphases.map(emp => {
+                    const active = newSkillEmphases.includes(emp)
+                    return (
+                      <button key={emp} type="button"
+                        className={`tag${active ? ' tag--active' : ''}`}
+                        style={{ cursor: 'pointer', fontSize: '0.78rem', padding: '0.2rem 0.5rem' }}
+                        onClick={() => setNewSkillEmphases(prev => active ? prev.filter(e => e !== emp) : [...prev, emp])}>
+                        {emp}{active ? ' \u2713' : ''}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+          </fieldset>
+
+          {/* Active Skills Table */}
+          {parsedSkills.length > 0 && (
+            <fieldset>
+              <legend>Active Skills ({parsedSkills.length})</legend>
+              <table className="inv-table">
+                <thead>
+                  <tr><th>Skill</th><th>Rank</th><th>Roll</th><th>Emphases</th><th>Mastery Unlocked</th></tr>
+                </thead>
+                <tbody>
+                  {parsedSkills.map((s, i) => {
+                    const data = L5R_SKILL_MASTERIES[s.name]
+                    const trait = data?.trait || 'Various'
+                    const traitVal = TRAIT_VALUES[trait] || 2
+                    const roll = `${s.rank + traitVal}k${traitVal}`
+                    const typeColor = data?.type === 'High' ? '#6af' : data?.type === 'Bugei' ? 'var(--color-accent-fg)' : data?.type === 'Low' ? '#e55' : 'var(--color-text-muted)'
+                    const activeMasteries = []
+                    if (data?.masteries) {
+                      for (const [rank, desc] of Object.entries(data.masteries)) {
+                        if (s.rank >= parseInt(rank)) activeMasteries.push(`R${rank}: ${desc}`)
+                      }
+                    }
+                    return (
+                      <tr key={i}>
+                        <td style={{ fontWeight: 600 }}><span style={{ color: typeColor, fontSize: '0.7rem', marginRight: '0.3rem' }}>{'\u25CF'}</span>{s.name}</td>
+                        <td style={{ fontWeight: 700, textAlign: 'center' }}>{s.rank}</td>
+                        <td style={{ fontWeight: 600, color: 'var(--color-accent-fg)' }}>{s.rank > 0 ? roll : '\u2014'}</td>
+                        <td style={{ fontSize: '0.78rem' }}>{s.emphases || '\u2014'}</td>
+                        <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{activeMasteries.length > 0 ? activeMasteries.join(' | ') : '\u2014'}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </fieldset>
+          )}
+
+          {/* Raw Textarea */}
+          <fieldset>
+            <legend>Raw Skill Data</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>
+              Format: &quot;SkillName (Emphasis1, Emphasis2) Rank&quot;. One per line. Use the Add Skill form above or edit directly.
+            </p>
+            <textarea name="l5rSkillsText" value={fields.l5rSkillsText} onChange={handleText} rows={8} style={{ width: '100%' }} placeholder={`Kenjutsu (Katana) 3\nEtiquette 2\nInvestigation (Notice) 3\nLore: Bushido 2\nIaijutsu (Focus) 3`} />
+          </fieldset>
+
+          {/* Reference (collapsed) */}
+          <details>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Skill Reference & Mastery Abilities</summary>
             {Object.entries(SKILL_CATEGORIES).map(([category, skills]) => (
-              <details key={category} style={{ marginBottom: 'var(--space-sm)' }}>
-                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{category}</summary>
+              <details key={category} style={{ marginBottom: 'var(--space-sm)', marginLeft: 'var(--space-md)' }}>
+                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{category}</summary>
                 <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
-                  <thead><tr><th>Skill</th><th>Rank 3</th><th>Rank 5</th><th>Rank 7</th></tr></thead>
+                  <thead><tr><th>Skill</th><th>Emphases</th><th>R3</th><th>R5</th><th>R7</th></tr></thead>
                   <tbody>
                     {skills.map(skillLine => {
                       const skillName = skillLine.replace(/ \(.*\)/, '')
@@ -553,9 +670,10 @@ Defense 2`} />
                       return (
                         <tr key={skillLine}>
                           <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{skillLine}</td>
-                          <td className="inv-notes" style={{ fontSize: '0.75rem' }}>{data?.masteries?.[3] || '—'}</td>
-                          <td className="inv-notes" style={{ fontSize: '0.75rem' }}>{data?.masteries?.[5] || '—'}</td>
-                          <td className="inv-notes" style={{ fontSize: '0.75rem' }}>{data?.masteries?.[7] || '—'}</td>
+                          <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{data?.emphases?.join(', ') || '\u2014'}</td>
+                          <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{data?.masteries?.[3] || '\u2014'}</td>
+                          <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{data?.masteries?.[5] || '\u2014'}</td>
+                          <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{data?.masteries?.[7] || '\u2014'}</td>
                         </tr>
                       )
                     })}
@@ -563,7 +681,7 @@ Defense 2`} />
                 </table>
               </details>
             ))}
-          </fieldset>
+          </details>
         </div>
       </div>
 
