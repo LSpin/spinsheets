@@ -167,6 +167,7 @@ export default function ChangingBreedsForm() {
   const { isAutoCreating } = useAutoCreate(characterId, INITIAL)
 
   const [tab, setTab] = useState(0)
+  const [selectedForm, setSelectedForm] = useState(0)
   const [fields, setFields] = useState(INITIAL)
   const [backgrounds, setBackgrounds] = useState([])
   const [gifts, setGifts] = useState([])
@@ -265,7 +266,7 @@ export default function ChangingBreedsForm() {
     return budget > 0 ? <span className={`points-remaining ${cls}`}>{text}</span> : null
   }
 
-  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabForms', 'tabBackstory', 'tabXpLog']
+  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
 
   useEffect(() => {
     if (characterId) loadCharacter()
@@ -542,30 +543,79 @@ export default function ChangingBreedsForm() {
       {/* ── Attributes ── */}
       <div hidden={tab !== 1}>
         <div className="form-section">
-          {[
-            { legendKey: 'physicalAttr', group: 'physical', attrs: ['strength', 'dexterity', 'stamina'] },
-            { legendKey: 'socialAttr',   group: 'social',   attrs: ['charisma', 'manipulation', 'appearance'] },
-            { legendKey: 'mentalAttr',   group: 'mental',   attrs: ['perception', 'intelligence', 'wits'] },
-          ].map(({ legendKey, group, attrs }) => (
-            <fieldset key={legendKey}>
-              <legend>{t(legendKey)}</legend>
-              {guidedMode && (
-                <>
-                  <PrioritySelector group={group} priorities={attrPriority} setPriorities={setAttrPriority} budgets={ATTR_BUDGETS} />
-                  <PointsIndicator spent={getAttrSpent(group)} budget={getAttrBudget(group)} />
-                </>
-              )}
-              <div className="rating-grid">
-                {attrs.map(a => (
-                  <div key={a} className="ability-row">
-                    <DotRating label={t(a)} name={a} value={fields[a]} onChange={handleField} min={1} />
-                    <input className="spec-input" type="text" name={a + 'Spec'} value={fields[a + 'Spec'] ?? ''} onChange={handleText}
-                      placeholder={t('specialty')} aria-label={`${t(a)} ${t('specialty')}`} />
-                  </div>
+          {(() => {
+            const speciesForms = selectedSpecies?.forms || []
+            const currentFormData = speciesForms[selectedForm] || null
+            const isHomid = selectedForm === 0
+            const MOD_MAP = { strength: 'str', dexterity: 'dex', stamina: 'sta', manipulation: 'man', appearance: 'app' }
+            return (
+              <>
+                {speciesForms.length > 0 && (
+                  <fieldset>
+                    <legend>{t('shapeshiftingForms')}</legend>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
+                      {speciesForms.map((f, i) => (
+                        <button key={f.form} type="button"
+                          className={`btn btn-secondary btn-sm${selectedForm === i ? ' tab-btn--active' : ''}`}
+                          onClick={() => setSelectedForm(i)}>
+                          {f.form}
+                        </button>
+                      ))}
+                    </div>
+                    {currentFormData && !isHomid ? (
+                      <div style={{ fontSize: '0.78rem', marginBottom: '0.25rem' }}>
+                        <span style={{ color: 'var(--color-text-muted)' }}>
+                          {t('strength')} {currentFormData.str} · {t('dexterity')} {currentFormData.dex} · {t('stamina')} {currentFormData.sta} · {t('manipulation')} {currentFormData.man} · {t('appearance')} {currentFormData.app} · {t('diff')} {currentFormData.diff}
+                        </span>
+                      </div>
+                    ) : (
+                      <p className="muted-hint" style={{ fontSize: '0.72rem' }}>{t('homidNoMods')}</p>
+                    )}
+                  </fieldset>
+                )}
+
+                {[
+                  { legendKey: 'physicalAttr', group: 'physical', attrs: ['strength', 'dexterity', 'stamina'] },
+                  { legendKey: 'socialAttr',   group: 'social',   attrs: ['charisma', 'manipulation', 'appearance'] },
+                  { legendKey: 'mentalAttr',   group: 'mental',   attrs: ['perception', 'intelligence', 'wits'] },
+                ].map(({ legendKey, group, attrs }) => (
+                  <fieldset key={legendKey}>
+                    <legend>{t(legendKey)}</legend>
+                    {guidedMode && (
+                      <>
+                        <PrioritySelector group={group} priorities={attrPriority} setPriorities={setAttrPriority} budgets={ATTR_BUDGETS} />
+                        <PointsIndicator spent={getAttrSpent(group)} budget={getAttrBudget(group)} />
+                      </>
+                    )}
+                    <div className="rating-grid">
+                      {attrs.map(a => {
+                        const modKey = MOD_MAP[a]
+                        const modStr = currentFormData && modKey ? currentFormData[modKey] : null
+                        const modVal = modStr && modStr !== '—' && modStr !== '0' ? parseInt(modStr) : null
+                        const effective = modVal && !isHomid ? Math.max(0, (fields[a] || 0) + modVal) : null
+                        const isZeroed = modStr === '—' && !isHomid
+                        return (
+                          <div key={a} className="ability-row">
+                            <DotRating label={t(a)} name={a} value={fields[a]} onChange={handleField} min={1} />
+                            {effective !== null && effective !== fields[a] && (
+                              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: modVal > 0 ? '#8c8' : '#e55', whiteSpace: 'nowrap' }}>
+                                = {effective} ({modStr})
+                              </span>
+                            )}
+                            {isZeroed && (
+                              <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#e55', whiteSpace: 'nowrap' }}>= N/A</span>
+                            )}
+                            <input className="spec-input" type="text" name={a + 'Spec'} value={fields[a + 'Spec'] ?? ''} onChange={handleText}
+                              placeholder={t('specialty')} aria-label={`${t(a)} ${t('specialty')}`} />
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </fieldset>
                 ))}
-              </div>
-            </fieldset>
-          ))}
+              </>
+            )
+          })()}
         </div>
       </div>
 
@@ -917,39 +967,8 @@ export default function ChangingBreedsForm() {
         <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
       </div>
 
-      {/* ── Forms ── */}
-      <div hidden={tab !== 10}>
-        <div className="form-section">
-          <fieldset>
-            <legend>{t('shapeshiftingForms')}</legend>
-            <div style={{ overflowX: 'auto' }}>
-              {(() => {
-                const speciesEntry = FERA_SPECIES.find(s => s.value === fields.breed)
-                if (!speciesEntry) return <p className="muted-hint">Select a species to see available forms.</p>
-                return (
-                  <table className="inv-table">
-                    <thead><tr><th>{t('form')}</th><th>{t('strength')}</th><th>{t('dexterity')}</th><th>{t('stamina')}</th><th>{t('manipulation')}</th><th>{t('appearance')}</th><th>{t('diff')}</th></tr></thead>
-                    <tbody>
-                      {speciesEntry.forms.map(f => (
-                        <tr key={f.form}>
-                          <td style={{ fontWeight: 600 }}>{f.form}</td>
-                          <td>{f.str}</td><td>{f.dex}</td><td>{f.sta}</td><td>{f.man}</td><td>{f.app}</td><td>{f.diff}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )
-              })()}
-            </div>
-            <p className="muted-hint" style={{ marginTop: 'var(--space-sm)' }}>
-              {t('formsHint')}
-            </p>
-          </fieldset>
-        </div>
-      </div>
-
       {/* ── Backstory ── */}
-      <div hidden={tab !== 11}>
+      <div hidden={tab !== 10}>
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
@@ -983,7 +1002,7 @@ export default function ChangingBreedsForm() {
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 12}>
+      <div hidden={tab !== 11}>
         <XpLogSection
           splat="werewolf"
           xpLog={xpLog}
