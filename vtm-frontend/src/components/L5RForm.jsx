@@ -11,6 +11,7 @@ import DotRating from './DotRating'
 import { L5R_EQUIPMENT, L5R_EQUIPMENT_CATEGORIES } from '../data/l5rEquipment'
 import { L5R_KATA } from '../data/l5rKata'
 import { L5R_SPELLS } from '../data/l5rSpells'
+import { L5R_SCHOOLS } from '../data/l5rSchools'
 import { L5R_SKILL_MASTERIES } from '../data/l5rSkillMasteries'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -837,18 +838,93 @@ export default function L5RForm() {
       {/* ── Techniques ── */}
       <div hidden={tab !== 4}>
         <div className="form-section">
-          <fieldset>
-            <legend>School Techniques</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Techniques are gained as you advance in School Rank (based on Insight). Record each technique with its rank and effect.
-            </p>
-            <textarea name="l5rTechniques" value={fields.l5rTechniques} onChange={handleText} rows={12} style={{ width: '100%' }} placeholder={
-`Rank 1: The Way of the Crane
-  +1k1+School Rank to Initiative. Ready katana as a Free Action. Add Iaijutsu/Assessment...
+          {(() => {
+            const schoolData = fields.l5rSchool && L5R_SCHOOLS[fields.l5rSchool]
+            const schoolRank = fields.l5rSchoolRank || 1
+            return (
+              <>
+                {schoolData ? (
+                  <fieldset>
+                    <legend>{fields.l5rSchool}</legend>
+                    <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-md)', flexWrap: 'wrap', fontSize: '0.82rem' }}>
+                      <div><strong>Clan:</strong> {schoolData.clan}</div>
+                      <div><strong>Type:</strong> {schoolData.type}</div>
+                      <div><strong>Trait:</strong> {schoolData.traits}</div>
+                      <div><strong>Honor:</strong> {schoolData.honor}</div>
+                    </div>
+                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
+                      <strong>Skills:</strong> {schoolData.skills}
+                    </p>
+                    <table className="inv-table">
+                      <thead>
+                        <tr><th>Rank</th><th>Technique</th><th>Effect</th></tr>
+                      </thead>
+                      <tbody>
+                        {schoolData.techniques.map(tech => {
+                          const unlocked = tech.rank <= schoolRank
+                          return (
+                            <tr key={tech.rank} style={{ opacity: unlocked ? 1 : 0.4, background: unlocked ? 'rgba(194,145,56,0.05)' : 'transparent' }}>
+                              <td style={{ fontWeight: 700, color: unlocked ? 'var(--color-accent-fg)' : 'var(--color-text-muted)', textAlign: 'center', whiteSpace: 'nowrap' }}>
+                                {tech.rank} {unlocked ? '✓' : ''}
+                              </td>
+                              <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{tech.name}</td>
+                              <td className="inv-notes">{tech.effect}</td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
+                  </fieldset>
+                ) : (
+                  <fieldset>
+                    <legend>School Techniques</legend>
+                    <p className="muted-hint" style={{ paddingBottom: 0 }}>
+                      Select a School on the Identity tab to see your techniques here.
+                    </p>
+                  </fieldset>
+                )}
 
-Rank 2: ...
-Rank 3: ...`} />
-          </fieldset>
+                <fieldset>
+                  <legend>Technique Notes</legend>
+                  <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>
+                    Record additional details, house-ruled modifications, or techniques from alternate/advanced schools.
+                  </p>
+                  <textarea name="l5rTechniques" value={fields.l5rTechniques} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder="Additional technique notes..." />
+                </fieldset>
+
+                {!schoolData && (
+                  <details>
+                    <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Browse All Schools</summary>
+                    {CLAN_NAMES.filter(c => CLANS[c].schools.length > 0).map(clan => (
+                      <details key={clan} style={{ marginLeft: 'var(--space-md)', marginBottom: 'var(--space-xs)' }}>
+                        <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{clan} ({CLANS[clan].schools.length})</summary>
+                        {CLANS[clan].schools.map(s => {
+                          const sd = L5R_SCHOOLS[s]
+                          if (!sd) return null
+                          return (
+                            <details key={s} style={{ marginLeft: 'var(--space-md)', marginBottom: 'var(--space-xs)' }}>
+                              <summary style={{ cursor: 'pointer', fontSize: '0.82rem' }}>{s} — {sd.type} ({sd.traits}, Honor {sd.honor})</summary>
+                              <table className="inv-table" style={{ marginTop: 'var(--space-xs)', marginBottom: 'var(--space-sm)' }}>
+                                <tbody>
+                                  {sd.techniques.map(t => (
+                                    <tr key={t.rank}>
+                                      <td style={{ fontWeight: 700, color: 'var(--color-accent-fg)', width: 30 }}>{t.rank}</td>
+                                      <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{t.name}</td>
+                                      <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{t.effect}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </details>
+                          )
+                        })}
+                      </details>
+                    ))}
+                  </details>
+                )}
+              </>
+            )
+          })()}
         </div>
       </div>
 
