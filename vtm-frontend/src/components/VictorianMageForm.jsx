@@ -25,6 +25,7 @@ import { MAGE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { WONDER_TYPES, MAGE_WONDERS } from '../data/mageWonders'
 import { PARADIGMS, PRACTICES, INSTRUMENTS } from '../data/mageFocus'
 import TagInfoPanel from './TagInfoPanel'
+import DicePoolsTab from './DicePoolsTab'
 
 // ── Constants ──
 
@@ -169,7 +170,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
 
 // ── Component ──
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabSpheres', 'tabRotes', 'tabWonders', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabFocusChantry', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabSpheres', 'tabRotes', 'tabWonders', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabFocusChantry', 'tabBackstory', 'tabXpLog', 'tabDicePools']
 
 export default function VictorianMageForm() {
   const { id: paramId } = useParams()
@@ -1198,6 +1199,11 @@ export default function VictorianMageForm() {
           onError={msg => setActionError(msg)}
           t={t}
         />
+      </div>
+
+      {/* ── Dice Pools ── */}
+      <div hidden={tab !== 14}>
+        <DicePoolsTab fields={fields} splat="VICTORIAN_MAGE" characterId={characterId} />
       </div>
 
       {/* ── Save ── */}

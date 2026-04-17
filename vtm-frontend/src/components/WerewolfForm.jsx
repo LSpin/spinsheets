@@ -23,6 +23,7 @@ import { WEREWOLF_TOTEMS } from '../data/werewolfTotems'
 import { WEREWOLF_FETISHES, WEREWOLF_TALENS } from '../data/werewolfFetishes'
 import { WEREWOLF_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import TagInfoPanel from './TagInfoPanel'
+import DicePoolsTab from './DicePoolsTab'
 
 // ── Constants ──
 
@@ -296,7 +297,7 @@ export default function WerewolfForm() {
   const [fetishSearch, setFetishSearch] = useState('')
   const [bgSearch, setBgSearch] = useState('')
 
-  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
+  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog', 'tabDicePools']
 
   useEffect(() => {
     if (characterId) loadCharacter()
@@ -1120,6 +1121,11 @@ export default function WerewolfForm() {
           onError={msg => setActionError(msg)}
           t={t}
         />
+      </div>
+
+      {/* ── Dice Pools ── */}
+      <div hidden={tab !== 13}>
+        <DicePoolsTab fields={fields} splat="WEREWOLF" characterId={characterId} />
       </div>
 
       {/* ── Save ── */}

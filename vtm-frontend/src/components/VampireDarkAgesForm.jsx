@@ -24,10 +24,11 @@ import { VAMPIRE_DISCIPLINES } from '../data/vampireDisciplines'
 import { VAMPIRE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import TagInfoPanel from './TagInfoPanel'
 import BloodSorcerySection from './BloodSorcerySection'
+import DicePoolsTab from './DicePoolsTab'
 
 // ── Constants ──
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBloodSorcery', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabAdvantages', 'tabHealth', 'tabDisciplines', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBloodSorcery', 'tabBackstory', 'tabXpLog', 'tabDicePools']
 
 const CLANS = [
   { value: 'Assamite',          curse: 'The Assamites are compelled to tithe vitae to their elders and are driven to hunt other Cainites. They must make a Willpower roll (Diff 6) each month without consuming Kindred vitae or gain a temporary derangement.' },
@@ -1050,6 +1051,11 @@ export default function VampireDarkAgesForm() {
           onError={msg => setActionError(msg)}
           t={t}
         />
+      </div>
+
+      {/* ── Dice Pools ── */}
+      <div hidden={tab !== 13}>
+        <DicePoolsTab fields={fields} splat="DARK_AGES_VAMPIRE" characterId={characterId} />
       </div>
 
       {/* ── Save ── */}

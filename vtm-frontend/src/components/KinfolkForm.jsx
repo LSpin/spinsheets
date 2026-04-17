@@ -21,6 +21,7 @@ import { ALL_NUMINA, PSYCHIC_NUMINA, HEDGE_MAGIC_NUMINA } from '../data/kinfolkN
 import { WEREWOLF_GIFTS } from '../data/werewolfGifts'
 import { WEREWOLF_FETISHES, WEREWOLF_TALENS } from '../data/werewolfFetishes'
 import TagInfoPanel from './TagInfoPanel'
+import DicePoolsTab from './DicePoolsTab'
 
 const TRIBES = [
   'Black Furies', 'Bone Gnawers', 'Children of Gaia', 'Fianna', 'Get of Fenris',
@@ -62,7 +63,7 @@ const INITIAL = {
   notes: '', backstory: '', appearanceDesc: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabNumina', 'tabGifts', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabNumina', 'tabGifts', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog', 'tabDicePools']
 
 export default function KinfolkForm() {
   const { id: paramId } = useParams()
@@ -691,6 +692,11 @@ export default function KinfolkForm() {
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
           onError={msg => setActionError(msg)} t={t} />
+      </div>
+
+      {/* ── Dice Pools ── */}
+      <div hidden={tab !== 13}>
+        <DicePoolsTab fields={fields} splat="KINFOLK" characterId={characterId} />
       </div>
 
       <div className="form-actions">

@@ -18,6 +18,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { VAMPIRE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { VAMPIRE_DISCIPLINES } from '../data/vampireDisciplines'
 import TagInfoPanel from './TagInfoPanel'
+import DicePoolsTab from './DicePoolsTab'
 
 const ARCHETYPES = [
   'Architect', 'Autocrat', 'Bon Vivant', 'Bravo', 'Caregiver', 'Celebrant', 'Child',
@@ -61,7 +62,7 @@ const INITIAL = {
   notes: '', backstory: '', appearanceDesc: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabDisciplines', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabDisciplines', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog', 'tabDicePools']
 
 export default function GhoulForm() {
   const { id: paramId } = useParams()
@@ -417,6 +418,11 @@ export default function GhoulForm() {
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
           onError={msg => setActionError(msg)} t={t} />
+      </div>
+
+      {/* ── Dice Pools ── */}
+      <div hidden={tab !== 11}>
+        <DicePoolsTab fields={fields} splat="GHOUL" characterId={characterId} />
       </div>
 
       <div className="form-actions">

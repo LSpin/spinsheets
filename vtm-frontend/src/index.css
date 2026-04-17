@@ -1948,3 +1948,82 @@ a:hover {
 [data-theme="l5r"] .tag--active {
   background: #1a1a10;
 }
+
+/* ── Dice Pool Table ── */
+
+.dice-pool-table {
+  width: 100%;
+  font-size: 0.82rem;
+  border-collapse: collapse;
+}
+
+.dice-pool-table th,
+.dice-pool-table td {
+  padding: 0.4rem 0.5rem;
+  vertical-align: top;
+}
+
+.dice-pool-table thead tr {
+  border-bottom: 2px solid var(--color-border);
+}
+
+.dice-pool-table th {
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+}
+
+.dice-pool-table tbody tr {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dice-pool-table tbody tr:hover {
+  background: var(--color-hover, rgba(255,255,255,0.03));
+}
+
+.dice-pool-name {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dice-pool-components {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
+.dice-pool-stat {
+  color: var(--color-text);
+}
+
+.dice-pool-val {
+  color: var(--color-accent-fg);
+  font-weight: 600;
+}
+
+.dice-pool-total {
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.dice-pool-diff,
+.dice-pool-damage {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
+.dice-pool-desc {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  max-width: 220px;
+}
+
+.dice-pool-special {
+  color: var(--color-text-muted);
+}
+
+.dice-pool-row--zero td {
+  opacity: 0.45;
+}

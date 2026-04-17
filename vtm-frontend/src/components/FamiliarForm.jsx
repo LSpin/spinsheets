@@ -7,6 +7,7 @@ import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
 import { FAMILIAR_POWERS } from '../data/familiarPowers'
 import TagInfoPanel from './TagInfoPanel'
+import DicePoolsTab from './DicePoolsTab'
 
 const INITIAL = {
   npc: true, splat: 'FAMILIAR',
@@ -26,7 +27,7 @@ const INITIAL = {
   notes: '', backstory: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabPowers', 'tabHealth', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabPowers', 'tabHealth', 'tabBackstory', 'tabXpLog', 'tabDicePools']
 
 export default function FamiliarForm() {
   const { id: paramId } = useParams()
@@ -237,6 +238,11 @@ export default function FamiliarForm() {
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
           onError={msg => setActionError(msg)} t={t} />
+      </div>
+
+      {/* ── Dice Pools ── */}
+      <div hidden={tab !== 7}>
+        <DicePoolsTab fields={fields} splat="FAMILIAR" characterId={characterId} />
       </div>
 
       <div className="form-actions">

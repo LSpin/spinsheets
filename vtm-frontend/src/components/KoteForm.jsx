@@ -20,6 +20,7 @@ import { KOTE_SHINTAI } from '../data/koteShintai'
 import { useLanguage } from '../i18n/LanguageContext'
 import { VAMPIRE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import TagInfoPanel from './TagInfoPanel'
+import DicePoolsTab from './DicePoolsTab'
 
 // ── Constants ──
 
@@ -271,7 +272,7 @@ export default function KoteForm() {
     return budget > 0 ? <span className={`points-remaining ${cls}`}>{text}</span> : null
   }
 
-  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabDharmaChi', 'tabHealth', 'tabShintai', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog']
+  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabDharmaChi', 'tabHealth', 'tabShintai', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog', 'tabDicePools']
 
   useEffect(() => {
     if (guidedMode) {
@@ -913,6 +914,11 @@ export default function KoteForm() {
           onError={msg => setActionError(msg)}
           t={t}
         />
+      </div>
+
+      {/* ── Dice Pools ── */}
+      <div hidden={tab !== 12}>
+        <DicePoolsTab fields={fields} splat="KOTE" characterId={characterId} />
       </div>
 
       {/* ── Save ── */}
