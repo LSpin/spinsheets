@@ -10,6 +10,8 @@ import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import { L5R_EQUIPMENT, L5R_EQUIPMENT_CATEGORIES } from '../data/l5rEquipment'
 import { L5R_KATA } from '../data/l5rKata'
+import { L5R_SPELLS } from '../data/l5rSpells'
+import { L5R_SKILL_MASTERIES } from '../data/l5rSkillMasteries'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
@@ -452,6 +454,12 @@ export default function L5RForm() {
                 </div>
               </div>
             </div>
+            <details style={{ marginTop: 'var(--space-md)' }}>
+              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Heritage Tables (Optional)</summary>
+              <p className="muted-hint muted-hint--xs" style={{ padding: 'var(--space-sm) 0' }}>
+                Heritage Tables are an optional mechanic. Roll on your clan's Heritage Table during character creation to discover connections to your family's past. Results may grant bonus skills, items, or plot hooks. Consult your GM and the core rulebook for your clan's specific table.
+              </p>
+            </details>
           </fieldset>
         </div>
       </div>
@@ -532,11 +540,27 @@ Defense 2`} />
           </fieldset>
 
           <fieldset>
-            <legend>Skill Reference</legend>
+            <legend>Skill Reference & Mastery Abilities</legend>
             {Object.entries(SKILL_CATEGORIES).map(([category, skills]) => (
               <details key={category} style={{ marginBottom: 'var(--space-sm)' }}>
                 <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{category}</summary>
-                <p style={{ fontSize: '0.85rem', lineHeight: 1.6, padding: 'var(--space-sm) 0' }}>{skills.join(', ')}</p>
+                <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
+                  <thead><tr><th>Skill</th><th>Rank 3</th><th>Rank 5</th><th>Rank 7</th></tr></thead>
+                  <tbody>
+                    {skills.map(skillLine => {
+                      const skillName = skillLine.replace(/ \(.*\)/, '')
+                      const data = L5R_SKILL_MASTERIES[skillName]
+                      return (
+                        <tr key={skillLine}>
+                          <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{skillLine}</td>
+                          <td className="inv-notes" style={{ fontSize: '0.75rem' }}>{data?.masteries?.[3] || '—'}</td>
+                          <td className="inv-notes" style={{ fontSize: '0.75rem' }}>{data?.masteries?.[5] || '—'}</td>
+                          <td className="inv-notes" style={{ fontSize: '0.75rem' }}>{data?.masteries?.[7] || '—'}</td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
               </details>
             ))}
           </fieldset>
@@ -738,6 +762,41 @@ Path to Inner Peace (ML 1, TN 15) — Heal Wound Rank x 2
 — Void —`} />
           </fieldset>
 
+          <fieldset>
+            <legend>Spell Catalogue</legend>
+            {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(elem => {
+              const ringMap = { Air: airRing, Earth: earthRing, Fire: fireRing, Water: waterRing, Void: voidRing }
+              const ring = ringMap[elem]
+              const castingAbility = ring + (fields.l5rSchoolRank || 1)
+              const elemSpells = L5R_SPELLS.filter(s => s.element === elem)
+              const isAff = spellAffinity === elem
+              const isDef = spellDeficiency === elem
+              return (
+                <details key={elem} style={{ marginBottom: 'var(--space-sm)' }}>
+                  <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: isAff ? '#8c8' : isDef ? '#e55' : 'var(--color-accent-fg)' }}>
+                    {elem} Spells ({elemSpells.length}) — Ring {ring}, Cast {castingAbility}k{ring}
+                    {isAff && ' ★ Affinity'}{isDef && ' ✗ Deficiency'}
+                  </summary>
+                  <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
+                    <thead><tr><th>ML</th><th>Spell</th><th>Effect</th></tr></thead>
+                    <tbody>
+                      {elemSpells.map(s => {
+                        const canCast = s.mastery <= castingAbility
+                        return (
+                          <tr key={s.name} style={{ opacity: canCast ? 1 : 0.4 }}>
+                            <td style={{ fontWeight: 600, color: 'var(--color-accent-fg)' }}>{s.mastery}</td>
+                            <td style={{ fontWeight: 600 }}>{s.name}{canCast ? '' : ' ✗'}</td>
+                            <td className="inv-notes">{s.description}</td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </details>
+              )
+            })}
+          </fieldset>
+
           <details style={{ marginBottom: 'var(--space-md)' }}>
             <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Spell Elements Reference</summary>
             <div style={{ padding: 'var(--space-sm) 0' }}>
@@ -760,6 +819,17 @@ Path to Inner Peace (ML 1, TN 15) — Heal Wound Rank x 2
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Limits:</strong> One each of Internal/Kharmic/Mystical active. Multiple Martial allowed but one per strike.</p>
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Non-Brotherhood:</strong> Tattoo orders pay 1.5x cost. Shugenja pay 2x and use Ring only (no School Rank).</p>
               <p className="muted-hint muted-hint--xs"><strong>Atemi:</strong> Nerve-cluster attacks deal no damage but deliver Kiho effects. Must touch bare skin; armor doubles ATN against atemi.</p>
+            </div>
+          </details>
+
+          <details style={{ marginBottom: 'var(--space-md)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: '#e55' }}>Maho — Blood Magic (Forbidden)</summary>
+            <div style={{ padding: 'var(--space-sm) 0' }}>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Maho</strong> spells are cast using the caster's own blood (or a victim's). They do not require spell slots.</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Casting:</strong> Maho spells use the caster's own blood. The caster inflicts Wounds on themselves or a willing/restrained target equal to the spell's Mastery Level × 5.</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Taint:</strong> Each time a Maho spell is cast, the caster gains a point of Shadowlands Taint. This is cumulative and cannot be removed by normal means.</p>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Detection:</strong> Maho leaves a spiritual residue. Shugenja can detect recent Maho use with Sense spells (TN 15 + caster's Taint Rank × 5).</p>
+              <p className="muted-hint muted-hint--xs"><strong>Consequences:</strong> Practicing Maho is a capital offense in Rokugan. Discovery means immediate execution. The Kuni Witch Hunters actively seek out Maho practitioners.</p>
             </div>
           </details>
         </div>
