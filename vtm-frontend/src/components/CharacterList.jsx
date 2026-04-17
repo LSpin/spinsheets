@@ -171,7 +171,7 @@ export default function CharacterList() {
         getCharacters(),
         isST ? getChronicles() : Promise.resolve({ data: [] }),
       ])
-      setCharacters(charsRes.data)
+      setCharacters(charsRes.data.filter(c => c.splat !== 'SEVENTH_SEA'))
       setChronicles(chronRes.data)
     } catch {
       setError(t('failedLoadChars'))

@@ -1023,6 +1023,10 @@ const en = {
   '7sAdvantagesHint': 'Advantages represent special abilities, contacts, and other edges your Hero possesses.',
   '7sArcana': 'Arcana',
   '7sPhBackground': 'e.g. Aristocrat, Merchant, Pirate...',
+  '7sMyHeroes': 'My Heroes',
+  '7sNewHero': 'New Hero',
+  '7sNoHeroesYet': 'No heroes yet.',
+  '7sCreateFirst': 'Create your first 7th Sea hero to get started.',
 }
 
 const pt = {
@@ -2042,6 +2046,10 @@ const pt = {
   '7sAdvantagesHint': 'Vantagens representam habilidades especiais, contatos e outras vantagens do seu Herói.',
   '7sArcana': 'Arcana',
   '7sPhBackground': 'ex. Aristocrata, Mercador, Pirata...',
+  '7sMyHeroes': 'Meus Heróis',
+  '7sNewHero': 'Novo Herói',
+  '7sNoHeroesYet': 'Nenhum herói ainda.',
+  '7sCreateFirst': 'Crie seu primeiro herói do 7th Sea para começar.',
 }
 
 export const translations = { en, pt }

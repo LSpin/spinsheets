@@ -29,7 +29,7 @@ export default function HomePage() {
             <p>{t('systemWoDDesc')}</p>
             <span className="system-card-cta">{t('systemEnter')}</span>
           </Link>
-          <Link to={user ? '/characters' : '/login'} className="system-card system-card--7thsea" onClick={() => switchTheme('7thsea')}>
+          <Link to={user ? '/7thsea' : '/login'} className="system-card system-card--7thsea" onClick={() => switchTheme('7thsea')}>
             <h4>{t('system7thSea')}</h4>
             <p>{t('system7thSeaDesc')}</p>
             <span className="system-card-cta">{t('systemEnter')}</span>

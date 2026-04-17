@@ -31,6 +31,7 @@ import GhoulForm from './components/GhoulForm'
 import FamiliarForm from './components/FamiliarForm'
 import TotemForm from './components/TotemForm'
 import SeventhSeaForm from './components/SeventhSeaForm'
+import SeventhSeaPage from './pages/SeventhSeaPage'
 import AdminPage from './pages/AdminPage'
 import InvitePage from './pages/InvitePage'
 
@@ -213,11 +214,14 @@ function AppShell() {
           <Route path="/characters/new/totem" element={
             <ProtectedRoute><TotemForm /></ProtectedRoute>
           } />
-          <Route path="/characters/new/seventh-sea" element={
-            <ProtectedRoute><SeventhSeaForm /></ProtectedRoute>
-          } />
           <Route path="/characters/:id" element={
             <ProtectedRoute><CharacterRouter /></ProtectedRoute>
+          } />
+          <Route path="/7thsea" element={
+            <ProtectedRoute><SeventhSeaPage /></ProtectedRoute>
+          } />
+          <Route path="/7thsea/new" element={
+            <ProtectedRoute><SeventhSeaForm /></ProtectedRoute>
           } />
           <Route path="/chronicles" element={
             <ProtectedRoute><ChronicleList /></ProtectedRoute>
