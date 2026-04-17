@@ -5,6 +5,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { useNewChar } from '../context/NewCharContext'
 import { getCharacters, deleteCharacter } from '../api/characterApi'
 import { getChronicles, joinChronicle, leaveChronicle } from '../api/chronicleApi'
+import { useTheme } from '../context/ThemeContext'
 
 const SPLAT_LABEL_KEYS = {
   VAMPIRE: 'splatVampire',
@@ -160,7 +161,9 @@ export default function CharacterList() {
   const { user, isST } = useAuth()
   const { t } = useLanguage()
   const { openNewChar } = useNewChar()
+  const { switchTheme } = useTheme()
 
+  useEffect(() => { switchTheme('wod') }, [])
   useEffect(() => { loadCharacters() }, [])
 
   async function loadCharacters() {

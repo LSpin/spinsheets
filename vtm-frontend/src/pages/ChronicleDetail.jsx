@@ -5,12 +5,14 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { getChronicle, addAssistantST, removeAssistantST, getSessions, addSession, updateSession, deleteSession, generateInviteCode, disableInviteCode, updateAllowedSplats } from '../api/chronicleApi'
 import { getCharacters } from '../api/characterApi'
 import { joinChronicle, leaveChronicle } from '../api/chronicleApi'
+import { useTheme } from '../context/ThemeContext'
 
 export default function ChronicleDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { user, isST } = useAuth()
   const { t } = useLanguage()
+  const { switchTheme } = useTheme()
 
   const [chronicle, setChronicle] = useState(null)
   const [members, setMembers] = useState([])
@@ -102,6 +104,7 @@ export default function ChronicleDetail() {
   }
 
   const gameSystem = chronicle?.gameSystem || 'WOD'
+  useEffect(() => { if (chronicle) switchTheme(gameSystem === 'SEVENTH_SEA' ? '7thsea' : gameSystem === 'L5R' ? 'l5r' : 'wod') }, [chronicle])
   const isWoD = gameSystem === 'WOD'
   const chronicleBasePath = gameSystem === 'SEVENTH_SEA' ? '/7thsea/chronicles' : gameSystem === 'L5R' ? '/l5r/chronicles' : '/chronicles'
   const SPLAT_CATEGORIES = isWoD ? ['VAMPIRE', 'WEREWOLF', 'MAGE'] : gameSystem === 'SEVENTH_SEA' ? ['SEVENTH_SEA'] : gameSystem === 'L5R' ? ['L5R'] : ['VAMPIRE', 'WEREWOLF', 'MAGE']

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
+import { useTheme } from '../context/ThemeContext'
 import { getChronicle } from '../api/chronicleApi'
 
 const ALL_TABS = [
@@ -35,6 +36,8 @@ export default function SplatSelectPage() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const { t } = useLanguage()
+  const { switchTheme } = useTheme()
+  useEffect(() => { switchTheme('wod') }, [])
   const mode = searchParams.get('mode')
   const chronicle = searchParams.get('chronicle')
   const suffix = mode ? `?mode=${mode}&chronicle=${chronicle}` : ''

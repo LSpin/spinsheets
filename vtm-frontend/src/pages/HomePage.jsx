@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -7,6 +8,7 @@ export default function HomePage() {
   const { user } = useAuth()
   const { t } = useLanguage()
   const { switchTheme } = useTheme()
+  useEffect(() => { switchTheme('wod') }, [])
 
   return (
     <div className="homepage">

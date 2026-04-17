@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { getChronicles, deleteChronicle } from '../api/chronicleApi'
+import { useTheme } from '../context/ThemeContext'
 
 export default function ChronicleList({ system = 'WOD', basePath = '/chronicles' }) {
   const [chronicles, setChronicles] = useState([])
@@ -11,7 +12,9 @@ export default function ChronicleList({ system = 'WOD', basePath = '/chronicles'
   const navigate = useNavigate()
   const { user, isST } = useAuth()
   const { t } = useLanguage()
+  const { switchTheme } = useTheme()
 
+  useEffect(() => { switchTheme(system === 'SEVENTH_SEA' ? '7thsea' : system === 'L5R' ? 'l5r' : 'wod') }, [])
   useEffect(() => { load() }, [])
 
   async function load() {
