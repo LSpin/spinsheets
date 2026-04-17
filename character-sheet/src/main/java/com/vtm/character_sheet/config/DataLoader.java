@@ -103,62 +103,46 @@ public class DataLoader implements CommandLineRunner {
             log.warn("No patch file found or patch failed: {}", e.getMessage());
         }
 
-        // One-time migration: translate Portuguese flaw names to English
+        // One-time migration: nuke and reload all flaws from corrected JSON
+        // This fixes Portuguese flaw names that were loaded from the original data
         try {
             List<Flaw> allFlaws = flawService.findAll();
-            java.util.Map<String, String> ptToEn = java.util.Map.ofEntries(
-                java.util.Map.entry("14ª Geração", "14th Generation"),
-                java.util.Map.entry("Aleijado", "Lame"),
-                java.util.Map.entry("Amaldiçoado", "Cursed"),
-                java.util.Map.entry("Aminésia", "Amnesia"),
-                java.util.Map.entry("Analfabeto", "Illiterate"),
-                java.util.Map.entry("Aperto dos Amaldiçoados", "Grip of the Damned"),
-                java.util.Map.entry("Assombrado", "Haunted"),
-                java.util.Map.entry("Bairrismo", "Parochialism"),
-                java.util.Map.entry("Cabeça Quente", "Hot-Headed"),
-                java.util.Map.entry("Caçado", "Hunted"),
-                java.util.Map.entry("Caolho", "One Eye"),
-                java.util.Map.entry("Cegueira", "Blind"),
-                java.util.Map.entry("Confuso", "Confused"),
-                java.util.Map.entry("Contagioso", "Contagious"),
-                java.util.Map.entry("Deformidade", "Deformity"),
-                java.util.Map.entry("Desfigurado", "Disfigured"),
-                java.util.Map.entry("Disléxico", "Dyslexic"),
-                java.util.Map.entry("Laçado", "Bound"),
-                java.util.Map.entry("Necrófilo", "Necrophile"),
-                java.util.Map.entry("Preguiçoso", "Lazy"),
-                java.util.Map.entry("Putrescência", "Putrescence"),
-                java.util.Map.entry("Um Braço", "One Arm"),
-                java.util.Map.entry("Vingança", "Vengeance"),
-                java.util.Map.entry("Estigmata", "Stigmata"),
-                java.util.Map.entry("Infecsioso", "Infectious"),
-                java.util.Map.entry("Coração Mole", "Soft-Hearted"),
-                java.util.Map.entry("Coração Perdido", "Lost Heart"),
-                java.util.Map.entry("Dentes Rombudos", "Blunt Fangs"),
-                java.util.Map.entry("Cheiro de Tumulo", "Smell of the Grave"),
-                java.util.Map.entry("Cura Demorada", "Slow Healing"),
-                java.util.Map.entry("Besta Suicida", "Suicidal Beast"),
-                java.util.Map.entry("Consumo Conspícuo", "Conspicuous Consumption")
-            );
-            int renamed = 0;
-            for (Flaw f : allFlaws) {
-                // Direct match
-                if (ptToEn.containsKey(f.getName())) {
-                    f.setName(ptToEn.get(f.getName()));
-                    renamed++;
+            boolean hasPt = allFlaws.stream().anyMatch(f ->
+                f.getName() != null && f.getName().matches(".*[àáâãçéêíóôõúüÀÁÂÃÇÉÊÍÓÔÕÚÜ].*"));
+            if (hasPt) {
+                log.info("Detected Portuguese flaw names — rebuilding flaw catalogue from corrected JSON...");
+                // Build a map of corrected names from JSON keyed by description (most unique field)
+                InputStream fixIs = new ClassPathResource("vampiro_merits_flaws_en.json").getInputStream();
+                JsonNode fixRoot = objectMapper.readTree(fixIs);
+                // Create lookup: old description -> new name from JSON
+                java.util.Map<String, String> descToName = new java.util.HashMap<>();
+                for (JsonNode node : fixRoot.get("flaws")) {
+                    String desc = getText(node, "descricao");
+                    String name = getText(node, "name");
+                    if (desc != null && name != null) descToName.put(desc, name);
                 }
-                // Extract English from parentheses pattern "Portuguese (English)"
-                else if (f.getName().contains("(") && f.getName().contains(")")) {
-                    String en = f.getName().replaceAll(".*\\(([^)]+)\\).*", "$1").trim();
-                    if (!en.equals(f.getName())) {
-                        f.setName(en);
-                        renamed++;
+                int fixed = 0;
+                for (Flaw f : allFlaws) {
+                    if (f.getDescription() != null && descToName.containsKey(f.getDescription())) {
+                        String newName = descToName.get(f.getDescription());
+                        if (!newName.equals(f.getName())) {
+                            f.setName(newName);
+                            fixed++;
+                        }
+                    }
+                    // Also extract English from "Portuguese (English)" pattern
+                    if (f.getName() != null && f.getName().contains("(") && f.getName().contains(")")) {
+                        String en = f.getName().replaceAll(".*\\(([^)]+)\\).*", "$1").trim();
+                        if (!en.equals(f.getName())) {
+                            f.setName(en);
+                            fixed++;
+                        }
                     }
                 }
-            }
-            if (renamed > 0) {
-                flawService.saveAll(allFlaws);
-                log.info("Migrated {} flaw names from Portuguese to English.", renamed);
+                if (fixed > 0) {
+                    flawService.saveAll(allFlaws);
+                    log.info("Fixed {} flaw names from Portuguese to English.", fixed);
+                }
             }
         } catch (Exception e) {
             log.warn("Flaw name migration failed: {}", e.getMessage());
