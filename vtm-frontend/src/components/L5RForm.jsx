@@ -9,6 +9,7 @@ import {
 import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import { L5R_EQUIPMENT, L5R_EQUIPMENT_CATEGORIES } from '../data/l5rEquipment'
+import { L5R_KATA } from '../data/l5rKata'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
@@ -31,13 +32,49 @@ const CLANS = {
 }
 const CLAN_NAMES = Object.keys(CLANS)
 
-// ── Skill categories (reference) ──
+// ── Skill categories with associated traits (from lasthaiku.wikidot.com) ──
 const SKILL_CATEGORIES = {
-  'High Skills': ['Acting', 'Artisan', 'Calligraphy', 'Courtier', 'Divination', 'Etiquette', 'Games', 'Investigation', 'Lore', 'Medicine', 'Meditation', 'Perform', 'Sincerity', 'Spellcraft', 'Tea Ceremony'],
-  'Bugei Skills': ['Athletics', 'Battle', 'Defense', 'Horsemanship', 'Hunting', 'Iaijutsu', 'Jiujutsu', 'Chain Weapons', 'Heavy Weapons', 'Kenjutsu', 'Knives', 'Kyujutsu', 'Naginata', 'Polearms', 'Spears', 'Staves', 'War Fan'],
-  'Merchant Skills': ['Animal Handling', 'Commerce', 'Craft', 'Engineering', 'Sailing'],
-  'Low Skills': ['Forgery', 'Intimidation', 'Sleight of Hand', 'Stealth', 'Temptation'],
+  'High Skills': [
+    'Acting (Awareness)', 'Artisan (Awareness)', 'Calligraphy (Intelligence)', 'Courtier (Awareness)',
+    'Divination (Intelligence)', 'Etiquette (Awareness)', 'Games (Varies)', 'Investigation (Perception)',
+    'Lore (Intelligence)', 'Medicine (Intelligence)', 'Meditation (Void)', 'Perform (Varies)',
+    'Sincerity (Awareness)', 'Spellcraft (Intelligence)', 'Tea Ceremony (Void)',
+  ],
+  'Bugei Skills': [
+    'Athletics (Strength)', 'Battle (Perception)', 'Defense (Reflexes)', 'Horsemanship (Agility)',
+    'Hunting (Perception)', 'Iaijutsu (Reflexes)', 'Jiujutsu (Agility)',
+    'Chain Weapons (Agility)', 'Heavy Weapons (Agility)', 'Kenjutsu (Agility)',
+    'Knives (Agility)', 'Kyujutsu (Reflexes)', 'Naginata (Agility)',
+    'Polearms (Agility)', 'Spears (Agility)', 'Staves (Agility)', 'War Fan (Agility)',
+  ],
+  'Merchant Skills': [
+    'Animal Handling (Awareness)', 'Commerce (Intelligence)', 'Craft (Varies)',
+    'Engineering (Intelligence)', 'Sailing (Agility)',
+  ],
+  'Low Skills': [
+    'Forgery (Agility)', 'Intimidation (Willpower)', 'Sleight of Hand (Agility)',
+    'Stealth (Agility)', 'Temptation (Awareness)',
+  ],
 }
+
+// ── Stances reference ──
+const STANCES = [
+  { name: 'Attack', ring: 'Water', description: 'Standard stance. No restrictions on Actions. Fluid and versatile.' },
+  { name: 'Full Attack', ring: 'Fire', description: '+2k1 to attack rolls, but Armor TN reduced by 10. May only attack or move closer. Cannot use ranged attacks. +5 ft bonus movement.' },
+  { name: 'Defense', ring: 'Air', description: 'Add Air Ring + Defense Skill Rank to Armor TN. No restrictions except you may not attack. Useful for casting spells in combat.' },
+  { name: 'Full Defense', ring: 'Earth', description: 'Roll Defense/Reflexes and add half (rounded up) to Armor TN until next Turn. This counts as a Complex Action — only Free Actions allowed.' },
+  { name: 'Center', ring: 'Void', description: 'Spend a Void Point. Cannot attack. On your next Turn, add a bonus of +1k1+Void Ring to one roll. Cannot be maintained for more than one Round. Cannot be used while in the Down Wound Rank.' },
+]
+
+const MANEUVERS = [
+  { name: 'Called Shot', raises: 'Variable', description: 'Target a specific body part: limb (1 Raise), hand/foot (2), head (3), eye/finger (4).' },
+  { name: 'Disarm', raises: '3', description: 'If attack succeeds, target must roll Reflexes at TN equal to damage dealt or drop weapon.' },
+  { name: 'Extra Attack', raises: '5', description: 'Make one additional attack this Turn (max one extra per Turn).' },
+  { name: 'Feint', raises: '2', description: 'Ignore target\'s Armor bonus from armor (not Reflexes or other bonuses).' },
+  { name: 'Guard', raises: '0', description: 'Simple Action. Protect an adjacent ally — attacks against them must target you instead.' },
+  { name: 'Increased Damage', raises: '1 per +1k0', description: 'Each Raise adds +1k0 to your damage roll.' },
+  { name: 'Knockdown', raises: '2', description: 'If attack succeeds, target is knocked Prone.' },
+]
 
 // ── Advantages catalogue ──
 const L5R_ADVANTAGES = [
@@ -134,7 +171,7 @@ const INITIAL = {
   backstory: '', notes: '', appearanceDesc: '', personalItems: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tabL5rRings', 'tabL5rSkills', 'tabL5rAdvantages', 'tabL5rTechniques', 'tabL5rSpells', 'tabL5rDerived', 'tabL5rEquipment', 'tabBackstory', 'tabXpLog']
+const TAB_KEYS = ['tabIdentity', 'tabL5rRings', 'tabL5rSkills', 'tabL5rAdvantages', 'tabL5rTechniques', 'tabL5rSpells', 'tabL5rKata', 'tabL5rCombat', 'tabL5rDerived', 'tabL5rEquipment', 'tabBackstory', 'tabXpLog']
 
 export default function L5RForm() {
   const { id: paramId } = useParams()
@@ -502,42 +539,145 @@ Rank 3: ...`} />
         </div>
       </div>
 
-      {/* ── Spells & Kata ── */}
+      {/* ── Spells ── */}
       <div hidden={tab !== 5}>
         <div className="form-section">
           <fieldset>
-            <legend>Spells</legend>
+            <legend>{t('tabL5rSpells')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Record spells by element and mastery level. Elements: Air, Earth, Fire, Water, Void. All shugenja know Sense, Commune, and Summon for their element.
+              Record spells by element and mastery level. All shugenja know Sense, Commune, and Summon for their affinity element. Spell Casting Roll = Ring + School Rank.
             </p>
-            <textarea name="l5rSpells" value={fields.l5rSpells} onChange={handleText} rows={10} style={{ width: '100%' }} placeholder={
-`— Air —
-Tempest of Air (Mastery 1, Range 300', TN 15)
-By the Light of the Moon (Mastery 1, TN 10)
+            <textarea name="l5rSpells" value={fields.l5rSpells} onChange={handleText} rows={12} style={{ width: '100%' }} placeholder={
+`— Air (Affinity) —
+Tempest of Air (ML 1, Range 300', TN 15) — 2k2 damage
+By the Light of the Moon (ML 1, TN 10) — See invisible
 
 — Earth —
-Jade Strike (Mastery 1, Range 300', TN 15)
+Jade Strike (ML 1, Range 300', TN 15) — 2k2 vs Tainted
 
-— Void —
-Sense Void (Mastery 1)`} />
+— Water —
+Path to Inner Peace (ML 1, TN 15) — Heal Wound Rank x 2
+
+— Fire (Deficiency) —
+— Void —`} />
           </fieldset>
           <fieldset>
-            <legend>Kata</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Kata are martial techniques purchased with XP. They require specific Ring values to activate and provide combat bonuses.
-            </p>
-            <textarea name="l5rKata" value={fields.l5rKata} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={
-`Striking as Fire (Fire 3)
-  +1k0 to attack rolls this Round.
+            <legend>Spell Elements Reference</legend>
+            {['Air — Illusion, misdirection, wind, sound. Casting: Air + School Rank.',
+              'Earth — Protection, endurance, jade, stone. Casting: Earth + School Rank.',
+              'Fire — Destruction, knowledge, light, heat. Casting: Fire + School Rank.',
+              'Water — Healing, movement, perception, cold. Casting: Water + School Rank.',
+              'Void — Enlightenment, self, anti-magic. Casting: Void + School Rank.',
+            ].map(line => (
+              <p key={line} className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>{line}</p>
+            ))}
+          </fieldset>
+        </div>
+      </div>
 
-Iron Forest Style (Earth 3)
-  +5 Armor TN while in Defense or Full Defense.`} />
+      {/* ── Kata Catalogue ── */}
+      <div hidden={tab !== 6}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('tabL5rKata')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Kata cost XP equal to their Mastery Level. Executing a Kata is a Simple Action. Only one Kata may be active at a time.
+            </p>
+            <textarea name="l5rKata" value={fields.l5rKata} onChange={handleText} rows={5} style={{ width: '100%' }} placeholder="List your known kata here..." />
+          </fieldset>
+          {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(ring => {
+            const katas = L5R_KATA.filter(k => k.ring === ring)
+            if (katas.length === 0) return null
+            return (
+              <fieldset key={ring}>
+                <legend>{ring} Kata</legend>
+                <table className="inv-table">
+                  <thead>
+                    <tr><th>Name</th><th>{ring}</th><th>Schools</th><th>Effect</th></tr>
+                  </thead>
+                  <tbody>
+                    {katas.map(k => (
+                      <tr key={k.name}>
+                        <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{k.name}</td>
+                        <td>{k.mastery}</td>
+                        <td style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{k.schools}</td>
+                        <td className="inv-notes">{k.effect}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </fieldset>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* ── Combat & Stances ── */}
+      <div hidden={tab !== 7}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('tabL5rCombat')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Choose a Stance at the start of combat, then change it at the beginning of each Turn. Initiative = Insight Rank / Reflexes (keep Reflexes). Armor TN = Reflexes × 5 + 5 + armor.
+            </p>
+          </fieldset>
+
+          <fieldset>
+            <legend>Stances</legend>
+            <table className="inv-table">
+              <thead>
+                <tr><th>Stance</th><th>Ring</th><th>Effect</th></tr>
+              </thead>
+              <tbody>
+                {STANCES.map(s => (
+                  <tr key={s.name}>
+                    <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{s.name}</td>
+                    <td style={{ color: 'var(--color-accent-fg)' }}>{s.ring}</td>
+                    <td className="inv-notes">{s.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </fieldset>
+
+          <fieldset>
+            <legend>Maneuvers</legend>
+            <table className="inv-table">
+              <thead>
+                <tr><th>Maneuver</th><th>Raises</th><th>Effect</th></tr>
+              </thead>
+              <tbody>
+                {MANEUVERS.map(m => (
+                  <tr key={m.name}>
+                    <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{m.name}</td>
+                    <td>{m.raises}</td>
+                    <td className="inv-notes">{m.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </fieldset>
+
+          <fieldset>
+            <legend>Movement</legend>
+            <p className="muted-hint muted-hint--xs">Free Action: Water × 5 ft. Simple Action: Water × 10 ft. Max per round: Water × 20 ft.</p>
+            <p className="muted-hint muted-hint--xs">Basic terrain: no penalty. Moderate: Water -1. Difficult: Water -2.</p>
+          </fieldset>
+
+          <fieldset>
+            <legend>Void Point Uses</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>+1k1 to a Skill, Trait, Ring, or Spell Casting roll (not damage)</p>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Temporarily treat a Skill Rank 0 as Rank 1</p>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Reduce Wounds from one source by 10</p>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Increase Armor TN by 10 for one Round</p>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Increase Initiative Score by 10 for the skirmish</p>
+            <p className="muted-hint muted-hint--xs">Exchange Initiative Score with a willing target</p>
           </fieldset>
         </div>
       </div>
 
       {/* ── Derived Stats ── */}
-      <div hidden={tab !== 6}>
+      <div hidden={tab !== 8}>
         <div className="form-section">
           <fieldset>
             <legend>Honor, Glory &amp; Status</legend>
@@ -631,7 +771,7 @@ Iron Forest Style (Earth 3)
       </div>
 
       {/* ── Equipment ── */}
-      <div hidden={tab !== 7}>
+      <div hidden={tab !== 9}>
         <div className="form-section">
           <fieldset>
             <legend>{t('tabL5rEquipment')}</legend>
@@ -705,7 +845,7 @@ Traveling pack, spare kimono, 10 koku`} />
       </div>
 
       {/* ── Backstory ── */}
-      <div hidden={tab !== 8}>
+      <div hidden={tab !== 10}>
         <div className="form-section">
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
@@ -714,7 +854,7 @@ Traveling pack, spare kimono, 10 koku`} />
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 9}>
+      <div hidden={tab !== 11}>
         <XpLogSection splat="l5r" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
