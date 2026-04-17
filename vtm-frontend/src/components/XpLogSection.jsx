@@ -211,7 +211,7 @@ export default function XpLogSection({ splat, xpLog, onAdd, onRemove, onError, t
   const costCategories = Object.keys(costTable)
 
   const costDef = costTable[category]
-  const isManual = category === 'Earned' || category === 'Other' || !costDef
+  const isManual = category === 'Earned' || category === 'Other' || !costDef || (isXp && costDef.flat == null && costDef.multiplier == null)
 
   let calculatedCost = 0
   let showRatingInput = false
