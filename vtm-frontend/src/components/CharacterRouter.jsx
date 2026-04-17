@@ -16,6 +16,7 @@ import ChangingBreedsForm from './ChangingBreedsForm'
 import GhoulForm from './GhoulForm'
 import FamiliarForm from './FamiliarForm'
 import TotemForm from './TotemForm'
+import KinfolkForm from './KinfolkForm'
 import SeventhSeaForm from './SeventhSeaForm'
 import SeventhSeaVillainForm from './SeventhSeaVillainForm'
 import L5RForm from './L5RForm'
@@ -60,6 +61,7 @@ export default function CharacterRouter() {
   if (splat === 'GHOUL') return <GhoulForm />
   if (splat === 'FAMILIAR') return <FamiliarForm />
   if (splat === 'TOTEM') return <TotemForm />
+  if (splat === 'KINFOLK') return <KinfolkForm />
   if (splat === 'SEVENTH_SEA' && isNpc) return <SeventhSeaVillainForm />
   if (splat === 'SEVENTH_SEA') return <SeventhSeaForm />
   if (splat === 'L5R') return <L5RForm />

@@ -23,6 +23,7 @@ const SPLATS = {
     { id: 'werewolf',           nameKey: 'splatWerewolf',  subKey: 'splatWerewolfSub',  descKey: 'splatWerewolfDesc',  color: '#7a8b3a' },
     { id: 'wyld-west-werewolf', nameKey: 'splatWyldWest',       subKey: 'splatWyldWestSub',       descKey: 'splatWyldWestDesc',       color: '#8b6914' },
     { id: 'changing-breeds',    nameKey: 'splatChangingBreeds', subKey: 'splatChangingBreedsSub', descKey: 'splatChangingBreedsDesc', color: '#5a7a3a' },
+    { id: 'kinfolk',            nameKey: 'splatKinfolk',          subKey: 'splatKinfolkSub',          descKey: 'splatKinfolkDesc',          color: '#6a7a3a' },
     { id: 'totem',              nameKey: 'splatTotem',            subKey: 'splatTotemSub',            descKey: 'splatTotemDesc',            color: '#4a6a2a' },
   ],
   mage: [

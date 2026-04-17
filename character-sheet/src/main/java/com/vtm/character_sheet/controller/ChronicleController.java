@@ -282,7 +282,7 @@ public class ChronicleController {
         Map.entry("VAMPIRE_DARK_AGES", "VAMPIRE"), Map.entry("VICTORIAN_VAMPIRE", "VAMPIRE"),
         Map.entry("KOTE", "VAMPIRE"), Map.entry("GHOUL", "VAMPIRE"),
         Map.entry("WEREWOLF", "WEREWOLF"), Map.entry("WYLD_WEST_WEREWOLF", "WEREWOLF"),
-        Map.entry("CHANGING_BREEDS", "WEREWOLF"), Map.entry("TOTEM", "WEREWOLF"),
+        Map.entry("CHANGING_BREEDS", "WEREWOLF"), Map.entry("TOTEM", "WEREWOLF"), Map.entry("KINFOLK", "WEREWOLF"),
         Map.entry("MAGE", "MAGE"), Map.entry("VICTORIAN_MAGE", "MAGE"),
         Map.entry("FAMILIAR", "MAGE"),
         Map.entry("SEVENTH_SEA", "SEVENTH_SEA"),

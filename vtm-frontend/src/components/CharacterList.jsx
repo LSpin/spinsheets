@@ -21,6 +21,7 @@ const SPLAT_LABEL_KEYS = {
   GHOUL: 'splatGhoul',
   FAMILIAR: 'splatFamiliar',
   TOTEM: 'splatTotem',
+  KINFOLK: 'splatKinfolk',
   SEVENTH_SEA: 'splat7thSea',
   L5R: 'splatL5R',
 }
@@ -29,7 +30,7 @@ function splatBadgeClass(splat) {
   return `splat-badge splat-badge--${(splat || 'vampire').toLowerCase().replace('_', '-')}`
 }
 
-const WEREWOLF_SPLATS = new Set(['WEREWOLF', 'WYLD_WEST_WEREWOLF', 'CHANGING_BREEDS', 'TOTEM'])
+const WEREWOLF_SPLATS = new Set(['WEREWOLF', 'WYLD_WEST_WEREWOLF', 'CHANGING_BREEDS', 'TOTEM', 'KINFOLK'])
 const MAGE_SPLATS = new Set(['MAGE', 'VICTORIAN_MAGE', 'FAMILIAR'])
 
 function CharacterCard({ c, user, isST, t, navigate, onDelete, chronicles, onAssignChronicle }) {

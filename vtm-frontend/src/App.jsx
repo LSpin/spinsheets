@@ -30,6 +30,7 @@ import HomePage from './pages/HomePage'
 import GhoulForm from './components/GhoulForm'
 import FamiliarForm from './components/FamiliarForm'
 import TotemForm from './components/TotemForm'
+import KinfolkForm from './components/KinfolkForm'
 import SeventhSeaForm from './components/SeventhSeaForm'
 import SeventhSeaVillainForm from './components/SeventhSeaVillainForm'
 import SeventhSeaPage from './pages/SeventhSeaPage'
@@ -218,6 +219,9 @@ function AppShell() {
           } />
           <Route path="/characters/new/totem" element={
             <ProtectedRoute><TotemForm /></ProtectedRoute>
+          } />
+          <Route path="/characters/new/kinfolk" element={
+            <ProtectedRoute><KinfolkForm /></ProtectedRoute>
           } />
           <Route path="/characters/:id" element={
             <ProtectedRoute><CharacterRouter /></ProtectedRoute>
