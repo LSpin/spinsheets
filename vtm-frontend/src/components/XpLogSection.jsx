@@ -150,6 +150,28 @@ const configs = {
       ['freebieBgCost', 'freebieWpCost', 'freebieQuintCost'],
     ],
   },
+
+  'seventh-sea': {
+    startingFreebies: 0,
+    xpCosts: {
+      Trait:       { multiplier: 5 },
+      Skill:       { multiplier: 2 },
+      NewSkill:    { flat: 3 },
+      Advantage:   { flat: 5 },
+      Earned:      {},
+      Other:       {},
+    },
+    freebieCosts: {
+      Trait: 5, Skill: 2, Advantage: 5, Other: 1,
+    },
+    xpRef: [
+      ['xp7sTraitCost', 'xp7sSkillCost', 'xp7sNewSkillCost'],
+      ['xp7sAdvCost'],
+    ],
+    freebieRef: [
+      ['freebie7sTraitCost', 'freebie7sSkillCost', 'freebie7sAdvCost'],
+    ],
+  },
 }
 
 export default function XpLogSection({ splat, xpLog, onAdd, onRemove, onError, t }) {
