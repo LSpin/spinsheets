@@ -18,7 +18,7 @@ import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../da
 import { KOTE_DHARMAS } from '../data/koteDharmas'
 import { KOTE_SHINTAI } from '../data/koteShintai'
 import { useLanguage } from '../i18n/LanguageContext'
-import { BACKGROUNDS } from '../data/backgrounds'
+import { VAMPIRE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import TagInfoPanel from './TagInfoPanel'
 
 // ── Constants ──

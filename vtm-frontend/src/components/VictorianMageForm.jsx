@@ -19,7 +19,7 @@ import { MAGE_TRADITIONS } from '../data/mageTraditions'
 import { MAGE_ROTES } from '../data/mageRotes'
 import { SPHERE_INFO, SPHERE_KEYS, SPHERE_FIELD_MAP } from '../data/mageSpheres'
 import { useLanguage } from '../i18n/LanguageContext'
-import { BACKGROUNDS } from '../data/backgrounds'
+import { MAGE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import TagInfoPanel from './TagInfoPanel'
 
 // ── Constants ──

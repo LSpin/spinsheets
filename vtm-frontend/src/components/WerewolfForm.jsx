@@ -20,7 +20,7 @@ import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../da
 import { WEREWOLF_GIFTS } from '../data/werewolfGifts'
 import { WEREWOLF_RITES } from '../data/werewolfRites'
 import { WEREWOLF_TOTEMS } from '../data/werewolfTotems'
-import { BACKGROUNDS } from '../data/backgrounds'
+import { WEREWOLF_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import TagInfoPanel from './TagInfoPanel'
 
 // ── Constants ──

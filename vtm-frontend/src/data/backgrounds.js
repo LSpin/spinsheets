@@ -1,152 +1,119 @@
-// World of Darkness — Backgrounds catalog with descriptions and level breakdowns
-export const BACKGROUNDS = [
-  { value: 'Allies', description: 'Mortals or organisations that actively support and assist you when called upon.',
-    levels: [
-      '●  A single contact who can provide minor favours on request.',
-      '●● A small group that assists in limited but genuinely useful ways.',
-      '●●● A reliable organisation with significant reach and resources.',
-      '●●●● Multiple groups across several fields, consistently available to you.',
-      '●●●●● Powerful allies with broad influence who answer your call reliably and swiftly.',
-    ] },
-  { value: 'Alternate Identity', description: 'A secondary persona with documentation, history, and a separate social presence.',
-    levels: [
-      '●  A basic false name with minimal, barely passable documentation.',
-      '●● A solid identity with ID, cards, and a brief but credible history.',
-      '●●● A thoroughly documented identity with an established background and references.',
-      '●●●● A deep-cover identity indistinguishable from a real person\'s complete life.',
-      '●●●●● Multiple airtight identities, each with its own history, contacts, and assets.',
-    ] },
-  { value: 'Contacts', description: 'A network of information sources spread across mortal and Kindred society.',
-    levels: [
-      '●  One or two people who share information in a single field.',
-      '●● A small network spanning a couple of different fields.',
-      '●●● A reliable web of informants across several areas of mortal life.',
-      '●●●● A broad network with sources in most walks of life.',
-      '●●●●● An extensive intelligence network covering virtually any field you need.',
-    ] },
-  { value: 'Domain', description: 'Territory you control where you have the right to feed and conduct your affairs.',
-    levels: [
-      '●  A small, marginal area with limited and contested feeding rights.',
-      '●● A modest territory with adequate and defensible feeding grounds.',
-      '●●● A well-established domain with recognised Kindred boundaries.',
-      '●●●● A substantial territory with strong political recognition in the city.',
-      '●●●●● A significant domain granting considerable political leverage over the city.',
-    ] },
-  { value: 'Fame', description: 'Public recognition and celebrity that opens doors — and attracts attention.',
-    levels: [
-      '●  Recognised by enthusiasts in a small niche or local community.',
-      '●● Known locally; recognised on the street within your city.',
-      '●●● Regional celebrity; featured in media and widely known.',
-      '●●●● National prominence; your name and face appear in mainstream media.',
-      '●●●●● International fame; instantly recognised almost anywhere in the world.',
-    ] },
-  { value: 'Generation', description: 'The thinness of your blood and your proximity to Caine in the lineage.',
-    levels: [
-      '●  12th generation — blood pool 11.',
-      '●● 11th generation — blood pool 12.',
-      '●●● 10th generation — blood pool 13.',
-      '●●●● 9th generation — blood pool 14, spend 2 blood per turn.',
-      '●●●●● 8th generation — blood pool 15, spend 3 blood per turn.',
-    ] },
-  { value: 'Herd', description: 'Mortals who willingly provide blood on a regular basis.',
-    levels: [
-      '●  Two or three mortals who feed you willingly on occasion.',
-      '●● A small but reliable group of half a dozen vessels.',
-      '●●● A dependable herd of around a dozen; feeding is rarely difficult.',
-      '●●●● A large herd providing consistent and convenient access to blood.',
-      '●●●●● A devoted flock; you virtually never want for blood.',
-    ] },
+// World of Darkness — Backgrounds catalog organized by splat
+// Shared backgrounds appear in multiple lists
+
+// ── Shared (available to most splats) ──
+const SHARED = [
+  { value: 'Allies', description: 'Mortals or organisations that actively support and assist you.',
+    levels: ['● A single contact who can provide minor favours.', '●● A small group that assists in limited ways.', '●●● A reliable organisation with significant reach.', '●●●● Multiple groups across several fields.', '●●●●● Powerful allies with broad influence.'] },
+  { value: 'Contacts', description: 'A network of information sources across society.',
+    levels: ['● One or two people in a single field.', '●● A small network spanning a couple of fields.', '●●● Informants across several areas.', '●●●● Sources in most walks of life.', '●●●●● Extensive intelligence network.'] },
+  { value: 'Fame', description: 'Public recognition and celebrity.',
+    levels: ['● Known in a small niche.', '●● Known locally.', '●●● Regional celebrity.', '●●●● National prominence.', '●●●●● International fame.'] },
   { value: 'Influence', description: 'Power within mortal institutions — government, media, finance, crime.',
-    levels: [
-      '●  Minor pull in one institution; can call in small favours.',
-      '●● Reliable leverage in a couple of organisations.',
-      '●●● Significant sway in several institutions; shape local policies.',
-      '●●●● Major power across multiple sectors; affect regional or national events.',
-      '●●●●● Commanding influence across broad swaths of mortal society.',
-    ] },
-  { value: 'Mentor', description: 'An elder Kindred who guides, advises, and occasionally intervenes on your behalf.',
-    levels: [
-      '●  An elder who occasionally offers advice but has little real power.',
-      '●● A capable Kindred who actively supports and guides you.',
-      '●●● A powerful Kindred with real political influence who watches over you.',
-      '●●●● An elder of considerable status who intervenes when genuinely needed.',
-      '●●●●● An ancient whose favour grants significant protection and opens many doors.',
-    ] },
-  { value: 'Resources', description: 'Wealth, assets, property, and the financial power to sustain your unlife.',
-    levels: [
-      '●  Small savings; enough to live modestly without working.',
-      '●● Comfortable; equivalent to a solid middle-class income and lifestyle.',
-      '●●● Affluent; access to significant cash, property, and investments.',
-      '●●●● Wealthy; major assets and a lavish lifestyle with few financial limits.',
-      '●●●●● Vast wealth; effectively unlimited financial resources.',
-    ] },
-  { value: 'Retainers', description: 'Loyal servants — ghouls, thralls, or devoted mortals — who carry out your will.',
-    levels: [
-      '●  One loyal assistant with basic useful skills.',
-      '●● A couple of reliable servants covering different practical needs.',
-      '●●● Several capable retainers, at least one skilled in a useful specialty.',
-      '●●●● A staff of loyal servants covering most practical needs reliably.',
-      '●●●●● A household of devoted retainers including highly skilled specialists.',
-    ] },
-  { value: 'Status', description: 'Your reputation and standing within the formal hierarchy of Kindred society.',
-    levels: [
-      '●  Known and acknowledged within the local Kindred community.',
-      '●● Respected; your opinions are heard and given genuine consideration.',
-      '●●● Significant standing; you hold or have held recognised office.',
-      '●●●● High esteem; one of the notable Kindred in the city.',
-      '●●●●● Pillar of Kindred society; your word carries great weight across the sect.',
-    ] },
-  { value: 'Haven', description: 'The safety and secrecy of your primary resting place.',
-    levels: [
-      '●  A cramped, insecure space — a car trunk, an attic, or a public squat.',
-      '●● A basic but private location — a rented room or basement apartment.',
-      '●●● A comfortable, secure dwelling with controlled access.',
-      '●●●● A well-appointed haven with multiple entry points and escape routes.',
-      '●●●●● A fortified, luxurious retreat virtually impervious to casual discovery.',
-    ] },
-  { value: 'Haven Security', description: 'Physical defences, alarms, and countermeasures protecting your haven.',
-    levels: [
-      '●  Basic locks and a simple alarm system.',
-      '●● Reinforced doors, security cameras, and a monitored alarm.',
-      '●●● Armed guards, electronic surveillance, and hardened entry points.',
-      '●●●● Military-grade security with redundant systems and rapid response.',
-      '●●●●● A fortress — virtually impenetrable to any conventional assault.',
-    ] },
-  { value: 'Haven Luxury', description: 'The comfort, amenities, and opulence of your haven.',
-    levels: [
-      '●  Spartan but liveable — running water, basic furniture.',
-      '●● Comfortable — decent furnishings, entertainment, and a functional kitchen.',
-      '●●● Upscale — stylish décor, quality amenities, and pleasant surroundings.',
-      '●●●● Luxurious — fine art, designer furnishings, and every modern convenience.',
-      '●●●●● Palatial — a residence of breathtaking opulence and grandeur.',
-    ] },
-  { value: 'Haven Size', description: 'The physical extent and number of rooms in your haven.',
-    levels: [
-      '●  A single room — a studio or a converted closet.',
-      '●● A small apartment — a couple of rooms and basic facilities.',
-      '●●● A spacious home — several rooms, storage, and guest space.',
-      '●●●● A large estate — multiple floors, wings, or outbuildings.',
-      '●●●●● A compound — a mansion, warehouse complex, or underground network.',
-    ] },
-  // ── Clan-Specific & Specialized Backgrounds ──
-  { value: 'Black Hand Membership', description: 'Standing within the Black Hand (Tal\'Mahe\'Ra) — the secret sect within the Sabbat or independent of it.' },
-  { value: 'Clan Prestige', description: 'Your reputation and standing within your own clan, separate from sect status.' },
-  { value: 'Domain (Sabbat)', description: 'Territory claimed through force within the Sabbat — hunting grounds and packs answer to you.' },
-  { value: 'Elysium Domain', description: 'You control or co-control an Elysium — a neutral ground where violence is forbidden and deals are brokered.' },
-  { value: 'Military Force', description: 'Access to mortal soldiers, mercenaries, or paramilitaries who follow your command.' },
-  { value: 'Rituals (Sabbat)', description: 'Knowledge of Sabbat auctoritas and ignobilis ritae. Higher levels grant access to rarer and more powerful rites.' },
-  { value: 'Spirit Slaves', description: 'Bound wraiths or spirits forced to serve you through necromantic compulsion or blood sorcery. (Giovanni / Necromancers)' },
-  { value: 'Sabbat Status', description: 'Standing within the Sabbat hierarchy — from newly inducted to Bishop, Archbishop, or Cardinal.' },
-  { value: 'Pack Recognition', description: 'Your standing and reputation within your Sabbat pack. Higher levels mean greater authority and trust.' },
-  { value: 'Mawla', description: 'An elder or powerful figure within your clan who acts as patron — distinct from Mentor, this is a political relationship of mutual obligation.' },
-  { value: 'Herd (Expanded)', description: 'A dedicated and protected herd with specific qualities — willing donors, a blood cult, or captive vessels.' },
-  { value: 'Clanbook Library', description: 'Access to rare texts, grimoires, and clan-specific lore that provides insight into Kindred history and blood sorcery.' },
-  { value: 'Ritae', description: 'Sabbat ritae knowledge and leadership — the ability to perform and create pack rituals.' },
-  { value: 'Ancestor Ally', description: 'A torpored or active ancestor in your lineage who can be consulted for wisdom, lore, or occasional intervention.' },
-  { value: 'Arsenal', description: 'A personal weapons cache — from a locked cabinet to a hidden bunker of military hardware.' },
-  { value: 'Church (Lancea Sanctum)', description: 'Influence within a mortal religious institution that provides cover, resources, and faithful retainers.' },
-  { value: 'Domain (Camarilla)', description: 'Formally recognised Camarilla territory with the rights to feed, Embrace, and enforce the Traditions within it.' },
-  { value: 'Laboratory', description: 'A private workspace for blood sorcery, alchemy, or Vicissitude experiments — from a closet to a full chantry lab.' },
-  { value: 'Spy Network', description: 'A covert intelligence operation with planted agents, dead drops, and handlers across mortal and Kindred society.' },
-  { value: 'Wraith Contacts', description: 'Connections to the restless dead who provide information from beyond the Shroud. (Necromancers)' },
+    levels: ['● Minor pull in one institution.', '●● Reliable leverage in a couple of organisations.', '●●● Significant sway in several institutions.', '●●●● Major power across multiple sectors.', '●●●●● Commanding influence across mortal society.'] },
+  { value: 'Mentor', description: 'An elder or powerful figure who guides and advises you.',
+    levels: ['● Occasional advice, little real power.', '●● Active support and guidance.', '●●● Real political influence.', '●●●● Considerable status, intervenes when needed.', '●●●●● Ancient patron whose favour opens many doors.'] },
+  { value: 'Resources', description: 'Wealth, assets, property, and financial power.',
+    levels: ['● Modest savings.', '●● Comfortable middle-class.', '●●● Affluent with significant assets.', '●●●● Wealthy with few financial limits.', '●●●●● Vast, effectively unlimited wealth.'] },
+  { value: 'Retainers', description: 'Loyal servants who carry out your will.',
+    levels: ['● One loyal assistant.', '●● A couple of reliable servants.', '●●● Several capable retainers.', '●●●● A staff covering most needs.', '●●●●● A household of devoted specialists.'] },
 ]
+
+// ── Vampire (V20, Revised, Dark Ages, Victorian, KotE, Ghoul) ──
+const VAMPIRE_SPECIFIC = [
+  { value: 'Alternate Identity', description: 'A secondary persona with documentation and history.',
+    levels: ['● Basic false name.', '●● Solid identity with ID.', '●●● Thoroughly documented.', '●●●● Deep-cover identity.', '●●●●● Multiple airtight identities.'] },
+  { value: 'Domain', description: 'Territory you control with feeding rights.',
+    levels: ['● Small, marginal area.', '●● Modest, defensible territory.', '●●● Well-established domain.', '●●●● Substantial territory.', '●●●●● Significant domain with political leverage.'] },
+  { value: 'Generation', description: 'Proximity to Caine — thinner blood means more power.',
+    levels: ['● 12th gen — blood pool 11.', '●● 11th gen — blood pool 12.', '●●● 10th gen — blood pool 13.', '●●●● 9th gen — blood pool 14, 2/turn.', '●●●●● 8th gen — blood pool 15, 3/turn.'] },
+  { value: 'Herd', description: 'Mortals who willingly provide blood regularly.',
+    levels: ['● Two or three willing vessels.', '●● Half a dozen reliable vessels.', '●●● About a dozen; feeding is easy.', '●●●● Large herd, consistent access.', '●●●●● Devoted flock; never want for blood.'] },
+  { value: 'Haven', description: 'The safety and secrecy of your resting place.',
+    levels: ['● Cramped, insecure space.', '●● Basic private location.', '●●● Comfortable, secure dwelling.', '●●●● Well-appointed with escape routes.', '●●●●● Fortified, luxurious retreat.'] },
+  { value: 'Haven Security', description: 'Physical defences protecting your haven.',
+    levels: ['● Basic locks and alarm.', '●● Reinforced doors, cameras.', '●●● Armed guards, surveillance.', '●●●● Military-grade security.', '●●●●● Virtually impenetrable fortress.'] },
+  { value: 'Status', description: 'Standing within Kindred society.',
+    levels: ['● Known and acknowledged.', '●● Respected, opinions heard.', '●●● Significant standing, held office.', '●●●● High esteem in the city.', '●●●●● Pillar of Kindred society.'] },
+  { value: 'Clan Prestige', description: 'Reputation within your own clan, separate from sect status.' },
+  { value: 'Sabbat Status', description: 'Standing within the Sabbat hierarchy.' },
+  { value: 'Black Hand Membership', description: 'Standing within the Black Hand.' },
+  { value: 'Pack Recognition', description: 'Reputation within your Sabbat pack.' },
+  { value: 'Elysium Domain', description: 'Control of an Elysium — neutral ground for deals.' },
+  { value: 'Mawla', description: 'A patron elder — political relationship of mutual obligation.' },
+  { value: 'Arsenal', description: 'A personal weapons cache.' },
+  { value: 'Laboratory', description: 'Workspace for blood sorcery or Vicissitude experiments.' },
+  { value: 'Spy Network', description: 'Covert intelligence operation with planted agents.' },
+  { value: 'Spirit Slaves', description: 'Bound wraiths forced to serve (Giovanni/Necromancers).' },
+  { value: 'Wraith Contacts', description: 'Connections to the restless dead (Necromancers).' },
+]
+
+// ── Werewolf (W20) ──
+const WEREWOLF_SPECIFIC = [
+  { value: 'Ancestors', description: 'Connection to past lives and ancestral memories.',
+    levels: ['● Vague impressions.', '●● Occasional clear memories.', '●●● Reliable access to ancestor skills.', '●●●● Deep communion, borrow abilities.', '●●●●● Past lives feel like your own.'] },
+  { value: 'Fetish', description: 'A spirit-bound object with supernatural powers.',
+    levels: ['● Level 1 fetish.', '●● Level 2 fetish.', '●●● Level 3 fetish.', '●●●● Level 4 fetish.', '●●●●● Level 5 fetish.'] },
+  { value: 'Kinfolk', description: 'Relatives who carry the wolf gene but cannot change.',
+    levels: ['● A few distant relatives.', '●● A small family group.', '●●● An extended family.', '●●●● A large family network.', '●●●●● A vast kinfolk community.'] },
+  { value: 'Pure Breed', description: 'The purity and nobility of your Garou lineage.',
+    levels: ['● Hints of good breeding.', '●● Clearly from a noble line.', '●●● Unmistakably pure lineage.', '●●●● Descended from legendary heroes.', '●●●●● The purest blood in generations.'] },
+  { value: 'Rites', description: 'Knowledge of Garou rites — spiritual ceremonies.',
+    levels: ['● One Level 1 rite.', '●● One Level 2 rite.', '●●● One Level 3 rite.', '●●●● One Level 4 rite.', '●●●●● One Level 5 rite.'] },
+  { value: 'Spirit Heritage', description: 'Spiritual connections that make spirits friendlier to you.' },
+  { value: 'Totem', description: 'Your pack\'s totem spirit — shared spiritual patron.',
+    levels: ['● Minor totem.', '●● Moderate totem.', '●●● Significant totem.', '●●●● Powerful totem.', '●●●●● Legendary totem.'] },
+  { value: 'Territory', description: 'The land your pack claims and defends.',
+    levels: ['● A small urban patch.', '●● A neighbourhood or park.', '●●● A significant area.', '●●●● A large territory.', '●●●●● A vast wilderness domain.'] },
+]
+
+// ── Mage (M20) ──
+const MAGE_SPECIFIC = [
+  { value: 'Arcane', description: 'Supernatural anonymity — people forget you, records lose your name.',
+    levels: ['● Slightly hard to remember.', '●● People forget meeting you.', '●●● Records mysteriously vanish.', '●●●● Cameras glitch, witnesses forget.', '●●●●● You barely exist in any record.'] },
+  { value: 'Avatar', description: 'The strength of your Avatar — the spark of Awakened magic.',
+    levels: ['● Faint whispers of guidance.', '●● Clear intuitions.', '●●● Vivid visions and dreams.', '●●●● Powerful spiritual connection.', '●●●●● Avatar is a constant, powerful presence.'] },
+  { value: 'Backup', description: 'Support from your Tradition or Convention in emergencies.' },
+  { value: 'Blessing', description: 'A permanent magical benefit from a spirit or Umbrood.' },
+  { value: 'Certification', description: 'Official status within the Technocracy or Traditions.' },
+  { value: 'Chantry', description: 'Membership in a shared magical workspace.',
+    levels: ['● Access to a small shared space.', '●● A functional chantry with basic resources.', '●●● A well-equipped chantry.', '●●●● A major chantry with extensive resources.', '●●●●● A legendary chantry of great power.'] },
+  { value: 'Demesne', description: 'A personal magical sanctum you\'ve shaped to your will.' },
+  { value: 'Destiny', description: 'A prophesied fate that grants supernatural luck — but binds you.',
+    levels: ['● Minor prophetic hints.', '●● Fate nudges events in your favour.', '●●● Clearly destined for something.', '●●●● Powerful fate that shapes your life.', '●●●●● An epic destiny that cannot be denied.'] },
+  { value: 'Dream', description: 'Access to the Dreaming — prophetic visions and Umbral insight.',
+    levels: ['● Occasional prophetic dreams.', '●● Regular useful visions.', '●●● Vivid controllable dreams.', '●●●● Dream-walk at will.', '●●●●● Master of the Dream Realms.'] },
+  { value: 'Enhancement', description: 'Permanent Technocratic augmentation — cybernetics, bioware, or nanites.' },
+  { value: 'Genius', description: 'Extraordinary natural intelligence or creative capacity.' },
+  { value: 'Hypercram', description: 'Ability to learn and absorb information at superhuman speed.' },
+  { value: 'Legend', description: 'Your magical reputation precedes you — for good or ill.' },
+  { value: 'Library', description: 'A collection of occult texts, grimoires, and research materials.',
+    levels: ['● A few useful books.', '●● A solid occult library.', '●●● An extensive collection.', '●●●● A rare and valuable library.', '●●●●● One of the great occult libraries.'] },
+  { value: 'Node', description: 'A place where Quintessence pools — a source of magical energy.',
+    levels: ['● A trickle of Quintessence.', '●● A modest flow.', '●●● A reliable source.', '●●●● A powerful node.', '●●●●● A legendary wellspring.'] },
+  { value: 'Past Lives', description: 'Memories from previous incarnations that inform the present.' },
+  { value: 'Patron', description: 'A powerful spirit, Umbrood, or entity that sponsors you.' },
+  { value: 'Requisitions', description: 'Technocratic resource allocation for equipment and support.' },
+  { value: 'Sanctum', description: 'A personal magical workspace separate from a chantry.' },
+  { value: 'Secret Weapons', description: 'Hidden magical items or devices for emergencies.' },
+  { value: 'Totem (Mage)', description: 'A spirit guide associated with your magical practice.' },
+  { value: 'Wonder', description: 'A magical item — a talisman, device, or artifact.',
+    levels: ['● Minor trinket.', '●● Useful magical tool.', '●●● Significant enchanted item.', '●●●● Powerful magical artifact.', '●●●●● Legendary wonder of great power.'] },
+]
+
+// ── Composed exports per splat category ──
+export const VAMPIRE_BACKGROUNDS = [...SHARED, ...VAMPIRE_SPECIFIC]
+export const WEREWOLF_BACKGROUNDS = [...SHARED, ...WEREWOLF_SPECIFIC]
+export const MAGE_BACKGROUNDS = [...SHARED, ...MAGE_SPECIFIC]
+
+// Default export for backwards compatibility (all combined)
+export const BACKGROUNDS = [...SHARED, ...VAMPIRE_SPECIFIC, ...WEREWOLF_SPECIFIC, ...MAGE_SPECIFIC]
+
+// Helper to get the right backgrounds for a splat
+export function getBackgroundsForSplat(splat) {
+  if (!splat) return VAMPIRE_BACKGROUNDS
+  const s = splat.toUpperCase()
+  if (s === 'WEREWOLF' || s === 'WYLD_WEST_WEREWOLF' || s === 'CHANGING_BREEDS' || s === 'TOTEM') return WEREWOLF_BACKGROUNDS
+  if (s === 'MAGE' || s === 'VICTORIAN_MAGE' || s === 'FAMILIAR') return MAGE_BACKGROUNDS
+  return VAMPIRE_BACKGROUNDS
+}

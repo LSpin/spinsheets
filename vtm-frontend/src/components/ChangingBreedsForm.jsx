@@ -21,7 +21,7 @@ import { FERA_GIFTS } from '../data/feraGifts'
 import { WEREWOLF_RITES } from '../data/werewolfRites'
 import { WEREWOLF_TOTEMS } from '../data/werewolfTotems'
 import { FERA_SPECIES } from '../data/changingBreeds'
-import { BACKGROUNDS } from '../data/backgrounds'
+import { WEREWOLF_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import TagInfoPanel from './TagInfoPanel'
 
 // ── Constants ──

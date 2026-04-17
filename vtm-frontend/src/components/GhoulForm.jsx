@@ -15,7 +15,7 @@ import InventorySection from './InventorySection'
 import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
-import { BACKGROUNDS } from '../data/backgrounds'
+import { VAMPIRE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { VAMPIRE_DISCIPLINES } from '../data/vampireDisciplines'
 import TagInfoPanel from './TagInfoPanel'
 
