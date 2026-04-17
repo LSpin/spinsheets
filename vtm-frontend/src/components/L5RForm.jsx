@@ -253,6 +253,8 @@ export default function L5RForm() {
   const [spellAffinity, setSpellAffinity] = useState('')
   const [spellDeficiency, setSpellDeficiency] = useState('')
   const [activeKata, setActiveKata] = useState('')
+  const [advSearch, setAdvSearch] = useState('')
+  const [disadvSearch, setDisadvSearch] = useState('')
   const [newSkillName, setNewSkillName] = useState('')
   const [newSkillRank, setNewSkillRank] = useState(1)
   const [newSkillEmphases, setNewSkillEmphases] = useState([])
@@ -688,101 +690,138 @@ export default function L5RForm() {
       {/* ── Advantages / Disadvantages ── */}
       <div hidden={tab !== 3}>
         <div className="form-section">
-          {/* Advantages */}
+          {/* ── Advantages ── */}
           <fieldset>
-            <legend>Advantages</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Advantages are purchased with Experience Points during character creation. Select from the catalogue or add custom entries.
-            </p>
+            <legend>Advantages ({disciplines.length})</legend>
             {disciplines.length > 0 && (
-              <ul className="tag-list">
-                {disciplines.map(d => (
-                  <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
-                    onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'advantage' })}>
-                    <span>{d.name} ({d.level} pt{d.level !== 1 ? 's' : ''})</span>
-                    <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }}>x</button>
-                  </li>
-                ))}
+              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+                {disciplines.map(d => {
+                  const entry = L5R_ADVANTAGES.find(a => a.name.toLowerCase() === d.name.toLowerCase())
+                  return (
+                    <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
+                      onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'advantage' })}>
+                      <span>{d.name} ({d.level}pt)</span>
+                      <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }}>x</button>
+                    </li>
+                  )
+                })}
               </ul>
             )}
-            <div className="field-row" style={{ alignItems: 'flex-end' }}>
-              <div className="field" style={{ flex: 2 }}>
-                <label>Advantage</label>
-                <input type="text" list="l5r-adv-catalog" value={newAdv.name}
-                  onChange={e => {
-                    const val = e.target.value
-                    const hit = L5R_ADVANTAGES.find(a => a.name === val)
-                    if (hit) setNewAdv({ name: hit.name, level: typeof hit.cost === 'number' ? hit.cost : 1, notes: '' })
-                    else setNewAdv(p => ({ ...p, name: val }))
-                  }}
-                  placeholder="Select or type advantage..." autoComplete="off" />
-                <datalist id="l5r-adv-catalog">
-                  {L5R_ADVANTAGES.map(a => <option key={a.name} value={a.name} />)}
-                </datalist>
-              </div>
-              <div className="field">
-                <label>Cost (XP)</label>
-                <select value={newAdv.level} onChange={e => setNewAdv(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(v => <option key={v} value={v}>{v}</option>)}
-                </select>
-              </div>
-              <button className="btn btn-secondary" onClick={handleAddAdvantage}>{t('add')}</button>
+            {tagInfo?.kind === 'advantage' && (() => {
+              const entry = L5R_ADVANTAGES.find(a => a.name.toLowerCase() === tagInfo.name.toLowerCase())
+              return (
+                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                  <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
+                  <p className="tag-info-panel-name">{tagInfo.name}</p>
+                  <p className="tag-info-panel-desc">Advantage · {tagInfo.level} XP</p>
+                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55, color: 'var(--color-text)' }}>{entry.description}</p>}
+                </aside>
+              )
+            })()}
+            <div className="catalog-search-wrap">
+              <input type="search" value={advSearch} onChange={e => setAdvSearch(e.target.value)}
+                placeholder="Search advantages..." aria-label="Search advantages" />
+              <span className="catalog-search-count">{L5R_ADVANTAGES.filter(a => a.name.toLowerCase().includes(advSearch.toLowerCase()) || a.description.toLowerCase().includes(advSearch.toLowerCase())).length}</span>
             </div>
+            <ul className="catalog-list" aria-label="Advantage catalog">
+              {L5R_ADVANTAGES
+                .filter(a => a.name.toLowerCase().includes(advSearch.toLowerCase()) || a.description.toLowerCase().includes(advSearch.toLowerCase()))
+                .slice(0, 30)
+                .map(a => {
+                  const already = disciplines.some(d => d.name.toLowerCase() === a.name.toLowerCase())
+                  return (
+                    <li key={a.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                      <button className="catalog-item-btn" onClick={() => {
+                        if (!already) {
+                          const cost = typeof a.cost === 'number' ? a.cost : 1
+                          addDiscipline(characterId, { name: a.name, level: cost, notes: '' })
+                            .then(res => setDisciplines(prev => [...prev, res.data]))
+                            .catch(() => setActionError(t('failedToSave')))
+                        } else {
+                          const d = disciplines.find(d => d.name.toLowerCase() === a.name.toLowerCase())
+                          if (d) setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'advantage' })
+                        }
+                      }}>
+                        <div className="catalog-item-main">
+                          <span className="catalog-item-name">{a.name}</span>
+                          <span className="catalog-item-desc">{a.description}</span>
+                        </div>
+                        <div className="catalog-item-meta">
+                          <span className="catalog-item-cost">{a.cost}pt</span>
+                          {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
+                        </div>
+                      </button>
+                    </li>
+                  )
+                })}
+            </ul>
           </fieldset>
-          {tagInfo?.kind === 'advantage' && (() => {
-            const entry = L5R_ADVANTAGES.find(a => a.name.toLowerCase() === tagInfo.name.toLowerCase())
-            return <TagInfoPanel entry={entry ? { name: entry.name, description: `Cost: ${entry.cost} XP. ${entry.description}` } : { name: tagInfo.name }} onClose={() => setTagInfo(null)} />
-          })()}
 
-          {/* Disadvantages */}
+          <hr className="divider" />
+
+          {/* ── Disadvantages ── */}
           <fieldset>
-            <legend>Disadvantages</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Disadvantages grant bonus Experience Points during character creation. They represent flaws, obligations, and weaknesses.
-            </p>
+            <legend>Disadvantages ({backgrounds.length})</legend>
             {backgrounds.length > 0 && (
-              <ul className="tag-list">
+              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
                 {backgrounds.map(b => (
                   <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'disadvantage' })}>
-                    <span>{b.name} ({b.level} pt{b.level !== 1 ? 's' : ''}){b.description ? ` — ${b.description}` : ''}</span>
+                    <span>{b.name} ({b.level}pt){b.description ? ` — ${b.description}` : ''}</span>
                     <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)); if (tagInfo?.id === b.id) setTagInfo(null) }}>x</button>
                   </li>
                 ))}
               </ul>
             )}
-            <div className="field-row" style={{ alignItems: 'flex-end' }}>
-              <div className="field" style={{ flex: 2 }}>
-                <label>Disadvantage</label>
-                <input type="text" list="l5r-disadv-catalog" value={newBackground.name}
-                  onChange={e => {
-                    const val = e.target.value
-                    const hit = L5R_DISADVANTAGES.find(d => d.name === val)
-                    if (hit) setNewBackground({ name: hit.name, level: typeof hit.cost === 'number' ? hit.cost : 1, description: '' })
-                    else setNewBackground(p => ({ ...p, name: val }))
-                  }}
-                  placeholder="Select or type disadvantage..." autoComplete="off" />
-                <datalist id="l5r-disadv-catalog">
-                  {L5R_DISADVANTAGES.map(d => <option key={d.name} value={d.name} />)}
-                </datalist>
-              </div>
-              <div className="field">
-                <label>Cost (XP)</label>
-                <select value={newBackground.level} onChange={e => setNewBackground(p => ({ ...p, level: parseInt(e.target.value) }))}>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(v => <option key={v} value={v}>{v}</option>)}
-                </select>
-              </div>
-              <div className="field" style={{ flex: 2 }}>
-                <label>Notes</label>
-                <input type="text" value={newBackground.description} onChange={e => setNewBackground(p => ({ ...p, description: e.target.value }))} placeholder="Specify details..." />
-              </div>
-              <button className="btn btn-secondary" onClick={handleAddDisadvantage}>{t('add')}</button>
+            {tagInfo?.kind === 'disadvantage' && (() => {
+              const entry = L5R_DISADVANTAGES.find(d => d.name.toLowerCase() === tagInfo.name.toLowerCase())
+              return (
+                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                  <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
+                  <p className="tag-info-panel-name">{tagInfo.name}</p>
+                  <p className="tag-info-panel-desc">Disadvantage · {tagInfo.level} XP{tagInfo.description ? ` · ${tagInfo.description}` : ''}</p>
+                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55, color: 'var(--color-text)' }}>{entry.description}</p>}
+                </aside>
+              )
+            })()}
+            <div className="catalog-search-wrap">
+              <input type="search" value={disadvSearch} onChange={e => setDisadvSearch(e.target.value)}
+                placeholder="Search disadvantages..." aria-label="Search disadvantages" />
+              <span className="catalog-search-count">{L5R_DISADVANTAGES.filter(d => d.name.toLowerCase().includes(disadvSearch.toLowerCase()) || d.description.toLowerCase().includes(disadvSearch.toLowerCase())).length}</span>
             </div>
+            <ul className="catalog-list" aria-label="Disadvantage catalog">
+              {L5R_DISADVANTAGES
+                .filter(d => d.name.toLowerCase().includes(disadvSearch.toLowerCase()) || d.description.toLowerCase().includes(disadvSearch.toLowerCase()))
+                .slice(0, 30)
+                .map(d => {
+                  const already = backgrounds.some(b => b.name.toLowerCase() === d.name.toLowerCase())
+                  return (
+                    <li key={d.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                      <button className="catalog-item-btn" onClick={() => {
+                        if (!already) {
+                          const cost = typeof d.cost === 'number' ? d.cost : 1
+                          addBackground(characterId, { name: d.name, level: cost, description: '' })
+                            .then(res => setBackgrounds(prev => [...prev, res.data]))
+                            .catch(() => setActionError(t('failedToSave')))
+                        } else {
+                          const b = backgrounds.find(b => b.name.toLowerCase() === d.name.toLowerCase())
+                          if (b) setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'disadvantage' })
+                        }
+                      }}>
+                        <div className="catalog-item-main">
+                          <span className="catalog-item-name">{d.name}</span>
+                          <span className="catalog-item-desc">{d.description}</span>
+                        </div>
+                        <div className="catalog-item-meta">
+                          <span className="catalog-item-cost">{d.cost}pt</span>
+                          {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
+                        </div>
+                      </button>
+                    </li>
+                  )
+                })}
+            </ul>
           </fieldset>
-          {tagInfo?.kind === 'disadvantage' && (() => {
-            const entry = L5R_DISADVANTAGES.find(d => d.name.toLowerCase() === tagInfo.name.toLowerCase())
-            return <TagInfoPanel entry={entry ? { name: entry.name, description: `Cost: ${entry.cost} XP. ${entry.description}` } : { name: tagInfo.name, description: tagInfo.description || undefined }} onClose={() => setTagInfo(null)} />
-          })()}
         </div>
       </div>
 
