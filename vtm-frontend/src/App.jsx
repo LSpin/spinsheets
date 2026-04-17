@@ -4,7 +4,7 @@ import { AuthProvider, useAuth } from './context/AuthContext'
 import { NewCharProvider } from './context/NewCharContext'
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext'
 import LanguageToggle from './components/LanguageToggle'
-import ThemeToggle from './components/ThemeToggle'
+// ThemeToggle removed — theme switches automatically per system
 import { ThemeProvider } from './context/ThemeContext'
 import CharacterList from './components/CharacterList'
 import CharacterForm from './components/CharacterForm'
@@ -146,7 +146,6 @@ function AppShell() {
               )}
               <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
                 <UserMenu />
-                <ThemeToggle />
                 <LanguageToggle />
               </div>
             </nav>
@@ -156,8 +155,7 @@ function AppShell() {
               <Link to="/"><button>{t('navHome')}</button></Link>
               <Link to="/login"><button>{t('signIn')}</button></Link>
               <Link to="/register"><button>{t('getStarted')}</button></Link>
-              <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-                <ThemeToggle />
+              <div style={{ marginLeft: 'auto' }}>
                 <LanguageToggle />
               </div>
             </nav>

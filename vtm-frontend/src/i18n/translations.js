@@ -633,7 +633,7 @@ const en = {
   sitemapCharacters: 'Characters',
   sitemapChronicles: 'Chronicles',
   sitemapAccount: 'Account',
-  footerText: 'WoD Companion is a fan project. World of Darkness and all related trademarks belong to Paradox Interactive.',
+  footerText: "Spin's Sheets is a fan project. World of Darkness belongs to Paradox Interactive. 7th Sea belongs to Chaosium. Legend of the Five Rings belongs to Edge Entertainment.",
   navChronicles: 'Chronicles',
   navNewCharacter: 'New character',
   navSignOut: 'Sign out',
@@ -653,7 +653,7 @@ const en = {
   adminConfirmDelete: 'Delete user "{0}" and all their characters? This cannot be undone.',
   rolePlayer: 'Player',
   roleST: 'ST',
-  footerText: 'A Fan Project WoD Chronicles Creator',
+  footerText: "Spin's Sheets — Character sheets for tabletop RPGs.",
   buyMeACoffee: 'Buy me a coffee',
 
   // ── Backstory tab ──
@@ -1735,7 +1735,7 @@ const pt = {
   sitemapCharacters: 'Personagens',
   sitemapChronicles: 'Crônicas',
   sitemapAccount: 'Conta',
-  footerText: 'WoD Companion é um projeto de fã. World of Darkness e todas as marcas relacionadas pertencem à Paradox Interactive.',
+  footerText: "Spin's Sheets é um projeto de fã. World of Darkness pertence à Paradox Interactive. 7th Sea pertence à Chaosium. Legend of the Five Rings pertence à Edge Entertainment.",
   navCharacters: 'Personagens',
   navChronicles: 'Crônicas',
   navNewCharacter: 'Novo personagem',
@@ -1756,7 +1756,7 @@ const pt = {
   adminConfirmDelete: 'Excluir usuário "{0}" e todos os personagens? Isso não pode ser desfeito.',
   rolePlayer: 'Jogador',
   roleST: 'Narrador',
-  footerText: 'Um Projeto de Fã — Criador de Crônicas WoD',
+  footerText: "Spin's Sheets — Fichas de personagem para RPGs de mesa.",
   buyMeACoffee: 'Me pague um café',
 
   // ── Backstory tab ──
