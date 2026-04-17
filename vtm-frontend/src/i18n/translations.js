@@ -92,8 +92,6 @@ const en = {
   dpAddCustom: 'Add Custom Pool',
   dpPoolName: 'Pool name...',
   dpStat: 'Stat',
-  optional: 'optional',
-  none: 'None',
   other: 'Other',
   xpTab: 'Experience Points',
   freebieTab: 'Freebie Points',
@@ -417,7 +415,7 @@ const en = {
   noFlawsYet: 'No flaws yet.',
   noInventoryYet: 'Inventory is empty.',
   selectChronicle: 'Select chronicle…',
-  none: '(None)',
+  none: 'None',
   createNew: 'Create New',
 
   // ── Vampire Revised ──
@@ -690,6 +688,7 @@ const en = {
   bashingDmg: 'Bashing',
   lethalDmg: 'Lethal',
   aggDmg: 'Aggravated',
+  aggravated: 'Aggravated',
   penalty: 'Penalty',
   healthHint: 'Click to cycle: Undamaged → Bashing → Lethal → Aggravated → Undamaged',
 
@@ -1233,8 +1232,6 @@ const pt = {
   dpAddCustom: 'Adicionar Parada Personalizada',
   dpPoolName: 'Nome da parada...',
   dpStat: 'Atributo',
-  optional: 'opcional',
-  none: 'Nenhum',
   other: 'Outro',
   xpTab: 'Pontos de Experiência',
   freebieTab: 'Pontos de Bônus',
@@ -1558,7 +1555,7 @@ const pt = {
   noFlawsYet: 'Nenhum defeito ainda.',
   noInventoryYet: 'Inventário vazio.',
   selectChronicle: 'Selecionar crônica…',
-  none: '(Nenhum)',
+  none: 'Nenhum',
   createNew: 'Criar Novo',
 
   // ── Vampire Revised ──
@@ -1829,6 +1826,7 @@ const pt = {
   bashingDmg: 'Contusão',
   lethalDmg: 'Letal',
   aggDmg: 'Agravado',
+  aggravated: 'Agravado',
   penalty: 'Penalidade',
   healthHint: 'Clique para alternar: Ileso → Contusão → Letal → Agravado → Ileso',
 

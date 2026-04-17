@@ -37,7 +37,7 @@ export default function RulesReferenceTab({ rules, title }) {
         <fieldset key={rule.title}>
           <details open={!!filter}>
             <summary className="rules-ref-summary">{rule.title}</summary>
-            <div className="rules-ref-content">
+            <dl className="rules-ref-content">
               {rule.sections
                 .filter(s => !filter || s.heading.toLowerCase().includes(q) || s.text.toLowerCase().includes(q) || rule.title.toLowerCase().includes(q))
                 .map(s => (
@@ -47,7 +47,7 @@ export default function RulesReferenceTab({ rules, title }) {
                   </div>
                 ))
               }
-            </div>
+            </dl>
           </details>
         </fieldset>
       ))}
