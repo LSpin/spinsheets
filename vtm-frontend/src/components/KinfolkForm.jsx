@@ -7,6 +7,7 @@ import {
   getMerits, getFlaws,
   getInventory,
   getXpLog, addXpLogEntry, removeXpLogEntry,
+  getDisciplines, addDiscipline, removeDiscipline,
 } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
 import MeritsFlawsSection from './MeritsFlawsSection'
@@ -101,6 +102,8 @@ export default function KinfolkForm() {
   const [inventory, setInventory] = useState([])
   const [xpLog, setXpLog] = useState([])
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
+  const [disciplines, setDisciplines] = useState([])
+  const [numinaSearch, setNuminaSearch] = useState('')
   const [tagInfo, setTagInfo] = useState(null)
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
@@ -111,14 +114,14 @@ export default function KinfolkForm() {
 
   async function loadCharacter() {
     try {
-      const [charRes, bgRes, meritRes, flawRes, mcRes, fcRes, invRes, xpRes] = await Promise.all([
-        getCharacter(characterId), getBackgrounds(characterId),
+      const [charRes, bgRes, discRes, meritRes, flawRes, mcRes, fcRes, invRes, xpRes] = await Promise.all([
+        getCharacter(characterId), getBackgrounds(characterId), getDisciplines(characterId),
         getMerits(characterId), getFlaws(characterId), getMeritCatalog(), getFlawCatalog(),
         getInventory(characterId), getXpLog(characterId),
       ])
       const data = charRes.data
       setFields(prev => { const m = { ...prev }; for (const k in prev) { if (data[k] !== undefined && data[k] !== null) m[k] = data[k] }; return m })
-      setBackgrounds(bgRes.data)
+      setBackgrounds(bgRes.data); setDisciplines(discRes.data)
       setMerits(meritRes.data); setFlaws(flawRes.data)
       setMeritCatalog(mcRes.data); setFlawCatalog(fcRes.data)
       setInventory(invRes.data); setXpLog(xpRes.data)
@@ -270,25 +273,85 @@ export default function KinfolkForm() {
         </div>
       </div>
 
-      {/* ── Numina ── */}
+      {/* ── Numina (Searchable Catalogue) ── */}
       <div hidden={tab !== 3}>
         <div className="form-section">
           <fieldset>
-            <legend>{t('tabNumina')}</legend>
+            <legend>Active Numina ({disciplines.length})</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Some Kinfolk develop Numina — psychic abilities or hedge magic. These are purchased as Merits or with XP. Record your active Numina below.
+              Some Kinfolk develop Numina — psychic abilities or hedge magic. These are purchased with XP. Click a Numina below to add it.
             </p>
-            <textarea name="notes" value={fields.notes} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder="List your Numina and their current levels..." />
+            {disciplines.length > 0 && (
+              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+                {disciplines.map(d => {
+                  const entry = NUMINA.find(n => n.name.toLowerCase() === d.name.toLowerCase())
+                  return (
+                    <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
+                      onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'numina' })}>
+                      <span>{d.name} ({d.level})</span>
+                      <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }}>x</button>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+            {tagInfo?.kind === 'numina' && (() => {
+              const entry = NUMINA.find(n => n.name.toLowerCase() === tagInfo.name.toLowerCase())
+              return (
+                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                  <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
+                  <p className="tag-info-panel-name">{tagInfo.name}</p>
+                  <p className="tag-info-panel-desc">Numina · Level {tagInfo.level}</p>
+                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55, color: 'var(--color-text)' }}>{entry.description}</p>}
+                </aside>
+              )
+            })()}
           </fieldset>
+
           <fieldset>
-            <legend>Numina Reference</legend>
-            {NUMINA.map(n => (
-              <details key={n.name} style={{ marginBottom: 'var(--space-xs)' }}>
-                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{n.name}</summary>
-                <p className="muted-hint muted-hint--xs" style={{ padding: 'var(--space-xs) 0' }}>{n.description}</p>
-              </details>
-            ))}
+            <legend>Numina Catalogue ({NUMINA.length})</legend>
+            <div className="catalog-search-wrap">
+              <input type="search" value={numinaSearch} onChange={e => setNuminaSearch(e.target.value)}
+                placeholder="Search numina..." aria-label="Search numina" />
+              <span className="catalog-search-count">
+                {NUMINA.filter(n => !numinaSearch || n.name.toLowerCase().includes(numinaSearch.toLowerCase()) || n.description.toLowerCase().includes(numinaSearch.toLowerCase())).length}
+              </span>
+            </div>
+            <ul className="catalog-list" aria-label="Numina catalog">
+              {NUMINA
+                .filter(n => !numinaSearch || n.name.toLowerCase().includes(numinaSearch.toLowerCase()) || n.description.toLowerCase().includes(numinaSearch.toLowerCase()))
+                .map(n => {
+                  const already = disciplines.some(d => d.name.toLowerCase() === n.name.toLowerCase())
+                  return (
+                    <li key={n.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                      <button className="catalog-item-btn" onClick={() => {
+                        if (!already) {
+                          addDiscipline(characterId, { name: n.name, level: 1, notes: '' })
+                            .then(res => setDisciplines(prev => [...prev, res.data]))
+                            .catch(() => setActionError(t('failedToSave')))
+                        } else {
+                          const d = disciplines.find(d => d.name.toLowerCase() === n.name.toLowerCase())
+                          if (d) setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'numina' })
+                        }
+                      }}>
+                        <div className="catalog-item-main">
+                          <span className="catalog-item-name">{n.name}</span>
+                          <span className="catalog-item-desc">{n.description}</span>
+                        </div>
+                        <div className="catalog-item-meta">
+                          {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
+                        </div>
+                      </button>
+                    </li>
+                  )
+                })}
+            </ul>
           </fieldset>
+
+          <details>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Numina Notes</summary>
+            <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%', marginTop: 'var(--space-sm)' }} placeholder="Additional notes on your Numina abilities..." />
+          </details>
         </div>
       </div>
 
