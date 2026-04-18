@@ -89,7 +89,7 @@ const BLADES_DICE_POOL_RULES = [
 
 const INITIAL = {
   splat: 'BLADES',
-  name: '', bladesAlias: '', concept: '', appearanceDesc: '',
+  name: '', bladesAlias: '', concept: '', appearanceDesc: '', sire: '',
   bladesHeritage: '', bladesBackground: '', bladesVice: '', bladesVicePurveyor: '',
   bladesPlaybook: '',
   // Actions - Insight
@@ -369,16 +369,30 @@ export default function BladesForm() {
               <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={3} style={{ width: '100%' }} />
             </div>
             <div className="field-row">
-              <CatalogSelect id="bladesHeritage" name="bladesHeritage" label="Heritage" value={fields.bladesHeritage}
+              <CatalogSelect id="bladesHeritage" name="bladesHeritage" label={t('bladesHeritage')} value={fields.bladesHeritage}
                 onChange={handleField} catalog={BLADES_HERITAGES} />
-              <CatalogSelect id="bladesBackground" name="bladesBackground" label="Background" value={fields.bladesBackground}
+            </div>
+            {fields.bladesHeritage && (
+              <div className="field">
+                <label>{t('bladesHeritage')} — {t('details')}</label>
+                <input name="concept" value={fields.concept} onChange={handleText}
+                  placeholder="Family, homeland, cultural details..." aria-label="Heritage details" />
+              </div>
+            )}
+            <div className="field-row">
+              <CatalogSelect id="bladesBackground" name="bladesBackground" label={t('bladesBackground')} value={fields.bladesBackground}
                 onChange={handleField} catalog={BLADES_BACKGROUNDS} />
             </div>
             <div className="field-row">
-              <CatalogSelect id="bladesVice" name="bladesVice" label="Vice" value={fields.bladesVice}
+              <CatalogSelect id="bladesVice" name="bladesVice" label={t('bladesVice')} value={fields.bladesVice}
                 onChange={handleField} catalog={BLADES_VICES} />
-              <div className="field"><label>Vice Purveyor</label><input name="bladesVicePurveyor" value={fields.bladesVicePurveyor} onChange={handleText} placeholder="Who supplies your vice?" /></div>
             </div>
+            {fields.bladesVice && (
+              <div className="field-row">
+                <div className="field"><label>{t('bladesVicePurveyor')}</label><input name="bladesVicePurveyor" value={fields.bladesVicePurveyor} onChange={handleText} placeholder="Name, location..." /></div>
+                <div className="field"><label>{t('bladesVice')} — {t('details')}</label><input name="sire" value={fields.sire || ''} onChange={handleText} placeholder="What does your vice look like?" aria-label="Vice details" /></div>
+              </div>
+            )}
             <div className="field-row">
               <CatalogSelect id="bladesPlaybook" name="bladesPlaybook" label="Playbook" value={fields.bladesPlaybook}
                 onChange={handleField}
@@ -622,33 +636,70 @@ export default function BladesForm() {
       {/* ── Tab 5: Contacts ── */}
       <div hidden={tab !== 5}>
         <div className="form-section">
+          {selectedPlaybook?.contacts?.length > 0 && (
+            <fieldset>
+              <legend>{t('tabBladesContacts')}{selectedPlaybook ? ` — ${fields.bladesPlaybook}` : ''}</legend>
+              {selectedPlaybook.contacts.map(contact => {
+                const rel = getContactRel(contact)
+                return (
+                  <div key={contact} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', fontSize: '0.9rem' }}>
+                    <button type="button" className={`btn btn-secondary${rel === '+' ? ' tab-btn--active' : ''}`}
+                      style={{ minWidth: '32px', padding: '2px 8px', fontSize: '0.85rem' }}
+                      onClick={() => setContactRel(contact, '+')} title={t('bladesFriendly')}
+                      aria-label={`${contact} - friend`} aria-pressed={rel === '+'}>+</button>
+                    <button type="button" className={`btn btn-secondary${rel === '-' ? ' tab-btn--active' : ''}`}
+                      style={{ minWidth: '32px', padding: '2px 8px', fontSize: '0.85rem' }}
+                      onClick={() => setContactRel(contact, '-')} title={t('bladesRival')}
+                      aria-label={`${contact} - rival`} aria-pressed={rel === '-'}>-</button>
+                    <span style={{ fontWeight: 600 }}>{contact}</span>
+                  </div>
+                )
+              })}
+            </fieldset>
+          )}
           <fieldset>
-            <legend>Contacts{selectedPlaybook ? ` - ${fields.bladesPlaybook}` : ''}</legend>
-            {!selectedPlaybook && (
-              <p className="muted-hint">Select a playbook on the Identity tab to see your contacts.</p>
-            )}
-            {selectedPlaybook?.contacts?.map(contact => {
-              const rel = getContactRel(contact)
-              return (
-                <div key={contact} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', fontSize: '0.9rem' }}>
-                  <button
-                    type="button"
-                    className={`btn btn-secondary${rel === '+' ? ' tab-btn--active' : ''}`}
-                    style={{ minWidth: '32px', padding: '2px 8px', fontSize: '0.85rem' }}
-                    onClick={() => setContactRel(contact, '+')}
-                    title="Friendly"
-                  >+</button>
-                  <button
-                    type="button"
-                    className={`btn btn-secondary${rel === '-' ? ' tab-btn--active' : ''}`}
-                    style={{ minWidth: '32px', padding: '2px 8px', fontSize: '0.85rem' }}
-                    onClick={() => setContactRel(contact, '-')}
-                    title="Rival"
-                  >-</button>
-                  <span style={{ fontWeight: 600 }}>{contact}</span>
-                </div>
-              )
-            })}
+            <legend>{t('bladesCustomContacts')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Add allies, enemies, and other contacts beyond your playbook defaults.
+            </p>
+            <div className="field-row" style={{ marginBottom: 'var(--space-sm)' }}>
+              <div className="field" style={{ flex: 2 }}>
+                <input id="new-contact-name" type="text" placeholder="Name, title, description..."
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' && e.target.value.trim()) {
+                      const name = e.target.value.trim()
+                      setContactRel(name, '+')
+                      e.target.value = ''
+                    }
+                  }}
+                  aria-label="New contact name" />
+              </div>
+              <button type="button" className="btn btn-secondary" onClick={() => {
+                const input = document.getElementById('new-contact-name')
+                if (input?.value.trim()) {
+                  setContactRel(input.value.trim(), '+')
+                  input.value = ''
+                }
+              }}>{t('add')}</button>
+            </div>
+            {contacts.filter(c => !selectedPlaybook?.contacts?.includes(c.name)).map(c => (
+              <div key={c.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', fontSize: '0.9rem' }}>
+                <button type="button" className={`btn btn-secondary${c.rel === '+' ? ' tab-btn--active' : ''}`}
+                  style={{ minWidth: '32px', padding: '2px 8px', fontSize: '0.85rem' }}
+                  onClick={() => setContactRel(c.name, '+')} title={t('bladesFriendly')}
+                  aria-label={`${c.name} - friend`} aria-pressed={c.rel === '+'}>+</button>
+                <button type="button" className={`btn btn-secondary${c.rel === '-' ? ' tab-btn--active' : ''}`}
+                  style={{ minWidth: '32px', padding: '2px 8px', fontSize: '0.85rem' }}
+                  onClick={() => setContactRel(c.name, '-')} title={t('bladesRival')}
+                  aria-label={`${c.name} - rival`} aria-pressed={c.rel === '-'}>-</button>
+                <span style={{ fontWeight: 600 }}>{c.name}</span>
+                <button type="button" className="btn btn-danger" style={{ padding: '2px 6px', fontSize: '0.75rem', marginLeft: 'auto' }}
+                  onClick={() => {
+                    const updated = contacts.filter(x => x.name !== c.name)
+                    handleField('bladesContacts', updated.map(x => `${x.name}:${x.rel}`).join(', '))
+                  }} aria-label={`Remove ${c.name}`}>✕</button>
+              </div>
+            ))}
           </fieldset>
         </div>
       </div>
