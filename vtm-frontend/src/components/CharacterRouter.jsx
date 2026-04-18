@@ -22,6 +22,7 @@ import SeventhSeaVillainForm from './SeventhSeaVillainForm'
 import L5RForm from './L5RForm'
 import BladesForm from './BladesForm'
 import BladesCrewForm from './BladesCrewForm'
+import DndForm from './DndForm'
 
 export default function CharacterRouter() {
   const { id } = useParams()
@@ -40,7 +41,7 @@ export default function CharacterRouter() {
         setSplat(s)
         setIsNpc(!!res.data.npc)
         setNotFound(false)
-        switchTheme(s === 'SEVENTH_SEA' ? '7thsea' : s === 'L5R' ? 'l5r' : s === 'BLADES' || s === 'BLADES_CREW' ? 'blades' : 'wod')
+        switchTheme(s === 'SEVENTH_SEA' ? '7thsea' : s === 'L5R' ? 'l5r' : s === 'BLADES' || s === 'BLADES_CREW' ? 'blades' : s === 'DND' ? 'dnd' : 'wod')
       } catch {
         setNotFound(true)
       } finally {
@@ -76,5 +77,6 @@ export default function CharacterRouter() {
   if (splat === 'L5R') return <L5RForm />
   if (splat === 'BLADES') return <BladesForm />
   if (splat === 'BLADES_CREW') return <BladesCrewForm />
+  if (splat === 'DND') return <DndForm />
   return <CharacterForm />
 }

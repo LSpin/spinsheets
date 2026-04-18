@@ -630,4 +630,86 @@ public class Character {
     @Column(columnDefinition = "TEXT")
     private String bladesCohorts;
     private Integer bladesCrewXp = 0;
+
+    // ── D&D 5e fields ──
+
+    // Identity
+    private String dndRace;
+    private String dndSubrace;
+    private String dndClass;
+    private String dndSubclass;
+    private Integer dndLevel = 1;
+    private String dndBackground;
+    private String dndAlignment;
+    private Integer dndXp = 0;
+
+    // Ability Scores
+    private Integer dndStrength = 10;
+    private Integer dndDexterity = 10;
+    private Integer dndConstitution = 10;
+    private Integer dndIntelligence = 10;
+    private Integer dndWisdom = 10;
+    private Integer dndCharisma = 10;
+
+    // Combat
+    private Integer dndHpMax = 0;
+    private Integer dndHpCurrent = 0;
+    private Integer dndHpTemp = 0;
+    private Integer dndArmorClass = 10;
+    private Integer dndSpeed = 30;
+    private Integer dndInitiativeBonus = 0;
+    private Integer dndHitDiceRemaining = 0;
+    private Integer dndDeathSaveSuccesses = 0;
+    private Integer dndDeathSaveFailures = 0;
+    private Boolean dndInspiration = false;
+
+    // Skills & Proficiencies
+    @Column(columnDefinition = "TEXT")
+    private String dndSkillProficiencies;
+    @Column(columnDefinition = "TEXT")
+    private String dndSkillExpertise;
+    @Column(columnDefinition = "TEXT")
+    private String dndSavingThrows;
+    @Column(columnDefinition = "TEXT")
+    private String dndArmorProf;
+    @Column(columnDefinition = "TEXT")
+    private String dndWeaponProf;
+    @Column(columnDefinition = "TEXT")
+    private String dndToolProf;
+    @Column(columnDefinition = "TEXT")
+    private String dndLanguages;
+
+    // Spells
+    private String dndSpellcastingAbility;
+    @Column(columnDefinition = "TEXT")
+    private String dndSpellSlots;
+    @Column(columnDefinition = "TEXT")
+    private String dndSpellsKnown;
+    @Column(columnDefinition = "TEXT")
+    private String dndSpellsPrepared;
+
+    // Features
+    @Column(columnDefinition = "TEXT")
+    private String dndClassFeatures;
+    @Column(columnDefinition = "TEXT")
+    private String dndRacialTraits;
+    @Column(columnDefinition = "TEXT")
+    private String dndFeats;
+
+    // Currency
+    private Integer dndCp = 0;
+    private Integer dndSp = 0;
+    private Integer dndEp = 0;
+    private Integer dndGp = 0;
+    private Integer dndPp = 0;
+
+    // Backstory
+    @Column(columnDefinition = "TEXT")
+    private String dndPersonalityTraits;
+    @Column(columnDefinition = "TEXT")
+    private String dndIdeals;
+    @Column(columnDefinition = "TEXT")
+    private String dndBonds;
+    @Column(columnDefinition = "TEXT")
+    private String dndFlaws;
 }

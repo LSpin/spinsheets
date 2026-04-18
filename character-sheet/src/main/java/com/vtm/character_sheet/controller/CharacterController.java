@@ -392,6 +392,54 @@ public class CharacterController {
             existing.setBladesCrewContacts(updated.getBladesCrewContacts());
             existing.setBladesCohorts(updated.getBladesCohorts());
             existing.setBladesCrewXp(updated.getBladesCrewXp());
+            // D&D 5e
+            existing.setDndRace(updated.getDndRace());
+            existing.setDndSubrace(updated.getDndSubrace());
+            existing.setDndClass(updated.getDndClass());
+            existing.setDndSubclass(updated.getDndSubclass());
+            existing.setDndLevel(updated.getDndLevel());
+            existing.setDndBackground(updated.getDndBackground());
+            existing.setDndAlignment(updated.getDndAlignment());
+            existing.setDndXp(updated.getDndXp());
+            existing.setDndStrength(updated.getDndStrength());
+            existing.setDndDexterity(updated.getDndDexterity());
+            existing.setDndConstitution(updated.getDndConstitution());
+            existing.setDndIntelligence(updated.getDndIntelligence());
+            existing.setDndWisdom(updated.getDndWisdom());
+            existing.setDndCharisma(updated.getDndCharisma());
+            existing.setDndHpMax(updated.getDndHpMax());
+            existing.setDndHpCurrent(updated.getDndHpCurrent());
+            existing.setDndHpTemp(updated.getDndHpTemp());
+            existing.setDndArmorClass(updated.getDndArmorClass());
+            existing.setDndSpeed(updated.getDndSpeed());
+            existing.setDndInitiativeBonus(updated.getDndInitiativeBonus());
+            existing.setDndHitDiceRemaining(updated.getDndHitDiceRemaining());
+            existing.setDndDeathSaveSuccesses(updated.getDndDeathSaveSuccesses());
+            existing.setDndDeathSaveFailures(updated.getDndDeathSaveFailures());
+            existing.setDndInspiration(updated.getDndInspiration());
+            existing.setDndSkillProficiencies(updated.getDndSkillProficiencies());
+            existing.setDndSkillExpertise(updated.getDndSkillExpertise());
+            existing.setDndSavingThrows(updated.getDndSavingThrows());
+            existing.setDndArmorProf(updated.getDndArmorProf());
+            existing.setDndWeaponProf(updated.getDndWeaponProf());
+            existing.setDndToolProf(updated.getDndToolProf());
+            existing.setDndLanguages(updated.getDndLanguages());
+            existing.setDndSpellcastingAbility(updated.getDndSpellcastingAbility());
+            existing.setDndSpellSlots(updated.getDndSpellSlots());
+            existing.setDndSpellsKnown(updated.getDndSpellsKnown());
+            existing.setDndSpellsPrepared(updated.getDndSpellsPrepared());
+            existing.setDndClassFeatures(updated.getDndClassFeatures());
+            existing.setDndRacialTraits(updated.getDndRacialTraits());
+            existing.setDndFeats(updated.getDndFeats());
+            existing.setDndCp(updated.getDndCp());
+            existing.setDndSp(updated.getDndSp());
+            existing.setDndEp(updated.getDndEp());
+            existing.setDndGp(updated.getDndGp());
+            existing.setDndPp(updated.getDndPp());
+            existing.setDndPersonalityTraits(updated.getDndPersonalityTraits());
+            existing.setDndIdeals(updated.getDndIdeals());
+            existing.setDndBonds(updated.getDndBonds());
+            existing.setDndFlaws(updated.getDndFlaws());
             return ResponseEntity.ok(service.save(existing));
         }).orElse(ResponseEntity.notFound().build());
     }
@@ -414,7 +462,8 @@ public class CharacterController {
         Map.entry("FAMILIAR", "MAGE"),
         Map.entry("SEVENTH_SEA", "SEVENTH_SEA"),
         Map.entry("L5R", "L5R"),
-        Map.entry("BLADES", "BLADES"), Map.entry("BLADES_CREW", "BLADES")
+        Map.entry("BLADES", "BLADES"), Map.entry("BLADES_CREW", "BLADES"),
+        Map.entry("DND", "DND")
     );
 
     private boolean isSplatAllowed(Chronicle chronicle, String splat) {

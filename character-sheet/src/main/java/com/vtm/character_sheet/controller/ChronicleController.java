@@ -287,7 +287,8 @@ public class ChronicleController {
         Map.entry("FAMILIAR", "MAGE"),
         Map.entry("SEVENTH_SEA", "SEVENTH_SEA"),
         Map.entry("L5R", "L5R"),
-        Map.entry("BLADES", "BLADES"), Map.entry("BLADES_CREW", "BLADES")
+        Map.entry("BLADES", "BLADES"), Map.entry("BLADES_CREW", "BLADES"),
+        Map.entry("DND", "DND")
     );
 
     private boolean isSplatAllowed(Chronicle chronicle, String splat) {

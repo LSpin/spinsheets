@@ -71,6 +71,15 @@
   --color-accent-hover:   #e0b85a;
 }
 
+/* ── D&D 5e theme — deep crimson ── */
+
+[data-theme="dnd"] {
+  --color-border-focus:   #c04040;
+  --color-accent:         #8b2020;
+  --color-accent-fg:      #c04040;
+  --color-accent-hover:   #d05050;
+}
+
 /* ── Blades in the Dark theme — industrial steel ── */
 
 [data-theme="blades"] {
@@ -1159,6 +1168,11 @@ legend {
   color: var(--color-splat-l5r);
 }
 
+.splat-badge--dnd {
+  background: rgba(192, 64, 64, 0.15);
+  color: #c04040;
+}
+
 .splat-badge--blades,
 .splat-badge--blades-crew {
   background: rgba(138, 155, 174, 0.15);
@@ -1320,6 +1334,22 @@ legend {
 
 .system-card--l5r .system-card-cta {
   color: #c29138;
+}
+
+.system-card--dnd {
+  border-color: rgba(192, 64, 64, 0.3);
+}
+
+.system-card--dnd:hover {
+  border-color: #c04040;
+}
+
+.system-card--dnd h4 {
+  color: #c04040;
+}
+
+.system-card--dnd .system-card-cta {
+  color: #c04040;
 }
 
 .system-card--blades {
@@ -2035,6 +2065,14 @@ a:hover {
 
 [data-theme="l5r"] .tag--active {
   background: #1a1a10;
+}
+
+[data-theme="dnd"] .tab-btn--active {
+  background: rgba(192, 64, 64, 0.1) !important;
+}
+
+[data-theme="dnd"] .tag--active {
+  background: #1a1010;
 }
 
 [data-theme="blades"] .tab-btn--active {

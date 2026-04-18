@@ -38,6 +38,8 @@ import L5RPage from './pages/L5RPage'
 import BladesForm from './components/BladesForm'
 import BladesCrewForm from './components/BladesCrewForm'
 import BladesPage from './pages/BladesPage'
+import DndForm from './components/DndForm'
+import DndPage from './pages/DndPage'
 import AdminPage from './pages/AdminPage'
 import InvitePage from './pages/InvitePage'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -123,7 +125,7 @@ function UserMenu() {
   )
 }
 
-const THEME_TO_CHARACTERS_PATH = { wod: '/characters', '7thsea': '/7thsea', l5r: '/l5r', blades: '/blades' }
+const THEME_TO_CHARACTERS_PATH = { wod: '/characters', '7thsea': '/7thsea', l5r: '/l5r', blades: '/blades', dnd: '/dnd' }
 
 function AppShell() {
   const { user, isST } = useAuth()
@@ -284,6 +286,21 @@ function AppShell() {
             <ProtectedRoute><ChronicleForm system="BLADES" basePath="/blades/chronicles" /></ProtectedRoute>
           } />
           <Route path="/blades/chronicles/:id" element={
+            <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
+          } />
+          <Route path="/dnd" element={
+            <ProtectedRoute><DndPage /></ProtectedRoute>
+          } />
+          <Route path="/dnd/new" element={
+            <ProtectedRoute><DndForm /></ProtectedRoute>
+          } />
+          <Route path="/dnd/chronicles" element={
+            <ProtectedRoute><ChronicleList system="DND" basePath="/dnd/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/dnd/chronicles/new" element={
+            <ProtectedRoute><ChronicleForm system="DND" basePath="/dnd/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/dnd/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
           } />
           <Route path="/chronicles" element={

@@ -50,6 +50,11 @@ export default function HomePage() {
             <p>{t('systemBladesDesc')}</p>
             <span className="system-card-cta">{t('systemEnter')}</span>
           </Link>
+          <Link to={user ? '/dnd' : '/login'} className="system-card system-card--dnd" onClick={() => switchTheme('dnd')}>
+            <h4>{t('systemDnd')}</h4>
+            <p>{t('systemDndDesc')}</p>
+            <span className="system-card-cta">{t('systemEnter')}</span>
+          </Link>
         </div>
       </section>
 
@@ -139,6 +144,15 @@ export default function HomePage() {
               <li>7 Standard + 3 Supernatural Playbooks</li>
               <li>6 Crew Types</li>
               <li>d6 Pool Dice Roller</li>
+            </ul>
+          </div>
+          <div className="homepage-card">
+            <span className="splat-badge splat-badge--dnd" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>D&D 5e</span>
+            <ul className="homepage-list">
+              <li>D&D 5th Edition (SRD)</li>
+              <li>13 Classes · 9 Races</li>
+              <li>Searchable Spell Catalog</li>
+              <li>d20 Dice Roller</li>
             </ul>
           </div>
         </div>
