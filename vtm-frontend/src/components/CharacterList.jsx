@@ -43,7 +43,7 @@ function splatBadgeClass(splat) {
   return `splat-badge splat-badge--${(splat || 'vampire').toLowerCase().replace('_', '-')}`
 }
 
-const WEREWOLF_SPLATS = new Set(['WEREWOLF', 'WYLD_WEST_WEREWOLF', 'CHANGING_BREEDS', 'TOTEM', 'KINFOLK'])
+const WEREWOLF_SPLATS = new Set(['WEREWOLF', 'WYLD_WEST_WEREWOLF', 'CHANGING_BREEDS', 'TOTEM', 'KINFOLK', 'BSD'])
 const MAGE_SPLATS = new Set(['MAGE', 'VICTORIAN_MAGE', 'FAMILIAR'])
 
 function CharacterCard({ c, user, isST, t, navigate, onDelete, chronicles, onAssignChronicle }) {

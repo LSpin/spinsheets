@@ -1204,6 +1204,12 @@ legend {
 
 .splat-badge--uestrpg { background: rgba(122, 153, 181, 0.15); color: #7a99b5; }
 
+.splat-badge--hunter { background: rgba(200, 180, 50, 0.15); color: #c8b432; }
+.splat-badge--wraith { background: rgba(150, 150, 170, 0.15); color: #9696aa; }
+.splat-badge--changeling { background: rgba(100, 180, 100, 0.15); color: #64b464; }
+.splat-badge--demon { background: rgba(180, 80, 30, 0.15); color: #b4501e; }
+.splat-badge--bsd { background: rgba(100, 140, 60, 0.15); color: #648c3c; }
+
 .splat-badge--vampire-revised {
   color: var(--color-splat-ghoul);
   border-color: rgba(204, 68, 68, 0.3);

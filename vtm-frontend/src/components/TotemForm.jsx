@@ -5,11 +5,18 @@ import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
+import CatalogSelect from './CatalogSelect'
 import { SPIRIT_CHARMS } from '../data/spiritCharms'
 import TagInfoPanel from './TagInfoPanel'
+import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
 
-const TOTEM_TYPES = ['Respect', 'War', 'Wisdom', 'Cunning']
+const TOTEM_TYPES = [
+  { value: 'Respect', description: 'Totems of honor, dignity, and noble bearing.' },
+  { value: 'War', description: 'Totems of battle, strength, and ferocity.' },
+  { value: 'Wisdom', description: 'Totems of knowledge, insight, and understanding.' },
+  { value: 'Cunning', description: 'Totems of trickery, stealth, and cleverness.' },
+]
 
 const INITIAL = {
   npc: true, splat: 'TOTEM',
@@ -26,7 +33,7 @@ const INITIAL = {
   generation: 5,
 }
 
-const TAB_KEYS = ['tabIdentity', 'tabTraits', 'tabCharms', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
+const TAB_KEYS = ['tabIdentity', 'tabTraits', 'tabCharms', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
 
 export default function TotemForm() {
   const { id: paramId } = useParams()
@@ -116,13 +123,7 @@ export default function TotemForm() {
             <legend>{t('tabIdentity')}</legend>
             <div className="field-row">
               <div className="field"><label>{t('totemName')} *</label><input name="name" value={fields.name} onChange={handleText} placeholder={t('totemNamePh')} /></div>
-              <div className="field">
-                <label>{t('totemType')}</label>
-                <select name="altName" value={fields.altName} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {TOTEM_TYPES.map(tt => <option key={tt} value={tt}>{tt}</option>)}
-                </select>
-              </div>
+              <CatalogSelect id="altName" name="altName" label={t('totemType')} value={fields.altName} onChange={handleField} catalog={TOTEM_TYPES} />
             </div>
             <div className="field-row">
               <div className="field"><label>{t('concept')}</label><input name="concept" value={fields.concept} onChange={handleText} placeholder={t('totemConceptPh')} /></div>
@@ -230,8 +231,13 @@ export default function TotemForm() {
           onError={msg => setActionError(msg)} t={t} />
       </div>
 
-      {/* ── Dice Roller ── */}
+      {/* ── Dice Pools ── */}
       <div hidden={tab !== 5}>
+        <DicePoolsTab fields={fields} splat="TOTEM" characterId={characterId} />
+      </div>
+
+      {/* ── Dice Roller ── */}
+      <div hidden={tab !== 6}>
         <StorytellerDiceRoller />
       </div>
 
