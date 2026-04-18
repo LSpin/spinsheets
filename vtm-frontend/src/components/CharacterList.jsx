@@ -235,6 +235,11 @@ export default function CharacterList() {
           <button className="btn btn-primary" onClick={openNewChar}>
             {t('newCharBtn')}
           </button>
+          {isST && (
+            <button className="btn btn-secondary" onClick={() => navigate('/characters/new?npc=true')}>
+              {t('newNpc')}
+            </button>
+          )}
           {isST && <button className="btn btn-secondary" onClick={() => navigate('/chronicles/new')}>{t('systemWoD')} — {t('newChronicle')}</button>}
         </div>
       </div>

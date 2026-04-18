@@ -556,17 +556,6 @@ export default function VampireRevisedForm() {
                 <input id="totalAge" name="totalAge" type="text" value={fields.totalAge} onChange={handleText} autoComplete="off" />
               </div>
             </div>
-            <div className="field-row">
-              <div className="field">
-                <label htmlFor="npc">{t('type')}</label>
-                <div className="role-toggle" role="radiogroup" aria-label={t('type')}>
-                  <button type="button" className={`role-toggle-btn${!fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', false)}>{t('pc')}</button>
-                  <button type="button" className={`role-toggle-btn${fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', true)}>{t('npc')}</button>
-                </div>
-              </div>
-            </div>
           </fieldset>
 
           <fieldset>

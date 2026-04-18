@@ -41,7 +41,12 @@ export default function SplatSelectPage() {
   useEffect(() => { switchTheme('wod') }, [])
   const mode = searchParams.get('mode')
   const chronicle = searchParams.get('chronicle')
-  const suffix = mode ? `?mode=${mode}&chronicle=${chronicle}` : ''
+  const isNpc = searchParams.get('npc') === 'true'
+  const params = new URLSearchParams()
+  if (mode) params.set('mode', mode)
+  if (chronicle) params.set('chronicle', chronicle)
+  if (isNpc) params.set('npc', 'true')
+  const suffix = params.toString() ? `?${params.toString()}` : ''
 
   const [allowedCategories, setAllowedCategories] = useState(null)
 
@@ -65,7 +70,7 @@ export default function SplatSelectPage() {
   return (
     <section aria-labelledby="splat-heading">
       <div className="character-list-header">
-        <h2 id="splat-heading">{t('newCharacter')}</h2>
+        <h2 id="splat-heading">{isNpc ? t('newNpc') : t('newCharacter')}</h2>
       </div>
       <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
         {t('chooseGameLine')}

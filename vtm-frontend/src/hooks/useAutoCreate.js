@@ -8,6 +8,7 @@ export default function useAutoCreate(characterId, defaults) {
   const [searchParams] = useSearchParams()
   const guidedMode = searchParams.get('mode') === 'guided'
   const chronicleId = searchParams.get('chronicle')
+  const isNpc = searchParams.get('npc') === 'true'
   const creating = useRef(false)
   const [error, setError] = useState(null)
 
@@ -18,7 +19,8 @@ export default function useAutoCreate(characterId, defaults) {
 
     async function autoCreate() {
       try {
-        const res = await createCharacter(defaults)
+        const charData = isNpc ? { ...defaults, npc: true } : defaults
+        const res = await createCharacter(charData)
         const newId = res.data.id
         if (guidedMode && chronicleId) {
           try { await joinChronicle(newId, chronicleId) } catch {}

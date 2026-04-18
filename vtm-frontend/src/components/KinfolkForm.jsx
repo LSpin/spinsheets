@@ -245,15 +245,6 @@ export default function KinfolkForm() {
               <CatalogSelect id="clan" name="clan" label={t('kinfolkTribe')} value={fields.clan} onChange={handleField} catalog={TRIBES} />
               <CatalogSelect id="sire" name="sire" label={t('kinfolkBreed')} value={fields.sire} onChange={handleField} catalog={BREEDS} />
             </div>
-            <div className="field-row">
-              <div className="field">
-                <label>{t('type')}</label>
-                <div className="role-toggle" role="radiogroup">
-                  <button type="button" className={`role-toggle-btn${!fields.npc ? ' role-toggle-btn--active' : ''}`} onClick={() => handleField('npc', false)}>{t('pc')}</button>
-                  <button type="button" className={`role-toggle-btn${fields.npc ? ' role-toggle-btn--active' : ''}`} onClick={() => handleField('npc', true)}>{t('npc')}</button>
-                </div>
-              </div>
-            </div>
             <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-sm)' }}>
               Kinfolk are the mortal relatives of the Garou. They carry the wolf gene but cannot shift. Some develop Numina — psychic or minor magical abilities.
             </p>

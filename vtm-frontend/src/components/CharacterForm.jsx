@@ -931,15 +931,6 @@ export default function CharacterForm() {
                   })}
                 </select>
               </div>
-              <div className="field">
-                <label htmlFor="npc">{t('type')}</label>
-                <div className="role-toggle" role="radiogroup" aria-label={t('type')}>
-                  <button type="button" className={`role-toggle-btn${!fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', false)} aria-pressed={!fields.npc}>PC</button>
-                  <button type="button" className={`role-toggle-btn${fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', true)} aria-pressed={fields.npc}>{t('npc')}</button>
-                </div>
-              </div>
             </div>
             {isElder && (
               <p className="role-hint" style={{ marginTop: 'var(--space-sm)' }}>

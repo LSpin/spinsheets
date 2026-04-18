@@ -448,15 +448,6 @@ export default function KoteForm() {
                 <label htmlFor="wu">{t('wu')}</label>
                 <input id="wu" name="wu" type="text" value={fields.wu} onChange={handleText} autoComplete="off" />
               </div>
-              <div className="field">
-                <label htmlFor="npc">{t('type')}</label>
-                <div className="role-toggle" role="radiogroup" aria-label={t('type')}>
-                  <button type="button" className={`role-toggle-btn${!fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', false)}>{t('pc')}</button>
-                  <button type="button" className={`role-toggle-btn${fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', true)}>{t('npc')}</button>
-                </div>
-              </div>
             </div>
           </fieldset>
 

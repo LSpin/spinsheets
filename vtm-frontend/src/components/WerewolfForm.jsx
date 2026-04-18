@@ -515,15 +515,6 @@ export default function WerewolfForm() {
                 </datalist>
               </div>
               <CatalogSelect id="rank" name="rank" label={t('rank')} value={fields.rank} onChange={handleField} catalog={RANKS} />
-              <div className="field">
-                <label htmlFor="npc">{t('type')}</label>
-                <div className="role-toggle" role="radiogroup" aria-label="Character type">
-                  <button type="button" className={`role-toggle-btn${!fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', false)}>PC</button>
-                  <button type="button" className={`role-toggle-btn${fields.npc ? ' role-toggle-btn--active' : ''}`}
-                    onClick={() => handleField('npc', true)}>{t('npc')}</button>
-                </div>
-              </div>
             </div>
           </fieldset>
 

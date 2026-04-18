@@ -233,15 +233,6 @@ export default function GhoulForm() {
               <CatalogSelect id="clan" name="clan" label={t('ghoulDomitorClan')} value={fields.clan} onChange={handleField} catalog={CLANS} />
               <div className="field"><label>{t('sire')}</label><input name="sire" value={fields.sire} onChange={handleText} placeholder={t('ghoulDomitorName')} /></div>
             </div>
-            <div className="field-row">
-              <div className="field">
-                <label>{t('type')}</label>
-                <div className="role-toggle" role="radiogroup">
-                  <button type="button" className={`role-toggle-btn${!fields.npc ? ' role-toggle-btn--active' : ''}`} onClick={() => handleField('npc', false)}>{t('pc')}</button>
-                  <button type="button" className={`role-toggle-btn${fields.npc ? ' role-toggle-btn--active' : ''}`} onClick={() => handleField('npc', true)}>{t('npc')}</button>
-                </div>
-              </div>
-            </div>
           </fieldset>
         </div>
       </div>
