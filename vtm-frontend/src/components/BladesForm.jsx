@@ -12,7 +12,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
 import {
   BLADES_HERITAGES, BLADES_BACKGROUNDS, BLADES_VICES,
-  BLADES_PLAYBOOKS, BLADES_TRAUMA_CONDITIONS, BLADES_STANDARD_ITEMS,
+  BLADES_PLAYBOOKS, BLADES_PLAYBOOK_CATALOG, BLADES_TRAUMA_CONDITIONS, BLADES_STANDARD_ITEMS,
 } from '../data/bladesPlaybooks'
 
 const TAB_KEYS = ['tabIdentity', 'tabBladesActions', 'tabBladesAbilities', 'tabBladesStressHarm', 'tabBladesItems', 'tabBladesContacts', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
@@ -162,7 +162,7 @@ export default function BladesForm() {
   async function handleDoneEditing() { await handleSave(); navigate('/blades') }
 
   // ── Derived data ──
-  const selectedPlaybook = BLADES_PLAYBOOKS.find(p => p.name === fields.bladesPlaybook)
+  const selectedPlaybook = fields.bladesPlaybook ? BLADES_PLAYBOOKS[fields.bladesPlaybook] : null
   const selectedAbilities = fields.bladesAbilities ? fields.bladesAbilities.split(',').map(s => s.trim()).filter(Boolean) : []
   const selectedItems = fields.bladesItems ? fields.bladesItems.split(',').map(s => s.trim()).filter(Boolean) : []
   const selectedTrauma = fields.bladesTrauma ? fields.bladesTrauma.split(',').map(s => s.trim()).filter(Boolean) : []
@@ -291,11 +291,11 @@ export default function BladesForm() {
             <div className="field-row">
               <CatalogSelect id="bladesPlaybook" name="bladesPlaybook" label="Playbook" value={fields.bladesPlaybook}
                 onChange={handleField}
-                catalog={BLADES_PLAYBOOKS.map(p => ({ value: p.name, description: p.description || '' }))} />
+                catalog={BLADES_PLAYBOOK_CATALOG} />
             </div>
             {selectedPlaybook && (
               <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
-                <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{selectedPlaybook.name}</div>
+                <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{t(fields.bladesPlaybook)}</div>
                 {selectedPlaybook.description && <p style={{ fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 'var(--space-xs)' }}>{selectedPlaybook.description}</p>}
                 {selectedPlaybook.xpTrigger && <p className="muted-hint muted-hint--xs"><strong>XP Trigger:</strong> {selectedPlaybook.xpTrigger}</p>}
               </div>
@@ -332,7 +332,7 @@ export default function BladesForm() {
       <div hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
-            <legend>Special Abilities{selectedPlaybook ? ` - ${selectedPlaybook.name}` : ''}</legend>
+            <legend>Special Abilities{selectedPlaybook ? ` - ${fields.bladesPlaybook}` : ''}</legend>
             {!selectedPlaybook && (
               <p className="muted-hint">Select a playbook on the Identity tab to see available abilities.</p>
             )}
@@ -352,9 +352,9 @@ export default function BladesForm() {
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
                 Pick abilities from other playbooks as a veteran advance.
               </p>
-              {BLADES_PLAYBOOKS.filter(p => p.name !== fields.bladesPlaybook).map(pb => (
-                <details key={pb.name} style={{ marginBottom: 'var(--space-xs)' }}>
-                  <summary style={{ cursor: 'pointer', fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{pb.name}</summary>
+              {Object.entries(BLADES_PLAYBOOKS).filter(([name]) => name !== fields.bladesPlaybook).map(([name, pb]) => (
+                <details key={name} style={{ marginBottom: 'var(--space-xs)' }}>
+                  <summary style={{ cursor: 'pointer', fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{t(name)}</summary>
                   {pb.abilities?.map(ability => (
                     <label key={ability.name} style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-start', padding: 'var(--space-xs) 0 var(--space-xs) var(--space-md)' }}>
                       <input type="checkbox" checked={selectedAbilities.includes(ability.name)}
@@ -484,7 +484,7 @@ export default function BladesForm() {
           </fieldset>
           {selectedPlaybook?.items && (
             <fieldset>
-              <legend>{selectedPlaybook.name} Items</legend>
+              <legend>{fields.bladesPlaybook} Items</legend>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
                 {selectedPlaybook.items.map(item => (
                   <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: '0.85rem' }}>
@@ -502,7 +502,7 @@ export default function BladesForm() {
       <div hidden={tab !== 5}>
         <div className="form-section">
           <fieldset>
-            <legend>Contacts{selectedPlaybook ? ` - ${selectedPlaybook.name}` : ''}</legend>
+            <legend>Contacts{selectedPlaybook ? ` - ${fields.bladesPlaybook}` : ''}</legend>
             {!selectedPlaybook && (
               <p className="muted-hint">Select a playbook on the Identity tab to see your contacts.</p>
             )}
