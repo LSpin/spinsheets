@@ -196,6 +196,30 @@ const configs = {
       ['freebieL5rTraitCost', 'freebieL5rSkillCost', 'freebieL5rVoidCost'],
     ],
   },
+  dnd: {
+    startingFreebies: 0,
+    xpCosts: {
+      Earned:  {},
+      Other:   {},
+    },
+    freebieCosts: {
+      Other: {},
+    },
+    xpRef: [],
+    freebieRef: [],
+  },
+  blades: {
+    startingFreebies: 0,
+    xpCosts: {
+      Earned:  {},
+      Other:   {},
+    },
+    freebieCosts: {
+      Other: {},
+    },
+    xpRef: [],
+    freebieRef: [],
+  },
 }
 
 export default function XpLogSection({ splat, xpLog, onAdd, onRemove, onError, t }) {
