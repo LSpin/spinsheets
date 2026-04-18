@@ -296,6 +296,7 @@ export default function BladesForm() {
             {selectedPlaybook && (
               <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
                 <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{t(fields.bladesPlaybook)}</div>
+                {selectedPlaybook.supernatural && <span className="splat-badge splat-badge--blades" style={{ fontSize: '0.75rem', marginBottom: 'var(--space-xs)', display: 'inline-block' }}>Deep Cuts — Supernatural</span>}
                 {selectedPlaybook.description && <p style={{ fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 'var(--space-xs)' }}>{selectedPlaybook.description}</p>}
                 {selectedPlaybook.xpTrigger && <p className="muted-hint muted-hint--xs"><strong>XP Trigger:</strong> {selectedPlaybook.xpTrigger}</p>}
               </div>
@@ -482,7 +483,7 @@ export default function BladesForm() {
               ))}
             </div>
           </fieldset>
-          {selectedPlaybook?.items && (
+          {selectedPlaybook?.items?.length > 0 && (
             <fieldset>
               <legend>{fields.bladesPlaybook} Items</legend>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>

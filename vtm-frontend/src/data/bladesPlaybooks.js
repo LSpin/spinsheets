@@ -52,6 +52,12 @@ export const BLADES_STANDARD_ITEMS = [
   { name: 'Demolition Tools', load: 2, description: 'Explosives, fuses, detonators, incendiaries.' },
   { name: 'Tinkering Tools', load: 1, description: 'Wrenches, pliers, screwdrivers, spare parts.' },
   { name: 'Lantern', load: 1, description: 'Electroplasmic lantern. Provides steady illumination.' },
+  // Deep Cuts items
+  { name: 'Arclighter', load: 1, description: 'Pen-sized electroplasm device producing crackling energy.' },
+  { name: 'Percussion Slug Gun', load: 1, description: 'Break-action firearm firing percussion slugs. Limited range.' },
+  { name: 'Lightning Thrower', load: 1, description: 'Experimental tool projecting a continuous whip-like bolt of electroplasm.' },
+  { name: 'Monitor Sphere', load: 2, description: 'Spark-craft orb with demi-sensorium for surveillance.' },
+  { name: 'Sparkrunner Rig', load: 2, description: 'Full-body harness allowing interaction with electroplasmic structures.' },
 ]
 
 export const BLADES_PLAYBOOKS = {
@@ -207,6 +213,69 @@ export const BLADES_PLAYBOOKS = {
     ],
     contacts: ['Nyryx, a possessor ghost', 'Scurlock, a vampire', 'Setarra, a demon', 'Quellyn, a witch', 'Flint, a spirit trafficker'],
     xpTrigger: 'You addressed a challenge with knowledge or arcane power.',
+  },
+
+  // ── Deep Cuts: Supernatural Playbooks ──
+
+  Ghost: {
+    description: 'A spirit without a body — electroplasmic vapor clinging to the world.',
+    supernatural: true,
+    abilities: [
+      { name: 'Ghost Form', description: 'You are an electroplasmic vapor — intangible, invisible to normal sight, and able to float through the ghost field.' },
+      { name: 'Dissipate', description: 'You can pass through solid matter and flow through tiny gaps. You are immune to physical harm while dissipated.' },
+      { name: 'Manifest', description: 'You can make yourself visible and audible to the living. Take 1 stress. You may travel instantaneously to a location you can perceive in the ghost field.' },
+      { name: 'Poltergeist', description: 'You can apply force to physical objects — push, pull, knock over, throw. Take 1 stress per use.' },
+      { name: 'Possess', description: 'You can take control of a living body. The host resists with Resolve. You take 2 stress and gain the host\'s physical capabilities.' },
+      { name: 'Veteran', description: 'Choose a special ability from any living playbook.' },
+    ],
+    items: [],
+    contacts: ['A former friend who doesn\'t know you\'re dead', 'A spirit trafficker who wants to bottle you', 'A whisper who can see you', 'A fellow ghost trapped in the city', 'A demon who offers a dark bargain'],
+    xpTrigger: 'You addressed a challenge using your ghostly nature.',
+  },
+  Hull: {
+    description: 'A spirit animating a spark-craft frame — a mechanical body powered by electroplasm.',
+    supernatural: true,
+    abilities: [
+      { name: 'Automaton', description: 'Your body is a spark-craft frame. You don\'t eat, breathe, or sleep. You are immune to poison and disease.' },
+      { name: 'Overcharge', description: 'Push yourself to perform a feat of extreme strength or speed far beyond human capability. You spark and crackle with energy.' },
+      { name: 'Compartments', description: 'Your frame has hidden storage. You get +2 load capacity and can conceal items inside your body.' },
+      { name: 'Electroplasmic Projectors', description: 'Your frame can discharge electrical energy as a weapon. This is potent against spirits.' },
+      { name: 'Interface', description: 'You can connect to and control other electroplasmic devices and spark-craft machinery by touch.' },
+      { name: 'Secondary Hull', description: 'You have a second frame body stored in a safe location. If your current frame is destroyed, your spirit transfers to the spare.' },
+      { name: 'Frame Upgrade', description: 'Choose one: reinforced plating (armor), sensory enhancement (darkvision), built-in tools, or magnetic grips.' },
+    ],
+    items: [],
+    contacts: ['A spark-craft engineer who maintains you', 'A leech who understands your design', 'A collector who wants to study you', 'A fellow hull who shares your condition', 'A spirit warden who suspects what you are'],
+    xpTrigger: 'You addressed a challenge using your mechanical nature.',
+  },
+  Vampire: {
+    description: 'A spirit animating an undead body — ancient, powerful, and hungry.',
+    supernatural: true,
+    abilities: [
+      { name: 'Undead', description: 'Your body is an animated corpse. You don\'t age, breathe, or feel pain normally. You heal by consuming life essence (blood).' },
+      { name: 'Arcane Sight', description: 'You can see in total darkness and perceive the ghost field at will. You can sense the life force of living beings nearby.' },
+      { name: 'Terrible Power', description: 'Your strength and speed are far beyond mortal limits. You get potency in physical confrontations with the living.' },
+      { name: 'Dark Talent', description: 'Choose one attribute (Insight, Prowess, or Resolve). Your maximum rating for that attribute\'s actions becomes 5 instead of 4.' },
+      { name: 'Sinister Guise', description: 'You can appear as a normal living person. You get +1d to deceive others about your true nature.' },
+      { name: 'Void in the Echo', description: 'You are invisible to spirits and undetectable in the ghost field. Spirit wardens cannot sense you.' },
+    ],
+    items: [],
+    contacts: ['A loyal servant who procures victims', 'A fellow vampire of ancient lineage', 'A mortal lover who knows your secret', 'A spirit warden hunting the undead', 'A noble who owes you a blood debt'],
+    xpTrigger: 'You addressed a challenge using your vampiric nature.',
+  },
+  Stranger: {
+    description: 'A traveler from another world, stranded in Doskvol through a fracture in reality.',
+    abilities: [
+      { name: 'Fractured', description: 'You traveled through a dimensional fracture. You have strange knowledge and abilities from another world. Choose one attribute: take +1 action dot in any action of that attribute.' },
+      { name: 'Otherworldly', description: 'Your alien perspective gives you insight others lack. When you study or survey a situation, you may ask one question the GM must answer truthfully.' },
+      { name: 'Adaptation', description: 'You learn quickly in this strange world. During downtime, you may train two different actions instead of one.' },
+      { name: 'Residual Power', description: 'You retain a fragment of power from your home dimension. Choose a supernatural ability from the Ghost, Hull, or Vampire playbooks.' },
+      { name: 'Uncanny', description: 'Something about you is deeply unsettling. You get +1d to intimidate or unnerve, but -1d to blend in or appear normal.' },
+      { name: 'Assimilated', description: 'You have fully adapted to this world. You may switch to any standard playbook, keeping your current action ratings.' },
+    ],
+    items: [{ name: 'Strange artifact from home', load: 1 }, { name: 'Fractured compass', load: 0 }, { name: 'Foreign currency (worthless here)', load: 0 }, { name: 'Journal in an unknown language', load: 0 }],
+    contacts: ['A scholar fascinated by your origin', 'A smuggler who found you', 'A whisper who senses your wrongness', 'Another stranded traveler', 'A demon who knows the way home'],
+    xpTrigger: 'You addressed a challenge using your alien nature or outsider perspective.',
   },
 }
 
