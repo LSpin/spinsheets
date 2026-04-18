@@ -59,6 +59,10 @@ const DndForm = lazy(() => import('./components/DndForm'))
 const DndMonsterForm = lazy(() => import('./components/DndMonsterForm'))
 const DndPage = lazy(() => import('./pages/DndPage'))
 
+// UESTRPG
+const UestrpgForm = lazy(() => import('./components/UestrpgForm'))
+const UestrpgPage = lazy(() => import('./pages/UestrpgPage'))
+
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
   const { t } = useLanguage()
@@ -140,7 +144,7 @@ function UserMenu() {
   )
 }
 
-const THEME_TO_CHARACTERS_PATH = { wod: '/characters', '7thsea': '/7thsea', l5r: '/l5r', blades: '/blades', dnd: '/dnd' }
+const THEME_TO_CHARACTERS_PATH = { wod: '/characters', '7thsea': '/7thsea', l5r: '/l5r', blades: '/blades', dnd: '/dnd', uestrpg: '/uestrpg' }
 
 function AppShell() {
   const { user, isST } = useAuth()
@@ -320,6 +324,21 @@ function AppShell() {
             <ProtectedRoute><ChronicleForm system="DND" basePath="/dnd/chronicles" /></ProtectedRoute>
           } />
           <Route path="/dnd/chronicles/:id" element={
+            <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
+          } />
+          <Route path="/uestrpg" element={
+            <ProtectedRoute><UestrpgPage /></ProtectedRoute>
+          } />
+          <Route path="/uestrpg/new" element={
+            <ProtectedRoute><UestrpgForm /></ProtectedRoute>
+          } />
+          <Route path="/uestrpg/chronicles" element={
+            <ProtectedRoute><ChronicleList system="UESTRPG" basePath="/uestrpg/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/uestrpg/chronicles/new" element={
+            <ProtectedRoute><ChronicleForm system="UESTRPG" basePath="/uestrpg/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/uestrpg/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
           } />
           <Route path="/chronicles" element={

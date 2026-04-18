@@ -461,6 +461,11 @@ public class CharacterController {
             existing.setDndMonsterVulnerabilities(updated.getDndMonsterVulnerabilities());
             existing.setDndMonsterSenses(updated.getDndMonsterSenses());
             existing.setDndMonsterLanguages(updated.getDndMonsterLanguages());
+            // UESTRPG
+            existing.setUestrpgBirthsign(updated.getUestrpgBirthsign());
+            existing.setUestrpgMagickaMax(updated.getUestrpgMagickaMax());
+            existing.setUestrpgMagickaCurrent(updated.getUestrpgMagickaCurrent());
+            existing.setUestrpgLuck(updated.getUestrpgLuck());
             return ResponseEntity.ok(service.save(existing));
         }).orElse(ResponseEntity.notFound().build());
     }
@@ -484,7 +489,8 @@ public class CharacterController {
         Map.entry("SEVENTH_SEA", "SEVENTH_SEA"),
         Map.entry("L5R", "L5R"),
         Map.entry("BLADES", "BLADES"), Map.entry("BLADES_CREW", "BLADES"),
-        Map.entry("DND", "DND"), Map.entry("DND_MONSTER", "DND")
+        Map.entry("DND", "DND"), Map.entry("DND_MONSTER", "DND"),
+        Map.entry("UESTRPG", "UESTRPG")
     );
 
     private boolean isSplatAllowed(Chronicle chronicle, String splat) {

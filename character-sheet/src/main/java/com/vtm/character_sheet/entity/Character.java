@@ -748,4 +748,10 @@ public class Character {
     private String dndMonsterSenses;
     @Column(columnDefinition = "TEXT")
     private String dndMonsterLanguages;
+
+    // ── UESTRPG fields (reuses dnd* fields for shared mechanics) ──
+    private String uestrpgBirthsign;
+    private Integer uestrpgMagickaMax = 0;
+    private Integer uestrpgMagickaCurrent = 0;
+    private Integer uestrpgLuck = 0;
 }

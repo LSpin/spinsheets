@@ -28,6 +28,7 @@ const SPLAT_LABEL_KEYS = {
   BLADES_CREW: 'splatBladesCrew',
   DND: 'splatDnd',
   DND_MONSTER: 'splatDndMonster',
+  UESTRPG: 'splatUestrpg',
 }
 
 function splatBadgeClass(splat) {

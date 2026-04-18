@@ -55,6 +55,11 @@ export default function HomePage() {
             <p>{t('systemDndDesc')}</p>
             <span className="system-card-cta">{t('systemEnter')}</span>
           </Link>
+          <Link to={user ? '/uestrpg' : '/login'} className="system-card system-card--uestrpg" onClick={() => switchTheme('uestrpg')}>
+            <h4>{t('systemUestrpg')}</h4>
+            <p>{t('systemUestrpgDesc')}</p>
+            <span className="system-card-cta">{t('systemEnter')}</span>
+          </Link>
         </div>
       </section>
 
@@ -153,6 +158,15 @@ export default function HomePage() {
               <li>13 Classes · 9 Races</li>
               <li>Searchable Spell Catalog</li>
               <li>d20 Dice Roller</li>
+            </ul>
+          </div>
+          <div className="homepage-card">
+            <span className="splat-badge splat-badge--uestrpg" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>UESTRPG</span>
+            <ul className="homepage-list">
+              <li>Elder Scrolls RPG (D&D 5e Based)</li>
+              <li>10 Races · 13 Classes</li>
+              <li>13 Constellations/Birthsigns</li>
+              <li>Magicka System</li>
             </ul>
           </div>
         </div>

@@ -288,13 +288,15 @@ public class ChronicleController {
         Map.entry("SEVENTH_SEA", "SEVENTH_SEA"),
         Map.entry("L5R", "L5R"),
         Map.entry("BLADES", "BLADES"), Map.entry("BLADES_CREW", "BLADES"),
-        Map.entry("DND", "DND"), Map.entry("DND_MONSTER", "DND")
+        Map.entry("DND", "DND"), Map.entry("DND_MONSTER", "DND"),
+        Map.entry("UESTRPG", "UESTRPG")
     );
 
     private static final Map<String, String> SYSTEM_FOR_CATEGORY = Map.of(
         "VAMPIRE", "WOD", "WEREWOLF", "WOD", "MAGE", "WOD",
         "SEVENTH_SEA", "SEVENTH_SEA", "L5R", "L5R",
-        "BLADES", "BLADES", "DND", "DND"
+        "BLADES", "BLADES", "DND", "DND",
+        "UESTRPG", "UESTRPG"
     );
 
     private boolean isSplatAllowed(Chronicle chronicle, String splat) {

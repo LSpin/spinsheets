@@ -89,6 +89,23 @@
   --color-accent-hover:   #9aabbc;
 }
 
+/* ── UESTRPG theme — Elder Scrolls steel blue ── */
+
+[data-theme="uestrpg"] {
+  --color-border-focus:   #7a99b5;
+  --color-accent:         #4a6a85;
+  --color-accent-fg:      #7a99b5;
+  --color-accent-hover:   #8aa9c5;
+}
+
+[data-theme="uestrpg"] .tab-btn--active {
+  background: rgba(122, 153, 181, 0.1) !important;
+}
+
+[data-theme="uestrpg"] .tag--active {
+  background: #101a24;
+}
+
 @media (forced-colors: active) {
   :root {
     --color-accent:       Highlight;
@@ -1185,6 +1202,8 @@ legend {
   color: #8a9bae;
 }
 
+.splat-badge--uestrpg { background: rgba(122, 153, 181, 0.15); color: #7a99b5; }
+
 .splat-badge--vampire-revised {
   color: var(--color-splat-ghoul);
   border-color: rgba(204, 68, 68, 0.3);
@@ -1373,6 +1392,11 @@ legend {
 .system-card--blades .system-card-cta {
   color: #8a9bae;
 }
+
+.system-card--uestrpg { border-color: rgba(122, 153, 181, 0.3); }
+.system-card--uestrpg:hover { border-color: #7a99b5; }
+.system-card--uestrpg h4 { color: #7a99b5; }
+.system-card--uestrpg .system-card-cta { color: #7a99b5; }
 
 .homepage-systems {
   margin-top: var(--space-xl);
