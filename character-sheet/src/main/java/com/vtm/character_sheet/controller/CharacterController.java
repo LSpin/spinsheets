@@ -490,7 +490,8 @@ public class CharacterController {
         Map.entry("L5R", "L5R"),
         Map.entry("BLADES", "BLADES"), Map.entry("BLADES_CREW", "BLADES"),
         Map.entry("DND", "DND"), Map.entry("DND_MONSTER", "DND"),
-        Map.entry("UESTRPG", "UESTRPG")
+        Map.entry("UESTRPG", "UESTRPG"), Map.entry("UESTRPG_ANTAGONIST", "UESTRPG"),
+        Map.entry("L5R_ANTAGONIST", "L5R"), Map.entry("BLADES_ANTAGONIST", "BLADES")
     );
 
     private boolean isSplatAllowed(Chronicle chronicle, String splat) {

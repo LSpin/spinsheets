@@ -1427,6 +1427,23 @@ const en = {
   dndLegendaryHint: 'Legendary actions the creature can take at the end of another creature\'s turn.',
   dndTemplateLoaded: 'Template loaded — customize as needed',
 
+  // ── Antagonist splat labels ──
+  splatL5RAntagonist: 'L5R Antagonist',
+  splatUestrpgAntagonist: 'UESTRPG Antagonist',
+  splatBladesAntagonist: 'Blades Antagonist',
+  l5rNewAntagonist: 'New L5R Antagonist',
+  bladesNewAntagonist: 'New Blades Antagonist',
+  uestrpgNewAntagonist: 'New UESTRPG Antagonist',
+  tabL5rAntIdentity: 'Identity',
+  tabL5rAntStats: 'Stats',
+  tabL5rAntAbilities: 'Abilities',
+  tabBladesAntIdentity: 'Identity',
+  tabBladesAntTraits: 'Traits',
+  tabUestrpgAntIdentity: 'Identity',
+  tabUestrpgAntStats: 'Stats',
+  tabUestrpgAntActions: 'Actions',
+  tabUestrpgAntTraits: 'Traits',
+
   // ── UESTRPG ──
   systemUestrpg: 'Elder Scrolls RPG',
   systemUestrpgDesc: 'Adventure in Tamriel with D&D 5e mechanics',
@@ -3129,6 +3146,23 @@ const pt = {
   dndTraitsHint: 'Um traço por linha. Formato: Nome: Descrição.',
   dndLegendaryHint: 'Ações lendárias que a criatura pode tomar no final do turno de outra criatura.',
   dndTemplateLoaded: 'Modelo carregado — personalize como quiser',
+
+  // ── Antagonist splat labels ──
+  splatL5RAntagonist: 'Antagonista L5R',
+  splatUestrpgAntagonist: 'Antagonista UESTRPG',
+  splatBladesAntagonist: 'Antagonista Blades',
+  l5rNewAntagonist: 'Novo Antagonista L5R',
+  bladesNewAntagonist: 'Novo Antagonista Blades',
+  uestrpgNewAntagonist: 'Novo Antagonista UESTRPG',
+  tabL5rAntIdentity: 'Identidade',
+  tabL5rAntStats: 'Estatísticas',
+  tabL5rAntAbilities: 'Habilidades',
+  tabBladesAntIdentity: 'Identidade',
+  tabBladesAntTraits: 'Traços',
+  tabUestrpgAntIdentity: 'Identidade',
+  tabUestrpgAntStats: 'Estatísticas',
+  tabUestrpgAntActions: 'Ações',
+  tabUestrpgAntTraits: 'Traços',
 
   // ── UESTRPG ──
   systemUestrpg: 'Elder Scrolls RPG',

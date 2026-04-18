@@ -47,11 +47,13 @@ const SeventhSeaPage = lazy(() => import('./pages/SeventhSeaPage'))
 
 // L5R
 const L5RForm = lazy(() => import('./components/L5RForm'))
+const L5RAntagonistForm = lazy(() => import('./components/L5RAntagonistForm'))
 const L5RPage = lazy(() => import('./pages/L5RPage'))
 
 // Blades
 const BladesForm = lazy(() => import('./components/BladesForm'))
 const BladesCrewForm = lazy(() => import('./components/BladesCrewForm'))
+const BladesAntagonistForm = lazy(() => import('./components/BladesAntagonistForm'))
 const BladesPage = lazy(() => import('./pages/BladesPage'))
 
 // D&D
@@ -61,6 +63,7 @@ const DndPage = lazy(() => import('./pages/DndPage'))
 
 // UESTRPG
 const UestrpgForm = lazy(() => import('./components/UestrpgForm'))
+const UestrpgAntagonistForm = lazy(() => import('./components/UestrpgAntagonistForm'))
 const UestrpgPage = lazy(() => import('./pages/UestrpgPage'))
 
 function ProtectedRoute({ children }) {
@@ -281,6 +284,9 @@ function AppShell() {
           <Route path="/l5r/new" element={
             <ProtectedRoute><L5RForm /></ProtectedRoute>
           } />
+          <Route path="/l5r/antagonist/new" element={
+            <ProtectedRoute><L5RAntagonistForm /></ProtectedRoute>
+          } />
           <Route path="/l5r/chronicles" element={
             <ProtectedRoute><ChronicleList system="L5R" basePath="/l5r/chronicles" /></ProtectedRoute>
           } />
@@ -298,6 +304,9 @@ function AppShell() {
           } />
           <Route path="/blades/crew/new" element={
             <ProtectedRoute><BladesCrewForm /></ProtectedRoute>
+          } />
+          <Route path="/blades/antagonist/new" element={
+            <ProtectedRoute><BladesAntagonistForm /></ProtectedRoute>
           } />
           <Route path="/blades/chronicles" element={
             <ProtectedRoute><ChronicleList system="BLADES" basePath="/blades/chronicles" /></ProtectedRoute>
@@ -331,6 +340,9 @@ function AppShell() {
           } />
           <Route path="/uestrpg/new" element={
             <ProtectedRoute><UestrpgForm /></ProtectedRoute>
+          } />
+          <Route path="/uestrpg/antagonist/new" element={
+            <ProtectedRoute><UestrpgAntagonistForm /></ProtectedRoute>
           } />
           <Route path="/uestrpg/chronicles" element={
             <ProtectedRoute><ChronicleList system="UESTRPG" basePath="/uestrpg/chronicles" /></ProtectedRoute>

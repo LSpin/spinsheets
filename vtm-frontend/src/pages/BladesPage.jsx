@@ -24,7 +24,7 @@ export default function BladesPage() {
     async function load() {
       try {
         const [charRes, chronRes] = await Promise.all([getCharacters(), getChronicles()])
-        setCharacters(charRes.data.filter(c => c.splat === 'BLADES' || c.splat === 'BLADES_CREW'))
+        setCharacters(charRes.data.filter(c => c.splat === 'BLADES' || c.splat === 'BLADES_CREW' || c.splat === 'BLADES_ANTAGONIST'))
         setChronicles(chronRes.data.filter(c => (c.gameSystem || 'WOD') === 'BLADES'))
       } catch {
         setError(t('failedLoadChars'))
@@ -47,6 +47,7 @@ export default function BladesPage() {
 
   const scoundrels = characters.filter(c => c.splat === 'BLADES')
   const crews = characters.filter(c => c.splat === 'BLADES_CREW')
+  const antagonists = characters.filter(c => c.splat === 'BLADES_ANTAGONIST')
 
   return (
     <section aria-labelledby="blades-heading">
@@ -59,6 +60,11 @@ export default function BladesPage() {
           <button className="btn btn-secondary" onClick={() => navigate('/blades/crew/new')}>
             {t('bladesNewCrew')}
           </button>
+          {isST && (
+            <button className="btn btn-secondary" onClick={() => navigate('/blades/antagonist/new')}>
+              {t('bladesNewAntagonist')}
+            </button>
+          )}
         </div>
       </div>
 
@@ -135,6 +141,32 @@ export default function BladesPage() {
               ))}
             </ul>
           )}
+        </div>
+      )}
+
+      {/* Antagonists */}
+      {pageTab === 0 && !loading && isST && antagonists.length > 0 && (
+        <div style={{ marginTop: 'var(--space-xl)' }}>
+          <h3 style={{ marginBottom: 'var(--space-sm)' }}>{t('splatBladesAntagonist')}s ({antagonists.length})</h3>
+          <ul className="character-list" aria-label="Antagonists">
+            {antagonists.map(c => (
+              <li key={c.id} className="character-card">
+                <div className="character-card-info">
+                  <h3>{c.name || t('unnamedCharacter')}</h3>
+                  <dl className="character-card-meta">
+                    <dt className="sr-only">Type</dt>
+                    <dd className="splat-badge splat-badge--blades">{c.dndChallengeRating ? `Threat ${c.dndChallengeRating}` : 'Antagonist'}</dd>
+                    {c.dndMonsterType && <dd>{c.dndMonsterType}</dd>}
+                    {c.concept && <dd>{c.concept}</dd>}
+                  </dl>
+                </div>
+                <div className="character-card-actions">
+                  <button className="btn btn-secondary" onClick={() => navigate(`/characters/${c.id}`)}>{t('edit')}</button>
+                  <button className="btn btn-danger" onClick={() => handleDelete(c.id, c.name)}>{t('deleteBtn')}</button>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </section>

@@ -21,11 +21,14 @@ const KinfolkForm = lazy(() => import('./KinfolkForm'))
 const SeventhSeaForm = lazy(() => import('./SeventhSeaForm'))
 const SeventhSeaVillainForm = lazy(() => import('./SeventhSeaVillainForm'))
 const L5RForm = lazy(() => import('./L5RForm'))
+const L5RAntagonistForm = lazy(() => import('./L5RAntagonistForm'))
 const BladesForm = lazy(() => import('./BladesForm'))
 const BladesCrewForm = lazy(() => import('./BladesCrewForm'))
+const BladesAntagonistForm = lazy(() => import('./BladesAntagonistForm'))
 const DndForm = lazy(() => import('./DndForm'))
 const DndMonsterForm = lazy(() => import('./DndMonsterForm'))
 const UestrpgForm = lazy(() => import('./UestrpgForm'))
+const UestrpgAntagonistForm = lazy(() => import('./UestrpgAntagonistForm'))
 
 export default function CharacterRouter() {
   const { id } = useParams()
@@ -44,7 +47,7 @@ export default function CharacterRouter() {
         setSplat(s)
         setIsNpc(!!res.data.npc)
         setNotFound(false)
-        switchTheme(s === 'SEVENTH_SEA' ? '7thsea' : s === 'L5R' ? 'l5r' : s === 'BLADES' || s === 'BLADES_CREW' ? 'blades' : s === 'DND' || s === 'DND_MONSTER' ? 'dnd' : s === 'UESTRPG' ? 'uestrpg' : 'wod')
+        switchTheme(s === 'SEVENTH_SEA' ? '7thsea' : s === 'L5R' || s === 'L5R_ANTAGONIST' ? 'l5r' : s === 'BLADES' || s === 'BLADES_CREW' || s === 'BLADES_ANTAGONIST' ? 'blades' : s === 'DND' || s === 'DND_MONSTER' ? 'dnd' : s === 'UESTRPG' || s === 'UESTRPG_ANTAGONIST' ? 'uestrpg' : 'wod')
       } catch {
         setNotFound(true)
       } finally {
@@ -78,11 +81,15 @@ export default function CharacterRouter() {
   else if (splat === 'KINFOLK') FormComponent = KinfolkForm
   else if (splat === 'SEVENTH_SEA' && isNpc) FormComponent = SeventhSeaVillainForm
   else if (splat === 'SEVENTH_SEA') FormComponent = SeventhSeaForm
+  else if (splat === 'L5R' && isNpc) FormComponent = L5RAntagonistForm
   else if (splat === 'L5R') FormComponent = L5RForm
+  else if (splat === 'L5R_ANTAGONIST') FormComponent = L5RAntagonistForm
+  else if (splat === 'BLADES_ANTAGONIST') FormComponent = BladesAntagonistForm
   else if (splat === 'BLADES') FormComponent = BladesForm
   else if (splat === 'BLADES_CREW') FormComponent = BladesCrewForm
   else if (splat === 'DND') FormComponent = DndForm
   else if (splat === 'DND_MONSTER') FormComponent = DndMonsterForm
+  else if (splat === 'UESTRPG_ANTAGONIST') FormComponent = UestrpgAntagonistForm
   else if (splat === 'UESTRPG') FormComponent = UestrpgForm
 
   return (

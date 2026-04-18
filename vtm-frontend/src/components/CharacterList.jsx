@@ -29,6 +29,9 @@ const SPLAT_LABEL_KEYS = {
   DND: 'splatDnd',
   DND_MONSTER: 'splatDndMonster',
   UESTRPG: 'splatUestrpg',
+  L5R_ANTAGONIST: 'splatL5RAntagonist',
+  UESTRPG_ANTAGONIST: 'splatUestrpgAntagonist',
+  BLADES_ANTAGONIST: 'splatBladesAntagonist',
 }
 
 function splatBadgeClass(splat) {
