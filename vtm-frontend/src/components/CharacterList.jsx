@@ -24,6 +24,9 @@ const SPLAT_LABEL_KEYS = {
   KINFOLK: 'splatKinfolk',
   SEVENTH_SEA: 'splat7thSea',
   L5R: 'splatL5R',
+  BLADES: 'splatBlades',
+  BLADES_CREW: 'splatBladesCrew',
+  DND: 'splatDnd',
 }
 
 function splatBadgeClass(splat) {
