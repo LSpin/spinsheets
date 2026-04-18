@@ -2132,74 +2132,130 @@ a:hover {
   align-items: center;
 }
 
+/* Action rating dots — WCAG 2.1 AA: 4.5:1 contrast on #0a0a0a */
 .blades-dot {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  border: 2px solid var(--color-border);
+  border: 2.5px solid #888;
   background: transparent;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 
 .blades-dot:hover {
-  border-color: var(--color-accent-fg);
+  border-color: #ccc;
+  box-shadow: 0 0 0 2px rgba(138, 155, 174, 0.3);
+}
+
+.blades-dot:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 
 .blades-dot--filled {
-  background: var(--color-accent-fg);
-  border-color: var(--color-accent-fg);
+  background: #aabbcc;
+  border-color: #aabbcc;
 }
 
+.blades-dot--filled:hover {
+  background: #bbccdd;
+  border-color: #bbccdd;
+}
+
+/* XP pips — smaller squares */
 .blades-pip {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   border-radius: 2px;
-  border: 2px solid var(--color-border);
+  border: 2.5px solid #888;
   background: transparent;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 
 .blades-pip:hover {
-  border-color: var(--color-accent-fg);
+  border-color: #ccc;
+  box-shadow: 0 0 0 2px rgba(138, 155, 174, 0.3);
+}
+
+.blades-pip:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 
 .blades-pip--filled {
-  background: var(--color-accent-fg);
-  border-color: var(--color-accent-fg);
+  background: #8a9bae;
+  border-color: #8a9bae;
 }
 
+.blades-pip--filled:hover {
+  background: #9aabbc;
+  border-color: #9aabbc;
+}
+
+/* Stress track */
 .blades-stress-track {
   display: flex;
-  gap: 4px;
+  gap: 5px;
   align-items: center;
   margin-bottom: var(--space-sm);
 }
 
 .blades-stress-box {
-  width: 28px;
-  height: 28px;
-  border: 2px solid var(--color-border);
-  border-radius: 3px;
+  width: 30px;
+  height: 30px;
+  border: 2.5px solid #888;
+  border-radius: 4px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  color: var(--color-text-muted);
-  transition: background 0.15s, border-color 0.15s;
+  color: #888;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 
 .blades-stress-box:hover {
-  border-color: var(--color-accent-fg);
+  border-color: #ccc;
+  box-shadow: 0 0 0 2px rgba(192, 64, 64, 0.3);
+}
+
+.blades-stress-box:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 
 .blades-stress-box--filled {
-  background: #8b2020;
-  border-color: #c04040;
+  background: #cc3333;
+  border-color: #cc3333;
   color: #fff;
+}
+
+.blades-stress-box--filled:hover {
+  background: #dd4444;
+  border-color: #dd4444;
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+  .blades-dot, .blades-pip, .blades-stress-box {
+    forced-color-adjust: none;
+  }
+  .blades-dot--filled {
+    background: Highlight;
+    border-color: Highlight;
+  }
+  .blades-pip--filled {
+    background: Highlight;
+    border-color: Highlight;
+  }
+  .blades-stress-box--filled {
+    background: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+  }
 }
 
 /* ── Dice Pool Table ── */

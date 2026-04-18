@@ -8,6 +8,7 @@ import useAutoCreate from '../hooks/useAutoCreate'
 import CatalogSelect from './CatalogSelect'
 import XpLogSection from './XpLogSection'
 import BladesDiceRoller from './BladesDiceRoller'
+import RulesReferenceTab from './RulesReferenceTab'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
 import {
@@ -15,7 +16,76 @@ import {
   BLADES_PLAYBOOKS, BLADES_PLAYBOOK_CATALOG, BLADES_TRAUMA_CONDITIONS, BLADES_STANDARD_ITEMS,
 } from '../data/bladesPlaybooks'
 
-const TAB_KEYS = ['tabIdentity', 'tabBladesActions', 'tabBladesAbilities', 'tabBladesStressHarm', 'tabBladesItems', 'tabBladesContacts', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
+const TAB_KEYS = ['tabIdentity', 'tabBladesActions', 'tabBladesAbilities', 'tabBladesStressHarm', 'tabBladesItems', 'tabBladesContacts', 'tabBladesDicePools', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
+
+const BLADES_DICE_POOL_RULES = [
+  {
+    title: 'Action Rolls',
+    sections: [
+      { heading: 'Dice Pool', text: 'Roll a pool of d6s equal to your action rating.' },
+      { heading: 'Zero Dice', text: 'Zero dice? Roll 2d6 and take the lowest.' },
+      { heading: 'Full Success (6)', text: '6 = Full Success. You accomplish your goal.' },
+      { heading: 'Partial Success (4-5)', text: '4-5 = Partial Success. You succeed but with a consequence.' },
+      { heading: 'Bad Outcome (1-3)', text: '1-3 = Bad Outcome. Things go wrong.' },
+      { heading: 'Critical Success', text: 'Two or more 6s = Critical Success (enhanced effect).' },
+    ],
+  },
+  {
+    title: 'Position & Effect',
+    sections: [
+      { heading: 'Controlled', text: 'You act on your terms. Failure = reduced effect, not disaster.' },
+      { heading: 'Risky', text: 'The standard position. Failure = trouble.' },
+      { heading: 'Desperate', text: 'You\'re in serious danger. Failure = worst outcome. But desperate actions give bonus XP.' },
+      { heading: 'Great Effect', text: 'Exceptional impact. More than you\'d expect.' },
+      { heading: 'Standard Effect', text: 'Normal impact. The pointed result.' },
+      { heading: 'Limited Effect', text: 'Reduced impact. Less than you\'d hope.' },
+      { heading: 'Zero Effect', text: 'No effect. Your action has no meaningful impact.' },
+    ],
+  },
+  {
+    title: 'Resistance Rolls',
+    sections: [
+      { heading: 'How to Roll', text: 'Roll d6s equal to the relevant attribute rating (Insight, Prowess, or Resolve).' },
+      { heading: 'Stress Cost', text: 'The highest die determines stress cost: 6 = no stress, 4-5 = 1 stress, 1-3 = 2 stress.' },
+      { heading: 'Critical', text: 'Critical = clear 1 stress instead of taking any.' },
+    ],
+  },
+  {
+    title: 'Fortune Rolls',
+    sections: [
+      { heading: 'When to Use', text: 'Used when no PC is directly acting (e.g., NPC actions, random events).' },
+      { heading: 'Results', text: 'Same d6 pool mechanic: 1-3 bad, 4-5 mixed, 6 good, crit = exceptional.' },
+    ],
+  },
+  {
+    title: 'Engagement Roll',
+    sections: [
+      { heading: 'When to Roll', text: 'Made at the start of a score to determine the opening position.' },
+      { heading: 'Advantages (+1d)', text: '+1d for each advantage: detailed plan, good intel, friends, surprise, etc.' },
+      { heading: 'Disadvantages (-1d)', text: '-1d for each disadvantage: enemies aware, bad weather, rival interference, etc.' },
+      { heading: 'Result', text: 'The result determines the starting position of the score.' },
+    ],
+  },
+  {
+    title: 'Downtime Activities (Deep Cuts)',
+    sections: [
+      { heading: 'Acquire Asset', text: 'Roll tier. 1-3 = tier-1 quality, 4-5 = tier quality, 6 = tier+1, crit = tier+2.' },
+      { heading: 'Long-term Project', text: 'Roll relevant action. Tick a progress clock based on the result.' },
+      { heading: 'Recover', text: 'Roll tier. Clear 1 harm level per segment filled.' },
+      { heading: 'Reduce Heat', text: 'Roll relevant action. 1-3 = clear 1 heat, 4-5 = clear 2, 6 = clear 3, crit = clear 5.' },
+      { heading: 'Train', text: 'Mark XP in an attribute or playbook track.' },
+      { heading: 'Indulge Vice', text: 'Roll lowest attribute. Clear stress equal to the result. Over max = overindulgence.' },
+    ],
+  },
+  {
+    title: 'Flashbacks',
+    sections: [
+      { heading: '0 Stress', text: 'Normal action with easy opportunity.' },
+      { heading: '1 Stress', text: 'Complex action or unlikely opportunity.' },
+      { heading: '2+ Stress', text: 'Elaborate action with special contingencies.' },
+    ],
+  },
+]
 
 const INITIAL = {
   splat: 'BLADES',
@@ -71,35 +141,38 @@ const LOAD_OPTIONS = [
 ]
 
 /* ── Small dot-rating for 0-4 action dots ── */
-function BladesDots({ value, max = 4, onChange }) {
+function BladesDots({ value, max = 4, onChange, label }) {
   return (
-    <span className="blades-dots">
+    <span className="blades-dots" role="group" aria-label={label || 'Rating'}>
       {Array.from({ length: max }, (_, i) => (
         <span
           key={i}
           className={`blades-dot${i < value ? ' blades-dot--filled' : ''}`}
           onClick={() => onChange(value === i + 1 ? i : i + 1)}
+          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onChange(value === i + 1 ? i : i + 1) } }}
           role="button"
           tabIndex={0}
-          aria-label={`${i + 1} dot${i + 1 !== 1 ? 's' : ''}`}
+          aria-label={`Set to ${i + 1}`}
+          aria-pressed={i < value}
         />
       ))}
     </span>
   )
 }
 
-/* ── Clickable pips for XP tracks ── */
-function XpPips({ value, max, onChange }) {
+function XpPips({ value, max, onChange, label }) {
   return (
-    <span className="blades-dots">
+    <span className="blades-dots" role="group" aria-label={label || 'XP'}>
       {Array.from({ length: max }, (_, i) => (
         <span
           key={i}
           className={`blades-pip${i < value ? ' blades-pip--filled' : ''}`}
           onClick={() => onChange(value === i + 1 ? i : i + 1)}
+          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onChange(value === i + 1 ? i : i + 1) } }}
           role="button"
           tabIndex={0}
-          aria-label={`${i + 1} xp`}
+          aria-label={`${i + 1} of ${max}`}
+          aria-pressed={i < value}
         />
       ))}
     </span>
@@ -387,9 +460,11 @@ export default function BladesForm() {
                   key={i}
                   className={`blades-stress-box${i < fields.bladesStress ? ' blades-stress-box--filled' : ''}`}
                   onClick={() => handleField('bladesStress', fields.bladesStress === i + 1 ? i : i + 1)}
+                  onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleField('bladesStress', fields.bladesStress === i + 1 ? i : i + 1) } }}
                   role="button"
                   tabIndex={0}
                   aria-label={`Stress ${i + 1}`}
+                  aria-pressed={i < fields.bladesStress}
                 />
               ))}
               <span style={{ marginLeft: 'var(--space-sm)', fontSize: '0.85rem', fontWeight: 600 }}>{fields.bladesStress}/9</span>
@@ -533,24 +608,29 @@ export default function BladesForm() {
         </div>
       </div>
 
-      {/* ── Tab 6: Backstory ── */}
+      {/* ── Tab 6: Dice Pools Reference ── */}
       <div hidden={tab !== 6}>
+        <RulesReferenceTab rules={BLADES_DICE_POOL_RULES} title={t('tabBladesDicePools')} />
+      </div>
+
+      {/* ── Tab 7: Backstory ── */}
+      <div hidden={tab !== 7}>
         <div className="form-section">
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
         </div>
       </div>
 
-      {/* ── Tab 7: XP Log ── */}
-      <div hidden={tab !== 7}>
+      {/* ── Tab 8: XP Log ── */}
+      <div hidden={tab !== 8}>
         <XpLogSection splat="blades" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
           onError={msg => setActionError(msg)} t={t} />
       </div>
 
-      {/* ── Tab 8: Dice Roller ── */}
-      <div hidden={tab !== 8}>
+      {/* ── Tab 9: Dice Roller ── */}
+      <div hidden={tab !== 9}>
         <BladesDiceRoller />
       </div>
 

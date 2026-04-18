@@ -1266,6 +1266,8 @@ const en = {
   tabBladesContacts: 'Contacts',
   bladesFriendly: 'Friend',
   bladesRival: 'Rival',
+  // Dice Pools
+  tabBladesDicePools: 'Dice Pools',
   // Crew
   tabBladesCrewIdentity: 'Crew',
   tabBladesCrewAbilities: 'Crew Abilities',
@@ -2954,6 +2956,7 @@ const pt = {
   tabBladesContacts: 'Contatos',
   bladesFriendly: 'Amigo',
   bladesRival: 'Rival',
+  tabBladesDicePools: 'Pools de Dados',
   tabBladesCrewIdentity: 'Bando',
   tabBladesCrewAbilities: 'Habilidades do Bando',
   tabBladesCrewUpgrades: 'Melhorias',

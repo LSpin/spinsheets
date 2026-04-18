@@ -26,15 +26,16 @@ function ClickTrack({ label, value, max, onChange }) {
   return (
     <div className="field">
       <label>{label} ({value}/{max})</label>
-      <div style={{ display: 'flex', gap: 2 }}>
+      <div className="blades-dots" role="group" aria-label={label}>
         {Array.from({ length: max }, (_, i) => (
-          <button key={i} type="button"
-            style={{
-              width: 22, height: 22, borderRadius: 3, border: '1px solid var(--color-border)',
-              background: i < value ? 'var(--color-accent-fg)' : 'transparent',
-              cursor: 'pointer', padding: 0,
-            }}
+          <span key={i}
+            className={`blades-pip${i < value ? ' blades-pip--filled' : ''}`}
             onClick={() => onChange(i < value ? i : i + 1)}
+            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onChange(i < value ? i : i + 1) } }}
+            role="button"
+            tabIndex={0}
+            aria-label={`${label} ${i + 1}`}
+            aria-pressed={i < value}
           />
         ))}
       </div>
@@ -44,18 +45,26 @@ function ClickTrack({ label, value, max, onChange }) {
 
 function CheckboxList({ items, selected, onChange }) {
   const sel = selected ? selected.split(',').map(s => s.trim()).filter(Boolean) : []
-  function toggle(item) {
-    const next = sel.includes(item) ? sel.filter(s => s !== item) : [...sel, item]
+  function toggle(name) {
+    const next = sel.includes(name) ? sel.filter(s => s !== name) : [...sel, name]
     onChange(next.join(', '))
   }
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-      {items.map(item => (
-        <label key={item} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', cursor: 'pointer', fontSize: '0.88rem' }}>
-          <input type="checkbox" checked={sel.includes(item)} onChange={() => toggle(item)} />
-          {item}
-        </label>
-      ))}
+      {items.map(item => {
+        const isObj = typeof item === 'object'
+        const name = isObj ? item.name : item
+        const desc = isObj ? item.description : null
+        return (
+          <label key={name} style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-start', cursor: 'pointer', padding: 'var(--space-xs) 0' }}>
+            <input type="checkbox" checked={sel.includes(name)} onChange={() => toggle(name)} style={{ marginTop: '3px' }} />
+            <div>
+              <strong style={{ fontSize: '0.88rem' }}>{name}</strong>
+              {desc && <span className="muted-hint muted-hint--xs" style={{ display: 'block' }}>{desc}</span>}
+            </div>
+          </label>
+        )
+      })}
     </div>
   )
 }
