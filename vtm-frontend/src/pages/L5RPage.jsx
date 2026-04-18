@@ -48,7 +48,7 @@ export default function L5RPage() {
   return (
     <section aria-labelledby="l5r-heading">
       <div className="character-list-header">
-        <h2 id="l5r-heading">{t('l5rMySamurai')}</h2>
+        <h2 id="l5r-heading">{t('systemL5R')} — {t('l5rMySamurai')}</h2>
         <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
           <button className="btn btn-primary" onClick={() => navigate('/l5r/new?mode=guided')}>
             {t('l5rNewSamurai')}
@@ -62,7 +62,7 @@ export default function L5RPage() {
             </button>
           )}
           <button className="btn btn-secondary" onClick={() => navigate('/l5r/chronicles')}>
-            {t('navChronicles')}
+            {t('systemL5R')} {t('navChronicles')}
           </button>
         </div>
         {showChronicleSelect && (

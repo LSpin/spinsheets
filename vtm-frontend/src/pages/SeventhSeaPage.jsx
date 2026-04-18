@@ -48,7 +48,7 @@ export default function SeventhSeaPage() {
   return (
     <section aria-labelledby="7s-heading">
       <div className="character-list-header">
-        <h2 id="7s-heading">{t('7sMyHeroes')}</h2>
+        <h2 id="7s-heading">{t('system7thSea')} — {t('7sMyHeroes')}</h2>
         <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
           <button className="btn btn-primary" onClick={() => navigate('/7thsea/new?mode=guided')}>
             {t('7sNewHero')}
@@ -62,7 +62,7 @@ export default function SeventhSeaPage() {
             </button>
           )}
           <button className="btn btn-secondary" onClick={() => navigate('/7thsea/chronicles')}>
-            {t('navChronicles')}
+            {t('system7thSea')} {t('navChronicles')}
           </button>
         </div>
         {showChronicleSelect && (

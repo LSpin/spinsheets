@@ -3,9 +3,19 @@ import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 import { createChronicle } from '../api/chronicleApi'
 
+const SYSTEM_LABEL_KEYS = {
+  WOD: 'systemWoD',
+  SEVENTH_SEA: 'system7thSea',
+  L5R: 'systemL5R',
+  BLADES: 'systemBlades',
+  DND: 'systemDnd',
+  UESTRPG: 'systemUestrpg',
+}
+
 export default function ChronicleForm({ system = 'WOD', basePath = '/chronicles' }) {
   const navigate = useNavigate()
   const { t } = useLanguage()
+  const systemLabel = t(SYSTEM_LABEL_KEYS[system] || 'systemWoD')
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [error, setError] = useState(null)
@@ -30,7 +40,7 @@ export default function ChronicleForm({ system = 'WOD', basePath = '/chronicles'
     <section aria-labelledby="new-chronicle-heading">
       <div className="form-header">
         <button className="btn btn-secondary" onClick={() => navigate(basePath)}>{t('back')}</button>
-        <h2 id="new-chronicle-heading">{t('newChronicleTitle')}</h2>
+        <h2 id="new-chronicle-heading">{systemLabel} — {t('newChronicleTitle')}</h2>
       </div>
       <div className="form-section" style={{ maxWidth: 500 }}>
         <form onSubmit={handleSubmit}>

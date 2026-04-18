@@ -49,7 +49,7 @@ export default function BladesPage() {
   return (
     <section aria-labelledby="blades-heading">
       <div className="character-list-header">
-        <h2 id="blades-heading">{t('bladesMyScoundrels')}</h2>
+        <h2 id="blades-heading">{t('systemBlades')} — {t('bladesMyScoundrels')}</h2>
         <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
           <button className="btn btn-primary" onClick={() => navigate('/blades/new')}>
             {t('bladesNewScoundrel')}
@@ -58,7 +58,7 @@ export default function BladesPage() {
             {t('bladesNewCrew')}
           </button>
           <button className="btn btn-secondary" onClick={() => navigate('/blades/chronicles')}>
-            {t('navChronicles')}
+            {t('systemBlades')} {t('navChronicles')}
           </button>
         </div>
       </div>

@@ -46,18 +46,18 @@ export default function DndPage() {
   return (
     <section aria-labelledby="dnd-heading">
       <div className="character-list-header">
-        <h2 id="dnd-heading">{t('dndMyCharacters')}</h2>
+        <h2 id="dnd-heading">{t('systemDnd')} — {t('dndMyCharacters')}</h2>
         <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
           <button className="btn btn-primary" onClick={() => navigate('/dnd/new')}>
-            {t('dndNewCharacter')}
+            {t('systemDnd')} — {t('dndNewCharacter')}
           </button>
           {isST && (
             <button className="btn btn-secondary" onClick={() => navigate('/dnd/monster/new')}>
-              {t('dndNewMonster')}
+              {t('systemDnd')} — {t('dndNewMonster')}
             </button>
           )}
           <button className="btn btn-secondary" onClick={() => navigate('/dnd/chronicles')}>
-            {t('navChronicles')}
+            {t('systemDnd')} {t('navChronicles')}
           </button>
         </div>
       </div>

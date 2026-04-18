@@ -5,6 +5,15 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { getChronicles, deleteChronicle } from '../api/chronicleApi'
 import { useTheme } from '../context/ThemeContext'
 
+const SYSTEM_LABEL_KEYS = {
+  WOD: 'systemWoD',
+  SEVENTH_SEA: 'system7thSea',
+  L5R: 'systemL5R',
+  BLADES: 'systemBlades',
+  DND: 'systemDnd',
+  UESTRPG: 'systemUestrpg',
+}
+
 export default function ChronicleList({ system = 'WOD', basePath = '/chronicles' }) {
   const [chronicles, setChronicles] = useState([])
   const [loading, setLoading] = useState(true)
@@ -13,6 +22,7 @@ export default function ChronicleList({ system = 'WOD', basePath = '/chronicles'
   const { user, isST } = useAuth()
   const { t } = useLanguage()
   const { switchTheme } = useTheme()
+  const systemLabel = t(SYSTEM_LABEL_KEYS[system] || 'systemWoD')
 
   useEffect(() => { switchTheme(system === 'SEVENTH_SEA' ? '7thsea' : system === 'L5R' ? 'l5r' : 'wod') }, [])
   useEffect(() => { load() }, [])
@@ -42,10 +52,10 @@ export default function ChronicleList({ system = 'WOD', basePath = '/chronicles'
   return (
     <section aria-labelledby="chronicles-heading">
       <div className="character-list-header">
-        <h2 id="chronicles-heading">{t('chroniclesTitle')}</h2>
+        <h2 id="chronicles-heading">{systemLabel} — {t('chroniclesTitle')}</h2>
         {isST && (
           <button className="btn btn-primary" onClick={() => navigate(`${basePath}/new`)}>
-            {t('newChronicle')}
+            {systemLabel} — {t('newChronicle')}
           </button>
         )}
       </div>

@@ -46,13 +46,13 @@ export default function UestrpgPage() {
   return (
     <section aria-labelledby="uestrpg-heading">
       <div className="character-list-header">
-        <h2 id="uestrpg-heading">{t('uestrpgMyChars')}</h2>
+        <h2 id="uestrpg-heading">{t('systemUestrpg')} — {t('uestrpgMyChars')}</h2>
         <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
           <button className="btn btn-primary" onClick={() => navigate('/uestrpg/new')}>
-            {t('uestrpgNewChar')}
+            {t('systemUestrpg')} — {t('uestrpgNewChar')}
           </button>
           <button className="btn btn-secondary" onClick={() => navigate('/uestrpg/chronicles')}>
-            {t('navChronicles')}
+            {t('systemUestrpg')} {t('navChronicles')}
           </button>
         </div>
       </div>

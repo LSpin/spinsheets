@@ -226,7 +226,7 @@ export default function CharacterList() {
     <section aria-labelledby="list-heading">
       <div className="character-list-header">
         <h2 id="list-heading">
-          {isST ? t('allCharactersST') : t('myCharacters')}
+          {isST ? `${t('systemWoD')} — ${t('allCharactersST')}` : `${t('systemWoD')} — ${t('myCharacters')}`}
         </h2>
         <button className="btn btn-primary" onClick={openNewChar}>
           {t('newCharBtn')}
