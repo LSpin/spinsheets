@@ -39,6 +39,7 @@ import BladesForm from './components/BladesForm'
 import BladesCrewForm from './components/BladesCrewForm'
 import BladesPage from './pages/BladesPage'
 import DndForm from './components/DndForm'
+import DndMonsterForm from './components/DndMonsterForm'
 import DndPage from './pages/DndPage'
 import AdminPage from './pages/AdminPage'
 import InvitePage from './pages/InvitePage'
@@ -293,6 +294,9 @@ function AppShell() {
           } />
           <Route path="/dnd/new" element={
             <ProtectedRoute><DndForm /></ProtectedRoute>
+          } />
+          <Route path="/dnd/monster/new" element={
+            <ProtectedRoute><DndMonsterForm /></ProtectedRoute>
           } />
           <Route path="/dnd/chronicles" element={
             <ProtectedRoute><ChronicleList system="DND" basePath="/dnd/chronicles" /></ProtectedRoute>

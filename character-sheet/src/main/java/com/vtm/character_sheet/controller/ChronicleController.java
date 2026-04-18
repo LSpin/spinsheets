@@ -288,7 +288,7 @@ public class ChronicleController {
         Map.entry("SEVENTH_SEA", "SEVENTH_SEA"),
         Map.entry("L5R", "L5R"),
         Map.entry("BLADES", "BLADES"), Map.entry("BLADES_CREW", "BLADES"),
-        Map.entry("DND", "DND")
+        Map.entry("DND", "DND"), Map.entry("DND_MONSTER", "DND")
     );
 
     private static final Map<String, String> SYSTEM_FOR_CATEGORY = Map.of(

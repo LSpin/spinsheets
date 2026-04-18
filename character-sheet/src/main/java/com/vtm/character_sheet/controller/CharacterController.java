@@ -441,6 +441,22 @@ public class CharacterController {
             existing.setDndIdeals(updated.getDndIdeals());
             existing.setDndBonds(updated.getDndBonds());
             existing.setDndFlaws(updated.getDndFlaws());
+            // D&D Monster
+            existing.setDndMonsterType(updated.getDndMonsterType());
+            existing.setDndMonsterSize(updated.getDndMonsterSize());
+            existing.setDndChallengeRating(updated.getDndChallengeRating());
+            existing.setDndMonsterAC(updated.getDndMonsterAC());
+            existing.setDndMonsterHP(updated.getDndMonsterHP());
+            existing.setDndMonsterSpeed(updated.getDndMonsterSpeed());
+            existing.setDndMonsterActions(updated.getDndMonsterActions());
+            existing.setDndMonsterTraits(updated.getDndMonsterTraits());
+            existing.setDndMonsterLegendary(updated.getDndMonsterLegendary());
+            existing.setDndLairActions(updated.getDndLairActions());
+            existing.setDndMonsterImmunities(updated.getDndMonsterImmunities());
+            existing.setDndMonsterResistances(updated.getDndMonsterResistances());
+            existing.setDndMonsterVulnerabilities(updated.getDndMonsterVulnerabilities());
+            existing.setDndMonsterSenses(updated.getDndMonsterSenses());
+            existing.setDndMonsterLanguages(updated.getDndMonsterLanguages());
             return ResponseEntity.ok(service.save(existing));
         }).orElse(ResponseEntity.notFound().build());
     }
@@ -464,7 +480,7 @@ public class CharacterController {
         Map.entry("SEVENTH_SEA", "SEVENTH_SEA"),
         Map.entry("L5R", "L5R"),
         Map.entry("BLADES", "BLADES"), Map.entry("BLADES_CREW", "BLADES"),
-        Map.entry("DND", "DND")
+        Map.entry("DND", "DND"), Map.entry("DND_MONSTER", "DND")
     );
 
     private boolean isSplatAllowed(Chronicle chronicle, String splat) {

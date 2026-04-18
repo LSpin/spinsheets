@@ -716,4 +716,30 @@ public class Character {
     private String dndBonds;
     @Column(columnDefinition = "TEXT")
     private String dndFlaws;
+
+    // D&D Monster/NPC fields (splat = DND_MONSTER)
+    private String dndMonsterType;
+    private String dndMonsterSize;
+    private String dndChallengeRating;
+    private Integer dndMonsterAC = 10;
+    private Integer dndMonsterHP = 10;
+    private String dndMonsterSpeed;
+    @Column(columnDefinition = "TEXT")
+    private String dndMonsterActions;
+    @Column(columnDefinition = "TEXT")
+    private String dndMonsterTraits;
+    @Column(columnDefinition = "TEXT")
+    private String dndMonsterLegendary;
+    @Column(columnDefinition = "TEXT")
+    private String dndLairActions;
+    @Column(columnDefinition = "TEXT")
+    private String dndMonsterImmunities;
+    @Column(columnDefinition = "TEXT")
+    private String dndMonsterResistances;
+    @Column(columnDefinition = "TEXT")
+    private String dndMonsterVulnerabilities;
+    @Column(columnDefinition = "TEXT")
+    private String dndMonsterSenses;
+    @Column(columnDefinition = "TEXT")
+    private String dndMonsterLanguages;
 }
