@@ -1692,7 +1692,7 @@ function SearchableInput({ id, label, catalog, value, onChange, placeholder }) {
         placeholder={placeholder}
       />
       {showSuggestions && (
-        <ul className="archetype-dropdown" style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 10 }}>
+        <ul className="archetype-dropdown">
           {suggestions.map(s => (
             <li key={s.value} className="archetype-option"
               onMouseDown={() => { onChange(s.value); setShowSuggestions(false) }}>

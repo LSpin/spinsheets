@@ -332,7 +332,6 @@ export default function InventorySection({ characterId, inventory, setInventory,
         <button
           type="button"
           className="btn btn-secondary"
-          style={{ position: 'relative', zIndex: 200 }}
           onClick={handleAddItem}
         >{t('addToInventory')}</button>
       </fieldset>
