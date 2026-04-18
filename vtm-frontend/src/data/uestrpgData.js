@@ -1,74 +1,85 @@
-// Elder Scrolls RPG data — races, classes, backgrounds, skills, constellations
+// UESTRPG - Unofficial Elder Scrolls Tabletop RPG (5e conversion)
 
 export const UESTRPG_RACES = {
-  Altmer: {
-    description: "High Elves of the Summerset Isles, renowned for their mastery of magic and arcane arts.",
-    abilityBonuses: "+2 INT",
+  "Altmer (High Elf)": {
+    description: "Proud and graceful elves from the Summerset Isles, renowned for their magical aptitude.",
+    abilityBonuses: "+2 INT, +1 WIL",
     speed: 30,
-    traits: ["Highborn (Magicka Regeneration)", "Fortify Magicka"],
+    traits: ["Altmer Blood (advantage on saves vs disease)", "Highborn (innate magicka pool)", "Studious Nature (proficiency in two from Arcana, History, Nature, Religion)"],
     subraces: []
   },
   Argonian: {
-    description: "Reptilian natives of Black Marsh, resistant to disease and capable of breathing underwater.",
-    abilityBonuses: "+2 END, +1 AGI",
-    speed: 30,
-    traits: ["Histskin (Health Regeneration)", "Resist Disease", "Waterbreathing"],
+    description: "Reptilian natives of the Black Marsh with a deep connection to the Hist.",
+    abilityBonuses: "+2 AGI, +1 INT",
+    speed: "30 (swim 40)",
+    traits: ["Argonian Combat Proficiency (Short Blades, Spears)", "Argonian Resilience (advantage vs disease)", "Bite (1d6 + STR piercing)", "Histskin (heal using Hit Dice as action)", "Protective Scales (natural AC 12 + AGI mod)", "Water-breathing"],
     subraces: []
   },
-  Bosmer: {
-    description: "Wood Elves of Valenwood, expert archers and scouts with a deep connection to nature.",
-    abilityBonuses: "+2 AGI, +1 END",
-    speed: 30,
-    traits: ["Command Animal", "Resist Disease", "Resist Poison"],
+  "Bosmer (Wood Elf)": {
+    description: "Elven clan-folk from the forests of Valenwood, skilled archers and scouts.",
+    abilityBonuses: "+2 AGI, +1 WIL",
+    speed: 35,
+    traits: ["Beast Tongue (Speak with Animals)", "Bosmer Blood (advantage vs poison, poison resistance)", "Bosmer Combat Training (Acrobatics, Marksman weapons)", "Y'ffre's Gift (warden cantrip + Animal Friendship)"],
     subraces: []
   },
   Breton: {
-    description: "Manmer of High Rock, gifted with natural magical resistance and aptitude for the arcane.",
-    abilityBonuses: "+2 WIL, +1 INT",
+    description: "Half-elven people of High Rock, naturally resistant to magic.",
+    abilityBonuses: "+1 INT, +1 PER",
     speed: 30,
-    traits: ["Dragonskin (Spell Absorption)", "Magic Resistance"],
+    traits: ["Breton Ancestry (Willpower proficiency, Arcana, mage cantrip)", "Conjure Familiar (cast Find Familiar once/long rest)", "Dragon Skin (cast Shield as reaction when hit)", "Magic Resistance (reduce spell damage by proficiency mod)"],
     subraces: []
   },
-  Dunmer: {
-    description: "Dark Elves of Morrowind, hardy and intelligent with natural fire resistance.",
-    abilityBonuses: "+2 INT, +1 WIL",
+  "Dunmer (Dark Elf)": {
+    description: "Ashen-skinned elves from Morrowind, known for their versatility and resilience.",
+    abilityBonuses: "+1 STR, +1 AGI, +1 INT",
     speed: 30,
-    traits: ["Ancestor's Wrath (Fire Cloak)", "Resist Fire"],
+    traits: ["Ancestor Guardian (advantage on saves vs spells as reaction)", "Ashlander (fire resistance)", "Dunmer Combat Training (Long Blade, Marksman, Short Blade)"],
     subraces: []
   },
   Imperial: {
-    description: "Natives of Cyrodiil, charismatic diplomats and disciplined soldiers of the Empire.",
-    abilityBonuses: "+2 PER, +1 END",
+    description: "Educated and disciplined humans from Cyrodiil, skilled diplomats and soldiers.",
+    abilityBonuses: "+2 PER, +1 STR",
     speed: 30,
-    traits: ["Voice of the Emperor (Calm)", "Imperial Luck"],
-    subraces: []
+    traits: ["Diplomat (Persuasion proficiency)", "Imperial Cunning (advantage on INT/PER/WIL save as reaction)", "Imperial Luck (two d6 Luck Dice)", "Legion Combat Training (Blunt, Hand-to-Hand, Long Blade)"],
+    subraces: [
+      { value: "Colovian Imperial", description: "Hardy westerners who push past exhaustion", abilityBonuses: "+1 STR instead" },
+      { value: "Nibenese Imperial", description: "Eastern cosmopolitan scholars and merchants", abilityBonuses: "+1 INT instead" }
+    ]
   },
   Khajiit: {
-    description: "Feline people of Elsweyr, agile and cunning with keen night vision.",
-    abilityBonuses: "+2 AGI, +1 PER",
+    description: "Feline humanoids from Elsweyr, known for their grace, agility, and intellect.",
+    abilityBonuses: "+2 AGI",
     speed: 35,
-    traits: ["Night Eye", "Claws (Unarmed Bonus)"],
-    subraces: []
+    traits: ["Eye of Fear (Intimidation proficiency)", "Eye of Night (darkvision 60 ft)", "Quick Claws (1d4 + STR slashing, climb speed 20)"],
+    subraces: [
+      { value: "Cathay", description: "Larger jaguar-like breed with powerful builds", abilityBonuses: "+1 STR" },
+      { value: "Dagi", description: "Small forest-dwellers with natural magical talent", abilityBonuses: "+1 INT" },
+      { value: "Ohmes", description: "Elven-looking breed, natural ambassadors", abilityBonuses: "+1 PER" },
+      { value: "Suthay", description: "Most common breed with feline agility", abilityBonuses: "+1 END" }
+    ]
   },
   Nord: {
-    description: "Fierce warriors of Skyrim, resistant to cold and fearless in battle.",
-    abilityBonuses: "+2 STR, +1 END",
+    description: "Tall and hardy humans from Skyrim, fierce warriors and sailors.",
+    abilityBonuses: "+1 STR, +2 END",
     speed: 30,
-    traits: ["Battle Cry (Fear)", "Resist Frost"],
+    traits: ["Battlecry (frighten a creature within 60 ft)", "Nordic Blood (cold resistance)", "Nord Combat Proficiency (Axes, Spears)"],
     subraces: []
   },
-  Orc: {
-    description: "Orsimer of the Wrothgarian Mountains, powerful warriors with a code of honor.",
-    abilityBonuses: "+2 STR, +1 END",
-    speed: 30,
-    traits: ["Berserker Rage", "Stronghold Kinship"],
-    subraces: []
+  "Orsimer (Orc)": {
+    description: "The Pariah Folk, unshakable warriors from the Wrothgarian Mountains.",
+    abilityBonuses: "+2 STR",
+    speed: 25,
+    traits: ["Aggressive (bonus action move toward enemy)", "Berserk (temp HP and advantage for 1 minute)", "Blood-Kin", "Menacing (Intimidation proficiency)", "Powerful Build"],
+    subraces: [
+      { value: "City Orc", description: "Cosmopolitan orcs with Orcish Resilience (force resistance)", abilityBonuses: "+1 INT" },
+      { value: "Wild Orc", description: "Traditional stronghold orcs with powerful builds", abilityBonuses: "+1 END" }
+    ]
   },
   Redguard: {
-    description: "Warriors of Hammerfell, naturally talented swordsmen with incredible stamina.",
-    abilityBonuses: "+2 END, +1 STR",
+    description: "Natural warriors from Hammerfell, descendants of the Yokudans.",
+    abilityBonuses: "+1 STR, +1 AGI, +1 END",
     speed: 30,
-    traits: ["Adrenaline Rush (Stamina Regeneration)", "Resist Poison"],
+    traits: ["Adrenaline Rush (+10 initiative, +10 speed, +d4 to attacks/damage)", "Redguard Combat Training (Long Blade, Short Blade)", "Yokudan Heritage (advantage vs disease)"],
     subraces: []
   }
 };
@@ -79,95 +90,122 @@ export const UESTRPG_RACE_CATALOG = Object.entries(UESTRPG_RACES).map(([key, val
 }));
 
 export const UESTRPG_CLASSES = {
-  Warrior: {
-    description: "A battle-hardened combatant trained in heavy weapons and armor.",
+  Barbarian: {
+    description: "A fierce fighter of primitive background who can deflect attacks and deal brutal strikes.",
     hitDie: 12,
     primaryAbility: "Strength",
     savingThrows: ["Strength", "Endurance"],
-    armorProf: ["Light armor", "Medium armor", "Heavy armor", "Shields"],
-    weaponProf: ["Simple weapons", "Martial weapons"],
-    subclassName: "Specialization",
-    subclasses: [
-      { value: "Knight", description: "A disciplined warrior sworn to a lord or cause" },
-      { value: "Barbarian", description: "A savage fighter fueled by rage and instinct" },
-      { value: "Crusader", description: "A holy warrior who combines combat with restoration magic" }
-    ],
+    subclassName: "Primal Path",
+    subclasses: [],
     spellcasting: null
   },
-  Thief: {
-    description: "A cunning rogue who relies on stealth, agility, and guile.",
+  Bard: {
+    description: "An inspiring magician whose power echoes the music of creation.",
     hitDie: 8,
-    primaryAbility: "Agility",
+    primaryAbility: "Personality",
     savingThrows: ["Agility", "Personality"],
-    armorProf: ["Light armor"],
-    weaponProf: ["Simple weapons", "Short blades", "Bows"],
-    subclassName: "Specialization",
-    subclasses: [
-      { value: "Agent", description: "A spy and infiltrator skilled in deception" },
-      { value: "Assassin", description: "A killer who strikes from the shadows" },
-      { value: "Nightblade", description: "A stealthy operative who uses magic to supplement stealth" }
-    ],
-    spellcasting: null
+    subclassName: "Bard College",
+    subclasses: [],
+    spellcasting: { ability: "Personality" }
+  },
+  Crusader: {
+    description: "A holy warrior devoted to one of the gods.",
+    hitDie: 10,
+    primaryAbility: "Strength & Willpower",
+    savingThrows: ["Personality", "Willpower"],
+    subclassName: "Sacred Oath",
+    subclasses: [],
+    spellcasting: { ability: "Willpower" }
   },
   Mage: {
-    description: "A scholar of the arcane arts who wields powerful magic.",
+    description: "A scholarly magic user capable of manipulating the structures of reality.",
     hitDie: 6,
     primaryAbility: "Intelligence",
     savingThrows: ["Intelligence", "Willpower"],
-    armorProf: ["Robes"],
-    weaponProf: ["Staves", "Daggers"],
-    subclassName: "School",
-    subclasses: [
-      { value: "Sorcerer", description: "A mage who focuses on raw destructive power" },
-      { value: "Healer", description: "A mage devoted to restoration and protection" },
-      { value: "Battlemage", description: "A war mage who combines spellcraft with combat" },
-      { value: "Spellsword", description: "A versatile mage who wields blade and spell equally" }
-    ],
-    spellcasting: { ability: "Intelligence", known: true }
+    subclassName: "Arcane School",
+    subclasses: [],
+    spellcasting: { ability: "Intelligence" }
   },
-  Scout: {
-    description: "A wilderness expert skilled in archery, tracking, and survival.",
+  Monk: {
+    description: "A master of martial arts pursuing physical and spiritual perfection.",
+    hitDie: 8,
+    primaryAbility: "Agility",
+    savingThrows: ["Strength", "Agility"],
+    subclassName: "Monastic Tradition",
+    subclasses: [],
+    spellcasting: null
+  },
+  Nightblade: {
+    description: "A spellcaster using magic to enhance stealth and close combat.",
+    hitDie: 8,
+    primaryAbility: "Agility & Personality",
+    savingThrows: ["Agility", "Intelligence"],
+    subclassName: "Shadow Path",
+    subclasses: [],
+    spellcasting: { ability: "Intelligence" }
+  },
+  Ranger: {
+    description: "An explorer using martial prowess to combat threats on the edges of civilization.",
     hitDie: 10,
     primaryAbility: "Agility",
     savingThrows: ["Agility", "Endurance"],
-    armorProf: ["Light armor", "Medium armor"],
-    weaponProf: ["Simple weapons", "Bows", "Short blades"],
-    subclassName: "Specialization",
-    subclasses: [
-      { value: "Ranger", description: "A wilderness protector who patrols the frontier" },
-      { value: "Archer", description: "A master marksman with unrivaled precision" },
-      { value: "Monk", description: "A disciplined martial artist who channels inner energy" }
-    ],
+    subclassName: "Ranger Archetype",
+    subclasses: [],
+    spellcasting: { ability: "Willpower" }
+  },
+  Rogue: {
+    description: "A scoundrel who uses stealth and expertise to overcome obstacles and enemies.",
+    hitDie: 8,
+    primaryAbility: "Agility & Intelligence",
+    savingThrows: ["Agility", "Intelligence"],
+    subclassName: "Roguish Archetype",
+    subclasses: [],
     spellcasting: null
   },
-  Templar: {
-    description: "A holy warrior who channels divine magic through faith and martial prowess.",
-    hitDie: 10,
+  Sorcerer: {
+    description: "An innately talented spellcaster who controls the arcane.",
+    hitDie: 6,
     primaryAbility: "Willpower",
-    savingThrows: ["Willpower", "Personality"],
-    armorProf: ["Light armor", "Medium armor", "Heavy armor", "Shields"],
-    weaponProf: ["Simple weapons", "Martial weapons"],
-    subclassName: "Order",
-    subclasses: [
-      { value: "Paladin", description: "A holy knight devoted to justice and divine law" },
-      { value: "Pilgrim", description: "A wandering priest who spreads faith across the land" },
-      { value: "Witchhunter", description: "A specialist trained to track and destroy mages and daedra" }
-    ],
-    spellcasting: { ability: "Willpower", known: false }
+    savingThrows: ["Endurance", "Willpower"],
+    subclassName: "Sorcerous Origin",
+    subclasses: [],
+    spellcasting: { ability: "Willpower" }
   },
-  Nightblade: {
-    description: "A shadowy spellcaster who blends magic with stealth and subterfuge.",
+  Spellsword: {
+    description: "A spellcasting specialist trained in martial combat and destructive magic.",
     hitDie: 8,
-    primaryAbility: "Intelligence",
-    savingThrows: ["Intelligence", "Agility"],
-    armorProf: ["Light armor"],
-    weaponProf: ["Simple weapons", "Short blades"],
-    subclassName: "Discipline",
-    subclasses: [
-      { value: "Shadowmage", description: "A mage who weaves illusion and shadow magic" },
-      { value: "Blade", description: "An imperial agent who combines magic with swordplay" }
-    ],
-    spellcasting: { ability: "Intelligence", known: true }
+    primaryAbility: "Strength & Willpower",
+    savingThrows: ["Endurance", "Willpower"],
+    subclassName: "Spellsword Tradition",
+    subclasses: [],
+    spellcasting: { ability: "Willpower" }
+  },
+  Thief: {
+    description: "A pickpocket and pilferer who chooses stealth and subterfuge over violence.",
+    hitDie: 8,
+    primaryAbility: "Agility",
+    savingThrows: ["Agility", "Endurance"],
+    subclassName: "Thief Archetype",
+    subclasses: [],
+    spellcasting: null
+  },
+  Warden: {
+    description: "Defenders of the Green who wield the powers of nature and guide the elements.",
+    hitDie: 8,
+    primaryAbility: "Willpower",
+    savingThrows: ["Intelligence", "Willpower"],
+    subclassName: "Warden Circle",
+    subclasses: [],
+    spellcasting: { ability: "Willpower" }
+  },
+  Warrior: {
+    description: "A master of martial combat, skilled with a variety of weapons and armor.",
+    hitDie: 10,
+    primaryAbility: "Strength",
+    savingThrows: ["Strength", "Endurance"],
+    subclassName: "Martial Archetype",
+    subclasses: [],
+    spellcasting: null
   }
 };
 
@@ -176,79 +214,89 @@ export const UESTRPG_CLASS_CATALOG = Object.entries(UESTRPG_CLASSES).map(([key, 
   description: val.description
 }));
 
-export const UESTRPG_BACKGROUNDS = [
-  { value: "Guild Member", description: "You belong to one of the great guilds: Fighters, Mages, or Thieves.", feature: "Guild Resources" },
-  { value: "Soldier", description: "You served in a provincial army or the Imperial Legion.", feature: "Military Rank" },
-  { value: "Scholar", description: "You studied at the Arcane University or a similar institution of learning.", feature: "Academic Access" },
-  { value: "Noble", description: "You were born into one of Tamriel's great houses or noble families.", feature: "Position of Privilege" },
-  { value: "Outlander", description: "You grew up in the wilds, far from the cities and settlements.", feature: "Wanderer" },
-  { value: "Criminal", description: "You have ties to the criminal underworld, perhaps the Thieves Guild or Dark Brotherhood.", feature: "Criminal Contact" },
-  { value: "Merchant", description: "You are a trader who has traveled the trade routes of Tamriel.", feature: "Trade Connections" },
-  { value: "Priest", description: "You serve the Divines, the Tribunal, or another faith of Tamriel.", feature: "Shelter of the Faithful" },
-  { value: "Sailor", description: "You sailed the seas of Tamriel, perhaps with the East Empire Company.", feature: "Ship's Passage" },
-  { value: "Prisoner", description: "You were imprisoned — your past is dark, but destiny has freed you.", feature: "Streetwise" },
-  { value: "Adventurer", description: "You are a wandering sword-for-hire, delving into ruins for treasure and glory.", feature: "Dungeon Delver" },
-  { value: "Tribesman", description: "You belong to one of Tamriel's tribal peoples: Ashlanders, Reachmen, or similar.", feature: "Tribal Knowledge" }
+export const UESTRPG_CONSTELLATIONS = [
+  { value: "The Ritual", month: "Morning Star", description: "Mara's Gift healing + Blessed Word vs undead." },
+  { value: "The Lover", month: "Sun's Dawn", description: "Lover's Kiss — paralyze a humanoid on touch." },
+  { value: "The Lord", month: "First Seed", description: "Blood of the North healing, but Trollkin fire weakness." },
+  { value: "The Mage", month: "Rain's Hand", description: "+1 INT or WIL, advantage on concentration saves, learn a cantrip + 1st level spell." },
+  { value: "The Shadow", month: "Second Seed", description: "+1 INT/PER/WIL, Moonshadow (cast Invisibility once/day)." },
+  { value: "The Steed", month: "Mid Year", description: "+1 END, speed +10 feet." },
+  { value: "The Apprentice", month: "Sun's Height", description: "+1 magicka/level, but weakness to one magical damage type." },
+  { value: "The Warrior", month: "Last Seed", description: "+1 STR and END." },
+  { value: "The Lady", month: "Hearthfire", description: "+1 WIL and END." },
+  { value: "The Tower", month: "Frostfall", description: "Tower Key (cast Knock), Tower Warden (reflect damage)." },
+  { value: "The Atronach", month: "Sun's Dusk", description: "+2 magicka/level, but stunted magicka regeneration." },
+  { value: "The Thief", month: "Evening Star", description: "+1 AGI, +5 speed, 1 Luck Point (d6)." },
+  { value: "The Serpent", month: "--", description: "Cure disease/dispel magic, OR poison touch." }
 ];
+
+export const UESTRPG_CONSTELLATION_CATALOG = UESTRPG_CONSTELLATIONS.map(c => ({
+  value: c.value,
+  description: `${c.month !== "--" ? c.month + " — " : ""}${c.description}`
+}));
 
 export const UESTRPG_ALIGNMENTS = [
-  { value: "Lawful Good", description: "Upholds law and justice — a true servant of the Divines" },
-  { value: "Neutral Good", description: "Does what is right regardless of law or chaos" },
-  { value: "Chaotic Good", description: "Values freedom and acts on conscience above all" },
-  { value: "Lawful Neutral", description: "Follows codes and traditions without moral bias" },
-  { value: "True Neutral", description: "Maintains balance, avoids extremes" },
-  { value: "Chaotic Neutral", description: "Follows whims, values personal freedom above all" },
-  { value: "Lawful Evil", description: "Uses law and order as tools to dominate others" },
-  { value: "Neutral Evil", description: "Does whatever they can get away with" },
-  { value: "Chaotic Evil", description: "Spreads destruction and chaos without remorse" }
+  { value: "Lawful Good", description: "Acts with compassion and honor, following laws and traditions" },
+  { value: "Neutral Good", description: "Does the best they can to help others" },
+  { value: "Chaotic Good", description: "Acts as their conscience directs, with little regard for authority" },
+  { value: "Lawful Neutral", description: "Acts in accordance with law, tradition, or personal codes" },
+  { value: "True Neutral", description: "Prefers to avoid moral questions and doesn't take sides" },
+  { value: "Chaotic Neutral", description: "Follows their own whims, valuing personal freedom above all" },
+  { value: "Lawful Evil", description: "Methodically takes what they want within the limits of a code" },
+  { value: "Neutral Evil", description: "Does whatever they can get away with, without remorse" },
+  { value: "Chaotic Evil", description: "Acts with violence and chaos, driven by greed and cruelty" }
 ];
 
-export const UESTRPG_CONSTELLATION_CATALOG = [
-  { value: "The Warrior", description: "Those born under the Warrior are skilled with weapons. The Warrior's charges are the Lady, the Steed, and the Lord." },
-  { value: "The Mage", description: "Those born under the Mage have increased Magicka. The Mage's charges are the Apprentice, the Atronach, and the Ritual." },
-  { value: "The Thief", description: "Those born under the Thief are harder to detect and luckier. The Thief's charges are the Lover, the Shadow, and the Tower." },
-  { value: "The Serpent", description: "The Serpent wanders, has no season, and is not guardian. Those born under it can poison others at the cost of their own health." },
-  { value: "The Lady", description: "Those born under the Lady gain increased Willpower and Endurance." },
-  { value: "The Steed", description: "Those born under the Steed gain increased Speed and carry weight." },
-  { value: "The Lord", description: "Those born under the Lord gain a healing spell but are weak to fire." },
-  { value: "The Apprentice", description: "Those born under the Apprentice gain a spell absorption power but have increased Magicka weakness." },
-  { value: "The Atronach", description: "Those born under the Atronach gain a large Magicka bonus and spell absorption but cannot regenerate Magicka naturally." },
-  { value: "The Ritual", description: "Those born under the Ritual can turn undead and restore health once per day." },
-  { value: "The Lover", description: "Those born under the Lover can paralyze others with a kiss at the cost of fatigue." },
-  { value: "The Shadow", description: "Those born under the Shadow can become invisible once per day." },
-  { value: "The Tower", description: "Those born under the Tower can unlock doors and detect nearby objects." }
+export const UESTRPG_BACKGROUNDS = [
+  { value: "Acolyte", description: "You spent your life in service to a temple or pantheon of gods.", skillProficiencies: ["Insight", "Religion"] },
+  { value: "Charlatan", description: "You have always had a way with people and a talent for deception.", skillProficiencies: ["Deception", "Sleight of Hand"] },
+  { value: "City Watch", description: "You served the community as its first line of defense against crime.", skillProficiencies: ["Athletics", "Insight"] },
+  { value: "Clan Crafter", description: "You trained under an orc master in the ancient traditions of craftsmanship.", skillProficiencies: ["History", "Insight"] },
+  { value: "Cloistered Scholar", description: "You studied at one of Tamriel's great institutes of learning.", skillProficiencies: ["History", "plus one from Arcana, Nature, or Religion"] },
+  { value: "Courtier", description: "You served as a personage in a noble court or bureaucratic organization.", skillProficiencies: ["Insight", "Persuasion"] },
+  { value: "Criminal", description: "You have a history of breaking the law and contacts in the underworld.", skillProficiencies: ["Deception", "Stealth"] },
+  { value: "Entertainer", description: "You thrive in front of an audience, using art and performance.", skillProficiencies: ["Acrobatics", "Performance"] },
+  { value: "Faction Agent", description: "You served as an agent of a faction such as the Fighters or Mages Guild.", skillProficiencies: ["Insight", "plus one INT/WIL/PER skill"] },
+  { value: "Folk Hero", description: "You come from a humble background but are destined for greatness.", skillProficiencies: ["Animal Handling", "Survival"] },
+  { value: "Guild Artisan", description: "You are a member of an artisan's guild, skilled in a particular craft.", skillProficiencies: ["Insight", "Persuasion"] },
+  { value: "Haunted One", description: "You are haunted by something so terrible you dare not speak of it.", skillProficiencies: ["Choose one from Arcana, Investigation, Religion, or Survival"] },
+  { value: "Hermit", description: "You lived in seclusion, seeking quiet, solitude, and spiritual answers.", skillProficiencies: ["Medicine", "Religion"] },
+  { value: "Imperial City Noble", description: "A scion of one of the great noble families of the Imperial City.", skillProficiencies: ["History", "Persuasion"] },
+  { value: "Inheritor", description: "You are heir to an object of great value entrusted to you alone.", skillProficiencies: ["Survival", "plus one from Arcana, History, or Religion"] },
+  { value: "Knight of the Order", description: "You belong to a knightly order sworn to achieve a certain goal.", skillProficiencies: ["Persuasion", "plus one from Arcana, History, Nature, or Religion"] },
+  { value: "Mercenary Veteran", description: "A sellsword who fought battles for coin across Tamriel.", skillProficiencies: ["Athletics", "Persuasion"] },
+  { value: "Noble", description: "You carry a noble title, wielding privilege and political influence.", skillProficiencies: ["History", "Persuasion"] },
+  { value: "Outlander", description: "You grew up in the wilds, far from civilization and its comforts.", skillProficiencies: ["Athletics", "Survival"] },
+  { value: "Sage", description: "You spent years learning the lore of Tamriel, studying scrolls and manuscripts.", skillProficiencies: ["Arcana", "History"] },
+  { value: "Sailor", description: "You sailed on a seagoing vessel, facing storms and the monsters of the deep.", skillProficiencies: ["Athletics", "Perception"] },
+  { value: "Soldier", description: "War has been your life, trained in weapons, armor, and survival.", skillProficiencies: ["Athletics", "Intimidation"] },
+  { value: "Urban Bounty Hunter", description: "You made a living tracking down people for pay in the cities.", skillProficiencies: ["Choose two from Deception, Insight, Persuasion, and Stealth"] },
+  { value: "Urchin", description: "You grew up on the streets, orphaned and poor, surviving by cunning.", skillProficiencies: ["Sleight of Hand", "Stealth"] }
 ];
 
 export const UESTRPG_SKILLS = [
-  { value: "Acrobatics", ability: "Agility", description: "Tumbling, jumping, and dodging" },
-  { value: "Alchemy", ability: "Intelligence", description: "Brewing potions and identifying ingredients" },
-  { value: "Alteration", ability: "Willpower", description: "Spells that alter the physical world" },
-  { value: "Armorer", ability: "Endurance", description: "Repairing and maintaining weapons and armor" },
-  { value: "Athletics", ability: "Strength", description: "Running, swimming, and climbing" },
-  { value: "Blade", ability: "Strength", description: "Fighting with swords and daggers" },
-  { value: "Block", ability: "Endurance", description: "Deflecting attacks with shields or weapons" },
-  { value: "Blunt", ability: "Strength", description: "Fighting with maces, hammers, and axes" },
-  { value: "Conjuration", ability: "Intelligence", description: "Summoning Daedra and undead" },
-  { value: "Destruction", ability: "Willpower", description: "Spells that deal elemental damage" },
-  { value: "Enchanting", ability: "Intelligence", description: "Imbuing items with magical effects" },
-  { value: "Hand to Hand", ability: "Strength", description: "Unarmed combat and martial arts" },
-  { value: "Heavy Armor", ability: "Endurance", description: "Wearing and moving in heavy armor" },
-  { value: "Illusion", ability: "Personality", description: "Spells of charm, fear, and invisibility" },
-  { value: "Light Armor", ability: "Agility", description: "Wearing and moving in light armor" },
-  { value: "Lockpicking", ability: "Agility", description: "Opening locks without keys" },
-  { value: "Marksman", ability: "Agility", description: "Using bows and crossbows" },
-  { value: "Mercantile", ability: "Personality", description: "Bartering and trading" },
-  { value: "Mysticism", ability: "Intelligence", description: "Spells of soul trapping and teleportation" },
-  { value: "Persuasion", ability: "Personality", description: "Influencing and convincing others" },
-  { value: "Restoration", ability: "Willpower", description: "Healing and protective spells" },
-  { value: "Security", ability: "Agility", description: "Disarming traps and bypassing security" },
-  { value: "Sneak", ability: "Agility", description: "Moving silently and remaining undetected" },
-  { value: "Speechcraft", ability: "Personality", description: "Rhetoric, intimidation, and performance" },
-  { value: "Survival", ability: "Endurance", description: "Tracking, foraging, and navigating the wilderness" }
+  { value: "Acrobatics", ability: "Agility", description: "Balance, tumbling, and aerial maneuvers" },
+  { value: "Animal Handling", ability: "Willpower", description: "Calm, control, or intuit the intentions of animals" },
+  { value: "Arcana", ability: "Intelligence", description: "Knowledge of spells, magic items, and magical traditions" },
+  { value: "Athletics", ability: "Strength", description: "Climbing, jumping, swimming, and feats of strength" },
+  { value: "Deception", ability: "Personality", description: "Misleading others through words or actions" },
+  { value: "History", ability: "Intelligence", description: "Knowledge of historical events, people, and cultures" },
+  { value: "Insight", ability: "Willpower", description: "Determining the true intentions of a creature" },
+  { value: "Intimidation", ability: "Personality", description: "Influencing others through threats and hostile actions" },
+  { value: "Investigation", ability: "Intelligence", description: "Searching for clues and making deductions" },
+  { value: "Medicine", ability: "Willpower", description: "Stabilizing the dying and diagnosing ailments" },
+  { value: "Nature", ability: "Intelligence", description: "Knowledge of terrain, plants, animals, and weather" },
+  { value: "Perception", ability: "Willpower", description: "Awareness of surroundings through senses" },
+  { value: "Performance", ability: "Personality", description: "Entertaining others through music, dance, or oration" },
+  { value: "Persuasion", ability: "Personality", description: "Influencing others through tact and good nature" },
+  { value: "Religion", ability: "Intelligence", description: "Knowledge of deities, rites, and religious traditions" },
+  { value: "Sleight of Hand", ability: "Agility", description: "Pickpocketing, concealing objects, and manual trickery" },
+  { value: "Stealth", ability: "Agility", description: "Hiding and moving silently to avoid detection" },
+  { value: "Survival", ability: "Willpower", description: "Tracking, foraging, navigating, and avoiding hazards" }
 ];
 
 export const UESTRPG_SPELLCASTING_ABILITIES = [
-  { value: "Intelligence", description: "Mage, Nightblade, Sorcerer" },
-  { value: "Willpower", description: "Templar, Healer, Crusader" },
-  { value: "Personality", description: "Bard, Witchhunter" }
+  { value: 'Intelligence', description: 'Used by Mages, Nightblades, and Sorcerers.' },
+  { value: 'Willpower', description: 'Used by Crusaders, Wardens, and Spellswords.' },
+  { value: 'Personality', description: 'Used by Bards.' },
 ];
