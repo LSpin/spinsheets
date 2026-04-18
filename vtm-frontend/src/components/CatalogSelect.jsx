@@ -49,9 +49,17 @@ export default function CatalogSelect({
     setSearch('')
   }
 
+  const [highlight, setHighlight] = useState(-1)
+
   function handleKeyDown(e) {
-    if (e.key === 'Escape') { setOpen(false); setSearch('') }
-    if (e.key === 'Enter' && filtered.length === 1) select(filtered[0].value)
+    if (e.key === 'Escape') { setOpen(false); setSearch(''); setHighlight(-1) }
+    if (e.key === 'ArrowDown') { e.preventDefault(); setHighlight(h => Math.min(h + 1, filtered.length - 1)); if (!open) setOpen(true) }
+    if (e.key === 'ArrowUp') { e.preventDefault(); setHighlight(h => Math.max(h - 1, 0)) }
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      if (highlight >= 0 && highlight < filtered.length) select(filtered[highlight].value)
+      else if (filtered.length === 1) select(filtered[0].value)
+    }
   }
 
   return (
@@ -86,13 +94,14 @@ export default function CatalogSelect({
           {filtered.length === 0 && (
             <li className="archetype-no-results">{t('noMatch')}</li>
           )}
-          {filtered.map(c => (
+          {filtered.map((c, idx) => (
             <li
               key={c.value}
               role="option"
               aria-selected={c.value === value}
-              className={`archetype-option${c.value === value ? ' archetype-option--selected' : ''}`}
+              className={`archetype-option${c.value === value ? ' archetype-option--selected' : ''}${idx === highlight ? ' archetype-option--highlight' : ''}`}
               onMouseDown={() => select(c.value)}
+              onMouseEnter={() => setHighlight(idx)}
             >
               <span className="archetype-option-name">{t(c.value)}</span>
               {c.description && (

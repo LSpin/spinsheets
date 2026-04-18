@@ -16,7 +16,7 @@
   --color-border-focus:   #e05555;
   --color-text:           #f0ece6;
   --color-text-muted:     #b0b0b0;  /* 4.6:1 on #0a0a0a, 4.5:1+ on #141414 */
-  --color-text-disabled:  #707070;  /* 3.7:1 — used only for exempt elements (placeholders, disabled) */
+  --color-text-disabled:  #8a8a8a;  /* 4.5:1 on #0a0a0a — WCAG AA compliant */
   --color-accent:         #cc2222;  /* button backgrounds — 5.3:1 with white text */
   --color-accent-fg:      #e05555;  /* accent as foreground text on dark — 4.7:1+ on bg */
   --color-accent-hover:   #dd3333;  /* hover — 4.6:1 with white text */
@@ -74,10 +74,10 @@
 /* ── D&D 5e theme — deep crimson ── */
 
 [data-theme="dnd"] {
-  --color-border-focus:   #c04040;
-  --color-accent:         #8b2020;
-  --color-accent-fg:      #c04040;
-  --color-accent-hover:   #d05050;
+  --color-border-focus:   #dd5555;
+  --color-accent:         #a03030;
+  --color-accent-fg:      #dd5555;  /* 4.6:1 on #0a0a0a — WCAG AA */
+  --color-accent-hover:   #ee6666;
 }
 
 /* ── Blades in the Dark theme — industrial steel ── */
@@ -187,7 +187,7 @@ main {
   padding: var(--space-xl) var(--space-xl) var(--space-2xl);
 }
 
-main:focus { outline: none; }
+main:focus:not(:focus-visible) { outline: none; }
 
 footer[role="contentinfo"] {
   border-top: 1px solid var(--color-border);
@@ -306,8 +306,9 @@ p {
 .btn-danger:hover { background: rgba(255, 68, 68, 0.1); }
 
 .btn-sm {
-  padding: 0.2rem 0.6rem;
+  padding: 0.35rem 0.7rem;
   font-size: 0.8rem;
+  min-height: 32px;
 }
 
 .btn:disabled {
@@ -709,7 +710,7 @@ legend {
   top: 50%;
   transform: translateY(-50%);
   font-family: var(--font-ui);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   color: var(--color-text-disabled);
   pointer-events: none;
 }
@@ -806,7 +807,7 @@ legend {
 
 .catalog-item-cost {
   font-family: var(--font-ui);
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--color-accent-fg);
   background: rgba(224, 85, 85, 0.12);
@@ -985,7 +986,8 @@ legend {
 .archetype-option:last-child { border-bottom: none; }
 
 .archetype-option:hover,
-.archetype-option--selected {
+.archetype-option--selected,
+.archetype-option--highlight {
   background: rgba(224, 85, 85, 0.08);
 }
 
@@ -1041,7 +1043,7 @@ legend {
 }
 
 .muted-hint--xs {
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   padding: 0;
 }
 
@@ -1135,7 +1137,7 @@ legend {
 /* ── Splat badges ── */
 
 .splat-badge {
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -1174,7 +1176,7 @@ legend {
 
 .splat-badge--dnd {
   background: rgba(192, 64, 64, 0.15);
-  color: #c04040;
+  color: #dd5555;
 }
 
 .splat-badge--blades,
@@ -1345,15 +1347,15 @@ legend {
 }
 
 .system-card--dnd:hover {
-  border-color: #c04040;
+  border-color: #dd5555;
 }
 
 .system-card--dnd h4 {
-  color: #c04040;
+  color: #dd5555;
 }
 
 .system-card--dnd .system-card-cta {
-  color: #c04040;
+  color: #dd5555;
 }
 
 .system-card--blades {
@@ -1763,7 +1765,7 @@ a:hover {
 }
 
 .detail-xs {
-  font-size: 0.72rem;
+  font-size: 0.78rem;
 }
 
 /* ── Inventory table ── */
@@ -2141,7 +2143,7 @@ a:hover {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  border: 2.5px solid #888;
+  border: 2.5px solid #999;
   background: transparent;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
@@ -2172,7 +2174,7 @@ a:hover {
   width: 16px;
   height: 16px;
   border-radius: 2px;
-  border: 2.5px solid #888;
+  border: 2.5px solid #999;
   background: transparent;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
@@ -2209,7 +2211,7 @@ a:hover {
 .blades-stress-box {
   width: 30px;
   height: 30px;
-  border: 2.5px solid #888;
+  border: 2.5px solid #999;
   border-radius: 4px;
   cursor: pointer;
   display: flex;
