@@ -65,6 +65,7 @@ const DndPage = lazy(() => import('./pages/DndPage'))
 const UestrpgForm = lazy(() => import('./components/UestrpgForm'))
 const UestrpgAntagonistForm = lazy(() => import('./components/UestrpgAntagonistForm'))
 const UestrpgPage = lazy(() => import('./pages/UestrpgPage'))
+const AllChroniclesPage = lazy(() => import('./pages/AllChroniclesPage'))
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -169,7 +170,7 @@ function AppShell() {
               <Link to={charactersPath}>
                 <button>{t('navCharacters')}</button>
               </Link>
-              <Link to="/chronicles">
+              <Link to="/all-chronicles">
                 <button>{t('navChronicles')}</button>
               </Link>
               {isST && (
@@ -352,6 +353,9 @@ function AppShell() {
           } />
           <Route path="/uestrpg/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
+          } />
+          <Route path="/all-chronicles" element={
+            <ProtectedRoute><AllChroniclesPage /></ProtectedRoute>
           } />
           <Route path="/chronicles" element={
             <ProtectedRoute><ChronicleList system="WOD" basePath="/chronicles" /></ProtectedRoute>

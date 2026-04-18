@@ -919,6 +919,8 @@ const en = {
 
   // ── Chronicles ──
   chroniclesTitle: 'Chronicles',
+  allChronicles: 'All Chronicles',
+  allSystems: 'All Systems',
   newChronicle: 'New chronicle',
   noChroniclesYet: 'No chronicles yet.',
   stCreateChronicle: 'Create a chronicle for your players to join.',
@@ -2385,6 +2387,8 @@ const pt = {
 
   // ── Chronicles ──
   chroniclesTitle: 'Crônicas',
+  allChronicles: 'Todas as Crônicas',
+  allSystems: 'Todos os Sistemas',
   newChronicle: 'Nova crônica',
   noChroniclesYet: 'Nenhuma crônica ainda.',
   stCreateChronicle: 'Crie uma crônica para seus jogadores participarem.',
