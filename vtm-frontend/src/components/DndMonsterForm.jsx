@@ -121,7 +121,7 @@ export default function DndMonsterForm() {
         <button className="btn btn-secondary" onClick={() => navigate('/dnd')}>{t('back')}</button>
         <h2>{fields.name || 'New Monster / BBEG'}</h2>
         <span className="splat-badge splat-badge--dnd">D&D 5e</span>
-        <span className="splat-badge" style={{ background: 'rgba(224,85,85,0.15)', color: '#e55' }}>Monster / BBEG</span>
+        <span className="splat-badge splat-badge--dnd">Monster / BBEG</span>
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}

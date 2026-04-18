@@ -160,7 +160,7 @@ export default function SeventhSeaVillainForm() {
         <button className="btn btn-secondary" onClick={() => navigate('/7thsea')}>{t('back')}</button>
         <h2>{fields.name || 'New Villain'}</h2>
         <span className="splat-badge splat-badge--seventh-sea">7th Sea</span>
-        <span className="splat-badge" style={{ background: 'rgba(224,85,85,0.15)', color: '#e55' }}>Villain / Monster</span>
+        <span className="splat-badge splat-badge--seventh-sea">Villain / Monster</span>
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}

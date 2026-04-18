@@ -116,7 +116,7 @@ export default function UestrpgAntagonistForm() {
         <button className="btn btn-secondary" onClick={() => navigate('/uestrpg')}>{t('back')}</button>
         <h2>{fields.name || 'New Antagonist'}</h2>
         <span className="splat-badge splat-badge--uestrpg">UESTRPG</span>
-        <span className="splat-badge" style={{ background: 'rgba(224,85,85,0.15)', color: '#e55' }}>Antagonist</span>
+        <span className="splat-badge splat-badge--uestrpg">Antagonist</span>
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}

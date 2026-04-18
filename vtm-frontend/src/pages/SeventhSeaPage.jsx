@@ -116,7 +116,7 @@ export default function SeventhSeaPage() {
           <div style={{ marginTop: 'var(--space-xl)' }}>
             <div className="character-list-header">
               <h2>Villains & Monsters</h2>
-              <button className="btn btn-primary" style={{ background: '#8b2020' }} onClick={() => navigate('/7thsea/villain/new')}>
+              <button className="btn btn-secondary" onClick={() => navigate('/7thsea/villain/new')}>
                 New Villain / Monster
               </button>
             </div>
@@ -130,7 +130,7 @@ export default function SeventhSeaPage() {
                       <h3>{c.name || 'Unnamed Villain'}</h3>
                       <dl className="character-card-meta">
                         <dt className="sr-only">Type</dt>
-                        <dd className="splat-badge" style={{ background: 'rgba(224,85,85,0.15)', color: '#e55' }}>
+                        <dd className="splat-badge splat-badge--seventh-sea">
                           {c.willpower > 0 ? `Villain Rank ${c.willpower}` : 'NPC'}
                         </dd>
                         {c.nation && <><dt className="sr-only">Origin</dt><dd>{c.nation}</dd></>}
