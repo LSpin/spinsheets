@@ -874,7 +874,9 @@ export default function L5RForm() {
                   const entry = L5R_ADVANTAGES.find(a => a.name.toLowerCase() === d.name.toLowerCase())
                   return (
                     <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
-                      onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'advantage' })}>
+                      onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'advantage' })}
+                      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'advantage' }); } }}
+                      role="button" tabIndex={0}>
                       <span>{d.name} ({d.level}pt)</span>
                       <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }}>x</button>
                     </li>
@@ -941,7 +943,9 @@ export default function L5RForm() {
               <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
                 {backgrounds.map(b => (
                   <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
-                    onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'disadvantage' })}>
+                    onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'disadvantage' })}
+                    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'disadvantage' }); } }}
+                    role="button" tabIndex={0}>
                     <span>{b.name} ({b.level}pt){b.description ? ` — ${b.description}` : ''}</span>
                     <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)); if (tagInfo?.id === b.id) setTagInfo(null) }}>x</button>
                   </li>

@@ -181,7 +181,9 @@ export default function TotemForm() {
               <ul className="tag-list">
                 {charms.map(c => (
                   <li key={c.id} className={`tag tag--clickable${c.id === tagInfo?.id ? ' tag--active' : ''}`}
-                    onClick={() => setTagInfo(ti => ti?.id === c.id ? null : { ...c, kind: 'charm' })}>
+                    onClick={() => setTagInfo(ti => ti?.id === c.id ? null : { ...c, kind: 'charm' })}
+                    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === c.id ? null : { ...c, kind: 'charm' }); } }}
+                    role="button" tabIndex={0}>
                     <span>{c.name}</span>
                     <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, c.id); setCharms(prev => prev.filter(x => x.id !== c.id)); if (tagInfo?.id === c.id) setTagInfo(null) }}>x</button>
                   </li>

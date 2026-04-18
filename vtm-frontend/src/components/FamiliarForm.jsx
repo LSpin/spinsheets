@@ -183,7 +183,9 @@ export default function FamiliarForm() {
               <ul className="tag-list">
                 {powers.map(p => (
                   <li key={p.id} className={`tag tag--clickable${p.id === tagInfo?.id ? ' tag--active' : ''}`}
-                    onClick={() => setTagInfo(ti => ti?.id === p.id ? null : { ...p, kind: 'power' })}>
+                    onClick={() => setTagInfo(ti => ti?.id === p.id ? null : { ...p, kind: 'power' })}
+                    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === p.id ? null : { ...p, kind: 'power' }); } }}
+                    role="button" tabIndex={0}>
                     <span>{p.name}</span>
                     <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, p.id); setPowers(prev => prev.filter(x => x.id !== p.id)); if (tagInfo?.id === p.id) setTagInfo(null) }}>x</button>
                   </li>
