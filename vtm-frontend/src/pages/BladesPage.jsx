@@ -6,10 +6,12 @@ import { useTheme } from '../context/ThemeContext'
 import { getCharacters, deleteCharacter } from '../api/characterApi'
 import { getChronicles } from '../api/chronicleApi'
 import ChronicleList from './ChronicleList'
+import NewCharacterModal from '../components/NewCharacterModal'
 
 export default function BladesPage() {
   const [characters, setCharacters] = useState([])
   const [chronicles, setChronicles] = useState([])
+  const [showNewChar, setShowNewChar] = useState(false)
   const [pageTab, setPageTab] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -54,7 +56,7 @@ export default function BladesPage() {
       <div className="character-list-header">
         <h2 id="blades-heading">{t('systemBlades')} — {t('bladesMyScoundrels')}</h2>
         <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
-          <button className="btn btn-primary" onClick={() => navigate('/blades/new')}>
+          <button className="btn btn-primary" onClick={() => setShowNewChar(true)}>
             {t('bladesNewScoundrel')}
           </button>
           <button className="btn btn-secondary" onClick={() => navigate('/blades/crew/new')}>
@@ -169,6 +171,7 @@ export default function BladesPage() {
           </ul>
         </div>
       )}
+      <NewCharacterModal open={showNewChar} onClose={() => setShowNewChar(false)} chronicles={chronicles} newCharPath="/blades/new" />
     </section>
   )
 }

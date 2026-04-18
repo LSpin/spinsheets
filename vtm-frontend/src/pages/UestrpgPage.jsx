@@ -6,10 +6,12 @@ import { useTheme } from '../context/ThemeContext'
 import { getCharacters, deleteCharacter } from '../api/characterApi'
 import { getChronicles } from '../api/chronicleApi'
 import ChronicleList from './ChronicleList'
+import NewCharacterModal from '../components/NewCharacterModal'
 
 export default function UestrpgPage() {
   const [characters, setCharacters] = useState([])
   const [chronicles, setChronicles] = useState([])
+  const [showNewChar, setShowNewChar] = useState(false)
   const [pageTab, setPageTab] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -50,7 +52,7 @@ export default function UestrpgPage() {
       <div className="character-list-header">
         <h2 id="uestrpg-heading">{t('systemUestrpg')} — {t('uestrpgMyChars')}</h2>
         <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
-          <button className="btn btn-primary" onClick={() => navigate('/uestrpg/new')}>
+          <button className="btn btn-primary" onClick={() => setShowNewChar(true)}>
             {t('systemUestrpg')} — {t('uestrpgNewChar')}
           </button>
           {isST && (
@@ -142,6 +144,7 @@ export default function UestrpgPage() {
           </>
         )
       })()}
+      <NewCharacterModal open={showNewChar} onClose={() => setShowNewChar(false)} chronicles={chronicles} newCharPath="/uestrpg/new" />
     </section>
   )
 }

@@ -6,10 +6,12 @@ import { useTheme } from '../context/ThemeContext'
 import { getCharacters, deleteCharacter } from '../api/characterApi'
 import { getChronicles } from '../api/chronicleApi'
 import ChronicleList from './ChronicleList'
+import NewCharacterModal from '../components/NewCharacterModal'
 
 export default function DndPage() {
   const [characters, setCharacters] = useState([])
   const [chronicles, setChronicles] = useState([])
+  const [showNewChar, setShowNewChar] = useState(false)
   const [pageTab, setPageTab] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -50,7 +52,7 @@ export default function DndPage() {
       <div className="character-list-header">
         <h2 id="dnd-heading">{t('systemDnd')} — {t('dndMyCharacters')}</h2>
         <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
-          <button className="btn btn-primary" onClick={() => navigate('/dnd/new')}>
+          <button className="btn btn-primary" onClick={() => setShowNewChar(true)}>
             {t('systemDnd')} — {t('dndNewCharacter')}
           </button>
           {isST && (
@@ -140,6 +142,7 @@ export default function DndPage() {
           </>
         )
       })()}
+      <NewCharacterModal open={showNewChar} onClose={() => setShowNewChar(false)} chronicles={chronicles} newCharPath="/dnd/new" />
     </section>
   )
 }

@@ -6,12 +6,12 @@ import { useTheme } from '../context/ThemeContext'
 import { getCharacters, deleteCharacter } from '../api/characterApi'
 import { getChronicles } from '../api/chronicleApi'
 import ChronicleList from './ChronicleList'
+import NewCharacterModal from '../components/NewCharacterModal'
 
 export default function L5RPage() {
   const [characters, setCharacters] = useState([])
   const [chronicles, setChronicles] = useState([])
-  const [showChronicleSelect, setShowChronicleSelect] = useState(false)
-  const [selectedChronicle, setSelectedChronicle] = useState('')
+  const [showNewChar, setShowNewChar] = useState(false)
   const [pageTab, setPageTab] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -52,7 +52,7 @@ export default function L5RPage() {
       <div className="character-list-header">
         <h2 id="l5r-heading">{t('systemL5R')} — {t('l5rMySamurai')}</h2>
         <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
-          <button className="btn btn-primary" onClick={() => navigate('/l5r/new?mode=guided')}>
+          <button className="btn btn-primary" onClick={() => setShowNewChar(true)}>
             {t('l5rNewSamurai')}
           </button>
           <button className="btn btn-secondary" onClick={() => navigate('/l5r/new')}>
@@ -63,28 +63,7 @@ export default function L5RPage() {
               {t('l5rNewAntagonist')}
             </button>
           )}
-          {chronicles.length > 0 && (
-            <button className="btn btn-secondary" onClick={() => setShowChronicleSelect(true)}>
-              {t('forAChronicle')}
-            </button>
-          )}
         </div>
-        {showChronicleSelect && (
-          <div style={{ marginTop: 'var(--space-sm)', display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-end' }}>
-            <div className="field" style={{ flex: 1 }}>
-              <label>{t('selectChronicle')}</label>
-              <select value={selectedChronicle} onChange={e => setSelectedChronicle(e.target.value)}>
-                <option value="">{t('select')}</option>
-                {chronicles.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-              </select>
-            </div>
-            <button className="btn btn-primary" disabled={!selectedChronicle}
-              onClick={() => { navigate(`/l5r/new?mode=guided&chronicle=${selectedChronicle}`); setShowChronicleSelect(false) }}>
-              {t('proceed')}
-            </button>
-            <button className="btn btn-secondary" onClick={() => setShowChronicleSelect(false)}>{t('cancel')}</button>
-          </div>
-        )}
       </div>
 
       <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)' }}>
@@ -164,6 +143,7 @@ export default function L5RPage() {
           </>
         )
       })()}
+      <NewCharacterModal open={showNewChar} onClose={() => setShowNewChar(false)} chronicles={chronicles} newCharPath="/l5r/new" />
     </section>
   )
 }

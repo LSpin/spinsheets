@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useAuth } from '../context/AuthContext'
 
-export default function NewCharacterModal({ open, onClose, chronicles }) {
+export default function NewCharacterModal({ open, onClose, chronicles, newCharPath = '/characters/new' }) {
   const { t } = useLanguage()
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -13,13 +13,13 @@ export default function NewCharacterModal({ open, onClose, chronicles }) {
 
   function handleForMyself() {
     onClose()
-    navigate('/characters/new')
+    navigate(newCharPath)
   }
 
   function handleForChronicle() {
     if (!selectedChronicle) return
     onClose()
-    navigate(`/characters/new?mode=guided&chronicle=${selectedChronicle}`)
+    navigate(`${newCharPath}?mode=guided&chronicle=${selectedChronicle}`)
   }
 
   return (
