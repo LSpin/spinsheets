@@ -245,7 +245,6 @@ export default function CharacterList() {
               {t('newNpc')}
             </button>
           )}
-          {isST && <button className="btn btn-secondary" onClick={() => navigate('/chronicles/new')}>{t('systemWoD')} — {t('newChronicle')}</button>}
         </div>
       </div>
 

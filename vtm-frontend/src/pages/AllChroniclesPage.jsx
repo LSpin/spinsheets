@@ -14,6 +14,8 @@ const SYSTEMS = [
   { key: 'UESTRPG', labelKey: 'systemUestrpg', badge: 'splat-badge--uestrpg', basePath: '/uestrpg/chronicles', theme: 'uestrpg' },
 ]
 
+const CREATABLE_SYSTEMS = SYSTEMS.filter(s => s.key !== 'ALL')
+
 function getSystemInfo(gameSystem) {
   return SYSTEMS.find(s => s.key === (gameSystem || 'WOD')) || SYSTEMS[1]
 }
@@ -23,6 +25,7 @@ export default function AllChroniclesPage() {
   const [filter, setFilter] = useState('ALL')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [showCreateModal, setShowCreateModal] = useState(false)
   const navigate = useNavigate()
   const { user, isST } = useAuth()
   const { t } = useLanguage()
@@ -55,18 +58,15 @@ export default function AllChroniclesPage() {
     ? chronicles
     : chronicles.filter(c => (c.gameSystem || 'WOD') === filter)
 
-  // Group by system for display
-  const grouped = {}
-  for (const c of filtered) {
-    const sys = c.gameSystem || 'WOD'
-    if (!grouped[sys]) grouped[sys] = []
-    grouped[sys].push(c)
-  }
-
   return (
     <section aria-labelledby="all-chronicles-heading">
       <div className="character-list-header">
         <h2 id="all-chronicles-heading">{t('allChronicles')}</h2>
+        {isST && (
+          <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}>
+            {t('createChronicleBtn')}
+          </button>
+        )}
       </div>
 
       {error && <p className="status-error" role="alert">{error}</p>}
@@ -100,76 +100,76 @@ export default function AllChroniclesPage() {
         </div>
       )}
 
-      {!loading && Object.entries(grouped).map(([sys, items]) => {
-        const info = getSystemInfo(sys)
-        return (
-          <div key={sys} style={{ marginBottom: 'var(--space-xl)' }}>
-            {filter === 'ALL' && (
-              <h3 style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-                <span className={`splat-badge ${info.badge || ''}`} style={{ fontSize: '0.85rem' }}>
-                  {t(info.labelKey)}
-                </span>
-                <span className="muted-hint muted-hint--xs">({items.length})</span>
-                {isST && (
-                  <button className="btn btn-secondary btn-sm" style={{ marginLeft: 'auto' }}
-                    onClick={() => navigate(`${info.basePath}/new`)}>
-                    + {t('newChronicle')}
+      {!loading && filtered.length > 0 && (
+        <ul className="character-list" aria-label={t('chroniclesTitle')}>
+          {filtered.map(c => {
+            const cInfo = getSystemInfo(c.gameSystem)
+            return (
+              <li key={c.id} className="character-card">
+                <div className="character-card-info">
+                  <h3 style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                    {c.name}
+                    <span className={`splat-badge ${cInfo.badge || ''}`} style={{ fontSize: '0.78rem' }}>
+                      {t(cInfo.labelKey)}
+                    </span>
+                  </h3>
+                  {c.description && (
+                    <p className="character-card-meta" style={{ marginTop: '0.25rem' }}>{c.description}</p>
+                  )}
+                  <dl className="character-card-meta">
+                    {c.storyteller && (
+                      <>
+                        <dt className="sr-only">{t('storytellerRole')}</dt>
+                        <dd>{t('roleST')}: {c.storyteller.username}</dd>
+                      </>
+                    )}
+                  </dl>
+                </div>
+                <div className="character-card-actions">
+                  <button className="btn btn-secondary"
+                    onClick={() => navigate(`${cInfo.basePath}/${c.id}`)}
+                    aria-label={`${t('viewBtn')} ${c.name}`}>
+                    {t('viewBtn')}
                   </button>
-                )}
-              </h3>
-            )}
-            {filter !== 'ALL' && isST && (
-              <div style={{ marginBottom: 'var(--space-md)' }}>
-                <button className="btn btn-primary" onClick={() => navigate(`${info.basePath}/new`)}>
-                  {t(info.labelKey)} — {t('newChronicle')}
+                  {isST && c.storyteller?.id === user.userId && (
+                    <button className="btn btn-danger"
+                      onClick={() => handleDelete(c.id, c.name)}
+                      aria-label={`${t('deleteBtn')} ${c.name}`}>
+                      {t('deleteBtn')}
+                    </button>
+                  )}
+                </div>
+              </li>
+            )
+          })}
+        </ul>
+      )}
+
+      {/* Create Chronicle Modal */}
+      {showCreateModal && (
+        <div className="modal-overlay" onClick={() => setShowCreateModal(false)}
+          role="dialog" aria-modal="true" aria-labelledby="create-chronicle-title"
+          onKeyDown={e => { if (e.key === 'Escape') setShowCreateModal(false) }}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <h3 id="create-chronicle-title">{t('selectSystemForChronicle')}</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
+              {CREATABLE_SYSTEMS.map(sys => (
+                <button
+                  key={sys.key}
+                  className="modal-option-btn"
+                  onClick={() => { setShowCreateModal(false); navigate(`${sys.basePath}/new`) }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-md)', textAlign: 'left' }}
+                >
+                  <span className={`splat-badge ${sys.badge || ''}`} style={{ fontSize: '0.85rem', minWidth: '120px' }}>
+                    {t(sys.labelKey)}
+                  </span>
                 </button>
-              </div>
-            )}
-            <ul className="character-list" aria-label={`${t(info.labelKey)} ${t('chroniclesTitle')}`}>
-              {items.map(c => {
-                const cInfo = getSystemInfo(c.gameSystem)
-                return (
-                  <li key={c.id} className="character-card">
-                    <div className="character-card-info">
-                      <h3 style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-                        {c.name}
-                        <span className={`splat-badge ${cInfo.badge || ''}`} style={{ fontSize: '0.72rem' }}>
-                          {t(cInfo.labelKey)}
-                        </span>
-                      </h3>
-                      {c.description && (
-                        <p className="character-card-meta" style={{ marginTop: '0.25rem' }}>{c.description}</p>
-                      )}
-                      <dl className="character-card-meta">
-                        {c.storyteller && (
-                          <>
-                            <dt className="sr-only">{t('storytellerRole')}</dt>
-                            <dd>{t('roleST')}: {c.storyteller.username}</dd>
-                          </>
-                        )}
-                      </dl>
-                    </div>
-                    <div className="character-card-actions">
-                      <button className="btn btn-secondary"
-                        onClick={() => navigate(`${cInfo.basePath}/${c.id}`)}
-                        aria-label={`${t('viewBtn')} ${c.name}`}>
-                        {t('viewBtn')}
-                      </button>
-                      {isST && c.storyteller?.id === user.userId && (
-                        <button className="btn btn-danger"
-                          onClick={() => handleDelete(c.id, c.name)}
-                          aria-label={`${t('deleteBtn')} ${c.name}`}>
-                          {t('deleteBtn')}
-                        </button>
-                      )}
-                    </div>
-                  </li>
-                )
-              })}
-            </ul>
+              ))}
+            </div>
+            <button className="modal-close" onClick={() => setShowCreateModal(false)}>{t('cancel')}</button>
           </div>
-        )
-      })}
+        </div>
+      )}
     </section>
   )
 }

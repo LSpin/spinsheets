@@ -60,7 +60,6 @@ export default function UestrpgPage() {
               {t('uestrpgNewAntagonist')}
             </button>
           )}
-          {isST && <button className="btn btn-secondary" onClick={() => navigate('/uestrpg/chronicles/new')}>{t('systemUestrpg')} — {t('newChronicle')}</button>}
         </div>
       </div>
 

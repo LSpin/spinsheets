@@ -60,7 +60,6 @@ export default function DndPage() {
               {t('systemDnd')} — {t('dndNewMonster')}
             </button>
           )}
-          {isST && <button className="btn btn-secondary" onClick={() => navigate('/dnd/chronicles/new')}>{t('systemDnd')} — {t('newChronicle')}</button>}
         </div>
       </div>
 
