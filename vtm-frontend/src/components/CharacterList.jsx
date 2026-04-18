@@ -231,9 +231,12 @@ export default function CharacterList() {
         <h2 id="list-heading">
           {isST ? `${t('systemWoD')} — ${t('allCharactersST')}` : `${t('systemWoD')} — ${t('myCharacters')}`}
         </h2>
-        <button className="btn btn-primary" onClick={openNewChar}>
-          {t('newCharBtn')}
-        </button>
+        <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+          <button className="btn btn-primary" onClick={openNewChar}>
+            {t('newCharBtn')}
+          </button>
+          {isST && <button className="btn btn-secondary" onClick={() => navigate('/chronicles/new')}>{t('systemWoD')} — {t('newChronicle')}</button>}
+        </div>
       </div>
 
       {error && <p className="status-error" role="alert">{error}</p>}

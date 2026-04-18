@@ -63,6 +63,7 @@ export default function L5RPage() {
               {t('l5rNewAntagonist')}
             </button>
           )}
+          {isST && <button className="btn btn-secondary" onClick={() => navigate('/l5r/chronicles/new')}>{t('systemL5R')} — {t('newChronicle')}</button>}
         </div>
       </div>
 

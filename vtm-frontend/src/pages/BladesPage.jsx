@@ -67,6 +67,7 @@ export default function BladesPage() {
               {t('bladesNewAntagonist')}
             </button>
           )}
+          {isST && <button className="btn btn-secondary" onClick={() => navigate('/blades/chronicles/new')}>{t('systemBlades')} — {t('newChronicle')}</button>}
         </div>
       </div>
 
