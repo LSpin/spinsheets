@@ -1,29 +1,30 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { useParams } from 'react-router-dom'
 import { getCharacter } from '../api/characterApi'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
-import CharacterForm from './CharacterForm'
-import WerewolfForm from './WerewolfForm'
-import MageForm from './MageForm'
-import VampireRevisedForm from './VampireRevisedForm'
-import KoteForm from './KoteForm'
-import VampireDarkAgesForm from './VampireDarkAgesForm'
-import VictorianVampireForm from './VictorianVampireForm'
-import WyldWestWerewolfForm from './WyldWestWerewolfForm'
-import VictorianMageForm from './VictorianMageForm'
-import ChangingBreedsForm from './ChangingBreedsForm'
-import GhoulForm from './GhoulForm'
-import FamiliarForm from './FamiliarForm'
-import TotemForm from './TotemForm'
-import KinfolkForm from './KinfolkForm'
-import SeventhSeaForm from './SeventhSeaForm'
-import SeventhSeaVillainForm from './SeventhSeaVillainForm'
-import L5RForm from './L5RForm'
-import BladesForm from './BladesForm'
-import BladesCrewForm from './BladesCrewForm'
-import DndForm from './DndForm'
-import DndMonsterForm from './DndMonsterForm'
+
+const CharacterForm = lazy(() => import('./CharacterForm'))
+const WerewolfForm = lazy(() => import('./WerewolfForm'))
+const MageForm = lazy(() => import('./MageForm'))
+const VampireRevisedForm = lazy(() => import('./VampireRevisedForm'))
+const KoteForm = lazy(() => import('./KoteForm'))
+const VampireDarkAgesForm = lazy(() => import('./VampireDarkAgesForm'))
+const VictorianVampireForm = lazy(() => import('./VictorianVampireForm'))
+const WyldWestWerewolfForm = lazy(() => import('./WyldWestWerewolfForm'))
+const VictorianMageForm = lazy(() => import('./VictorianMageForm'))
+const ChangingBreedsForm = lazy(() => import('./ChangingBreedsForm'))
+const GhoulForm = lazy(() => import('./GhoulForm'))
+const FamiliarForm = lazy(() => import('./FamiliarForm'))
+const TotemForm = lazy(() => import('./TotemForm'))
+const KinfolkForm = lazy(() => import('./KinfolkForm'))
+const SeventhSeaForm = lazy(() => import('./SeventhSeaForm'))
+const SeventhSeaVillainForm = lazy(() => import('./SeventhSeaVillainForm'))
+const L5RForm = lazy(() => import('./L5RForm'))
+const BladesForm = lazy(() => import('./BladesForm'))
+const BladesCrewForm = lazy(() => import('./BladesCrewForm'))
+const DndForm = lazy(() => import('./DndForm'))
+const DndMonsterForm = lazy(() => import('./DndMonsterForm'))
 
 export default function CharacterRouter() {
   const { id } = useParams()
@@ -60,25 +61,31 @@ export default function CharacterRouter() {
     </div>
   )
 
-  if (splat === 'WEREWOLF') return <WerewolfForm />
-  if (splat === 'MAGE') return <MageForm />
-  if (splat === 'VAMPIRE_REVISED') return <VampireRevisedForm />
-  if (splat === 'KOTE') return <KoteForm />
-  if (splat === 'VAMPIRE_DARK_AGES') return <VampireDarkAgesForm />
-  if (splat === 'VICTORIAN_VAMPIRE') return <VictorianVampireForm />
-  if (splat === 'WYLD_WEST_WEREWOLF') return <WyldWestWerewolfForm />
-  if (splat === 'VICTORIAN_MAGE') return <VictorianMageForm />
-  if (splat === 'CHANGING_BREEDS') return <ChangingBreedsForm />
-  if (splat === 'GHOUL') return <GhoulForm />
-  if (splat === 'FAMILIAR') return <FamiliarForm />
-  if (splat === 'TOTEM') return <TotemForm />
-  if (splat === 'KINFOLK') return <KinfolkForm />
-  if (splat === 'SEVENTH_SEA' && isNpc) return <SeventhSeaVillainForm />
-  if (splat === 'SEVENTH_SEA') return <SeventhSeaForm />
-  if (splat === 'L5R') return <L5RForm />
-  if (splat === 'BLADES') return <BladesForm />
-  if (splat === 'BLADES_CREW') return <BladesCrewForm />
-  if (splat === 'DND') return <DndForm />
-  if (splat === 'DND_MONSTER') return <DndMonsterForm />
-  return <CharacterForm />
+  let FormComponent = CharacterForm
+  if (splat === 'WEREWOLF') FormComponent = WerewolfForm
+  else if (splat === 'MAGE') FormComponent = MageForm
+  else if (splat === 'VAMPIRE_REVISED') FormComponent = VampireRevisedForm
+  else if (splat === 'KOTE') FormComponent = KoteForm
+  else if (splat === 'VAMPIRE_DARK_AGES') FormComponent = VampireDarkAgesForm
+  else if (splat === 'VICTORIAN_VAMPIRE') FormComponent = VictorianVampireForm
+  else if (splat === 'WYLD_WEST_WEREWOLF') FormComponent = WyldWestWerewolfForm
+  else if (splat === 'VICTORIAN_MAGE') FormComponent = VictorianMageForm
+  else if (splat === 'CHANGING_BREEDS') FormComponent = ChangingBreedsForm
+  else if (splat === 'GHOUL') FormComponent = GhoulForm
+  else if (splat === 'FAMILIAR') FormComponent = FamiliarForm
+  else if (splat === 'TOTEM') FormComponent = TotemForm
+  else if (splat === 'KINFOLK') FormComponent = KinfolkForm
+  else if (splat === 'SEVENTH_SEA' && isNpc) FormComponent = SeventhSeaVillainForm
+  else if (splat === 'SEVENTH_SEA') FormComponent = SeventhSeaForm
+  else if (splat === 'L5R') FormComponent = L5RForm
+  else if (splat === 'BLADES') FormComponent = BladesForm
+  else if (splat === 'BLADES_CREW') FormComponent = BladesCrewForm
+  else if (splat === 'DND') FormComponent = DndForm
+  else if (splat === 'DND_MONSTER') FormComponent = DndMonsterForm
+
+  return (
+    <Suspense fallback={<p className="status-loading">{t('loading')}</p>}>
+      <FormComponent />
+    </Suspense>
+  )
 }

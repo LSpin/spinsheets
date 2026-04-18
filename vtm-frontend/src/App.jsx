@@ -1,49 +1,63 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, Link } from 'react-router-dom'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, lazy, Suspense } from 'react'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { NewCharProvider } from './context/NewCharContext'
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext'
 import LanguageToggle from './components/LanguageToggle'
 import { ThemeProvider, useTheme } from './context/ThemeContext'
+import ErrorBoundary from './components/ErrorBoundary'
+
+// ── Eagerly loaded (small, always needed) ──
 import CharacterList from './components/CharacterList'
-import CharacterForm from './components/CharacterForm'
-import CharacterRouter from './components/CharacterRouter'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
-import SplatSelectPage from './pages/SplatSelectPage'
-import PlayersPage from './pages/PlayersPage'
-import WerewolfForm from './components/WerewolfForm'
-import MageForm from './components/MageForm'
-import VampireRevisedForm from './components/VampireRevisedForm'
-import KoteForm from './components/KoteForm'
-import VampireDarkAgesForm from './components/VampireDarkAgesForm'
-import VictorianVampireForm from './components/VictorianVampireForm'
-import WyldWestWerewolfForm from './components/WyldWestWerewolfForm'
-import VictorianMageForm from './components/VictorianMageForm'
-import ChangingBreedsForm from './components/ChangingBreedsForm'
+import HomePage from './pages/HomePage'
 import ChronicleList from './pages/ChronicleList'
 import ChronicleDetail from './pages/ChronicleDetail'
 import ChronicleForm from './pages/ChronicleForm'
-import HomePage from './pages/HomePage'
-import GhoulForm from './components/GhoulForm'
-import FamiliarForm from './components/FamiliarForm'
-import TotemForm from './components/TotemForm'
-import KinfolkForm from './components/KinfolkForm'
-import SeventhSeaForm from './components/SeventhSeaForm'
-import SeventhSeaVillainForm from './components/SeventhSeaVillainForm'
-import SeventhSeaPage from './pages/SeventhSeaPage'
-import L5RForm from './components/L5RForm'
-import L5RPage from './pages/L5RPage'
-import BladesForm from './components/BladesForm'
-import BladesCrewForm from './components/BladesCrewForm'
-import BladesPage from './pages/BladesPage'
-import DndForm from './components/DndForm'
-import DndMonsterForm from './components/DndMonsterForm'
-import DndPage from './pages/DndPage'
-import AdminPage from './pages/AdminPage'
-import InvitePage from './pages/InvitePage'
-import ErrorBoundary from './components/ErrorBoundary'
+
+// ── Lazily loaded (heavy, per-system) ──
+const CharacterRouter = lazy(() => import('./components/CharacterRouter'))
+const SplatSelectPage = lazy(() => import('./pages/SplatSelectPage'))
+const PlayersPage = lazy(() => import('./pages/PlayersPage'))
+const AdminPage = lazy(() => import('./pages/AdminPage'))
+const InvitePage = lazy(() => import('./pages/InvitePage'))
+
+// WoD forms
+const CharacterForm = lazy(() => import('./components/CharacterForm'))
+const WerewolfForm = lazy(() => import('./components/WerewolfForm'))
+const MageForm = lazy(() => import('./components/MageForm'))
+const VampireRevisedForm = lazy(() => import('./components/VampireRevisedForm'))
+const KoteForm = lazy(() => import('./components/KoteForm'))
+const VampireDarkAgesForm = lazy(() => import('./components/VampireDarkAgesForm'))
+const VictorianVampireForm = lazy(() => import('./components/VictorianVampireForm'))
+const WyldWestWerewolfForm = lazy(() => import('./components/WyldWestWerewolfForm'))
+const VictorianMageForm = lazy(() => import('./components/VictorianMageForm'))
+const ChangingBreedsForm = lazy(() => import('./components/ChangingBreedsForm'))
+const GhoulForm = lazy(() => import('./components/GhoulForm'))
+const FamiliarForm = lazy(() => import('./components/FamiliarForm'))
+const TotemForm = lazy(() => import('./components/TotemForm'))
+const KinfolkForm = lazy(() => import('./components/KinfolkForm'))
+
+// 7th Sea
+const SeventhSeaForm = lazy(() => import('./components/SeventhSeaForm'))
+const SeventhSeaVillainForm = lazy(() => import('./components/SeventhSeaVillainForm'))
+const SeventhSeaPage = lazy(() => import('./pages/SeventhSeaPage'))
+
+// L5R
+const L5RForm = lazy(() => import('./components/L5RForm'))
+const L5RPage = lazy(() => import('./pages/L5RPage'))
+
+// Blades
+const BladesForm = lazy(() => import('./components/BladesForm'))
+const BladesCrewForm = lazy(() => import('./components/BladesCrewForm'))
+const BladesPage = lazy(() => import('./pages/BladesPage'))
+
+// D&D
+const DndForm = lazy(() => import('./components/DndForm'))
+const DndMonsterForm = lazy(() => import('./components/DndMonsterForm'))
+const DndPage = lazy(() => import('./pages/DndPage'))
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -182,6 +196,7 @@ function AppShell() {
 
       <main id="main-content" tabIndex={-1}>
         <ErrorBoundary>
+        <Suspense fallback={<p className="status-loading" style={{ textAlign: 'center', padding: '2rem' }}>Loading...</p>}>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -329,6 +344,7 @@ function AppShell() {
           } />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        </Suspense>
         </ErrorBoundary>
       </main>
 
