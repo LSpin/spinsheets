@@ -2083,6 +2083,125 @@ a:hover {
   background: #141a20;
 }
 
+/* ── Blades in the Dark: Action Dots, XP Pips, Stress ── */
+
+.blades-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-lg);
+}
+
+.blades-action-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.blades-action-column h4 {
+  margin: 0 0 var(--space-xs);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-accent-fg);
+}
+
+.blades-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: 2px 0;
+}
+
+.blades-action-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  min-width: 70px;
+}
+
+.blades-xp-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) 0;
+}
+
+.blades-dots {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.blades-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.blades-dot:hover {
+  border-color: var(--color-accent-fg);
+}
+
+.blades-dot--filled {
+  background: var(--color-accent-fg);
+  border-color: var(--color-accent-fg);
+}
+
+.blades-pip {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  border: 2px solid var(--color-border);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.blades-pip:hover {
+  border-color: var(--color-accent-fg);
+}
+
+.blades-pip--filled {
+  background: var(--color-accent-fg);
+  border-color: var(--color-accent-fg);
+}
+
+.blades-stress-track {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.blades-stress-box {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--color-border);
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.blades-stress-box:hover {
+  border-color: var(--color-accent-fg);
+}
+
+.blades-stress-box--filled {
+  background: #8b2020;
+  border-color: #c04040;
+  color: #fff;
+}
+
 /* ── Dice Pool Table ── */
 
 .dice-pool-table {
