@@ -12,6 +12,15 @@ const SYSTEM_LABEL_KEYS = {
   UESTRPG: 'systemUestrpg',
 }
 
+const SYSTEM_HOME = {
+  WOD: '/characters',
+  SEVENTH_SEA: '/7thsea',
+  L5R: '/l5r',
+  BLADES: '/blades',
+  DND: '/dnd',
+  UESTRPG: '/uestrpg',
+}
+
 export default function ChronicleForm({ system = 'WOD', basePath = '/chronicles' }) {
   const navigate = useNavigate()
   const { t } = useLanguage()
@@ -39,7 +48,7 @@ export default function ChronicleForm({ system = 'WOD', basePath = '/chronicles'
   return (
     <section aria-labelledby="new-chronicle-heading">
       <div className="form-header">
-        <button className="btn btn-secondary" onClick={() => navigate(basePath)}>{t('back')}</button>
+        <button className="btn btn-secondary" onClick={() => navigate(SYSTEM_HOME[system] || basePath)}>{t('back')}</button>
         <h2 id="new-chronicle-heading">{systemLabel} — {t('newChronicleTitle')}</h2>
       </div>
       <div className="form-section" style={{ maxWidth: 500 }}>
