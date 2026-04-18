@@ -487,7 +487,7 @@ export default function BladesForm() {
             <fieldset>
               <legend>{fields.bladesPlaybook} Items</legend>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-                {selectedPlaybook.items.map(item => (
+                {selectedPlaybook?.items?.map(item => (
                   <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: '0.85rem' }}>
                     <input type="checkbox" checked={selectedItems.includes(item.name)} onChange={() => toggleItem(item.name)} />
                     <span><strong>{item.name}</strong> ({item.load || 1} load){item.description ? ` - ${item.description}` : ''}</span>

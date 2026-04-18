@@ -34,6 +34,7 @@ const INITIAL = {
   dndSpellcastingAbility: '', dndSpellSlots: '', dndSpellsKnown: '', dndSpellsPrepared: '',
   dndClassFeatures: '', dndRacialTraits: '', dndFeats: '',
   dndCp: 0, dndSp: 0, dndEp: 0, dndGp: 0, dndPp: 0,
+  dndEquipment: '',
   dndPersonalityTraits: '', dndIdeals: '', dndBonds: '', dndFlaws: '',
   notes: '', backstory: '',
 }
@@ -221,15 +222,15 @@ export default function DndForm() {
                 onChange={handleField} catalog={DND_RACE_CATALOG} />
               {selectedRace?.subraces?.length > 0 && (
                 <CatalogSelect id="dndSubrace" name="dndSubrace" label="Subrace" value={fields.dndSubrace}
-                  onChange={handleField} catalog={selectedRace.subraces} />
+                  onChange={handleField} catalog={selectedRace?.subraces || []} />
               )}
             </div>
             <div className="field-row">
               <CatalogSelect id="dndClass" name="dndClass" label="Class" value={fields.dndClass}
                 onChange={handleField} catalog={DND_CLASS_CATALOG} />
               {selectedClass?.subclasses?.length > 0 && (
-                <CatalogSelect id="dndSubclass" name="dndSubclass" label={selectedClass.subclassName || 'Subclass'} value={fields.dndSubclass}
-                  onChange={handleField} catalog={selectedClass.subclasses} />
+                <CatalogSelect id="dndSubclass" name="dndSubclass" label={selectedClass?.subclassName || 'Subclass'} value={fields.dndSubclass}
+                  onChange={handleField} catalog={selectedClass?.subclasses || []} />
               )}
             </div>
             <div className="field-row">
