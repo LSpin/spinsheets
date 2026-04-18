@@ -238,7 +238,7 @@ export default function KinfolkForm() {
               Kinfolk can learn Gifts that don't require Gnosis to activate. Describe gifts, numina, and fetishes below.
             </p>
             <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={8} style={{ width: '100%' }}
-              placeholder="List gifts, numina, and fetishes here..." />
+              aria-label="Gifts and Numina" placeholder="List gifts, numina, and fetishes here..." />
           </fieldset>
           <fieldset>
             <legend>{t('willpowerAndHumanity')}</legend>

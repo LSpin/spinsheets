@@ -229,7 +229,7 @@ export default function BsdForm() {
               Black Spiral Dancers use corrupted versions of Garou gifts plus unique Wyrm-tainted gifts.
             </p>
             <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={10} style={{ width: '100%' }}
-              placeholder="List gifts with levels, e.g.&#10;Wyrm Hide 1&#10;Balefire 3&#10;Toxic Claws 2" />
+              aria-label="Gifts" placeholder="List gifts with levels, e.g.&#10;Wyrm Hide 1&#10;Balefire 3&#10;Toxic Claws 2" />
           </fieldset>
           <fieldset>
             <legend>Wyrm Taint &amp; Derangements</legend>
@@ -237,7 +237,7 @@ export default function BsdForm() {
               Describe mutations, derangements, and Wyrm corruption effects.
             </p>
             <textarea name="clanCurse" value={fields.clanCurse} onChange={handleText} rows={6} style={{ width: '100%' }}
-              placeholder="Mutations, derangements, Wyrm taint effects..." />
+              aria-label="Wyrm Taint and Derangements" placeholder="Mutations, derangements, Wyrm taint effects..." />
           </fieldset>
           <fieldset>
             <legend>Rage, Gnosis &amp; Willpower</legend>

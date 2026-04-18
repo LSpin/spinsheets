@@ -237,7 +237,7 @@ export default function HunterForm() {
               <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={10} />
             </div>
             <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={8} style={{ width: '100%' }}
-              placeholder={t('hunterEdgesPlaceholder')} />
+              aria-label="Edges and powers" placeholder={t('hunterEdgesPlaceholder')} />
           </fieldset>
         </div>
       </div>

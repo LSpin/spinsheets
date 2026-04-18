@@ -232,7 +232,7 @@ export default function GhoulForm() {
             <legend>{t('ghoulDisciplines')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('ghoulDiscHint')}</p>
             <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={6} style={{ width: '100%' }}
-              placeholder="List disciplines and their levels here..." />
+              aria-label="Disciplines" placeholder="List disciplines and their levels here..." />
           </fieldset>
           <fieldset>
             <legend>{t('ghoulVitals')}</legend>

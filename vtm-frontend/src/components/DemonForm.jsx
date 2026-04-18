@@ -225,7 +225,7 @@ export default function DemonForm() {
               Each House has primary and secondary Lores. List Lore powers with levels.
             </p>
             <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={10} style={{ width: '100%' }}
-              placeholder="List Lore powers with levels, e.g.&#10;Lore of Flame 3&#10;Lore of Radiance 2&#10;Lore of Humanity 1" />
+              aria-label="Lore powers" placeholder="List Lore powers with levels, e.g.&#10;Lore of Flame 3&#10;Lore of Radiance 2&#10;Lore of Humanity 1" />
           </fieldset>
           <fieldset>
             <legend>Apocalyptic Form</legend>
@@ -233,7 +233,7 @@ export default function DemonForm() {
               Describe the demon's true, terrifying visage when it reveals its celestial nature.
             </p>
             <textarea name="clanCurse" value={fields.clanCurse} onChange={handleText} rows={6} style={{ width: '100%' }}
-              placeholder="Describe the apocalyptic form — wings, claws, aura, etc." />
+              aria-label="Apocalyptic Form" placeholder="Describe the apocalyptic form — wings, claws, aura, etc." />
           </fieldset>
           <fieldset>
             <legend>Faith &amp; Torment</legend>

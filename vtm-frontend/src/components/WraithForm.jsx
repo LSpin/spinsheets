@@ -251,13 +251,13 @@ export default function WraithForm() {
               <DotRating label={t('wraithAngst')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={10} />
             </div>
             <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={8} style={{ width: '100%' }}
-              placeholder={t('wraithArcanoiPlaceholder')} />
+              aria-label="Arcanoi" placeholder={t('wraithArcanoiPlaceholder')} />
           </fieldset>
           <fieldset>
             <legend>{t('wraithPassions')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('wraithPassionsHint')}</p>
             <textarea name="clanCurse" value={fields.clanCurse} onChange={handleText} rows={6} style={{ width: '100%' }}
-              placeholder={t('wraithPassionsPlaceholder')} />
+              aria-label="Passions and Fetters" placeholder={t('wraithPassionsPlaceholder')} />
           </fieldset>
         </div>
       </div>

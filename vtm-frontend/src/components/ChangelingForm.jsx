@@ -230,7 +230,7 @@ export default function ChangelingForm() {
               Realms: Actor, Fae, Nature, Prop, Scene, Time.
             </p>
             <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={10} style={{ width: '100%' }}
-              placeholder="List Arts and Realms with levels, e.g.&#10;Chicanery 3&#10;Wayfare 2&#10;Actor 3&#10;Fae 2" />
+              aria-label="Arts and Realms" placeholder="List Arts and Realms with levels, e.g.&#10;Chicanery 3&#10;Wayfare 2&#10;Actor 3&#10;Fae 2" />
           </fieldset>
           <fieldset>
             <legend>Glamour &amp; Banality</legend>
