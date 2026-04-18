@@ -418,6 +418,10 @@ public class Character {
     @Column(columnDefinition = "TEXT")
     private String heroStories;
 
+    // Ship
+    @Column(columnDefinition = "TEXT")
+    private String shipData7s;
+
     // ── Legend of the Five Rings 4th Edition fields ──
 
     // Traits (each starts at 2, max 10)

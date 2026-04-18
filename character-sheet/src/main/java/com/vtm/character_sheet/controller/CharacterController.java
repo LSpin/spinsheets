@@ -300,6 +300,7 @@ public class CharacterController {
             existing.setCorruption(updated.getCorruption());
             existing.setDramaticWounds(updated.getDramaticWounds());
             existing.setHeroStories(updated.getHeroStories());
+            existing.setShipData7s(updated.getShipData7s());
             // L5R fields
             existing.setL5rReflexes(updated.getL5rReflexes());
             existing.setL5rAwareness(updated.getL5rAwareness());

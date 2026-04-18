@@ -202,9 +202,60 @@ const INITIAL = {
   heroPoints: 1, wealth7s: 0, corruption: 0, dramaticWounds: 0,
   willpower: 0, currentWillpower: 0,
   heroStories: '', backstory: '', notes: '', appearanceDesc: '', personalItems: '',
+  shipData7s: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tab7sTraits', 'tab7sSkills', 'tab7sAdvantages', 'tab7sSorcery', 'tab7sDueling', 'tab7sArcana', 'tab7sBackgrounds', 'tab7sStories', 'tab7sBelongings', 'tabBackstory', 'tabXpLog', 'tabRulesRef', 'tabDiceRoller']
+const TAB_KEYS = ['tabIdentity', 'tab7sTraits', 'tab7sSkills', 'tab7sAdvantages', 'tab7sSorcery', 'tab7sDueling', 'tab7sArcana', 'tab7sBackgrounds', 'tab7sStories', 'tab7sBelongings', 'tab7sShip', 'tabBackstory', 'tabXpLog', 'tabRulesRef', 'tabDiceRoller']
+
+// ── Ship Builder Data (7th Sea 2e) ──
+const SHIP_ORIGINS = [
+  { value: 'Avalon', description: 'Sleek and fast. Bonus: +1 to Sailing rolls for maneuverability.' },
+  { value: 'Castille', description: 'Well-armed galleons. Bonus: +1 Cannon damage.' },
+  { value: 'Eisen', description: 'Iron-reinforced hulls. Bonus: +1 to resist structural damage.' },
+  { value: 'Montaigne', description: 'Elegant and luxurious. Bonus: +1 to social encounters aboard.' },
+  { value: 'Sarmatian Commonwealth', description: 'Versatile river/sea craft. Bonus: can navigate shallow waters.' },
+  { value: 'Ussura', description: 'Ice-hardened and sturdy. Bonus: immune to cold-weather penalties.' },
+  { value: 'Vestenmennavenjar', description: 'Viking-style longships. Bonus: +1 to boarding actions.' },
+  { value: 'Vodacce', description: 'Fast merchant vessels. Bonus: +1 to trade and smuggling rolls.' },
+  { value: 'Crescent Empire', description: 'Dhows with lateen sails. Bonus: +1 to long-distance voyages.' },
+]
+
+const SHIP_BACKGROUNDS = [
+  { value: 'Merchant Vessel', description: 'A trading ship with large cargo holds. Extra cargo capacity.' },
+  { value: 'Military Warship', description: 'A decommissioned naval vessel. Comes with extra cannons.' },
+  { value: 'Pirate Prize', description: 'Captured from enemies. Fast but battle-scarred. +1 Intimidation at sea.' },
+  { value: 'Explorer\'s Ship', description: 'Built for long voyages. Extra supplies and navigation equipment.' },
+  { value: 'Smuggler\'s Craft', description: 'Hidden compartments and shallow draft. +1 to evade customs.' },
+  { value: 'Privateer', description: 'Licensed by a nation. Legal protection in home waters. Letter of marque.' },
+  { value: 'Ghost Ship', description: 'Rumored haunted. Crew is superstitious but enemies fear to approach.' },
+  { value: 'Custom Built', description: 'Purpose-built to your specifications. Choose one extra modification.' },
+]
+
+const SHIP_MODIFICATIONS = [
+  { name: 'Extra Cannons', cost: 3, description: '+1 Cannon rating. Heavier armament for ship-to-ship combat.' },
+  { name: 'Reinforced Hull', cost: 3, description: '+1 Hull rating. Harder to sink or damage.' },
+  { name: 'Extended Cargo Hold', cost: 2, description: 'Double cargo capacity. Essential for trading vessels.' },
+  { name: 'Hidden Compartments', cost: 2, description: 'Secret spaces for smuggling. +1d to hide contraband.' },
+  { name: 'Ram', cost: 2, description: 'Reinforced prow for ramming. Deals damage equal to your Sailing roll.' },
+  { name: 'Speed Refit', cost: 3, description: '+1 to all chase and pursuit rolls. Streamlined hull and rigging.' },
+  { name: 'Crow\'s Nest', cost: 1, description: 'Elevated lookout post. +1 to Survey rolls at sea.' },
+  { name: 'Sick Bay', cost: 2, description: 'Medical facilities aboard. Crew heals faster during voyages.' },
+  { name: 'Luxury Quarters', cost: 2, description: 'Captain\'s quarters fit for nobility. +1 to social rolls aboard.' },
+  { name: 'Chain Shot', cost: 1, description: 'Specialized ammunition that targets rigging. Can slow enemy ships.' },
+  { name: 'Figurehead', cost: 1, description: 'Carved prow ornament. Crew gains +1 morale in dangerous waters.' },
+  { name: 'Swivel Guns', cost: 2, description: 'Small anti-personnel cannons. +1 to repel boarding actions.' },
+  { name: 'Armored Gunports', cost: 2, description: 'Reinforced cannon positions. Crew takes less harm during broadsides.' },
+  { name: 'Navigator\'s Tools', cost: 1, description: 'Advanced charts and instruments. +1 to navigation rolls.' },
+  { name: 'Grappling Hooks', cost: 1, description: 'Specialized boarding equipment. +1 to boarding action rolls.' },
+]
+
+const SHIP_CREW_QUALITY = [
+  { value: 'Rabble', description: 'Untrained press-ganged crew. Strength 1. Unreliable but cheap.' },
+  { value: 'Landlubbers', description: 'Inexperienced but willing sailors. Strength 3. Still learning the ropes.' },
+  { value: 'Able Seamen', description: 'Competent professional sailors. Strength 5. Solid and dependable.' },
+  { value: 'Veterans', description: 'Experienced old salts. Strength 7. They\'ve survived storms and battles.' },
+  { value: 'Elite', description: 'The finest crew on the seas. Strength 10. Legendary sailors and fighters.' },
+]
 
 // ── Dueling Styles (2e Core Book) ──
 const DUELING_STYLES = [
@@ -837,8 +888,13 @@ Coded journal of trade routes`} />
         </div>
       </div>
 
-      {/* ── Backstory ── */}
+      {/* ── Ship Builder ── */}
       <div hidden={tab !== 10}>
+        <ShipBuilder fields={fields} handleField={handleField} t={t} />
+      </div>
+
+      {/* ── Backstory ── */}
+      <div hidden={tab !== 11}>
         <div className="form-section">
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
@@ -847,7 +903,7 @@ Coded journal of trade routes`} />
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 11}>
+      <div hidden={tab !== 12}>
         <XpLogSection splat="seventh-sea" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
@@ -855,12 +911,12 @@ Coded journal of trade routes`} />
       </div>
 
       {/* ── Rules Reference ── */}
-      <div hidden={tab !== 12}>
+      <div hidden={tab !== 13}>
         <RulesReferenceTab rules={SEVEN_SEA_RULES} title="7th Sea Rules Reference" />
       </div>
 
       {/* ── Dice Roller ── */}
-      <div hidden={tab !== 13}>
+      <div hidden={tab !== 14}>
         <SeventhSeaDiceRoller />
       </div>
 
@@ -875,6 +931,125 @@ Coded journal of trade routes`} />
           <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}
+    </div>
+  )
+}
+
+// ── Ship Builder ──
+
+function ShipBuilder({ fields, handleField, t }) {
+  const raw = fields.shipData7s
+  let ship
+  try { ship = raw ? JSON.parse(raw) : null } catch { ship = null }
+  if (!ship) ship = { name: '', origin: '', background: '', crewQuality: '', crewSize: 20, cannons: 1, hull: 1, speed: 1, cargo: 1, modifications: [], notes: '' }
+
+  function update(patch) {
+    const next = { ...ship, ...patch }
+    handleField('shipData7s', JSON.stringify(next))
+  }
+
+  function toggleMod(modName) {
+    const mods = ship.modifications || []
+    const next = mods.includes(modName) ? mods.filter(m => m !== modName) : [...mods, modName]
+    update({ modifications: next })
+  }
+
+  const totalModCost = (ship.modifications || []).reduce((sum, name) => {
+    const mod = SHIP_MODIFICATIONS.find(m => m.name === name)
+    return sum + (mod?.cost || 0)
+  }, 0)
+
+  return (
+    <div className="form-section">
+      <fieldset>
+        <legend>{t('ship7sName')}</legend>
+        <div className="field-row">
+          <div className="field" style={{ flex: 2 }}>
+            <label>{t('ship7sName')}</label>
+            <input value={ship.name} onChange={e => update({ name: e.target.value })} placeholder="The Silver Gull" />
+          </div>
+        </div>
+        <div className="field-row">
+          <div className="field">
+            <label>{t('ship7sOrigin')}</label>
+            <select value={ship.origin} onChange={e => update({ origin: e.target.value })}>
+              <option value="">{t('select')}</option>
+              {SHIP_ORIGINS.map(o => <option key={o.value} value={o.value}>{t(o.value)}</option>)}
+            </select>
+            {ship.origin && <p className="archetype-desc">{SHIP_ORIGINS.find(o => o.value === ship.origin)?.description}</p>}
+          </div>
+          <div className="field">
+            <label>{t('ship7sBackground')}</label>
+            <select value={ship.background} onChange={e => update({ background: e.target.value })}>
+              <option value="">{t('select')}</option>
+              {SHIP_BACKGROUNDS.map(b => <option key={b.value} value={b.value}>{b.value}</option>)}
+            </select>
+            {ship.background && <p className="archetype-desc">{SHIP_BACKGROUNDS.find(b => b.value === ship.background)?.description}</p>}
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>{t('ship7sStats')}</legend>
+        <div className="field-row">
+          <div className="field" style={{ width: 100 }}>
+            <label>{t('ship7sCannons')}</label>
+            <input type="number" min={0} max={10} value={ship.cannons} onChange={e => update({ cannons: parseInt(e.target.value) || 0 })} />
+          </div>
+          <div className="field" style={{ width: 100 }}>
+            <label>{t('ship7sHull')}</label>
+            <input type="number" min={0} max={10} value={ship.hull} onChange={e => update({ hull: parseInt(e.target.value) || 0 })} />
+          </div>
+          <div className="field" style={{ width: 100 }}>
+            <label>{t('ship7sSpeed')}</label>
+            <input type="number" min={0} max={10} value={ship.speed} onChange={e => update({ speed: parseInt(e.target.value) || 0 })} />
+          </div>
+          <div className="field" style={{ width: 100 }}>
+            <label>{t('ship7sCargo')}</label>
+            <input type="number" min={0} max={10} value={ship.cargo} onChange={e => update({ cargo: parseInt(e.target.value) || 0 })} />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>{t('ship7sCrew')}</legend>
+        <div className="field-row">
+          <div className="field">
+            <label>{t('ship7sCrewQuality')}</label>
+            <select value={ship.crewQuality} onChange={e => update({ crewQuality: e.target.value })}>
+              <option value="">{t('select')}</option>
+              {SHIP_CREW_QUALITY.map(c => <option key={c.value} value={c.value}>{c.value}</option>)}
+            </select>
+            {ship.crewQuality && <p className="archetype-desc">{SHIP_CREW_QUALITY.find(c => c.value === ship.crewQuality)?.description}</p>}
+          </div>
+          <div className="field" style={{ width: 100 }}>
+            <label>{t('ship7sCrewSize')}</label>
+            <input type="number" min={1} max={500} value={ship.crewSize} onChange={e => update({ crewSize: parseInt(e.target.value) || 1 })} />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>{t('ship7sMods')} ({t('ship7sModCost')}: {totalModCost})</legend>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 'var(--space-sm)' }}>
+          {SHIP_MODIFICATIONS.map(mod => (
+            <label key={mod.name} style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-start', padding: 'var(--space-xs)', cursor: 'pointer', borderRadius: 'var(--radius)', background: (ship.modifications || []).includes(mod.name) ? 'rgba(52,152,219,0.08)' : 'transparent' }}>
+              <input type="checkbox" checked={(ship.modifications || []).includes(mod.name)} onChange={() => toggleMod(mod.name)} />
+              <div>
+                <strong style={{ fontSize: '0.85rem' }}>{mod.name}</strong>
+                <span className="muted-hint muted-hint--xs" style={{ marginLeft: '0.3rem' }}>({mod.cost} pts)</span>
+                <p className="muted-hint muted-hint--xs" style={{ margin: '2px 0 0' }}>{mod.description}</p>
+              </div>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>{t('ship7sNotes')}</legend>
+        <textarea value={ship.notes} onChange={e => update({ notes: e.target.value })} rows={4} style={{ width: '100%' }}
+          placeholder="Notable crew members, ship history, battle scars, special cargo..." />
+      </fieldset>
     </div>
   )
 }
