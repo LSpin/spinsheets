@@ -280,19 +280,20 @@ export default function BladesForm() {
     })
   }
 
+  const contacts = parseContacts()
+
   function setContactRel(contactName, rel) {
-    const contacts = parseContacts()
-    const existing = contacts.find(c => c.name === contactName)
+    const all = parseContacts()
+    const existing = all.find(c => c.name === contactName)
     if (existing) {
       existing.rel = existing.rel === rel ? '' : rel
     } else {
-      contacts.push({ name: contactName, rel })
+      all.push({ name: contactName, rel })
     }
-    handleField('bladesContacts', contacts.map(c => `${c.name}:${c.rel}`).join(', '))
+    handleField('bladesContacts', all.map(c => `${c.name}:${c.rel}`).join(', '))
   }
 
   function getContactRel(contactName) {
-    const contacts = parseContacts()
     const c = contacts.find(c => c.name === contactName)
     return c ? c.rel : ''
   }
