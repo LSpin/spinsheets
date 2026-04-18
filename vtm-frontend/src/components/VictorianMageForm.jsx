@@ -873,7 +873,10 @@ export default function VictorianMageForm() {
                   const entry = MAGE_WONDERS.find(w => w.name.toLowerCase() === d.name.toLowerCase())
                   return (
                     <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
-                      onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'wonder' })}>
+                      onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'wonder' })}
+                      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'wonder' }) } }}
+                      role="button"
+                      tabIndex={0}>
                       <span>{d.name} (Lv{d.level})</span>
                       <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }}>×</button>
                     </li>
@@ -1042,7 +1045,10 @@ export default function VictorianMageForm() {
               <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
                 {backgrounds.map(bg => (
                   <li key={bg.id} className={`tag tag--clickable${bg.id === tagInfo?.id ? ' tag--active' : ''}`}
-                    onClick={() => setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' })}>
+                    onClick={() => setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' })}
+                    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' }) } }}
+                    role="button"
+                    tabIndex={0}>
                     <span>{bg.name} ({bg.level}){bg.description ? ` — ${bg.description}` : ''}</span>
                     <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, bg.id); setBackgrounds(prev => prev.filter(x => x.id !== bg.id)); if (tagInfo?.id === bg.id) setTagInfo(null) }}>×</button>
                   </li>

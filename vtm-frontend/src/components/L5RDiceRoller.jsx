@@ -187,7 +187,7 @@ export default function L5RDiceRoller() {
       </button>
 
       {result && (
-        <div className="dice-roller-result">
+        <div className="dice-roller-result" aria-live="polite">
           <div className="dice-roller-notation">
             {result.notation}
             {result.bonus > 0 && (

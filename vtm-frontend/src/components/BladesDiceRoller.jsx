@@ -160,7 +160,7 @@ export default function BladesDiceRoller() {
       </button>
 
       {result && (
-        <div className="dice-roller-result">
+        <div className="dice-roller-result" aria-live="polite">
           <div className="dice-roller-notation">
             {result.pool === 0 ? '0d (2d6 take lowest)' : `${result.pool}d6`}
             {' — '}

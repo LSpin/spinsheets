@@ -814,7 +814,10 @@ export default function VampireRevisedForm() {
                   <ul className="tag-list">
                     {disciplines.map(d => (
                       <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
-                        onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'discipline' })}>
+                        onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'discipline' })}
+                        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'discipline' }) } }}
+                        role="button"
+                        tabIndex={0}>
                         <span>{d.name} (Lv{d.level})</span>
                         <button className="tag-remove" onClick={e => { e.stopPropagation(); removeDiscipline(characterId, d.id); setDisciplines(prev => prev.filter(x => x.id !== d.id)); if (tagInfo?.id === d.id) setTagInfo(null) }}>×</button>
                       </li>
@@ -965,7 +968,10 @@ export default function VampireRevisedForm() {
                   <ul className="tag-list">
                     {backgrounds.map(b => (
                       <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
-                        onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}>
+                        onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}
+                        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' }) } }}
+                        role="button"
+                        tabIndex={0}>
                         <span>{b.name} ({b.level}){b.description ? ` — ${b.description}` : ''}</span>
                         <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)); if (tagInfo?.id === b.id) setTagInfo(null) }}>×</button>
                       </li>

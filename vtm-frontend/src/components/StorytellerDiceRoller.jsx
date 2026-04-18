@@ -135,7 +135,7 @@ export default function StorytellerDiceRoller() {
       </button>
 
       {result && (
-        <div className="dice-roller-result">
+        <div className="dice-roller-result" aria-live="polite">
           <div className={`dice-roller-dice ${rolling ? 'dice-roller-dice--rolling' : ''}`}>
             {result.dice.map((die, i) => (
               <span

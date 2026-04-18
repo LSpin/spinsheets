@@ -200,7 +200,7 @@ export default function DndDiceRoller() {
       </button>
 
       {d20Result && (
-        <div className="dice-roller-result">
+        <div className="dice-roller-result" aria-live="polite">
           <div className="dice-roller-notation">
             {d20Result.mode === 'advantage' ? '2d20 (Advantage)' : d20Result.mode === 'disadvantage' ? '2d20 (Disadvantage)' : '1d20'}
             {d20Result.modifier >= 0 ? ` +${d20Result.modifier}` : ` ${d20Result.modifier}`}
@@ -285,7 +285,7 @@ export default function DndDiceRoller() {
       </button>
 
       {dmgResult && (
-        <div className="dice-roller-result">
+        <div className="dice-roller-result" aria-live="polite">
           <div className="dice-roller-notation">
             {dmgResult.numDice}{dmgResult.dieType}
             {dmgResult.modifier >= 0 ? ` +${dmgResult.modifier}` : ` ${dmgResult.modifier}`}

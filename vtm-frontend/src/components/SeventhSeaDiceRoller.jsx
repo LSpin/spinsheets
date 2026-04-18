@@ -148,7 +148,7 @@ export default function SeventhSeaDiceRoller() {
 
         {/* Current Result */}
         {result && (
-          <div className="dice-roller-result">
+          <div className="dice-roller-result" aria-live="polite">
             <div className="dice-roller-total">
               {t('dice7sRaises')}: <strong>{result.totalRaises}</strong>
             </div>

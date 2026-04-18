@@ -412,7 +412,10 @@ export default function DndForm() {
                     key={`s${i}`}
                     className={`blades-dot${fields.dndDeathSaveSuccesses >= i ? ' blades-dot--filled' : ''}`}
                     onClick={() => handleField('dndDeathSaveSuccesses', fields.dndDeathSaveSuccesses === i ? i - 1 : i)}
+                    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleField('dndDeathSaveSuccesses', fields.dndDeathSaveSuccesses === i ? i - 1 : i) } }}
                     role="button" tabIndex={0}
+                    aria-label={`Death save success ${i}`}
+                    aria-pressed={fields.dndDeathSaveSuccesses >= i}
                     style={{ cursor: 'pointer' }}
                   />
                 ))}
@@ -424,7 +427,10 @@ export default function DndForm() {
                     key={`f${i}`}
                     className={`blades-dot${fields.dndDeathSaveFailures >= i ? ' blades-dot--filled' : ''}`}
                     onClick={() => handleField('dndDeathSaveFailures', fields.dndDeathSaveFailures === i ? i - 1 : i)}
+                    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleField('dndDeathSaveFailures', fields.dndDeathSaveFailures === i ? i - 1 : i) } }}
                     role="button" tabIndex={0}
+                    aria-label={`Death save failure ${i}`}
+                    aria-pressed={fields.dndDeathSaveFailures >= i}
                     style={{ cursor: 'pointer' }}
                   />
                 ))}
@@ -524,7 +530,9 @@ export default function DndForm() {
                 return (
                   <div key={spell.name} style={{ borderBottom: '1px solid var(--color-border)', padding: '6px 0' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer' }}
-                      onClick={() => setExpandedSpell(isExpanded ? null : spell.name)}>
+                      onClick={() => setExpandedSpell(isExpanded ? null : spell.name)}
+                      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpandedSpell(isExpanded ? null : spell.name) } }}
+                      role="button" tabIndex={0} aria-expanded={isExpanded} aria-label={`${spell.name} details`}>
                       <span style={{ fontSize: '0.85rem', flex: 1 }}>
                         <strong>{spell.name}</strong>
                         <span className="muted-hint muted-hint--xs"> {spell.level === 0 ? 'Cantrip' : `Lvl ${spell.level}`} {spell.school}</span>

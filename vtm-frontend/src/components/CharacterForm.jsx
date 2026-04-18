@@ -1649,6 +1649,9 @@ function TagList({ items, getLabel, getTooltip, onSelect, activeId, onRemove, ar
         <li key={item.id}
           className={`tag tag--clickable${item.id === activeId ? ' tag--active' : ''}`}
           onClick={() => onSelect?.(item)}
+          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect?.(item) } }}
+          role="button"
+          tabIndex={0}
           title={getTooltip?.(item) || ''}
         >
           <span>{getLabel(item)}</span>
