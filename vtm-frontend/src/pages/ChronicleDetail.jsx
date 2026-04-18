@@ -105,10 +105,19 @@ export default function ChronicleDetail() {
   }
 
   const gameSystem = chronicle?.gameSystem || 'WOD'
-  useEffect(() => { if (chronicle) switchTheme(gameSystem === 'SEVENTH_SEA' ? '7thsea' : gameSystem === 'L5R' ? 'l5r' : 'wod') }, [chronicle])
+  const SYSTEM_THEMES = { WOD: 'wod', SEVENTH_SEA: '7thsea', L5R: 'l5r', BLADES: 'blades', DND: 'dnd' }
+  const SYSTEM_PATHS = { WOD: '/chronicles', SEVENTH_SEA: '/7thsea/chronicles', L5R: '/l5r/chronicles', BLADES: '/blades/chronicles', DND: '/dnd/chronicles' }
+  const SYSTEM_SPLAT_CATEGORIES = {
+    WOD: ['VAMPIRE', 'WEREWOLF', 'MAGE'],
+    SEVENTH_SEA: ['SEVENTH_SEA'],
+    L5R: ['L5R'],
+    BLADES: ['BLADES'],
+    DND: ['DND'],
+  }
+  useEffect(() => { if (chronicle) switchTheme(SYSTEM_THEMES[gameSystem] || 'wod') }, [chronicle])
   const isWoD = gameSystem === 'WOD'
-  const chronicleBasePath = gameSystem === 'SEVENTH_SEA' ? '/7thsea/chronicles' : gameSystem === 'L5R' ? '/l5r/chronicles' : '/chronicles'
-  const SPLAT_CATEGORIES = isWoD ? ['VAMPIRE', 'WEREWOLF', 'MAGE'] : gameSystem === 'SEVENTH_SEA' ? ['SEVENTH_SEA'] : gameSystem === 'L5R' ? ['L5R'] : ['VAMPIRE', 'WEREWOLF', 'MAGE']
+  const chronicleBasePath = SYSTEM_PATHS[gameSystem] || '/chronicles'
+  const SPLAT_CATEGORIES = SYSTEM_SPLAT_CATEGORIES[gameSystem] || ['VAMPIRE', 'WEREWOLF', 'MAGE']
 
   function getAllowedSet() {
     const raw = chronicle?.allowedSplats
@@ -184,14 +193,13 @@ export default function ChronicleDetail() {
   // SPLAT_TO_CATEGORY imported at top of file
   const memberIds = new Set(members.map(m => m.id))
   const allowedSet = chronicle.allowedSplats ? new Set(chronicle.allowedSplats.split(',')) : null
+  const systemCategories = new Set(SPLAT_CATEGORIES)
   const joinable = myCharacters.filter(c => {
     if (memberIds.has(c.id)) return false
-    // Filter by game system first
     const charCategory = SPLAT_TO_CATEGORY[c.splat] || c.splat
-    if (gameSystem === 'SEVENTH_SEA' && charCategory !== 'SEVENTH_SEA') return false
-    if (gameSystem === 'L5R' && charCategory !== 'L5R') return false
-    if (gameSystem === 'WOD' && (charCategory === 'SEVENTH_SEA' || charCategory === 'L5R')) return false
-    // Then filter by allowed splats within the system
+    // Character must belong to this chronicle's game system
+    if (!systemCategories.has(charCategory)) return false
+    // Then filter by allowed splats within the system (WoD sub-categories)
     if (allowedSet && !allowedSet.has(charCategory)) return false
     return true
   })

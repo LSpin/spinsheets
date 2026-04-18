@@ -291,10 +291,21 @@ public class ChronicleController {
         Map.entry("DND", "DND")
     );
 
+    private static final Map<String, String> SYSTEM_FOR_CATEGORY = Map.of(
+        "VAMPIRE", "WOD", "WEREWOLF", "WOD", "MAGE", "WOD",
+        "SEVENTH_SEA", "SEVENTH_SEA", "L5R", "L5R",
+        "BLADES", "BLADES", "DND", "DND"
+    );
+
     private boolean isSplatAllowed(Chronicle chronicle, String splat) {
+        String category = SPLAT_CATEGORY.getOrDefault(splat, splat);
+        // Enforce game system match: character's category must belong to the chronicle's system
+        String chronicleSystem = chronicle.getGameSystem() != null ? chronicle.getGameSystem() : "WOD";
+        String charSystem = SYSTEM_FOR_CATEGORY.getOrDefault(category, category);
+        if (!chronicleSystem.equals(charSystem)) return false;
+        // Then check allowed sub-categories within the system
         String allowed = chronicle.getAllowedSplats();
         if (allowed == null || allowed.isBlank()) return true;
-        String category = SPLAT_CATEGORY.getOrDefault(splat, splat);
         return Arrays.asList(allowed.split(",")).contains(category);
     }
 }
