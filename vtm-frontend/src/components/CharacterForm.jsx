@@ -1644,6 +1644,70 @@ function ArchetypeSelect({ id, name, label: labelText, value, onChange, t }) {
   )
 }
 
+// ── TagList ───────────────────────────────────────────────────────────────────
+
+function TagList({ items, getLabel, getTooltip, onSelect, activeId, onRemove, ariaLabel }) {
+  if (!items || items.length === 0) return null
+  return (
+    <ul className="tag-list" aria-label={ariaLabel}>
+      {items.map(item => (
+        <li key={item.id}
+          className={`tag tag--clickable${item.id === activeId ? ' tag--active' : ''}`}
+          onClick={() => onSelect?.(item)}
+          title={getTooltip?.(item) || ''}
+        >
+          <span>{getLabel(item)}</span>
+          <button className="tag-remove" onClick={e => { e.stopPropagation(); onRemove?.(item.id) }}>×</button>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 // ── SearchableInput ───────────────────────────────────────────────────────────
-// Free-text input with optional catalog suggestions + description tooltip.
+
+function SearchableInput({ id, label, catalog, value, onChange, placeholder }) {
+  const [suggestions, setSuggestions] = useState([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
+
+  function handleChange(val) {
+    onChange(val)
+    if (catalog && val.trim()) {
+      const filtered = catalog.filter(c =>
+        c.value.toLowerCase().includes(val.toLowerCase())
+      ).slice(0, 8)
+      setSuggestions(filtered)
+      setShowSuggestions(filtered.length > 0)
+    } else {
+      setShowSuggestions(false)
+    }
+  }
+
+  return (
+    <div className="field" style={{ position: 'relative', flex: 2 }}>
+      <label htmlFor={id}>{label}</label>
+      <input
+        id={id}
+        type="text"
+        value={value}
+        onChange={e => handleChange(e.target.value)}
+        onFocus={() => { if (suggestions.length > 0) setShowSuggestions(true) }}
+        onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+        autoComplete="off"
+        placeholder={placeholder}
+      />
+      {showSuggestions && (
+        <ul className="archetype-dropdown" style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 10 }}>
+          {suggestions.map(s => (
+            <li key={s.value} className="archetype-option"
+              onMouseDown={() => { onChange(s.value); setShowSuggestions(false) }}>
+              <span className="archetype-option-name">{s.value}</span>
+              {s.description && <span className="archetype-option-desc">{s.description}</span>}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
 
