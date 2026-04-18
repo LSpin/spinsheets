@@ -111,6 +111,8 @@ const INITIAL = {
   bladesInsightXp: 0, bladesProwessXp: 0, bladesResolveXp: 0, bladesPlaybookXp: 0,
   // Contacts
   bladesContacts: '',
+  // Deep Cuts: Economy
+  bladesStash: 0, bladesLifestyle: 0, bladesDebt: 0, bladesEdge: 0,
   // Shared
   notes: '', backstory: '',
 }
@@ -135,9 +137,8 @@ const RESOLVE_ACTIONS = [
 ]
 
 const LOAD_OPTIONS = [
-  { label: 'Light', value: 3 },
-  { label: 'Normal', value: 5 },
-  { label: 'Heavy', value: 6 },
+  { label: 'Discreet (4)', value: 4 },
+  { label: 'Conspicuous (6)', value: 6 },
 ]
 
 /* ── Small dot-rating for 0-4 action dots ── */
@@ -199,6 +200,15 @@ export default function BladesForm() {
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
+  const [deepCuts, setDeepCuts] = useState(() => localStorage.getItem('blades-deep-cuts') !== 'false')
+  function toggleDeepCuts() {
+    const next = !deepCuts
+    setDeepCuts(next)
+    localStorage.setItem('blades-deep-cuts', String(next))
+  }
+
+  const filteredPlaybookCatalog = deepCuts ? BLADES_PLAYBOOK_CATALOG : BLADES_PLAYBOOK_CATALOG.filter(p => !BLADES_PLAYBOOKS[p.value]?.supernatural)
+  const filteredStandardItems = deepCuts ? BLADES_STANDARD_ITEMS : BLADES_STANDARD_ITEMS.filter(i => !i.deepCuts)
 
   useEffect(() => {
     if (characterId) loadCharacter()
@@ -330,6 +340,14 @@ export default function BladesForm() {
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
       {actionError && <p className="status-error" role="alert">{actionError}</p>}
 
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-sm)' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', cursor: 'pointer' }}>
+          <input type="checkbox" checked={deepCuts} onChange={toggleDeepCuts} />
+          <strong>Deep Cuts</strong>
+          <span className="muted-hint muted-hint--xs">(supernatural playbooks, extra items & economy)</span>
+        </label>
+      </div>
+
       <div className="tab-list" role="tablist">
         {TAB_KEYS.map((tk, i) => (
           <button key={tk} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
@@ -364,7 +382,7 @@ export default function BladesForm() {
             <div className="field-row">
               <CatalogSelect id="bladesPlaybook" name="bladesPlaybook" label="Playbook" value={fields.bladesPlaybook}
                 onChange={handleField}
-                catalog={BLADES_PLAYBOOK_CATALOG} />
+                catalog={filteredPlaybookCatalog} />
             </div>
             {selectedPlaybook && (
               <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
@@ -525,6 +543,33 @@ export default function BladesForm() {
               </label>
             </div>
           </fieldset>
+          {deepCuts && (
+            <fieldset>
+              <legend>Economy (Deep Cuts)</legend>
+              <div className="field-row">
+                <div className="field" style={{ width: 80 }}>
+                  <label>Coin</label>
+                  <input type="number" min={0} value={fields.bladesCoin || 0} onChange={e => handleField('bladesCoin', parseInt(e.target.value) || 0)} />
+                </div>
+                <div className="field" style={{ width: 80 }}>
+                  <label>Stash</label>
+                  <input type="number" min={0} max={40} value={fields.bladesStash || 0} onChange={e => handleField('bladesStash', parseInt(e.target.value) || 0)} />
+                </div>
+                <div className="field" style={{ width: 80 }}>
+                  <label>Lifestyle</label>
+                  <input type="number" min={0} value={fields.bladesLifestyle || 0} onChange={e => handleField('bladesLifestyle', parseInt(e.target.value) || 0)} />
+                </div>
+                <div className="field" style={{ width: 80 }}>
+                  <label>Debt</label>
+                  <input type="number" min={0} value={fields.bladesDebt || 0} onChange={e => handleField('bladesDebt', parseInt(e.target.value) || 0)} />
+                </div>
+                <div className="field" style={{ width: 80 }}>
+                  <label>Edge</label>
+                  <input type="number" min={0} value={fields.bladesEdge || 0} onChange={e => handleField('bladesEdge', parseInt(e.target.value) || 0)} />
+                </div>
+              </div>
+            </fieldset>
+          )}
         </div>
       </div>
 
@@ -550,7 +595,7 @@ export default function BladesForm() {
           <fieldset>
             <legend>Standard Items</legend>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-              {BLADES_STANDARD_ITEMS.map(item => (
+              {filteredStandardItems.map(item => (
                 <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: '0.85rem' }}>
                   <input type="checkbox" checked={selectedItems.includes(item.name)} onChange={() => toggleItem(item.name)} />
                   <span><strong>{item.name}</strong> ({item.load || 1} load){item.description ? ` - ${item.description}` : ''}</span>

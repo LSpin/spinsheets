@@ -373,6 +373,10 @@ public class CharacterController {
             existing.setBladesLoad(updated.getBladesLoad());
             existing.setBladesItems(updated.getBladesItems());
             existing.setBladesAbilities(updated.getBladesAbilities());
+            existing.setBladesStash(updated.getBladesStash());
+            existing.setBladesLifestyle(updated.getBladesLifestyle());
+            existing.setBladesDebt(updated.getBladesDebt());
+            existing.setBladesEdge(updated.getBladesEdge());
             existing.setBladesInsightXp(updated.getBladesInsightXp());
             existing.setBladesProwessXp(updated.getBladesProwessXp());
             existing.setBladesResolveXp(updated.getBladesResolveXp());

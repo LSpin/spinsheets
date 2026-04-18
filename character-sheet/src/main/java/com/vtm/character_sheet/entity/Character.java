@@ -604,6 +604,12 @@ public class Character {
     @Column(columnDefinition = "TEXT")
     private String bladesAbilities;
 
+    // Deep Cuts: Economy
+    private Integer bladesStash = 0;
+    private Integer bladesLifestyle = 0;
+    private Integer bladesDebt = 0;
+    private Integer bladesEdge = 0;
+
     // XP
     private Integer bladesInsightXp = 0;
     private Integer bladesProwessXp = 0;
