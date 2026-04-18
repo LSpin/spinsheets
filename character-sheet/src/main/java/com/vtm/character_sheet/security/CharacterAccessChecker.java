@@ -28,17 +28,13 @@ public class CharacterAccessChecker {
 
     public boolean canAccess(Long characterId) {
         AppUser user = getCurrentUser();
+        // Storytellers can access all characters
+        if (user.getRole() == Role.STORYTELLER) return characterRepository.existsById(characterId);
         return characterRepository.findById(characterId)
                 .map(c -> {
                     // Owner can always access their own characters
                     if (c.getOwner() != null && c.getOwner().getId().equals(user.getId())) return true;
-                    // Storyteller can access characters in their chronicles
-                    if (user.getRole() == Role.STORYTELLER && c.getChronicle() != null) {
-                        if (c.getChronicle().getStoryteller().getId().equals(user.getId())) {
-                            return true;
-                        }
-                    }
-                    // Assistant Storyteller (any role) can access characters in their chronicles
+                    // Assistant Storyteller can access characters in their chronicles
                     if (c.getChronicle() != null && c.getChronicle().getAssistantStorytellers().stream()
                             .anyMatch(ast -> ast.getId().equals(user.getId()))) {
                         return true;
