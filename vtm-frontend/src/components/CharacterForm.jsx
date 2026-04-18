@@ -462,12 +462,12 @@ function validate(fields, t) {
   const errors = []
   const warnings = []
 
-  if (!fields.clan.trim()) warnings.push(t('clanNotSet'))
+  if (!(fields.clan || '').trim()) warnings.push(t('clanNotSet'))
 
   const gen = fields.generation
   if (!gen || gen < 4 || gen > 15) errors.push(t('genRange'))
 
-  const isHumanity = fields.pathName.trim().toLowerCase() === 'humanity'
+  const isHumanity = (fields.pathName || '').trim().toLowerCase() === 'humanity'
   if (isHumanity) {
     const expected = fields.conscience + fields.selfControl
     if (fields.pathRating !== expected)
@@ -484,7 +484,7 @@ function validate(fields, t) {
     ...Array.from({length: 10}, (_, i) => i + 1).map(n => [fields[`expertKnowl${n}Name`], fields[`expertKnowl${n}`], `${t('phExpertKnowl')} ${n}`]),
   ]
   for (const [nameVal, rating, lbl] of customAbilities) {
-    if (rating > 0 && !nameVal.trim()) warnings.push(t('ratingNoName').replace('{0}', lbl))
+    if (rating > 0 && !(nameVal || '').trim()) warnings.push(t('ratingNoName').replace('{0}', lbl))
   }
 
   return { errors, warnings }
