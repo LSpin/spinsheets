@@ -5,12 +5,14 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
 import { getCharacters, deleteCharacter } from '../api/characterApi'
 import { getChronicles } from '../api/chronicleApi'
+import ChronicleList from './ChronicleList'
 
 export default function L5RPage() {
   const [characters, setCharacters] = useState([])
   const [chronicles, setChronicles] = useState([])
   const [showChronicleSelect, setShowChronicleSelect] = useState(false)
   const [selectedChronicle, setSelectedChronicle] = useState('')
+  const [pageTab, setPageTab] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const navigate = useNavigate()
@@ -61,9 +63,6 @@ export default function L5RPage() {
               {t('forAChronicle')}
             </button>
           )}
-          <button className="btn btn-secondary" onClick={() => navigate('/l5r/chronicles')}>
-            {t('systemL5R')} {t('navChronicles')}
-          </button>
         </div>
         {showChronicleSelect && (
           <div style={{ marginTop: 'var(--space-sm)', display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-end' }}>
@@ -83,17 +82,28 @@ export default function L5RPage() {
         )}
       </div>
 
-      {error && <p className="status-error" role="alert">{error}</p>}
-      {loading && <p className="status-loading">{t('loading')}</p>}
+      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)' }}>
+        <button role="tab" className={`btn btn-secondary${pageTab === 0 ? ' tab-btn--active' : ''}`}
+          onClick={() => setPageTab(0)}>{t('navCharacters')}</button>
+        <button role="tab" className={`btn btn-secondary${pageTab === 1 ? ' tab-btn--active' : ''}`}
+          onClick={() => setPageTab(1)}>{t('navChronicles')}</button>
+      </div>
 
-      {!loading && characters.length === 0 && (
+      {pageTab === 1 && (
+        <ChronicleList system="L5R" basePath="/l5r/chronicles" />
+      )}
+
+      {pageTab === 0 && error && <p className="status-error" role="alert">{error}</p>}
+      {pageTab === 0 && loading && <p className="status-loading">{t('loading')}</p>}
+
+      {pageTab === 0 && !loading && characters.length === 0 && (
         <div className="empty-state">
           <p>{t('l5rNoSamuraiYet')}</p>
           <p>{t('l5rCreateFirst')}</p>
         </div>
       )}
 
-      {!loading && characters.length > 0 && (
+      {pageTab === 0 && !loading && characters.length > 0 && (
         <ul className="character-list" aria-label={t('l5rMySamurai')}>
           {characters.map(c => (
             <li key={c.id} className="character-card">

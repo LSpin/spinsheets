@@ -5,10 +5,12 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
 import { getCharacters, deleteCharacter } from '../api/characterApi'
 import { getChronicles } from '../api/chronicleApi'
+import ChronicleList from './ChronicleList'
 
 export default function BladesPage() {
   const [characters, setCharacters] = useState([])
   const [chronicles, setChronicles] = useState([])
+  const [pageTab, setPageTab] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const navigate = useNavigate()
@@ -57,23 +59,31 @@ export default function BladesPage() {
           <button className="btn btn-secondary" onClick={() => navigate('/blades/crew/new')}>
             {t('bladesNewCrew')}
           </button>
-          <button className="btn btn-secondary" onClick={() => navigate('/blades/chronicles')}>
-            {t('systemBlades')} {t('navChronicles')}
-          </button>
         </div>
       </div>
 
-      {error && <p className="status-error" role="alert">{error}</p>}
-      {loading && <p className="status-loading">{t('loading')}</p>}
+      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)' }}>
+        <button role="tab" className={`btn btn-secondary${pageTab === 0 ? ' tab-btn--active' : ''}`}
+          onClick={() => setPageTab(0)}>{t('navCharacters')}</button>
+        <button role="tab" className={`btn btn-secondary${pageTab === 1 ? ' tab-btn--active' : ''}`}
+          onClick={() => setPageTab(1)}>{t('navChronicles')}</button>
+      </div>
+
+      {pageTab === 1 && (
+        <ChronicleList system="BLADES" basePath="/blades/chronicles" />
+      )}
+
+      {pageTab === 0 && error && <p className="status-error" role="alert">{error}</p>}
+      {pageTab === 0 && loading && <p className="status-loading">{t('loading')}</p>}
 
       {/* Scoundrels */}
-      {!loading && scoundrels.length === 0 && crews.length === 0 && (
+      {pageTab === 0 && !loading && scoundrels.length === 0 && crews.length === 0 && (
         <div className="empty-state">
           <p>{t('bladesNoCharsYet')}</p>
         </div>
       )}
 
-      {!loading && scoundrels.length > 0 && (
+      {pageTab === 0 && !loading && scoundrels.length > 0 && (
         <ul className="character-list" aria-label={t('bladesMyScoundrels')}>
           {scoundrels.map(c => (
             <li key={c.id} className="character-card">
@@ -97,7 +107,7 @@ export default function BladesPage() {
       )}
 
       {/* Crews */}
-      {!loading && (
+      {pageTab === 0 && !loading && (
         <div style={{ marginTop: 'var(--space-xl)' }}>
           <div className="character-list-header">
             <h2>{t('bladesCrews')}</h2>
