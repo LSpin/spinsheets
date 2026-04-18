@@ -45,6 +45,11 @@ export default function HomePage() {
             <p>{t('systemL5RDesc')}</p>
             <span className="system-card-cta">{t('systemEnter')}</span>
           </Link>
+          <Link to={user ? '/blades' : '/login'} className="system-card system-card--blades" onClick={() => switchTheme('blades')}>
+            <h4>{t('systemBlades')}</h4>
+            <p>{t('systemBladesDesc')}</p>
+            <span className="system-card-cta">{t('systemEnter')}</span>
+          </Link>
         </div>
       </section>
 
@@ -125,6 +130,15 @@ export default function HomePage() {
               <li>55 Schools (9 Clans)</li>
               <li>197 Spells · 26 Kata</li>
               <li>Interactive Combat</li>
+            </ul>
+          </div>
+          <div className="homepage-card">
+            <span className="splat-badge splat-badge--blades" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Blades in the Dark</span>
+            <ul className="homepage-list">
+              <li>Blades in the Dark + Deep Cuts</li>
+              <li>7 Standard + 3 Supernatural Playbooks</li>
+              <li>6 Crew Types</li>
+              <li>d6 Pool Dice Roller</li>
             </ul>
           </div>
         </div>

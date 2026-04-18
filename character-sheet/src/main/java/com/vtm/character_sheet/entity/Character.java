@@ -548,4 +548,86 @@ public class Character {
     @JsonIgnore
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<XpLogEntry> xpLogEntries = new ArrayList<>();
+
+    // ── Blades in the Dark fields ──
+
+    // Identity
+    private String bladesAlias;
+    private String bladesHeritage;
+    private String bladesBackground;
+    private String bladesVice;
+    private String bladesVicePurveyor;
+    private String bladesPlaybook;
+
+    // Action Ratings — Insight
+    private Integer bladesHunt = 0;
+    private Integer bladesStudy = 0;
+    private Integer bladesSurvey = 0;
+    private Integer bladesTinker = 0;
+    // Action Ratings — Prowess
+    private Integer bladesFinesse = 0;
+    private Integer bladesProwl = 0;
+    private Integer bladesSkirmish = 0;
+    private Integer bladesWreck = 0;
+    // Action Ratings — Resolve
+    private Integer bladesAttune = 0;
+    private Integer bladesCommand = 0;
+    private Integer bladesConsort = 0;
+    private Integer bladesSway = 0;
+
+    // Stress & Trauma
+    private Integer bladesStress = 0;
+    @Column(columnDefinition = "TEXT")
+    private String bladesTrauma;
+
+    // Harm
+    private String bladesHarm3;
+    private String bladesHarm2a;
+    private String bladesHarm2b;
+    private String bladesHarm1a;
+    private String bladesHarm1b;
+    private Integer bladesHealingClock = 0;
+
+    // Armor
+    private Boolean bladesArmor = false;
+    private Boolean bladesHeavyArmor = false;
+    private Boolean bladesSpecialArmor = false;
+
+    // Load & Items
+    private Integer bladesLoad = 0;
+    @Column(columnDefinition = "TEXT")
+    private String bladesItems;
+    @Column(columnDefinition = "TEXT")
+    private String bladesAbilities;
+
+    // XP
+    private Integer bladesInsightXp = 0;
+    private Integer bladesProwessXp = 0;
+    private Integer bladesResolveXp = 0;
+    private Integer bladesPlaybookXp = 0;
+
+    // Contacts
+    @Column(columnDefinition = "TEXT")
+    private String bladesContacts;
+
+    // ── Blades Crew fields (splat = BLADES_CREW) ──
+    private String bladesCrewType;
+    private Integer bladesReputation = 0;
+    private Integer bladesTier = 0;
+    private String bladesHold;
+    private Integer bladesHeat = 0;
+    private Integer bladesWanted = 0;
+    private Integer bladesCoin = 0;
+    private Integer bladesVault = 0;
+    @Column(columnDefinition = "TEXT")
+    private String bladesCrewAbilities;
+    @Column(columnDefinition = "TEXT")
+    private String bladesCrewUpgrades;
+    @Column(columnDefinition = "TEXT")
+    private String bladesHuntingGrounds;
+    @Column(columnDefinition = "TEXT")
+    private String bladesCrewContacts;
+    @Column(columnDefinition = "TEXT")
+    private String bladesCohorts;
+    private Integer bladesCrewXp = 0;
 }

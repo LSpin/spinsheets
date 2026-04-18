@@ -339,6 +339,59 @@ public class CharacterController {
             existing.setHavens(updated.getHavens());
             existing.setTerritories(updated.getTerritories());
             existing.setPersonalItems(updated.getPersonalItems());
+            // Blades in the Dark
+            existing.setBladesAlias(updated.getBladesAlias());
+            existing.setBladesHeritage(updated.getBladesHeritage());
+            existing.setBladesBackground(updated.getBladesBackground());
+            existing.setBladesVice(updated.getBladesVice());
+            existing.setBladesVicePurveyor(updated.getBladesVicePurveyor());
+            existing.setBladesPlaybook(updated.getBladesPlaybook());
+            existing.setBladesHunt(updated.getBladesHunt());
+            existing.setBladesStudy(updated.getBladesStudy());
+            existing.setBladesSurvey(updated.getBladesSurvey());
+            existing.setBladesTinker(updated.getBladesTinker());
+            existing.setBladesFinesse(updated.getBladesFinesse());
+            existing.setBladesProwl(updated.getBladesProwl());
+            existing.setBladesSkirmish(updated.getBladesSkirmish());
+            existing.setBladesWreck(updated.getBladesWreck());
+            existing.setBladesAttune(updated.getBladesAttune());
+            existing.setBladesCommand(updated.getBladesCommand());
+            existing.setBladesConsort(updated.getBladesConsort());
+            existing.setBladesSway(updated.getBladesSway());
+            existing.setBladesStress(updated.getBladesStress());
+            existing.setBladesTrauma(updated.getBladesTrauma());
+            existing.setBladesHarm3(updated.getBladesHarm3());
+            existing.setBladesHarm2a(updated.getBladesHarm2a());
+            existing.setBladesHarm2b(updated.getBladesHarm2b());
+            existing.setBladesHarm1a(updated.getBladesHarm1a());
+            existing.setBladesHarm1b(updated.getBladesHarm1b());
+            existing.setBladesHealingClock(updated.getBladesHealingClock());
+            existing.setBladesArmor(updated.getBladesArmor());
+            existing.setBladesHeavyArmor(updated.getBladesHeavyArmor());
+            existing.setBladesSpecialArmor(updated.getBladesSpecialArmor());
+            existing.setBladesLoad(updated.getBladesLoad());
+            existing.setBladesItems(updated.getBladesItems());
+            existing.setBladesAbilities(updated.getBladesAbilities());
+            existing.setBladesInsightXp(updated.getBladesInsightXp());
+            existing.setBladesProwessXp(updated.getBladesProwessXp());
+            existing.setBladesResolveXp(updated.getBladesResolveXp());
+            existing.setBladesPlaybookXp(updated.getBladesPlaybookXp());
+            existing.setBladesContacts(updated.getBladesContacts());
+            // Blades Crew
+            existing.setBladesCrewType(updated.getBladesCrewType());
+            existing.setBladesReputation(updated.getBladesReputation());
+            existing.setBladesTier(updated.getBladesTier());
+            existing.setBladesHold(updated.getBladesHold());
+            existing.setBladesHeat(updated.getBladesHeat());
+            existing.setBladesWanted(updated.getBladesWanted());
+            existing.setBladesCoin(updated.getBladesCoin());
+            existing.setBladesVault(updated.getBladesVault());
+            existing.setBladesCrewAbilities(updated.getBladesCrewAbilities());
+            existing.setBladesCrewUpgrades(updated.getBladesCrewUpgrades());
+            existing.setBladesHuntingGrounds(updated.getBladesHuntingGrounds());
+            existing.setBladesCrewContacts(updated.getBladesCrewContacts());
+            existing.setBladesCohorts(updated.getBladesCohorts());
+            existing.setBladesCrewXp(updated.getBladesCrewXp());
             return ResponseEntity.ok(service.save(existing));
         }).orElse(ResponseEntity.notFound().build());
     }
@@ -360,7 +413,8 @@ public class CharacterController {
         Map.entry("MAGE", "MAGE"), Map.entry("VICTORIAN_MAGE", "MAGE"),
         Map.entry("FAMILIAR", "MAGE"),
         Map.entry("SEVENTH_SEA", "SEVENTH_SEA"),
-        Map.entry("L5R", "L5R")
+        Map.entry("L5R", "L5R"),
+        Map.entry("BLADES", "BLADES"), Map.entry("BLADES_CREW", "BLADES")
     );
 
     private boolean isSplatAllowed(Chronicle chronicle, String splat) {

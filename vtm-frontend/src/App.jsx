@@ -35,6 +35,9 @@ import SeventhSeaVillainForm from './components/SeventhSeaVillainForm'
 import SeventhSeaPage from './pages/SeventhSeaPage'
 import L5RForm from './components/L5RForm'
 import L5RPage from './pages/L5RPage'
+import BladesForm from './components/BladesForm'
+import BladesCrewForm from './components/BladesCrewForm'
+import BladesPage from './pages/BladesPage'
 import AdminPage from './pages/AdminPage'
 import InvitePage from './pages/InvitePage'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -120,7 +123,7 @@ function UserMenu() {
   )
 }
 
-const THEME_TO_CHARACTERS_PATH = { wod: '/characters', '7thsea': '/7thsea', l5r: '/l5r' }
+const THEME_TO_CHARACTERS_PATH = { wod: '/characters', '7thsea': '/7thsea', l5r: '/l5r', blades: '/blades' }
 
 function AppShell() {
   const { user, isST } = useAuth()
@@ -263,6 +266,24 @@ function AppShell() {
             <ProtectedRoute><ChronicleForm system="L5R" basePath="/l5r/chronicles" /></ProtectedRoute>
           } />
           <Route path="/l5r/chronicles/:id" element={
+            <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
+          } />
+          <Route path="/blades" element={
+            <ProtectedRoute><BladesPage /></ProtectedRoute>
+          } />
+          <Route path="/blades/new" element={
+            <ProtectedRoute><BladesForm /></ProtectedRoute>
+          } />
+          <Route path="/blades/crew/new" element={
+            <ProtectedRoute><BladesCrewForm /></ProtectedRoute>
+          } />
+          <Route path="/blades/chronicles" element={
+            <ProtectedRoute><ChronicleList system="BLADES" basePath="/blades/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/blades/chronicles/new" element={
+            <ProtectedRoute><ChronicleForm system="BLADES" basePath="/blades/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/blades/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
           } />
           <Route path="/chronicles" element={
