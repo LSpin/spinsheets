@@ -208,8 +208,12 @@ export default function DndForm() {
             <div className="field-row">
               <div className="field"><label>{t('charName')} *</label><input name="name" value={fields.name} onChange={handleText} /></div>
               <div className="field">
-                <label>Level</label>
-                <input type="number" name="dndLevel" min={1} max={20} value={fields.dndLevel} onChange={handleNumber} />
+                <label>{t('dndLevel')}</label>
+                <select name="dndLevel" value={fields.dndLevel} onChange={e => handleField('dndLevel', parseInt(e.target.value))}>
+                  {Array.from({ length: 20 }, (_, i) => i + 1).map(lv => (
+                    <option key={lv} value={lv}>{lv}</option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className="field-row">
