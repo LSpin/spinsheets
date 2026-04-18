@@ -937,8 +937,13 @@ Coded journal of trade routes`} />
 
 // ── Ship Builder ──
 
+function decodeHtml(s) {
+  if (!s) return s
+  return s.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#x27;/g, "'")
+}
+
 function ShipBuilder({ fields, handleField, t }) {
-  const raw = fields.shipData7s
+  const raw = decodeHtml(fields.shipData7s)
   let ship
   try { ship = raw ? JSON.parse(raw) : null } catch { ship = null }
   if (!ship) ship = { name: '', origin: '', background: '', crewQuality: '', crewSize: 20, cannons: 1, hull: 1, speed: 1, cargo: 1, modifications: [], notes: '' }
