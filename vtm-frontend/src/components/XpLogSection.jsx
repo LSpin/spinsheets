@@ -198,25 +198,17 @@ const configs = {
   },
   dnd: {
     startingFreebies: 0,
-    xpCosts: {
-      Earned:  {},
-      Other:   {},
-    },
-    freebieCosts: {
-      Other: {},
-    },
+    noFreebies: true,
+    xpCosts: { Earned: {}, Other: {} },
+    freebieCosts: { Other: {} },
     xpRef: [],
     freebieRef: [],
   },
   blades: {
     startingFreebies: 0,
-    xpCosts: {
-      Earned:  {},
-      Other:   {},
-    },
-    freebieCosts: {
-      Other: {},
-    },
+    noFreebies: true,
+    xpCosts: { Earned: {}, Other: {} },
+    freebieCosts: { Other: {} },
     xpRef: [],
     freebieRef: [],
   },
@@ -301,8 +293,10 @@ export default function XpLogSection({ splat, xpLog, onAdd, onRemove, onError, t
       <div role="tablist" className="tab-list">
         <button role="tab" className={`btn btn-secondary tab-btn${subTab === 0 ? ' tab-btn--active' : ''}`}
           onClick={() => handleTabSwitch(0)}>{t('xpTab')}</button>
-        <button role="tab" className={`btn btn-secondary tab-btn${subTab === 1 ? ' tab-btn--active' : ''}`}
-          onClick={() => handleTabSwitch(1)}>{t('freebieTab')}</button>
+        {!cfg.noFreebies && (
+          <button role="tab" className={`btn btn-secondary tab-btn${subTab === 1 ? ' tab-btn--active' : ''}`}
+            onClick={() => handleTabSwitch(1)}>{t('freebieTab')}</button>
+        )}
       </div>
 
       {/* Summary */}
