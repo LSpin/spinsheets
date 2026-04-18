@@ -71,13 +71,13 @@
   --color-accent-hover:   #e0b85a;
 }
 
-/* ── Blades in the Dark theme — amber/industrial ── */
+/* ── Blades in the Dark theme — industrial steel ── */
 
 [data-theme="blades"] {
-  --color-border-focus:   #c49a3a;
-  --color-accent:         #8b6d1f;
-  --color-accent-fg:      #c49a3a;
-  --color-accent-hover:   #d4aa4a;
+  --color-border-focus:   #8a9bae;
+  --color-accent:         #5a6d80;
+  --color-accent-fg:      #8a9bae;
+  --color-accent-hover:   #9aabbc;
 }
 
 @media (forced-colors: active) {
@@ -1161,8 +1161,8 @@ legend {
 
 .splat-badge--blades,
 .splat-badge--blades-crew {
-  background: rgba(196, 154, 58, 0.15);
-  color: #c49a3a;
+  background: rgba(138, 155, 174, 0.15);
+  color: #8a9bae;
 }
 
 .splat-badge--vampire-revised {
@@ -1323,19 +1323,19 @@ legend {
 }
 
 .system-card--blades {
-  border-color: rgba(196, 154, 58, 0.3);
+  border-color: rgba(138, 155, 174, 0.3);
 }
 
 .system-card--blades:hover {
-  border-color: #c49a3a;
+  border-color: #8a9bae;
 }
 
 .system-card--blades h4 {
-  color: #c49a3a;
+  color: #8a9bae;
 }
 
 .system-card--blades .system-card-cta {
-  color: #c49a3a;
+  color: #8a9bae;
 }
 
 .homepage-systems {
@@ -2038,11 +2038,11 @@ a:hover {
 }
 
 [data-theme="blades"] .tab-btn--active {
-  background: rgba(196, 154, 58, 0.1) !important;
+  background: rgba(138, 155, 174, 0.1) !important;
 }
 
 [data-theme="blades"] .tag--active {
-  background: #1a1a10;
+  background: #141a20;
 }
 
 /* ── Dice Pool Table ── */
