@@ -21,6 +21,7 @@ import { MAGE_TRADITIONS } from '../data/mageTraditions'
 import { MAGE_ROTES } from '../data/mageRotes'
 import { SPHERE_INFO, SPHERE_KEYS, SPHERE_FIELD_MAP } from '../data/mageSpheres'
 import { useLanguage } from '../i18n/LanguageContext'
+import CatalogSelect from './CatalogSelect'
 import { MAGE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { WONDER_TYPES, MAGE_WONDERS } from '../data/mageWonders'
 import { PARADIGMS, PRACTICES, INSTRUMENTS } from '../data/mageFocus'
@@ -31,24 +32,76 @@ import StorytellerDiceRoller from './StorytellerDiceRoller'
 // ── Constants ──
 
 const TRADITIONS = [
-  'Akashic Brotherhood', 'Celestial Chorus', 'Cult of Ecstasy', 'Dreamspeakers',
-  'Euthanatos', 'Hollow Ones', 'Order of Hermes', 'Sons of Ether', 'Verbena', 'Virtual Adepts',
+  { value: 'Akashic Brotherhood', description: 'Martial artists and monks seeking perfection of mind, body, and spirit through the Do.' },
+  { value: 'Celestial Chorus', description: 'Faithful singers who channel the divine through prayer, song, and religious devotion.' },
+  { value: 'Cult of Ecstasy', description: 'Sensory mystics who expand consciousness through pleasure, pain, and altered states.' },
+  { value: 'Dreamspeakers', description: 'Shamans and spirit-talkers who walk the Umbra and commune with the spirit world.' },
+  { value: 'Euthanatos', description: 'Death mages who maintain the Wheel of Fate, ending lives that have become corrupt.' },
+  { value: 'Hollow Ones', description: 'Gothic orphans who reject tradition and embrace the shadows between factions.' },
+  { value: 'Order of Hermes', description: 'Hermetic scholars and ceremonial magicians with ancient lineages and rigid hierarchy.' },
+  { value: 'Sons of Ether', description: 'Mad scientists who rejected the Technocracy. Inventors of impossible devices.' },
+  { value: 'Verbena', description: 'Blood witches and druids who draw power from life, nature, and primal forces.' },
+  { value: 'Virtual Adepts', description: 'Hackers and digital mages who reshape reality through code and information.' },
 ]
 
 const TECHNOCRACY = [
-  'Iteration X', 'New World Order', 'Progenitors', 'Syndicate', 'Void Engineers',
+  { value: 'Iteration X', description: 'Cyborg engineers who perfect the human body through biomechanics and cybernetics.' },
+  { value: 'New World Order', description: 'Mind-control specialists who shape public perception and maintain the Consensus.' },
+  { value: 'Progenitors', description: 'Bioengineers and geneticists who advance human evolution through biological science.' },
+  { value: 'Syndicate', description: 'Financial manipulators who control reality through economics, media, and commerce.' },
+  { value: 'Void Engineers', description: 'Explorers of Dimensional Science who patrol the borders of reality against threats.' },
 ]
 
-const AFFILIATIONS = ['Traditions', 'Technocracy', 'Disparates', 'Orphans', 'Nephandi', 'Marauders']
+const AFFILIATIONS = [
+  { value: 'Traditions', description: 'The Council of Nine — mystical willworkers united against the Technocracy.' },
+  { value: 'Technocracy', description: 'The Technocratic Union — enforcers of scientific Consensus and static reality.' },
+  { value: 'Disparates', description: 'Independent crafts and practices outside the main factions. Fiercely autonomous.' },
+  { value: 'Orphans', description: 'Mages who Awakened without guidance. Self-taught and unaffiliated with any faction.' },
+  { value: 'Nephandi', description: 'Fallen mages who serve the forces of entropy and cosmic corruption.' },
+  { value: 'Marauders', description: 'Insane mages whose madness warps reality around them uncontrollably.' },
+]
 
-const ESSENCES = ['Dynamic', 'Pattern', 'Primordial', 'Questing']
+const ESSENCES = [
+  { value: 'Dynamic', description: 'Driven by change and passion. Resonates with the Wyld and creative forces.' },
+  { value: 'Pattern', description: 'Drawn to structure and order. Resonates with Stasis and the rational world.' },
+  { value: 'Primordial', description: 'Connected to raw elemental forces. Resonates with the fundamental building blocks of reality.' },
+  { value: 'Questing', description: 'Seekers of truth and meaning. Resonates with exploration and the search for Ascension.' },
+]
 
 const ARCHETYPES = [
-  'Architect', 'Autocrat', 'Bon Vivant', 'Bravo', 'Caregiver', 'Celebrant', 'Child',
-  'Competitor', 'Conformist', 'Conniver', 'Curmudgeon', 'Deviant', 'Director', 'Enigma',
-  'Eye of the Storm', 'Fanatic', 'Gallant', 'Judge', 'Loner', 'Martyr', 'Masochist',
-  'Monster', 'Pedagogue', 'Penitent', 'Perfectionist', 'Rebel', 'Rogue', 'Scientist',
-  'Survivor', 'Thrill-Seeker', 'Traditionalist', 'Trickster', 'Visionary',
+  { value: 'Architect', description: 'You build something of lasting value, creating structure and order from chaos.' },
+  { value: 'Autocrat', description: 'You need control and authority, leading others through strength of will.' },
+  { value: 'Bon Vivant', description: 'Life is for pleasure and new experiences. Enjoy every moment to the fullest.' },
+  { value: 'Bravo', description: 'Strength and intimidation are your tools. Might makes right.' },
+  { value: 'Caregiver', description: 'You protect and nurture others, finding purpose in their wellbeing.' },
+  { value: 'Celebrant', description: 'You live for your passion, dedicating yourself fully to a chosen cause or joy.' },
+  { value: 'Child', description: 'You depend on others and see the world with innocent or needy eyes.' },
+  { value: 'Competitor', description: 'You must be the best. Winning is everything, losing is unacceptable.' },
+  { value: 'Conformist', description: 'You follow the group and find safety and identity in belonging.' },
+  { value: 'Conniver', description: 'Why work hard when you can trick others into doing it for you?' },
+  { value: 'Curmudgeon', description: 'Everything has a flaw. Cynicism and criticism are your default.' },
+  { value: 'Deviant', description: 'You reject the mainstream and revel in your outsider status.' },
+  { value: 'Director', description: 'You organize and lead, fulfilling your vision through others\' efforts.' },
+  { value: 'Enigma', description: 'You are a mystery, even to yourself. Understanding comes through contradiction.' },
+  { value: 'Eye of the Storm', description: 'Calm amid chaos. You remain centered while turmoil swirls around you.' },
+  { value: 'Fanatic', description: 'Your cause is everything. Nothing else matters beside your fervent belief.' },
+  { value: 'Gallant', description: 'You are the dashing hero, living for attention, drama, and romance.' },
+  { value: 'Judge', description: 'You seek justice and truth, weighing evidence and rendering fair verdicts.' },
+  { value: 'Loner', description: 'You walk alone by choice, relying only on yourself.' },
+  { value: 'Martyr', description: 'You suffer so others do not have to, finding meaning in sacrifice.' },
+  { value: 'Masochist', description: 'You test your limits through suffering, pushing boundaries of endurance.' },
+  { value: 'Monster', description: 'You embrace the darkness within, using cruelty and fear as tools.' },
+  { value: 'Pedagogue', description: 'You live to teach and enlighten others, sharing knowledge freely.' },
+  { value: 'Penitent', description: 'You seek to atone for past sins through suffering and good works.' },
+  { value: 'Perfectionist', description: 'Nothing is ever good enough. You strive for flawless excellence in all things.' },
+  { value: 'Rebel', description: 'You defy authority and challenge the status quo at every turn.' },
+  { value: 'Rogue', description: 'You look out for yourself first, living by your own rules.' },
+  { value: 'Scientist', description: 'You seek rational understanding, testing hypotheses and gathering evidence.' },
+  { value: 'Survivor', description: 'You endure no matter what. Nothing can keep you down permanently.' },
+  { value: 'Thrill-Seeker', description: 'You live for danger and adrenaline, constantly seeking the next rush.' },
+  { value: 'Traditionalist', description: 'The old ways are best. You preserve established customs and values.' },
+  { value: 'Trickster', description: 'You use humor, deception, and wit to expose truth and deflate the pompous.' },
+  { value: 'Visionary', description: 'You see what could be and inspire others to reach for a better future.' },
 ]
 
 const HEALTH_LEVEL_KEYS = [
@@ -436,47 +489,20 @@ export default function VictorianMageForm() {
               </div>
             </div>
             <div className="field-row">
-              <div className="field">
-                <label htmlFor="nature">{t('nature')}</label>
-                <select id="nature" name="nature" value={fields.nature} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {ARCHETYPES.map(a => <option key={a} value={a}>{t(a)}</option>)}
-                </select>
-              </div>
-              <div className="field">
-                <label htmlFor="demeanor">{t('demeanor')}</label>
-                <select id="demeanor" name="demeanor" value={fields.demeanor} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {ARCHETYPES.map(a => <option key={a} value={a}>{t(a)}</option>)}
-                </select>
-              </div>
-              <div className="field">
-                <label htmlFor="essence">{t('essence')}</label>
-                <select id="essence" name="essence" value={fields.essence} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {ESSENCES.map(e => <option key={e} value={e}>{t(e)}</option>)}
-                </select>
-              </div>
+              <CatalogSelect id="nature" name="nature" label={t('nature')} value={fields.nature} onChange={handleField} catalog={ARCHETYPES} />
+              <CatalogSelect id="demeanor" name="demeanor" label={t('demeanor')} value={fields.demeanor} onChange={handleField} catalog={ARCHETYPES} />
+              <CatalogSelect id="essence" name="essence" label={t('essence')} value={fields.essence} onChange={handleField} catalog={ESSENCES} />
             </div>
           </fieldset>
 
           <fieldset>
             <legend>{t('affiliation')}</legend>
             <div className="field-row">
-              <div className="field">
-                <label htmlFor="affiliation">{t('affiliation')}</label>
-                <select id="affiliation" name="affiliation" value={fields.affiliation} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {AFFILIATIONS.map(a => <option key={a} value={a}>{t(a)}</option>)}
-                </select>
-              </div>
+              <CatalogSelect id="affiliation" name="affiliation" label={t('affiliation')} value={fields.affiliation} onChange={handleField} catalog={AFFILIATIONS} />
               <div className="field">
                 <label htmlFor="clan">{factionLabel}</label>
                 {factionList.length > 0 ? (
-                  <select id="clan" name="clan" value={fields.clan} onChange={handleText}>
-                    <option value="">{t('select')}</option>
-                    {factionList.map(f => <option key={f} value={f}>{t(f)}</option>)}
-                  </select>
+                  <CatalogSelect id="clan" name="clan" value={fields.clan} onChange={handleField} catalog={factionList} showDescOnSelect={true} />
                 ) : (
                   <>
                     <input id="clan" name="clan" type="text" value={fields.clan} onChange={handleText} autoComplete="off"

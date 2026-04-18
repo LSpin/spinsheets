@@ -7,6 +7,7 @@ import {
   getDisciplines, addDiscipline, removeDiscipline,
 } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
+import CatalogSelect from './CatalogSelect'
 import DotRating from './DotRating'
 import { L5R_EQUIPMENT, L5R_EQUIPMENT_CATEGORIES } from '../data/l5rEquipment'
 import { L5R_KATA } from '../data/l5rKata'
@@ -37,6 +38,21 @@ const CLANS = {
   'Ronin': { families: [], schools: ['Ronin (Various)'] },
 }
 const CLAN_NAMES = Object.keys(CLANS)
+
+const CLAN_CATALOG = [
+  { value: 'Crab', description: 'The Wall. Defenders of Rokugan against the Shadowlands. Endurance and sacrifice.' },
+  { value: 'Crane', description: 'The Left Hand. Masters of politics, art, and court etiquette. Beauty and perfection.' },
+  { value: 'Dragon', description: 'The Sword. Enigmatic monks and warriors seeking enlightenment in the mountains.' },
+  { value: 'Lion', description: 'The Right Hand. The Emperor\'s chosen army. Honor, bushido, and military tradition.' },
+  { value: 'Mantis', description: 'The Storm. Seafaring merchants and pirates who earned Great Clan status through audacity.' },
+  { value: 'Phoenix', description: 'The Soul. Scholars and shugenja devoted to mastering the elemental kami.' },
+  { value: 'Scorpion', description: 'The Underhand. Spies, saboteurs, and loyal villains who do what others will not.' },
+  { value: 'Spider', description: 'The Shadow. Servants of the Shadowlands who infiltrated Rokugan\'s courts. Controversial.' },
+  { value: 'Unicorn', description: 'The Wind. Nomadic horse lords who spent centuries exploring the world beyond Rokugan.' },
+  { value: 'Imperial', description: 'Servants of the Emperor directly. Above clan politics and devoted to the Throne.' },
+  { value: 'Minor Clan', description: 'One of many small clans with specialized roles. Less powerful but fiercely independent.' },
+  { value: 'Ronin', description: 'Masterless samurai. Without clan or lord, surviving by skill and wits alone.' },
+]
 
 // ── Skill categories with associated traits (from lasthaiku.wikidot.com) ──
 const SKILL_CATEGORIES = {
@@ -585,13 +601,11 @@ export default function L5RForm() {
               <div className="field"><label>{t('concept')}</label><input name="concept" value={fields.concept} onChange={handleText} /></div>
             </div>
             <div className="field-row">
-              <div className="field">
-                <label>Clan</label>
-                <select name="l5rClan" value={fields.l5rClan} onChange={e => { handleText(e); setFields(prev => ({ ...prev, l5rClan: e.target.value, l5rFamily: '' })) }}>
-                  <option value="">{t('select')}</option>
-                  {CLAN_NAMES.map(c => <option key={c} value={c}>{t(c)}</option>)}
-                </select>
-              </div>
+              <CatalogSelect id="l5rClan" name="l5rClan" label="Clan" value={fields.l5rClan}
+                onChange={(name, val) => {
+                  setFields(prev => ({ ...prev, l5rClan: val, l5rFamily: '' }))
+                }}
+                catalog={CLAN_CATALOG} />
               <div className="field">
                 <label>Family</label>
                 {selectedFamilies.length > 0 ? (

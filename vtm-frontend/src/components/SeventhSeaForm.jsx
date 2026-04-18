@@ -7,6 +7,7 @@ import {
   getDisciplines, addDiscipline, removeDiscipline,
 } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
+import CatalogSelect from './CatalogSelect'
 import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -33,6 +34,22 @@ const NATIONS = {
   'Aztlan':                  ['Finesse', 'Panache'],
 }
 const NATION_NAMES = Object.keys(NATIONS)
+
+const NATION_CATALOG = [
+  { value: 'Avalon', description: 'Inspired by Elizabethan England. A land of knights, Sidhe magic, and Glamour sorcery.' },
+  { value: 'Inismore', description: 'Inspired by Ireland. Wild and mystical, home to ancient fae bargains.' },
+  { value: 'Highland Marches', description: 'Inspired by Scotland. Proud clans united by honor and fierce independence.' },
+  { value: 'Castille', description: 'Inspired by Spain. A nation of scholars, duelists, and religious devotion.' },
+  { value: 'Eisen', description: 'Inspired by the Holy Roman Empire. War-torn land of iron-willed soldiers and Hexenwerk.' },
+  { value: 'Montaigne', description: 'Inspired by France. Decadent nobility wielding Porte sorcery and political intrigue.' },
+  { value: 'Sarmatian Commonwealth', description: 'Inspired by Poland-Lithuania. A democratic republic of noble cavaliers.' },
+  { value: 'Ussura', description: 'Inspired by Russia. A frozen land where Dar Matushki grants the gift of transformation.' },
+  { value: 'Vestenmennavenjar', description: 'Inspired by Scandinavia. Vikings turned merchants with ancient Galdr rune magic.' },
+  { value: 'Vodacce', description: 'Inspired by Italy. Scheming merchant princes and Fate Witches who weave Sorte.' },
+  { value: 'Crescent Empire', description: 'Inspired by the Ottoman Empire. A diverse land of scholars, warriors, and ancient knowledge.' },
+  { value: 'Ifri', description: 'Inspired by Africa. Rich in culture, trade, and powerful spiritual traditions.' },
+  { value: 'Aztlan', description: 'Inspired by Mesoamerica. An empire of blood sacrifice and ancient calendar magic.' },
+]
 
 // ── Sorcery types by nation ──
 const SORCERIES = {
@@ -388,13 +405,8 @@ export default function SeventhSeaForm() {
               <div className="field"><label>{t('concept')}</label><input name="concept" value={fields.concept} onChange={handleText} /></div>
             </div>
             <div className="field-row">
-              <div className="field">
-                <label>{t('7sNation')}</label>
-                <select name="nation" value={fields.nation} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {NATION_NAMES.map(n => <option key={n} value={n}>{t(n)}</option>)}
-                </select>
-              </div>
+              <CatalogSelect id="nation" name="nation" label={t('7sNation')} value={fields.nation}
+                onChange={handleField} catalog={NATION_CATALOG} />
               <div className="field"><label>{t('7sReligion')}</label><input name="religion" value={fields.religion} onChange={handleText} /></div>
             </div>
             {nationTraits && (

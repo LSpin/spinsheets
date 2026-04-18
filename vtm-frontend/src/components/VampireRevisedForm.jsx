@@ -11,6 +11,7 @@ import {
   getComboDisciplines, addComboDiscipline, removeComboDiscipline,
 } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
+import CatalogSelect from './CatalogSelect'
 import MeritsFlawsSection from './MeritsFlawsSection'
 import InventorySection from './InventorySection'
 import { COMBO_DISCIPLINES } from '../data/comboDisciplines'
@@ -65,6 +66,34 @@ const CLANS = [
   { value: 'Caitiff',                 curse: 'No inherent clan curse, but Caitiff are universally despised. They have no clan Discipline affinities and pay the out-of-clan experience cost for all powers. Status is always treated as 0 when interacting with clanned Kindred who know their lineage.' },
   { value: 'Ghoul',                   curse: 'No Kindred curse. The ghoul is bound to their regnant by the blood bond and must feed on their regnant\'s vitae at least once per month or begin aging and losing their ghoul powers. Severing the bond is psychologically devastating.' },
   { value: 'Mortal',                  curse: 'No supernatural curse. Subject to normal aging, disease, and injury with no supernatural resilience.' },
+]
+
+const SECTS = [
+  { value: 'Camarilla', description: 'The ivory tower. Enforces the Masquerade and the Traditions through hierarchy and law.' },
+  { value: 'Sabbat', description: 'The Sword of Caine. Rejects the Masquerade and seeks to rule over mortals openly.' },
+  { value: 'Anarch', description: 'The Free State. Rejects elder authority in favor of individual freedom and democracy.' },
+  { value: 'Independent', description: 'Clans and vampires who refuse allegiance to any sect. Self-governing and neutral.' },
+  { value: 'Autarkis', description: 'Completely independent Kindred who reject all political structures and sect ties.' },
+  { value: "Tal'Mahe'Ra", description: 'The True Black Hand. Ancient secret society serving mysterious Antediluvian masters.' },
+  { value: 'Inconnu', description: 'Reclusive monitors of Golconda. Ancient Kindred who have withdrawn from Jyhad.' },
+]
+
+const PATHS = [
+  { value: 'Humanity', description: 'The default moral compass. Measures empathy, compassion, and connection to the mortal world.' },
+  { value: 'Path of Blood', description: 'Assamite philosophy. Diablerize the unworthy to bring all vampires closer to Caine.' },
+  { value: 'Path of Bones', description: 'Giovanni and Samedi philosophy. Understand the nature of death and the transition beyond.' },
+  { value: 'Path of Caine', description: 'Noddist scholars. Emulate the Dark Father and seek enlightenment through his example.' },
+  { value: 'Path of Cathari', description: 'Albigensian heresy adapted for Kindred. Embrace the Beast as divine punishment and revel in sin.' },
+  { value: 'Path of Death and the Soul', description: 'Explore the mysteries of death, the soul, and what lies beyond the mortal veil.' },
+  { value: 'Path of Feral Hearts', description: 'Gangrel philosophy. Become one with the Beast and live as a predator in harmony with nature.' },
+  { value: 'Path of Harmony', description: 'Balance the Man and the Beast. Neither suppress nor surrender to the predator within.' },
+  { value: 'Path of Honorable Accord', description: 'Chivalric code adapted for Kindred. Live by honor, duty, and sworn oaths.' },
+  { value: 'Path of Lilith', description: 'Followers of the Dark Mother. Seek transcendence through suffering and forbidden knowledge.' },
+  { value: 'Path of Metamorphosis', description: 'Tzimisce philosophy. Transcend the vampiric condition and evolve into something beyond Kindred.' },
+  { value: 'Path of Night', description: 'Lasombra philosophy. Embrace damnation fully and serve as instruments of divine darkness.' },
+  { value: 'Path of Paradox', description: 'Ravnos philosophy. Fulfill your role in the cosmic cycle and destroy illusion to reveal truth.' },
+  { value: 'Path of Power and the Inner Voice', description: 'Pragmatic self-mastery. Power is the only meaningful currency in the Jyhad.' },
+  { value: 'Path of Typhon-Set', description: 'Setite philosophy. Free others from false constraints and lead them to enlightenment through Set.' },
 ]
 
 const HEALTH_LEVELS = [
@@ -483,23 +512,16 @@ export default function VampireRevisedForm() {
           <fieldset>
             <legend>{t('kindred')}</legend>
             <div className="field-row">
-              <div className="field">
-                <label htmlFor="clan">{t('clan')}</label>
-                <select id="clan" name="clan" value={fields.clan} onChange={e => {
-                  const val = e.target.value
+              <CatalogSelect id="clan" name="clan" label={t('clan')} value={fields.clan}
+                onChange={(name, val) => {
                   handleField('clan', val)
                   const entry = CLANS.find(c => c.value === val)
                   if (entry) handleField('clanCurse', entry.curse)
                   if (val === 'Nosferatu' || val === 'Samedi') handleField('appearance', 0)
-                }}>
-                  <option value="">{t('select')}</option>
-                  {CLANS.map(c => <option key={c.value} value={c.value}>{t(c.value)}</option>)}
-                </select>
-              </div>
-              <div className="field">
-                <label htmlFor="sect">{t('sect')}</label>
-                <input id="sect" name="sect" type="text" value={fields.sect} onChange={handleText} autoComplete="off" placeholder={t('phSect')} />
-              </div>
+                }}
+                catalog={CLANS.map(c => ({ value: c.value, description: c.curse }))} />
+              <CatalogSelect id="sect" name="sect" label={t('sect')} value={fields.sect}
+                onChange={handleField} catalog={SECTS} />
               <div className="field">
                 <label htmlFor="generation">{t('generation')}</label>
                 <select id="generation" name="generation" value={fields.generation} onChange={e => handleField('generation', parseInt(e.target.value))}>
@@ -696,26 +718,8 @@ export default function VampireRevisedForm() {
           <fieldset>
             <legend>{t('pathOfEnlightenment')}</legend>
             <div className="field-row">
-              <div className="field">
-                <label htmlFor="pathName">{t('pathName')}</label>
-                <select id="pathName" name="pathName" value={fields.pathName} onChange={handleText}>
-                  <option value="Humanity">{t('humanity')}</option>
-                  <option value="Path of Blood">{t('pathBlood')}</option>
-                  <option value="Path of Bones">{t('pathBones')}</option>
-                  <option value="Path of Caine">{t('pathCaine')}</option>
-                  <option value="Path of Cathari">{t('pathCathari')}</option>
-                  <option value="Path of Death and the Soul">{t('pathDeathSoul')}</option>
-                  <option value="Path of Feral Hearts">{t('pathFeralHearts')}</option>
-                  <option value="Path of Harmony">{t('pathHarmony')}</option>
-                  <option value="Path of Honorable Accord">{t('pathHonorableAccord')}</option>
-                  <option value="Path of Lilith">{t('pathLilith')}</option>
-                  <option value="Path of Metamorphosis">{t('pathMetamorphosis')}</option>
-                  <option value="Path of Night">{t('pathNight')}</option>
-                  <option value="Path of Paradox">{t('pathParadox')}</option>
-                  <option value="Path of Power and the Inner Voice">{t('pathPowerInnerVoice')}</option>
-                  <option value="Path of Typhon-Set">{t('pathTyphonSet')}</option>
-                </select>
-              </div>
+              <CatalogSelect id="pathName" name="pathName" label={t('pathName')} value={fields.pathName}
+                onChange={handleField} catalog={PATHS} />
               <div className="field">
                 <label htmlFor="pathRating">
                   {t('rating')} {isHumanity && <span className="muted">({t('conscience')} + {t('selfControl')} = {computedPath})</span>}

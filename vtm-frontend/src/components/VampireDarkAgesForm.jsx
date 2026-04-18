@@ -11,6 +11,7 @@ import {
   getComboDisciplines, addComboDiscipline, removeComboDiscipline,
 } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
+import CatalogSelect from './CatalogSelect'
 import MeritsFlawsSection from './MeritsFlawsSection'
 import InventorySection from './InventorySection'
 import { DARK_AGES_INVENTORY } from '../data/darkAgesInventory'
@@ -61,6 +62,22 @@ const CLANS = [
   { value: 'True Brujah',       curse: 'Emotionally dead. Cannot feel passion or strong emotion. Never frenzy, but cannot spend Willpower for automatic successes on emotional Social rolls.' },
   // ── Non-clan ──
   { value: 'Caitiff',           curse: 'No inherent curse, but Caitiff are universally despised. They pay out-of-clan costs for all Disciplines.' },
+]
+
+const ROADS = [
+  { value: 'Road of Humanity', description: 'The default moral path. Maintaining empathy, compassion, and connection to the mortal world.' },
+  { value: 'Road of the Beast', description: 'Embrace the predator within. Live as a creature of instinct, strength, and primal fury.' },
+  { value: 'Road of Heaven', description: 'Divine service. Obey God and serve as instruments of heavenly will, even in damnation.' },
+  { value: 'Road of Kings', description: 'Rule and lead. Power, authority, and noble obligation define the worthy Cainite.' },
+  { value: 'Road of Sin', description: 'Embrace corruption and temptation. Test mortals and Cainites alike through vice.' },
+  { value: 'Road of Bones', description: 'Study death and the transition beyond. Understand mortality through detached observation.' },
+  { value: 'Road of Blood', description: 'The Assamite path. Pursue diablerie of the unworthy to purify the blood of Caine.' },
+  { value: 'Road of Night', description: 'Embrace the darkness of damnation. Serve as agents of divine punishment and shadow.' },
+  { value: 'Road of the Serpent', description: 'Setite philosophy. Liberation through temptation and the destruction of false constraints.' },
+  { value: 'Road of Paradox', description: 'Ravnos philosophy. Fulfill the cosmic cycle by destroying illusion and revealing truth.' },
+  { value: 'Road of Lilith', description: 'Follow the Dark Mother. Seek transcendence through suffering and forbidden knowledge.' },
+  { value: 'Road of Metamorphosis', description: 'Tzimisce philosophy. Transcend the vampiric condition through constant transformation.' },
+  { value: 'Road of the Devil', description: 'Baali philosophy. Serve the dark powers and bring about the corruption of all things.' },
 ]
 
 const HEALTH_LEVELS = [
@@ -479,19 +496,14 @@ export default function VampireDarkAgesForm() {
           <fieldset>
             <legend>{t('cainite')}</legend>
             <div className="field-row">
-              <div className="field">
-                <label htmlFor="clan">{t('clan')}</label>
-                <select id="clan" name="clan" value={fields.clan} onChange={e => {
-                  const val = e.target.value
+              <CatalogSelect id="clan" name="clan" label={t('clan')} value={fields.clan}
+                onChange={(name, val) => {
                   handleField('clan', val)
                   const entry = CLANS.find(c => c.value === val)
                   if (entry) handleField('clanCurse', entry.curse)
                   if (val === 'Nosferatu') handleField('appearance', 0)
-                }}>
-                  <option value="">{t('select')}</option>
-                  {CLANS.map(c => <option key={c.value} value={c.value}>{t(c.value)}</option>)}
-                </select>
-              </div>
+                }}
+                catalog={CLANS.map(c => ({ value: c.value, description: c.curse }))} />
               <div className="field">
                 <label htmlFor="sect">{t('sect')}</label>
                 <input id="sect" name="sect" type="text" value={fields.sect} onChange={handleText} autoComplete="off" placeholder={t('phSectDA')} />
@@ -692,24 +704,8 @@ export default function VampireDarkAgesForm() {
           <fieldset>
             <legend>{t('roadOfEnlightenment')}</legend>
             <div className="field-row">
-              <div className="field">
-                <label htmlFor="pathName">{t('roadName')}</label>
-                <select id="pathName" name="pathName" value={fields.pathName} onChange={handleText}>
-                  <option value="Road of Humanity">{t('roadHumanity')}</option>
-                  <option value="Road of the Beast">{t('roadBeast')}</option>
-                  <option value="Road of Heaven">{t('roadHeaven')}</option>
-                  <option value="Road of Kings">{t('roadKings')}</option>
-                  <option value="Road of Sin">{t('roadSin')}</option>
-                  <option value="Road of Bones">{t('roadBones')}</option>
-                  <option value="Road of Blood">{t('roadBlood')}</option>
-                  <option value="Road of Night">{t('roadNight')}</option>
-                  <option value="Road of the Serpent">{t('roadSerpent')}</option>
-                  <option value="Road of Paradox">{t('roadParadox')}</option>
-                  <option value="Road of Lilith">{t('roadLilith')}</option>
-                  <option value="Road of Metamorphosis">{t('roadMetamorphosis')}</option>
-                  <option value="Road of the Devil">{t('roadDevil')}</option>
-                </select>
-              </div>
+              <CatalogSelect id="pathName" name="pathName" label={t('roadName')} value={fields.pathName}
+                onChange={handleField} catalog={ROADS} />
               <div className="field">
                 <label htmlFor="pathRating">
                   {t('rating')} {isHumanity && <span className="muted">({t('conscience')} + {t('selfControl')} = {computedPath})</span>}

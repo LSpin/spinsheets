@@ -17,23 +17,67 @@ import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
 import { VAMPIRE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { VAMPIRE_DISCIPLINES } from '../data/vampireDisciplines'
+import CatalogSelect from './CatalogSelect'
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
 
 const ARCHETYPES = [
-  'Architect', 'Autocrat', 'Bon Vivant', 'Bravo', 'Caregiver', 'Celebrant', 'Child',
-  'Competitor', 'Conformist', 'Conniver', 'Curmudgeon', 'Deviant', 'Director', 'Enigma',
-  'Eye of the Storm', 'Fanatic', 'Gallant', 'Guru', 'Idealist', 'Judge', 'Loner',
-  'Martyr', 'Masochist', 'Monster', 'Pedagogue', 'Penitent', 'Perfectionist', 'Rebel',
-  'Rogue', 'Sadist', 'Scientist', 'Sociopath', 'Soldier', 'Survivor', 'Thrill-Seeker',
-  'Traditionalist', 'Trickster', 'Visionary',
+  { value: 'Architect', description: 'Driven to create something of lasting value. Builds structures, organizations, or legacies.' },
+  { value: 'Autocrat', description: 'Must be in charge. Seeks control and authority over every situation.' },
+  { value: 'Bon Vivant', description: 'Life is for pleasure. Enjoys every moment and spreads joy to others.' },
+  { value: 'Bravo', description: 'Might makes right. Uses intimidation and force to get what they want.' },
+  { value: 'Caregiver', description: 'Nurtures and protects others. Finds purpose in helping those in need.' },
+  { value: 'Celebrant', description: 'Lives for a single passion. Devoted to one cause, art, or pursuit above all.' },
+  { value: 'Child', description: 'Innocent and dependent. Needs others to protect and guide them.' },
+  { value: 'Competitor', description: 'Must win at everything. Turns every situation into a contest.' },
+  { value: 'Conformist', description: 'Follows the group. Finds safety and purpose in belonging to something larger.' },
+  { value: 'Conniver', description: 'Why work when others can do it for you? Manipulates others for personal gain.' },
+  { value: 'Curmudgeon', description: 'Nothing is ever good enough. Criticizes everything and expects the worst.' },
+  { value: 'Deviant', description: 'Rejects the status quo. Finds freedom in being different and breaking norms.' },
+  { value: 'Director', description: 'Takes charge of situations. Organizes others and makes things happen.' },
+  { value: 'Enigma', description: 'Mysterious and unknowable. Finds meaning in being an unsolvable puzzle.' },
+  { value: 'Eye of the Storm', description: 'Calm amid chaos. Thrives in crisis while everything falls apart around them.' },
+  { value: 'Fanatic', description: 'The cause is everything. Utterly devoted to a belief, willing to die for it.' },
+  { value: 'Gallant', description: 'Seeks attention and admiration. Lives to be the center of attention.' },
+  { value: 'Guru', description: 'Teaches and enlightens others. Finds purpose in sharing wisdom and knowledge.' },
+  { value: 'Idealist', description: 'Believes in a better world. Strives to make the world match their vision.' },
+  { value: 'Judge', description: 'Seeks truth and justice. Evaluates situations fairly and passes judgment.' },
+  { value: 'Loner', description: 'Prefers solitude. Self-reliant and uncomfortable in groups.' },
+  { value: 'Martyr', description: 'Suffers for others. Finds meaning in sacrifice and self-denial.' },
+  { value: 'Masochist', description: 'Tests limits through suffering. Pushes boundaries of endurance and pain.' },
+  { value: 'Monster', description: 'Embraces the beast within. Uses cruelty and fear as tools.' },
+  { value: 'Pedagogue', description: 'Everyone has something to learn. Teaches whether asked to or not.' },
+  { value: 'Penitent', description: 'Atones for past sins. Driven by guilt and the need for redemption.' },
+  { value: 'Perfectionist', description: 'Nothing less than flawless. Obsessed with getting every detail right.' },
+  { value: 'Rebel', description: 'Fights authority. Opposes the system and those in power on principle.' },
+  { value: 'Rogue', description: 'Looks out for number one. Self-interested but not necessarily malicious.' },
+  { value: 'Sadist', description: 'Enjoys inflicting pain. Finds pleasure in the suffering of others.' },
+  { value: 'Scientist', description: 'Seeks rational explanations. Tests hypotheses and trusts evidence over belief.' },
+  { value: 'Sociopath', description: 'Lacks empathy and remorse. Views others as tools or obstacles.' },
+  { value: 'Soldier', description: 'Follows orders and fights for a cause. Loyal, disciplined, and duty-bound.' },
+  { value: 'Survivor', description: 'Endures at all costs. Nothing matters more than making it through alive.' },
+  { value: 'Thrill-Seeker', description: 'Lives for danger and excitement. Bored by safety and routine.' },
+  { value: 'Traditionalist', description: 'Values the old ways. Preserves customs, rituals, and established order.' },
+  { value: 'Trickster', description: 'Uses humor and mischief. Disrupts the serious and reveals hidden truths through pranks.' },
+  { value: 'Visionary', description: 'Sees what could be. Driven by grand ideas and a vision of the future.' },
 ]
 
 const CLANS = [
-  'Assamite', 'Brujah', 'Caitiff', 'Followers of Set', 'Gangrel', 'Giovanni',
-  'Lasombra', 'Malkavian', 'Nosferatu', 'Ravnos', 'Toreador', 'Tremere',
-  'Tzimisce', 'Ventrue',
+  { value: 'Assamite', description: 'Silent assassins and diablerists from the Middle East. Masters of stealth and death.' },
+  { value: 'Brujah', description: 'Rebel philosophers and passionate warriors. Once scholars, now anarchs and firebrands.' },
+  { value: 'Caitiff', description: 'Clanless vampires of unknown or thin blood. Scorned by all, beholden to none.' },
+  { value: 'Followers of Set', description: 'Serpentine corruptors who worship Set. Spread vice and temptation to free the soul.' },
+  { value: 'Gangrel', description: 'Feral shapeshifters close to the Beast. Nomadic survivors at home in the wild.' },
+  { value: 'Giovanni', description: 'Incestuous necromancer clan with Mafia ties. Command the dead and mortal wealth alike.' },
+  { value: 'Lasombra', description: 'Shadow-wielding masters of darkness. Ruthless leaders of the Sabbat.' },
+  { value: 'Malkavian', description: 'Lunatics blessed with prophetic insight. Every one is mad, but their madness hides truth.' },
+  { value: 'Nosferatu', description: 'Hideously deformed information brokers. Dwell in sewers but know everyone\'s secrets.' },
+  { value: 'Ravnos', description: 'Nomadic tricksters and illusionists of Romani heritage. Masters of chimerstry and deception.' },
+  { value: 'Toreador', description: 'Artists, seducers, and lovers of beauty. Entranced by mortal art and passion.' },
+  { value: 'Tremere', description: 'Blood sorcerers and occult scholars. Hierarchical mages turned vampire through ritual.' },
+  { value: 'Tzimisce', description: 'Flesh-sculpting lords of Eastern Europe. Ancient, alien, and terrifyingly inhuman.' },
+  { value: 'Ventrue', description: 'Blue-blooded aristocrats and power brokers. Born to rule the Camarilla and Kindred society.' },
 ]
 
 const INITIAL = {
@@ -182,28 +226,11 @@ export default function GhoulForm() {
               <div className="field"><label>{t('concept')}</label><input name="concept" value={fields.concept} onChange={handleText} /></div>
             </div>
             <div className="field-row">
-              <div className="field">
-                <label>{t('nature')}</label>
-                <select name="nature" value={fields.nature} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {ARCHETYPES.map(a => <option key={a} value={a}>{t(a)}</option>)}
-                </select>
-              </div>
-              <div className="field">
-                <label>{t('demeanor')}</label>
-                <select name="demeanor" value={fields.demeanor} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {ARCHETYPES.map(a => <option key={a} value={a}>{t(a)}</option>)}
-                </select>
-              </div>
+              <CatalogSelect id="nature" name="nature" label={t('nature')} value={fields.nature} onChange={handleField} catalog={ARCHETYPES} />
+              <CatalogSelect id="demeanor" name="demeanor" label={t('demeanor')} value={fields.demeanor} onChange={handleField} catalog={ARCHETYPES} />
             </div>
             <div className="field-row">
-              <div className="field"><label>{t('ghoulDomitorClan')}</label>
-                <select name="clan" value={fields.clan} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {CLANS.map(c => <option key={c} value={c}>{t(c)}</option>)}
-                </select>
-              </div>
+              <CatalogSelect id="clan" name="clan" label={t('ghoulDomitorClan')} value={fields.clan} onChange={handleField} catalog={CLANS} />
               <div className="field"><label>{t('sire')}</label><input name="sire" value={fields.sire} onChange={handleText} placeholder={t('ghoulDomitorName')} /></div>
             </div>
             <div className="field-row">

@@ -18,6 +18,7 @@ import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../da
 import { KOTE_DHARMAS } from '../data/koteDharmas'
 import { KOTE_SHINTAI } from '../data/koteShintai'
 import { useLanguage } from '../i18n/LanguageContext'
+import CatalogSelect from './CatalogSelect'
 import { VAMPIRE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
@@ -26,21 +27,31 @@ import StorytellerDiceRoller from './StorytellerDiceRoller'
 // ── Constants ──
 
 const DHARMAS = [
-  'The Howl of the Devil-Tiger',
-  'The Way of the Resplendent Crane',
-  'The Song of the Shadow (Bone Flowers)',
-  'The Dance of the Thrashing Dragon',
-  'The Path of a Thousand Whispers',
-  'The Face of the Gods',
-  'The Flame of the Rising Phoenix',
-  'The Spirit of the Living Earth',
-  'The Tempest of the Inward Focus',
-  'Scorpion Eaters',
+  { value: 'The Howl of the Devil-Tiger', description: 'Path of righteous cruelty. Embrace the demon within to master and transcend it.' },
+  { value: 'The Way of the Resplendent Crane', description: 'Path of heavenly virtue. Seek redemption through discipline, duty, and moral excellence.' },
+  { value: 'The Song of the Shadow', description: 'Path of yin and darkness. Understand death and endings to find peace and enlightenment.' },
+  { value: 'The Path of a Thousand Whispers', description: 'Path of balance. Live many lives and perspectives to understand the cosmic cycle.' },
+  { value: 'The Dance of the Thrashing Dragon', description: 'Path of yang and passion. Channel vital energy through movement and martial prowess.' },
+  { value: 'The Flame of the Rising Phoenix', description: 'Path of purification. Burn away corruption through spiritual fire and rebirth.' },
+  { value: 'Face of the Gods', description: 'Heretical path. Seek to become a god through worship and spiritual power.' },
+  { value: 'Scorpion Eaters', description: 'Heretical path. Consume the corrupt to purify the world through sacrifice.' },
+  { value: 'Tempest of Inward Focus', description: 'Heretical path. Turn all energy inward to achieve personal transcendence.' },
+  { value: 'Heretical', description: 'Follower of an unorthodox or forbidden dharma outside the accepted five.' },
 ]
 
-const DIRECTIONS = ['North', 'South', 'East', 'West', 'Center']
+const DIRECTIONS = [
+  { value: 'North', description: 'Direction of water and wisdom. Associated with the Ancestor Courts.' },
+  { value: 'South', description: 'Direction of fire and war. Associated with the Scarlet Screens.' },
+  { value: 'East', description: 'Direction of wood and growth. Associated with the Golden Courts.' },
+  { value: 'West', description: 'Direction of metal and death. Associated with the Ivory Courts.' },
+  { value: 'Center', description: 'Direction of earth and balance. Associated with the Quincunx and harmony.' },
+]
 
-const BALANCES = ['Yin', 'Yang', 'Balanced']
+const BALANCES = [
+  { value: 'Yin', description: 'Attuned to dark, cold, and passive energy. Death, shadow, and the spirit world.' },
+  { value: 'Yang', description: 'Attuned to bright, hot, and active energy. Life, passion, and the physical world.' },
+  { value: 'Balanced', description: 'Equal attunement to both Yin and Yang forces. Rare equilibrium.' },
+]
 
 const HEALTH_LEVEL_KEYS = [
   { key: 'healthy',        penalty: '' },
@@ -431,20 +442,8 @@ export default function KoteForm() {
           <fieldset>
             <legend>{t('kueiJin')}</legend>
             <div className="field-row">
-              <div className="field">
-                <label htmlFor="balance">{t('balance')}</label>
-                <select id="balance" name="balance" value={fields.balance} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {BALANCES.map(b => <option key={b} value={b}>{t(b)}</option>)}
-                </select>
-              </div>
-              <div className="field">
-                <label htmlFor="direction">{t('direction')}</label>
-                <select id="direction" name="direction" value={fields.direction} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {DIRECTIONS.map(d => <option key={d} value={d}>{t(d)}</option>)}
-                </select>
-              </div>
+              <CatalogSelect id="balance" name="balance" label={t('balance')} value={fields.balance} onChange={handleField} catalog={BALANCES} />
+              <CatalogSelect id="direction" name="direction" label={t('direction')} value={fields.direction} onChange={handleField} catalog={DIRECTIONS} />
               <div className="field">
                 <label htmlFor="wu">{t('wu')}</label>
                 <input id="wu" name="wu" type="text" value={fields.wu} onChange={handleText} autoComplete="off" />
@@ -632,11 +631,7 @@ export default function KoteForm() {
             <legend>{t('dharma')}</legend>
             <div className="field-row">
               <div className="field" style={{ flex: 2 }}>
-                <label htmlFor="dharmaName">{t('dharma')}</label>
-                <select id="dharmaName" name="dharmaName" value={fields.dharmaName} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {DHARMAS.map(d => <option key={d} value={d}>{t(d)}</option>)}
-                </select>
+                <CatalogSelect id="dharmaName" name="dharmaName" label={t('dharma')} value={fields.dharmaName} onChange={handleField} catalog={DHARMAS} />
               </div>
               <div className="field">
                 <DotRating label={t('dharmaRating')} name="dharmaRating" value={fields.dharmaRating} onChange={handleField} min={0} max={10} />

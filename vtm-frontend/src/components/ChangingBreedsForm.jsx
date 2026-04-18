@@ -23,6 +23,7 @@ import { WEREWOLF_TOTEMS } from '../data/werewolfTotems'
 import { WEREWOLF_FETISHES, WEREWOLF_TALENS } from '../data/werewolfFetishes'
 import { FERA_SPECIES } from '../data/changingBreeds'
 import { WEREWOLF_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
+import CatalogSelect from './CatalogSelect'
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
@@ -31,7 +32,15 @@ import StorytellerDiceRoller from './StorytellerDiceRoller'
 
 const SPECIES = FERA_SPECIES.map(s => s.value)
 
-const RANKS = ['Cub', 'Cliath', 'Fostern', 'Adren', 'Athro', 'Elder', 'Legend']
+const RANKS = [
+  { value: 'Cub', description: 'Newly changed. Not yet a full member of the sept. Must complete a Rite of Passage.' },
+  { value: 'Cliath', description: 'Full Garou. Has completed their Rite of Passage and proven worthy of the Nation.' },
+  { value: 'Fostern', description: 'Proven warrior. Has earned respect through deeds and shown leadership potential.' },
+  { value: 'Adren', description: 'Experienced leader. Commands respect and may lead packs or hold sept positions.' },
+  { value: 'Athro', description: 'Elder warrior. A pillar of the sept with decades of service and wisdom.' },
+  { value: 'Elder', description: 'Venerated sage. One of the most powerful and respected Garou alive.' },
+  { value: 'Legend', description: 'Mythic hero. Spoken of in tales for generations. Nearly unheard-of in modern times.' },
+]
 
 const HEALTH_LEVEL_KEYS = [
   { key: 'healthy',        penalty: '' },
@@ -452,16 +461,7 @@ export default function ChangingBreedsForm() {
           <fieldset>
             <legend>{t('changingBreeds')}</legend>
             <div className="field-row">
-              <div className="field">
-                <label htmlFor="breed">{t('species')}</label>
-                <select id="breed" name="breed" value={fields.breed} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {FERA_SPECIES.map(s => <option key={s.value} value={s.value}>{t(s.value)}</option>)}
-                </select>
-                {selectedSpecies && (
-                  <p className="archetype-desc" style={{ margin: '0.25rem 0 0 0', fontSize: '0.78rem' }}>{selectedSpecies.description}</p>
-                )}
-              </div>
+              <CatalogSelect id="breed" name="breed" label={t('species')} value={fields.breed} onChange={handleField} catalog={FERA_SPECIES} />
               {selectedSpecies?.tribes && (
                 <div className="field">
                   <label htmlFor="tribe">{t('tribe')}</label>
@@ -493,12 +493,7 @@ export default function ChangingBreedsForm() {
                   {WEREWOLF_TOTEMS.map(t => <option key={t.name} value={t.name} />)}
                 </datalist>
               </div>
-              <div className="field">
-                <label htmlFor="rank">{t('rank')}</label>
-                <select id="rank" name="rank" value={fields.rank} onChange={handleText}>
-                  {RANKS.map(r => <option key={r} value={r}>{t(r)}</option>)}
-                </select>
-              </div>
+              <CatalogSelect id="rank" name="rank" label={t('rank')} value={fields.rank} onChange={handleField} catalog={RANKS} />
               <div className="field">
                 <label htmlFor="npc">{t('type')}</label>
                 <div className="role-toggle" role="radiogroup" aria-label="Character type">

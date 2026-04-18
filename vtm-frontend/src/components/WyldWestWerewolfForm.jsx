@@ -23,13 +23,18 @@ import { WEREWOLF_RITES } from '../data/werewolfRites'
 import { WEREWOLF_TOTEMS } from '../data/werewolfTotems'
 import { WEREWOLF_FETISHES, WEREWOLF_TALENS } from '../data/werewolfFetishes'
 import { WEREWOLF_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
+import CatalogSelect from './CatalogSelect'
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
 
 // ── Constants ──
 
-const BREEDS = ['Homid', 'Metis', 'Lupus']
+const BREEDS = [
+  { value: 'Homid', description: 'Born human. Starts with Gnosis 1. Most socially adapted but furthest from the wolf.' },
+  { value: 'Metis', description: 'Born of two Garou — forbidden. Starts with Gnosis 3 but bears a deformity. Raised in the sept.' },
+  { value: 'Lupus', description: 'Born wolf. Starts with Gnosis 5. Closest to Gaia but struggles with human society.' },
+]
 
 const AUSPICES = [
   { value: 'Ragabash', description: 'New Moon — Trickster, scout, questioner of the ways.' },
@@ -40,13 +45,33 @@ const AUSPICES = [
 ]
 
 const TRIBES = [
-  'Black Furies', 'Bone Gnawers', 'Children of Gaia', 'Fianna', 'Get of Fenris',
-  'Glass Walkers', 'Red Talons', 'Shadow Lords', 'Silent Striders', 'Silver Fangs',
-  'Stargazers', 'Uktena', 'Wendigo',
-  'Black Spiral Dancers', 'Ronin', 'Skin Dancers',
+  { value: 'Black Furies', description: 'Matriarchal warriors devoted to Gaia and the Wyld. Defend the sacred feminine and wild places.' },
+  { value: 'Bone Gnawers', description: 'Urban scavengers who live among the homeless and outcasts. Masters of survival and street smarts.' },
+  { value: 'Children of Gaia', description: 'Peacemakers who seek harmony among the tribes. Mediators and healers of the Garou Nation.' },
+  { value: 'Fianna', description: 'Celtic warriors, poets, and revelers. Passionate defenders of art, song, and the fae wilds.' },
+  { value: 'Get of Fenris', description: 'Norse berserkers who value strength above all. Fierce warriors who seek glory in battle.' },
+  { value: 'Glass Walkers', description: 'Tech-savvy urban wolves who embrace the modern world. Masters of finance and technology.' },
+  { value: 'Red Talons', description: 'Lupus-only tribe that despises humanity. Radical defenders of wilderness and wolf-kind.' },
+  { value: 'Shadow Lords', description: 'Ambitious schemers who seek to lead the Garou Nation. Masters of politics and manipulation.' },
+  { value: 'Silent Striders', description: 'Nomadic wanderers cursed to never find rest. Messengers and scouts who walk between worlds.' },
+  { value: 'Silver Fangs', description: 'Noble-blooded rulers of the Garou Nation. Born leaders burdened by madness and inbreeding.' },
+  { value: 'Stargazers', description: 'Contemplative mystics seeking inner balance. Masters of enigmas and martial arts.' },
+  { value: 'Uktena', description: 'Keepers of dark secrets and forbidden lore. Bind and study the creatures of the Wyrm.' },
+  { value: 'Wendigo', description: 'Pure-blooded warriors of the frozen north. Fierce protectors of indigenous peoples and wild lands.' },
+  { value: 'Black Spiral Dancers', description: 'Fallen tribe corrupted by the Wyrm. Insane servants of destruction and entropy.' },
+  { value: 'Ronin', description: 'Tribeless Garou, outcast and alone. No tribal support but total freedom.' },
+  { value: 'Skin Dancers', description: 'Kinfolk who stole the gift of shifting through dark rites. Despised by all true Garou.' },
 ]
 
-const RANKS = ['Cub', 'Cliath', 'Fostern', 'Adren', 'Athro', 'Elder', 'Legend']
+const RANKS = [
+  { value: 'Cub', description: 'Newly changed. Not yet a full member of the sept. Must complete a Rite of Passage.' },
+  { value: 'Cliath', description: 'Full Garou. Has completed their Rite of Passage and proven worthy of the Nation.' },
+  { value: 'Fostern', description: 'Proven warrior. Has earned respect through deeds and shown leadership potential.' },
+  { value: 'Adren', description: 'Experienced leader. Commands respect and may lead packs or hold sept positions.' },
+  { value: 'Athro', description: 'Elder warrior. A pillar of the sept with decades of service and wisdom.' },
+  { value: 'Elder', description: 'Venerated sage. One of the most powerful and respected Garou alive.' },
+  { value: 'Legend', description: 'Mythic hero. Spoken of in tales for generations. Nearly unheard-of in modern times.' },
+]
 
 const FORM_STATS = [
   { formKey: 'homid',  str: '+0', dex: '+0', sta: '+0', man: '+0', app: '+0', diff: 6, noteKey: 'noChange' },
@@ -474,27 +499,9 @@ export default function WyldWestWerewolfForm() {
           <fieldset>
             <legend>{t('garou')}</legend>
             <div className="field-row">
-              <div className="field">
-                <label htmlFor="breed">{t('breed')}</label>
-                <select id="breed" name="breed" value={fields.breed} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {BREEDS.map(b => <option key={b} value={b}>{t(b)}</option>)}
-                </select>
-              </div>
-              <div className="field">
-                <label htmlFor="auspice">{t('auspice')}</label>
-                <select id="auspice" name="auspice" value={fields.auspice} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {AUSPICES.map(a => <option key={a.value} value={a.value} title={a.description}>{t(a.value)}</option>)}
-                </select>
-              </div>
-              <div className="field">
-                <label htmlFor="tribe">{t('tribe')}</label>
-                <select id="tribe" name="tribe" value={fields.tribe} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {TRIBES.map(tr => <option key={tr} value={tr}>{t(tr)}</option>)}
-                </select>
-              </div>
+              <CatalogSelect id="breed" name="breed" label={t('breed')} value={fields.breed} onChange={handleField} catalog={BREEDS} />
+              <CatalogSelect id="auspice" name="auspice" label={t('auspice')} value={fields.auspice} onChange={handleField} catalog={AUSPICES} />
+              <CatalogSelect id="tribe" name="tribe" label={t('tribe')} value={fields.tribe} onChange={handleField} catalog={TRIBES} />
             </div>
             <div className="field-row">
               <div className="field">
@@ -508,12 +515,7 @@ export default function WyldWestWerewolfForm() {
                   {WEREWOLF_TOTEMS.map(t => <option key={t.name} value={t.name} />)}
                 </datalist>
               </div>
-              <div className="field">
-                <label htmlFor="rank">{t('rank')}</label>
-                <select id="rank" name="rank" value={fields.rank} onChange={handleText}>
-                  {RANKS.map(r => <option key={r} value={r}>{t(r)}</option>)}
-                </select>
-              </div>
+              <CatalogSelect id="rank" name="rank" label={t('rank')} value={fields.rank} onChange={handleField} catalog={RANKS} />
               <div className="field">
                 <label htmlFor="npc">{t('type')}</label>
                 <div className="role-toggle" role="radiogroup" aria-label="Character type">
