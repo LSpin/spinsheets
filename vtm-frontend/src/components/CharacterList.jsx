@@ -32,6 +32,11 @@ const SPLAT_LABEL_KEYS = {
   L5R_ANTAGONIST: 'splatL5RAntagonist',
   UESTRPG_ANTAGONIST: 'splatUestrpgAntagonist',
   BLADES_ANTAGONIST: 'splatBladesAntagonist',
+  HUNTER: 'splatHunter',
+  WRAITH: 'splatWraith',
+  CHANGELING: 'splatChangeling',
+  DEMON: 'splatDemon',
+  BSD: 'splatBsd',
 }
 
 function splatBadgeClass(splat) {

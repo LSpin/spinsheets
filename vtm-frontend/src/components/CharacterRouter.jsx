@@ -18,6 +18,11 @@ const GhoulForm = lazy(() => import('./GhoulForm'))
 const FamiliarForm = lazy(() => import('./FamiliarForm'))
 const TotemForm = lazy(() => import('./TotemForm'))
 const KinfolkForm = lazy(() => import('./KinfolkForm'))
+const HunterForm = lazy(() => import('./HunterForm'))
+const WraithForm = lazy(() => import('./WraithForm'))
+const ChangelingForm = lazy(() => import('./ChangelingForm'))
+const DemonForm = lazy(() => import('./DemonForm'))
+const BsdForm = lazy(() => import('./BsdForm'))
 const SeventhSeaForm = lazy(() => import('./SeventhSeaForm'))
 const SeventhSeaVillainForm = lazy(() => import('./SeventhSeaVillainForm'))
 const L5RForm = lazy(() => import('./L5RForm'))
@@ -79,6 +84,11 @@ export default function CharacterRouter() {
   else if (splat === 'FAMILIAR') FormComponent = FamiliarForm
   else if (splat === 'TOTEM') FormComponent = TotemForm
   else if (splat === 'KINFOLK') FormComponent = KinfolkForm
+  else if (splat === 'HUNTER') FormComponent = HunterForm
+  else if (splat === 'WRAITH') FormComponent = WraithForm
+  else if (splat === 'CHANGELING') FormComponent = ChangelingForm
+  else if (splat === 'DEMON') FormComponent = DemonForm
+  else if (splat === 'BSD') FormComponent = BsdForm
   else if (splat === 'SEVENTH_SEA' && isNpc) FormComponent = SeventhSeaVillainForm
   else if (splat === 'SEVENTH_SEA') FormComponent = SeventhSeaForm
   else if (splat === 'L5R' && isNpc) FormComponent = L5RAntagonistForm
