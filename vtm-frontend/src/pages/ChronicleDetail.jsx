@@ -105,19 +105,24 @@ export default function ChronicleDetail() {
   }
 
   const gameSystem = chronicle?.gameSystem || 'WOD'
-  const SYSTEM_THEMES = { WOD: 'wod', SEVENTH_SEA: '7thsea', L5R: 'l5r', BLADES: 'blades', DND: 'dnd' }
-  const SYSTEM_PATHS = { WOD: '/chronicles', SEVENTH_SEA: '/7thsea/chronicles', L5R: '/l5r/chronicles', BLADES: '/blades/chronicles', DND: '/dnd/chronicles' }
+  const SYSTEM_THEMES = { WOD: 'wod', SEVENTH_SEA: '7thsea', L5R: 'l5r', BLADES: 'blades', DND: 'dnd', UESTRPG: 'uestrpg' }
+  const SYSTEM_PATHS = { WOD: '/chronicles', SEVENTH_SEA: '/7thsea/chronicles', L5R: '/l5r/chronicles', BLADES: '/blades/chronicles', DND: '/dnd/chronicles', UESTRPG: '/uestrpg/chronicles' }
   const SYSTEM_SPLAT_CATEGORIES = {
-    WOD: ['VAMPIRE', 'WEREWOLF', 'MAGE'],
+    WOD: ['VAMPIRE', 'WEREWOLF', 'MAGE', 'HUNTER', 'WRAITH', 'CHANGELING', 'DEMON'],
     SEVENTH_SEA: ['SEVENTH_SEA'],
     L5R: ['L5R'],
     BLADES: ['BLADES'],
     DND: ['DND'],
+    UESTRPG: ['UESTRPG'],
+  }
+  const SPLAT_LABEL_MAP = {
+    VAMPIRE: 'splatVampire', WEREWOLF: 'splatWerewolf', MAGE: 'splatMage',
+    HUNTER: 'splatHunter', WRAITH: 'splatWraith', CHANGELING: 'splatChangeling', DEMON: 'splatDemon',
+    SEVENTH_SEA: 'splat7thSea', L5R: 'splatL5R', BLADES: 'splatBlades', DND: 'splatDnd', UESTRPG: 'splatUestrpg',
   }
   useEffect(() => { if (chronicle) switchTheme(SYSTEM_THEMES[gameSystem] || 'wod') }, [chronicle])
-  const isWoD = gameSystem === 'WOD'
   const chronicleBasePath = SYSTEM_PATHS[gameSystem] || '/chronicles'
-  const SPLAT_CATEGORIES = SYSTEM_SPLAT_CATEGORIES[gameSystem] || ['VAMPIRE', 'WEREWOLF', 'MAGE']
+  const SPLAT_CATEGORIES = SYSTEM_SPLAT_CATEGORIES[gameSystem] || ['VAMPIRE', 'WEREWOLF', 'MAGE', 'HUNTER', 'WRAITH', 'CHANGELING', 'DEMON']
 
   function getAllowedSet() {
     const raw = chronicle?.allowedSplats
@@ -133,7 +138,7 @@ export default function ChronicleDetail() {
     } else {
       current.add(category)
     }
-    const value = current.size === 3 ? null : [...current].join(',')
+    const value = current.size === SPLAT_CATEGORIES.length ? null : [...current].join(',')
     try {
       await updateAllowedSplats(id, value)
       setChronicle(prev => ({ ...prev, allowedSplats: value }))
@@ -292,6 +297,20 @@ export default function ChronicleDetail() {
             </fieldset>
           </div>
         )}
+
+        {!isST && joinable.length === 0 && myCharacters.length > 0 && (
+          <p className="muted-hint" style={{ color: 'var(--color-text-muted)' }}>
+            {t('noMatchingChars')}
+          </p>
+        )}
+
+        {canManage && (
+          <div style={{ marginTop: 'var(--space-md)' }}>
+            <button className="btn btn-secondary" onClick={() => navigate(`/characters/new?npc=true&mode=guided&chronicle=${id}`)}>
+              {t('createNpcForChronicle')}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ── Sessions Tab ── */}
@@ -373,7 +392,7 @@ export default function ChronicleDetail() {
       {isOwner && (
         <div hidden={tab !== 2}>
           <div className="form-section">
-            {isWoD && (
+            {SPLAT_CATEGORIES.length > 1 && (
               <fieldset>
                 <legend>{t('allowedCharTypes')}</legend>
                 <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>
@@ -385,7 +404,7 @@ export default function ChronicleDetail() {
                     return (
                       <label key={cat} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer' }}>
                         <input type="checkbox" checked={checked} onChange={() => handleToggleSplat(cat)} />
-                        {t('splat' + cat.charAt(0) + cat.slice(1).toLowerCase())}
+                        {t(SPLAT_LABEL_MAP[cat] || cat)}
                       </label>
                     )
                   })}
