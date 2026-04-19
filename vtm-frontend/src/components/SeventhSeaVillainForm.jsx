@@ -3,10 +3,12 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { getCharacter, updateCharacter, getDisciplines, addDiscipline, removeDiscipline } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
+import CatalogSelect from './CatalogSelect'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
 import TagInfoPanel from './TagInfoPanel'
 import SeventhSeaDiceRoller from './SeventhSeaDiceRoller'
+import { SEVEN_SEA_NPCS, SEVEN_SEA_NPC_CATALOG } from '../data/sevenSeaNpcs'
 
 const VILLAIN_RANKS = [
   { rank: 1, description: 'Minor nuisance — a bandit captain, petty noble, or small-time crook.' },
@@ -113,6 +115,7 @@ export default function SeventhSeaVillainForm() {
   const [advSearch, setAdvSearch] = useState('')
   const [tagInfo, setTagInfo] = useState(null)
   const [npcType, setNpcType] = useState('villain')
+  const [templateName, setTemplateName] = useState('')
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
@@ -134,6 +137,26 @@ export default function SeventhSeaVillainForm() {
   function handleText(e) { setFields(prev => ({ ...prev, [e.target.name]: e.target.value })) }
   async function handleSave() { setSaving(true); setSaveError(null); try { await updateCharacter(characterId, fields) } catch { setSaveError(t('failedToSave')) } finally { setSaving(false) } }
   async function handleDoneEditing() { await handleSave(); navigate('/7thsea') }
+
+  function loadTemplate(templateNameVal) {
+    const tmpl = SEVEN_SEA_NPCS.find(t => t.name === templateNameVal)
+    if (!tmpl) return
+    setTemplateName(templateNameVal)
+    setFields(prev => ({
+      ...prev,
+      name: tmpl.name,
+      concept: tmpl.description || '',
+      nation: tmpl.nation || '',
+      willpower: tmpl.rank || 0,
+      traitBrawn: tmpl.brawn || 2,
+      traitFinesse: tmpl.finesse || 2,
+      traitResolve: tmpl.resolve || 2,
+      traitWits7s: tmpl.wits || 2,
+      traitPanache: tmpl.panache || 2,
+      notes: tmpl.notes || '',
+    }))
+    setNpcType(tmpl.type || 'villain')
+  }
 
   async function handleAddAdvantage() {
     if (!newAdv.name.trim()) return
@@ -176,6 +199,21 @@ export default function SeventhSeaVillainForm() {
       {/* ── Identity ── */}
       <div hidden={tab !== 0}>
         <div className="form-section">
+          <fieldset>
+            <legend>Load Template</legend>
+            <CatalogSelect
+              id="npc-template" name="npcTemplate" label="Premade NPC"
+              value={templateName} onChange={(_, val) => loadTemplate(val)}
+              catalog={SEVEN_SEA_NPC_CATALOG} placeholder="Search NPC templates..."
+              showDescOnSelect={false}
+            />
+            {templateName && (
+              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
+                Loaded from template: <strong>{templateName}</strong> — customize freely below.
+              </p>
+            )}
+          </fieldset>
+
           <fieldset>
             <legend>Identity</legend>
             <div className="field-row">

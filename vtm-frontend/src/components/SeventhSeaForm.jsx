@@ -16,6 +16,7 @@ import TagInfoPanel from './TagInfoPanel'
 import RulesReferenceTab from './RulesReferenceTab'
 import { SEVEN_SEA_RULES } from '../data/sevenSeaRules'
 import SeventhSeaDiceRoller from './SeventhSeaDiceRoller'
+import { SEVEN_SEA_HERO_NPCS, SEVEN_SEA_HERO_CATALOG } from '../data/sevenSeaNpcs'
 
 // ── Nations with favored trait pairs (pick one for +1) ──
 const NATIONS = {
@@ -312,6 +313,7 @@ export default function SeventhSeaForm() {
   const [bgSearch, setBgSearch] = useState('')
   const [activeDuelStyle, setActiveDuelStyle] = useState('')
   const [newStory, setNewStory] = useState({ title: '', goal: '', reward: '', steps: '' })
+  const [templateName, setTemplateName] = useState('')
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
@@ -351,6 +353,26 @@ export default function SeventhSeaForm() {
   }
 
   async function handleDoneEditing() { await handleSave(); navigate('/7thsea') }
+
+  function loadTemplate(templateNameVal) {
+    const tmpl = SEVEN_SEA_HERO_NPCS.find(t => t.name === templateNameVal)
+    if (!tmpl) return
+    setTemplateName(templateNameVal)
+    setFields(prev => ({
+      ...prev,
+      name: tmpl.name,
+      concept: tmpl.description || '',
+      nation: tmpl.nation || '',
+      traitBrawn: tmpl.brawn || 2,
+      traitFinesse: tmpl.finesse || 2,
+      traitResolve: tmpl.resolve || 2,
+      traitWits7s: tmpl.wits || 2,
+      traitPanache: tmpl.panache || 2,
+      heroVirtue: tmpl.virtue || '',
+      heroHubris: tmpl.hubris || '',
+      notes: tmpl.notes || '',
+    }))
+  }
 
   async function handleAddBackground() {
     if (!newBackground.name.trim()) return
@@ -449,6 +471,21 @@ export default function SeventhSeaForm() {
       {/* ── Identity ── */}
       <div hidden={tab !== 0}>
         <div className="form-section">
+          <fieldset>
+            <legend>Load Template</legend>
+            <CatalogSelect
+              id="hero-template" name="heroTemplate" label="Premade Hero NPC"
+              value={templateName} onChange={(_, val) => loadTemplate(val)}
+              catalog={SEVEN_SEA_HERO_CATALOG} placeholder="Search hero templates..."
+              showDescOnSelect={false}
+            />
+            {templateName && (
+              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
+                Loaded from template: <strong>{templateName}</strong> — customize freely below.
+              </p>
+            )}
+          </fieldset>
+
           <fieldset>
             <legend>{t('tabIdentity')}</legend>
             <div className="field-row">
