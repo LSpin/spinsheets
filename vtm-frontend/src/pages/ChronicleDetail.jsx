@@ -315,7 +315,7 @@ export default function ChronicleDetail() {
 
         {canManage && (
           <div style={{ marginTop: 'var(--space-md)' }}>
-            <button className="btn btn-secondary" onClick={() => navigate(`/characters/new?npc=true&mode=guided&chronicle=${id}`)}>
+            <button className="btn btn-secondary" onClick={() => navigate(`${SYSTEM_NEW_CHAR[gameSystem] || '/characters/new'}?npc=true&mode=guided&chronicle=${id}`)}>
               {t('createNpcForChronicle')}
             </button>
           </div>
