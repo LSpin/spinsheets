@@ -428,7 +428,452 @@ export const WOD_MAGE_NPCS = [
   },
 ]
 
+// ── Hunter NPCs ─────────────────────────────────────────────────────────────
+
+export const WOD_HUNTER_NPCS = [
+  {
+    name: 'Rookie Avenger',
+    concept: 'Newly imbued hunter seeking revenge',
+    creed: 'Avenger', virtue: 'Vengeance',
+    str: 3, dex: 2, sta: 2, cha: 1, man: 2, app: 2, per: 3, int: 2, wits: 3,
+    willpower: 5, conviction: 3,
+    edges: 'Cleave 1',
+    notes: 'Lost someone to the monsters and was imbued shortly after. Driven by rage and pain. Reckless but determined.',
+  },
+  {
+    name: 'Experienced Defender',
+    concept: 'Protector of the innocent',
+    creed: 'Defender', virtue: 'Mercy',
+    str: 2, dex: 2, sta: 3, cha: 3, man: 2, app: 2, per: 3, int: 2, wits: 3,
+    willpower: 7, conviction: 5,
+    edges: 'Ward 2, Rejuvenate 1',
+    notes: 'Has been hunting for years. Protects civilians first, kills monsters second. The moral compass of the cell.',
+  },
+  {
+    name: 'Fanatical Judge',
+    concept: 'Merciless arbiter of supernatural justice',
+    creed: 'Judge', virtue: 'Justice',
+    str: 2, dex: 2, sta: 2, cha: 2, man: 3, app: 2, per: 4, int: 3, wits: 3,
+    willpower: 8, conviction: 6,
+    edges: 'Discern 3, Burden 2',
+    notes: 'Believes monsters can be judged and sentenced. Those who fail the test are destroyed without mercy. Frighteningly calm.',
+  },
+  {
+    name: 'Compassionate Redeemer',
+    concept: 'Hunter who believes monsters can be saved',
+    creed: 'Redeemer', virtue: 'Mercy',
+    str: 1, dex: 2, sta: 2, cha: 4, man: 3, app: 3, per: 3, int: 3, wits: 2,
+    willpower: 6, conviction: 5,
+    edges: 'Respire 2, Becalm 1',
+    notes: 'Tries to reach the humanity within the supernatural. Has actually redeemed a few lesser creatures. Other hunters think she is naive — or suicidal.',
+  },
+  {
+    name: 'Unhinged Wayward',
+    concept: 'Berserker hunter barely in control',
+    creed: 'Wayward', virtue: 'Vengeance',
+    str: 4, dex: 3, sta: 3, cha: 1, man: 1, app: 1, per: 3, int: 2, wits: 4,
+    willpower: 6, conviction: 7,
+    edges: 'Smolder 2, Smite 1',
+    notes: 'The Messengers speak to them constantly. Barely distinguishes friend from foe. Terrifyingly effective but a danger to everyone nearby.',
+  },
+  {
+    name: 'Visionary Leader',
+    concept: 'Prophet who sees the bigger picture',
+    creed: 'Visionary', virtue: 'Vision',
+    str: 1, dex: 2, sta: 2, cha: 3, man: 3, app: 2, per: 4, int: 4, wits: 3,
+    willpower: 7, conviction: 6,
+    edges: 'Foresee 3, Pinpoint 1',
+    notes: 'Receives cryptic visions from the Messengers. Coordinates cells and sees patterns others miss. The strategist every cell needs.',
+  },
+  {
+    name: 'Veteran Martyr',
+    concept: 'Self-sacrificing hunter who has lost everything',
+    creed: 'Martyr', virtue: 'Mercy',
+    str: 2, dex: 2, sta: 3, cha: 2, man: 1, app: 2, per: 2, int: 2, wits: 3,
+    willpower: 9, conviction: 7,
+    edges: 'Demand 2, Witness 2',
+    notes: 'Has given up everything — family, career, health — for the Hunt. Will die to protect others without hesitation. Inspiring and tragic.',
+  },
+  {
+    name: 'Innocent Bystander (Imbued)',
+    concept: 'Ordinary person thrust into the Hunt',
+    creed: 'Innocent', virtue: 'Mercy',
+    str: 1, dex: 2, sta: 2, cha: 2, man: 2, app: 2, per: 3, int: 2, wits: 2,
+    willpower: 4, conviction: 2,
+    edges: 'Hide 1',
+    notes: 'Was imbued but has no idea what is happening. Can see the supernatural but has no training or desire to fight. Desperately needs guidance.',
+  },
+]
+
+// ── Wraith NPCs ─────────────────────────────────────────────────────────────
+
+export const WOD_WRAITH_NPCS = [
+  {
+    name: 'Newly Dead',
+    concept: 'Recently deceased, still in shock',
+    legion: 'Unaffiliated', shadowArchetype: 'The Fog',
+    str: 1, dex: 2, sta: 2, cha: 2, man: 1, app: 2, per: 2, int: 2, wits: 2,
+    willpower: 3, corpus: 10, pathos: 5,
+    arcanoi: 'None yet',
+    notes: 'Just crossed the Shroud and has no idea what happened. Confused, scared, and easy prey for Spectres or unscrupulous wraiths.',
+  },
+  {
+    name: 'Restless Spectre',
+    concept: 'Wraith tied to unfinished business',
+    legion: 'Skeletal Legion', shadowArchetype: 'The Pusher',
+    str: 2, dex: 2, sta: 2, cha: 2, man: 2, app: 2, per: 3, int: 2, wits: 3,
+    willpower: 5, corpus: 10, pathos: 6,
+    arcanoi: 'Argos 1, Embody 2',
+    notes: 'Haunts the Skinlands near their Fetters. Obsessed with resolving their death. May help or hinder the living depending on their agenda.',
+  },
+  {
+    name: 'Vengeful Haunt',
+    concept: 'Wraith consumed by the need for revenge',
+    legion: 'Grim Legion', shadowArchetype: 'The Monster',
+    str: 3, dex: 3, sta: 2, cha: 1, man: 2, app: 1, per: 3, int: 2, wits: 3,
+    willpower: 6, corpus: 10, pathos: 7,
+    arcanoi: 'Outrage 3, Embody 2',
+    notes: 'Poltergeist-like wraith focused solely on punishing their murderer. Dangerous and irrational. Their Shadow feeds on every act of violence.',
+  },
+  {
+    name: 'Doomslayer',
+    concept: 'Warrior wraith of the Legions',
+    legion: 'Iron Legion', shadowArchetype: 'The Bully',
+    str: 4, dex: 3, sta: 3, cha: 2, man: 2, app: 2, per: 3, int: 2, wits: 4,
+    willpower: 7, corpus: 10, pathos: 6,
+    arcanoi: 'Outrage 3, Moliate 2, Castigate 1',
+    notes: 'Elite soldier of the Hierarchy. Forged in soulsteel armor and armed with relic weapons. Enforces Stygia\'s will across the Shadowlands.',
+  },
+  {
+    name: 'Shadow-Eaten',
+    concept: 'Wraith losing the battle with their Shadow',
+    legion: 'Penitent Legion', shadowArchetype: 'The Leech',
+    str: 2, dex: 2, sta: 2, cha: 1, man: 1, app: 1, per: 2, int: 2, wits: 2,
+    willpower: 2, corpus: 8, pathos: 3,
+    arcanoi: 'Pandemonium 1',
+    notes: 'Their Shadow is almost in complete control. Teeters on the edge of a Harrowing or full Spectre transformation. Pitiable and dangerous.',
+  },
+  {
+    name: 'Renegade Wraith',
+    concept: 'Free wraith opposing the Hierarchy',
+    legion: 'None (Renegade)', shadowArchetype: 'The Trickster',
+    str: 2, dex: 3, sta: 2, cha: 3, man: 3, app: 2, per: 3, int: 3, wits: 3,
+    willpower: 6, corpus: 10, pathos: 7,
+    arcanoi: 'Argos 2, Keening 2, Phantasm 1',
+    notes: 'Refuses to serve the Hierarchy. Lives in the wild Shadowlands with other Renegades. Resourceful and distrustful of authority.',
+  },
+  {
+    name: 'Hierarchy Centurion',
+    concept: 'Officer of the Stygian Hierarchy',
+    legion: 'Emerald Legion', shadowArchetype: 'The Director',
+    str: 3, dex: 2, sta: 3, cha: 3, man: 4, app: 3, per: 3, int: 3, wits: 3,
+    willpower: 7, corpus: 10, pathos: 8,
+    arcanoi: 'Castigate 3, Inhabit 2, Usury 2',
+    notes: 'Commands a cohort of wraiths in the name of Stygia. Politically savvy, well-connected, and ruthless. Trades in Pathos and favors.',
+  },
+  {
+    name: 'Risen',
+    concept: 'Wraith who has reclaimed a body',
+    legion: 'Unaffiliated', shadowArchetype: 'The Monster',
+    str: 4, dex: 2, sta: 4, cha: 1, man: 1, app: 1, per: 3, int: 2, wits: 3,
+    willpower: 8, corpus: 10, pathos: 4,
+    arcanoi: 'Embody 5, Outrage 2',
+    notes: 'Has re-entered their dead body through sheer force of will. Appears as an animated corpse. Driven by a single overwhelming Passion — usually revenge.',
+  },
+]
+
+// ── Demon NPCs ──────────────────────────────────────────────────────────────
+
+export const WOD_DEMON_NPCS = [
+  {
+    name: 'Newly Fallen',
+    concept: 'Demon recently escaped from the Abyss',
+    house: 'Malefactor', faction: 'Unaligned',
+    str: 2, dex: 2, sta: 2, cha: 2, man: 2, app: 2, per: 3, int: 3, wits: 2,
+    willpower: 4, faith: 2, torment: 4,
+    lore: 'Lore of the Earth 1',
+    apocalypticForm: 'Subtle — eyes glow faintly, ground trembles underfoot',
+    notes: 'Just escaped the Abyss into a mortal host. Overwhelmed by sensation and memory. Still deciding what kind of being they will be.',
+  },
+  {
+    name: 'Faustian Manipulator',
+    concept: 'Demon who trades power for faith',
+    house: 'Devil', faction: 'Faustian',
+    str: 2, dex: 2, sta: 2, cha: 4, man: 5, app: 3, per: 3, int: 4, wits: 3,
+    willpower: 7, faith: 6, torment: 5,
+    lore: 'Lore of the Celestials 3, Lore of Humanity 2',
+    apocalypticForm: 'Commanding — glowing halo, wings of shadow, voice that resonates with authority',
+    notes: 'Builds networks of mortal thralls, trading power for worship. Charming and dangerous. Every deal has a hidden cost.',
+  },
+  {
+    name: 'Cryptic Scholar',
+    concept: 'Demon seeking hidden truths',
+    house: 'Fiend', faction: 'Cryptic',
+    str: 1, dex: 2, sta: 2, cha: 2, man: 3, app: 2, per: 4, int: 5, wits: 4,
+    willpower: 7, faith: 5, torment: 3,
+    lore: 'Lore of Patterns 3, Lore of Light 2, Lore of Portals 1',
+    apocalypticForm: 'Ethereal — star-mapped skin, eyes like galaxies, whispers of cosmic knowledge',
+    notes: 'Seeks to understand what went wrong with Creation. Patient and methodical. May help or hinder anyone who has information they need.',
+  },
+  {
+    name: 'Ravener Destroyer',
+    concept: 'Demon who wants to unmake Creation',
+    house: 'Devourer', faction: 'Ravener',
+    str: 5, dex: 3, sta: 4, cha: 1, man: 1, app: 1, per: 3, int: 2, wits: 4,
+    willpower: 6, faith: 5, torment: 9,
+    lore: 'Lore of the Wild 3, Lore of the Flesh 2',
+    apocalypticForm: 'Monstrous — massive beast form, armored scales, rending claws',
+    notes: 'The Abyss broke them. Believes Creation is beyond saving and must be destroyed. High Torment makes their evocations horrific and destructive.',
+  },
+  {
+    name: 'Reconciler Penitent',
+    concept: 'Demon seeking redemption',
+    house: 'Scourge', faction: 'Reconciler',
+    str: 2, dex: 3, sta: 2, cha: 3, man: 2, app: 3, per: 3, int: 3, wits: 3,
+    willpower: 7, faith: 4, torment: 2,
+    lore: 'Lore of the Firmament 2, Lore of Awakening 2',
+    apocalypticForm: 'Angelic — luminous wings, gentle radiance, soothing presence',
+    notes: 'Regrets the rebellion and seeks to make amends. Protects mortals and fights to keep Torment low. Other demons consider them weak or foolish.',
+  },
+  {
+    name: 'Luciferan Soldier',
+    concept: 'Loyalist awaiting the Morningstar\'s return',
+    house: 'Slayer', faction: 'Luciferan',
+    str: 4, dex: 3, sta: 3, cha: 2, man: 2, app: 2, per: 3, int: 2, wits: 3,
+    willpower: 7, faith: 5, torment: 6,
+    lore: 'Lore of Death 3, Lore of the Spirit 2',
+    apocalypticForm: 'Terrifying — skeletal features, death-shroud, eyes of cold fire',
+    notes: 'Still loyal to Lucifer and awaits his return. Disciplined and militant. Follows the old chain of command and will not tolerate insubordination.',
+  },
+  {
+    name: 'Earthbound Shard',
+    concept: 'Fragment of an Earthbound demon',
+    house: 'Unknown', faction: 'Earthbound',
+    str: 1, dex: 1, sta: 5, cha: 1, man: 4, app: 1, per: 5, int: 5, wits: 3,
+    willpower: 9, faith: 8, torment: 10,
+    lore: 'Multiple Lores at high levels — bound to a reliquary',
+    apocalypticForm: 'Bound to object — manifests through environmental effects, voices, and nightmares',
+    notes: 'Never had a mortal host. Bound to a reliquary for millennia. Immensely powerful but limited in mobility. Demands worship and sacrifice.',
+  },
+  {
+    name: 'Thrall',
+    concept: 'Demon-touched mortal servant',
+    house: 'None (mortal)', faction: 'None',
+    str: 2, dex: 2, sta: 2, cha: 2, man: 2, app: 2, per: 2, int: 2, wits: 2,
+    willpower: 4, faith: 1, torment: 0,
+    lore: 'None — receives abilities from demonic pact',
+    apocalypticForm: 'None — may exhibit minor supernatural traits',
+    notes: 'A mortal who has made a pact with a demon in exchange for power. Serves their infernal master willingly or under compulsion. Has minor supernatural abilities.',
+  },
+]
+
+// ── Changeling NPCs ─────────────────────────────────────────────────────────
+
+export const WOD_CHANGELING_NPCS = [
+  {
+    name: 'Childling Pooka',
+    concept: 'Mischievous shapeshifting trickster',
+    kith: 'Pooka', seeming: 'Childling',
+    str: 1, dex: 3, sta: 2, cha: 3, man: 2, app: 3, per: 2, int: 2, wits: 3,
+    willpower: 3, glamour: 5, banality: 1,
+    arts: 'Primal 1, Chicanery 1',
+    notes: 'A playful child-fae who cannot tell the whole truth. Takes the form of a small animal. Innocent but surprisingly cunning.',
+  },
+  {
+    name: 'Wilder Satyr',
+    concept: 'Passionate reveler and musician',
+    kith: 'Satyr', seeming: 'Wilder',
+    str: 2, dex: 3, sta: 3, cha: 4, man: 2, app: 3, per: 2, int: 2, wits: 2,
+    willpower: 4, glamour: 6, banality: 3,
+    arts: 'Legerdemain 2, Primal 1',
+    notes: 'Lives for passion, music, and revelry. Physically tough with goat legs. Can inspire ecstasy or fury with their pipes.',
+  },
+  {
+    name: 'Grump Troll',
+    concept: 'Honor-bound warrior past their prime',
+    kith: 'Troll', seeming: 'Grump',
+    str: 4, dex: 2, sta: 4, cha: 2, man: 1, app: 2, per: 2, int: 2, wits: 3,
+    willpower: 7, glamour: 4, banality: 6,
+    arts: 'Sovereign 2, Primal 1',
+    notes: 'Massive and strong but weighed down by Banality. Bound by their word — once given, a Troll\'s oath is unbreakable. Loyal to a fault.',
+  },
+  {
+    name: 'Sidhe Noble',
+    concept: 'Aristocratic fae of breathtaking beauty',
+    kith: 'Sidhe', seeming: 'Wilder',
+    str: 2, dex: 2, sta: 2, cha: 4, man: 4, app: 5, per: 3, int: 3, wits: 3,
+    willpower: 6, glamour: 7, banality: 3,
+    arts: 'Sovereign 3, Chronos 2, Wayfare 1',
+    notes: 'Born to rule. Impossibly beautiful and charismatic. Commands respect through sheer force of presence. May be benevolent or tyrannical.',
+  },
+  {
+    name: 'Sluagh Informant',
+    concept: 'Whispering keeper of secrets',
+    kith: 'Sluagh', seeming: 'Wilder',
+    str: 1, dex: 2, sta: 2, cha: 1, man: 3, app: 1, per: 4, int: 4, wits: 3,
+    willpower: 6, glamour: 5, banality: 4,
+    arts: 'Chicanery 2, Soothsay 2',
+    notes: 'Speaks only in whispers. Knows secrets that should be impossible to learn. Lives in dark places and trades in information. Deeply unsettling.',
+  },
+  {
+    name: 'Redcap Enforcer',
+    concept: 'Voracious bully and thug',
+    kith: 'Redcap', seeming: 'Wilder',
+    str: 3, dex: 3, sta: 3, cha: 1, man: 2, app: 1, per: 2, int: 1, wits: 3,
+    willpower: 5, glamour: 5, banality: 4,
+    arts: 'Primal 2',
+    notes: 'Can eat anything — literally anything. Sharp teeth and a foul temper. Used as muscle by Unseelie courts. Feared even by other Kithain.',
+  },
+  {
+    name: 'Nocker Mechanic',
+    concept: 'Brilliant but cantankerous inventor',
+    kith: 'Nocker', seeming: 'Wilder',
+    str: 2, dex: 3, sta: 2, cha: 1, man: 1, app: 1, per: 3, int: 4, wits: 4,
+    willpower: 6, glamour: 5, banality: 5,
+    arts: 'Infusion 3, Legerdemain 1',
+    notes: 'Builds amazing chimerical devices that always have one flaw. Curses constantly. Impossible to work with but produces brilliant inventions.',
+  },
+  {
+    name: 'Eshu Wanderer',
+    concept: 'Traveling storyteller and adventurer',
+    kith: 'Eshu', seeming: 'Wilder',
+    str: 2, dex: 3, sta: 2, cha: 3, man: 3, app: 3, per: 3, int: 3, wits: 3,
+    willpower: 5, glamour: 6, banality: 3,
+    arts: 'Wayfare 2, Soothsay 1, Chicanery 1',
+    notes: 'A born traveler who collects and tells stories from across the world. Uncannily lucky and always seems to arrive exactly when needed.',
+  },
+]
+
+// ── Familiar NPCs ───────────────────────────────────────────────────────────
+
+export const WOD_FAMILIAR_NPCS = [
+  {
+    name: 'Black Cat',
+    concept: 'Classic witch\'s familiar — cunning and independent',
+    str: 1, dex: 3, sta: 1, cha: 2, man: 1, app: 2, per: 3, int: 2, wits: 3,
+    willpower: 3,
+    powers: 'Night Vision, Spirit Sight, Quintessence Storage (up to 5)',
+    notes: 'Sleek and aloof. Sees across the Gauntlet and warns of approaching spirits. Bonds deeply with their mage but on their own terms.',
+  },
+  {
+    name: 'Raven',
+    concept: 'Corvid messenger and omen-reader',
+    str: 1, dex: 3, sta: 1, cha: 1, man: 1, app: 1, per: 4, int: 2, wits: 3,
+    willpower: 3,
+    powers: 'Flight, Spirit Speech, Omen Sense, Quintessence Storage (up to 3)',
+    notes: 'Intelligent and talkative (to those who can hear). Can deliver messages and scout ahead. Associated with death and prophecy.',
+  },
+  {
+    name: 'Owl',
+    concept: 'Nocturnal guardian and wisdom spirit',
+    str: 1, dex: 3, sta: 1, cha: 1, man: 1, app: 2, per: 4, int: 3, wits: 3,
+    willpower: 4,
+    powers: 'Flight, Night Vision, Silent Movement, Quintessence Storage (up to 5)',
+    notes: 'Silent and watchful. Exceptionally perceptive, especially at night. Associated with wisdom and hidden knowledge.',
+  },
+  {
+    name: 'Snake',
+    concept: 'Serpentine familiar of forbidden knowledge',
+    str: 1, dex: 2, sta: 2, cha: 1, man: 1, app: 1, per: 3, int: 2, wits: 2,
+    willpower: 3,
+    powers: 'Venom (light), Heat Sense, Quintessence Storage (up to 4), Shedding (heal 1 bashing/day)',
+    notes: 'Cold and patient. Senses heat and vibrations. Associated with transformation and hidden wisdom. Unnerving to most mortals.',
+  },
+  {
+    name: 'Spider',
+    concept: 'Web-spinning watcher and pattern-reader',
+    str: 1, dex: 3, sta: 1, cha: 1, man: 1, app: 1, per: 4, int: 2, wits: 3,
+    willpower: 2,
+    powers: 'Web Spinning, Wall Climbing, Tremor Sense, Quintessence Storage (up to 3)',
+    notes: 'Tiny but extraordinarily perceptive. Senses vibrations through webs. Can detect lies and eavesdrop from hidden positions. Associated with fate and weaving.',
+  },
+  {
+    name: 'Wolf Pup',
+    concept: 'Young wolf spirit bonded to a mage',
+    str: 2, dex: 2, sta: 2, cha: 2, man: 1, app: 2, per: 3, int: 1, wits: 3,
+    willpower: 4,
+    powers: 'Tracking Scent, Pack Bond (telepathic link), Quintessence Storage (up to 5), Howl (alerts nearby spirits)',
+    notes: 'Loyal and protective. Telepathic bond with their mage. Fiercely territorial. Grows more powerful as the bond deepens.',
+  },
+]
+
+// ── Totem NPCs ──────────────────────────────────────────────────────────────
+
+export const WOD_TOTEM_NPCS = [
+  {
+    name: 'Rat',
+    concept: 'Cunning survivor spirit of the urban wilds',
+    totemType: 'Cunning',
+    rage: 5, gnosis: 7, willpower: 7, essence: 20,
+    charms: 'Gnaw, Scurry, Plague Sense',
+    notes: 'Patron of the Bone Gnawers. Teaches survival and resourcefulness. Its children learn to find sustenance anywhere and escape any trap.',
+  },
+  {
+    name: 'Stag',
+    concept: 'Noble spirit of the wild hunt',
+    totemType: 'Respect',
+    rage: 4, gnosis: 8, willpower: 7, essence: 25,
+    charms: 'Healing, Swift Flight, Illuminate',
+    notes: 'Patron of the Fianna. Represents the primal nobility of the hunt. Grants its children endurance and a connection to the Wyld.',
+  },
+  {
+    name: 'Falcon',
+    concept: 'Regal raptor spirit of leadership',
+    totemType: 'Respect',
+    rage: 4, gnosis: 6, willpower: 8, essence: 25,
+    charms: 'Swift Flight, Command, Airt Sense',
+    notes: 'Patron of the Silver Fangs. Embodies honor, leadership, and keen sight. Its children gain respect among all Garou — and the burden of expectation.',
+  },
+  {
+    name: 'Uktena',
+    concept: 'Serpentine spirit of dark wisdom',
+    totemType: 'Wisdom',
+    rage: 7, gnosis: 9, willpower: 7, essence: 25,
+    charms: 'Water Breathing, Bind, Constrict, Spirit of the Land',
+    notes: 'Patron of the Uktena tribe. Ancient water-serpent who guards forbidden secrets. Grants knowledge of dark mysteries — at a price.',
+  },
+  {
+    name: 'Fenris',
+    concept: 'Monstrous wolf spirit of war and strength',
+    totemType: 'War',
+    rage: 9, gnosis: 5, willpower: 8, essence: 25,
+    charms: 'Howl, Bite, Savage, Berserker Rage',
+    notes: 'Patron of the Get of Fenris. The great devourer who will swallow the sun. Demands strength and courage. Weakness is the only sin.',
+  },
+  {
+    name: 'Cockroach',
+    concept: 'Resilient spirit of adaptation and technology',
+    totemType: 'Wisdom',
+    rage: 4, gnosis: 8, willpower: 6, essence: 20,
+    charms: 'Control Electrical Systems, Survive Anything, Scurry',
+    notes: 'Patron of the Glass Walkers. Survives everything. Its children gain an affinity for technology and the Weaver. Disgusting but incredibly persistent.',
+  },
+  {
+    name: 'Chimera',
+    concept: 'Enigmatic spirit of riddles and illusion',
+    totemType: 'Wisdom',
+    rage: 4, gnosis: 9, willpower: 7, essence: 25,
+    charms: 'Shapeshift, Illusion, Airt Sense, Wisdom',
+    notes: 'Patron of the Stargazers. A spirit of many forms that teaches through riddles and paradox. Its children see through deception but struggle with directness.',
+  },
+  {
+    name: 'Griffin',
+    concept: 'Majestic spirit of vigilance and nobility',
+    totemType: 'Respect',
+    rage: 5, gnosis: 7, willpower: 7, essence: 25,
+    charms: 'Swift Flight, Vigilance, Pride, Eagle Sight',
+    notes: 'Former patron of the Red Talons. A fierce guardian who demands respect for the Wyld. Its children are vigilant protectors of sacred places.',
+  },
+]
+
 // ── NPC Catalog (for CatalogSelect) ──────────────────────────────────────────
+
+export const WOD_FAMILIAR_NPC_CATALOG = WOD_FAMILIAR_NPCS.map(f => ({ value: f.name, description: f.concept }))
+export const WOD_TOTEM_NPC_CATALOG = WOD_TOTEM_NPCS.map(t => ({ value: t.name, description: t.concept }))
+export const WOD_HUNTER_NPC_CATALOG = WOD_HUNTER_NPCS.map(h => ({ value: h.name, description: h.concept }))
+export const WOD_WRAITH_NPC_CATALOG = WOD_WRAITH_NPCS.map(w => ({ value: w.name, description: w.concept }))
+export const WOD_DEMON_NPC_CATALOG = WOD_DEMON_NPCS.map(d => ({ value: d.name, description: d.concept }))
+export const WOD_CHANGELING_NPC_CATALOG = WOD_CHANGELING_NPCS.map(c => ({ value: c.name, description: c.concept }))
 
 export const WOD_NPC_CATALOG = [
   // Mortal — Civilian

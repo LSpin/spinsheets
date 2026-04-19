@@ -6,6 +6,8 @@ import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
 import { FAMILIAR_POWERS } from '../data/familiarPowers'
+import { WOD_FAMILIAR_NPCS, WOD_FAMILIAR_NPC_CATALOG } from '../data/wodNpcs'
+import CatalogSelect from './CatalogSelect'
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
@@ -73,6 +75,28 @@ export default function FamiliarForm() {
   function handleField(name, value) { setFields(prev => ({ ...prev, [name]: typeof value === 'string' ? value : Number(value) })) }
   function handleText(e) { setFields(prev => ({ ...prev, [e.target.name]: e.target.value })) }
 
+  function loadTemplate(templateName) {
+    const tmpl = WOD_FAMILIAR_NPCS.find(t => t.name === templateName)
+    if (!tmpl) return
+    setFields(prev => ({
+      ...prev,
+      name: tmpl.name,
+      concept: tmpl.concept,
+      strength: tmpl.str || 1,
+      dexterity: tmpl.dex || 1,
+      stamina: tmpl.sta || 1,
+      charisma: tmpl.cha || 1,
+      manipulation: tmpl.man || 1,
+      appearance: tmpl.app || 1,
+      perception: tmpl.per || 1,
+      intelligence: tmpl.int || 1,
+      wits: tmpl.wits || 1,
+      willpower: tmpl.willpower || 3,
+      currentWillpower: tmpl.willpower || 3,
+      notes: tmpl.notes || '',
+    }))
+  }
+
   async function handleSave() {
     setSaving(true); setSaveError(null)
     try { await updateCharacter(characterId, fields) }
@@ -116,6 +140,10 @@ export default function FamiliarForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabIdentity')}</legend>
+            <div className="field-row">
+              <CatalogSelect id="familiar-template" name="familiarTemplate" label={t('dndLoadTemplate')}
+                value="" onChange={(_, v) => loadTemplate(v)} catalog={WOD_FAMILIAR_NPC_CATALOG} showDescOnSelect={false} />
+            </div>
             <div className="field-row">
               <div className="field"><label>{t('charName')} *</label><input name="name" value={fields.name} onChange={handleText} /></div>
               <div className="field"><label>{t('familiarType')}</label><input name="altName" value={fields.altName} onChange={handleText} placeholder={t('familiarTypePh')} /></div>

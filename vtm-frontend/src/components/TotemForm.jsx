@@ -6,6 +6,7 @@ import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
 import CatalogSelect from './CatalogSelect'
+import { WOD_TOTEM_NPCS, WOD_TOTEM_NPC_CATALOG } from '../data/wodNpcs'
 import { SPIRIT_CHARMS } from '../data/spiritCharms'
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
@@ -78,6 +79,25 @@ export default function TotemForm() {
   function handleField(name, value) { setFields(prev => ({ ...prev, [name]: typeof value === 'string' ? value : Number(value) })) }
   function handleText(e) { setFields(prev => ({ ...prev, [e.target.name]: e.target.value })) }
 
+  function loadTemplate(templateName) {
+    const tmpl = WOD_TOTEM_NPCS.find(t => t.name === templateName)
+    if (!tmpl) return
+    setFields(prev => ({
+      ...prev,
+      name: tmpl.name,
+      concept: tmpl.concept,
+      altName: tmpl.totemType || '',
+      rage: tmpl.rage || 1,
+      currentRage: tmpl.rage || 1,
+      gnosis: tmpl.gnosis || 1,
+      currentGnosis: tmpl.gnosis || 1,
+      willpower: tmpl.willpower || 3,
+      currentWillpower: tmpl.willpower || 3,
+      quintessence: tmpl.essence || 5,
+      notes: tmpl.notes || '',
+    }))
+  }
+
   async function handleSave() {
     setSaving(true); setSaveError(null)
     try { await updateCharacter(characterId, fields) }
@@ -121,6 +141,10 @@ export default function TotemForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabIdentity')}</legend>
+            <div className="field-row">
+              <CatalogSelect id="totem-template" name="totemTemplate" label={t('dndLoadTemplate')}
+                value="" onChange={(_, v) => loadTemplate(v)} catalog={WOD_TOTEM_NPC_CATALOG} showDescOnSelect={false} />
+            </div>
             <div className="field-row">
               <div className="field"><label>{t('totemName')} *</label><input name="name" value={fields.name} onChange={handleText} placeholder={t('totemNamePh')} /></div>
               <CatalogSelect id="altName" name="altName" label={t('totemType')} value={fields.altName} onChange={handleField} catalog={TOTEM_TYPES} />
