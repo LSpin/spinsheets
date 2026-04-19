@@ -24,7 +24,8 @@ export default function ChronicleList({ system = 'WOD', basePath = '/chronicles'
   const { switchTheme } = useTheme()
   const systemLabel = t(SYSTEM_LABEL_KEYS[system] || 'systemWoD')
 
-  useEffect(() => { switchTheme(system === 'SEVENTH_SEA' ? '7thsea' : system === 'L5R' ? 'l5r' : 'wod') }, [])
+  const SYSTEM_THEME = { WOD: 'wod', SEVENTH_SEA: '7thsea', L5R: 'l5r', BLADES: 'blades', DND: 'dnd', UESTRPG: 'uestrpg' }
+  useEffect(() => { switchTheme(SYSTEM_THEME[system] || 'wod') }, [])
   useEffect(() => { load() }, [])
 
   async function load() {

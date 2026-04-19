@@ -180,7 +180,7 @@ export default function CharacterList() {
   const { switchTheme } = useTheme()
 
   useEffect(() => { switchTheme('wod') }, [])
-  useEffect(() => { loadCharacters() }, [])
+  useEffect(() => { loadCharacters() }, [isST])
 
   async function loadCharacters() {
     try {
@@ -189,7 +189,8 @@ export default function CharacterList() {
         getCharacters(),
         isST ? getChronicles() : Promise.resolve({ data: [] }),
       ])
-      setCharacters(charsRes.data.filter(c => c.splat !== 'SEVENTH_SEA' && c.splat !== 'L5R'))
+      const NON_WOD = new Set(['SEVENTH_SEA', 'L5R', 'L5R_ANTAGONIST', 'BLADES', 'BLADES_CREW', 'BLADES_ANTAGONIST', 'DND', 'DND_MONSTER', 'UESTRPG', 'UESTRPG_ANTAGONIST'])
+      setCharacters(charsRes.data.filter(c => !NON_WOD.has(c.splat)))
       setChronicles(chronRes.data)
     } catch {
       setError(t('failedLoadChars'))
