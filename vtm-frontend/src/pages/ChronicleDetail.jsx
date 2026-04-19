@@ -107,6 +107,7 @@ export default function ChronicleDetail() {
   const gameSystem = chronicle?.gameSystem || 'WOD'
   const SYSTEM_THEMES = { WOD: 'wod', SEVENTH_SEA: '7thsea', L5R: 'l5r', BLADES: 'blades', DND: 'dnd', UESTRPG: 'uestrpg' }
   const SYSTEM_PATHS = { WOD: '/chronicles', SEVENTH_SEA: '/7thsea/chronicles', L5R: '/l5r/chronicles', BLADES: '/blades/chronicles', DND: '/dnd/chronicles', UESTRPG: '/uestrpg/chronicles' }
+  const SYSTEM_NEW_CHAR = { WOD: '/characters/new', SEVENTH_SEA: '/7thsea/new', L5R: '/l5r/new', BLADES: '/blades/new', DND: '/dnd/new', UESTRPG: '/uestrpg/new' }
   const SYSTEM_SPLAT_CATEGORIES = {
     WOD: ['VAMPIRE', 'WEREWOLF', 'MAGE', 'HUNTER', 'WRAITH', 'CHANGELING', 'DEMON'],
     SEVENTH_SEA: ['SEVENTH_SEA'],
@@ -302,6 +303,14 @@ export default function ChronicleDetail() {
           <p className="muted-hint" style={{ color: 'var(--color-text-muted)' }}>
             {t('noMatchingChars')}
           </p>
+        )}
+
+        {!isST && (
+          <div style={{ marginTop: 'var(--space-md)' }}>
+            <button className="btn btn-primary" onClick={() => navigate(`${SYSTEM_NEW_CHAR[gameSystem] || '/characters/new'}?mode=guided&chronicle=${id}`)}>
+              {t('createCharForChronicle')}
+            </button>
+          </div>
         )}
 
         {canManage && (
