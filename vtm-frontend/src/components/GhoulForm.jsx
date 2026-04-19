@@ -8,7 +8,7 @@ import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import CatalogSelect from './CatalogSelect'
-import { WOD_VAMPIRE_NPCS } from '../data/wodNpcs'
+import { WOD_GHOUL_NPCS, WOD_GHOUL_NPC_CATALOG } from '../data/wodNpcs'
 import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -158,13 +158,15 @@ export default function GhoulForm() {
   function handleText(e) { setFields(prev => ({ ...prev, [e.target.name]: e.target.value })) }
 
   function loadTemplate(templateName) {
-    const tmpl = WOD_VAMPIRE_NPCS.find(t => t.name === templateName)
+    const tmpl = WOD_GHOUL_NPCS.find(t => t.name === templateName)
     if (!tmpl) return
     setFields(prev => ({
       ...prev,
       name: tmpl.name,
       concept: tmpl.concept,
       clan: tmpl.clan || '',
+      nature: tmpl.nature || prev.nature,
+      demeanor: tmpl.demeanor || prev.demeanor,
       strength: tmpl.str || 1,
       dexterity: tmpl.dex || 1,
       stamina: tmpl.sta || 1,
@@ -176,6 +178,25 @@ export default function GhoulForm() {
       wits: tmpl.wits || 1,
       willpower: tmpl.willpower || 3,
       currentWillpower: tmpl.willpower || 3,
+      pathRating: tmpl.pathRating || prev.pathRating,
+      // Abilities
+      alertness: tmpl.alertness || 0, athletics: tmpl.athletics || 0,
+      awareness: tmpl.awareness || 0, brawl: tmpl.brawl || 0,
+      empathy: tmpl.empathy || 0, expression: tmpl.expression || 0,
+      intimidation: tmpl.intimidation || 0, leadership: tmpl.leadership || 0,
+      streetwise: tmpl.streetwise || 0, subterfuge: tmpl.subterfuge || 0,
+      animalKen: tmpl.animalKen || 0, crafts: tmpl.crafts || 0,
+      drive: tmpl.drive || 0, etiquette: tmpl.etiquette || 0,
+      firearms: tmpl.firearms || 0, larceny: tmpl.larceny || 0,
+      melee: tmpl.melee || 0, performance: tmpl.performance || 0,
+      stealth: tmpl.stealth || 0, survival: tmpl.survival || 0,
+      academics: tmpl.academics || 0, computer: tmpl.computer || 0,
+      finance: tmpl.finance || 0, investigation: tmpl.investigation || 0,
+      law: tmpl.law || 0, medicine: tmpl.medicine || 0,
+      occult: tmpl.occult || 0, politics: tmpl.politics || 0,
+      science: tmpl.science || 0, technology: tmpl.technology || 0,
+      // Disciplines & notes
+      sorceryDesc: tmpl.disciplines || '',
       notes: tmpl.notes || '',
     }))
   }
@@ -217,7 +238,7 @@ export default function GhoulForm() {
             <div className="field-row">
               <CatalogSelect id="ghoul-template" name="ghoulTemplate" label={t('dndLoadTemplate')}
                 value="" onChange={(_, v) => loadTemplate(v)}
-                catalog={WOD_VAMPIRE_NPCS.map(v => ({ value: v.name, description: v.concept }))} showDescOnSelect={false} />
+                catalog={WOD_GHOUL_NPC_CATALOG} showDescOnSelect={false} />
             </div>
             <div className="field-row">
               <div className="field"><label>{t('charName')} *</label><input name="name" value={fields.name} onChange={handleText} /></div>
