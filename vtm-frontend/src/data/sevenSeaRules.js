@@ -1,5 +1,48 @@
 // 7th Sea 2nd Edition — Quick Rules Reference
 
+export const SEVENTH_SEA_SORCERIES = [
+  {
+    name: 'Porté',
+    nation: 'Montaigne',
+    description: 'Blood magic that tears holes in reality. Blooded sorcerers can mark objects and people, then rip open portals to teleport to marked targets. Higher mastery allows walking through the \'walkway\' between portals.',
+  },
+  {
+    name: 'Sorte',
+    nation: 'Vodacce',
+    description: 'Fate witchery practiced only by women. Sorte strega can see and manipulate the Strands of Fate binding people together — love, hatred, wealth, luck. They can bless, curse, or sever these connections.',
+  },
+  {
+    name: 'Glamour',
+    nation: 'Avalon',
+    description: 'The magic of the Sidhe, granted through ancient pacts. Glamour users can call upon legendary powers — Robin Goodfellow\'s tricks, the Green Man\'s strength, Jack\'s cleverness.',
+  },
+  {
+    name: 'Hexenwerk',
+    nation: 'Eisen',
+    description: 'Dark folk magic dealing with the dead. Practitioners create unguents — magical salves brewed from corpse materials that grant temporary supernatural abilities.',
+  },
+  {
+    name: 'Laerdom',
+    nation: 'Vestenmennavenjar',
+    description: 'Ancient runic magic of the north. Skalds inscribe runes to invoke elemental powers — storms, ice, fire, prophecy. Each rune has specific effects.',
+  },
+  {
+    name: 'Sanderis',
+    nation: 'Sarmatia',
+    description: 'Pact magic with Leshiye — nature spirits of the dark forests. The sorcerer bargains for favors, but the Leshiye always demand something in return.',
+  },
+  {
+    name: 'Dar Matushki',
+    nation: 'Ussura',
+    description: 'Grandmother\'s magic — the land of Ussura itself grants power through Matushka. Sorcerers can speak with animals, walk through winter storms, and reshape the land.',
+  },
+  {
+    name: 'Wizardry',
+    nation: 'Crescent Empire',
+    description: 'Scholarly magic based on ancient mathematical principles. Practitioners manipulate reality through precise calculations and geometric forms.',
+  },
+]
+
 export const SEVEN_SEA_RULES = [
   {
     title: 'Raises — Core Mechanic',

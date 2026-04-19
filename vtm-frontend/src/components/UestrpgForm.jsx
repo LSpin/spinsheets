@@ -13,8 +13,8 @@ import { useTheme } from '../context/ThemeContext'
 import { UESTRPG_CLASSES, UESTRPG_CLASS_CATALOG } from '../data/uestrpgData'
 import { UESTRPG_RACES, UESTRPG_RACE_CATALOG, UESTRPG_ALIGNMENTS } from '../data/uestrpgData'
 import { UESTRPG_BACKGROUNDS, UESTRPG_SKILLS, UESTRPG_CONSTELLATION_CATALOG, UESTRPG_SPELLCASTING_ABILITIES } from '../data/uestrpgData'
+import { UESTRPG_EQUIPMENT_CATALOG } from '../data/uestrpgData'
 import { DND_SPELLS } from '../data/dnd5eSpells'
-import { DND_EQUIPMENT_CATALOG } from '../data/dnd5eEquipment'
 
 const TAB_KEYS = ['tabIdentity', 'tabUestrpgAbilities', 'tabUestrpgSkills', 'tabUestrpgCombat', 'tabUestrpgFeatures', 'tabDndSpells', 'tabDndEquipment', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
 
@@ -171,7 +171,7 @@ export default function UestrpgForm() {
   })
 
   // Filtered equipment
-  const filteredEquip = DND_EQUIPMENT_CATALOG.filter(item => {
+  const filteredEquip = UESTRPG_EQUIPMENT_CATALOG.filter(item => {
     if (!equipSearch) return true
     const q = equipSearch.toLowerCase()
     return item.value.toLowerCase().includes(q) || item.description.toLowerCase().includes(q)

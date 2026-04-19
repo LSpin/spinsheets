@@ -300,3 +300,91 @@ export const UESTRPG_SPELLCASTING_ABILITIES = [
   { value: 'Willpower', description: 'Used by Crusaders, Wardens, and Spellswords.' },
   { value: 'Personality', description: 'Used by Bards.' },
 ];
+
+// ── TES-Flavored Equipment Catalog ──
+
+export const UESTRPG_WEAPONS = [
+  // Swords (One-Handed)
+  { name: "Iron Sword", category: "Weapon", weight: 9, cost: 25, description: "One-Handed — 1d8 slashing. A common iron blade, standard issue for guards and soldiers." },
+  { name: "Steel Sword", category: "Weapon", weight: 10, cost: 70, description: "One-Handed — 1d8+1 slashing. A well-forged steel blade, reliable and balanced." },
+  { name: "Elven Sword", category: "Weapon", weight: 8, cost: 235, description: "One-Handed — 1d8+2 slashing. Finesse. An elegant blade of moonstone and quicksilver." },
+  { name: "Glass Sword", category: "Weapon", weight: 7, cost: 410, description: "One-Handed — 1d10+1 slashing. Finesse. A razor-sharp blade of refined malachite." },
+  { name: "Daedric Sword", category: "Weapon", weight: 12, cost: 1250, description: "One-Handed — 1d10+2 slashing. Forged from ebony and bound with a Daedric heart." },
+  { name: "Dragonbone Sword", category: "Weapon", weight: 13, cost: 1500, description: "One-Handed — 1d10+3 slashing. Carved from the bones of a slain dragon." },
+  // Axes and Blunt
+  { name: "Iron War Axe", category: "Weapon", weight: 10, cost: 30, description: "One-Handed — 1d8 slashing. A sturdy chopping weapon favored by Nords." },
+  { name: "Steel Battleaxe", category: "Weapon", weight: 15, cost: 100, description: "Two-Handed — 1d12+1 slashing. Heavy. A massive two-handed axe of forged steel." },
+  { name: "Orcish Warhammer", category: "Weapon", weight: 18, cost: 275, description: "Two-Handed — 2d6+1 bludgeoning. Heavy. A brutal orichalcum hammer of Orsimer design." },
+  { name: "Ebony Mace", category: "Weapon", weight: 13, cost: 750, description: "One-Handed — 1d8+3 bludgeoning. A heavy mace of volcanic ebony, devastatingly effective." },
+  // Bows
+  { name: "Hunting Bow", category: "Weapon", weight: 4, cost: 15, description: "Ranged — 1d6 piercing. Ammunition (80/320). Two-Handed. A simple wooden bow for hunting game." },
+  { name: "Long Bow", category: "Weapon", weight: 5, cost: 50, description: "Ranged — 1d8 piercing. Ammunition (150/600). Two-Handed. A tall bow with superior range." },
+  { name: "Elven Bow", category: "Weapon", weight: 4, cost: 280, description: "Ranged — 1d8+1 piercing. Ammunition (150/600). Two-Handed. A graceful bow of Altmeri craftsmanship." },
+  { name: "Glass Bow", category: "Weapon", weight: 4, cost: 470, description: "Ranged — 1d8+2 piercing. Ammunition (150/600). Two-Handed. A gleaming bow of refined malachite." },
+  { name: "Daedric Bow", category: "Weapon", weight: 7, cost: 1375, description: "Ranged — 1d10+2 piercing. Ammunition (150/600). Two-Handed. A sinister bow forged in the fires of Oblivion." },
+  // Daggers
+  { name: "Iron Dagger", category: "Weapon", weight: 2, cost: 10, description: "One-Handed — 1d4 piercing. Finesse, Light. A simple iron dagger, easily concealed." },
+  { name: "Steel Dagger", category: "Weapon", weight: 2, cost: 35, description: "One-Handed — 1d4+1 piercing. Finesse, Light. A sharp steel dagger favored by thieves." },
+  { name: "Elven Dagger", category: "Weapon", weight: 2, cost: 200, description: "One-Handed — 1d4+2 piercing. Finesse, Light. A slender dagger of exquisite elven make." },
+  // Greatswords
+  { name: "Iron Greatsword", category: "Weapon", weight: 14, cost: 50, description: "Two-Handed — 2d6 slashing. Heavy. A large iron blade requiring both hands to wield." },
+  { name: "Steel Greatsword", category: "Weapon", weight: 15, cost: 120, description: "Two-Handed — 2d6+1 slashing. Heavy. A well-tempered steel greatsword." },
+  { name: "Ebony Greatsword", category: "Weapon", weight: 17, cost: 900, description: "Two-Handed — 2d6+3 slashing. Heavy. A magnificent greatsword of volcanic ebony." },
+  // Staves
+  { name: "Staff of Flames", category: "Weapon", weight: 5, cost: 350, description: "Arcane Focus — Casts Firebolt (2d10 fire, 120 ft). 20 charges, regains 1d6+4 at dawn." },
+  { name: "Staff of Ice", category: "Weapon", weight: 5, cost: 350, description: "Arcane Focus — Casts Ray of Frost (2d8 cold, 60 ft, -10 speed). 20 charges, regains 1d6+4 at dawn." },
+  { name: "Staff of Lightning", category: "Weapon", weight: 5, cost: 350, description: "Arcane Focus — Casts Shocking Grasp (2d8 lightning, advantage vs metal armor). 20 charges, regains 1d6+4 at dawn." },
+  { name: "Staff of Conjuration", category: "Weapon", weight: 5, cost: 500, description: "Arcane Focus — Casts Conjure Familiar (wolf or atronach, 1 hr). 10 charges, regains 1d4+2 at dawn." },
+];
+
+export const UESTRPG_ARMOR = [
+  // Heavy Armor
+  { name: "Iron Armor", category: "Armor", weight: 40, cost: 75, description: "Heavy — AC 14. Stealth disadvantage. Standard iron plate worn by guards and soldiers." },
+  { name: "Steel Armor", category: "Armor", weight: 45, cost: 200, description: "Heavy — AC 16. Stealth disadvantage. Sturdy steel plate, the backbone of the Imperial Legion." },
+  { name: "Dwarven Armor", category: "Armor", weight: 50, cost: 400, description: "Heavy — AC 17. Stealth disadvantage. Ancient Dwemer metal plate, impossibly durable." },
+  { name: "Orcish Armor", category: "Armor", weight: 48, cost: 500, description: "Heavy — AC 17. Stealth disadvantage. Brutal orichalcum plate forged in Orcish strongholds." },
+  { name: "Ebony Armor", category: "Armor", weight: 52, cost: 1000, description: "Heavy — AC 18. Stealth disadvantage. Jet-black volcanic ebony plate, prized by elite warriors." },
+  { name: "Daedric Armor", category: "Armor", weight: 55, cost: 2500, description: "Heavy — AC 19. Stealth disadvantage. Ebony plate bound with a Daedric heart. Radiates malice." },
+  { name: "Dragonplate Armor", category: "Armor", weight: 50, cost: 3000, description: "Heavy — AC 19. Stealth disadvantage. Forged from dragon bones and scales. Legendary protection." },
+  // Light Armor
+  { name: "Leather Armor", category: "Armor", weight: 10, cost: 50, description: "Light — AC 11 + AGI mod. Tanned hide armor, quiet and flexible." },
+  { name: "Elven Light Armor", category: "Armor", weight: 12, cost: 350, description: "Light — AC 13 + AGI mod. Elegant moonstone-reinforced leather of Altmeri design." },
+  { name: "Glass Armor", category: "Armor", weight: 15, cost: 800, description: "Light — AC 14 + AGI mod (max 2). Refined malachite plates over leather. Beautiful and deadly." },
+  { name: "Dragonscale Armor", category: "Armor", weight: 16, cost: 2800, description: "Light — AC 15 + AGI mod (max 2). Armor of dragon scales, the pinnacle of light armor." },
+  // Shields
+  { name: "Iron Shield", category: "Armor", weight: 10, cost: 30, description: "Shield — +2 AC. A round iron shield, dented but dependable." },
+  { name: "Steel Shield", category: "Armor", weight: 12, cost: 80, description: "Shield — +2 AC. A sturdy steel kite shield bearing heraldic markings." },
+  { name: "Dwarven Shield", category: "Armor", weight: 14, cost: 250, description: "Shield — +2 AC. An ancient Dwemer shield of unmatched metallurgy." },
+  { name: "Ebony Shield", category: "Armor", weight: 14, cost: 600, description: "Shield — +3 AC. A heavy ebony tower shield, nearly impenetrable." },
+  { name: "Daedric Shield", category: "Armor", weight: 15, cost: 1500, description: "Shield — +3 AC. A terrifying shield of Daedric origin, radiating dark energy." },
+];
+
+export const UESTRPG_ADVENTURING_GEAR = [
+  { name: "Lockpick Set", category: "Gear", weight: 1, cost: 25, description: "A set of fine lockpicks. Required for picking locks. Proficiency with thieves' tools applies." },
+  { name: "Potion of Healing", category: "Gear", weight: 0.5, cost: 50, description: "Restores 2d4+2 HP when consumed. A red potion brewed from wheat and blue mountain flowers." },
+  { name: "Potion of Magicka", category: "Gear", weight: 0.5, cost: 75, description: "Restores 2d4+2 magicka (spell slots). A blue potion brewed from red and purple mountain flowers." },
+  { name: "Potion of Stamina", category: "Gear", weight: 0.5, cost: 50, description: "Removes one level of exhaustion. A green potion brewed from mora tapinella and scaly pholiota." },
+  { name: "Poison", category: "Gear", weight: 0.5, cost: 100, description: "Applied to a weapon as a bonus action. Next hit deals +1d8 poison damage. DC 13 CON save for half." },
+  { name: "Soul Gem (Petty)", category: "Gear", weight: 0.5, cost: 10, description: "Can trap souls of creatures CR 1 or lower. Used for enchanting mundane items." },
+  { name: "Soul Gem (Lesser)", category: "Gear", weight: 0.5, cost: 25, description: "Can trap souls of creatures CR 3 or lower. Used for minor enchantments." },
+  { name: "Soul Gem (Common)", category: "Gear", weight: 0.5, cost: 75, description: "Can trap souls of creatures CR 5 or lower. Used for moderate enchantments." },
+  { name: "Soul Gem (Greater)", category: "Gear", weight: 0.5, cost: 200, description: "Can trap souls of creatures CR 10 or lower. Used for powerful enchantments." },
+  { name: "Soul Gem (Grand)", category: "Gear", weight: 0.5, cost: 500, description: "Can trap souls of creatures CR 15 or lower. Used for the finest enchantments." },
+  { name: "Soul Gem (Black)", category: "Gear", weight: 0.5, cost: 1000, description: "Can trap the souls of humanoids. Forbidden by the Mages Guild. Required for the darkest enchantments." },
+  { name: "Spell Tome", category: "Gear", weight: 3, cost: 150, description: "A book containing a single spell. Study for 8 hours to learn the spell permanently." },
+  { name: "Scroll", category: "Gear", weight: 0.5, cost: 75, description: "A single-use parchment containing a spell. Any creature can activate it; consumed on use." },
+  { name: "Filled Soul Gem", category: "Gear", weight: 1, cost: 300, description: "A soul gem already containing a trapped soul. Ready for use in enchanting." },
+  { name: "Torch", category: "Gear", weight: 1, cost: 1, description: "Provides bright light in a 20 ft. radius and dim light for an additional 20 ft. Burns for 1 hour." },
+  { name: "Lantern", category: "Gear", weight: 2, cost: 10, description: "Provides bright light in a 30 ft. radius and dim light for an additional 30 ft. Requires oil." },
+  { name: "Rope (50 ft.)", category: "Gear", weight: 5, cost: 5, description: "Fifty feet of hempen rope. Useful for climbing, binding, and rigging." },
+  { name: "Bedroll", category: "Gear", weight: 5, cost: 5, description: "A padded sleeping roll. Allows comfortable rest in the wilderness." },
+  { name: "Cooking Pot", category: "Gear", weight: 8, cost: 10, description: "An iron cooking pot. Required to prepare cooked meals at a campfire for healing bonuses." },
+  { name: "Pickaxe", category: "Gear", weight: 6, cost: 15, description: "Used to mine ore veins found in mines and the wilderness. Essential for smithing materials." },
+  { name: "Woodcutter's Axe", category: "Gear", weight: 5, cost: 10, description: "Used to chop firewood at wood-chopping blocks. Can be used as an improvised weapon (1d6 slashing)." },
+];
+
+export const UESTRPG_EQUIPMENT_CATALOG = [
+  ...UESTRPG_WEAPONS.map(w => ({ value: w.name, description: `${w.category} — ${w.cost} Septims, ${w.weight} lbs. ${w.description}` })),
+  ...UESTRPG_ARMOR.map(a => ({ value: a.name, description: `${a.category} — ${a.cost} Septims, ${a.weight} lbs. ${a.description}` })),
+  ...UESTRPG_ADVENTURING_GEAR.map(g => ({ value: g.name, description: `${g.category} — ${g.cost} Septims, ${g.weight} lbs. ${g.description}` })),
+];
