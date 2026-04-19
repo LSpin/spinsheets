@@ -117,13 +117,45 @@ const MAGE_SPECIFIC = [
     levels: ['● Minor trinket.', '●● Useful magical tool.', '●●● Significant enchanted item.', '●●●● Powerful magical artifact.', '●●●●● Legendary wonder of great power.'] },
 ]
 
+// ── Changeling: The Dreaming ──
+const CHANGELING_SPECIFIC = [
+  { value: 'Chimera', description: 'Chimerical companions, items, or creatures born of the Dreaming.',
+    levels: ['● A minor chimerical trinket.', '●● A useful chimerical item or small companion.', '●●● A significant chimerical possession or loyal companion.', '●●●● A powerful chimerical servant or artifact.', '●●●●● A legendary chimerical being of great power.'] },
+  { value: 'Dreamers', description: 'Mortals who provide Glamour through their creative or emotional nature.',
+    levels: ['● One dreamer provides a trickle of Glamour.', '●● A couple of dreamers you can visit regularly.', '●●● Several reliable Glamour sources.', '●●●● A network of dreamers across the area.', '●●●●● An extensive web of creative mortals.'] },
+  { value: 'Holdings', description: 'Fae territory — a freehold or part of one.',
+    levels: ['● A tiny corner of a freehold.', '●● A room or small area within a freehold.', '●●● A significant portion of a freehold.', '●●●● A whole freehold under your stewardship.', '●●●●● A major freehold or network of holdings.'] },
+  { value: 'Remembrance', description: 'Memories of past fae lives that inform the present.',
+    levels: ['● Fleeting impressions and déjà vu.', '●● Occasional clear memories from past lives.', '●●● Reliable recall of past-life knowledge.', '●●●● Vivid recall; draw on past fae skills.', '●●●●● Past incarnations are vivid lived experience.'] },
+  { value: 'Title', description: 'Noble rank in Kithain society.',
+    levels: ['● Squire — recognised but minor.', '●● Knight — earned respect and minor authority.', '●●● Baron/Baroness — rules a small domain.', '●●●● Count/Countess — significant political authority.', '●●●●● Duke/Duchess or higher — major noble of the realm.'] },
+  { value: 'Treasure', description: 'Enchanted items that work in both the mortal world and the Dreaming.',
+    levels: ['● A minor enchanted trinket.', '●● A useful magical item.', '●●● A significant treasure with real power.', '●●●● A powerful enchanted artifact.', '●●●●● A legendary treasure of the fae.'] },
+]
+
+// ── Demon: The Fallen ──
+const DEMON_SPECIFIC = [
+  { value: 'Eminence', description: 'Respect and authority among other fallen angels.',
+    levels: ['● Known to a few local demons.', '●● Recognised in the local Court.', '●●● A figure of authority in the region.', '●●●● Widely respected across multiple Courts.', '●●●●● A legendary figure among the Fallen.'] },
+  { value: 'Followers', description: 'Mortal thralls who serve willingly and provide Faith.',
+    levels: ['● A single devoted follower.', '●● A handful of loyal thralls.', '●●● A small congregation.', '●●●● A dedicated cult of worshippers.', '●●●●● A large, fanatical following.'] },
+  { value: 'Legacy', description: 'Remnants of divine power from before the Fall.',
+    levels: ['● Faint echoes of former glory.', '●● Occasional flashes of celestial memory.', '●●● Clear recollections of divine purpose.', '●●●● Strong connection to pre-Fall identity.', '●●●●● Nearly complete recall of angelic existence.'] },
+  { value: 'Pacts', description: 'Formal agreements with mortals — granting power for Faith.',
+    levels: ['● One minor pact with a mortal.', '●● A couple of useful pacts.', '●●● Several pacts providing steady Faith.', '●●●● A network of significant pacts.', '●●●●● Extensive pacts with powerful mortals.'] },
+  { value: 'Paragon', description: 'The quality of your mortal host body.',
+    levels: ['● Adequate host — nothing special.', '●● Good physical specimen.', '●●● Exceptional host with notable qualities.', '●●●● Superb host — peak human condition.', '●●●●● Perfect vessel, ideally suited to your nature.'] },
+]
+
 // ── Composed exports per splat category ──
 export const VAMPIRE_BACKGROUNDS = [...SHARED, ...VAMPIRE_SPECIFIC]
 export const WEREWOLF_BACKGROUNDS = [...SHARED, ...WEREWOLF_SPECIFIC]
 export const MAGE_BACKGROUNDS = [...SHARED, ...MAGE_SPECIFIC]
+export const CHANGELING_BACKGROUNDS = [...SHARED, ...CHANGELING_SPECIFIC]
+export const DEMON_BACKGROUNDS = [...SHARED, ...DEMON_SPECIFIC]
 
 // Default export for backwards compatibility (all combined)
-export const BACKGROUNDS = [...SHARED, ...VAMPIRE_SPECIFIC, ...WEREWOLF_SPECIFIC, ...MAGE_SPECIFIC]
+export const BACKGROUNDS = [...SHARED, ...VAMPIRE_SPECIFIC, ...WEREWOLF_SPECIFIC, ...MAGE_SPECIFIC, ...CHANGELING_SPECIFIC, ...DEMON_SPECIFIC]
 
 // Helper to get the right backgrounds for a splat
 export function getBackgroundsForSplat(splat) {
@@ -131,5 +163,7 @@ export function getBackgroundsForSplat(splat) {
   const s = splat.toUpperCase()
   if (s === 'WEREWOLF' || s === 'WYLD_WEST_WEREWOLF' || s === 'CHANGING_BREEDS' || s === 'TOTEM') return WEREWOLF_BACKGROUNDS
   if (s === 'MAGE' || s === 'VICTORIAN_MAGE' || s === 'FAMILIAR') return MAGE_BACKGROUNDS
+  if (s === 'CHANGELING') return CHANGELING_BACKGROUNDS
+  if (s === 'DEMON') return DEMON_BACKGROUNDS
   return VAMPIRE_BACKGROUNDS
 }
