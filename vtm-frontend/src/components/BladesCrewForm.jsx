@@ -7,7 +7,56 @@ import { useTheme } from '../context/ThemeContext'
 import CatalogSelect from './CatalogSelect'
 import { BLADES_CREW_TYPES, BLADES_CREW_TYPE_CATALOG } from '../data/bladesPlaybooks'
 
-const TAB_KEYS = ['tabBladesCrewIdentity', 'tabBladesCrewAbilities', 'tabBladesCrewUpgrades', 'tabBladesCrewContacts', 'tabBackstory']
+const TAB_KEYS = ['tabBladesCrewIdentity', 'tabBladesCrewAbilities', 'tabBladesCrewUpgrades', 'tabBladesCrewContacts', 'tabBladesClocks', 'tabBackstory']
+
+const CLOCK_SIZES = [4, 6, 8, 12]
+const CLOCK_TYPES = [
+  { value: 'progress', label: 'Progress' },
+  { value: 'danger', label: 'Danger' },
+  { value: 'racing', label: 'Racing' },
+  { value: 'faction', label: 'Faction' },
+  { value: 'project', label: 'Long-term Project' },
+  { value: 'custom', label: 'Custom' },
+]
+
+function parseClocks(str) {
+  if (!str) return []
+  try { return JSON.parse(str) } catch { return [] }
+}
+
+function ClockSVG({ segments, filled, size = 80, onClick }) {
+  const r = size / 2 - 2
+  const cx = size / 2
+  const cy = size / 2
+  const slices = []
+  for (let i = 0; i < segments; i++) {
+    const startAngle = (i / segments) * 2 * Math.PI - Math.PI / 2
+    const endAngle = ((i + 1) / segments) * 2 * Math.PI - Math.PI / 2
+    const x1 = cx + r * Math.cos(startAngle)
+    const y1 = cy + r * Math.sin(startAngle)
+    const x2 = cx + r * Math.cos(endAngle)
+    const y2 = cy + r * Math.sin(endAngle)
+    const largeArc = segments <= 2 ? 1 : 0
+    const d = `M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${largeArc} 1 ${x2},${y2} Z`
+    slices.push(
+      <path key={i} d={d}
+        fill={i < filled ? 'var(--accent)' : 'var(--surface-2, #2a2a2a)'}
+        stroke="var(--text-muted, #888)" strokeWidth="1.5"
+        style={{ cursor: 'pointer' }}
+        onClick={() => onClick(i)}
+        role="button" tabIndex={0}
+        aria-label={`Segment ${i + 1} of ${segments}${i < filled ? ' (filled)' : ' (empty)'}`}
+        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(i) } }}
+      />
+    )
+  }
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
+      {slices}
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="var(--text-muted, #888)" strokeWidth="2" />
+    </svg>
+  )
+}
 
 const INITIAL = {
   splat: 'BLADES_CREW', npc: true,
@@ -20,6 +69,7 @@ const INITIAL = {
   bladesHuntingGrounds: '', bladesCrewContacts: '',
   bladesCohorts: '', bladesCrewXp: 0,
   notes: '', backstory: '',
+  havens: '',
 }
 
 function ClickTrack({ label, value, max, onChange }) {
@@ -86,6 +136,9 @@ export default function BladesCrewForm() {
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
+  const [newClockName, setNewClockName] = useState('')
+  const [newClockSize, setNewClockSize] = useState(4)
+  const [newClockType, setNewClockType] = useState('progress')
 
   useEffect(() => { if (characterId) loadCharacter() }, [characterId])
 
@@ -254,8 +307,83 @@ export default function BladesCrewForm() {
         </div>
       </div>
 
-      {/* Tab 4 - Notes */}
+      {/* Tab 4 - Clocks */}
       <div hidden={tab !== 4}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('tabBladesClocks')}</legend>
+            <p className="muted-hint" style={{ marginBottom: 'var(--space-sm)' }}>{t('bladesClockDesc')}</p>
+            <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 'var(--space-md)' }}>
+              <div className="field" style={{ flex: '1 1 180px' }}>
+                <label htmlFor="new-clock-name">{t('bladesClockName')}</label>
+                <input id="new-clock-name" value={newClockName} onChange={e => setNewClockName(e.target.value)} placeholder={t('bladesClockNamePh')} />
+              </div>
+              <div className="field" style={{ flex: '0 0 100px' }}>
+                <label htmlFor="new-clock-size">{t('bladesClockSize')}</label>
+                <select id="new-clock-size" value={newClockSize} onChange={e => setNewClockSize(Number(e.target.value))}>
+                  {CLOCK_SIZES.map(s => <option key={s} value={s}>{s} {t('bladesSegments')}</option>)}
+                </select>
+              </div>
+              <div className="field" style={{ flex: '0 0 140px' }}>
+                <label htmlFor="new-clock-type">{t('bladesClockType')}</label>
+                <select id="new-clock-type" value={newClockType} onChange={e => setNewClockType(e.target.value)}>
+                  {CLOCK_TYPES.map(ct => <option key={ct.value} value={ct.value}>{ct.label}</option>)}
+                </select>
+              </div>
+              <button type="button" className="btn btn-primary" style={{ height: 'fit-content' }}
+                onClick={() => {
+                  if (!newClockName.trim()) return
+                  const clocks = parseClocks(fields.havens)
+                  clocks.push({ id: Date.now(), name: newClockName.trim(), segments: newClockSize, filled: 0, type: newClockType })
+                  handleField('havens', JSON.stringify(clocks))
+                  setNewClockName('')
+                }}>{t('bladesAddClock')}</button>
+            </div>
+          </fieldset>
+
+          {parseClocks(fields.havens).length === 0 && (
+            <div className="empty-state"><p>{t('bladesNoClocksYet')}</p></div>
+          )}
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 'var(--space-md)' }}>
+            {parseClocks(fields.havens).map(clock => (
+              <fieldset key={clock.id} style={{ textAlign: 'center', padding: 'var(--space-sm)' }}>
+                <legend style={{ fontSize: '0.85rem', fontWeight: 700 }}>
+                  {clock.name}
+                  <span className="muted-hint muted-hint--xs" style={{ marginLeft: '0.4rem' }}>({clock.type})</span>
+                </legend>
+                <ClockSVG segments={clock.segments} filled={clock.filled} size={100}
+                  onClick={(i) => {
+                    const clocks = parseClocks(fields.havens)
+                    const c = clocks.find(x => x.id === clock.id)
+                    if (c) {
+                      c.filled = i < c.filled ? i : i + 1
+                      handleField('havens', JSON.stringify(clocks))
+                    }
+                  }}
+                />
+                <div style={{ fontSize: '0.8rem', marginTop: '0.3rem' }}>{clock.filled} / {clock.segments}</div>
+                <div style={{ display: 'flex', gap: '0.3rem', justifyContent: 'center', marginTop: '0.4rem' }}>
+                  <button type="button" className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                    onClick={() => {
+                      const clocks = parseClocks(fields.havens)
+                      const c = clocks.find(x => x.id === clock.id)
+                      if (c) { c.filled = 0; handleField('havens', JSON.stringify(clocks)) }
+                    }}>{t('bladesClockReset')}</button>
+                  <button type="button" className="btn btn-danger" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                    onClick={() => {
+                      const clocks = parseClocks(fields.havens).filter(x => x.id !== clock.id)
+                      handleField('havens', JSON.stringify(clocks))
+                    }}>{t('deleteBtn')}</button>
+                </div>
+              </fieldset>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Tab 5 - Notes */}
+      <div hidden={tab !== 5}>
         <div className="form-section">
           <fieldset><legend>Notes</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder="Session notes, plans, etc." /></fieldset>
           <fieldset><legend>Backstory</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder="The crew's origin story..." /></fieldset>

@@ -11,12 +11,14 @@ import BladesDiceRoller from './BladesDiceRoller'
 import RulesReferenceTab from './RulesReferenceTab'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
+import { useAuth } from '../context/AuthContext'
 import {
   BLADES_HERITAGES, BLADES_BACKGROUNDS, BLADES_VICES,
   BLADES_PLAYBOOKS, BLADES_PLAYBOOK_CATALOG, BLADES_TRAUMA_CONDITIONS, BLADES_STANDARD_ITEMS,
 } from '../data/bladesPlaybooks'
 
-const TAB_KEYS = ['tabIdentity', 'tabBladesActions', 'tabBladesAbilities', 'tabBladesStressHarm', 'tabBladesItems', 'tabBladesContacts', 'tabBladesDicePools', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
+const ALL_TAB_KEYS = ['tabIdentity', 'tabBladesActions', 'tabBladesAbilities', 'tabBladesStressHarm', 'tabBladesItems', 'tabBladesContacts', 'tabBladesClocks', 'tabBladesDicePools', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
+const ST_ONLY_TABS = new Set(['tabBladesClocks'])
 
 const BLADES_DICE_POOL_RULES = [
   {
@@ -115,6 +117,57 @@ const INITIAL = {
   bladesStash: 0, bladesLifestyle: 0, bladesDebt: 0, bladesEdge: 0,
   // Shared
   notes: '', backstory: '',
+  // Clocks (stored as JSON in havens field)
+  havens: '',
+}
+
+const CLOCK_SIZES = [4, 6, 8, 12]
+const CLOCK_TYPES = [
+  { value: 'progress', label: 'Progress' },
+  { value: 'danger', label: 'Danger' },
+  { value: 'racing', label: 'Racing' },
+  { value: 'faction', label: 'Faction' },
+  { value: 'project', label: 'Long-term Project' },
+  { value: 'custom', label: 'Custom' },
+]
+
+function parseClocks(str) {
+  if (!str) return []
+  try { return JSON.parse(str) } catch { return [] }
+}
+
+function ClockSVG({ segments, filled, size = 80, onClick }) {
+  const r = size / 2 - 2
+  const cx = size / 2
+  const cy = size / 2
+  const slices = []
+  for (let i = 0; i < segments; i++) {
+    const startAngle = (i / segments) * 2 * Math.PI - Math.PI / 2
+    const endAngle = ((i + 1) / segments) * 2 * Math.PI - Math.PI / 2
+    const x1 = cx + r * Math.cos(startAngle)
+    const y1 = cy + r * Math.sin(startAngle)
+    const x2 = cx + r * Math.cos(endAngle)
+    const y2 = cy + r * Math.sin(endAngle)
+    const largeArc = segments <= 2 ? 1 : 0
+    const d = `M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${largeArc} 1 ${x2},${y2} Z`
+    slices.push(
+      <path key={i} d={d}
+        fill={i < filled ? 'var(--accent)' : 'var(--surface-2, #2a2a2a)'}
+        stroke="var(--text-muted, #888)" strokeWidth="1.5"
+        style={{ cursor: 'pointer' }}
+        onClick={() => onClick(i)}
+        role="button" tabIndex={0}
+        aria-label={`Segment ${i + 1} of ${segments}${i < filled ? ' (filled)' : ' (empty)'}`}
+        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(i) } }}
+      />
+    )
+  }
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
+      {slices}
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="var(--text-muted, #888)" strokeWidth="2" />
+    </svg>
+  )
 }
 
 const INSIGHT_ACTIONS = [
@@ -185,6 +238,7 @@ export default function BladesForm() {
   const navigate = useNavigate()
   const { t } = useLanguage()
   const { switchTheme } = useTheme()
+  const { isST } = useAuth()
   const [searchParams] = useSearchParams()
   const viewMode = searchParams.get('mode') === 'view'
   const characterId = paramId || null
@@ -193,7 +247,8 @@ export default function BladesForm() {
 
   const { isAutoCreating } = useAutoCreate(characterId, INITIAL)
 
-  const [tab, setTab] = useState(0)
+  const [tab, setTab] = useState('tabIdentity')
+  const tabKeys = ALL_TAB_KEYS.filter(tk => !ST_ONLY_TABS.has(tk) || isST)
   const [fields, setFields] = useState(INITIAL)
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
@@ -201,6 +256,9 @@ export default function BladesForm() {
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
   const [deepCuts, setDeepCuts] = useState(() => localStorage.getItem('blades-deep-cuts') !== 'false')
+  const [newClockName, setNewClockName] = useState('')
+  const [newClockSize, setNewClockSize] = useState(4)
+  const [newClockType, setNewClockType] = useState('progress')
   function toggleDeepCuts() {
     const next = !deepCuts
     setDeepCuts(next)
@@ -350,14 +408,14 @@ export default function BladesForm() {
       </div>
 
       <div className="tab-list" role="tablist">
-        {TAB_KEYS.map((tk, i) => (
-          <button key={tk} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
-            onClick={() => setTab(i)} aria-selected={tab === i}>{t(tk)}</button>
+        {tabKeys.map(tk => (
+          <button key={tk} role="tab" className={`btn btn-secondary${tab === tk ? ' tab-btn--active' : ''}`}
+            onClick={() => setTab(tk)} aria-selected={tab === tk}>{t(tk)}</button>
         ))}
       </div>
 
-      {/* ── Tab 0: Identity ── */}
-      <div hidden={tab !== 0}>
+      {/* ── Identity ── */}
+      <div hidden={tab !== 'tabIdentity'}>
         <div className="form-section">
           <fieldset>
             <legend>{t('tabIdentity')}</legend>
@@ -411,8 +469,8 @@ export default function BladesForm() {
         </div>
       </div>
 
-      {/* ── Tab 1: Actions ── */}
-      <div hidden={tab !== 1}>
+      {/* ── Actions ── */}
+      <div hidden={tab !== 'tabBladesActions'}>
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesActionRatings')}</legend>
@@ -435,8 +493,8 @@ export default function BladesForm() {
         </div>
       </div>
 
-      {/* ── Tab 2: Abilities ── */}
-      <div hidden={tab !== 2}>
+      {/* ── Abilities ── */}
+      <div hidden={tab !== 'tabBladesAbilities'}>
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesSpecialAbilities')}{selectedPlaybook ? ` - ${fields.bladesPlaybook}` : ''}</legend>
@@ -479,8 +537,8 @@ export default function BladesForm() {
         </div>
       </div>
 
-      {/* ── Tab 3: Stress & Harm ── */}
-      <div hidden={tab !== 3}>
+      {/* ── Stress & Harm ── */}
+      <div hidden={tab !== 'tabBladesStressHarm'}>
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesStress')}</legend>
@@ -588,8 +646,8 @@ export default function BladesForm() {
         </div>
       </div>
 
-      {/* ── Tab 4: Items & Load ── */}
-      <div hidden={tab !== 4}>
+      {/* ── Items & Load ── */}
+      <div hidden={tab !== 'tabBladesItems'}>
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesLoad')}</legend>
@@ -634,8 +692,8 @@ export default function BladesForm() {
         </div>
       </div>
 
-      {/* ── Tab 5: Contacts ── */}
-      <div hidden={tab !== 5}>
+      {/* ── Contacts ── */}
+      <div hidden={tab !== 'tabBladesContacts'}>
         <div className="form-section">
           {selectedPlaybook?.contacts?.length > 0 && (
             <fieldset>
@@ -705,29 +763,104 @@ export default function BladesForm() {
         </div>
       </div>
 
-      {/* ── Tab 6: Dice Pools Reference ── */}
-      <div hidden={tab !== 6}>
+      {/* ── Clocks (ST only) ── */}
+      <div hidden={tab !== 'tabBladesClocks'}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('tabBladesClocks')}</legend>
+            <p className="muted-hint" style={{ marginBottom: 'var(--space-sm)' }}>{t('bladesClockDesc')}</p>
+            <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 'var(--space-md)' }}>
+              <div className="field" style={{ flex: '1 1 180px' }}>
+                <label htmlFor="new-clock-name">{t('bladesClockName')}</label>
+                <input id="new-clock-name" value={newClockName} onChange={e => setNewClockName(e.target.value)} placeholder={t('bladesClockNamePh')} />
+              </div>
+              <div className="field" style={{ flex: '0 0 100px' }}>
+                <label htmlFor="new-clock-size">{t('bladesClockSize')}</label>
+                <select id="new-clock-size" value={newClockSize} onChange={e => setNewClockSize(Number(e.target.value))}>
+                  {CLOCK_SIZES.map(s => <option key={s} value={s}>{s} {t('bladesSegments')}</option>)}
+                </select>
+              </div>
+              <div className="field" style={{ flex: '0 0 140px' }}>
+                <label htmlFor="new-clock-type">{t('bladesClockType')}</label>
+                <select id="new-clock-type" value={newClockType} onChange={e => setNewClockType(e.target.value)}>
+                  {CLOCK_TYPES.map(ct => <option key={ct.value} value={ct.value}>{ct.label}</option>)}
+                </select>
+              </div>
+              <button type="button" className="btn btn-primary" style={{ height: 'fit-content' }}
+                onClick={() => {
+                  if (!newClockName.trim()) return
+                  const clocks = parseClocks(fields.havens)
+                  clocks.push({ id: Date.now(), name: newClockName.trim(), segments: newClockSize, filled: 0, type: newClockType })
+                  handleField('havens', JSON.stringify(clocks))
+                  setNewClockName('')
+                }}>{t('bladesAddClock')}</button>
+            </div>
+          </fieldset>
+
+          {parseClocks(fields.havens).length === 0 && (
+            <div className="empty-state"><p>{t('bladesNoClocksYet')}</p></div>
+          )}
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 'var(--space-md)' }}>
+            {parseClocks(fields.havens).map(clock => (
+              <fieldset key={clock.id} style={{ textAlign: 'center', padding: 'var(--space-sm)' }}>
+                <legend style={{ fontSize: '0.85rem', fontWeight: 700 }}>
+                  {clock.name}
+                  <span className="muted-hint muted-hint--xs" style={{ marginLeft: '0.4rem' }}>({clock.type})</span>
+                </legend>
+                <ClockSVG segments={clock.segments} filled={clock.filled} size={100}
+                  onClick={(i) => {
+                    const clocks = parseClocks(fields.havens)
+                    const c = clocks.find(x => x.id === clock.id)
+                    if (c) {
+                      c.filled = i < c.filled ? i : i + 1
+                      handleField('havens', JSON.stringify(clocks))
+                    }
+                  }}
+                />
+                <div style={{ fontSize: '0.8rem', marginTop: '0.3rem' }}>{clock.filled} / {clock.segments}</div>
+                <div style={{ display: 'flex', gap: '0.3rem', justifyContent: 'center', marginTop: '0.4rem' }}>
+                  <button type="button" className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                    onClick={() => {
+                      const clocks = parseClocks(fields.havens)
+                      const c = clocks.find(x => x.id === clock.id)
+                      if (c) { c.filled = 0; handleField('havens', JSON.stringify(clocks)) }
+                    }}>{t('bladesClockReset')}</button>
+                  <button type="button" className="btn btn-danger" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                    onClick={() => {
+                      const clocks = parseClocks(fields.havens).filter(x => x.id !== clock.id)
+                      handleField('havens', JSON.stringify(clocks))
+                    }}>{t('deleteBtn')}</button>
+                </div>
+              </fieldset>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Dice Pools Reference ── */}
+      <div hidden={tab !== 'tabBladesDicePools'}>
         <RulesReferenceTab rules={BLADES_DICE_POOL_RULES} title={t('tabBladesDicePools')} />
       </div>
 
-      {/* ── Tab 7: Backstory ── */}
-      <div hidden={tab !== 7}>
+      {/* ── Backstory ── */}
+      <div hidden={tab !== 'tabBackstory'}>
         <div className="form-section">
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} aria-label={t('backstoryLabel')} /></fieldset>
           <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} aria-label={t('notes')} /></fieldset>
         </div>
       </div>
 
-      {/* ── Tab 8: XP Log ── */}
-      <div hidden={tab !== 8}>
+      {/* ── XP Log ── */}
+      <div hidden={tab !== 'tabXpLog'}>
         <XpLogSection splat="blades" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
           onError={msg => setActionError(msg)} t={t} />
       </div>
 
-      {/* ── Tab 9: Dice Roller ── */}
-      <div hidden={tab !== 9}>
+      {/* ── Dice Roller ── */}
+      <div hidden={tab !== 'tabDiceRoller'}>
         <BladesDiceRoller />
       </div>
 
