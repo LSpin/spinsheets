@@ -1,5 +1,18 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, Link } from 'react-router-dom'
 import { useState, useRef, useEffect, lazy, Suspense } from 'react'
+
+// Retry failed lazy imports once (handles stale chunk hashes after deploys)
+function lazyRetry(fn) {
+  return lazyRetry(() => fn().catch(() => {
+    const reloaded = sessionStorage.getItem('chunk_reload')
+    if (!reloaded) {
+      sessionStorage.setItem('chunk_reload', '1')
+      window.location.reload()
+    }
+    sessionStorage.removeItem('chunk_reload')
+    return fn()
+  }))
+}
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { NewCharProvider } from './context/NewCharContext'
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext'
@@ -18,60 +31,60 @@ import ChronicleDetail from './pages/ChronicleDetail'
 import ChronicleForm from './pages/ChronicleForm'
 
 // ── Lazily loaded (heavy, per-system) ──
-const CharacterRouter = lazy(() => import('./components/CharacterRouter'))
-const SplatSelectPage = lazy(() => import('./pages/SplatSelectPage'))
-const PlayersPage = lazy(() => import('./pages/PlayersPage'))
-const AdminPage = lazy(() => import('./pages/AdminPage'))
-const InvitePage = lazy(() => import('./pages/InvitePage'))
+const CharacterRouter = lazyRetry(() => import('./components/CharacterRouter'))
+const SplatSelectPage = lazyRetry(() => import('./pages/SplatSelectPage'))
+const PlayersPage = lazyRetry(() => import('./pages/PlayersPage'))
+const AdminPage = lazyRetry(() => import('./pages/AdminPage'))
+const InvitePage = lazyRetry(() => import('./pages/InvitePage'))
 
 // WoD forms
-const CharacterForm = lazy(() => import('./components/CharacterForm'))
-const WerewolfForm = lazy(() => import('./components/WerewolfForm'))
-const MageForm = lazy(() => import('./components/MageForm'))
-const VampireRevisedForm = lazy(() => import('./components/VampireRevisedForm'))
-const KoteForm = lazy(() => import('./components/KoteForm'))
-const VampireDarkAgesForm = lazy(() => import('./components/VampireDarkAgesForm'))
-const VictorianVampireForm = lazy(() => import('./components/VictorianVampireForm'))
-const WyldWestWerewolfForm = lazy(() => import('./components/WyldWestWerewolfForm'))
-const VictorianMageForm = lazy(() => import('./components/VictorianMageForm'))
-const ChangingBreedsForm = lazy(() => import('./components/ChangingBreedsForm'))
-const GhoulForm = lazy(() => import('./components/GhoulForm'))
-const FamiliarForm = lazy(() => import('./components/FamiliarForm'))
-const TotemForm = lazy(() => import('./components/TotemForm'))
-const KinfolkForm = lazy(() => import('./components/KinfolkForm'))
-const HunterForm = lazy(() => import('./components/HunterForm'))
-const WraithForm = lazy(() => import('./components/WraithForm'))
-const ChangelingForm = lazy(() => import('./components/ChangelingForm'))
-const DemonForm = lazy(() => import('./components/DemonForm'))
-const BsdForm = lazy(() => import('./components/BsdForm'))
-const MortalsForm = lazy(() => import('./components/MortalsForm'))
+const CharacterForm = lazyRetry(() => import('./components/CharacterForm'))
+const WerewolfForm = lazyRetry(() => import('./components/WerewolfForm'))
+const MageForm = lazyRetry(() => import('./components/MageForm'))
+const VampireRevisedForm = lazyRetry(() => import('./components/VampireRevisedForm'))
+const KoteForm = lazyRetry(() => import('./components/KoteForm'))
+const VampireDarkAgesForm = lazyRetry(() => import('./components/VampireDarkAgesForm'))
+const VictorianVampireForm = lazyRetry(() => import('./components/VictorianVampireForm'))
+const WyldWestWerewolfForm = lazyRetry(() => import('./components/WyldWestWerewolfForm'))
+const VictorianMageForm = lazyRetry(() => import('./components/VictorianMageForm'))
+const ChangingBreedsForm = lazyRetry(() => import('./components/ChangingBreedsForm'))
+const GhoulForm = lazyRetry(() => import('./components/GhoulForm'))
+const FamiliarForm = lazyRetry(() => import('./components/FamiliarForm'))
+const TotemForm = lazyRetry(() => import('./components/TotemForm'))
+const KinfolkForm = lazyRetry(() => import('./components/KinfolkForm'))
+const HunterForm = lazyRetry(() => import('./components/HunterForm'))
+const WraithForm = lazyRetry(() => import('./components/WraithForm'))
+const ChangelingForm = lazyRetry(() => import('./components/ChangelingForm'))
+const DemonForm = lazyRetry(() => import('./components/DemonForm'))
+const BsdForm = lazyRetry(() => import('./components/BsdForm'))
+const MortalsForm = lazyRetry(() => import('./components/MortalsForm'))
 
 // 7th Sea
-const SeventhSeaForm = lazy(() => import('./components/SeventhSeaForm'))
-const SeventhSeaVillainForm = lazy(() => import('./components/SeventhSeaVillainForm'))
-const SeventhSeaPage = lazy(() => import('./pages/SeventhSeaPage'))
+const SeventhSeaForm = lazyRetry(() => import('./components/SeventhSeaForm'))
+const SeventhSeaVillainForm = lazyRetry(() => import('./components/SeventhSeaVillainForm'))
+const SeventhSeaPage = lazyRetry(() => import('./pages/SeventhSeaPage'))
 
 // L5R
-const L5RForm = lazy(() => import('./components/L5RForm'))
-const L5RAntagonistForm = lazy(() => import('./components/L5RAntagonistForm'))
-const L5RPage = lazy(() => import('./pages/L5RPage'))
+const L5RForm = lazyRetry(() => import('./components/L5RForm'))
+const L5RAntagonistForm = lazyRetry(() => import('./components/L5RAntagonistForm'))
+const L5RPage = lazyRetry(() => import('./pages/L5RPage'))
 
 // Blades
-const BladesForm = lazy(() => import('./components/BladesForm'))
-const BladesCrewForm = lazy(() => import('./components/BladesCrewForm'))
-const BladesAntagonistForm = lazy(() => import('./components/BladesAntagonistForm'))
-const BladesPage = lazy(() => import('./pages/BladesPage'))
+const BladesForm = lazyRetry(() => import('./components/BladesForm'))
+const BladesCrewForm = lazyRetry(() => import('./components/BladesCrewForm'))
+const BladesAntagonistForm = lazyRetry(() => import('./components/BladesAntagonistForm'))
+const BladesPage = lazyRetry(() => import('./pages/BladesPage'))
 
 // D&D
-const DndForm = lazy(() => import('./components/DndForm'))
-const DndMonsterForm = lazy(() => import('./components/DndMonsterForm'))
-const DndPage = lazy(() => import('./pages/DndPage'))
+const DndForm = lazyRetry(() => import('./components/DndForm'))
+const DndMonsterForm = lazyRetry(() => import('./components/DndMonsterForm'))
+const DndPage = lazyRetry(() => import('./pages/DndPage'))
 
 // UESTRPG
-const UestrpgForm = lazy(() => import('./components/UestrpgForm'))
-const UestrpgAntagonistForm = lazy(() => import('./components/UestrpgAntagonistForm'))
-const UestrpgPage = lazy(() => import('./pages/UestrpgPage'))
-const AllChroniclesPage = lazy(() => import('./pages/AllChroniclesPage'))
+const UestrpgForm = lazyRetry(() => import('./components/UestrpgForm'))
+const UestrpgAntagonistForm = lazyRetry(() => import('./components/UestrpgAntagonistForm'))
+const UestrpgPage = lazyRetry(() => import('./pages/UestrpgPage'))
+const AllChroniclesPage = lazyRetry(() => import('./pages/AllChroniclesPage'))
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
