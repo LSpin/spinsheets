@@ -21,6 +21,7 @@ import TagInfoPanel from './TagInfoPanel'
 import RulesReferenceTab from './RulesReferenceTab'
 import { L5R_RULES } from '../data/l5rRules'
 import L5RDiceRoller from './L5RDiceRoller'
+import { L5R_HERO_NPCS, L5R_HERO_CATALOG } from '../data/l5rNpcs'
 
 // ── Clans & Families ──
 const CLANS = {
@@ -481,6 +482,7 @@ export default function L5RForm() {
   const [xpLog, setXpLog] = useState([])
   const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
   const [newAdv, setNewAdv] = useState({ name: '', level: 1, notes: '' })
+  const [templateName, setTemplateName] = useState('')
   const [tagInfo, setTagInfo] = useState(null)
   const [combatStance, setCombatStance] = useState('Attack')
   const [equippedArmor, setEquippedArmor] = useState('None')
@@ -536,6 +538,41 @@ export default function L5RForm() {
   }
 
   async function handleDoneEditing() { await handleSave(); navigate('/l5r') }
+
+  function loadTemplate(heroName) {
+    const h = L5R_HERO_NPCS.find(t => t.name === heroName)
+    if (!h) return
+    setTemplateName(heroName)
+    setFields(prev => ({
+      ...prev,
+      name: h.name,
+      l5rClan: h.clan || '',
+      l5rFamily: h.family || '',
+      l5rSchool: h.school || '',
+      // Fire ring traits
+      l5rAgility: h.fire || 2,
+      l5rIntelligence7: h.fire || 2,
+      // Water ring traits
+      l5rStrength7: h.water || 2,
+      l5rPerception7: h.water || 2,
+      // Earth ring traits
+      l5rStamina7: h.earth || 2,
+      l5rWillpower7: h.earth || 2,
+      // Air ring traits
+      l5rReflexes: h.air || 2,
+      l5rAwareness: h.air || 2,
+      // Void
+      l5rVoid: h.void || 2,
+      l5rCurrentVoid: h.void || 2,
+      // Honor, Glory, Status (stored as tenths in L5R)
+      l5rHonor: h.honor != null ? Math.round(h.honor * 10) : 0,
+      l5rGlory: h.glory != null ? Math.round(h.glory * 10) : 10,
+      l5rStatus: h.status != null ? Math.round(h.status * 10) : 10,
+      // Text
+      l5rSkillsText: h.skills || '',
+      notes: h.notes || '',
+    }))
+  }
 
   async function handleAddAdvantage() {
     if (!newAdv.name.trim()) return
@@ -763,6 +800,21 @@ export default function L5RForm() {
       {/* ── Identity ── */}
       <div hidden={tab !== 0}>
         <div className="form-section">
+          <fieldset>
+            <legend>Load Template</legend>
+            <CatalogSelect
+              id="hero-template" name="heroTemplate" label="Premade Samurai"
+              value={templateName} onChange={(_, val) => loadTemplate(val)}
+              catalog={L5R_HERO_CATALOG} placeholder="Search samurai templates..."
+              showDescOnSelect={false}
+            />
+            {templateName && (
+              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
+                Loaded from template: <strong>{templateName}</strong> — customize freely below.
+              </p>
+            )}
+          </fieldset>
+
           <fieldset>
             <legend>{t('tabIdentity')}</legend>
             <div className="field-row">

@@ -8,6 +8,7 @@ import { useTheme } from '../context/ThemeContext'
 import {
   L5R_ANTAGONIST_RANKS, L5R_ANTAGONIST_TYPES, L5R_PREMADE_ANTAGONISTS, L5R_ANTAGONIST_CATALOG,
 } from '../data/l5rAntagonists'
+import { L5R_VILLAIN_NPCS, L5R_VILLAIN_NPC_CATALOG } from '../data/l5rNpcs'
 
 const TAB_KEYS = ['tabL5rAntIdentity', 'tabL5rAntStats', 'tabL5rAntAbilities', 'tabBackstory']
 
@@ -94,6 +95,27 @@ export default function L5RAntagonistForm() {
     }))
   }
 
+  function loadVillainNpc(npcName) {
+    const v = L5R_VILLAIN_NPCS.find(n => n.name === npcName)
+    if (!v) return
+    setTemplateName(npcName)
+    setFields(prev => ({
+      ...prev,
+      name: v.name,
+      concept: v.description || '',
+      dndMonsterType: v.type || '',
+      dndChallengeRating: v.rank || '',
+      dndStrength: v.fire || 2,
+      dndDexterity: v.water || 2,
+      dndConstitution: v.earth || 2,
+      dndIntelligence: v.air || 2,
+      dndWisdom: v.void || 1,
+      dndMonsterActions: v.actions || '',
+      dndMonsterTraits: v.traits || '',
+      notes: v.notes || '',
+    }))
+  }
+
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
   return (
@@ -123,6 +145,12 @@ export default function L5RAntagonistForm() {
               id="ant-template" name="antTemplate" label="Premade Antagonist"
               value={templateName} onChange={(_, val) => loadTemplate(val)}
               catalog={L5R_ANTAGONIST_CATALOG} placeholder="Search antagonists..."
+              showDescOnSelect={false}
+            />
+            <CatalogSelect
+              id="villain-npc-template" name="villainNpcTemplate" label="Samurai NPC"
+              value={templateName} onChange={(_, val) => loadVillainNpc(val)}
+              catalog={L5R_VILLAIN_NPC_CATALOG} placeholder="Search samurai NPCs..."
               showDescOnSelect={false}
             />
             {templateName && (
