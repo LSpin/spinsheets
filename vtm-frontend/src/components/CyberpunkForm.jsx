@@ -14,10 +14,10 @@ import { useTheme } from '../context/ThemeContext'
 import {
   CP_ROLES, CP_ROLE_CATALOG, CP_STATS, CP_SKILLS_BY_STAT,
   CP_CYBERWARE, CP_CYBERWARE_CATALOG, CP_WEAPONS, CP_WEAPONS_CATALOG,
-  CP_ARMOR_CATALOG, CP_GEAR, CP_GEAR_CATALOG, CP_LIFEPATH_TABLES,
+  CP_ARMOR_CATALOG, CP_GEAR, CP_GEAR_CATALOG, CP_VEHICLES, CP_VEHICLES_CATALOG, CP_LIFEPATH_TABLES,
 } from '../data/cyberpunkData'
 
-const TAB_KEYS = ['tabCpIdentity', 'tabCpStats', 'tabCpSkills', 'tabCpCyberware', 'tabCpCombat', 'tabCpGear', 'tabCpLifepath', 'tabBackstory', 'tabXpLog', 'tabDiceRoller', 'tabCpRulesRef']
+const TAB_KEYS = ['tabCpIdentity', 'tabCpStats', 'tabCpSkills', 'tabCpCyberware', 'tabCpCombat', 'tabCpGear', 'tabCpVehicles', 'tabCpLifepath', 'tabBackstory', 'tabXpLog', 'tabDiceRoller', 'tabCpRulesRef']
 
 const INITIAL = {
   splat: 'CYBERPUNK',
@@ -26,7 +26,7 @@ const INITIAL = {
   cpSpecialAbility: 0,
   cpHumanity: 0, cpCurrentHumanity: 0,
   cpIp: 0, cpEurodollars: 0, cpWoundState: 0,
-  cpSkills: '', cpCyberware: '', cpWeapons: '', cpArmor: '', cpGear: '',
+  cpSkills: '', cpCyberware: '', cpWeapons: '', cpArmor: '', cpGear: '', cpVehicles: '',
   cpLifepath: '', cpContacts: '',
   notes: '', backstory: '',
 }
@@ -209,6 +209,10 @@ export default function CyberpunkForm() {
   // ── Gear ──
   const gear = parseJson(fields.cpGear, [])
   function setGear(next) { handleField('cpGear', JSON.stringify(next)) }
+
+  // ── Vehicles ──
+  const vehicles = parseJson(fields.cpVehicles, [])
+  function setVehicles(next) { handleField('cpVehicles', JSON.stringify(next)) }
 
   // ── Lifepath ──
   const lifepath = parseJson(fields.cpLifepath, {})
@@ -583,8 +587,41 @@ export default function CyberpunkForm() {
         </div>
       </div>
 
-      {/* ── Tab 6: Lifepath ── */}
+      {/* ── Tab 6: Vehicles ── */}
       <div hidden={tab !== 6}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('cpVehicles')}</legend>
+            <CatalogSelect id="cpVehicleAdd" name="cpVehicleAdd" label={t('cpAddVehicle')}
+              value="" onChange={(_, v) => {
+                const veh = CP_VEHICLES.find(x => x.name === v)
+                if (veh) setVehicles([...vehicles, { name: veh.name, type: veh.type, topSpeed: veh.topSpeed, maneuver: veh.maneuver, sdp: veh.sdp, sp: veh.sp, seats: veh.seats, costEb: veh.costEb }])
+              }}
+              catalog={CP_VEHICLES_CATALOG} showDescOnSelect={false} />
+            {vehicles.length === 0 && <p className="muted-hint" style={{ marginTop: 'var(--space-sm)' }}>{t('cpNoVehiclesYet')}</p>}
+            {vehicles.length > 0 && (
+              <div style={{ marginTop: 'var(--space-sm)' }}>
+                {vehicles.map((v, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', borderBottom: '1px solid var(--color-border, #333)' }}>
+                    <span style={{ flex: 1, fontWeight: 600, fontSize: '0.88rem' }}>{v.name}</span>
+                    <span className="muted-hint muted-hint--xs">{v.type}</span>
+                    <span className="muted-hint muted-hint--xs">Speed {v.topSpeed}</span>
+                    <span className="muted-hint muted-hint--xs">SP{v.sp}</span>
+                    <span className="muted-hint muted-hint--xs">SDP {v.sdp}</span>
+                    <span className="muted-hint muted-hint--xs">Seats {v.seats}</span>
+                    <span className="muted-hint muted-hint--xs">{v.costEb}eb</span>
+                    <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                      onClick={() => setVehicles(vehicles.filter((_, j) => j !== i))}>{t('deleteBtn')}</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </fieldset>
+        </div>
+      </div>
+
+      {/* ── Tab 7: Lifepath ── */}
+      <div hidden={tab !== 7}>
         <div className="form-section">
           <fieldset>
             <legend>{t('cpLifepath')}</legend>
@@ -615,8 +652,8 @@ export default function CyberpunkForm() {
         </div>
       </div>
 
-      {/* ── Tab 7: Backstory ── */}
-      <div hidden={tab !== 7}>
+      {/* ── Tab 8: Backstory ── */}
+      <div hidden={tab !== 8}>
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
@@ -631,16 +668,16 @@ export default function CyberpunkForm() {
         </div>
       </div>
 
-      {/* ── Tab 8: IP Log ── */}
-      <div hidden={tab !== 8}>
+      {/* ── Tab 9: IP Log ── */}
+      <div hidden={tab !== 9}>
         <XpLogSection splat="cyberpunk" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
           onError={msg => setActionError(msg)} t={t} />
       </div>
 
-      {/* ── Tab 9: Dice Roller ── */}
-      <div hidden={tab !== 9}>
+      {/* ── Tab 10: Dice Roller ── */}
+      <div hidden={tab !== 10}>
         <div className="form-section">
           <fieldset>
             <legend>Stat + Skill + d10</legend>
@@ -706,7 +743,7 @@ export default function CyberpunkForm() {
       </div>
 
       {/* ── Tab 10: Rules Reference ── */}
-      <div hidden={tab !== 10}>
+      <div hidden={tab !== 11}>
         <RulesReferenceTab rules={CP_RULES} title="Cyberpunk 2020 Rules Reference" />
       </div>
 

@@ -299,6 +299,49 @@ export const CP_WEAPONS = [
   { name: 'Monoknife', type: 'Light Melee', accuracy: 1, conceal: 'P', avail: 'P', damage: '2D6', shots: '-', rof: '-', rel: '-', costEb: 200, description: 'Monomolecular-edged blade — cuts through almost anything' },
   { name: 'Monokatana', type: 'Medium Melee', accuracy: 1, conceal: 'N', avail: 'R', damage: '4D6', shots: '-', rof: '-', rel: '-', costEb: 600, description: 'Monomolecular-edged katana — the deadliest blade in Night City' },
   { name: 'Kendachi Mono-Three', type: 'Medium Melee', accuracy: 1, conceal: 'L', avail: 'P', damage: '4D6', shots: '-', rof: '-', rel: '-', costEb: 800, description: 'Top-of-the-line Kendachi monokatana with vibro-enhancement' },
+
+  // ── Chromebook Weapons ──
+
+  // Pistols (Chromebook)
+  { name: 'Araska WAA Bullpup', type: 'Medium Pistol', accuracy: 0, conceal: 'J', avail: 'C', damage: '2D6+1', shots: 12, rof: 2, rel: 'VR', costEb: 500, description: 'Arasaka compact bullpup pistol — corporate favorite' },
+  { name: 'Militech Crusher SSG', type: 'Heavy Pistol', accuracy: 0, conceal: 'L', avail: 'P', damage: '3D6+1', shots: 6, rof: 1, rel: 'VR', costEb: 600, description: 'Heavy revolver with extreme stopping power' },
+  { name: 'Constitution Arms Hurricane', type: 'Very Heavy Pistol', accuracy: -1, conceal: 'L', avail: 'P', damage: '4D6+2', shots: 5, rof: 1, rel: 'ST', costEb: 600, description: 'Massive handgun that fires rifle-caliber rounds' },
+  { name: 'Techtronica 15 Microwaver', type: 'Exotic Pistol', accuracy: 0, conceal: 'J', avail: 'R', damage: '1D6 (microwave)', shots: 10, rof: 2, rel: 'ST', costEb: 400, description: 'Microwave beam pistol — cooks targets from inside, ignores soft armor' },
+  { name: 'Malorian Arms 3516', type: 'Heavy Pistol', accuracy: 1, conceal: 'J', avail: 'R', damage: '4D6', shots: 10, rof: 2, rel: 'VR', costEb: 1500, description: 'Johnny Silverhand\'s signature weapon — the finest handgun in Night City' },
+  { name: 'Sternmeyer P-35', type: 'Medium Pistol', accuracy: 0, conceal: 'J', avail: 'C', damage: '2D6+3', shots: 14, rof: 2, rel: 'VR', costEb: 350, description: 'Updated Sternmeyer with extended magazine and improved barrel' },
+
+  // SMGs (Chromebook)
+  { name: 'Arasaka Rapid Assault 12', type: 'Medium SMG', accuracy: 1, conceal: 'L', avail: 'P', damage: '2D6+3', shots: 20, rof: 25, rel: 'VR', costEb: 900, description: 'Arasaka military SMG with integrated smartgun link' },
+  { name: 'Militech Viper', type: 'Light SMG', accuracy: 1, conceal: 'J', avail: 'P', damage: '2D6+1', shots: 30, rof: 30, rel: 'VR', costEb: 650, description: 'Compact military SMG with folding stock and suppressor threading' },
+  { name: 'Ingram MAC 14', type: 'Heavy SMG', accuracy: -1, conceal: 'L', avail: 'C', damage: '3D6', shots: 30, rof: 20, rel: 'ST', costEb: 500, description: 'Updated MAC design — cheap, high-volume, inaccurate' },
+
+  // Rifles (Chromebook)
+  { name: 'Militech Ronin Light Assault', type: 'Assault Rifle', accuracy: 2, conceal: 'N', avail: 'P', damage: '5D6', shots: 35, rof: 30, rel: 'VR', costEb: 1000, description: 'Top-tier military assault rifle — best accuracy in class' },
+  { name: 'Arasaka WSSE Sniper System', type: 'Sniper Rifle', accuracy: 3, conceal: 'N', avail: 'R', damage: '5D6+3', shots: 6, rof: 1, rel: 'VR', costEb: 1200, description: 'Arasaka military sniper system — devastating at extreme range' },
+  { name: 'Barrett-Arasaka Light 20', type: 'Anti-Materiel Rifle', accuracy: 1, conceal: 'N', avail: 'R', damage: '7D10', shots: 3, rof: 1, rel: 'VR', costEb: 3000, description: 'Anti-materiel rifle that destroys vehicles and light armor' },
+  { name: 'Militech Mark IV Assault Weapon', type: 'Assault Rifle', accuracy: 1, conceal: 'N', avail: 'P', damage: '5D6', shots: 30, rof: 30, rel: 'VR', costEb: 800, description: 'Caseless ammunition assault rifle with underbarrel grenade launcher' },
+
+  // Shotguns (Chromebook)
+  { name: 'Militech Bulldog', type: 'Shotgun', accuracy: 0, conceal: 'N', avail: 'C', damage: '4D6', shots: 8, rof: 2, rel: 'VR', costEb: 450, description: 'Military combat shotgun with drum magazine' },
+  { name: 'Arasaka Slugger', type: 'Heavy Shotgun', accuracy: -1, conceal: 'N', avail: 'P', damage: '5D6', shots: 5, rof: 1, rel: 'VR', costEb: 800, description: 'Auto-shotgun firing slugs — devastating anti-personnel weapon' },
+  { name: 'Sawed-Off Shotgun', type: 'Shotgun', accuracy: -2, conceal: 'L', avail: 'C', damage: '4D6', shots: 2, rof: 2, rel: 'ST', costEb: 200, description: 'Concealable sawed-off — maximum spread, minimum range' },
+
+  // Heavy Weapons (Chromebook)
+  { name: 'Militech RPG-A', type: 'Heavy Weapon', accuracy: -1, conceal: 'N', avail: 'R', damage: '7D10', shots: 1, rof: 1, rel: 'VR', costEb: 2000, description: 'Shoulder-fired anti-armor rocket — single-shot, devastating' },
+  { name: 'Arasaka HLR-12X Heavy Laser', type: 'Heavy Weapon', accuracy: 1, conceal: 'N', avail: 'R', damage: '5D6 (laser)', shots: 10, rof: 2, rel: 'VR', costEb: 8000, description: 'Crew-served heavy laser weapon — ignores non-laser armor' },
+  { name: 'Grenade Launcher (M-79)', type: 'Heavy Weapon', accuracy: 0, conceal: 'N', avail: 'P', damage: '7D6 (area)', shots: 1, rof: 1, rel: 'VR', costEb: 525, description: 'Single-shot grenade launcher — 5m blast radius' },
+  { name: 'Flamethrower', type: 'Heavy Weapon', accuracy: 0, conceal: 'N', avail: 'R', damage: '2D6/turn (fire)', shots: 10, rof: 1, rel: 'ST', costEb: 1500, description: 'Man-portable flamethrower — 10m range, sets targets alight' },
+  { name: 'Militech Cowboy U-56 Grenade Launcher', type: 'Heavy Weapon', accuracy: 0, conceal: 'N', avail: 'R', damage: '7D6 (area)', shots: 6, rof: 2, rel: 'VR', costEb: 800, description: 'Revolving grenade launcher — 6 rounds of 40mm explosive' },
+  { name: 'Minigun (Microgun)', type: 'Heavy Weapon', accuracy: 0, conceal: 'N', avail: 'R', damage: '5D6', shots: 200, rof: 100, rel: 'VR', costEb: 5000, description: 'Vehicle/cyborg-mounted rotating barrel minigun' },
+
+  // Exotic / Special (Chromebook)
+  { name: 'Tsunami Arms Helix', type: 'Exotic', accuracy: 0, conceal: 'J', avail: 'R', damage: '1D6+2 (x4 flechette)', shots: 8, rof: 4, rel: 'ST', costEb: 700, description: 'Flechette pistol firing clusters of needle-thin darts' },
+  { name: 'EMP Grenade', type: 'Thrown', accuracy: 0, conceal: 'P', avail: 'R', damage: 'EMP (10m)', shots: 1, rof: 1, rel: '-', costEb: 500, description: 'Electromagnetic pulse grenade — disables electronics and cyberware in radius' },
+  { name: 'Flashbang Grenade', type: 'Thrown', accuracy: 0, conceal: 'P', avail: 'C', damage: 'Stun (5m)', shots: 1, rof: 1, rel: '-', costEb: 30, description: 'Non-lethal flash/bang grenade — blinds and deafens for 1D6 turns' },
+  { name: 'Frag Grenade', type: 'Thrown', accuracy: 0, conceal: 'P', avail: 'P', damage: '7D6 (5m)', shots: 1, rof: 1, rel: '-', costEb: 30, description: 'Standard fragmentation grenade' },
+  { name: 'Smoke Grenade', type: 'Thrown', accuracy: 0, conceal: 'P', avail: 'C', damage: '-', shots: 1, rof: 1, rel: '-', costEb: 15, description: 'Smoke screen grenade — blocks vision in 5m radius for 1D6 turns' },
+  { name: 'Taser/Stun Gun', type: 'Exotic', accuracy: 0, conceal: 'J', avail: 'C', damage: 'Stun', shots: 1, rof: 1, rel: 'ST', costEb: 60, description: 'Electrical stun weapon — target must make BODY save or be stunned' },
+  { name: 'Paint/Dye Pellet Gun', type: 'Exotic', accuracy: 0, conceal: 'P', avail: 'E', damage: '-', shots: 10, rof: 2, rel: 'VR', costEb: 20, description: 'Non-lethal marker — used for surveillance and tagging targets' },
 ]
 
 export const CP_WEAPONS_CATALOG = CP_WEAPONS.map(w => ({
@@ -321,6 +364,20 @@ export const CP_ARMOR = [
   { name: 'Steel Helmet', type: 'Medium', sp: 14, ev: 0, covers: 'Head', costEb: 30, description: 'Standard steel pot helmet' },
   { name: 'MetalGear', type: 'Heavy', sp: 25, ev: 3, covers: 'Full Body', costEb: 600, description: 'Full metal armor suit — maximum protection, very encumbering' },
   { name: 'Body Weight Suit', type: 'Heavy', sp: 18, ev: 2, covers: 'Full Body', costEb: 500, description: 'Lightweight ballistic full-body suit with tactical webbing' },
+
+  // ── Chromebook Armor ──
+  { name: 'Armored Trenchcoat', type: 'Medium', sp: 16, ev: 1, covers: 'Torso, Arms, Legs', costEb: 300, description: 'Full-length armored coat — edgerunner classic, decent coverage' },
+  { name: 'Kevlar Vest (Tactical)', type: 'Medium', sp: 18, ev: 1, covers: 'Torso', costEb: 250, description: 'Tactical ballistic vest with MOLLE webbing for pouches' },
+  { name: 'Riot Shield', type: 'Heavy', sp: 25, ev: 0, covers: 'Frontal', costEb: 200, description: 'Portable ballistic shield — provides cover in one direction' },
+  { name: 'Door Gunner Vest', type: 'Heavy', sp: 22, ev: 2, covers: 'Torso', costEb: 350, description: 'Extra-heavy armored vest for vehicle gunners and sentries' },
+  { name: 'Corporate Suit (Armored)', type: 'Light', sp: 12, ev: 0, covers: 'Torso, Arms', costEb: 800, description: 'Executive business suit with concealed ballistic lining — looks normal' },
+  { name: 'Skinsuit', type: 'Light', sp: 8, ev: 0, covers: 'Full Body', costEb: 500, description: 'Skin-tight bodysuit with ballistic fiber weave — concealable under clothing' },
+  { name: 'Arasaka WAM (Powered Armor)', type: 'Powered', sp: 30, ev: 0, covers: 'Full Body', costEb: 15000, description: 'Military powered armor exosuit — SP30, enhanced BODY +4, sealed environment' },
+  { name: 'Militech Trooper (Powered Armor)', type: 'Powered', sp: 28, ev: 0, covers: 'Full Body', costEb: 12000, description: 'Militech infantry powered armor — SP28, BODY +3, HUD and comms integrated' },
+  { name: 'Hard Shell (Head)', type: 'Heavy', sp: 25, ev: 0, covers: 'Head', costEb: 150, description: 'Heavy ballistic helmet with visor — SP25 head protection' },
+  { name: 'Ballistic Face Shield', type: 'Medium', sp: 14, ev: 0, covers: 'Head (face)', costEb: 100, description: 'Transparent ballistic face shield attachment for helmets' },
+  { name: 'Armored Boots', type: 'Medium', sp: 14, ev: 0, covers: 'Feet', costEb: 80, description: 'Reinforced boots with steel toe and ballistic sole' },
+  { name: 'Netrunner Jumpsuit', type: 'Light', sp: 6, ev: 0, covers: 'Full Body', costEb: 400, description: 'Climate-controlled jumpsuit with minimal armor — optimized for extended netrunning sessions' },
 ]
 
 export const CP_ARMOR_CATALOG = CP_ARMOR.map(a => ({
@@ -352,11 +409,106 @@ export const CP_GEAR = [
   { name: 'Tent (2-Person)', costEb: 40, description: 'Lightweight two-person shelter' },
   { name: 'Inflatable Raft', costEb: 250, description: 'Self-inflating watercraft with oars' },
   { name: 'Disposable Cell Phone', costEb: 10, description: 'Untraceable prepaid burner phone' },
+
+  // ── Chromebook Gear ──
+  { name: 'Cyberdeck (Military)', costEb: 5000, description: 'Military-grade cyberdeck with enhanced processing and ICE resistance' },
+  { name: 'Cyberdeck (Arasaka)', costEb: 8000, description: 'Top-of-the-line Arasaka netrunning deck — fastest on the market' },
+  { name: 'Auto-Medic Unit', costEb: 500, description: 'Automated medical unit — diagnoses and treats injuries without a medic' },
+  { name: 'Trauma Team Card (Basic)', costEb: 500, description: 'Annual Trauma Team membership — emergency medical extraction and treatment' },
+  { name: 'Trauma Team Card (Corporate)', costEb: 5000, description: 'Premium Trauma Team membership — priority response, full coverage' },
+  { name: 'Scrambler/Descrambler', costEb: 500, description: 'Portable encryption/decryption unit for radio and phone communications' },
+  { name: 'Data Chip (Blank)', costEb: 10, description: 'Blank memory chip for storing data — holds ~100 GB' },
+  { name: 'Video Camera', costEb: 150, description: 'Handheld video recording device with zoom and night mode' },
+  { name: 'Digital Recorder', costEb: 100, description: 'Pocket-sized audio recording device with 48+ hours of storage' },
+  { name: 'Smart Goggles', costEb: 300, description: 'AR-enabled goggles with HUD display, compatible with smartgun link' },
+  { name: 'Night Vision Goggles', costEb: 200, description: 'Amplified light goggles for near-perfect darkness vision' },
+  { name: 'Thermograph Goggles', costEb: 250, description: 'Thermal imaging goggles — see heat signatures through smoke and darkness' },
+  { name: 'Grapple Gun', costEb: 150, description: 'Pneumatic grappling hook launcher with 50m range and motor winch' },
+  { name: 'Climbing Gear', costEb: 100, description: 'Harness, carabiners, pitons, and rope for technical climbing' },
+  { name: 'Parachute', costEb: 300, description: 'Emergency base-jump or HALO parachute — single use' },
+  { name: 'Gas Mask', costEb: 30, description: 'Full-face gas mask with replaceable filter cartridge' },
+  { name: 'Armor-Piercing Ammo (box)', costEb: 100, description: 'Box of 50 AP rounds — halves armor SP, -1 damage die' },
+  { name: 'Hollow Point Ammo (box)', costEb: 50, description: 'Box of 50 HP rounds — +1 damage die vs. unarmored, useless vs. armor' },
+  { name: 'Tracer Ammo (box)', costEb: 60, description: 'Box of 50 tracer rounds — visible streaks help aim (+1 after first hit)' },
+  { name: 'Smart Ammo (box)', costEb: 200, description: 'Box of 50 gyrojet smart rounds — guided by smartgun link, +2 accuracy' },
+  { name: 'Suppressor', costEb: 200, description: 'Barrel suppressor — reduces weapon sound, -1 damage' },
+  { name: 'Laser Sight', costEb: 100, description: 'Weapon-mounted laser pointer — +1 accuracy at close range' },
+  { name: 'Extended Magazine', costEb: 50, description: 'Doubles weapon ammo capacity for most firearms' },
+  { name: 'Speedloader', costEb: 25, description: 'Quick-load device for revolvers — reload as a single action' },
+  { name: 'Tactical Vest', costEb: 100, description: 'MOLLE vest for carrying magazines, grenades, and equipment' },
+  { name: 'Sleeping Drugs (dose)', costEb: 20, description: 'Fast-acting sedative — inhaled, injected, or in drink' },
+  { name: 'Stim Pack (dose)', costEb: 25, description: 'Combat stimulant — +1 REF for 1 hour, then crash' },
+  { name: 'SpeedHeal (dose)', costEb: 100, description: 'Accelerated healing drug — recover 1 wound level in 6 hours' },
+  { name: 'Black Lace (dose)', costEb: 50, description: 'Dangerous combat drug — +2 REF, +2 COOL, highly addictive, humanity damage' },
+  { name: 'Smash (dose)', costEb: 10, description: 'Street drug — endorphin booster, feel-good high, mildly addictive' },
+  { name: 'Synthcoke (dose)', costEb: 20, description: 'Synthetic cocaine — alertness boost, appetite suppressant, moderately addictive' },
 ]
 
 export const CP_GEAR_CATALOG = CP_GEAR.map(g => ({
   value: g.name,
   description: `${g.description} (${g.costEb}eb)`,
+}))
+
+// ── Vehicles ──────────────────────────────────────────────────────────────────
+
+export const CP_VEHICLES = [
+  // Motorcycles
+  { name: 'Motorcycle (Standard)', type: 'Motorcycle', topSpeed: 150, maneuver: 2, sdp: 12, sp: 0, seats: 2, costEb: 2000, description: 'Standard street motorcycle — fast and maneuverable' },
+  { name: 'Kawasaki Razorbike', type: 'Motorcycle', topSpeed: 200, maneuver: 3, sdp: 10, sp: 0, seats: 1, costEb: 6000, description: 'Racing motorcycle — extreme speed, minimal protection' },
+  { name: 'Harley-Davidson Scorpion', type: 'Motorcycle', topSpeed: 120, maneuver: 1, sdp: 15, sp: 5, seats: 2, costEb: 3500, description: 'Heavy cruiser motorcycle — slower but tougher and more comfortable' },
+  { name: 'BMW Blitz', type: 'Motorcycle', topSpeed: 180, maneuver: 2, sdp: 12, sp: 0, seats: 2, costEb: 4000, description: 'Sport touring bike — balanced speed and reliability' },
+  { name: 'Off-Road Bike', type: 'Motorcycle', topSpeed: 100, maneuver: 3, sdp: 10, sp: 0, seats: 1, costEb: 1500, description: 'Dirt bike for off-road travel — light, agile, low top speed' },
+
+  // Compact & Economy Cars
+  { name: 'Economy Car', type: 'Car', topSpeed: 100, maneuver: 0, sdp: 20, sp: 0, seats: 4, costEb: 2000, description: 'Cheap compact car — basic transportation' },
+  { name: 'Volkswagen Electra', type: 'Car', topSpeed: 120, maneuver: 0, sdp: 22, sp: 3, seats: 4, costEb: 4000, description: 'Reliable electric compact with light armor option' },
+  { name: 'Toyota-Lexus C-40', type: 'Car', topSpeed: 130, maneuver: 1, sdp: 22, sp: 5, seats: 4, costEb: 6000, description: 'Mid-range sedan with factory armor package' },
+
+  // Sports & Performance Cars
+  { name: 'Sports Car (Standard)', type: 'Car', topSpeed: 180, maneuver: 2, sdp: 20, sp: 0, seats: 2, costEb: 8000, description: 'High-performance sports car — speed over protection' },
+  { name: 'Porsche 911 Turbo S', type: 'Car', topSpeed: 220, maneuver: 2, sdp: 18, sp: 0, seats: 2, costEb: 35000, description: 'Premium sports car — blistering speed, luxury appointments' },
+  { name: 'Lamborghini Countach', type: 'Car', topSpeed: 200, maneuver: 2, sdp: 18, sp: 0, seats: 2, costEb: 30000, description: 'Exotic supercar — statement vehicle for the ultra-rich' },
+  { name: 'Quadra Turbo-R V-Tech', type: 'Car', topSpeed: 190, maneuver: 2, sdp: 22, sp: 5, seats: 2, costEb: 15000, description: 'Night City street racer favorite — fast with light armor' },
+
+  // Sedans & Luxury
+  { name: 'Corporate Sedan', type: 'Car', topSpeed: 140, maneuver: 0, sdp: 30, sp: 10, seats: 4, costEb: 10000, description: 'Armored corporate sedan — bulletproof glass, run-flat tires' },
+  { name: 'Rolls-Royce Silver Shadow', type: 'Car', topSpeed: 120, maneuver: -1, sdp: 35, sp: 15, seats: 4, costEb: 50000, description: 'Ultra-luxury armored limousine — corporate executive transport' },
+  { name: 'Arasaka Executive Transport', type: 'Car', topSpeed: 130, maneuver: 0, sdp: 40, sp: 20, seats: 6, costEb: 80000, description: 'Heavily armored corporate vehicle — RPG-resistant, electronic countermeasures' },
+
+  // SUVs & Trucks
+  { name: 'SUV (Standard)', type: 'Truck', topSpeed: 110, maneuver: -1, sdp: 30, sp: 5, seats: 6, costEb: 5000, description: 'Sport utility vehicle — good off-road capability' },
+  { name: 'Toyota Land Cruiser', type: 'Truck', topSpeed: 100, maneuver: -1, sdp: 35, sp: 8, seats: 6, costEb: 8000, description: 'Rugged off-road SUV — nomad favorite' },
+  { name: 'Pickup Truck', type: 'Truck', topSpeed: 100, maneuver: -1, sdp: 30, sp: 3, seats: 3, costEb: 3000, description: 'Standard pickup — useful for hauling gear and mounting weapons' },
+  { name: 'Militech Tactical Truck', type: 'Truck', topSpeed: 90, maneuver: -2, sdp: 50, sp: 20, seats: 8, costEb: 25000, description: 'Military armored personnel carrier — transports a squad under fire' },
+
+  // Vans
+  { name: 'Van (Standard)', type: 'Van', topSpeed: 100, maneuver: -1, sdp: 25, sp: 3, seats: 8, costEb: 3000, description: 'Standard cargo/passenger van' },
+  { name: 'Armored Van', type: 'Van', topSpeed: 90, maneuver: -1, sdp: 35, sp: 15, seats: 6, costEb: 12000, description: 'Armored security van — used by corporate couriers and NCPD' },
+  { name: 'Mobile Command Van', type: 'Van', topSpeed: 80, maneuver: -2, sdp: 30, sp: 10, seats: 4, costEb: 15000, description: 'Communications and command center on wheels — full electronics suite' },
+  { name: 'Nomad RV', type: 'Van', topSpeed: 70, maneuver: -2, sdp: 40, sp: 10, seats: 6, costEb: 8000, description: 'Nomad-modified recreational vehicle — mobile home with armor and weapons' },
+
+  // Aerial Vehicles
+  { name: 'AV-4 (Aerodyne)', type: 'AV', topSpeed: 300, maneuver: 1, sdp: 30, sp: 15, seats: 4, costEb: 50000, description: 'Standard aerodyne VTOL vehicle — the flying car of the future' },
+  { name: 'AV-6 (Combat Aerodyne)', type: 'AV', topSpeed: 350, maneuver: 2, sdp: 40, sp: 25, seats: 4, costEb: 120000, description: 'Military combat aerodyne — armed and armored, used by Trauma Team and military' },
+  { name: 'AV-9 (Heavy Transport)', type: 'AV', topSpeed: 250, maneuver: 0, sdp: 50, sp: 20, seats: 10, costEb: 200000, description: 'Heavy cargo/troop transport aerodyne — carries a full squad or heavy equipment' },
+  { name: 'Osprey III (Hybrid)', type: 'AV', topSpeed: 400, maneuver: 1, sdp: 35, sp: 20, seats: 8, costEb: 150000, description: 'Tiltrotor VTOL aircraft — long range, fast, used for covert insertion' },
+  { name: 'Helicopter (Standard)', type: 'AV', topSpeed: 200, maneuver: 1, sdp: 25, sp: 5, seats: 4, costEb: 20000, description: 'Standard helicopter — civilian or converted military surplus' },
+  { name: 'Attack Helicopter', type: 'AV', topSpeed: 250, maneuver: 2, sdp: 35, sp: 20, seats: 2, costEb: 80000, description: 'Military attack helicopter with missile pods and chaingun' },
+
+  // Watercraft
+  { name: 'Speedboat', type: 'Boat', topSpeed: 80, maneuver: 1, sdp: 20, sp: 0, seats: 4, costEb: 5000, description: 'Fast civilian speedboat for harbor and coastal use' },
+  { name: 'Combat Zodiac', type: 'Boat', topSpeed: 50, maneuver: 1, sdp: 15, sp: 3, seats: 6, costEb: 3000, description: 'Inflatable assault craft — used for waterborne insertions' },
+  { name: 'Patrol Boat', type: 'Boat', topSpeed: 60, maneuver: 0, sdp: 30, sp: 10, seats: 4, costEb: 15000, description: 'Armed patrol boat with mounted weapon and spotlight' },
+
+  // Nomad Specials
+  { name: 'Nomad War Rig', type: 'Truck', topSpeed: 80, maneuver: -3, sdp: 80, sp: 25, seats: 10, costEb: 40000, description: 'Massive armored truck — mobile fortress of the nomad nations. Weapon mounts, crew quarters' },
+  { name: 'Nomad Buggy', type: 'Car', topSpeed: 140, maneuver: 2, sdp: 15, sp: 5, seats: 2, costEb: 3000, description: 'Stripped-down dune buggy — fast, off-road, jury-rigged weapons' },
+  { name: 'Nomad Bike (Modified)', type: 'Motorcycle', topSpeed: 160, maneuver: 2, sdp: 12, sp: 3, seats: 1, costEb: 3500, description: 'Nomad-modified motorcycle — reinforced, off-road capable, weapon mount' },
+]
+
+export const CP_VEHICLES_CATALOG = CP_VEHICLES.map(v => ({
+  value: v.name,
+  description: `${v.type} — ${v.description} (${v.costEb}eb, Speed ${v.topSpeed}, SP${v.sp})`,
 }))
 
 // ── Lifepath Tables ────────────────────────────────────────────────────────────

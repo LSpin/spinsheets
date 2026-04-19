@@ -787,4 +787,6 @@ public class Character {
     private String cpLifepath;
     @Column(columnDefinition = "TEXT")
     private String cpContacts;
+    @Column(columnDefinition = "TEXT")
+    private String cpVehicles;
 }

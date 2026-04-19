@@ -491,6 +491,7 @@ public class CharacterController {
             existing.setCpGear(updated.getCpGear());
             existing.setCpLifepath(updated.getCpLifepath());
             existing.setCpContacts(updated.getCpContacts());
+            existing.setCpVehicles(updated.getCpVehicles());
             return ResponseEntity.ok(service.save(existing));
         }).orElse(ResponseEntity.notFound().build());
     }
