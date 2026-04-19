@@ -34,18 +34,7 @@ public class ChronicleController {
 
     @GetMapping
     public List<Chronicle> findAll() {
-        AppUser user = access.getCurrentUser();
-        if (user.getRole() == Role.STORYTELLER) {
-            List<Chronicle> owned = service.findByStoryteller(user.getId());
-            List<Chronicle> assisting = chronicleRepository.findByAssistantStorytellers_Id(user.getId());
-            Set<Long> seen = owned.stream().map(Chronicle::getId).collect(Collectors.toSet());
-            List<Chronicle> merged = new ArrayList<>(owned);
-            for (Chronicle c : assisting) {
-                if (seen.add(c.getId())) merged.add(c);
-            }
-            return merged;
-        }
-        // Players see all chronicles, but AST chronicles will show their AST status
+        // All users see all chronicles — STs can manage their own, players can browse and join
         return service.findAll();
     }
 
