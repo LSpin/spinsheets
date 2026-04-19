@@ -24,16 +24,99 @@ import L5RDiceRoller from './L5RDiceRoller'
 
 // ── Clans & Families ──
 const CLANS = {
-  'Crab': { families: ['Hida', 'Hiruma', 'Kaiu', 'Kuni', 'Toritaka', 'Yasuki'], schools: ['Hida Bushi', 'Hiruma Bushi', 'Hiruma Scout', 'Kaiu Engineer', 'Kuni Shugenja', 'Kuni Witch Hunter', 'Toritaka Bushi', 'Yasuki Courtier', 'Hida Pragmatist'] },
-  'Crane': { families: ['Asahina', 'Daidoji', 'Doji', 'Kakita'], schools: ['Asahina Shugenja', 'Daidoji Iron Warrior', 'Doji Courtier', 'Doji Magistrate', 'Kakita Bushi', 'Kakita Artisan'] },
-  'Dragon': { families: ['Kitsuki', 'Mirumoto', 'Tamori', 'Togashi'], schools: ['Kitsuki Investigator', 'Mirumoto Bushi', 'Tamori Shugenja', 'Togashi Tattooed Order'] },
-  'Lion': { families: ['Akodo', 'Ikoma', 'Kitsu', 'Matsu'], schools: ['Akodo Bushi', 'Ikoma Bard', 'Ikoma Lion\'s Shadow', 'Kitsu Shugenja', 'Matsu Berserker'] },
-  'Mantis': { families: ['Kitsune', 'Moshi', 'Tsuruchi', 'Yoritomo'], schools: ['Kitsune Shugenja', 'Moshi Shugenja', 'Tsuruchi Archer', 'Tsuruchi Bounty Hunter', 'Yoritomo Bushi', 'Yoritomo Courtier'] },
-  'Phoenix': { families: ['Agasha', 'Isawa', 'Shiba'], schools: ['Agasha Shugenja', 'Isawa Shugenja', 'Isawa Tensai', 'Shiba Bushi', 'Asako Loremaster'] },
-  'Scorpion': { families: ['Bayushi', 'Shosuro', 'Soshi', 'Yogo'], schools: ['Bayushi Bushi', 'Bayushi Courtier', 'Shosuro Infiltrator', 'Soshi Shugenja', 'Yogo Shugenja'] },
-  'Spider': { families: ['Chuda', 'Daigotsu', 'Goju', 'Ninube'], schools: ['Chuda Shugenja', 'Daigotsu Bushi', 'Daigotsu Courtier', 'Goju Ninja', 'Ninube Shugenja'] },
-  'Unicorn': { families: ['Horiuchi', 'Ide', 'Iuchi', 'Moto', 'Shinjo', 'Utaku'], schools: ['Ide Emissary', 'Iuchi Shugenja', 'Moto Bushi', 'Moto Vindicator', 'Shinjo Bushi', 'Utaku Battle Maiden'] },
-  'Imperial': { families: ['Miya', 'Otomo', 'Seppun'], schools: ['Miya Herald', 'Otomo Courtier', 'Seppun Guardsman', 'Seppun Shugenja'] },
+  'Crab': {
+    families: [
+      { value: 'Hida', description: 'Warriors and defenders of the Wall' },
+      { value: 'Hiruma', description: 'Scouts and monster hunters' },
+      { value: 'Kaiu', description: 'Engineers and siege specialists' },
+      { value: 'Kuni', description: 'Witch hunters and Taint experts' },
+      { value: 'Toritaka', description: 'Spirit hunters of the Falcon' },
+      { value: 'Yasuki', description: 'Merchants and diplomats' },
+    ],
+    schools: ['Hida Bushi', 'Hiruma Bushi', 'Hiruma Scout', 'Kaiu Engineer', 'Kuni Shugenja', 'Kuni Witch Hunter', 'Toritaka Bushi', 'Yasuki Courtier', 'Hida Pragmatist'],
+  },
+  'Crane': {
+    families: [
+      { value: 'Asahina', description: 'Pacifist shugenja and artisans' },
+      { value: 'Daidoji', description: 'Iron warriors and bodyguards' },
+      { value: 'Doji', description: 'Courtiers and politicians' },
+      { value: 'Kakita', description: 'Master duelists and artisans' },
+    ],
+    schools: ['Asahina Shugenja', 'Daidoji Iron Warrior', 'Doji Courtier', 'Doji Magistrate', 'Kakita Bushi', 'Kakita Artisan'],
+  },
+  'Dragon': {
+    families: [
+      { value: 'Kitsuki', description: 'Investigators and magistrates' },
+      { value: 'Mirumoto', description: 'Two-sword style warriors' },
+      { value: 'Tamori', description: 'Mountain shugenja and alchemists' },
+      { value: 'Togashi', description: 'Tattooed monks' },
+    ],
+    schools: ['Kitsuki Investigator', 'Mirumoto Bushi', 'Tamori Shugenja', 'Togashi Tattooed Order'],
+  },
+  'Lion': {
+    families: [
+      { value: 'Akodo', description: 'Master strategists and tacticians' },
+      { value: 'Ikoma', description: 'Historians and storytellers' },
+      { value: 'Kitsu', description: 'Spirit-speaker shugenja' },
+      { value: 'Matsu', description: 'Fearless berserker warriors' },
+    ],
+    schools: ['Akodo Bushi', 'Ikoma Bard', 'Ikoma Lion\'s Shadow', 'Kitsu Shugenja', 'Matsu Berserker'],
+  },
+  'Mantis': {
+    families: [
+      { value: 'Kitsune', description: 'Fox spirit shugenja' },
+      { value: 'Moshi', description: 'Sun priestesses' },
+      { value: 'Tsuruchi', description: 'Legendary archers' },
+      { value: 'Yoritomo', description: 'Sailors and storm warriors' },
+    ],
+    schools: ['Kitsune Shugenja', 'Moshi Shugenja', 'Tsuruchi Archer', 'Tsuruchi Bounty Hunter', 'Yoritomo Bushi', 'Yoritomo Courtier'],
+  },
+  'Phoenix': {
+    families: [
+      { value: 'Agasha', description: 'Crystal and potion masters' },
+      { value: 'Asako', description: 'Monks and scholars' },
+      { value: 'Isawa', description: 'Most powerful shugenja in Rokugan' },
+      { value: 'Shiba', description: 'Guardian warriors of the Phoenix' },
+    ],
+    schools: ['Agasha Shugenja', 'Isawa Shugenja', 'Isawa Tensai', 'Shiba Bushi', 'Asako Loremaster'],
+  },
+  'Scorpion': {
+    families: [
+      { value: 'Bayushi', description: 'Master manipulators and spies' },
+      { value: 'Shosuro', description: 'Assassins and actors' },
+      { value: 'Soshi', description: 'Shadow shugenja' },
+      { value: 'Yogo', description: 'Curse-bearing ward masters' },
+    ],
+    schools: ['Bayushi Bushi', 'Bayushi Courtier', 'Shosuro Infiltrator', 'Soshi Shugenja', 'Yogo Shugenja'],
+  },
+  'Spider': {
+    families: [
+      { value: 'Chuda', description: 'Maho-tsukai blood sorcerers' },
+      { value: 'Daigotsu', description: 'Dark lords of the Spider' },
+      { value: 'Goju', description: 'Ninja of the Nothing' },
+      { value: 'Susumu', description: 'Dark courtiers' },
+    ],
+    schools: ['Chuda Shugenja', 'Daigotsu Bushi', 'Daigotsu Courtier', 'Goju Ninja', 'Ninube Shugenja'],
+  },
+  'Unicorn': {
+    families: [
+      { value: 'Horiuchi', description: 'Meishodo name magic' },
+      { value: 'Ide', description: 'Diplomats and traders' },
+      { value: 'Iuchi', description: 'Desert shugenja' },
+      { value: 'Moto', description: 'Fearsome Death Priests' },
+      { value: 'Shinjo', description: 'Horse lords and explorers' },
+      { value: 'Utaku', description: 'Elite mounted warriors' },
+    ],
+    schools: ['Ide Emissary', 'Iuchi Shugenja', 'Moto Bushi', 'Moto Vindicator', 'Shinjo Bushi', 'Utaku Battle Maiden'],
+  },
+  'Imperial': {
+    families: [
+      { value: 'Miya', description: 'Imperial heralds' },
+      { value: 'Otomo', description: 'Imperial politicians' },
+      { value: 'Seppun', description: 'Imperial guard' },
+    ],
+    schools: ['Miya Herald', 'Otomo Courtier', 'Seppun Guardsman', 'Seppun Shugenja'],
+  },
   'Minor Clan': { families: [], schools: [] },
   'Ronin': { families: [], schools: ['Ronin (Various)'] },
 }
@@ -485,8 +568,19 @@ export default function L5RForm() {
   const waterRing = Math.min(fields.l5rStrength7, fields.l5rPerception7)
   const voidRing = fields.l5rVoid
 
-  // Families filtered by selected clan
-  const selectedFamilies = fields.l5rClan && CLANS[fields.l5rClan] ? CLANS[fields.l5rClan].families : []
+  // Families filtered by selected clan (catalog format for CatalogSelect)
+  const familyCatalog = fields.l5rClan && CLANS[fields.l5rClan] ? CLANS[fields.l5rClan].families : []
+
+  // Schools filtered by selected clan (catalog format for CatalogSelect)
+  const schoolCatalog = ((fields.l5rClan && CLANS[fields.l5rClan]?.schools) || []).map(s => {
+    const schoolData = L5R_SCHOOLS[s]
+    return {
+      value: s,
+      description: schoolData
+        ? `${schoolData.type} — ${schoolData.traits}. Skills: ${schoolData.skills}`
+        : s,
+    }
+  })
 
   // ── Combat computations ──
   const armorData = L5R_EQUIPMENT.armor.find(a => a.name === equippedArmor)
@@ -676,44 +770,33 @@ export default function L5RForm() {
               <div className="field"><label>{t('concept')}</label><input name="concept" value={fields.concept} onChange={handleText} /></div>
             </div>
             <div className="field-row">
-              <CatalogSelect id="l5rClan" name="l5rClan" label="Clan" value={fields.l5rClan}
+              <CatalogSelect id="l5rClan" name="l5rClan" label={t('clan') || 'Clan'} value={fields.l5rClan}
                 onChange={(name, val) => {
-                  setFields(prev => ({ ...prev, l5rClan: val, l5rFamily: '' }))
+                  setFields(prev => ({ ...prev, l5rClan: val, l5rFamily: '', l5rSchool: '' }))
                 }}
                 catalog={CLAN_CATALOG} />
-              <div className="field">
-                <label>Family</label>
-                {selectedFamilies.length > 0 ? (
-                  <select name="l5rFamily" value={fields.l5rFamily} onChange={handleText}>
-                    <option value="">{t('select')}</option>
-                    {selectedFamilies.map(f => <option key={f} value={f}>{t(f)}</option>)}
-                  </select>
-                ) : (
+              {familyCatalog.length > 0 ? (
+                <CatalogSelect id="l5rFamily" name="l5rFamily" label={t('family') || 'Family'} value={fields.l5rFamily}
+                  onChange={(name, val) => handleField(name, val)}
+                  catalog={familyCatalog} />
+              ) : (
+                <div className="field">
+                  <label>{t('family') || 'Family'}</label>
                   <input name="l5rFamily" value={fields.l5rFamily} onChange={handleText} placeholder="Enter family name..." />
-                )}
-              </div>
-            </div>
-            <div className="field-row">
-              <div className="field">
-                <label>School</label>
-                {fields.l5rClan && CLANS[fields.l5rClan]?.schools?.length > 0 ? (
-                  <select name="l5rSchool" value={fields.l5rSchool} onChange={handleText}>
-                    <option value="">{t('select')}</option>
-                    {CLANS[fields.l5rClan].schools.map(s => <option key={s} value={s}>{t(s)}</option>)}
-                  </select>
-                ) : (
-                  <input name="l5rSchool" value={fields.l5rSchool} onChange={handleText} placeholder="Enter school name..." />
-                )}
-              </div>
-            </div>
-            <div className="field-row">
-              <div className="field">
-                <label>{t('type')}</label>
-                <div className="role-toggle" role="radiogroup">
-                  <button type="button" className={`role-toggle-btn${!fields.npc ? ' role-toggle-btn--active' : ''}`} onClick={() => handleField('npc', false)}>{t('pc')}</button>
-                  <button type="button" className={`role-toggle-btn${fields.npc ? ' role-toggle-btn--active' : ''}`} onClick={() => handleField('npc', true)}>{t('npc')}</button>
                 </div>
-              </div>
+              )}
+            </div>
+            <div className="field-row">
+              {schoolCatalog.length > 0 ? (
+                <CatalogSelect id="l5rSchool" name="l5rSchool" label={t('school') || 'School'} value={fields.l5rSchool}
+                  onChange={(name, val) => handleField(name, val)}
+                  catalog={schoolCatalog} />
+              ) : (
+                <div className="field">
+                  <label>{t('school') || 'School'}</label>
+                  <input name="l5rSchool" value={fields.l5rSchool} onChange={handleText} placeholder="Enter school name..." />
+                </div>
+              )}
             </div>
             <details style={{ marginTop: 'var(--space-md)' }}>
               <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Heritage Tables (Optional)</summary>
