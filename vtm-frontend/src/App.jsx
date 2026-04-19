@@ -3,7 +3,7 @@ import { useState, useRef, useEffect, lazy, Suspense } from 'react'
 
 // Retry failed lazy imports once (handles stale chunk hashes after deploys)
 function lazyRetry(fn) {
-  return lazyRetry(() => fn().catch(() => {
+  return lazy(() => fn().catch(() => {
     const reloaded = sessionStorage.getItem('chunk_reload')
     if (!reloaded) {
       sessionStorage.setItem('chunk_reload', '1')

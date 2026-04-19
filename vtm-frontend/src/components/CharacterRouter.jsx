@@ -1,7 +1,7 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
 
 function lazyRetry(fn) {
-  return lazyRetry(() => fn().catch(() => {
+  return lazy(() => fn().catch(() => {
     const reloaded = sessionStorage.getItem('chunk_reload')
     if (!reloaded) {
       sessionStorage.setItem('chunk_reload', '1')
