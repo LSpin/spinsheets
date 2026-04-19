@@ -1573,6 +1573,11 @@ legend {
   background: rgba(100, 140, 60, 0.1);
 }
 
+.splat-badge--mortal {
+  background: rgba(160, 160, 160, 0.15);
+  color: #a0a0a0;
+}
+
 /* ── Splat selection ── */
 
 .splat-grid {

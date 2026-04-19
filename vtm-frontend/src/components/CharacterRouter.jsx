@@ -23,6 +23,7 @@ const WraithForm = lazy(() => import('./WraithForm'))
 const ChangelingForm = lazy(() => import('./ChangelingForm'))
 const DemonForm = lazy(() => import('./DemonForm'))
 const BsdForm = lazy(() => import('./BsdForm'))
+const MortalsForm = lazy(() => import('./MortalsForm'))
 const SeventhSeaForm = lazy(() => import('./SeventhSeaForm'))
 const SeventhSeaVillainForm = lazy(() => import('./SeventhSeaVillainForm'))
 const L5RForm = lazy(() => import('./L5RForm'))
@@ -89,6 +90,7 @@ export default function CharacterRouter() {
   else if (splat === 'CHANGELING') FormComponent = ChangelingForm
   else if (splat === 'DEMON') FormComponent = DemonForm
   else if (splat === 'BSD') FormComponent = BsdForm
+  else if (splat === 'MORTAL') FormComponent = MortalsForm
   else if (splat === 'SEVENTH_SEA' && isNpc) FormComponent = SeventhSeaVillainForm
   else if (splat === 'SEVENTH_SEA') FormComponent = SeventhSeaForm
   else if (splat === 'L5R' && isNpc) FormComponent = L5RAntagonistForm

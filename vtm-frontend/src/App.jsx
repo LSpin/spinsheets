@@ -44,6 +44,7 @@ const WraithForm = lazy(() => import('./components/WraithForm'))
 const ChangelingForm = lazy(() => import('./components/ChangelingForm'))
 const DemonForm = lazy(() => import('./components/DemonForm'))
 const BsdForm = lazy(() => import('./components/BsdForm'))
+const MortalsForm = lazy(() => import('./components/MortalsForm'))
 
 // 7th Sea
 const SeventhSeaForm = lazy(() => import('./components/SeventhSeaForm'))
@@ -277,6 +278,9 @@ function AppShell() {
           } />
           <Route path="/characters/new/bsd" element={
             <ProtectedRoute><BsdForm /></ProtectedRoute>
+          } />
+          <Route path="/characters/new/mortal" element={
+            <ProtectedRoute><MortalsForm /></ProtectedRoute>
           } />
           <Route path="/characters/:id" element={
             <ProtectedRoute><CharacterRouter /></ProtectedRoute>

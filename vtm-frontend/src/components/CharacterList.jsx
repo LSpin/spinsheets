@@ -37,6 +37,7 @@ const SPLAT_LABEL_KEYS = {
   CHANGELING: 'splatChangeling',
   DEMON: 'splatDemon',
   BSD: 'splatBsd',
+  MORTAL: 'splatMortal',
 }
 
 function splatBadgeClass(splat) {

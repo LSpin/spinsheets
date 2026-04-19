@@ -748,6 +748,7 @@ const en = {
 
   // ── Splat Select ──
   chooseGameLine: 'Choose your World of Darkness game line.',
+  chooseNpcType: 'Choose an NPC type. Simplified sheets for quick creation.',
   createSplat: 'Create',
   splatVampire: 'Vampire',
   splatVampireSub: 'The Masquerade',
@@ -915,6 +916,10 @@ const en = {
   splatBsd: 'Black Spiral Dancer',
   splatBsdSub: 'Wyrm-Tainted Garou',
   splatBsdDesc: 'Werewolves corrupted by the Wyrm. Insane servants of destruction.',
+  // Mortal
+  splatMortal: 'Mortal',
+  splatMortalSub: 'Ordinary Human',
+  splatMortalDesc: 'Regular mortals — cops, criminals, scholars, and everyday people.',
   // Totem
   totem: 'Totem Spirit',
   editTotem: 'New Totem',
@@ -2311,6 +2316,7 @@ const pt = {
 
   // ── Splat Select ──
   chooseGameLine: 'Escolha sua linha de jogo do Mundo das Trevas.',
+  chooseNpcType: 'Escolha um tipo de NPC. Fichas simplificadas para criação rápida.',
   createSplat: 'Criar',
   splatVampire: 'Vampiro',
   splatVampireSub: 'A Máscara',
@@ -2476,6 +2482,10 @@ const pt = {
   splatBsd: 'Dançarino da Espiral Negra',
   splatBsdSub: 'Garou Corrompido pela Wyrm',
   splatBsdDesc: 'Lobisomens corrompidos pela Wyrm. Servos insanos da destruição.',
+  // Mortal
+  splatMortal: 'Mortal',
+  splatMortalSub: 'Humano Comum',
+  splatMortalDesc: 'Mortais comuns — policiais, criminosos, acadêmicos e pessoas do dia-a-dia.',
   totem: 'Espírito Totem',
   editTotem: 'Novo Totem',
   totemName: 'Nome do Espírito',

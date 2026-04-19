@@ -293,7 +293,7 @@ public class ChronicleController {
         Map.entry("L5R_ANTAGONIST", "L5R"), Map.entry("BLADES_ANTAGONIST", "BLADES"),
         Map.entry("HUNTER", "VAMPIRE"), Map.entry("WRAITH", "VAMPIRE"),
         Map.entry("CHANGELING", "MAGE"), Map.entry("DEMON", "VAMPIRE"),
-        Map.entry("BSD", "WEREWOLF")
+        Map.entry("BSD", "WEREWOLF"), Map.entry("MORTAL", "VAMPIRE")
     );
 
     private static final Map<String, String> SYSTEM_FOR_CATEGORY = Map.of(

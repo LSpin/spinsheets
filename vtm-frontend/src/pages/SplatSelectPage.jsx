@@ -4,7 +4,18 @@ import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
 import { getChronicle } from '../api/chronicleApi'
 
-const ALL_TABS = [
+const PC_TABS = [
+  { key: 'vampire', labelKey: 'splatVampire', category: 'VAMPIRE' },
+  { key: 'werewolf', labelKey: 'splatWerewolf', category: 'WEREWOLF' },
+  { key: 'mage', labelKey: 'splatMage', category: 'MAGE' },
+  { key: 'hunter', labelKey: 'splatHunter', category: 'VAMPIRE' },
+  { key: 'wraith', labelKey: 'splatWraith', category: 'VAMPIRE' },
+  { key: 'changeling', labelKey: 'splatChangeling', category: 'MAGE' },
+  { key: 'demon', labelKey: 'splatDemon', category: 'VAMPIRE' },
+]
+
+const NPC_TABS = [
+  { key: 'mortal', labelKey: 'splatMortal', category: 'VAMPIRE' },
   { key: 'vampire', labelKey: 'splatVampire', category: 'VAMPIRE' },
   { key: 'werewolf', labelKey: 'splatWerewolf', category: 'WEREWOLF' },
   { key: 'mage', labelKey: 'splatMage', category: 'MAGE' },
@@ -48,6 +59,9 @@ const SPLATS = {
   demon: [
     { id: 'demon', nameKey: 'splatDemon', subKey: 'splatDemonSub', descKey: 'splatDemonDesc', color: '#b4501e' },
   ],
+  mortal: [
+    { id: 'mortal', nameKey: 'splatMortal', subKey: 'splatMortalSub', descKey: 'splatMortalDesc', color: '#a0a0a0' },
+  ],
 }
 
 export default function SplatSelectPage() {
@@ -75,11 +89,12 @@ export default function SplatSelectPage() {
     }).catch(() => {})
   }, [chronicle])
 
+  const ALL_TABS = isNpc ? NPC_TABS : PC_TABS
   const TABS = allowedCategories
     ? ALL_TABS.filter(tb => allowedCategories.has(tb.category))
     : ALL_TABS
 
-  const [tab, setTab] = useState('vampire')
+  const [tab, setTab] = useState(isNpc ? 'mortal' : 'vampire')
   const activeTab = TABS.some(tb => tb.key === tab) ? tab : TABS[0]?.key
 
   if (!activeTab) return null
@@ -90,7 +105,7 @@ export default function SplatSelectPage() {
         <h2 id="splat-heading">{isNpc ? t('newNpc') : t('newCharacter')}</h2>
       </div>
       <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
-        {t('chooseGameLine')}
+        {isNpc ? t('chooseNpcType') : t('chooseGameLine')}
       </p>
       <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)' }}>
         {TABS.map(tb => (
