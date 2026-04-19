@@ -36,6 +36,53 @@ const AUSPICES = [
   { value: 'Ahroun', description: 'Full Moon. Warrior and champion.' },
 ]
 
+const BSD_GIFTS = [
+  // Breed Gifts (available to all BSD)
+  { name: 'Sense Wyrm', level: 1, description: 'Sense nearby Wyrm corruption and tainted beings.' },
+  { name: 'Resist Pain', level: 1, description: 'Ignore wound penalties for a scene.' },
+  { name: 'Toxic Claws', level: 2, description: 'Claws inflict toxic, festering wounds.' },
+  { name: 'Balefire', level: 2, description: 'Breathe green Wyrm-fire that burns body and spirit.' },
+  { name: 'Wyrm Hide', level: 3, description: 'Skin hardens into chitinous armor.' },
+  { name: 'Foaming Fury', level: 3, description: 'Enter a berserker frenzy with enhanced damage.' },
+  { name: 'Crawling Poison', level: 4, description: 'Secrete contact poison from skin.' },
+  { name: 'Corruption', level: 4, description: 'Permanently taint a person, place, or object with the Wyrm.' },
+  { name: 'Entropy', level: 5, description: 'Cause rapid decay and dissolution of matter.' },
+  { name: 'Consume the Dead', level: 5, description: 'Devour a corpse to absorb its memories and power.' },
+  // Auspice Gifts
+  { name: 'Persuasion', level: 1, description: 'Supernaturally persuade a target to agree with you.' },
+  { name: 'Aura of Confidence', level: 2, description: 'Project an aura of dominance and authority.' },
+  { name: 'Shadow Walk', level: 2, description: 'Step sideways into the Umbra with ease.' },
+  { name: 'Venom Blood', level: 3, description: 'Blood becomes poisonous to anyone who touches it.' },
+  { name: 'Horns of the Wyrm', level: 3, description: 'Grow massive horns for devastating charge attacks.' },
+  { name: 'Touch of the Eel', level: 4, description: 'Generate powerful electrical shocks on touch.' },
+  { name: 'Summon Bane', level: 4, description: 'Call a Bane spirit to serve you.' },
+  { name: 'Maelstrom', level: 5, description: 'Create a devastating spiritual storm.' },
+]
+
+const BSD_GIFT_LEVELS = [...new Set(BSD_GIFTS.map(g => g.level))].sort((a, b) => a - b)
+
+const BSD_DERANGEMENTS = [
+  { name: 'Megalomania', description: 'Delusions of godlike power and importance.' },
+  { name: 'Paranoia', description: 'Everyone is a potential enemy or spy.' },
+  { name: 'Sadism', description: 'Derives pleasure from inflicting pain.' },
+  { name: 'Schizophrenia', description: 'Hears voices — often the Wyrm whispering.' },
+  { name: 'Obsessive Compulsion', description: 'Must perform specific rituals repeatedly.' },
+  { name: 'Multiple Personalities', description: 'Shifts between distinct identities.' },
+  { name: 'Hysteria', description: 'Extreme emotional reactions to stress.' },
+  { name: 'Manic Depression', description: 'Swings between elation and despair.' },
+  { name: 'Crimson Rage', description: 'Uncontrollable frenzy triggered by minor provocations.' },
+  { name: 'Wyrm Whispers', description: 'Hears the Wyrm\'s voice constantly. Obeys its commands.' },
+]
+
+function parseCommaSeparated(str) {
+  if (!str) return []
+  return str.split(',').map(s => s.trim()).filter(Boolean)
+}
+
+function serializeCommaSeparated(arr) {
+  return arr.filter(Boolean).join(',')
+}
+
 const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabGifts', 'tabHealth', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
 
 const INITIAL = {
@@ -228,16 +275,60 @@ export default function BsdForm() {
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Black Spiral Dancers use corrupted versions of Garou gifts plus unique Wyrm-tainted gifts.
             </p>
-            <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={10} style={{ width: '100%' }}
-              aria-label="Gifts" placeholder="List gifts with levels, e.g.&#10;Wyrm Hide 1&#10;Balefire 3&#10;Toxic Claws 2" />
+            {BSD_GIFT_LEVELS.map(level => {
+              const giftsAtLevel = BSD_GIFTS.filter(g => g.level === level)
+              const selectedGifts = parseCommaSeparated(fields.sorceryDesc)
+              return (
+                <div key={level} style={{ marginBottom: 'var(--space-md)' }}>
+                  <h4 style={{ margin: '0 0 var(--space-xs)' }}>Level {level}</h4>
+                  <div className="catalog-list" style={{ listStyle: 'none', padding: 0 }}>
+                    {giftsAtLevel.map(gift => {
+                      const checked = selectedGifts.includes(gift.name)
+                      return (
+                        <label key={gift.name} className="catalog-item" style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', cursor: 'pointer' }}>
+                          <input type="checkbox" checked={checked} onChange={() => {
+                            const next = checked
+                              ? selectedGifts.filter(n => n !== gift.name)
+                              : [...selectedGifts, gift.name]
+                            setFields(prev => ({ ...prev, sorceryDesc: serializeCommaSeparated(next) }))
+                          }} />
+                          <div>
+                            <strong>{gift.name}</strong>
+                            <p className="muted-hint muted-hint--xs" style={{ margin: 0 }}>{gift.description}</p>
+                          </div>
+                        </label>
+                      )
+                    })}
+                  </div>
+                </div>
+              )
+            })}
           </fieldset>
           <fieldset>
             <legend>Wyrm Taint &amp; Derangements</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Describe mutations, derangements, and Wyrm corruption effects.
+              Select derangements caused by Wyrm corruption.
             </p>
-            <textarea name="clanCurse" value={fields.clanCurse} onChange={handleText} rows={6} style={{ width: '100%' }}
-              aria-label="Wyrm Taint and Derangements" placeholder="Mutations, derangements, Wyrm taint effects..." />
+            <div className="catalog-list" style={{ listStyle: 'none', padding: 0 }}>
+              {BSD_DERANGEMENTS.map(d => {
+                const selectedDerangements = parseCommaSeparated(fields.clanCurse)
+                const checked = selectedDerangements.includes(d.name)
+                return (
+                  <label key={d.name} className="catalog-item" style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', cursor: 'pointer' }}>
+                    <input type="checkbox" checked={checked} onChange={() => {
+                      const next = checked
+                        ? selectedDerangements.filter(n => n !== d.name)
+                        : [...selectedDerangements, d.name]
+                      setFields(prev => ({ ...prev, clanCurse: serializeCommaSeparated(next) }))
+                    }} />
+                    <div>
+                      <strong>{d.name}</strong>
+                      <p className="muted-hint muted-hint--xs" style={{ margin: 0 }}>{d.description}</p>
+                    </div>
+                  </label>
+                )
+              })}
+            </div>
           </fieldset>
           <fieldset>
             <legend>Rage, Gnosis &amp; Willpower</legend>

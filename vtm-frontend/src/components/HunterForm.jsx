@@ -66,6 +66,27 @@ const VIRTUES = [
   { value: 'Zeal', description: 'Righteous fury. Destroy evil wherever it hides.' },
 ]
 
+const HUNTER_EDGES = [
+  // Mercy Edges
+  { name: 'Cleave', virtue: 'Mercy', level: 1, description: 'Sense the supernatural. Detect monsters within line of sight.' },
+  { name: 'Ward', virtue: 'Mercy', level: 2, description: 'Create a protective barrier against supernatural creatures.' },
+  { name: 'Rejuvenate', virtue: 'Mercy', level: 3, description: 'Heal wounds on yourself or others through divine power.' },
+  { name: 'Becalm', virtue: 'Mercy', level: 4, description: 'Calm a supernatural creature, suppressing its powers temporarily.' },
+  { name: 'Restore', virtue: 'Mercy', level: 5, description: 'Purify corruption and remove supernatural taint.' },
+  // Vision Edges
+  { name: 'Witness', virtue: 'Vision', level: 1, description: 'See through supernatural disguises and illusions.' },
+  { name: 'Pinpoint', virtue: 'Vision', level: 2, description: 'Track a supernatural creature you have witnessed.' },
+  { name: 'Discern', virtue: 'Vision', level: 3, description: 'Read the intentions and nature of a supernatural being.' },
+  { name: 'Expose', virtue: 'Vision', level: 4, description: 'Force a supernatural creature to reveal its true form.' },
+  { name: 'Illuminate', virtue: 'Vision', level: 5, description: 'Reveal all hidden supernatural presences in an area.' },
+  // Zeal Edges
+  { name: 'Smite', virtue: 'Zeal', level: 1, description: 'Imbue your weapon with divine fire. Extra damage vs. supernatural.' },
+  { name: 'Trail', virtue: 'Zeal', level: 2, description: 'Sense the direction of a supernatural creature you seek.' },
+  { name: 'Smolder', virtue: 'Zeal', level: 3, description: 'Set supernatural creatures ablaze with holy fire.' },
+  { name: 'Surge', virtue: 'Zeal', level: 4, description: 'Boost physical abilities to superhuman levels briefly.' },
+  { name: 'Smolder', virtue: 'Zeal', level: 5, description: 'Unleash devastating divine judgment on supernatural evil.' },
+]
+
 const HUNTER_BACKGROUNDS = [
   { value: 'Allies', description: 'Mortals who actively support and assist you.', levels: ['One helpful contact.', 'A small group of supporters.', 'A reliable network.', 'Multiple groups across fields.', 'Powerful allies with broad influence.'] },
   { value: 'Arsenal', description: 'Access to weapons and hunter gear.', levels: ['Basic self-defense items.', 'A modest personal armory.', 'Serious weaponry and tactical gear.', 'Military-grade equipment.', 'An extensive arsenal.'] },
@@ -369,8 +390,49 @@ export default function HunterForm() {
               <DotRating label={t('hunterConviction')} name="rage" value={fields.rage} onChange={handleField} min={0} max={10} />
               <DotRating label={t('hunterCurrentConviction')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
             </div>
-            <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={8} style={{ width: '100%' }}
-              aria-label="Edges and powers" placeholder={t('hunterEdgesPlaceholder')} />
+            {(() => {
+              const parts = (fields.sorceryDesc || '').split('||')
+              const edgesPart = (parts[0] || '').split(',').map(s => s.trim()).filter(Boolean)
+              const notesPart = parts[1] || ''
+              function updateEdges(nextEdges, notes) {
+                const val = nextEdges.join(', ') + (notes ? '||' + notes : '')
+                handleField('sorceryDesc', val)
+              }
+              return (
+                <>
+                  {['Mercy', 'Vision', 'Zeal'].map(virtue => (
+                    <div key={virtue} style={{ marginBottom: 'var(--space-md)' }}>
+                      <h4 style={{ margin: '0 0 var(--space-xs) 0' }}>{virtue} Edges</h4>
+                      <ul className="catalog-list" aria-label={`${virtue} edges`}>
+                        {HUNTER_EDGES.filter(e => e.virtue === virtue).map(edge => {
+                          const isChecked = edgesPart.includes(edge.name)
+                          return (
+                            <li key={`${edge.virtue}-${edge.name}-${edge.level}`} className={`catalog-item${isChecked ? ' catalog-item--added' : ''}`}>
+                              <label style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-xs)', padding: 'var(--space-xs) var(--space-sm)', cursor: 'pointer', width: '100%' }}>
+                                <input type="checkbox" checked={isChecked} onChange={() => {
+                                  const next = isChecked ? edgesPart.filter(n => n !== edge.name) : [...edgesPart, edge.name]
+                                  updateEdges(next, notesPart)
+                                }} style={{ marginTop: '3px' }} />
+                                <div>
+                                  <span className="catalog-item-name" style={{ fontWeight: 600 }}>{edge.name}</span>
+                                  <span style={{ color: 'var(--color-text-muted)', fontSize: '0.82rem' }}> (Level {edge.level})</span>
+                                  <p className="catalog-item-desc" style={{ margin: '2px 0 0', fontSize: '0.82rem' }}>{edge.description}</p>
+                                </div>
+                              </label>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    </div>
+                  ))}
+                  <div style={{ marginTop: 'var(--space-md)' }}>
+                    <label style={{ fontWeight: 600, display: 'block', marginBottom: 'var(--space-xs)' }}>Edge Notes</label>
+                    <textarea value={notesPart} onChange={e => updateEdges(edgesPart, e.target.value)} rows={4} style={{ width: '100%' }}
+                      aria-label="Custom edge notes" placeholder="Additional edge notes..." />
+                  </div>
+                </>
+              )
+            })()}
           </fieldset>
         </div>
       </div>

@@ -711,7 +711,7 @@ export default function SeventhSeaForm() {
             <div className="field-row">
               <div className="field" style={{ flex: 2 }}>
                 <label>{t('7sActiveStyle')}</label>
-                <select value={activeDuelStyle} onChange={e => setActiveDuelStyle(e.target.value)}>
+                <select value={activeDuelStyle} onChange={e => setActiveDuelStyle(e.target.value)} aria-label={t('7sActiveStyle')}>
                   <option value="">None (not a Duelist)</option>
                   {DUELING_STYLES.map(s => <option key={s.name} value={s.name}>{t(s.name)} ({t(s.nation)})</option>)}
                 </select>

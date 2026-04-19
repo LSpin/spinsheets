@@ -19,6 +19,47 @@ const TOTEM_TYPES = [
   { value: 'Cunning', description: 'Totems of trickery, stealth, and cleverness.' },
 ]
 
+const TOTEM_SPIRITS = {
+  Respect: [
+    { name: 'Falcon', cost: 5, ban: 'Must always aid fellow Garou', benefits: 'Leadership +1, all pack members gain 3 Honor' },
+    { name: 'Pegasus', cost: 4, ban: 'Must protect and aid the fae', benefits: 'All pack members gain +2 Empathy' },
+    { name: 'Stag', cost: 6, ban: 'Must always show mercy to a fallen foe', benefits: '+3 Survival, +3 Animal Ken for pack' },
+    { name: 'Unicorn', cost: 7, ban: 'Must protect and aid the weak', benefits: '+2 Empathy, +2 Medicine for pack' },
+  ],
+  War: [
+    { name: 'Bear', cost: 5, ban: 'Must protect the injured', benefits: '+1 Stamina temporarily in battle' },
+    { name: 'Griffin', cost: 4, ban: 'Must always seek excellence', benefits: '+2 Intimidation for pack' },
+    { name: 'Wendigo', cost: 7, ban: 'Must always challenge those who threaten sacred places', benefits: '+1 Strength in blizzards' },
+    { name: 'Fenris', cost: 5, ban: 'Must always accept any worthy challenge', benefits: '+1 to damage rolls' },
+  ],
+  Wisdom: [
+    { name: 'Chimera', cost: 7, ban: 'Must seek enigmas and solve puzzles', benefits: '+2 Enigmas, +1 Perception' },
+    { name: 'Owl', cost: 5, ban: 'Must leave offerings for the dead', benefits: '+3 Stealth, flight in Umbra' },
+    { name: 'Uktena', cost: 7, ban: 'Must search for mystical lore', benefits: '+2 Occult, +1 Enigmas' },
+    { name: 'Cockroach', cost: 4, ban: 'Must gnaw on hard objects', benefits: '+3 Computer, can peek sideways' },
+  ],
+  Cunning: [
+    { name: 'Coyote', cost: 7, ban: 'Must play a trick on someone each day', benefits: '+3 Stealth, +3 Subterfuge' },
+    { name: 'Rat', cost: 5, ban: 'Must never kill vermin', benefits: '+5 to any Stealth in urban areas' },
+    { name: 'Raven', cost: 5, ban: 'Must collect and hoard shiny objects', benefits: '+3 Survival, can talk to birds' },
+  ],
+}
+
+const ALL_TOTEM_SPIRITS = Object.values(TOTEM_SPIRITS).flat()
+
+const TOTEM_CHARMS = [
+  { name: 'Airt Sense', description: 'Sense pathways through the Umbra' },
+  { name: 'Reform', description: 'Reform after being destroyed in the Umbra (costs 1 Gnosis)' },
+  { name: 'Materialize', description: 'Appear briefly in the physical world' },
+  { name: 'Peek', description: 'Peer across the Gauntlet to observe the physical world' },
+  { name: 'Realm Sense', description: 'Sense the nature of nearby Umbral realms' },
+  { name: 'Swift Flight', description: 'Travel at supernatural speed through the Umbra' },
+  { name: 'Blighted Touch', description: 'Cause decay and corruption in physical objects' },
+  { name: 'Open Moon Bridge', description: 'Create a moon bridge for pack travel' },
+  { name: 'Create Wind', description: 'Generate wind in the Umbra or physical world' },
+  { name: 'Freeze', description: 'Lower temperature in an area' },
+]
+
 const INITIAL = {
   npc: true, splat: 'TOTEM',
   name: '', altName: '', concept: '',
@@ -187,11 +228,58 @@ export default function TotemForm() {
           </fieldset>
           <fieldset>
             <legend>{t('totemBan')}</legend>
-            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder={t('totemBanPh')} />
+            <div className="field" style={{ marginBottom: 'var(--space-sm)' }}>
+              <label>Select Totem Spirit</label>
+              <select value={(() => { const parts = (fields.backstory || '').split('||'); return parts[0]?.trim() || '' })()} onChange={e => {
+                const spiritName = e.target.value
+                const spirit = ALL_TOTEM_SPIRITS.find(s => s.name === spiritName)
+                const customNotes = (fields.backstory || '').split('||')[1]?.trim() || ''
+                const banPart = spiritName || ''
+                setFields(prev => ({
+                  ...prev,
+                  backstory: customNotes ? `${banPart}||${customNotes}` : banPart,
+                  generation: spirit ? spirit.cost : prev.generation,
+                }))
+              }}>
+                <option value="">-- Custom / None --</option>
+                {Object.entries(TOTEM_SPIRITS).map(([category, spirits]) => (
+                  <optgroup key={category} label={category}>
+                    {spirits.map(s => <option key={s.name} value={s.name}>{s.name} (Cost: {s.cost})</option>)}
+                  </optgroup>
+                ))}
+              </select>
+            </div>
+            {(() => {
+              const selectedName = (fields.backstory || '').split('||')[0]?.trim()
+              const spirit = ALL_TOTEM_SPIRITS.find(s => s.name === selectedName)
+              if (!spirit) return null
+              return (
+                <div className="muted-hint" style={{ marginBottom: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'var(--bg-inset, #1a1a2e)', borderRadius: '4px' }}>
+                  <strong>Ban:</strong> {spirit.ban}
+                </div>
+              )
+            })()}
+            <label>Custom Ban Notes</label>
+            <textarea value={(fields.backstory || '').split('||')[1]?.trim() || ''} onChange={e => {
+              const spiritName = (fields.backstory || '').split('||')[0]?.trim() || ''
+              const custom = e.target.value
+              setFields(prev => ({ ...prev, backstory: custom ? `${spiritName}||${custom}` : spiritName }))
+            }} rows={2} style={{ width: '100%' }} placeholder="Additional ban notes..." />
           </fieldset>
           <fieldset>
             <legend>{t('totemPackBenefits')}</legend>
-            <textarea name="concept" value={fields.concept} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder={t('totemBenefitsPh')} />
+            {(() => {
+              const selectedName = (fields.backstory || '').split('||')[0]?.trim()
+              const spirit = ALL_TOTEM_SPIRITS.find(s => s.name === selectedName)
+              if (!spirit) return null
+              return (
+                <div className="muted-hint" style={{ marginBottom: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'var(--bg-inset, #1a1a2e)', borderRadius: '4px' }}>
+                  <strong>Totem Benefits ({spirit.name}):</strong> {spirit.benefits}
+                </div>
+              )
+            })()}
+            <label>Custom Pack Benefits</label>
+            <textarea name="concept" value={fields.concept} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder={t('totemBenefitsPh')} />
           </fieldset>
         </div>
       </div>
@@ -231,8 +319,34 @@ export default function TotemForm() {
             return <TagInfoPanel entry={entry || { name: tagInfo.name }} onClose={() => setTagInfo(null)} />
           })()}
           <fieldset>
+            <legend>Quick Charms</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>Select common totem charms below. These are stored alongside custom notes.</p>
+            <div className="rating-grid">
+              {TOTEM_CHARMS.map(charm => {
+                const selectedCharmNames = (fields.notes || '').split('||')[0]?.split(',').map(s => s.trim()).filter(Boolean) || []
+                const isChecked = selectedCharmNames.includes(charm.name)
+                return (
+                  <label key={charm.name} className="ability-row" style={{ cursor: 'pointer', gap: 'var(--space-xs)' }}>
+                    <input type="checkbox" checked={isChecked} onChange={() => {
+                      const next = isChecked ? selectedCharmNames.filter(n => n !== charm.name) : [...selectedCharmNames, charm.name]
+                      const customNotes = (fields.notes || '').split('||')[1]?.trim() || ''
+                      const charmsPart = next.join(', ')
+                      setFields(prev => ({ ...prev, notes: customNotes ? `${charmsPart}||${customNotes}` : charmsPart }))
+                    }} />
+                    <span><strong>{charm.name}</strong> &mdash; {charm.description}</span>
+                  </label>
+                )
+              })}
+            </div>
+          </fieldset>
+          <fieldset>
             <legend>{t('notes')}</legend>
-            <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder={t('totemCharmsPh')} />
+            <textarea value={(fields.notes || '').split('||')[1]?.trim() || ''} onChange={e => {
+              const selectedCharmNames = (fields.notes || '').split('||')[0]?.split(',').map(s => s.trim()).filter(Boolean) || []
+              const charmsPart = selectedCharmNames.join(', ')
+              const custom = e.target.value
+              setFields(prev => ({ ...prev, notes: custom ? `${charmsPart}||${custom}` : charmsPart }))
+            }} rows={4} style={{ width: '100%' }} placeholder="Additional charm notes..." />
           </fieldset>
         </div>
       </div>

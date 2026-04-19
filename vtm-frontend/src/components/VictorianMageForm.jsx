@@ -24,7 +24,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import CatalogSelect from './CatalogSelect'
 import { MAGE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { WONDER_TYPES, MAGE_WONDERS } from '../data/mageWonders'
-import { PARADIGMS, PRACTICES, INSTRUMENTS } from '../data/mageFocus'
+// Victorian-era Focus catalogs are defined inline below (MAGE_PARADIGMS, MAGE_PRACTICES, MAGE_INSTRUMENTS)
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
@@ -104,6 +104,86 @@ const ARCHETYPES = [
   { value: 'Visionary', description: 'You see what could be and inspire others to reach for a better future.' },
 ]
 
+// ── Victorian-era Mage Focus Catalogs ──
+
+const MAGE_PARADIGMS = [
+  { name: 'A Mechanistic Cosmos', description: 'The universe operates on predictable natural laws that can be harnessed through science and engineering' },
+  { name: 'A World of Gods and Monsters', description: 'Supernatural beings — gods, spirits, fae — shape the world; power comes from pacts and worship' },
+  { name: 'Bring Back the Golden Age', description: 'The ancient ways held true power; by restoring old traditions, the world can be made right' },
+  { name: 'Creation is Divinely Inspired', description: 'God or the gods created everything with purpose; magic flows from understanding divine will' },
+  { name: 'Divine Order and Earthly Chaos', description: 'The cosmos has a perfect order that earthly corruption distorts; the mage restores harmony' },
+  { name: 'Everything is Chaos', description: 'Reality is random and malleable; imposing will on chaos is the essence of magic' },
+  { name: 'Everything is Data', description: 'All of reality can be reduced to information — analyze patterns and you control outcomes' },
+  { name: 'Might is Right', description: 'Power defines reality; the strong impose their will and reshape the world accordingly' },
+  { name: 'One-Way Trip to Oblivion', description: 'Entropy consumes all; magic delays the inevitable or channels destruction purposefully' },
+  { name: 'Tech Holds All Answers', description: 'Technology is the purest expression of human will over nature' },
+  { name: 'The Loa and Spirits Guide', description: 'Spirits of ancestors and nature guide and empower those who honor them' },
+]
+
+const MAGE_PRACTICES = [
+  { name: 'Alchemy', description: 'Transformation of substances and the self through chemical and spiritual processes' },
+  { name: 'Art of Desire/Hypereconomics', description: 'Manipulating the flows of wealth, trade, and desire to reshape reality' },
+  { name: 'Chaos Magick', description: 'Eclectic, belief-shifting approach using whatever symbols and systems work' },
+  { name: 'Craftwork', description: 'Creating magical effects through skilled handiwork — smithing, weaving, clockwork' },
+  { name: 'Cybernetics', description: 'Merging flesh and mechanism to transcend human limits' },
+  { name: 'Dominion', description: 'Exerting raw willpower to command reality, spirits, or people' },
+  { name: 'Faith', description: 'Devout belief channeled through prayer, ritual, and religious observance' },
+  { name: 'Gutter Magick', description: 'Street-level folk magic — curses, charms, and improvisational sorcery' },
+  { name: 'High Ritual Magick', description: 'Elaborate ceremonial magic with precise symbols, invocations, and timing' },
+  { name: 'Hypertech', description: 'Advanced technology that pushes beyond accepted Victorian science' },
+  { name: 'Maleficia', description: 'Dark sorcery — hexes, curses, and forbidden arts drawing on suffering' },
+  { name: 'Martial Arts', description: 'Disciplined physical practice that channels chi or spiritual energy' },
+  { name: 'Medicine-Work', description: 'Healing traditions combining herbalism, spirit work, and folk remedies' },
+  { name: 'Reality Hacking', description: 'Treating reality as a system with exploitable rules and backdoors' },
+  { name: 'Shamanism', description: 'Journeying to spirit worlds, communing with animal spirits and nature' },
+  { name: 'Voudoun', description: 'Haitian/African diaspora tradition working with loa, ancestors, and crossroads' },
+  { name: 'Weird Science', description: 'Inventions that defy conventional understanding — ether-powered devices, analytical engines' },
+  { name: 'Witchcraft', description: 'European folk magic tradition — herbalism, divination, and nature spirits' },
+  { name: 'Yoga/Meditation', description: 'Inner discipline and breath control to achieve enlightenment and power' },
+]
+
+const MAGE_INSTRUMENTS = [
+  { name: 'Artwork', description: 'Paintings, sculptures, or music that channels magical intent' },
+  { name: 'Blood and Sacrifice', description: 'Offerings of life force to power magical workings' },
+  { name: 'Bones and Remains', description: 'Relics of the dead used for divination and necromancy' },
+  { name: 'Books and Periodicals', description: 'Grimoires, journals, and research materials' },
+  { name: 'Brain/Computer Interface', description: 'Analytical engines or other devices that extend the mind' },
+  { name: 'Cards and Instruments of Chance', description: 'Tarot, playing cards, dice used for divination' },
+  { name: 'Celestial Alignments', description: 'Timing magic to planetary positions and star charts' },
+  { name: 'Circles and Geometric Designs', description: 'Pentacles, mandalas, and sacred geometry' },
+  { name: 'Computer Gear', description: 'Analytical engines, difference engines, early computing devices' },
+  { name: 'Crossroads and Ley Lines', description: 'Places of power where mystical energies converge' },
+  { name: 'Cups and Vessels', description: 'Chalices, cauldrons, and containers for potions and essences' },
+  { name: 'Dances and Movement', description: 'Ritual movement that builds and directs magical energy' },
+  { name: 'Devices and Machines', description: 'Clockwork mechanisms, steam-powered apparatus, custom gadgetry' },
+  { name: 'Drugs and Poisons', description: 'Chemical substances that alter consciousness or harm' },
+  { name: 'Elements', description: 'Raw fire, water, earth, or air used as magical foci' },
+  { name: 'Eye Contact', description: 'Direct gaze as a channel for mental or emotional magic' },
+  { name: 'Fashion', description: 'Clothing and adornment that marks the mage\'s paradigm' },
+  { name: 'Gems and Stones', description: 'Crystals and precious stones attuned to specific energies' },
+  { name: 'Group Rites', description: 'Collective rituals multiplying magical power' },
+  { name: 'Herbs and Botanicals', description: 'Plants with magical properties used in spells and potions' },
+  { name: 'Household Tools', description: 'Common implements — brooms, mirrors, keys — repurposed for magic' },
+  { name: 'Languages', description: 'Speaking or writing in magical tongues — Latin, Enochian, Sanskrit' },
+  { name: 'Management and HR', description: 'Organizational systems that direct human effort toward magical ends' },
+  { name: 'Mass Media', description: 'Pamphlets, newspapers, broadsheets spreading ideas that reshape belief' },
+  { name: 'Meditation', description: 'Focused inner stillness to perceive and shape reality' },
+  { name: 'Money and Wealth', description: 'Currency and material resources as magical fuel' },
+  { name: 'Music', description: 'Instruments, singing, or composed pieces that resonate with magical frequencies' },
+  { name: 'Nanotech', description: 'Hypothetical miniature machines (theoretical in Victorian era)' },
+  { name: 'Numbers and Numerology', description: 'Mathematical patterns that reveal cosmic truths' },
+  { name: 'Ordeals and Exertions', description: 'Physical trials that prove worthiness and channel power' },
+  { name: 'Prayers and Invocations', description: 'Spoken appeals to higher powers or the universe itself' },
+  { name: 'Sacred Iconography', description: 'Holy symbols, relics, and images of spiritual significance' },
+  { name: 'Social Domination', description: 'Using social standing and authority to impose one\'s will' },
+  { name: 'Symbols and Sigils', description: 'Magical writing and drawn symbols that encode spells' },
+  { name: 'True Names', description: 'Knowing and speaking the true name of a person, place, or spirit' },
+  { name: 'Voice and Vocalizations', description: 'Chanting, singing, speaking words of power' },
+  { name: 'Wands and Staves', description: 'Traditional implements for directing magical energy' },
+  { name: 'Weapons', description: 'Enchanted blades, blessed ammunition, or ritual weapons' },
+  { name: 'Writing and Inscription', description: 'Recording magical formulae, creating scrolls and talismans' },
+]
+
 const HEALTH_LEVEL_KEYS = [
   { key: 'healthy',        penalty: '' },
   { key: 'bruised',        penalty: '' },
@@ -180,7 +260,7 @@ const INITIAL = {
   woundLevel: 0,
   healthBruised: '', healthHurt: '', healthInjured: '', healthWounded: '', healthMauled: '', healthCrippled: '', healthIncap: '',
   // Focus
-  paradigm: '', practice: '', instruments: '',
+  paradigm: '', practice: '', instruments: '', focusNotes: '',
   // Chantry
   chantryName: '', chantryDescription: '',
   // Notes
@@ -1120,73 +1200,125 @@ export default function VictorianMageForm() {
           <fieldset>
             <legend>Paradigm</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Your worldview — how you understand reality and magic. Choose from the M20 list or write your own.
+              Your worldview — how you understand reality and magic. Mages typically hold one paradigm.
             </p>
-            <textarea name="paradigm" value={fields.paradigm} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="Type your paradigm or pick from below..." />
-            <details style={{ marginTop: 'var(--space-sm)' }}>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>M20 Paradigms ({PARADIGMS.length})</summary>
-              <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
-                {PARADIGMS.map(p => (
-                  <li key={p.name} className="catalog-item">
-                    <button className="catalog-item-btn" onClick={() => setFields(prev => ({ ...prev, paradigm: prev.paradigm ? prev.paradigm + '\n' + p.name : p.name }))}>
-                      <div className="catalog-item-main">
-                        <span className="catalog-item-name">{p.name}</span>
-                        <span className="catalog-item-desc">{p.description}</span>
-                      </div>
-                      <div className="catalog-item-meta"><span className="catalog-item-add">+</span></div>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </details>
+            <div className="focus-catalog" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+              {MAGE_PARADIGMS.map(p => {
+                const isSelected = fields.paradigm === p.name
+                return (
+                  <label key={p.name} className={`focus-catalog-item${isSelected ? ' focus-catalog-item--selected' : ''}`}
+                    style={{ display: 'flex', gap: '0.5rem', padding: 'var(--space-xs) var(--space-sm)', borderRadius: 6,
+                      border: isSelected ? '1px solid var(--color-accent-fg)' : '1px solid var(--color-border)',
+                      background: isSelected ? 'var(--color-accent-subtle, rgba(200,160,60,0.08))' : 'transparent',
+                      cursor: 'pointer', alignItems: 'flex-start' }}>
+                    <input type="radio" name="paradigm" value={p.name} checked={isSelected}
+                      onChange={() => handleField('paradigm', p.name)}
+                      style={{ marginTop: '0.25rem', flexShrink: 0 }} />
+                    <div>
+                      <span style={{ fontWeight: 600, fontSize: '0.88rem' }}>{p.name}</span>
+                      <p className="muted-hint muted-hint--xs" style={{ margin: '0.15rem 0 0' }}>{p.description}</p>
+                    </div>
+                  </label>
+                )
+              })}
+            </div>
+            {fields.paradigm && (
+              <button type="button" className="btn btn-secondary btn-sm" style={{ marginTop: 'var(--space-xs)' }}
+                onClick={() => handleField('paradigm', '')}>Clear selection</button>
+            )}
           </fieldset>
 
           <fieldset>
             <legend>Practice</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              The methods you use to work magic. Most mages have one primary practice and may know secondary ones.
+              The methods you use to work magic. Most mages have 1-3 practices.
             </p>
-            <textarea name="practice" value={fields.practice} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="Type your practice or pick from below..." />
-            <details style={{ marginTop: 'var(--space-sm)' }}>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>M20 Practices ({PRACTICES.length})</summary>
-              <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
-                {PRACTICES.map(p => (
-                  <li key={p.name} className="catalog-item">
-                    <button className="catalog-item-btn" onClick={() => setFields(prev => ({ ...prev, practice: prev.practice ? prev.practice + '\n' + p.name : p.name }))}>
-                      <div className="catalog-item-main">
-                        <span className="catalog-item-name">{p.name}</span>
-                        <span className="catalog-item-desc">{p.description}</span>
-                      </div>
-                      <div className="catalog-item-meta"><span className="catalog-item-add">+</span></div>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </details>
+            {(() => {
+              const selected = fields.practice ? fields.practice.split(',').map(s => s.trim()).filter(Boolean) : []
+              function togglePractice(name) {
+                const idx = selected.indexOf(name)
+                const next = idx >= 0 ? selected.filter(s => s !== name) : [...selected, name]
+                handleField('practice', next.join(', '))
+              }
+              return (
+                <div className="focus-catalog" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+                  {MAGE_PRACTICES.map(p => {
+                    const isSelected = selected.includes(p.name)
+                    return (
+                      <label key={p.name} className={`focus-catalog-item${isSelected ? ' focus-catalog-item--selected' : ''}`}
+                        style={{ display: 'flex', gap: '0.5rem', padding: 'var(--space-xs) var(--space-sm)', borderRadius: 6,
+                          border: isSelected ? '1px solid var(--color-accent-fg)' : '1px solid var(--color-border)',
+                          background: isSelected ? 'var(--color-accent-subtle, rgba(200,160,60,0.08))' : 'transparent',
+                          cursor: 'pointer', alignItems: 'flex-start' }}>
+                        <input type="checkbox" checked={isSelected} onChange={() => togglePractice(p.name)}
+                          style={{ marginTop: '0.25rem', flexShrink: 0 }} />
+                        <div>
+                          <span style={{ fontWeight: 600, fontSize: '0.88rem' }}>{p.name}</span>
+                          <p className="muted-hint muted-hint--xs" style={{ margin: '0.15rem 0 0' }}>{p.description}</p>
+                        </div>
+                      </label>
+                    )
+                  })}
+                  {selected.length > 0 && (
+                    <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>
+                      Selected ({selected.length}): {selected.join(', ')}
+                    </p>
+                  )}
+                </div>
+              )
+            })()}
           </fieldset>
 
           <fieldset>
             <legend>Instruments</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              The tools and foci you use. As Arete rises, you may discard instruments. Click to add from the M20 list.
+              The tools and foci you use. Mages typically have 5-7 instruments. As Arete rises, you may discard instruments.
             </p>
-            <textarea name="instruments" value={fields.instruments} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="Type your instruments or pick from below..." />
-            <details style={{ marginTop: 'var(--space-sm)' }}>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>M20 Instruments ({INSTRUMENTS.length})</summary>
-              <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
-                {INSTRUMENTS.map(inst => (
-                  <li key={inst.name} className="catalog-item">
-                    <button className="catalog-item-btn" onClick={() => setFields(prev => ({ ...prev, instruments: prev.instruments ? prev.instruments + '\n' + inst.name : inst.name }))}>
-                      <div className="catalog-item-main">
-                        <span className="catalog-item-name">{inst.name}</span>
-                        <span className="catalog-item-desc">{inst.description}</span>
-                      </div>
-                      <div className="catalog-item-meta"><span className="catalog-item-add">+</span></div>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </details>
+            {(() => {
+              const selected = fields.instruments ? fields.instruments.split(',').map(s => s.trim()).filter(Boolean) : []
+              function toggleInstrument(name) {
+                const idx = selected.indexOf(name)
+                const next = idx >= 0 ? selected.filter(s => s !== name) : [...selected, name]
+                handleField('instruments', next.join(', '))
+              }
+              return (
+                <>
+                  {selected.length > 0 && (
+                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)', fontWeight: 600 }}>
+                      Selected ({selected.length}): {selected.join(', ')}
+                    </p>
+                  )}
+                  <div className="focus-catalog" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+                    {MAGE_INSTRUMENTS.map(inst => {
+                      const isSelected = selected.includes(inst.name)
+                      return (
+                        <label key={inst.name} className={`focus-catalog-item${isSelected ? ' focus-catalog-item--selected' : ''}`}
+                          style={{ display: 'flex', gap: '0.5rem', padding: 'var(--space-xs) var(--space-sm)', borderRadius: 6,
+                            border: isSelected ? '1px solid var(--color-accent-fg)' : '1px solid var(--color-border)',
+                            background: isSelected ? 'var(--color-accent-subtle, rgba(200,160,60,0.08))' : 'transparent',
+                            cursor: 'pointer', alignItems: 'flex-start' }}>
+                          <input type="checkbox" checked={isSelected} onChange={() => toggleInstrument(inst.name)}
+                            style={{ marginTop: '0.25rem', flexShrink: 0 }} />
+                          <div>
+                            <span style={{ fontWeight: 600, fontSize: '0.88rem' }}>{inst.name}</span>
+                            <p className="muted-hint muted-hint--xs" style={{ margin: '0.15rem 0 0' }}>{inst.description}</p>
+                          </div>
+                        </label>
+                      )
+                    })}
+                  </div>
+                </>
+              )
+            })()}
+          </fieldset>
+
+          <fieldset>
+            <legend>Focus Notes</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Additional notes about your Focus — custom instruments, paradigm details, or practice variations.
+            </p>
+            <textarea name="focusNotes" value={fields.focusNotes} onChange={handleText} rows={4} style={{ width: '100%' }}
+              placeholder="Any custom additions or notes about your Focus..." />
           </fieldset>
 
           <fieldset>

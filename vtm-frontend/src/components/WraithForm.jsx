@@ -85,6 +85,35 @@ const GUILDS = [
   { value: 'Usurers', description: 'Masters of Usury, who manipulate Pathos.' },
 ]
 
+const WRAITH_ARCANOI = [
+  { name: 'Argos', description: 'Travel through the Tempest and byways of the Underworld.' },
+  { name: 'Castigate', description: 'Battle and control your own Shadow or others.' },
+  { name: 'Embody', description: 'Manifest physically in the Skinlands.' },
+  { name: 'Fatalism', description: 'Read and manipulate fate and destiny.' },
+  { name: 'Inhabit', description: 'Possess and control inanimate objects.' },
+  { name: 'Keening', description: 'Use the voice as a weapon — wails that harm or terrify.' },
+  { name: 'Lifeweb', description: 'Sense and manipulate connections to the living.' },
+  { name: 'Moliate', description: 'Shape and sculpt corpus (wraith flesh).' },
+  { name: 'Outrage', description: 'Manifest telekinetic force in the Skinlands.' },
+  { name: 'Pandemonium', description: 'Create chaos and confusion in the physical world.' },
+  { name: 'Phantasm', description: 'Create illusions and enter dreams.' },
+  { name: 'Puppetry', description: 'Possess and control living beings.' },
+  { name: 'Usury', description: 'Manipulate Pathos — the emotional energy of wraiths.' },
+]
+
+const WRAITH_SHADOW_THORNS = [
+  { name: 'Bad Sight', description: 'The Shadow can blur the wraith\'s perceptions.' },
+  { name: 'Catspaw', description: 'The Shadow can take brief control of one limb.' },
+  { name: 'Death\'s Sigil', description: 'A visible mark of the Shadow appears on the wraith.' },
+  { name: 'Devil\'s Dare', description: 'The Shadow tempts with power in exchange for control.' },
+  { name: 'Freudian Slip', description: 'The Shadow causes the wraith to say the wrong thing.' },
+  { name: 'Infamy', description: 'The Shadow has its own dark reputation.' },
+  { name: 'Pact Breaker', description: 'The Shadow breaks promises the wraith makes.' },
+  { name: 'Shadow Call', description: 'The Shadow can summon Spectres.' },
+  { name: 'Tainted Relic', description: 'One of the wraith\'s Relics is corrupted.' },
+  { name: 'Trick of the Light', description: 'The Shadow creates visual hallucinations.' },
+]
+
 const WRAITH_BACKGROUNDS = [
   { value: 'Allies', description: 'Other wraiths who actively support you.', levels: ['One helpful contact.', 'A small circle of supporters.', 'A reliable network in the Shadowlands.', 'Multiple groups across the Necropolis.', 'Powerful allies with broad influence.'] },
   { value: 'Contacts', description: 'Information sources across the Underworld.', levels: ['One or two wraiths in a single faction.', 'A small network.', 'Informants across several guilds.', 'Sources throughout the Necropolis.', 'Extensive intelligence network.'] },
@@ -399,8 +428,32 @@ export default function WraithForm() {
           <fieldset>
             <legend>{t('wraithArcanoi')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('wraithArcanoiHint')}</p>
-            <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={8} style={{ width: '100%' }}
-              aria-label="Arcanoi" placeholder={t('wraithArcanoiPlaceholder')} />
+            {(() => {
+              const parsed = {}
+              ;(fields.sorceryDesc || '').split(',').map(s => s.trim()).filter(Boolean).forEach(entry => {
+                const [name, val] = entry.split(':')
+                if (name) parsed[name.trim()] = Number(val) || 0
+              })
+              function updateArcanoi(arcName, newVal) {
+                const next = { ...parsed, [arcName]: newVal }
+                const str = WRAITH_ARCANOI
+                  .filter(a => (next[a.name] || 0) > 0)
+                  .map(a => `${a.name}:${next[a.name]}`)
+                  .join(', ')
+                handleField('sorceryDesc', str)
+              }
+              return (
+                <div className="rating-grid">
+                  {WRAITH_ARCANOI.map(arc => (
+                    <div key={arc.name} className="ability-row">
+                      <DotRating label={arc.name} name={`arcanoi_${arc.name}`} value={parsed[arc.name] || 0}
+                        onChange={(_, val) => updateArcanoi(arc.name, val)} min={0} max={5} />
+                      <p className="archetype-desc" style={{ margin: '0 0 var(--space-xs) 0', gridColumn: '1 / -1' }}>{arc.description}</p>
+                    </div>
+                  ))}
+                </div>
+              )
+            })()}
           </fieldset>
         </div>
       </div>
@@ -425,9 +478,45 @@ export default function WraithForm() {
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               {t('wraithDarkPassionsHint') || 'Dark Passions fuel the Shadow. Thorns are powers the Shadow can use against the wraith.'}
             </p>
-            <textarea name="shadowDesc" value={fields.shadowDesc} onChange={handleText} rows={8} style={{ width: '100%' }}
-              aria-label="Dark Passions and Thorns"
-              placeholder={'Dark Passions (emotion + rating):\nDestroy my family\'s legacy (Spite 3)\nBetray my Circle (Treachery 2)\n\nThorns:\nShadow Dice\nFreudian Slip\nDevil\'s Dare'} />
+            {(() => {
+              const parts = (fields.shadowDesc || '').split('||')
+              const thornsPart = (parts[0] || '').split(',').map(s => s.trim()).filter(Boolean)
+              const passionsPart = parts[1] || ''
+              function updateShadow(nextThorns, notes) {
+                const val = nextThorns.join(', ') + (notes ? '||' + notes : '')
+                handleField('shadowDesc', val)
+              }
+              return (
+                <>
+                  <h4 style={{ margin: '0 0 var(--space-xs) 0' }}>Thorns</h4>
+                  <ul className="catalog-list" aria-label="Shadow thorns">
+                    {WRAITH_SHADOW_THORNS.map(thorn => {
+                      const isChecked = thornsPart.includes(thorn.name)
+                      return (
+                        <li key={thorn.name} className={`catalog-item${isChecked ? ' catalog-item--added' : ''}`}>
+                          <label style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-xs)', padding: 'var(--space-xs) var(--space-sm)', cursor: 'pointer', width: '100%' }}>
+                            <input type="checkbox" checked={isChecked} onChange={() => {
+                              const next = isChecked ? thornsPart.filter(n => n !== thorn.name) : [...thornsPart, thorn.name]
+                              updateShadow(next, passionsPart)
+                            }} style={{ marginTop: '3px' }} />
+                            <div>
+                              <span className="catalog-item-name" style={{ fontWeight: 600 }}>{thorn.name}</span>
+                              <p className="catalog-item-desc" style={{ margin: '2px 0 0', fontSize: '0.82rem' }}>{thorn.description}</p>
+                            </div>
+                          </label>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                  <div style={{ marginTop: 'var(--space-md)' }}>
+                    <label style={{ fontWeight: 600, display: 'block', marginBottom: 'var(--space-xs)' }}>Dark Passions & Notes</label>
+                    <textarea value={passionsPart} onChange={e => updateShadow(thornsPart, e.target.value)} rows={6} style={{ width: '100%' }}
+                      aria-label="Dark Passions and notes"
+                      placeholder={'Dark Passions (emotion + rating):\nDestroy my family\'s legacy (Spite 3)\nBetray my Circle (Treachery 2)'} />
+                  </div>
+                </>
+              )
+            })()}
           </fieldset>
         </div>
       </div>

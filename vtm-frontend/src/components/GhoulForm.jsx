@@ -42,6 +42,39 @@ const ARCHETYPES = [
   { value: 'Visionary', description: 'Sees what could be. Driven by grand ideas.' },
 ]
 
+const GHOUL_DISCIPLINES = [
+  { name: 'Potence', description: 'Supernatural physical strength, allowing feats of raw power beyond mortal limits' },
+  { name: 'Fortitude', description: 'Supernatural resilience, reducing or ignoring physical damage' },
+  { name: 'Celerity', description: 'Supernatural speed and reflexes' },
+  { name: 'Obfuscate', description: 'The ability to hide from sight, clouding minds to become invisible' },
+  { name: 'Auspex', description: 'Heightened senses and extrasensory perception' },
+  { name: 'Dominate', description: 'Mental control through eye contact and spoken commands' },
+  { name: 'Animalism', description: 'Communion with and command over animals and the Beast within' },
+  { name: 'Presence', description: 'Supernatural awe and emotional manipulation' },
+  { name: 'Protean', description: 'Shapeshifting abilities tied to the Beast' },
+  { name: 'Vicissitude', description: 'Flesh and bone crafting, reshaping bodies like clay' },
+]
+
+function parseGhoulSorceryDesc(str) {
+  if (!str) return { disciplines: {}, notes: '' }
+  const [discPart, ...noteParts] = str.split('||')
+  const notes = noteParts.join('||')
+  const disciplines = {}
+  if (discPart) {
+    for (const p of discPart.split(',').map(s => s.trim()).filter(Boolean)) {
+      const [name, lvl] = p.split(':')
+      if (name && lvl !== undefined) disciplines[name.trim()] = parseInt(lvl) || 0
+    }
+  }
+  return { disciplines, notes }
+}
+
+function serializeGhoulSorceryDesc(disciplines, notes) {
+  const discStr = Object.entries(disciplines).filter(([, v]) => v > 0).map(([k, v]) => `${k}:${v}`).join(', ')
+  if (notes) return `${discStr}||${notes}`
+  return discStr
+}
+
 const CLANS = [
   { value: 'Assamite', description: 'Silent assassins and diablerists from the Middle East.' },
   { value: 'Brujah', description: 'Rebel philosophers and passionate warriors.' },
@@ -260,8 +293,31 @@ export default function GhoulForm() {
           <fieldset>
             <legend>{t('ghoulDisciplines')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('ghoulDiscHint')}</p>
-            <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={6} style={{ width: '100%' }}
-              aria-label="Disciplines" placeholder="List disciplines and their levels here..." />
+            {(() => {
+              const { disciplines: discMap, notes: discNotes } = parseGhoulSorceryDesc(fields.sorceryDesc)
+              return (
+                <>
+                  <div className="rating-grid">
+                    {GHOUL_DISCIPLINES.map(disc => (
+                      <div key={disc.name} className="ability-row">
+                        <DotRating label={disc.name} name={disc.name} value={discMap[disc.name] || 0}
+                          onChange={(name, val) => {
+                            const updated = { ...discMap, [name]: val }
+                            setFields(prev => ({ ...prev, sorceryDesc: serializeGhoulSorceryDesc(updated, discNotes) }))
+                          }} />
+                        <p className="muted-hint muted-hint--xs">{disc.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ marginTop: 'var(--space-sm)' }}>
+                    <label>{t('notes')}</label>
+                    <textarea value={discNotes}
+                      onChange={e => setFields(prev => ({ ...prev, sorceryDesc: serializeGhoulSorceryDesc(discMap, e.target.value) }))}
+                      rows={3} style={{ width: '100%' }} placeholder="Additional notes about your disciplines..." />
+                  </div>
+                </>
+              )
+            })()}
           </fieldset>
           <fieldset>
             <legend>{t('ghoulVitals')}</legend>

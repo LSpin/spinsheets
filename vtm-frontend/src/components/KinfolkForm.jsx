@@ -13,6 +13,59 @@ import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
 import { useLanguage } from '../i18n/LanguageContext'
 
+const KINFOLK_GIFTS = [
+  { name: 'Persuasion', description: 'Ability to make others more receptive to your suggestions' },
+  { name: 'Resist Toxin', description: 'Heightened resistance to poisons, drugs, and alcohol' },
+  { name: 'Sense Wyrm', description: 'Detect manifestations of the Wyrm in the nearby area' },
+  { name: 'Shed', description: 'Heal minor wounds through force of will' },
+  { name: 'Speed of Thought', description: 'Move at supernatural speed for a short burst' },
+  { name: 'Smell of Man', description: 'Mark yourself with the scent of humanity, causing animals to trust you' },
+  { name: "Mother's Touch", description: 'Heal wounds through laying on hands' },
+  { name: 'Spirit Speech', description: 'Communicate with nearby spirits' },
+  { name: 'Cooking', description: 'Prepare food that heals or strengthens those who eat it' },
+  { name: 'Jam Technology', description: 'Cause mechanical or electronic devices to malfunction' },
+  { name: 'Calm', description: 'Soothe anger and aggression in others' },
+]
+
+const KINFOLK_NUMINA = [
+  { name: 'Animal Psychic', description: 'Telepathic bond with animals, sensing their emotions and intentions' },
+  { name: 'Biokinesis', description: 'Minor control over biological functions — slow bleeding, reduce pain' },
+  { name: 'Clairvoyance', description: 'See remote locations or sense events at a distance' },
+  { name: 'Hedge Magic', description: 'Minor folk magic — charms, blessings, and minor hexes' },
+  { name: 'Medium', description: 'Communicate with ghosts and spirits of the dead' },
+  { name: 'Psychometry', description: 'Read psychic impressions from objects by touch' },
+  { name: 'Telepathy', description: 'Read surface thoughts or send mental messages' },
+  { name: 'True Faith', description: 'A rare and powerful spiritual conviction that repels supernatural evil' },
+]
+
+function parseKinfolkSorceryDesc(str) {
+  if (!str) return { gifts: [], numina: {}, notes: '' }
+  const [mainPart, ...noteParts] = str.split('||')
+  // If there's a second ||, that's notes. The first || separates gifts from numina.
+  // Format: "Gift1, Gift2||Numina1:3, Numina2:2||notes here"
+  const notes = noteParts.length > 1 ? noteParts.slice(1).join('||') : ''
+  const numinaPart = noteParts.length > 0 ? noteParts[0] : ''
+
+  const gifts = mainPart ? mainPart.split(',').map(s => s.trim()).filter(Boolean) : []
+  const numina = {}
+  if (numinaPart) {
+    for (const p of numinaPart.split(',').map(s => s.trim()).filter(Boolean)) {
+      const [name, lvl] = p.split(':')
+      if (name && lvl !== undefined) numina[name.trim()] = parseInt(lvl) || 0
+    }
+  }
+  return { gifts, numina, notes }
+}
+
+function serializeKinfolkSorceryDesc(gifts, numina, notes) {
+  const giftStr = gifts.join(', ')
+  const numinaStr = Object.entries(numina).filter(([, v]) => v > 0).map(([k, v]) => `${k}:${v}`).join(', ')
+  let result = giftStr
+  if (numinaStr || notes) result += `||${numinaStr}`
+  if (notes) result += `||${notes}`
+  return result
+}
+
 const TRIBES = [
   { value: 'Black Furies', description: 'Matriarchal warriors devoted to Gaia and the Wyld.' },
   { value: 'Bone Gnawers', description: 'Urban scavengers who live among the homeless and outcasts.' },
@@ -264,10 +317,61 @@ export default function KinfolkForm() {
           <fieldset>
             <legend>{t('tabGifts')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Kinfolk can learn Gifts that don't require Gnosis to activate. Describe gifts, numina, and fetishes below.
+              Kinfolk can learn level 1 Gifts that don't require Gnosis to activate.
             </p>
-            <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={8} style={{ width: '100%' }}
-              aria-label="Gifts and Numina" placeholder="List gifts, numina, and fetishes here..." />
+            {(() => {
+              const { gifts, numina: numinaMap, notes: kinNotes } = parseKinfolkSorceryDesc(fields.sorceryDesc)
+              return (
+                <>
+                  <div className="rating-grid">
+                    {KINFOLK_GIFTS.map(gift => (
+                      <div key={gift.name} className="ability-row">
+                        <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                          <input type="checkbox" checked={gifts.includes(gift.name)}
+                            onChange={e => {
+                              const updated = e.target.checked ? [...gifts, gift.name] : gifts.filter(g => g !== gift.name)
+                              setFields(prev => ({ ...prev, sorceryDesc: serializeKinfolkSorceryDesc(updated, numinaMap, kinNotes) }))
+                            }} />
+                          {gift.name}
+                        </label>
+                        <p className="muted-hint muted-hint--xs">{gift.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )
+            })()}
+          </fieldset>
+          <fieldset>
+            <legend>Numina</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Kinfolk-specific psychic abilities.
+            </p>
+            {(() => {
+              const { gifts, numina: numinaMap, notes: kinNotes } = parseKinfolkSorceryDesc(fields.sorceryDesc)
+              return (
+                <>
+                  <div className="rating-grid">
+                    {KINFOLK_NUMINA.map(num => (
+                      <div key={num.name} className="ability-row">
+                        <DotRating label={num.name} name={num.name} value={numinaMap[num.name] || 0}
+                          onChange={(name, val) => {
+                            const updated = { ...numinaMap, [name]: val }
+                            setFields(prev => ({ ...prev, sorceryDesc: serializeKinfolkSorceryDesc(gifts, updated, kinNotes) }))
+                          }} />
+                        <p className="muted-hint muted-hint--xs">{num.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ marginTop: 'var(--space-sm)' }}>
+                    <label>{t('notes')}</label>
+                    <textarea value={kinNotes}
+                      onChange={e => setFields(prev => ({ ...prev, sorceryDesc: serializeKinfolkSorceryDesc(gifts, numinaMap, e.target.value) }))}
+                      rows={3} style={{ width: '100%' }} placeholder="Additional notes about your gifts and numina..." />
+                  </div>
+                </>
+              )
+            })()}
           </fieldset>
           <fieldset>
             <legend>{t('willpowerAndHumanity')}</legend>

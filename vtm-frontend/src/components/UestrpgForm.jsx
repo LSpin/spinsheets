@@ -525,7 +525,7 @@ export default function UestrpgForm() {
             </div>
           </fieldset>
           <fieldset>
-            <legend>Known Spells ({knownSpells.length})</legend>
+            <legend>{t('dndKnownSpells')} ({knownSpells.length})</legend>
             {knownSpells.length > 0 && (
               <div style={{ marginBottom: 'var(--space-md)' }}>
                 {knownSpells.map(spellName => {

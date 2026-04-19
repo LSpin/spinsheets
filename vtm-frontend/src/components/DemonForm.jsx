@@ -69,6 +69,44 @@ const HOUSE_LORES = {
 
 const COMMON_LORES = ['Lore of the Fundament', 'Lore of Humanity']
 
+const DEMON_LORES = [
+  { name: 'Lore of the Fundament', house: 'Common', description: 'Manipulate the fundamental forces of creation — gravity, magnetism, inertia.' },
+  { name: 'Lore of Humanity', house: 'Common', description: 'Understand and influence mortal hearts and minds.' },
+  { name: 'Lore of the Celestials', house: 'Namaru', description: 'Command and leadership. Inspire or terrify.' },
+  { name: 'Lore of Flame', house: 'Namaru', description: 'Create and control fire and light.' },
+  { name: 'Lore of the Winds', house: 'Asharu', description: 'Command air, weather, and storms.' },
+  { name: 'Lore of Awakening', house: 'Asharu', description: 'Heal, protect, and give life.' },
+  { name: 'Lore of the Earth', house: 'Annunaki', description: 'Shape stone, metal, and physical matter.' },
+  { name: 'Lore of Paths', house: 'Annunaki', description: 'Create portals and manipulate space.' },
+  { name: 'Lore of Patterns', house: 'Neberu', description: 'Read and manipulate fate and probability.' },
+  { name: 'Lore of Portals', house: 'Neberu', description: 'Open gateways between realms.' },
+  { name: 'Lore of Longing', house: 'Lammasu', description: 'Inspire desire, obsession, and devotion.' },
+  { name: 'Lore of Storms', house: 'Lammasu', description: 'Control weather and elemental fury.' },
+  { name: 'Lore of the Wild', house: 'Rabisu', description: 'Command animals and plants.' },
+  { name: 'Lore of the Flesh', house: 'Rabisu', description: 'Transform and mutate living bodies.' },
+  { name: 'Lore of Death', house: 'Halaku', description: 'Control death, decay, and the dead.' },
+  { name: 'Lore of the Spirit', house: 'Halaku', description: 'Interact with ghosts and the Underworld.' },
+]
+
+const DEMON_LORE_HOUSES = [...new Set(DEMON_LORES.map(l => l.house))]
+
+const DEMON_VISAGE_ABILITIES = [
+  { name: 'Wings', type: 'High-Torment', description: 'Massive wings allowing flight.' },
+  { name: 'Claws', type: 'High-Torment', description: 'Razor-sharp claws dealing aggravated damage.' },
+  { name: 'Extra Limbs', type: 'High-Torment', description: 'Additional arms or tentacles.' },
+  { name: 'Enhanced Senses', type: 'Low-Torment', description: 'Superhuman sight, hearing, or smell.' },
+  { name: 'Armor', type: 'Low-Torment', description: 'Supernatural toughness reducing damage.' },
+  { name: 'Aura of Dread', type: 'High-Torment', description: 'Terrifying presence causing fear.' },
+  { name: 'Aura of Inspiration', type: 'Low-Torment', description: 'Uplifting presence boosting allies.' },
+  { name: 'Enhanced Strength', type: 'Low-Torment', description: 'Greatly increased physical power.' },
+  { name: 'Enhanced Speed', type: 'Low-Torment', description: 'Supernatural quickness and reflexes.' },
+  { name: 'Immunity (Fire)', type: 'High-Torment', description: 'Complete immunity to fire damage.' },
+  { name: 'Immunity (Cold)', type: 'High-Torment', description: 'Complete immunity to cold damage.' },
+  { name: 'Poison', type: 'High-Torment', description: 'Venomous bite or touch.' },
+  { name: 'Regeneration', type: 'Low-Torment', description: 'Rapid healing of wounds.' },
+  { name: 'Shroud', type: 'Low-Torment', description: 'Become invisible or blend with shadows.' },
+]
+
 const HEALTH_LEVELS = [
   { key: 'healthBruised',    label: 'bruised',       penalty: '' },
   { key: 'healthHurt',       label: 'hurt',          penalty: '-1' },
@@ -176,6 +214,15 @@ function parseLores(str) {
 
 function serializeLores(map) {
   return Object.entries(map).filter(([, v]) => v > 0).map(([k, v]) => `${k}:${v}`).join(',')
+}
+
+function parseVisageAbilities(str) {
+  if (!str) return []
+  return str.split(',').map(s => s.trim()).filter(Boolean)
+}
+
+function serializeVisageAbilities(arr) {
+  return arr.filter(Boolean).join(',')
 }
 
 function RatingRow({ abilityKey, specKey, fields, onField, onText, max = 5, t }) {
@@ -476,6 +523,9 @@ export default function DemonForm() {
                   <div className="ability-row">
                     <DotRating label={houseLoreInfo.primary} name={`lore-primary`} value={loresMap[houseLoreInfo.primary] || 0}
                       onChange={(_, val) => handleLore(houseLoreInfo.primary, val)} max={5} />
+                    <p className="muted-hint muted-hint--xs" style={{ margin: 0, gridColumn: '1 / -1' }}>
+                      {DEMON_LORES.find(l => l.name === houseLoreInfo.primary)?.description}
+                    </p>
                   </div>
                 </div>
               </fieldset>
@@ -486,12 +536,16 @@ export default function DemonForm() {
                   Each House has access to two secondary Lores in addition to their primary Lore.
                 </p>
                 <div className="rating-grid">
-                  {houseLoreInfo.secondary.map(lore => (
-                    <div key={lore} className="ability-row">
-                      <DotRating label={lore} name={`lore-${lore}`} value={loresMap[lore] || 0}
-                        onChange={(_, val) => handleLore(lore, val)} max={5} />
-                    </div>
-                  ))}
+                  {houseLoreInfo.secondary.map(lore => {
+                    const info = DEMON_LORES.find(l => l.name === lore)
+                    return (
+                      <div key={lore} className="ability-row">
+                        <DotRating label={lore} name={`lore-${lore}`} value={loresMap[lore] || 0}
+                          onChange={(_, val) => handleLore(lore, val)} max={5} />
+                        {info && <p className="muted-hint muted-hint--xs" style={{ margin: 0, gridColumn: '1 / -1' }}>{info.description}</p>}
+                      </div>
+                    )
+                  })}
                 </div>
               </fieldset>
             </>
@@ -506,48 +560,75 @@ export default function DemonForm() {
             </fieldset>
           )}
 
-          <fieldset>
-            <legend>{t('commonLores')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Common Lores available to all Fallen, regardless of House.
-            </p>
-            <div className="rating-grid">
-              {COMMON_LORES.map(lore => (
-                <div key={lore} className="ability-row">
-                  <DotRating label={lore} name={`lore-${lore}`} value={loresMap[lore] || 0}
-                    onChange={(_, val) => handleLore(lore, val)} max={5} />
+          {DEMON_LORE_HOUSES.map(house => {
+            const loresInHouse = DEMON_LORES.filter(l => l.house === house)
+            return (
+              <fieldset key={house}>
+                <legend>{house === 'Common' ? t('commonLores') : `${house} Lores`}</legend>
+                {house === 'Common' && (
+                  <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+                    Common Lores available to all Fallen, regardless of House.
+                  </p>
+                )}
+                <div className="rating-grid">
+                  {loresInHouse.map(lore => (
+                    <div key={lore.name} className="ability-row">
+                      <DotRating label={lore.name} name={`lore-${lore.name}`} value={loresMap[lore.name] || 0}
+                        onChange={(_, val) => handleLore(lore.name, val)} max={5} />
+                      <p className="muted-hint muted-hint--xs" style={{ margin: 0, gridColumn: '1 / -1' }}>{lore.description}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>{t('loreNotes')}</legend>
-            <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={4} style={{ width: '100%' }}
-              aria-label="Lore data" placeholder="Raw data (auto-managed by dot ratings above). You may also add custom notes here." />
-          </fieldset>
+              </fieldset>
+            )
+          })}
         </div>
       </div>
 
       {/* ── Apocalyptic Form ── */}
       <div hidden={tab !== 5}>
         <div className="form-section">
+          {['Low-Torment', 'High-Torment'].map(tormentType => {
+            const abilities = DEMON_VISAGE_ABILITIES.filter(a => a.type === tormentType)
+            const selected = parseVisageAbilities(fields.clanCurse)
+            return (
+              <fieldset key={tormentType}>
+                <legend>{tormentType} Abilities</legend>
+                <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+                  {tormentType === 'Low-Torment'
+                    ? 'Visage abilities that manifest when the demon maintains low Torment.'
+                    : 'Visage abilities that manifest when the demon succumbs to high Torment.'}
+                </p>
+                <div className="catalog-list" style={{ listStyle: 'none', padding: 0 }}>
+                  {abilities.map(ability => {
+                    const checked = selected.includes(ability.name)
+                    return (
+                      <label key={ability.name} className="catalog-item" style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', cursor: 'pointer' }}>
+                        <input type="checkbox" checked={checked} onChange={() => {
+                          const next = checked
+                            ? selected.filter(n => n !== ability.name)
+                            : [...selected, ability.name]
+                          setFields(prev => ({ ...prev, clanCurse: serializeVisageAbilities(next) }))
+                        }} />
+                        <div>
+                          <strong>{ability.name}</strong>
+                          <p className="muted-hint muted-hint--xs" style={{ margin: 0 }}>{ability.description}</p>
+                        </div>
+                      </label>
+                    )
+                  })}
+                </div>
+              </fieldset>
+            )
+          })}
+
           <fieldset>
             <legend>{t('visageDescription')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Describe the demon's true, terrifying visage when it reveals its celestial nature.
             </p>
-            <textarea name="clanCurse" value={fields.clanCurse} onChange={handleText} rows={6} style={{ width: '100%' }}
+            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={6} style={{ width: '100%' }}
               aria-label="Visage description" placeholder={t('visageDescPh')} />
-          </fieldset>
-
-          <fieldset>
-            <legend>{t('apocalypticAbilities')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Each visage grants 8 specific powers when the apocalyptic form is invoked.
-            </p>
-            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={8} style={{ width: '100%' }}
-              aria-label="Apocalyptic form abilities" placeholder={t('apocalypticAbilitiesPh')} />
           </fieldset>
 
           <fieldset>

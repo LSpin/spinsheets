@@ -905,28 +905,28 @@ export default function L5RForm() {
 
             {/* Fire */}
             <fieldset style={{ marginBottom: 'var(--space-md)' }}>
-              <legend>Fire Ring: {fireRing}</legend>
+              <legend>{t('l5rFire')}: {fireRing}</legend>
               <div className="rating-grid">
-                <div className="ability-row"><DotRating label="Agility (Physical)" name="l5rAgility" value={fields.l5rAgility} onChange={handleField} min={2} max={10} /></div>
-                <div className="ability-row"><DotRating label="Intelligence (Mental)" name="l5rIntelligence7" value={fields.l5rIntelligence7} onChange={handleField} min={2} max={10} /></div>
+                <div className="ability-row"><DotRating label={t('l5rAgility')} name="l5rAgility" value={fields.l5rAgility} onChange={handleField} min={2} max={10} /></div>
+                <div className="ability-row"><DotRating label={t('l5rIntelligence')} name="l5rIntelligence7" value={fields.l5rIntelligence7} onChange={handleField} min={2} max={10} /></div>
               </div>
             </fieldset>
 
             {/* Water */}
             <fieldset style={{ marginBottom: 'var(--space-md)' }}>
-              <legend>Water Ring: {waterRing}</legend>
+              <legend>{t('l5rWater')}: {waterRing}</legend>
               <div className="rating-grid">
-                <div className="ability-row"><DotRating label="Strength (Physical)" name="l5rStrength7" value={fields.l5rStrength7} onChange={handleField} min={2} max={10} /></div>
-                <div className="ability-row"><DotRating label="Perception (Mental)" name="l5rPerception7" value={fields.l5rPerception7} onChange={handleField} min={2} max={10} /></div>
+                <div className="ability-row"><DotRating label={t('l5rStrength')} name="l5rStrength7" value={fields.l5rStrength7} onChange={handleField} min={2} max={10} /></div>
+                <div className="ability-row"><DotRating label={t('l5rPerception')} name="l5rPerception7" value={fields.l5rPerception7} onChange={handleField} min={2} max={10} /></div>
               </div>
             </fieldset>
 
             {/* Void */}
             <fieldset style={{ marginBottom: 'var(--space-md)' }}>
-              <legend>Void Ring: {voidRing}</legend>
+              <legend>{t('l5rVoidRing')}: {voidRing}</legend>
               <div className="rating-grid">
-                <div className="ability-row"><DotRating label="Void" name="l5rVoid" value={fields.l5rVoid} onChange={handleField} min={2} max={10} /></div>
-                <div className="ability-row"><DotRating label="Current Void Points" name="l5rCurrentVoid" value={fields.l5rCurrentVoid} onChange={handleField} min={0} max={fields.l5rVoid} /></div>
+                <div className="ability-row"><DotRating label={t('l5rVoidRing')} name="l5rVoid" value={fields.l5rVoid} onChange={handleField} min={2} max={10} /></div>
+                <div className="ability-row"><DotRating label={t('l5rCurrentVoid')} name="l5rCurrentVoid" value={fields.l5rCurrentVoid} onChange={handleField} min={0} max={fields.l5rVoid} /></div>
               </div>
             </fieldset>
           </fieldset>
@@ -938,7 +938,7 @@ export default function L5RForm() {
         <div className="form-section">
           {/* Skill Summary */}
           <fieldset>
-            <legend>Skill Summary</legend>
+            <legend>{t('l5rSkillSummary')}</legend>
             <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-sm)', flexWrap: 'wrap' }}>
               <div><strong>Total Skill Ranks:</strong> {totalSkillRanks}</div>
               <div><strong>Insight from Skills:</strong> {totalSkillRanks}</div>
@@ -950,11 +950,11 @@ export default function L5RForm() {
 
           {/* Add Skill Form */}
           <fieldset>
-            <legend>Add Skill</legend>
+            <legend>{t('l5rAddSkill')}</legend>
             <div className="field-row" style={{ alignItems: 'flex-end' }}>
               <div className="field" style={{ flex: 2 }}>
-                <label>Skill</label>
-                <select value={newSkillName} onChange={e => { setNewSkillName(e.target.value); setNewSkillEmphases([]) }}>
+                <label>{t('skills')}</label>
+                <select value={newSkillName} onChange={e => { setNewSkillName(e.target.value); setNewSkillEmphases([]) }} aria-label={t('skills')}>
                   <option value="">Select skill...</option>
                   {Object.entries(L5R_SKILL_MASTERIES).map(([name, data]) => (
                     <option key={name} value={name}>{name} ({data.trait}) — {data.type}</option>
@@ -992,7 +992,7 @@ export default function L5RForm() {
           {/* Active Skills Table */}
           {parsedSkills.length > 0 && (
             <fieldset>
-              <legend>Active Skills ({parsedSkills.length})</legend>
+              <legend>{t('l5rActiveSkills')} ({parsedSkills.length})</legend>
               <table className="inv-table">
                 <thead>
                   <tr><th>Skill</th><th>Rank</th><th>Roll</th><th>Emphases</th><th>Mastery Unlocked</th><th></th></tr>
@@ -1028,7 +1028,7 @@ export default function L5RForm() {
 
           {/* Raw Textarea */}
           <fieldset>
-            <legend>Raw Skill Data</legend>
+            <legend>{t('l5rRawSkillData')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>
               Format: &quot;SkillName (Emphasis1, Emphasis2) Rank&quot;. One per line. Use the Add Skill form above or edit directly.
             </p>
@@ -1070,7 +1070,7 @@ export default function L5RForm() {
         <div className="form-section">
           {/* ── Advantages ── */}
           <fieldset>
-            <legend>Advantages ({disciplines.length})</legend>
+            <legend>{t('l5rAdvantages')} ({disciplines.length})</legend>
             {guidedMode && (
               <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-md)', fontSize: '0.85rem', padding: 'var(--space-sm)', background: 'var(--color-surface-raised)', borderRadius: 'var(--radius-sm)' }}>
                 <div><strong>Advantage XP:</strong> <span style={{ color: '#e95' }}>-{advXpSpent}</span></div>
@@ -1148,7 +1148,7 @@ export default function L5RForm() {
 
           {/* ── Disadvantages ── */}
           <fieldset>
-            <legend>Disadvantages ({backgrounds.length})</legend>
+            <legend>{t('l5rDisadvantages')} ({backgrounds.length})</legend>
             {backgrounds.length > 0 && (
               <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
                 {backgrounds.map(b => (
@@ -1256,7 +1256,7 @@ export default function L5RForm() {
                   </fieldset>
                 ) : (
                   <fieldset>
-                    <legend>School Techniques</legend>
+                    <legend>{t('l5rTechniques')}</legend>
                     <p className="muted-hint" style={{ paddingBottom: 0 }}>
                       Select a School on the Identity tab to see your techniques here.
                     </p>
@@ -1264,7 +1264,7 @@ export default function L5RForm() {
                 )}
 
                 <fieldset>
-                  <legend>Technique Notes</legend>
+                  <legend>{t('l5rTechNotes')}</legend>
                   <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>
                     Record additional details, house-ruled modifications, or techniques from alternate/advanced schools.
                   </p>
@@ -1312,18 +1312,18 @@ export default function L5RForm() {
         <div className="form-section">
           {/* ── Casting Dashboard ── */}
           <fieldset>
-            <legend>Spell Casting Dashboard</legend>
+            <legend>{t('l5rSpellCastDash')}</legend>
             <div className="field-row">
               <div className="field">
-                <label>Affinity Element</label>
-                <select value={spellAffinity} onChange={e => setSpellAffinity(e.target.value)}>
+                <label>{t('l5rAffinityElement')}</label>
+                <select value={spellAffinity} onChange={e => setSpellAffinity(e.target.value)} aria-label={t('l5rAffinityElement')}>
                   <option value="">None</option>
                   {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(el => <option key={el} value={el}>{t(el)}</option>)}
                 </select>
               </div>
               <div className="field">
-                <label>Deficiency Element</label>
-                <select value={spellDeficiency} onChange={e => setSpellDeficiency(e.target.value)}>
+                <label>{t('l5rDeficiencyElement')}</label>
+                <select value={spellDeficiency} onChange={e => setSpellDeficiency(e.target.value)} aria-label={t('l5rDeficiencyElement')}>
                   <option value="">None</option>
                   {['Air', 'Earth', 'Fire', 'Water', 'Void'].map(el => <option key={el} value={el}>{t(el)}</option>)}
                 </select>
@@ -1360,7 +1360,7 @@ export default function L5RForm() {
 
           {/* ── Known Spells ── */}
           <fieldset>
-            <legend>Known Spells ({parsedSpells.length})</legend>
+            <legend>{t('l5rKnownSpells')} ({parsedSpells.length})</legend>
             {parsedSpells.length > 0 ? (
               <table className="inv-table">
                 <thead><tr><th>Spell</th><th>Details</th><th></th></tr></thead>
@@ -1389,7 +1389,7 @@ export default function L5RForm() {
 
           {/* ── Spell Catalogue (searchable, click to add) ── */}
           <fieldset>
-            <legend>Spell Catalogue ({L5R_SPELLS.length} spells)</legend>
+            <legend>{t('l5rSpellCatalogue')} ({L5R_SPELLS.length})</legend>
             <div className="catalog-search-wrap">
               <input type="search" value={spellSearch} onChange={e => setSpellSearch(e.target.value)}
                 placeholder="Search spells by name, element, or effect..." aria-label="Search spells" />
@@ -1509,14 +1509,14 @@ export default function L5RForm() {
         <div className="form-section">
           {/* ── Active Kata ── */}
           <fieldset>
-            <legend>Active Kata</legend>
+            <legend>{t('l5rActiveKata')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Executing a Kata is a Simple Action. Only one may be active at a time. Select from your known kata.
             </p>
             <div className="field-row">
               <div className="field" style={{ flex: 2 }}>
-                <label>Currently Active</label>
-                <select value={activeKata} onChange={e => setActiveKata(e.target.value)}>
+                <label>{t('l5rCurrentlyActive')}</label>
+                <select value={activeKata} onChange={e => setActiveKata(e.target.value)} aria-label={t('l5rActiveKata')}>
                   <option value="">None</option>
                   {parsedKata.map((line, i) => {
                     const match = L5R_KATA.find(k => line.toLowerCase().includes(k.name.toLowerCase()))
@@ -1540,7 +1540,7 @@ export default function L5RForm() {
 
           {/* ── Known Kata List ── */}
           <fieldset>
-            <legend>Known Kata ({parsedKata.length})</legend>
+            <legend>{t('l5rKnownKata')} ({parsedKata.length})</legend>
             {parsedKata.length > 0 ? (
               <table className="inv-table">
                 <thead><tr><th>Kata</th><th>Details</th><th></th></tr></thead>
@@ -1569,7 +1569,7 @@ export default function L5RForm() {
 
           {/* ── Kata Catalogue (searchable) ── */}
           <fieldset>
-            <legend>Kata Catalogue ({L5R_KATA.length} kata)</legend>
+            <legend>{t('l5rKataCatalogue')} ({L5R_KATA.length})</legend>
             <div className="catalog-search-wrap">
               <input type="search" value={kataSearch} onChange={e => setKataSearch(e.target.value)}
                 placeholder="Search kata by name, ring, school, or effect..." aria-label="Search kata" />
@@ -1658,11 +1658,11 @@ export default function L5RForm() {
         <div className="form-section">
           {/* ── Loadout Dashboard ── */}
           <fieldset>
-            <legend>Loadout Dashboard</legend>
+            <legend>{t('l5rLoadoutDash')}</legend>
             <div className="field-row">
               <div className="field" style={{ flex: 2 }}>
-                <label>Equipped Weapon</label>
-                <select value={equippedWeapon} onChange={e => setEquippedWeapon(e.target.value)}>
+                <label>{t('l5rEquippedWeapon')}</label>
+                <select value={equippedWeapon} onChange={e => setEquippedWeapon(e.target.value)} aria-label={t('l5rEquippedWeapon')}>
                   <option value="">None</option>
                   <optgroup label="Melee Weapons">
                     {ALL_WEAPONS.map(w => <option key={w.name} value={w.name}>{w.name} ({w.dr})</option>)}
@@ -1673,16 +1673,16 @@ export default function L5RForm() {
                 </select>
               </div>
               <div className="field">
-                <label>Equipped Armor</label>
-                <select value={equippedArmor} onChange={e => setEquippedArmor(e.target.value)}>
+                <label>{t('l5rEquippedArmor')}</label>
+                <select value={equippedArmor} onChange={e => setEquippedArmor(e.target.value)} aria-label={t('l5rEquippedArmor')}>
                   <option value="None">None (No Armor)</option>
                   {L5R_EQUIPMENT.armor.map(a => <option key={a.name} value={a.name}>{a.name} (+{typeof a.atn === 'number' ? a.atn : a.atn} ATN, Red {a.reduction})</option>)}
                 </select>
               </div>
               {isBow && (
                 <div className="field">
-                  <label>Arrow Type</label>
-                  <select value={equippedArrow} onChange={e => setEquippedArrow(e.target.value)}>
+                  <label>{t('l5rArrowType')}</label>
+                  <select value={equippedArrow} onChange={e => setEquippedArrow(e.target.value)} aria-label={t('l5rArrowType')}>
                     {L5R_EQUIPMENT.arrows.map(a => <option key={a.name} value={a.name}>{a.name} ({a.dr})</option>)}
                   </select>
                 </div>
@@ -1794,7 +1794,7 @@ export default function L5RForm() {
           )}
 
           <fieldset>
-            <legend>Personal Items</legend>
+            <legend>{t('l5rPersonalItems')}</legend>
             <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={
 `Katana (3k2, Samurai)
 Wakizashi (2k2, Samurai)
@@ -1868,16 +1868,16 @@ Traveling pack, spare kimono, 10 koku`} />
         <div className="form-section">
           {/* ── Stance Dashboard ── */}
           <fieldset>
-            <legend>Combat Dashboard</legend>
+            <legend>{t('l5rCombatDash')}</legend>
             <div className="field-row">
               <div className="field">
-                <label>Current Stance</label>
-                <select value={combatStance} onChange={e => setCombatStance(e.target.value)}>
+                <label>{t('l5rCurrentStance')}</label>
+                <select value={combatStance} onChange={e => setCombatStance(e.target.value)} aria-label={t('l5rCurrentStance')}>
                   {STANCES.map(s => <option key={s.name} value={s.name}>{t(s.name)}</option>)}
                 </select>
               </div>
               <div className="field">
-                <label>Defense Skill Rank</label>
+                <label>{t('l5rDefenseSkill')}</label>
                 <select value={defenseSkill} onChange={e => setDefenseSkill(parseInt(e.target.value))}>
                   {[0,1,2,3,4,5,6,7,8,9,10].map(v => <option key={v} value={v}>{v}</option>)}
                 </select>
@@ -1933,36 +1933,36 @@ Traveling pack, spare kimono, 10 koku`} />
 
           {/* ── Derived Stats (inline) ── */}
           <fieldset>
-            <legend>Honor, Glory, Status &amp; Insight</legend>
+            <legend>{t('l5rHonorGloryStatus')}</legend>
             <div className="field-row">
               <div className="field">
-                <label>Honor ({(fields.l5rHonor / 10).toFixed(1)})</label>
+                <label>{t('l5rHonor')} ({(fields.l5rHonor / 10).toFixed(1)})</label>
                 <input type="number" name="l5rHonor" value={fields.l5rHonor} onChange={handleText} min={0} max={100} />
               </div>
               <div className="field">
-                <label>Glory ({(fields.l5rGlory / 10).toFixed(1)})</label>
+                <label>{t('l5rGlory')} ({(fields.l5rGlory / 10).toFixed(1)})</label>
                 <input type="number" name="l5rGlory" value={fields.l5rGlory} onChange={handleText} min={0} max={100} />
               </div>
               <div className="field">
-                <label>Status ({(fields.l5rStatus / 10).toFixed(1)})</label>
+                <label>{t('l5rStatus')} ({(fields.l5rStatus / 10).toFixed(1)})</label>
                 <input type="number" name="l5rStatus" value={fields.l5rStatus} onChange={handleText} min={0} max={100} />
               </div>
             </div>
             <div className="field-row">
               <div className="field">
-                <label>Insight (Rings {(airRing + earthRing + fireRing + waterRing + voidRing) * 10} + Skills {totalSkillRanks} = {(airRing + earthRing + fireRing + waterRing + voidRing) * 10 + totalSkillRanks})</label>
+                <label>{t('l5rInsight')} (Rings {(airRing + earthRing + fireRing + waterRing + voidRing) * 10} + Skills {totalSkillRanks} = {(airRing + earthRing + fireRing + waterRing + voidRing) * 10 + totalSkillRanks})</label>
                 <input type="number" name="l5rInsight" value={fields.l5rInsight} onChange={handleText} min={0} />
               </div>
               <div className="field">
-                <label>School Rank</label>
+                <label>{t('l5rSchoolRank')}</label>
                 <input type="number" name="l5rSchoolRank" value={fields.l5rSchoolRank} onChange={handleText} min={1} max={10} />
               </div>
               <div className="field">
-                <label>Armor TN (override)</label>
+                <label>{t('l5rArmorTN')}</label>
                 <input type="number" name="l5rArmorTN" value={fields.l5rArmorTN} onChange={handleText} min={0} />
               </div>
               <div className="field">
-                <label>Initiative (override)</label>
+                <label>{t('l5rInitiative')}</label>
                 <input type="number" name="l5rInitiative" value={fields.l5rInitiative} onChange={handleText} min={0} />
               </div>
             </div>
@@ -1970,14 +1970,14 @@ Traveling pack, spare kimono, 10 koku`} />
 
           {/* ── Wounds Tracker ── */}
           <fieldset>
-            <legend>Wounds ({fields.l5rWounds || 0} total)</legend>
+            <legend>{t('l5rWounds')} ({fields.l5rWounds || 0})</legend>
             <div className="field-row">
               <div className="field" style={{ maxWidth: 120 }}>
-                <label>Current Wounds</label>
+                <label>{t('l5rWounds')}</label>
                 <input type="number" name="l5rWounds" value={fields.l5rWounds} onChange={handleText} min={0} />
               </div>
               <div className="field" style={{ maxWidth: 120 }}>
-                <label>Void Points</label>
+                <label>{t('l5rCurrentVoid')}</label>
                 <DotRating label="" name="l5rCurrentVoid" value={fields.l5rCurrentVoid} onChange={handleField} min={0} max={fields.l5rVoid} />
               </div>
             </div>
@@ -2012,7 +2012,7 @@ Traveling pack, spare kimono, 10 koku`} />
 
           {/* ── Reference Tables (collapsed) ── */}
           <details style={{ marginBottom: 'var(--space-md)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Stance Reference</summary>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('l5rStanceRef')}</summary>
             <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
               <thead><tr><th>Stance</th><th>Ring</th><th>Effect</th></tr></thead>
               <tbody>
@@ -2028,7 +2028,7 @@ Traveling pack, spare kimono, 10 koku`} />
           </details>
 
           <details style={{ marginBottom: 'var(--space-md)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Maneuver Reference</summary>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('l5rManeuverRef')}</summary>
             <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
               <thead><tr><th>Maneuver</th><th>Raises</th><th>Effect</th></tr></thead>
               <tbody>
@@ -2044,7 +2044,7 @@ Traveling pack, spare kimono, 10 koku`} />
           </details>
 
           <details>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Void Point Uses</summary>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('l5rVoidPointUses')}</summary>
             <div style={{ padding: 'var(--space-sm) 0' }}>
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>+1k1 to a Skill, Trait, Ring, or Spell Casting roll (not damage)</p>
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Temporarily treat a Skill Rank 0 as Rank 1</p>

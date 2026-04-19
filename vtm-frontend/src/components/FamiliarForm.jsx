@@ -12,6 +12,24 @@ import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
 
+const FAMILIAR_POWERS_CATALOG = [
+  { name: 'Human Speech', description: 'The familiar can speak human languages' },
+  { name: 'Spirit Speech', description: 'Can communicate with spirits in the Umbra' },
+  { name: 'Unnatural Intelligence', description: 'Possesses human-level reasoning and problem-solving' },
+  { name: 'Extra Heads', description: 'Has additional heads, each capable of independent action' },
+  { name: 'Size Increase', description: 'Larger than normal for its species' },
+  { name: 'Armor', description: 'Has supernatural resistance to damage (+1 soak per level)' },
+  { name: 'Claws/Fangs', description: 'Enhanced natural weapons' },
+  { name: 'Wings/Flight', description: 'Can fly, either naturally or supernaturally' },
+  { name: 'Poison', description: 'Natural venomous attack' },
+  { name: 'Camouflage', description: 'Can blend into surroundings, becoming nearly invisible' },
+  { name: 'Healing Lick', description: 'Saliva heals minor wounds' },
+  { name: 'Immunity to Disease', description: 'Cannot be affected by mundane or supernatural disease' },
+  { name: 'Spirit Sight', description: 'Can see spirits and other invisible supernatural entities' },
+  { name: 'Quintessence Pool', description: 'Stores Quintessence for its master (1 per level)' },
+  { name: 'Paradox Nullification', description: 'Can absorb 1 point of Paradox per story' },
+]
+
 const INITIAL = {
   npc: true, splat: 'FAMILIAR',
   name: '', altName: '', concept: '',
@@ -236,8 +254,34 @@ export default function FamiliarForm() {
             return <TagInfoPanel entry={entry || { name: tagInfo.name }} onClose={() => setTagInfo(null)} />
           })()}
           <fieldset>
+            <legend>Quick Powers</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>Select common familiar powers below. These are stored alongside custom notes.</p>
+            <div className="rating-grid">
+              {FAMILIAR_POWERS_CATALOG.map(power => {
+                const selectedPowerNames = (fields.notes || '').split('||')[0]?.split(',').map(s => s.trim()).filter(Boolean) || []
+                const isChecked = selectedPowerNames.includes(power.name)
+                return (
+                  <label key={power.name} className="ability-row" style={{ cursor: 'pointer', gap: 'var(--space-xs)' }}>
+                    <input type="checkbox" checked={isChecked} onChange={() => {
+                      const next = isChecked ? selectedPowerNames.filter(n => n !== power.name) : [...selectedPowerNames, power.name]
+                      const customNotes = (fields.notes || '').split('||')[1]?.trim() || ''
+                      const powersPart = next.join(', ')
+                      setFields(prev => ({ ...prev, notes: customNotes ? `${powersPart}||${customNotes}` : powersPart }))
+                    }} />
+                    <span><strong>{power.name}</strong> &mdash; {power.description}</span>
+                  </label>
+                )
+              })}
+            </div>
+          </fieldset>
+          <fieldset>
             <legend>{t('notes')}</legend>
-            <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder={t('familiarPowersListPh')} />
+            <textarea value={(fields.notes || '').split('||')[1]?.trim() || ''} onChange={e => {
+              const selectedPowerNames = (fields.notes || '').split('||')[0]?.split(',').map(s => s.trim()).filter(Boolean) || []
+              const powersPart = selectedPowerNames.join(', ')
+              const custom = e.target.value
+              setFields(prev => ({ ...prev, notes: custom ? `${powersPart}||${custom}` : powersPart }))
+            }} rows={4} style={{ width: '100%' }} placeholder="Additional power notes..." />
           </fieldset>
         </div>
       </div>
