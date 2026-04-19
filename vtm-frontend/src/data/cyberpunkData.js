@@ -168,6 +168,92 @@ export const CP_CYBERWARE = [
   // Body Weapons
   { name: 'Popup Gun', category: 'Body Weapons', humanityCost: 3, costEb: 600, description: 'Concealed firearm mounted in a cyberlimb, pops out for use' },
   { name: 'Cybersnake', category: 'Body Weapons', humanityCost: 3, costEb: 1200, description: 'Flexible cybernetic tentacle weapon with striking capability' },
+  { name: 'Flamethrower Implant', category: 'Body Weapons', humanityCost: 4, costEb: 900, description: 'Concealed wrist-mounted flamethrower — 1D6/turn for 3 turns, 2m range' },
+  { name: 'Grenade Launcher (Cyberarm)', category: 'Body Weapons', humanityCost: 4, costEb: 800, description: 'Single-shot grenade launcher mounted in a cyberarm' },
+  { name: 'Micromissile Launcher', category: 'Body Weapons', humanityCost: 4, costEb: 1500, description: 'Shoulder or arm-mounted launcher for guided micromissiles — 4D6 damage' },
+
+  // ── Chromebook Supplements ──
+
+  // Neuralware (Chromebook)
+  { name: 'Boosterware (Reflex)', category: 'Neuralware', humanityCost: 3, costEb: 2000, description: '+1 REF permanently wired reflex enhancement' },
+  { name: 'Speedware', category: 'Neuralware', humanityCost: 3, costEb: 1200, description: '+2 Initiative, military-grade speed enhancement' },
+  { name: 'Tactical Computer', category: 'Neuralware', humanityCost: 3, costEb: 2500, description: 'Combat analysis co-processor — +2 to tactical awareness and initiative' },
+  { name: 'Memory Chip (MRAM)', category: 'Neuralware', humanityCost: 1, costEb: 300, description: 'External memory storage chip — record and replay memories perfectly' },
+  { name: 'Skill Chip Socket', category: 'Neuralware', humanityCost: 2, costEb: 500, description: 'Advanced chipware socket supporting skill-level chip installation' },
+  { name: 'Braindance Recorder', category: 'Neuralware', humanityCost: 2, costEb: 800, description: 'Records full sensory experiences for braindance playback' },
+  { name: 'Behavioral Co-Processor', category: 'Neuralware', humanityCost: 3, costEb: 1500, description: 'Modifies emotional responses and behavioral patterns — +2 COOL in stress' },
+  { name: 'Pain Suppressor', category: 'Neuralware', humanityCost: 1, costEb: 300, description: 'Reduces wound penalties by 1 level without full pain editor' },
+
+  // Optics (Chromebook)
+  { name: 'HUD Display', category: 'Optics', humanityCost: 0, costEb: 350, description: 'Heads-up display overlay showing ammo count, compass, and linked data' },
+  { name: 'Dartgun (Cyberoptic)', category: 'Optics', humanityCost: 2, costEb: 400, description: 'Concealed dart launcher in cybereye — 1 shot, sleep or poison dart' },
+  { name: 'Camera (Cyberoptic)', category: 'Optics', humanityCost: 0, costEb: 300, description: 'Built-in camera recording still images and video through cybereyes' },
+  { name: 'Laser (Cyberoptic)', category: 'Optics', humanityCost: 2, costEb: 600, description: 'Low-power cutting laser — 1D6 damage at 1m range, useful as tool' },
+  { name: 'Micro-Video', category: 'Optics', humanityCost: 0, costEb: 250, description: 'Miniaturized video playback in cybereye — internal media player' },
+  { name: 'Cyberoptic Shield', category: 'Optics', humanityCost: 0, costEb: 500, description: 'Armored covering protects cybereyes from EMP and physical damage' },
+
+  // Audio (Chromebook)
+  { name: 'Sound Damper', category: 'Audio', humanityCost: 0, costEb: 300, description: 'Active noise cancellation — reduces ambient sound, protects from sonic weapons' },
+  { name: 'Homing Tracer', category: 'Audio', humanityCost: 0, costEb: 250, description: 'Tracking signal receiver — follows planted audio beacons up to 1km' },
+  { name: 'Tight Beam Radio', category: 'Audio', humanityCost: 1, costEb: 500, description: 'Directional radio link nearly impossible to intercept or jam' },
+  { name: 'Wide Band Scanner', category: 'Audio', humanityCost: 1, costEb: 400, description: 'Scans all radio frequencies in range — eavesdrop on communications' },
+
+  // Cyberlimbs (Chromebook)
+  { name: 'Cyberarm (Armored)', category: 'Cyberlimbs', humanityCost: 3, costEb: 4500, description: 'Armored cybernetic arm — SP20 built-in armor plating' },
+  { name: 'Cyberleg (Armored)', category: 'Cyberlimbs', humanityCost: 3, costEb: 3500, description: 'Armored cybernetic leg — SP20 built-in armor plating' },
+  { name: 'Cyberarm (Superchrome)', category: 'Cyberlimbs', humanityCost: 4, costEb: 6000, description: 'High-end chrome arm with built-in weapon mounts and +3 STR' },
+  { name: 'Spike Hand', category: 'Cyberlimbs', humanityCost: 2, costEb: 200, description: 'Retractable spike extending from the palm — 1D6+3 stabbing damage' },
+  { name: 'Hammer Hand', category: 'Cyberlimbs', humanityCost: 2, costEb: 350, description: 'Pneumatic piston fist for devastating punches — 2D6+2 crushing damage' },
+  { name: 'Shield Arm', category: 'Cyberlimbs', humanityCost: 2, costEb: 800, description: 'Deployable shield from forearm — SP25, covers torso when deployed' },
+  { name: 'Extendable Limb', category: 'Cyberlimbs', humanityCost: 1, costEb: 500, description: 'Arm or leg extends by 1m via telescoping sections — extra reach' },
+  { name: 'Spring Heels', category: 'Cyberlimbs', humanityCost: 1, costEb: 600, description: 'Spring-loaded legs double leap distance and reduce fall damage' },
+  { name: 'Talon Foot', category: 'Cyberlimbs', humanityCost: 2, costEb: 300, description: 'Retractable toe blades — 2D6 kick damage, wall climbing grip' },
+  { name: 'Skate Foot', category: 'Cyberlimbs', humanityCost: 0, costEb: 400, description: 'Retractable inline skate wheels in the feet — doubles MA on smooth surfaces' },
+
+  // Body Plating (Chromebook)
+  { name: 'FrontBack Skinweave', category: 'Body Plating', humanityCost: 3, costEb: 3000, description: 'Enhanced skinweave covering front and back — SP14' },
+  { name: 'Hard Shell (Torso)', category: 'Body Plating', humanityCost: 5, costEb: 4000, description: 'Full torso exo-armor shell — SP30, visually obvious' },
+  { name: 'Cowl', category: 'Body Plating', humanityCost: 3, costEb: 2000, description: 'Armored head covering with face plate — SP25 head protection' },
+
+  // Internal (Chromebook)
+  { name: 'Adrenaline Surge', category: 'Internal', humanityCost: 2, costEb: 1200, description: 'Activated boost gives +2 REF and +1 BODY for 1D6+1 turns, then crash' },
+  { name: 'Implanted Comm', category: 'Internal', humanityCost: 1, costEb: 500, description: 'Internal radio communicator with encrypted channels' },
+  { name: 'Implanted Agent', category: 'Internal', humanityCost: 2, costEb: 2000, description: 'Internal AI assistant for data management, scheduling, and research' },
+  { name: 'Biomonitor (Internal)', category: 'Internal', humanityCost: 1, costEb: 300, description: 'Internal vital signs monitor — auto-injects medications when critical' },
+  { name: 'Blood Pump', category: 'Internal', humanityCost: 2, costEb: 600, description: 'Secondary heart pump — survive 2 extra turns when at Mortal wounds' },
+  { name: 'Skinalteration (Camouflage)', category: 'Internal', humanityCost: 2, costEb: 1000, description: 'Chromatophore skin cells change color to match surroundings — +4 Stealth' },
+  { name: 'Enhanced Antibodies', category: 'Internal', humanityCost: 1, costEb: 500, description: 'Nanotech immune boost — heal at double rate, resist infection' },
+  { name: 'Nanotech Hive', category: 'Internal', humanityCost: 3, costEb: 5000, description: 'Self-repairing nanomachines — heal 1 wound level per 12 hours automatically' },
+  { name: 'Subdermal Pocket', category: 'Internal', humanityCost: 1, costEb: 200, description: 'Hidden pouch beneath the skin for concealing small objects' },
+  { name: 'Radar/Sonar Implant', category: 'Internal', humanityCost: 2, costEb: 700, description: 'Internal radar — detect movement through walls up to 50m' },
+
+  // Fashionware (Chromebook)
+  { name: 'Mr. Studd (Chrome)', category: 'Fashionware', humanityCost: 1, costEb: 600, description: 'Premium version — chrome finish, enhanced performance' },
+  { name: 'EMP Threading', category: 'Fashionware', humanityCost: 0, costEb: 500, description: 'EMP-hardened wiring protects all cyberware from electromagnetic pulses' },
+  { name: 'Subdermal Clock', category: 'Fashionware', humanityCost: 0, costEb: 100, description: 'Internal atomic clock with alarm, timer, and stopwatch functions' },
+  { name: 'Animated Tattoo', category: 'Fashionware', humanityCost: 0, costEb: 100, description: 'Moving animated tattoo using subdermal LED matrix' },
+  { name: 'Holographic Tattoo', category: 'Fashionware', humanityCost: 0, costEb: 300, description: 'Projected 3D holographic display from subdermal emitters' },
+
+  // Bioware (Chromebook 2+)
+  { name: 'Muscle & Bone Lace', category: 'Bioware', humanityCost: 2, costEb: 3000, description: 'Biological enhancement — +2 BODY, +1 damage in melee, heals naturally' },
+  { name: 'Grafted Reflexes', category: 'Bioware', humanityCost: 2, costEb: 4000, description: 'Biological reflex enhancement — +1 REF, lower humanity cost than cyber' },
+  { name: 'Enhanced Endorphins', category: 'Bioware', humanityCost: 1, costEb: 500, description: 'Biological pain management — reduce wound penalties by 1' },
+  { name: 'Cat Eyes', category: 'Bioware', humanityCost: 1, costEb: 800, description: 'Biological low-light vision — natural-looking, no cybereye required' },
+  { name: 'Toxin Extractors', category: 'Bioware', humanityCost: 1, costEb: 600, description: 'Biological liver enhancement — +4 to resist poisons and drugs' },
+  { name: 'Biolung', category: 'Bioware', humanityCost: 1, costEb: 700, description: 'Enhanced lung capacity — hold breath 10 minutes, filter mild toxins' },
+  { name: 'Bio-Reticle', category: 'Bioware', humanityCost: 1, costEb: 1200, description: 'Biological targeting system grown into the retina — +1 ranged accuracy' },
+  { name: 'Nanosurgeons', category: 'Bioware', humanityCost: 2, costEb: 6000, description: 'Permanent nanobot colony — heal 1 wound level per 6 hours, fight infections' },
+  { name: 'Skin Weave (Bio)', category: 'Bioware', humanityCost: 1, costEb: 2500, description: 'Biological armor reinforcement — SP10, lower humanity cost than cyber skinweave' },
+
+  // Exotic / Rare (Chromebook 3-4)
+  { name: 'Full Body Cyborg Conversion', category: 'Exotic', humanityCost: 16, costEb: 100000, description: 'Complete body replacement — only the brain remains organic. BODY 12+, SP25, massive humanity loss' },
+  { name: 'Gemini Body', category: 'Exotic', humanityCost: 8, costEb: 50000, description: 'Second cybernetic body you can transfer consciousness to — ultimate backup' },
+  { name: 'Dragoon Body', category: 'Exotic', humanityCost: 14, costEb: 80000, description: 'Military full-body conversion — BODY 14, SP30, built-in heavy weapons' },
+  { name: 'Aquatic Body Mod', category: 'Exotic', humanityCost: 6, costEb: 15000, description: 'Full aquatic conversion — gills, webbed hands, pressure resistance, sonar' },
+  { name: 'Wings (Cybernetic)', category: 'Exotic', humanityCost: 6, costEb: 12000, description: 'Retractable cybernetic wings — powered flight up to 50 mph' },
+  { name: 'Prehensile Tail', category: 'Exotic', humanityCost: 4, costEb: 3000, description: 'Fully articulated cybernetic tail — can grip, strike, and balance' },
+  { name: 'Extra Cyberlimb Pair', category: 'Exotic', humanityCost: 6, costEb: 8000, description: 'Additional pair of arms mounted at the shoulders or waist' },
+  { name: 'Exoskeleton (Powered)', category: 'Exotic', humanityCost: 4, costEb: 20000, description: 'External powered frame — BODY +6, Lift ×5, heavy weapon mount points' },
 ]
 
 export const CP_CYBERWARE_CATALOG = CP_CYBERWARE.map(c => ({
