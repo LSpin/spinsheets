@@ -63,9 +63,15 @@ export default function BladesPage() {
             {t('bladesNewCrew')}
           </button>
           {isST && (
-            <button className="btn btn-secondary" onClick={() => navigate('/blades/antagonist/new')}>
-              {t('bladesNewAntagonist')}
-            </button>
+            <>
+              <button className="btn btn-secondary" onClick={() => navigate('/blades/antagonist/new')}>
+                {t('bladesNewAntagonist')}
+              </button>
+              <button className="btn btn-secondary" onClick={() => navigate('/blades/clocks')}
+                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+                {t('bladesClockManagerBtn')}
+              </button>
+            </>
           )}
         </div>
       </div>
