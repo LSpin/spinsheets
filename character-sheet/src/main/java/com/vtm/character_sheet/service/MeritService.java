@@ -20,6 +20,7 @@ public class MeritService {
     public List<Merit> findByCost(Integer cost) { return repository.findByCost(cost); }
     public List<Merit> findByCostUpTo(Integer max) { return repository.findByCostLessThanEqual(max); }
     public void saveAll(List<Merit> merits) { repository.saveAll(merits); }
+    public void deleteAll() { repository.deleteAll(); }
     public long count() { return repository.count(); }
     public boolean existsByName(String name) { return repository.existsByNameIgnoreCase(name); }
 }

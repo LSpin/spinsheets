@@ -103,6 +103,34 @@ public class DataLoader implements CommandLineRunner {
             log.warn("No patch file found or patch failed: {}", e.getMessage());
         }
 
+        // One-time migration: fix TBD merit names and remove duplicates
+        try {
+            List<Merit> allMerits = meritService.findAll();
+            boolean hasTbd = allMerits.stream().anyMatch(m -> "TBD".equals(m.getName()));
+            if (hasTbd) {
+                log.info("Detected TBD merit names — rebuilding merit catalogue from corrected JSON...");
+                // Delete all existing merits and reload from corrected JSON
+                meritService.deleteAll();
+                InputStream fixIs = new ClassPathResource("vampiro_merits_flaws_en.json").getInputStream();
+                JsonNode fixRoot = objectMapper.readTree(fixIs);
+                List<Merit> freshMerits = new ArrayList<>();
+                for (JsonNode node : fixRoot.get("merits")) {
+                    Merit m = new Merit();
+                    m.setName(getText(node, "name"));
+                    m.setCost(getInt(node, "custo"));
+                    m.setCostObs(getText(node, "custo_obs"));
+                    m.setSource(getText(node, "fonte"));
+                    m.setPage(getInt(node, "pagina"));
+                    m.setDescription(getText(node, "descricao"));
+                    freshMerits.add(m);
+                }
+                meritService.saveAll(freshMerits);
+                log.info("Rebuilt merit catalogue: {} merits loaded (TBDs named, duplicates removed).", freshMerits.size());
+            }
+        } catch (Exception e) {
+            log.warn("Merit TBD migration failed: {}", e.getMessage());
+        }
+
         // One-time migration: nuke and reload all flaws from corrected JSON
         // This fixes Portuguese flaw names that were loaded from the original data
         try {
