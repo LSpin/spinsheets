@@ -36,6 +36,19 @@ const NATIONS = {
 }
 const NATION_NAMES = Object.keys(NATIONS)
 
+const RELIGION_CATALOG = [
+  { value: 'Vaticine Church', description: 'The dominant faith of Théah. Worships Theus and the Prophets. Opposes sorcery.' },
+  { value: 'Objectionism', description: 'Protestant reformation of the Vaticine Church. Rejects Papal authority and embraces reason.' },
+  { value: 'Ussuran Orthodox', description: 'Ussuran branch of the Vaticine faith. Emphasizes Matushka (Mother Nature) alongside Theus.' },
+  { value: 'Die Kreuzritter', description: 'Secretive holy order of monster hunters. Ancient knights fighting supernatural threats.' },
+  { value: 'Crescent Faith', description: 'The faith of the Crescent Empire. Monotheistic, scholarly, emphasizes justice and learning.' },
+  { value: 'Old Vestenmannavnjar Faith', description: 'Ancient Norse-inspired religion. Worships the old gods through rune magic and sagas.' },
+  { value: 'Sidhe Worship', description: 'Avalon folk religion venerating the Sidhe (fae). Tied to Glamour sorcery.' },
+  { value: 'Losejas', description: 'Vodacce folk mysticism. Tied to Sorte witchcraft and fate-reading traditions.' },
+  { value: 'Agnosticism', description: 'Skeptical of organized religion. Common among scholars and freethinkers.' },
+  { value: 'Atheism', description: 'Rejects divine authority entirely. Rare and socially dangerous in most nations.' },
+]
+
 const NATION_CATALOG = [
   { value: 'Avalon', description: 'Inspired by Elizabethan England. A land of knights, Sidhe magic, and Glamour sorcery.' },
   { value: 'Inismore', description: 'Inspired by Ireland. Wild and mystical, home to ancient fae bargains.' },
@@ -495,7 +508,8 @@ export default function SeventhSeaForm() {
             <div className="field-row">
               <CatalogSelect id="nation" name="nation" label={t('7sNation')} value={fields.nation}
                 onChange={handleField} catalog={NATION_CATALOG} />
-              <div className="field"><label>{t('7sReligion')}</label><input name="religion" value={fields.religion} onChange={handleText} /></div>
+              <CatalogSelect id="religion" name="religion" label={t('7sReligion')} value={fields.religion}
+                onChange={handleField} catalog={RELIGION_CATALOG} />
             </div>
             {nationTraits && (
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
