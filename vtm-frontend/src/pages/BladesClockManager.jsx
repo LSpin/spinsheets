@@ -256,7 +256,7 @@ export default function BladesClockManager() {
                       fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase',
                       color: TYPE_COLORS[clock.type] || '#868e96',
                       letterSpacing: '0.05em',
-                    }}>COMPLETE</div>
+                    }}>{t('bladesClockComplete')}</div>
                   )}
                   <h4 style={{ margin: '0 0 0.2rem 0', fontSize: '0.95rem' }}>{clock.name}</h4>
                   <div style={{ display: 'flex', gap: '0.4rem', justifyContent: 'center', marginBottom: '0.5rem', flexWrap: 'wrap' }}>

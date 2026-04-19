@@ -10,13 +10,13 @@ import { BLADES_CREW_TYPES, BLADES_CREW_TYPE_CATALOG } from '../data/bladesPlayb
 const TAB_KEYS = ['tabBladesCrewIdentity', 'tabBladesCrewAbilities', 'tabBladesCrewUpgrades', 'tabBladesCrewContacts', 'tabBladesClocks', 'tabBackstory']
 
 const CLOCK_SIZES = [4, 6, 8, 12]
-const CLOCK_TYPES = [
-  { value: 'progress', label: 'Progress' },
-  { value: 'danger', label: 'Danger' },
-  { value: 'racing', label: 'Racing' },
-  { value: 'faction', label: 'Faction' },
-  { value: 'project', label: 'Long-term Project' },
-  { value: 'custom', label: 'Custom' },
+const CLOCK_TYPE_KEYS = [
+  { value: 'progress', labelKey: 'bladesClockProgress' },
+  { value: 'danger', labelKey: 'bladesClockDanger' },
+  { value: 'racing', labelKey: 'bladesClockRacing' },
+  { value: 'faction', labelKey: 'bladesClockFaction' },
+  { value: 'project', labelKey: 'bladesClockProject' },
+  { value: 'custom', labelKey: 'bladesClockCustom' },
 ]
 
 function parseClocks(str) {
@@ -170,9 +170,9 @@ export default function BladesCrewForm() {
     <div className={viewMode ? 'form-view-mode' : ''}>
       <div className="form-header">
         <button className="btn btn-secondary" onClick={() => navigate('/blades')}>{t('back')}</button>
-        <h2>{fields.name || 'New Crew'}</h2>
-        <span className="splat-badge splat-badge--blades">Blades</span>
-        <span className="splat-badge" style={{ background: 'rgba(100,149,237,0.15)', color: '#6495ed' }}>Crew</span>
+        <h2>{fields.name || t('bladesNewCrew')}</h2>
+        <span className="splat-badge splat-badge--blades">{t('splatBlades')}</span>
+        <span className="splat-badge" style={{ background: 'rgba(100,149,237,0.15)', color: '#6495ed' }}>{t('bladesCrewBadge')}</span>
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
@@ -190,47 +190,47 @@ export default function BladesCrewForm() {
           <fieldset>
             <legend>{t('tabBladesCrewIdentity')}</legend>
             <div className="field-row">
-              <div className="field" style={{ flex: 2 }}><label>Crew Name *</label><input name="name" value={fields.name} onChange={handleText} placeholder="The Red Sashes, The Lampblacks..." /></div>
+              <div className="field" style={{ flex: 2 }}><label>{t('bladesCrewName')} *</label><input name="name" value={fields.name} onChange={handleText} placeholder={t('bladesCrewNamePh')} /></div>
             </div>
-            <CatalogSelect id="bladesCrewType" name="bladesCrewType" label="Crew Type" value={fields.bladesCrewType} onChange={handleField} catalog={BLADES_CREW_TYPE_CATALOG} placeholder="Select crew type..." />
+            <CatalogSelect id="bladesCrewType" name="bladesCrewType" label={t('bladesCrewType')} value={fields.bladesCrewType} onChange={handleField} catalog={BLADES_CREW_TYPE_CATALOG} placeholder={t('bladesCrewTypePh')} />
             <div className="field-row" style={{ marginTop: 'var(--space-md)' }}>
-              <div className="field"><label>Concept</label><input name="concept" value={fields.concept} onChange={handleText} placeholder="What drives this crew?" /></div>
+              <div className="field"><label>{t('concept')}</label><input name="concept" value={fields.concept} onChange={handleText} placeholder={t('bladesCrewConceptPh')} /></div>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>Crew Status</legend>
-            <ClickTrack label="Reputation" value={fields.bladesReputation} max={12} onChange={v => handleField('bladesReputation', v)} />
+            <legend>{t('bladesCrewStatus')}</legend>
+            <ClickTrack label={t('bladesReputation')} value={fields.bladesReputation} max={12} onChange={v => handleField('bladesReputation', v)} />
             <div className="field-row" style={{ marginTop: 'var(--space-sm)' }}>
               <div className="field">
-                <label>Tier (0-4)</label>
+                <label>{t('bladesTier')} (0-4)</label>
                 <input type="number" name="bladesTier" value={fields.bladesTier} min={0} max={4} onChange={e => handleField('bladesTier', parseInt(e.target.value) || 0)} style={{ width: 80 }} />
               </div>
               <div className="field">
-                <label>Hold</label>
+                <label>{t('bladesHold')}</label>
                 <div style={{ display: 'flex', gap: 'var(--space-md)', marginTop: 'var(--space-xs)' }}>
                   <label style={{ display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}>
-                    <input type="radio" name="bladesHold" value="strong" checked={fields.bladesHold === 'strong'} onChange={handleText} /> Strong
+                    <input type="radio" name="bladesHold" value="strong" checked={fields.bladesHold === 'strong'} onChange={handleText} /> {t('bladesHoldStrong')}
                   </label>
                   <label style={{ display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}>
-                    <input type="radio" name="bladesHold" value="weak" checked={fields.bladesHold === 'weak'} onChange={handleText} /> Weak
+                    <input type="radio" name="bladesHold" value="weak" checked={fields.bladesHold === 'weak'} onChange={handleText} /> {t('bladesHoldWeak')}
                   </label>
                 </div>
               </div>
             </div>
             <div className="field-row" style={{ marginTop: 'var(--space-sm)' }}>
-              <ClickTrack label="Heat" value={fields.bladesHeat} max={9} onChange={v => handleField('bladesHeat', v)} />
-              <ClickTrack label="Wanted Level" value={fields.bladesWanted} max={4} onChange={v => handleField('bladesWanted', v)} />
+              <ClickTrack label={t('bladesHeat')} value={fields.bladesHeat} max={9} onChange={v => handleField('bladesHeat', v)} />
+              <ClickTrack label={t('bladesWanted')} value={fields.bladesWanted} max={4} onChange={v => handleField('bladesWanted', v)} />
             </div>
             <div className="field-row" style={{ marginTop: 'var(--space-sm)' }}>
               <div className="field">
-                <label>Coin</label>
+                <label>{t('bladesCoin')}</label>
                 <input type="number" name="bladesCoin" value={fields.bladesCoin} min={0} onChange={e => handleField('bladesCoin', parseInt(e.target.value) || 0)} style={{ width: 80 }} />
               </div>
-              <ClickTrack label="Vault" value={fields.bladesVault} max={8} onChange={v => handleField('bladesVault', v)} />
+              <ClickTrack label={t('bladesVault')} value={fields.bladesVault} max={8} onChange={v => handleField('bladesVault', v)} />
             </div>
             <div style={{ marginTop: 'var(--space-sm)' }}>
-              <ClickTrack label="Crew XP" value={fields.bladesCrewXp} max={8} onChange={v => handleField('bladesCrewXp', v)} />
+              <ClickTrack label={t('bladesCrewXp')} value={fields.bladesCrewXp} max={8} onChange={v => handleField('bladesCrewXp', v)} />
             </div>
           </fieldset>
         </div>
@@ -240,11 +240,11 @@ export default function BladesCrewForm() {
       <div hidden={tab !== 1}>
         <div className="form-section">
           <fieldset>
-            <legend>Crew Abilities</legend>
+            <legend>{t('tabBladesCrewAbilities')}</legend>
             {crewType ? (
               <CheckboxList items={crewType.abilities} selected={fields.bladesCrewAbilities} onChange={v => handleField('bladesCrewAbilities', v)} />
             ) : (
-              <p className="muted-hint">Select a crew type on the Identity tab to see available abilities.</p>
+              <p className="muted-hint">{t('bladesSelectCrewForAbilities')}</p>
             )}
           </fieldset>
         </div>
@@ -254,28 +254,28 @@ export default function BladesCrewForm() {
       <div hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
-            <legend>Crew Upgrades</legend>
+            <legend>{t('bladesCrewUpgradesLegend')}</legend>
             {crewType ? (
               <CheckboxList items={crewType.upgrades} selected={fields.bladesCrewUpgrades} onChange={v => handleField('bladesCrewUpgrades', v)} />
             ) : (
-              <p className="muted-hint">Select a crew type on the Identity tab to see available upgrades.</p>
+              <p className="muted-hint">{t('bladesSelectCrewForUpgrades')}</p>
             )}
           </fieldset>
           <fieldset>
-            <legend>Hunting Grounds</legend>
+            <legend>{t('bladesHuntingGrounds')}</legend>
             {crewType && (
               <div style={{ marginBottom: 'var(--space-sm)' }}>
-                <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Preferred type: {crewType.huntingGrounds.join(', ')}</p>
+                <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>{t('bladesPreferredType')}: {crewType.huntingGrounds.join(', ')}</p>
               </div>
             )}
             <div className="field">
-              <label>Hunting Grounds Description</label>
-              <input name="bladesHuntingGrounds" value={fields.bladesHuntingGrounds} onChange={handleText} placeholder="Describe your crew's hunting grounds..." />
+              <label>{t('bladesHuntingGroundsDesc')}</label>
+              <input name="bladesHuntingGrounds" value={fields.bladesHuntingGrounds} onChange={handleText} placeholder={t('bladesHuntingGroundsPh')} />
             </div>
           </fieldset>
           <fieldset>
-            <legend>Cohorts</legend>
-            <textarea name="bladesCohorts" value={fields.bladesCohorts} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="Describe your crew's cohorts (gangs, experts)..." />
+            <legend>{t('bladesCohorts')}</legend>
+            <textarea name="bladesCohorts" value={fields.bladesCohorts} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder={t('bladesCohortsPh')} />
           </fieldset>
         </div>
       </div>
@@ -284,7 +284,7 @@ export default function BladesCrewForm() {
       <div hidden={tab !== 3}>
         <div className="form-section">
           <fieldset>
-            <legend>Crew Contacts</legend>
+            <legend>{t('tabBladesCrewContacts')}</legend>
             {crewType ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
                 {crewType.contacts.map(contact => {
@@ -301,7 +301,7 @@ export default function BladesCrewForm() {
                 })}
               </div>
             ) : (
-              <p className="muted-hint">Select a crew type on the Identity tab to see contacts.</p>
+              <p className="muted-hint">{t('bladesSelectCrewForContacts')}</p>
             )}
           </fieldset>
         </div>
@@ -327,7 +327,7 @@ export default function BladesCrewForm() {
               <div className="field" style={{ flex: '0 0 140px' }}>
                 <label htmlFor="new-clock-type">{t('bladesClockType')}</label>
                 <select id="new-clock-type" value={newClockType} onChange={e => setNewClockType(e.target.value)}>
-                  {CLOCK_TYPES.map(ct => <option key={ct.value} value={ct.value}>{ct.label}</option>)}
+                  {CLOCK_TYPE_KEYS.map(ct => <option key={ct.value} value={ct.value}>{t(ct.labelKey)}</option>)}
                 </select>
               </div>
               <button type="button" className="btn btn-primary" style={{ height: 'fit-content' }}
@@ -385,8 +385,8 @@ export default function BladesCrewForm() {
       {/* Tab 5 - Notes */}
       <div hidden={tab !== 5}>
         <div className="form-section">
-          <fieldset><legend>Notes</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder="Session notes, plans, etc." /></fieldset>
-          <fieldset><legend>Backstory</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder="The crew's origin story..." /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={t('bladesCrewNotesPh')} /></fieldset>
+          <fieldset><legend>{t('tabBackstory')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={t('bladesCrewBackstoryPh')} /></fieldset>
         </div>
       </div>
 

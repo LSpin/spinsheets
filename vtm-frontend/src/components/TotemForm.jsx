@@ -248,7 +248,7 @@ export default function TotemForm() {
           <fieldset>
             <legend>{t('totemBan')}</legend>
             <div className="field" style={{ marginBottom: 'var(--space-sm)' }}>
-              <label>Select Totem Spirit</label>
+              <label>{t('totemSelectSpirit')}</label>
               <select value={(() => { const parts = (fields.backstory || '').split('||'); return parts[0]?.trim() || '' })()} onChange={e => {
                 const spiritName = e.target.value
                 const spirit = ALL_TOTEM_SPIRITS.find(s => s.name === spiritName)
@@ -260,7 +260,7 @@ export default function TotemForm() {
                   generation: spirit ? spirit.cost : prev.generation,
                 }))
               }}>
-                <option value="">-- Custom / None --</option>
+                <option value="">{t('totemCustomNone')}</option>
                 {Object.entries(TOTEM_SPIRITS).map(([category, spirits]) => (
                   <optgroup key={category} label={category}>
                     {spirits.map(s => <option key={s.name} value={s.name}>{s.name} (Cost: {s.cost})</option>)}
@@ -274,16 +274,16 @@ export default function TotemForm() {
               if (!spirit) return null
               return (
                 <div className="muted-hint" style={{ marginBottom: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'var(--bg-inset, #1a1a2e)', borderRadius: '4px' }}>
-                  <strong>Ban:</strong> {spirit.ban}
+                  <strong>{t('totemBanLabel')}:</strong> {spirit.ban}
                 </div>
               )
             })()}
-            <label>Custom Ban Notes</label>
+            <label>{t('totemCustomBanNotes')}</label>
             <textarea value={(fields.backstory || '').split('||')[1]?.trim() || ''} onChange={e => {
               const spiritName = (fields.backstory || '').split('||')[0]?.trim() || ''
               const custom = e.target.value
               setFields(prev => ({ ...prev, backstory: custom ? `${spiritName}||${custom}` : spiritName }))
-            }} rows={2} style={{ width: '100%' }} placeholder="Additional ban notes..." />
+            }} rows={2} style={{ width: '100%' }} placeholder={t('totemBanNotesPh')} />
           </fieldset>
           <fieldset>
             <legend>{t('totemPackBenefits')}</legend>
@@ -293,11 +293,11 @@ export default function TotemForm() {
               if (!spirit) return null
               return (
                 <div className="muted-hint" style={{ marginBottom: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'var(--bg-inset, #1a1a2e)', borderRadius: '4px' }}>
-                  <strong>Totem Benefits ({spirit.name}):</strong> {spirit.benefits}
+                  <strong>{t('totemBenefitsLabel').replace('{0}', spirit.name)}:</strong> {spirit.benefits}
                 </div>
               )
             })()}
-            <label>Custom Pack Benefits</label>
+            <label>{t('totemCustomPackBenefits')}</label>
             <textarea name="concept" value={fields.concept} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder={t('totemBenefitsPh')} />
           </fieldset>
         </div>
@@ -338,8 +338,8 @@ export default function TotemForm() {
             return <TagInfoPanel entry={entry || { name: tagInfo.name }} onClose={() => setTagInfo(null)} />
           })()}
           <fieldset>
-            <legend>Quick Charms</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>Select common totem charms below. These are stored alongside custom notes.</p>
+            <legend>{t('totemQuickCharms')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('totemQuickCharmsHint')}</p>
             <div className="rating-grid">
               {TOTEM_CHARMS.map(charm => {
                 const selectedCharmNames = (fields.notes || '').split('||')[0]?.split(',').map(s => s.trim()).filter(Boolean) || []
@@ -365,7 +365,7 @@ export default function TotemForm() {
               const charmsPart = selectedCharmNames.join(', ')
               const custom = e.target.value
               setFields(prev => ({ ...prev, notes: custom ? `${charmsPart}||${custom}` : charmsPart }))
-            }} rows={4} style={{ width: '100%' }} placeholder="Additional charm notes..." />
+            }} rows={4} style={{ width: '100%' }} placeholder={t('totemCharmNotesPh')} />
           </fieldset>
         </div>
       </div>

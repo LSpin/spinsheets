@@ -403,7 +403,7 @@ export default function BladesForm() {
         <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', cursor: 'pointer' }}>
           <input type="checkbox" checked={deepCuts} onChange={toggleDeepCuts} />
           <strong>{t('bladesDeepCuts')}</strong>
-          <span className="muted-hint muted-hint--xs">(supernatural playbooks, extra items & economy)</span>
+          <span className="muted-hint muted-hint--xs">{t('bladesDeepCutsHint')}</span>
         </label>
       </div>
 
@@ -475,7 +475,7 @@ export default function BladesForm() {
           <fieldset>
             <legend>{t('bladesActionRatings')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
-              Click dots to set action ratings (0-4). Click XP pips to track attribute experience.
+              {t('bladesActionRatingsHint')}
             </p>
             <div className="blades-actions-grid">
               <ActionColumn title="Insight" actions={INSIGHT_ACTIONS} xpKey="bladesInsightXp" />
@@ -486,7 +486,7 @@ export default function BladesForm() {
           <fieldset>
             <legend>{t('bladesPlaybookXp')}</legend>
             <div className="blades-xp-row">
-              <span className="blades-action-label">Playbook XP</span>
+              <span className="blades-action-label">{t('bladesPlaybookXp')}</span>
               <XpPips value={fields.bladesPlaybookXp} max={8} onChange={v => handleField('bladesPlaybookXp', v)} />
             </div>
           </fieldset>
@@ -499,7 +499,7 @@ export default function BladesForm() {
           <fieldset>
             <legend>{t('bladesSpecialAbilities')}{selectedPlaybook ? ` - ${fields.bladesPlaybook}` : ''}</legend>
             {!selectedPlaybook && (
-              <p className="muted-hint">Select a playbook on the Identity tab to see available abilities.</p>
+              <p className="muted-hint">{t('bladesSelectPlaybookHint')}</p>
             )}
             {selectedPlaybook?.abilities?.map(ability => (
               <label key={ability.name} className="blades-ability-row" style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-start', padding: 'var(--space-xs) 0' }}>
@@ -513,9 +513,9 @@ export default function BladesForm() {
             ))}
             <hr style={{ margin: 'var(--space-md) 0', opacity: 0.3 }} />
             <details>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Veteran Abilities (from other playbooks)</summary>
+              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('bladesVeteranAbilities')}</summary>
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-                Pick abilities from other playbooks as a veteran advance.
+                {t('bladesVeteranAbilitiesHint')}
               </p>
               {Object.entries(BLADES_PLAYBOOKS).filter(([name]) => name !== fields.bladesPlaybook).map(([name, pb]) => (
                 <details key={name} style={{ marginBottom: 'var(--space-xs)' }}>
@@ -543,7 +543,7 @@ export default function BladesForm() {
           <fieldset>
             <legend>{t('bladesStress')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Click to set stress level (0-9). At 9+ you suffer trauma.
+              {t('bladesStressHint')}
             </p>
             <div className="blades-stress-track">
               {Array.from({ length: 9 }, (_, i) => (
@@ -564,8 +564,8 @@ export default function BladesForm() {
           <fieldset>
             <legend>{t('bladesTrauma')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Check trauma conditions. Max 4 trauma — a character is retired at 4.
-              {selectedTrauma.length >= 4 && <span style={{ color: 'var(--color-danger)', fontWeight: 600 }}> Warning: character has 4 trauma!</span>}
+              {t('bladesTraumaHint')}
+              {selectedTrauma.length >= 4 && <span style={{ color: 'var(--color-danger)', fontWeight: 600 }}> {t('bladesTraumaWarning')}</span>}
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)' }}>
               {BLADES_TRAUMA_CONDITIONS.map(tc => (
@@ -580,16 +580,16 @@ export default function BladesForm() {
             <legend>{t('bladesHarm')}</legend>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
               <div className="field-row">
-                <span style={{ minWidth: '80px', fontWeight: 600, fontSize: '0.85rem' }}>Level 3 (Fatal)</span>
+                <span style={{ minWidth: '80px', fontWeight: 600, fontSize: '0.85rem' }}>{t('bladesHarmLevel3')}</span>
                 <div className="field" style={{ flex: 1 }}><input name="bladesHarm3" value={fields.bladesHarm3} onChange={handleText} placeholder="Need fatal" /></div>
               </div>
               <div className="field-row">
-                <span style={{ minWidth: '80px', fontWeight: 600, fontSize: '0.85rem' }}>Level 2 (Severe)</span>
+                <span style={{ minWidth: '80px', fontWeight: 600, fontSize: '0.85rem' }}>{t('bladesHarmLevel2')}</span>
                 <div className="field" style={{ flex: 1 }}><input name="bladesHarm2a" value={fields.bladesHarm2a} onChange={handleText} placeholder="-1d" /></div>
                 <div className="field" style={{ flex: 1 }}><input name="bladesHarm2b" value={fields.bladesHarm2b} onChange={handleText} placeholder="-1d" /></div>
               </div>
               <div className="field-row">
-                <span style={{ minWidth: '80px', fontWeight: 600, fontSize: '0.85rem' }}>Level 1 (Lesser)</span>
+                <span style={{ minWidth: '80px', fontWeight: 600, fontSize: '0.85rem' }}>{t('bladesHarmLevel1')}</span>
                 <div className="field" style={{ flex: 1 }}><input name="bladesHarm1a" value={fields.bladesHarm1a} onChange={handleText} placeholder="Less effect" /></div>
                 <div className="field" style={{ flex: 1 }}><input name="bladesHarm1b" value={fields.bladesHarm1b} onChange={handleText} placeholder="Less effect" /></div>
               </div>
@@ -598,7 +598,7 @@ export default function BladesForm() {
           <fieldset>
             <legend>{t('bladesHealingClock')}</legend>
             <div className="blades-xp-row">
-              <span className="blades-action-label">Healing</span>
+              <span className="blades-action-label">{t('bladesHealing')}</span>
               <XpPips value={fields.bladesHealingClock} max={4} onChange={v => handleField('bladesHealingClock', v)} />
             </div>
           </fieldset>
@@ -661,8 +661,8 @@ export default function BladesForm() {
               ))}
             </div>
             <p className="muted-hint muted-hint--xs">
-              Current load: <strong>{currentLoad}</strong> / {fields.bladesLoad || '?'}
-              {fields.bladesLoad > 0 && currentLoad > fields.bladesLoad && <span style={{ color: 'var(--color-danger)', fontWeight: 600 }}> Over encumbered!</span>}
+              {t('bladesCurrentLoad')}: <strong>{currentLoad}</strong> / {fields.bladesLoad || '?'}
+              {fields.bladesLoad > 0 && currentLoad > fields.bladesLoad && <span style={{ color: 'var(--color-danger)', fontWeight: 600 }}> {t('bladesOverEncumbered')}</span>}
             </p>
           </fieldset>
           <fieldset>
@@ -678,7 +678,7 @@ export default function BladesForm() {
           </fieldset>
           {selectedPlaybook?.items?.length > 0 && (
             <fieldset>
-              <legend>{fields.bladesPlaybook} Items</legend>
+              <legend>{fields.bladesPlaybook} {t('bladesItemsSuffix')}</legend>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
                 {selectedPlaybook?.items?.map(item => (
                   <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: '0.85rem' }}>
@@ -719,7 +719,7 @@ export default function BladesForm() {
           <fieldset>
             <legend>{t('bladesCustomContacts')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Add allies, enemies, and other contacts beyond your playbook defaults.
+              {t('bladesCustomContactsHint')}
             </p>
             <div className="field-row" style={{ marginBottom: 'var(--space-sm)' }}>
               <div className="field" style={{ flex: 2 }}>

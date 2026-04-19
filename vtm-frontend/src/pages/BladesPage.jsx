@@ -127,13 +127,13 @@ export default function BladesPage() {
             <h2>{t('bladesCrews')}</h2>
           </div>
           {crews.length === 0 ? (
-            <div className="empty-state"><p>No crew sheets yet. Create one to manage your crew.</p></div>
+            <div className="empty-state"><p>{t('bladesNoCrewYet')}</p></div>
           ) : (
             <ul className="character-list" aria-label={t('bladesCrews')}>
               {crews.map(c => (
                 <li key={c.id} className="character-card">
                   <div className="character-card-info">
-                    <h3>{c.name || 'Unnamed Crew'}</h3>
+                    <h3>{c.name || t('bladesUnnamedCrew')}</h3>
                     <dl className="character-card-meta">
                       <dt className="sr-only">Type</dt>
                       <dd className="splat-badge splat-badge--blades">Crew</dd>

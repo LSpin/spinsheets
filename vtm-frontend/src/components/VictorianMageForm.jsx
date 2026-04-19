@@ -838,15 +838,15 @@ export default function VictorianMageForm() {
           <fieldset>
             <legend>{t('rotes')} ({rotes.length})</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Rotes are tried-and-true magical Effects — specific spells you have practiced and perfected.
+              {t('rotesHint')}
             </p>
             {rotes.length > 0 && (
               <table className="rote-table" style={{ width: '100%', marginBottom: 'var(--space-md)', fontSize: '0.85rem' }}>
                 <thead>
                   <tr>
                     <th style={{ textAlign: 'left' }}>{t('name')}</th>
-                    <th style={{ textAlign: 'left' }}>Spheres</th>
-                    <th>Lv</th>
+                    <th style={{ textAlign: 'left' }}>{t('spheres')}</th>
+                    <th>{t('levelAbbr')}</th>
                     <th style={{ textAlign: 'left' }}>{t('description')}</th>
                     <th></th>
                   </tr>
@@ -868,18 +868,18 @@ export default function VictorianMageForm() {
               <div className="field" style={{ flex: 2 }}>
                 <label>{t('name')}</label>
                 <input type="text" value={newRote.name} onChange={e => setNewRote(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="Rote name..." list="rote-catalog-list" />
+                  placeholder={t('roteNamePh')} list="rote-catalog-list" />
                 <datalist id="rote-catalog-list">
                   {MAGE_ROTES.map(r => <option key={r.name} value={r.name} />)}
                 </datalist>
               </div>
               <div className="field" style={{ flex: 1 }}>
-                <label>Spheres</label>
+                <label>{t('spheres')}</label>
                 <input type="text" value={newRote.spheres} onChange={e => setNewRote(prev => ({ ...prev, spheres: e.target.value }))}
-                  placeholder="e.g. Forces 3, Prime 2" />
+                  placeholder={t('spheresExamplePh')} />
               </div>
               <div className="field" style={{ flex: 0, minWidth: 60 }}>
-                <label>Lv</label>
+                <label>{t('levelAbbr')}</label>
                 <select value={newRote.level} onChange={e => setNewRote(prev => ({ ...prev, level: parseInt(e.target.value) }))}>
                   {[1,2,3,4,5].map(n => <option key={n} value={n}>{n}</option>)}
                 </select>
@@ -888,16 +888,16 @@ export default function VictorianMageForm() {
             <div className="field" style={{ marginBottom: 'var(--space-sm)' }}>
               <label>{t('description')}</label>
               <textarea value={newRote.description} onChange={e => setNewRote(prev => ({ ...prev, description: e.target.value }))}
-                rows={2} style={{ width: '100%' }} placeholder="What does this rote do?" />
+                rows={2} style={{ width: '100%' }} placeholder={t('roteDescPh')} />
             </div>
             <button className="btn btn-primary btn-sm" onClick={handleAddRote}>{t('add')}</button>
           </fieldset>
 
           <fieldset>
-            <legend>Rote Catalogue</legend>
+            <legend>{t('roteCatalogue')}</legend>
             <details>
               <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>
-                Browse {MAGE_ROTES.length} rotes...
+                {t('roteBrowse').replace('{0}', MAGE_ROTES.length)}
               </summary>
               <ul className="catalog-list" style={{ marginTop: 'var(--space-sm)' }}>
                 {MAGE_ROTES.map(r => {
@@ -932,9 +932,9 @@ export default function VictorianMageForm() {
       <div hidden={tab !== 6}>
         <div className="form-section">
           <fieldset>
-            <legend>Wonders ({disciplines.length})</legend>
+            <legend>{t('wondersLegend')} ({disciplines.length})</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Wonders are magical items — Talismans, Devices, Artifacts, Periapts, and more. Created with Prime + other Spheres.
+              {t('wondersHint')}
             </p>
             {disciplines.length > 0 && (
               <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
@@ -959,8 +959,8 @@ export default function VictorianMageForm() {
                 <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
-                  <p className="tag-info-panel-desc">Wonder · Level {tagInfo.level}{tagInfo.notes ? ` · ${tagInfo.notes}` : ''}</p>
-                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>Spheres: {entry.spheres}. {entry.description}</p>}
+                  <p className="tag-info-panel-desc">{t('wondersLegend')} · {t('levelAbbr')} {tagInfo.level}{tagInfo.notes ? ` · ${tagInfo.notes}` : ''}</p>
+                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{t('spheres')}: {entry.spheres}. {entry.description}</p>}
                 </aside>
               )
             })()}
@@ -968,7 +968,7 @@ export default function VictorianMageForm() {
 
           {/* Wonder Types Reference */}
           <fieldset>
-            <legend>Wonder Types</legend>
+            <legend>{t('wonderTypes')}</legend>
             {WONDER_TYPES.map(wt => (
               <details key={wt.key} style={{ marginBottom: 'var(--space-xs)' }}>
                 <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{wt.label}</summary>
@@ -979,9 +979,9 @@ export default function VictorianMageForm() {
 
           {/* Wonder Catalogue */}
           <fieldset>
-            <legend>Wonder Catalogue ({MAGE_WONDERS.length})</legend>
+            <legend>{t('wonderCatalogue')} ({MAGE_WONDERS.length})</legend>
             <div className="catalog-search-wrap">
-              <input type="search" value={wonderSearch} onChange={e => setWonderSearch(e.target.value)} placeholder="Search wonders by name, type, spheres, or effect..." />
+              <input type="search" value={wonderSearch} onChange={e => setWonderSearch(e.target.value)} placeholder={t('wonderSearchPh')} />
               <span className="catalog-search-count">{MAGE_WONDERS.filter(w => !wonderSearch || w.name.toLowerCase().includes(wonderSearch.toLowerCase()) || w.type.toLowerCase().includes(wonderSearch.toLowerCase()) || w.spheres.toLowerCase().includes(wonderSearch.toLowerCase()) || w.description.toLowerCase().includes(wonderSearch.toLowerCase())).length}</span>
             </div>
             <ul className="catalog-list">
@@ -1009,36 +1009,36 @@ export default function VictorianMageForm() {
 
           {/* Custom Wonder Creator */}
           <fieldset>
-            <legend>Create Custom Wonder</legend>
+            <legend>{t('createCustomWonder')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Design your own Wonder. Give it a name, level, type, and description.
+              {t('createCustomWonderHint')}
             </p>
             <div className="field-row">
               <div className="field" style={{ flex: 2 }}>
-                <label>Wonder Name</label>
-                <input type="text" value={newWonder.name} onChange={e => setNewWonder(p => ({ ...p, name: e.target.value }))} placeholder="Name your creation..." />
+                <label>{t('wonderName')}</label>
+                <input type="text" value={newWonder.name} onChange={e => setNewWonder(p => ({ ...p, name: e.target.value }))} placeholder={t('wonderNamePh')} />
               </div>
               <div className="field" style={{ width: 70 }}>
-                <label>Level</label>
+                <label>{t('levelAbbr')}</label>
                 <select value={newWonder.level} onChange={e => setNewWonder(p => ({ ...p, level: parseInt(e.target.value) }))}>
                   {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
                 </select>
               </div>
               <div className="field">
-                <label>Type</label>
+                <label>{t('type')}</label>
                 <select value={newWonder.notes} onChange={e => setNewWonder(p => ({ ...p, notes: e.target.value }))}>
-                  <option value="">Select type...</option>
+                  <option value="">{t('selectType')}</option>
                   {WONDER_TYPES.map(wt => <option key={wt.key} value={wt.label}>{wt.label}</option>)}
                 </select>
               </div>
             </div>
             <div className="field">
-              <label>Spheres Required</label>
-              <input type="text" value={newWonder.spheres || ''} onChange={e => setNewWonder(p => ({ ...p, spheres: e.target.value }))} placeholder="e.g. Forces 3, Prime 2" />
+              <label>{t('spheresRequired')}</label>
+              <input type="text" value={newWonder.spheres || ''} onChange={e => setNewWonder(p => ({ ...p, spheres: e.target.value }))} placeholder={t('spheresExamplePh')} />
             </div>
             <div className="field">
-              <label>Description / Powers</label>
-              <textarea value={newWonder.description || ''} onChange={e => setNewWonder(p => ({ ...p, description: e.target.value }))} rows={3} style={{ width: '100%' }} placeholder="What does this Wonder do?" />
+              <label>{t('wonderDescLabel')}</label>
+              <textarea value={newWonder.description || ''} onChange={e => setNewWonder(p => ({ ...p, description: e.target.value }))} rows={3} style={{ width: '100%' }} placeholder={t('wonderDescPh')} />
             </div>
             <button className="btn btn-secondary" onClick={() => {
               if (!newWonder.name.trim()) return
@@ -1145,10 +1145,10 @@ export default function VictorianMageForm() {
           </fieldset>
 
           <fieldset>
-            <legend>Background Catalogue ({BACKGROUNDS.length})</legend>
+            <legend>{t('backgroundCatalogue')} ({BACKGROUNDS.length})</legend>
             <div className="catalog-search-wrap">
               <input type="search" value={bgSearch} onChange={e => setBgSearch(e.target.value)}
-                placeholder="Search backgrounds..." aria-label="Search backgrounds" />
+                placeholder={t('searchBackgroundsPh')} aria-label={t('searchBackgroundsPh')} />
               <span className="catalog-search-count">{BACKGROUNDS.filter(b => !bgSearch || b.value.toLowerCase().includes(bgSearch.toLowerCase()) || (b.description || '').toLowerCase().includes(bgSearch.toLowerCase())).length}</span>
             </div>
             <ul className="catalog-list" aria-label="Background catalogue">
@@ -1198,9 +1198,9 @@ export default function VictorianMageForm() {
       <div hidden={tab !== 11}>
         <div className="form-section">
           <fieldset>
-            <legend>Paradigm</legend>
+            <legend>{t('paradigm')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Your worldview — how you understand reality and magic. Mages typically hold one paradigm.
+              {t('paradigmHint')}
             </p>
             <div className="focus-catalog" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
               {MAGE_PARADIGMS.map(p => {
@@ -1224,14 +1224,14 @@ export default function VictorianMageForm() {
             </div>
             {fields.paradigm && (
               <button type="button" className="btn btn-secondary btn-sm" style={{ marginTop: 'var(--space-xs)' }}
-                onClick={() => handleField('paradigm', '')}>Clear selection</button>
+                onClick={() => handleField('paradigm', '')}>{t('clearSelection')}</button>
             )}
           </fieldset>
 
           <fieldset>
-            <legend>Practice</legend>
+            <legend>{t('practice')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              The methods you use to work magic. Most mages have 1-3 practices.
+              {t('practiceHint')}
             </p>
             {(() => {
               const selected = fields.practice ? fields.practice.split(',').map(s => s.trim()).filter(Boolean) : []
@@ -1261,7 +1261,7 @@ export default function VictorianMageForm() {
                   })}
                   {selected.length > 0 && (
                     <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>
-                      Selected ({selected.length}): {selected.join(', ')}
+                      {t('selectedCount').replace('{0}', selected.length)}: {selected.join(', ')}
                     </p>
                   )}
                 </div>
@@ -1270,9 +1270,9 @@ export default function VictorianMageForm() {
           </fieldset>
 
           <fieldset>
-            <legend>Instruments</legend>
+            <legend>{t('instruments')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              The tools and foci you use. Mages typically have 5-7 instruments. As Arete rises, you may discard instruments.
+              {t('instrumentsHint')}
             </p>
             {(() => {
               const selected = fields.instruments ? fields.instruments.split(',').map(s => s.trim()).filter(Boolean) : []
@@ -1285,7 +1285,7 @@ export default function VictorianMageForm() {
                 <>
                   {selected.length > 0 && (
                     <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)', fontWeight: 600 }}>
-                      Selected ({selected.length}): {selected.join(', ')}
+                      {t('selectedCount').replace('{0}', selected.length)}: {selected.join(', ')}
                     </p>
                   )}
                   <div className="focus-catalog" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
@@ -1313,22 +1313,22 @@ export default function VictorianMageForm() {
           </fieldset>
 
           <fieldset>
-            <legend>Focus Notes</legend>
+            <legend>{t('focusNotesLabel')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Additional notes about your Focus — custom instruments, paradigm details, or practice variations.
+              {t('focusNotesHint')}
             </p>
             <textarea name="focusNotes" value={fields.focusNotes} onChange={handleText} rows={4} style={{ width: '100%' }}
-              placeholder="Any custom additions or notes about your Focus..." />
+              placeholder={t('focusNotesPh')} />
           </fieldset>
 
           <fieldset>
-            <legend>Chantry</legend>
+            <legend>{t('chantryLegend')}</legend>
             <div className="field-row">
-              <div className="field"><label>Chantry Name</label><input name="chantryName" value={fields.chantryName} onChange={handleText} placeholder="Name of your shared sanctum..." /></div>
+              <div className="field"><label>{t('chantryName')}</label><input name="chantryName" value={fields.chantryName} onChange={handleText} placeholder={t('chantryNamePh')} /></div>
             </div>
             <div className="field">
-              <label>Chantry Description</label>
-              <textarea name="chantryDescription" value={fields.chantryDescription} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="Location, defenses, Node rating, library, members..." />
+              <label>{t('chantryDescLabel')}</label>
+              <textarea name="chantryDescription" value={fields.chantryDescription} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder={t('chantryDescPh')} />
             </div>
           </fieldset>
         </div>

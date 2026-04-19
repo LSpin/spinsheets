@@ -334,7 +334,7 @@ export default function GhoulForm() {
                     <label>{t('notes')}</label>
                     <textarea value={discNotes}
                       onChange={e => setFields(prev => ({ ...prev, sorceryDesc: serializeGhoulSorceryDesc(discMap, e.target.value) }))}
-                      rows={3} style={{ width: '100%' }} placeholder="Additional notes about your disciplines..." />
+                      rows={3} style={{ width: '100%' }} placeholder={t('ghoulDiscNotesPh')} />
                   </div>
                 </>
               )

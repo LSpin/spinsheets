@@ -317,7 +317,7 @@ export default function KinfolkForm() {
           <fieldset>
             <legend>{t('tabGifts')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Kinfolk can learn level 1 Gifts that don't require Gnosis to activate.
+              {t('kinfolkGiftHint')}
             </p>
             {(() => {
               const { gifts, numina: numinaMap, notes: kinNotes } = parseKinfolkSorceryDesc(fields.sorceryDesc)
@@ -343,9 +343,9 @@ export default function KinfolkForm() {
             })()}
           </fieldset>
           <fieldset>
-            <legend>Numina</legend>
+            <legend>{t('kinfolkNumina')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Kinfolk-specific psychic abilities.
+              {t('kinfolkNuminaHint')}
             </p>
             {(() => {
               const { gifts, numina: numinaMap, notes: kinNotes } = parseKinfolkSorceryDesc(fields.sorceryDesc)
@@ -367,7 +367,7 @@ export default function KinfolkForm() {
                     <label>{t('notes')}</label>
                     <textarea value={kinNotes}
                       onChange={e => setFields(prev => ({ ...prev, sorceryDesc: serializeKinfolkSorceryDesc(gifts, numinaMap, e.target.value) }))}
-                      rows={3} style={{ width: '100%' }} placeholder="Additional notes about your gifts and numina..." />
+                      rows={3} style={{ width: '100%' }} placeholder={t('kinfolkGiftNotesPh')} />
                   </div>
                 </>
               )

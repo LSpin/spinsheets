@@ -254,8 +254,8 @@ export default function FamiliarForm() {
             return <TagInfoPanel entry={entry || { name: tagInfo.name }} onClose={() => setTagInfo(null)} />
           })()}
           <fieldset>
-            <legend>Quick Powers</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>Select common familiar powers below. These are stored alongside custom notes.</p>
+            <legend>{t('familiarQuickPowers')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('familiarQuickPowersHint')}</p>
             <div className="rating-grid">
               {FAMILIAR_POWERS_CATALOG.map(power => {
                 const selectedPowerNames = (fields.notes || '').split('||')[0]?.split(',').map(s => s.trim()).filter(Boolean) || []
@@ -281,7 +281,7 @@ export default function FamiliarForm() {
               const powersPart = selectedPowerNames.join(', ')
               const custom = e.target.value
               setFields(prev => ({ ...prev, notes: custom ? `${powersPart}||${custom}` : powersPart }))
-            }} rows={4} style={{ width: '100%' }} placeholder="Additional power notes..." />
+            }} rows={4} style={{ width: '100%' }} placeholder={t('familiarPowerNotesPh')} />
           </fieldset>
         </div>
       </div>
