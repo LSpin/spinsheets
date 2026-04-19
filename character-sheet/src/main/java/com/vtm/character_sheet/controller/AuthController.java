@@ -3,6 +3,7 @@ package com.vtm.character_sheet.controller;
 import com.vtm.character_sheet.security.CharacterAccessChecker;
 import com.vtm.character_sheet.repository.AppUserRepository;
 import com.vtm.character_sheet.service.AuthService;
+import com.vtm.character_sheet.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class AuthController {
     private final AuthService authService;
     private final CharacterAccessChecker access;
     private final AppUserRepository userRepository;
+    private final NotificationService notificationService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> body) {
@@ -81,6 +83,25 @@ public class AuthController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+        if (email == null || email.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Email is required"));
+        }
+        // Always return success to prevent email enumeration
+        try {
+            var user = userRepository.findByEmail(email.trim());
+            if (user.isPresent()) {
+                String token = authService.createResetToken(user.get().getUsername());
+                notificationService.sendPasswordResetEmail(user.get(), token);
+            }
+        } catch (Exception e) {
+            // Silently fail — don't reveal whether email exists
+        }
+        return ResponseEntity.ok(Map.of("message", "If an account with that email exists, a reset link has been sent."));
     }
 
     @PostMapping("/reset-request")

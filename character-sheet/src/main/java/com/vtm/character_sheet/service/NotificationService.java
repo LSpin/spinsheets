@@ -97,6 +97,56 @@ public class NotificationService {
     }
 
     @Async
+    public void sendPasswordResetEmail(AppUser user, String resetToken) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setFrom(fromEmail);
+            helper.setTo(user.getEmail());
+            helper.setSubject("SpinSheets — Password Reset");
+            helper.setText(buildResetHtml(user.getUsername(), resetToken), true);
+            mailSender.send(message);
+            log.info("Password reset email sent to: {}", user.getEmail());
+        } catch (Exception e) {
+            log.error("Failed to send password reset email to {}: {}", user.getEmail(), e.getMessage(), e);
+        }
+    }
+
+    private String buildResetHtml(String username, String token) {
+        return """
+            <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 560px; margin: 0 auto; background: #1a1a2e; color: #e0e0e0; border-radius: 8px; overflow: hidden;">
+              <div style="background: #16213e; padding: 28px 32px; text-align: center;">
+                <h1 style="margin: 0; font-size: 26px; color: #c4a35a; letter-spacing: 1px;">SpinSheets</h1>
+              </div>
+              <div style="padding: 32px;">
+                <h2 style="color: #c4a35a; margin-top: 0;">Password Reset</h2>
+                <p style="font-size: 15px; line-height: 1.6; color: #ccc;">
+                  Hi %s, we received a request to reset your password.
+                </p>
+                <p style="font-size: 15px; line-height: 1.6; color: #ccc;">
+                  Click the button below to set a new password. This link expires in 1 hour.
+                </p>
+                <div style="margin: 28px 0; text-align: center;">
+                  <a href="https://spinsheets.com/reset-password?token=%s"
+                     style="display: inline-block; background: #c4a35a; color: #1a1a2e; padding: 12px 32px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 15px;">
+                    Reset Password
+                  </a>
+                </div>
+                <p style="font-size: 13px; color: #888;">
+                  If you didn't request this, you can safely ignore this email.
+                </p>
+                <p style="font-size: 12px; color: #666; word-break: break-all;">
+                  Or paste this token manually: %s
+                </p>
+              </div>
+              <div style="background: #16213e; padding: 16px 32px; text-align: center; font-size: 12px; color: #666;">
+                &copy; SpinSheets
+              </div>
+            </div>
+            """.formatted(username, token, token);
+    }
+
+    @Async
     public void notifyAccountDeletion(AppUser user) {
         try {
             SimpleMailMessage msg = new SimpleMailMessage();
