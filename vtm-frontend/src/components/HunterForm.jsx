@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   getCharacter, updateCharacter,
+  getBackgrounds, addBackground, removeBackground,
+  getMeritCatalog, getFlawCatalog,
+  getMerits, getFlaws,
+  getInventory,
   getXpLog, addXpLogEntry, removeXpLogEntry,
 } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
@@ -10,6 +14,10 @@ import XpLogSection from './XpLogSection'
 import CatalogSelect from './CatalogSelect'
 import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
+import MeritsFlawsSection from './MeritsFlawsSection'
+import InventorySection from './InventorySection'
+import TagInfoPanel from './TagInfoPanel'
+import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { useLanguage } from '../i18n/LanguageContext'
 
 const ARCHETYPES = [
@@ -58,8 +66,42 @@ const VIRTUES = [
   { value: 'Zeal', description: 'Righteous fury. Destroy evil wherever it hides.' },
 ]
 
+const HUNTER_BACKGROUNDS = [
+  { value: 'Allies', description: 'Mortals who actively support and assist you.', levels: ['One helpful contact.', 'A small group of supporters.', 'A reliable network.', 'Multiple groups across fields.', 'Powerful allies with broad influence.'] },
+  { value: 'Arsenal', description: 'Access to weapons and hunter gear.', levels: ['Basic self-defense items.', 'A modest personal armory.', 'Serious weaponry and tactical gear.', 'Military-grade equipment.', 'An extensive arsenal.'] },
+  { value: 'Contacts', description: 'Information sources across society.', levels: ['One or two people in a single field.', 'A small network spanning a couple of fields.', 'Informants across several areas.', 'Sources in most walks of life.', 'Extensive intelligence network.'] },
+  { value: 'Fame', description: 'Public recognition and celebrity.', levels: ['Known in a small niche.', 'Known locally.', 'Regional celebrity.', 'National prominence.', 'International fame.'] },
+  { value: 'Influence', description: 'Power within mortal institutions.', levels: ['Minor pull in one institution.', 'Reliable leverage in a couple of organisations.', 'Significant sway in several institutions.', 'Major power across multiple sectors.', 'Commanding influence.'] },
+  { value: 'Mentor', description: 'An experienced hunter who guides you.', levels: ['Occasional advice.', 'Active support and guidance.', 'Real influence in hunter circles.', 'Considerable status, intervenes when needed.', 'Legendary hunter whose favour opens doors.'] },
+  { value: 'Resources', description: 'Wealth, assets, property, and financial power.', levels: ['Modest savings.', 'Comfortable middle-class.', 'Affluent with significant assets.', 'Wealthy with few financial limits.', 'Vast, effectively unlimited wealth.'] },
+  { value: 'Retainers', description: 'Loyal followers who carry out your will.', levels: ['One loyal assistant.', 'A couple of reliable helpers.', 'Several capable retainers.', 'A staff covering most needs.', 'A household of devoted specialists.'] },
+]
+
+function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, onText, catalog, max = 5 }) {
+  const match = catalog?.find(c => c.value === fields[nameProp])
+  return (
+    <div className="custom-ability-row">
+      <input
+        type="text"
+        name={nameProp}
+        value={fields[nameProp]}
+        onChange={onText}
+        placeholder={placeholder}
+        aria-label={`${placeholder} name`}
+        className="custom-ability-name"
+        list={`${nameProp}-list`}
+      />
+      <datalist id={`${nameProp}-list`}>
+        {catalog?.map(c => <option key={c.value} value={c.value} />)}
+      </datalist>
+      <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={onField} max={max} />
+      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1', margin: 0 }}>{match.description}</p>}
+    </div>
+  )
+}
+
 const INITIAL = {
-  splat: 'HUNTER', npc: true,
+  splat: 'HUNTER', npc: false,
   name: '', concept: '', nature: '', demeanor: '',
   clan: '', // Creed
   sect: '', // Primary Virtue
@@ -72,14 +114,54 @@ const INITIAL = {
   larceny: 0, melee: 0, performance: 0, stealth: 0, survival: 0,
   academics: 0, computer: 0, finance: 0, investigation: 0, law: 0,
   linguistics: 0, medicine: 0, occult: 0, politics: 0, science: 0, technology: 0,
+  // Secondary Abilities
+  hobbyTalent1Name: '', hobbyTalent1: 0,
+  hobbyTalent2Name: '', hobbyTalent2: 0,
+  hobbyTalent3Name: '', hobbyTalent3: 0,
+  hobbyTalent4Name: '', hobbyTalent4: 0,
+  hobbyTalent5Name: '', hobbyTalent5: 0,
+  hobbyTalent6Name: '', hobbyTalent6: 0,
+  hobbyTalent7Name: '', hobbyTalent7: 0,
+  hobbyTalent8Name: '', hobbyTalent8: 0,
+  hobbyTalent9Name: '', hobbyTalent9: 0,
+  hobbyTalent10Name: '', hobbyTalent10: 0,
+  profSkill1Name: '', profSkill1: 0,
+  profSkill2Name: '', profSkill2: 0,
+  profSkill3Name: '', profSkill3: 0,
+  profSkill4Name: '', profSkill4: 0,
+  profSkill5Name: '', profSkill5: 0,
+  profSkill6Name: '', profSkill6: 0,
+  profSkill7Name: '', profSkill7: 0,
+  profSkill8Name: '', profSkill8: 0,
+  profSkill9Name: '', profSkill9: 0,
+  profSkill10Name: '', profSkill10: 0,
+  expertKnowl1Name: '', expertKnowl1: 0,
+  expertKnowl2Name: '', expertKnowl2: 0,
+  expertKnowl3Name: '', expertKnowl3: 0,
+  expertKnowl4Name: '', expertKnowl4: 0,
+  expertKnowl5Name: '', expertKnowl5: 0,
+  expertKnowl6Name: '', expertKnowl6: 0,
+  expertKnowl7Name: '', expertKnowl7: 0,
+  expertKnowl8Name: '', expertKnowl8: 0,
+  expertKnowl9Name: '', expertKnowl9: 0,
+  expertKnowl10Name: '', expertKnowl10: 0,
   willpower: 3, currentWillpower: 3,
   rage: 0, currentRage: 0, // Conviction
   gnosis: 0, currentGnosis: 0, // Edge points
+  // Health
+  healthBruised: '', healthHurt: '', healthInjured: '', healthWounded: '', healthMauled: '', healthCrippled: '', healthIncap: '',
   notes: '', backstory: '', appearanceDesc: '',
   sorceryDesc: '', // Edges description
+  goals: '', allies: '', enemies: '',
+  personalItems: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabEdges', 'tabHealth', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
+const TAB_KEYS = [
+  'tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities',
+  'tabEdges', 'tabAdvantages', 'tabHealth',
+  'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory',
+  'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller'
+]
 
 export default function HunterForm() {
   const { id: paramId } = useParams()
@@ -93,18 +175,35 @@ export default function HunterForm() {
 
   const [tab, setTab] = useState(0)
   const [fields, setFields] = useState(INITIAL)
+  const [backgrounds, setBackgrounds] = useState([])
+  const [merits, setMerits] = useState([])
+  const [flaws, setFlaws] = useState([])
+  const [meritCatalog, setMeritCatalog] = useState([])
+  const [flawCatalog, setFlawCatalog] = useState([])
+  const [inventory, setInventory] = useState([])
+  const [newBackground, setNewBackground] = useState({ name: '', level: 1, description: '' })
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
+  const [tagInfo, setTagInfo] = useState(null)
+  const [bgSearch, setBgSearch] = useState('')
 
-  useEffect(() => { if (characterId) loadCharacter() }, [characterId])
+  useEffect(() => {
+    if (characterId) loadCharacter()
+    loadCatalogs()
+  }, [characterId])
 
   async function loadCharacter() {
     try {
-      const [charRes, xpRes] = await Promise.all([
-        getCharacter(characterId), getXpLog(characterId),
+      const [charRes, bgRes, meritRes, flawRes, invRes, xpRes] = await Promise.all([
+        getCharacter(characterId),
+        getBackgrounds(characterId),
+        getMerits(characterId),
+        getFlaws(characterId),
+        getInventory(characterId),
+        getXpLog(characterId),
       ])
       const data = charRes.data
       setFields(prev => {
@@ -112,9 +211,21 @@ export default function HunterForm() {
         for (const key in prev) { if (data[key] !== undefined && data[key] !== null) merged[key] = data[key] }
         return merged
       })
+      setBackgrounds(bgRes.data)
+      setMerits(meritRes.data)
+      setFlaws(flawRes.data)
+      setInventory(invRes.data)
       setXpLog(xpRes.data)
     } catch { setSaveError(t('failedToLoad')) }
     finally { setLoading(false) }
+  }
+
+  async function loadCatalogs() {
+    try {
+      const [m, f] = await Promise.all([getMeritCatalog(), getFlawCatalog()])
+      setMeritCatalog(m.data)
+      setFlawCatalog(f.data)
+    } catch {}
   }
 
   function handleField(name, value) { setFields(prev => ({ ...prev, [name]: typeof value === 'string' ? value : Number(value) })) }
@@ -222,8 +333,34 @@ export default function HunterForm() {
         </div>
       </div>
 
-      {/* Edges */}
+      {/* Secondary Abilities */}
       <div hidden={tab !== 3}>
+        <div className="form-section">
+          <div className="abilities-group">
+            <fieldset>
+              <legend>{t('secondaryTalents')}</legend>
+              {Array.from({length: 10}, (_, i) => i + 1).map(n =>
+                <CustomAbilityRow key={n} nameProp={`hobbyTalent${n}Name`} ratingProp={`hobbyTalent${n}`} placeholder={t('phHobbyTalent')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_TALENTS} />
+              )}
+            </fieldset>
+            <fieldset>
+              <legend>{t('secondarySkills')}</legend>
+              {Array.from({length: 10}, (_, i) => i + 1).map(n =>
+                <CustomAbilityRow key={n} nameProp={`profSkill${n}Name`} ratingProp={`profSkill${n}`} placeholder={t('phProfSkill')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_SKILLS} />
+              )}
+            </fieldset>
+            <fieldset>
+              <legend>{t('secondaryKnowledges')}</legend>
+              {Array.from({length: 10}, (_, i) => i + 1).map(n =>
+                <CustomAbilityRow key={n} nameProp={`expertKnowl${n}Name`} ratingProp={`expertKnowl${n}`} placeholder={t('phExpertKnowl')} fields={fields} onField={handleField} onText={handleText} catalog={SECONDARY_KNOWLEDGES} />
+              )}
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+      {/* Edges */}
+      <div hidden={tab !== 4}>
         <div className="form-section">
           <fieldset>
             <legend>{t('hunterEdges')}</legend>
@@ -232,54 +369,193 @@ export default function HunterForm() {
               <DotRating label={t('hunterConviction')} name="rage" value={fields.rage} onChange={handleField} min={0} max={10} />
               <DotRating label={t('hunterCurrentConviction')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
             </div>
-            <div className="field-row">
-              <DotRating label={t('willpower')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
-              <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={10} />
-            </div>
             <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={8} style={{ width: '100%' }}
               aria-label="Edges and powers" placeholder={t('hunterEdgesPlaceholder')} />
           </fieldset>
         </div>
       </div>
 
-      {/* Health */}
-      <div hidden={tab !== 4}>
+      {/* Advantages */}
+      <div hidden={tab !== 5}>
         <div className="form-section">
           <fieldset>
-            <legend>{t('health')}</legend>
+            <legend>{t('willpower')}</legend>
             <div className="field-row">
-              <DotRating label={t('bashing')} name="woundBashing" value={fields.woundBashing ?? 0} onChange={handleField} min={0} max={7} />
-              <DotRating label={t('lethal')} name="woundLethal" value={fields.woundLethal ?? 0} onChange={handleField} min={0} max={7} />
-              <DotRating label={t('aggravated')} name="woundAgg" value={fields.woundAgg ?? 0} onChange={handleField} min={0} max={7} />
+              <DotRating label={t('permanent')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
+              <DotRating label={t('temporary')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={10} />
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>{t('hunterConviction')}</legend>
+            <div className="field-row">
+              <DotRating label={t('permanent')} name="rage" value={fields.rage} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('temporary')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
             </div>
           </fieldset>
         </div>
       </div>
 
+      {/* Health */}
+      <div hidden={tab !== 6}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('healthTrack')}</legend>
+            <p className="muted-hint muted-hint--sm">{t('healthHint')}</p>
+            <table className="health-track">
+              <thead>
+                <tr>
+                  <th>{t('health')}</th>
+                  <th>{t('penalty')}</th>
+                  <th>{t('damageType')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { key: 'healthBruised',    label: 'bruised',       penalty: '' },
+                  { key: 'healthHurt',       label: 'hurt',          penalty: '-1' },
+                  { key: 'healthInjured',    label: 'injured',       penalty: '-1' },
+                  { key: 'healthWounded',    label: 'wounded',       penalty: '-2' },
+                  { key: 'healthMauled',     label: 'mauled',        penalty: '-2' },
+                  { key: 'healthCrippled',   label: 'crippled',      penalty: '-5' },
+                  { key: 'healthIncap',      label: 'incapacitated', penalty: '' },
+                ].map(h => {
+                  const val = fields[h.key] || ''
+                  const dmgLabel = val === 'A' ? t('aggDmg') : val === 'L' ? t('lethalDmg') : val === 'B' ? t('bashingDmg') : t('undamaged')
+                  const dmgColor = val === 'A' ? '#e55' : val === 'L' ? '#e95' : val === 'B' ? '#8cf' : 'var(--color-text-muted)'
+                  return (
+                    <tr key={h.key}
+                      onClick={() => {
+                        const cycle = { '': 'B', B: 'L', L: 'A', A: '' }
+                        handleField(h.key, cycle[val] || '')
+                      }}>
+                      <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
+                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '\u2014'}</td>
+                      <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* Backgrounds */}
+      <div hidden={tab !== 7}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('backgrounds')} ({backgrounds.length})</legend>
+            {backgrounds.length > 0 && (
+              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+                {backgrounds.map(b => (
+                  <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
+                    onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}
+                    onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' }) } }}
+                    role="button"
+                    tabIndex={0}>
+                    <span>{b.name} ({b.level}){b.description ? ` \u2014 ${b.description}` : ''}</span>
+                    <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)); if (tagInfo?.id === b.id) setTagInfo(null) }}>\u00d7</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {tagInfo?.kind === 'background' && (() => {
+              const entry = HUNTER_BACKGROUNDS.find(bg => bg.value.toLowerCase() === tagInfo.name.toLowerCase())
+              return (
+                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                  <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
+                  <p className="tag-info-panel-name">{tagInfo.name}</p>
+                  <p className="tag-info-panel-desc">Background \u00b7 Level {tagInfo.level}</p>
+                  {entry?.description && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.levels && (
+                    <ul className="tag-info-levels">
+                      {entry.levels.map((lvl, i) => (
+                        <li key={i} className={`tag-info-level${i + 1 === tagInfo.level ? ' tag-info-level--active' : ''}`}>{lvl}</li>
+                      ))}
+                    </ul>
+                  )}
+                </aside>
+              )
+            })()}
+          </fieldset>
+
+          <fieldset>
+            <legend>Background Catalogue ({HUNTER_BACKGROUNDS.length})</legend>
+            <div className="catalog-search-wrap">
+              <input type="search" value={bgSearch} onChange={e => setBgSearch(e.target.value)}
+                placeholder="Search backgrounds..." aria-label="Search backgrounds" />
+              <span className="catalog-search-count">{HUNTER_BACKGROUNDS.filter(b => !bgSearch || b.value.toLowerCase().includes(bgSearch.toLowerCase()) || (b.description || '').toLowerCase().includes(bgSearch.toLowerCase())).length}</span>
+            </div>
+            <ul className="catalog-list" aria-label="Background catalogue">
+              {HUNTER_BACKGROUNDS
+                .filter(b => !bgSearch || b.value.toLowerCase().includes(bgSearch.toLowerCase()) || (b.description || '').toLowerCase().includes(bgSearch.toLowerCase()))
+                .map(b => {
+                  const already = backgrounds.some(bg => bg.name.toLowerCase() === b.value.toLowerCase())
+                  return (
+                    <li key={b.value} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                      <button className="catalog-item-btn" onClick={() => {
+                        if (!already) {
+                          addBackground(characterId, { name: b.value, level: 1, description: '' })
+                            .then(res => setBackgrounds(prev => [...prev, res.data]))
+                            .catch(() => setActionError(t('failedToSave')))
+                        } else {
+                          const bg = backgrounds.find(bg => bg.name.toLowerCase() === b.value.toLowerCase())
+                          if (bg) setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' })
+                        }
+                      }}>
+                        <div className="catalog-item-main">
+                          <span className="catalog-item-name">{b.value}</span>
+                          {b.description && <span className="catalog-item-desc">{b.description}</span>}
+                        </div>
+                        <div className="catalog-item-meta">
+                          {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
+                        </div>
+                      </button>
+                    </li>
+                  )
+                })}
+            </ul>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* Merits & Flaws */}
+      <div hidden={tab !== 8}>
+        <MeritsFlawsSection characterId={characterId} merits={merits} setMerits={setMerits} flaws={flaws} setFlaws={setFlaws} meritCatalog={meritCatalog} flawCatalog={flawCatalog} />
+      </div>
+
+      {/* Inventory */}
+      <div hidden={tab !== 9}>
+        <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
+      </div>
+
       {/* Backstory */}
-      <div hidden={tab !== 5}>
+      <div hidden={tab !== 10}>
         <div className="form-section">
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('goalsLabel')}</legend><textarea name="goals" value={fields.goals} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('alliesLabel')}</legend><textarea name="allies" value={fields.allies} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('enemiesLabel')}</legend><textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
         </div>
       </div>
 
       {/* XP Log */}
-      <div hidden={tab !== 6}>
-        <XpLogSection splat="vampire" xpLog={xpLog}
+      <div hidden={tab !== 11}>
+        <XpLogSection splat="hunter" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
           onError={msg => setActionError(msg)} t={t} />
       </div>
 
       {/* Dice Pools */}
-      <div hidden={tab !== 7}>
+      <div hidden={tab !== 12}>
         <DicePoolsTab fields={fields} splat="HUNTER" characterId={characterId} />
       </div>
 
       {/* Dice Roller */}
-      <div hidden={tab !== 8}>
+      <div hidden={tab !== 13}>
         <StorytellerDiceRoller />
       </div>
 
