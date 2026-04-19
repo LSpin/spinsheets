@@ -801,9 +801,9 @@ export default function L5RForm() {
       <div hidden={tab !== 0}>
         <div className="form-section">
           <fieldset>
-            <legend>Load Template</legend>
+            <legend>{t('l5rLoadTemplate')}</legend>
             <CatalogSelect
-              id="hero-template" name="heroTemplate" label="Premade Samurai"
+              id="hero-template" name="heroTemplate" label={t('l5rPremadeSamurai')}
               value={templateName} onChange={(_, val) => loadTemplate(val)}
               catalog={L5R_HERO_CATALOG} placeholder="Search samurai templates..."
               showDescOnSelect={false}
@@ -822,30 +822,30 @@ export default function L5RForm() {
               <div className="field"><label>{t('concept')}</label><input name="concept" value={fields.concept} onChange={handleText} /></div>
             </div>
             <div className="field-row">
-              <CatalogSelect id="l5rClan" name="l5rClan" label={t('clan') || 'Clan'} value={fields.l5rClan}
+              <CatalogSelect id="l5rClan" name="l5rClan" label={t('l5rClan')} value={fields.l5rClan}
                 onChange={(name, val) => {
                   setFields(prev => ({ ...prev, l5rClan: val, l5rFamily: '', l5rSchool: '' }))
                 }}
                 catalog={CLAN_CATALOG} />
               {familyCatalog.length > 0 ? (
-                <CatalogSelect id="l5rFamily" name="l5rFamily" label={t('family') || 'Family'} value={fields.l5rFamily}
+                <CatalogSelect id="l5rFamily" name="l5rFamily" label={t('l5rFamily')} value={fields.l5rFamily}
                   onChange={(name, val) => handleField(name, val)}
                   catalog={familyCatalog} />
               ) : (
                 <div className="field">
-                  <label>{t('family') || 'Family'}</label>
+                  <label>{t('l5rFamily')}</label>
                   <input name="l5rFamily" value={fields.l5rFamily} onChange={handleText} placeholder="Enter family name..." />
                 </div>
               )}
             </div>
             <div className="field-row">
               {schoolCatalog.length > 0 ? (
-                <CatalogSelect id="l5rSchool" name="l5rSchool" label={t('school') || 'School'} value={fields.l5rSchool}
+                <CatalogSelect id="l5rSchool" name="l5rSchool" label={t('l5rSchool')} value={fields.l5rSchool}
                   onChange={(name, val) => handleField(name, val)}
                   catalog={schoolCatalog} />
               ) : (
                 <div className="field">
-                  <label>{t('school') || 'School'}</label>
+                  <label>{t('l5rSchool')}</label>
                   <input name="l5rSchool" value={fields.l5rSchool} onChange={handleText} placeholder="Enter school name..." />
                 </div>
               )}
@@ -864,7 +864,7 @@ export default function L5RForm() {
       <div hidden={tab !== 1}>
         <div className="form-section">
           <fieldset>
-            <legend>Rings &amp; Traits</legend>
+            <legend>{t('l5rRingsTraits')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Each Ring equals the lower of its two Traits. Starting characters begin with all Traits at 2.
             </p>
@@ -887,19 +887,19 @@ export default function L5RForm() {
 
             {/* Air */}
             <fieldset style={{ marginBottom: 'var(--space-md)' }}>
-              <legend>Air Ring: {airRing}</legend>
+              <legend>{t('l5rAir')}: {airRing}</legend>
               <div className="rating-grid">
-                <div className="ability-row"><DotRating label="Reflexes (Physical)" name="l5rReflexes" value={fields.l5rReflexes} onChange={handleField} min={2} max={10} /></div>
-                <div className="ability-row"><DotRating label="Awareness (Mental)" name="l5rAwareness" value={fields.l5rAwareness} onChange={handleField} min={2} max={10} /></div>
+                <div className="ability-row"><DotRating label={t('l5rReflexes')} name="l5rReflexes" value={fields.l5rReflexes} onChange={handleField} min={2} max={10} /></div>
+                <div className="ability-row"><DotRating label={t('l5rAwareness')} name="l5rAwareness" value={fields.l5rAwareness} onChange={handleField} min={2} max={10} /></div>
               </div>
             </fieldset>
 
             {/* Earth */}
             <fieldset style={{ marginBottom: 'var(--space-md)' }}>
-              <legend>Earth Ring: {earthRing}</legend>
+              <legend>{t('l5rEarth')}: {earthRing}</legend>
               <div className="rating-grid">
-                <div className="ability-row"><DotRating label="Stamina (Physical)" name="l5rStamina7" value={fields.l5rStamina7} onChange={handleField} min={2} max={10} /></div>
-                <div className="ability-row"><DotRating label="Willpower (Mental)" name="l5rWillpower7" value={fields.l5rWillpower7} onChange={handleField} min={2} max={10} /></div>
+                <div className="ability-row"><DotRating label={t('l5rStamina')} name="l5rStamina7" value={fields.l5rStamina7} onChange={handleField} min={2} max={10} /></div>
+                <div className="ability-row"><DotRating label={t('l5rWillpower')} name="l5rWillpower7" value={fields.l5rWillpower7} onChange={handleField} min={2} max={10} /></div>
               </div>
             </fieldset>
 

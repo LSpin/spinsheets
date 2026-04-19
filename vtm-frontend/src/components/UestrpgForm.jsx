@@ -214,34 +214,34 @@ export default function UestrpgForm() {
               </div>
             </div>
             <div className="field-row">
-              <CatalogSelect id="dndRace" name="dndRace" label="Race" value={fields.dndRace}
+              <CatalogSelect id="dndRace" name="dndRace" label={t('dndRace')} value={fields.dndRace}
                 onChange={handleField} catalog={UESTRPG_RACE_CATALOG} />
               {selectedRace?.subraces?.length > 0 && (
-                <CatalogSelect id="dndSubrace" name="dndSubrace" label="Subrace" value={fields.dndSubrace}
+                <CatalogSelect id="dndSubrace" name="dndSubrace" label={t('dndSubrace')} value={fields.dndSubrace}
                   onChange={handleField} catalog={selectedRace?.subraces || []} />
               )}
             </div>
             <div className="field-row">
-              <CatalogSelect id="dndClass" name="dndClass" label="Class" value={fields.dndClass}
+              <CatalogSelect id="dndClass" name="dndClass" label={t('dndClass')} value={fields.dndClass}
                 onChange={handleField} catalog={UESTRPG_CLASS_CATALOG} />
               {selectedClass?.subclasses?.length > 0 && (
-                <CatalogSelect id="dndSubclass" name="dndSubclass" label={selectedClass?.subclassName || 'Subclass'} value={fields.dndSubclass}
+                <CatalogSelect id="dndSubclass" name="dndSubclass" label={selectedClass?.subclassName || t('dndSubclass')} value={fields.dndSubclass}
                   onChange={handleField} catalog={selectedClass?.subclasses || []} />
               )}
             </div>
             <div className="field-row">
-              <CatalogSelect id="dndBackground" name="dndBackground" label="Background" value={fields.dndBackground}
+              <CatalogSelect id="dndBackground" name="dndBackground" label={t('dndBackground')} value={fields.dndBackground}
                 onChange={handleField} catalog={UESTRPG_BACKGROUNDS} />
-              <CatalogSelect id="dndAlignment" name="dndAlignment" label="Alignment" value={fields.dndAlignment}
+              <CatalogSelect id="dndAlignment" name="dndAlignment" label={t('dndAlignment')} value={fields.dndAlignment}
                 onChange={handleField} catalog={UESTRPG_ALIGNMENTS} />
             </div>
             <div className="field-row">
-              <CatalogSelect id="uestrpgBirthsign" name="uestrpgBirthsign" label="Birthsign / Constellation" value={fields.uestrpgBirthsign}
+              <CatalogSelect id="uestrpgBirthsign" name="uestrpgBirthsign" label={t('uestrpgBirthsign')} value={fields.uestrpgBirthsign}
                 onChange={handleField} catalog={UESTRPG_CONSTELLATION_CATALOG} />
             </div>
             <div className="field-row">
               <div className="field">
-                <label>Experience Points</label>
+                <label>{t('dndXp')}</label>
                 <input type="number" name="dndXp" min={0} value={fields.dndXp} onChange={handleNumber} />
               </div>
             </div>
@@ -260,7 +260,7 @@ export default function UestrpgForm() {
       <div hidden={tab !== 1}>
         <div className="form-section">
           <fieldset>
-            <legend>Ability Scores</legend>
+            <legend>{t('dndAbilityScores')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
               Proficiency Bonus: <strong>+{pb}</strong> (Level {fields.dndLevel})
             </p>
@@ -280,7 +280,7 @@ export default function UestrpgForm() {
             </div>
           </fieldset>
           <fieldset>
-            <legend>Saving Throws</legend>
+            <legend>{t('dndSavingThrows')}</legend>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-md)' }}>
               {ABILITIES.map(ab => {
                 const prof = savingThrowProfs.includes(ab.full)
@@ -306,13 +306,13 @@ export default function UestrpgForm() {
       <div hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
-            <legend>Skills</legend>
+            <legend>{t('skills')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Proficiency Bonus: +{pb} | Passive Awareness: <strong>{passivePerception}</strong>
             </p>
             <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.9rem', marginBottom: 'var(--space-md)', fontWeight: 600 }}>
               <input type="checkbox" checked={!!fields.dndInspiration} onChange={() => handleCheck('dndInspiration')} />
-              Inspiration
+              {t('dndInspiration')}
             </label>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
               <div style={{ display: 'grid', gridTemplateColumns: '28px 28px 1fr 60px 50px', gap: '4px', fontWeight: 700, fontSize: '0.75rem', padding: '0 0 4px 0', borderBottom: '1px solid var(--color-border)' }}>
@@ -340,11 +340,11 @@ export default function UestrpgForm() {
             </div>
           </fieldset>
           <fieldset>
-            <legend>Other Proficiencies & Languages</legend>
-            <div className="field"><label>Armor Proficiencies</label><input name="dndArmorProf" value={fields.dndArmorProf} onChange={handleText} placeholder={selectedClass?.armorProf?.join(', ') || ''} /></div>
-            <div className="field"><label>Weapon Proficiencies</label><input name="dndWeaponProf" value={fields.dndWeaponProf} onChange={handleText} placeholder={selectedClass?.weaponProf?.join(', ') || ''} /></div>
-            <div className="field"><label>Tool Proficiencies</label><input name="dndToolProf" value={fields.dndToolProf} onChange={handleText} /></div>
-            <div className="field"><label>Languages</label><input name="dndLanguages" value={fields.dndLanguages} onChange={handleText} placeholder="Tamrielic, ..." /></div>
+            <legend>{t('dndOtherProf')}</legend>
+            <div className="field"><label>{t('dndArmorProf')}</label><input name="dndArmorProf" value={fields.dndArmorProf} onChange={handleText} placeholder={selectedClass?.armorProf?.join(', ') || ''} /></div>
+            <div className="field"><label>{t('dndWeaponProf')}</label><input name="dndWeaponProf" value={fields.dndWeaponProf} onChange={handleText} placeholder={selectedClass?.weaponProf?.join(', ') || ''} /></div>
+            <div className="field"><label>{t('dndToolProf')}</label><input name="dndToolProf" value={fields.dndToolProf} onChange={handleText} /></div>
+            <div className="field"><label>{t('dndLanguages')}</label><input name="dndLanguages" value={fields.dndLanguages} onChange={handleText} placeholder="Tamrielic, ..." /></div>
           </fieldset>
         </div>
       </div>
@@ -353,73 +353,73 @@ export default function UestrpgForm() {
       <div hidden={tab !== 3}>
         <div className="form-section">
           <fieldset>
-            <legend>Combat Stats</legend>
+            <legend>{t('dndCombatStats')}</legend>
             <div className="field-row">
               <div className="field">
-                <label>Armor Class</label>
+                <label>{t('dndArmorClass')}</label>
                 <input type="number" name="dndArmorClass" value={fields.dndArmorClass} onChange={handleNumber} />
               </div>
               <div className="field">
-                <label>Initiative Bonus</label>
+                <label>{t('dndInitiative')}</label>
                 <input type="number" name="dndInitiativeBonus" value={fields.dndInitiativeBonus} onChange={handleNumber} />
                 <span className="muted-hint muted-hint--xs">AGI mod: {formatMod(abilityMod(fields.dndDexterity))}</span>
               </div>
               <div className="field">
-                <label>Speed</label>
+                <label>{t('dndSpeed')}</label>
                 <input type="number" name="dndSpeed" value={fields.dndSpeed} onChange={handleNumber} />
               </div>
             </div>
           </fieldset>
           <fieldset>
-            <legend>Hit Points</legend>
+            <legend>{t('dndHitPoints')}</legend>
             <div className="field-row">
               <div className="field">
-                <label>HP Maximum</label>
+                <label>{t('dndHpMax')}</label>
                 <input type="number" name="dndHpMax" min={0} value={fields.dndHpMax} onChange={handleNumber} />
               </div>
               <div className="field">
-                <label>Current HP</label>
+                <label>{t('dndHpCurrent')}</label>
                 <input type="number" name="dndHpCurrent" value={fields.dndHpCurrent} onChange={handleNumber} />
               </div>
               <div className="field">
-                <label>Temp HP</label>
+                <label>{t('dndHpTemp')}</label>
                 <input type="number" name="dndHpTemp" min={0} value={fields.dndHpTemp} onChange={handleNumber} />
               </div>
             </div>
           </fieldset>
           <fieldset>
-            <legend>Magicka</legend>
+            <legend>{t('uestrpgMagicka')}</legend>
             <div className="field-row">
               <div className="field">
-                <label>Max Magicka</label>
+                <label>{t('uestrpgMagickaMax')}</label>
                 <input type="number" name="uestrpgMagickaMax" min={0} value={fields.uestrpgMagickaMax} onChange={handleNumber} />
               </div>
               <div className="field">
-                <label>Current Magicka</label>
+                <label>{t('uestrpgMagickaCurrent')}</label>
                 <input type="number" name="uestrpgMagickaCurrent" value={fields.uestrpgMagickaCurrent} onChange={handleNumber} />
               </div>
             </div>
           </fieldset>
           {fields.uestrpgLuck > 0 && (
             <fieldset>
-              <legend>Luck</legend>
+              <legend>{t('uestrpgLuck')}</legend>
               <div className="field-row">
                 <div className="field">
-                  <label>Luck Score</label>
+                  <label>{t('uestrpgLuck')}</label>
                   <input type="number" name="uestrpgLuck" min={0} value={fields.uestrpgLuck} onChange={handleNumber} />
                 </div>
               </div>
             </fieldset>
           )}
           <fieldset>
-            <legend>Hit Dice</legend>
+            <legend>{t('dndHitDice')}</legend>
             <div className="field-row">
               <div className="field">
-                <label>Hit Die</label>
+                <label>{t('dndHitDie')}</label>
                 <span style={{ fontSize: '1.1rem', fontWeight: 600 }}>{selectedClass ? `d${selectedClass.hitDie}` : '--'}</span>
               </div>
               <div className="field">
-                <label>Remaining</label>
+                <label>{t('dndRemaining')}</label>
                 <input type="number" name="dndHitDiceRemaining" min={0} max={fields.dndLevel}
                   value={fields.dndHitDiceRemaining} onChange={handleNumber} />
                 <span className="muted-hint muted-hint--xs">of {fields.dndLevel}</span>
@@ -427,10 +427,10 @@ export default function UestrpgForm() {
             </div>
           </fieldset>
           <fieldset>
-            <legend>Death Saves</legend>
+            <legend>{t('dndDeathSaves')}</legend>
             <div style={{ display: 'flex', gap: 'var(--space-lg)', alignItems: 'center' }}>
               <div>
-                <span style={{ fontSize: '0.85rem', fontWeight: 600, marginRight: 'var(--space-sm)' }}>Successes</span>
+                <span style={{ fontSize: '0.85rem', fontWeight: 600, marginRight: 'var(--space-sm)' }}>{t('dndSuccesses')}</span>
                 {[1, 2, 3].map(i => (
                   <span
                     key={`s${i}`}
@@ -445,7 +445,7 @@ export default function UestrpgForm() {
                 ))}
               </div>
               <div>
-                <span style={{ fontSize: '0.85rem', fontWeight: 600, marginRight: 'var(--space-sm)' }}>Failures</span>
+                <span style={{ fontSize: '0.85rem', fontWeight: 600, marginRight: 'var(--space-sm)' }}>{t('dndFailures')}</span>
                 {[1, 2, 3].map(i => (
                   <span
                     key={`f${i}`}
@@ -468,12 +468,12 @@ export default function UestrpgForm() {
       <div hidden={tab !== 4}>
         <div className="form-section">
           <fieldset>
-            <legend>Class Features</legend>
+            <legend>{t('dndClassFeatures')}</legend>
             <textarea name="dndClassFeatures" value={fields.dndClassFeatures} onChange={handleText} rows={8} style={{ width: '100%' }}
               placeholder="List your class features here..." />
           </fieldset>
           <fieldset>
-            <legend>Racial Traits</legend>
+            <legend>{t('dndRacialTraits')}</legend>
             {selectedRace?.traits && (
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
                 {fields.dndRace} traits: {selectedRace.traits.join(', ')}
@@ -483,7 +483,7 @@ export default function UestrpgForm() {
               placeholder="Additional racial trait notes..." />
           </fieldset>
           <fieldset>
-            <legend>Birthsign Abilities</legend>
+            <legend>{t('uestrpgBirthsignAbilities')}</legend>
             {fields.uestrpgBirthsign && (
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
                 {fields.uestrpgBirthsign}: {UESTRPG_CONSTELLATION_CATALOG.find(c => c.value === fields.uestrpgBirthsign)?.description || ''}
@@ -499,9 +499,9 @@ export default function UestrpgForm() {
       <div hidden={tab !== 5}>
         <div className="form-section">
           <fieldset>
-            <legend>Spellcasting</legend>
+            <legend>{t('dndSpellcasting')}</legend>
             <div className="field-row">
-              <CatalogSelect id="dndSpellcastingAbility" name="dndSpellcastingAbility" label="Spellcasting Ability"
+              <CatalogSelect id="dndSpellcastingAbility" name="dndSpellcastingAbility" label={t('dndSpellcastingAbility')}
                 value={fields.dndSpellcastingAbility} onChange={handleField} catalog={UESTRPG_SPELLCASTING_ABILITIES} />
             </div>
             {fields.dndSpellcastingAbility && (
@@ -513,7 +513,7 @@ export default function UestrpgForm() {
             )}
           </fieldset>
           <fieldset>
-            <legend>Spell Slots</legend>
+            <legend>{t('dndSpellSlots')}</legend>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))', gap: 'var(--space-sm)' }}>
               {getSpellSlots().map((slots, i) => (
                 <div key={i} className="field" style={{ textAlign: 'center' }}>
@@ -591,16 +591,16 @@ export default function UestrpgForm() {
       <div hidden={tab !== 6}>
         <div className="form-section">
           <fieldset>
-            <legend>Currency</legend>
+            <legend>{t('dndCurrency')}</legend>
             <div className="field-row">
               <div className="field" style={{ textAlign: 'center' }}>
-                <label>Septims</label>
+                <label>{t('uestrpgSeptims')}</label>
                 <input type="number" name="dndGp" min={0} value={fields.dndGp} onChange={handleNumber} style={{ width: '100px', textAlign: 'center' }} />
               </div>
             </div>
           </fieldset>
           <fieldset>
-            <legend>Equipment</legend>
+            <legend>{t('dndEquipment')}</legend>
             <div style={{ marginBottom: 'var(--space-sm)' }}>
               <input type="text" placeholder="Search equipment..." value={equipSearch} onChange={e => setEquipSearch(e.target.value)} style={{ width: '100%' }} />
             </div>
@@ -644,14 +644,14 @@ export default function UestrpgForm() {
       <div hidden={tab !== 7}>
         <div className="form-section">
           <fieldset>
-            <legend>Personality</legend>
-            <div className="field"><label>Personality Traits</label><textarea name="dndPersonalityTraits" value={fields.dndPersonalityTraits} onChange={handleText} rows={3} style={{ width: '100%' }} /></div>
-            <div className="field"><label>Ideals</label><textarea name="dndIdeals" value={fields.dndIdeals} onChange={handleText} rows={2} style={{ width: '100%' }} /></div>
-            <div className="field"><label>Bonds</label><textarea name="dndBonds" value={fields.dndBonds} onChange={handleText} rows={2} style={{ width: '100%' }} /></div>
-            <div className="field"><label>Flaws</label><textarea name="dndFlaws" value={fields.dndFlaws} onChange={handleText} rows={2} style={{ width: '100%' }} /></div>
+            <legend>{t('dndPersonality')}</legend>
+            <div className="field"><label>{t('dndPersonalityTraits')}</label><textarea name="dndPersonalityTraits" value={fields.dndPersonalityTraits} onChange={handleText} rows={3} style={{ width: '100%' }} /></div>
+            <div className="field"><label>{t('dndIdeals')}</label><textarea name="dndIdeals" value={fields.dndIdeals} onChange={handleText} rows={2} style={{ width: '100%' }} /></div>
+            <div className="field"><label>{t('dndBonds')}</label><textarea name="dndBonds" value={fields.dndBonds} onChange={handleText} rows={2} style={{ width: '100%' }} /></div>
+            <div className="field"><label>{t('dndFlaws')}</label><textarea name="dndFlaws" value={fields.dndFlaws} onChange={handleText} rows={2} style={{ width: '100%' }} /></div>
           </fieldset>
           <fieldset>
-            <legend>Appearance</legend>
+            <legend>{t('appearanceLabel')}</legend>
             <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} />
           </fieldset>
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>

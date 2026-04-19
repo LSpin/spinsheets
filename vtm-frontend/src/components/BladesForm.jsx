@@ -344,7 +344,7 @@ export default function BladesForm() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-sm)' }}>
         <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', cursor: 'pointer' }}>
           <input type="checkbox" checked={deepCuts} onChange={toggleDeepCuts} />
-          <strong>Deep Cuts</strong>
+          <strong>{t('bladesDeepCuts')}</strong>
           <span className="muted-hint muted-hint--xs">(supernatural playbooks, extra items & economy)</span>
         </label>
       </div>
@@ -363,11 +363,11 @@ export default function BladesForm() {
             <legend>{t('tabIdentity')}</legend>
             <div className="field-row">
               <div className="field"><label>{t('charName')} *</label><input name="name" value={fields.name} onChange={handleText} /></div>
-              <div className="field"><label>Alias</label><input name="bladesAlias" value={fields.bladesAlias} onChange={handleText} /></div>
+              <div className="field"><label>{t('bladesAlias')}</label><input name="bladesAlias" value={fields.bladesAlias} onChange={handleText} /></div>
             </div>
             <div className="field">
-              <label>Look / Appearance</label>
-              <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={3} style={{ width: '100%' }} />
+              <label>{t('appearanceLabel')}</label>
+              <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={3} style={{ width: '100%' }} aria-label={t('appearanceLabel')} />
             </div>
             <div className="field-row">
               <CatalogSelect id="bladesHeritage" name="bladesHeritage" label={t('bladesHeritage')} value={fields.bladesHeritage}
@@ -395,7 +395,7 @@ export default function BladesForm() {
               </div>
             )}
             <div className="field-row">
-              <CatalogSelect id="bladesPlaybook" name="bladesPlaybook" label="Playbook" value={fields.bladesPlaybook}
+              <CatalogSelect id="bladesPlaybook" name="bladesPlaybook" label={t('bladesPlaybook')} value={fields.bladesPlaybook}
                 onChange={handleField}
                 catalog={filteredPlaybookCatalog} />
             </div>
@@ -415,7 +415,7 @@ export default function BladesForm() {
       <div hidden={tab !== 1}>
         <div className="form-section">
           <fieldset>
-            <legend>Action Ratings</legend>
+            <legend>{t('bladesActionRatings')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
               Click dots to set action ratings (0-4). Click XP pips to track attribute experience.
             </p>
@@ -426,7 +426,7 @@ export default function BladesForm() {
             </div>
           </fieldset>
           <fieldset>
-            <legend>Playbook XP</legend>
+            <legend>{t('bladesPlaybookXp')}</legend>
             <div className="blades-xp-row">
               <span className="blades-action-label">Playbook XP</span>
               <XpPips value={fields.bladesPlaybookXp} max={8} onChange={v => handleField('bladesPlaybookXp', v)} />
@@ -439,7 +439,7 @@ export default function BladesForm() {
       <div hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
-            <legend>Special Abilities{selectedPlaybook ? ` - ${fields.bladesPlaybook}` : ''}</legend>
+            <legend>{t('bladesSpecialAbilities')}{selectedPlaybook ? ` - ${fields.bladesPlaybook}` : ''}</legend>
             {!selectedPlaybook && (
               <p className="muted-hint">Select a playbook on the Identity tab to see available abilities.</p>
             )}
@@ -483,7 +483,7 @@ export default function BladesForm() {
       <div hidden={tab !== 3}>
         <div className="form-section">
           <fieldset>
-            <legend>Stress</legend>
+            <legend>{t('bladesStress')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Click to set stress level (0-9). At 9+ you suffer trauma.
             </p>
@@ -504,7 +504,7 @@ export default function BladesForm() {
             </div>
           </fieldset>
           <fieldset>
-            <legend>Trauma</legend>
+            <legend>{t('bladesTrauma')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Check trauma conditions. Max 4 trauma — a character is retired at 4.
               {selectedTrauma.length >= 4 && <span style={{ color: 'var(--color-danger)', fontWeight: 600 }}> Warning: character has 4 trauma!</span>}
@@ -519,7 +519,7 @@ export default function BladesForm() {
             </div>
           </fieldset>
           <fieldset>
-            <legend>Harm</legend>
+            <legend>{t('bladesHarm')}</legend>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
               <div className="field-row">
                 <span style={{ minWidth: '80px', fontWeight: 600, fontSize: '0.85rem' }}>Level 3 (Fatal)</span>
@@ -538,48 +538,48 @@ export default function BladesForm() {
             </div>
           </fieldset>
           <fieldset>
-            <legend>Healing Clock</legend>
+            <legend>{t('bladesHealingClock')}</legend>
             <div className="blades-xp-row">
               <span className="blades-action-label">Healing</span>
               <XpPips value={fields.bladesHealingClock} max={4} onChange={v => handleField('bladesHealingClock', v)} />
             </div>
           </fieldset>
           <fieldset>
-            <legend>Armor</legend>
+            <legend>{t('bladesArmorLabel')}</legend>
             <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
-                <input type="checkbox" checked={!!fields.bladesArmor} onChange={() => handleCheck('bladesArmor')} /> Armor
+                <input type="checkbox" checked={!!fields.bladesArmor} onChange={() => handleCheck('bladesArmor')} /> {t('bladesArmorLabel')}
               </label>
               <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
-                <input type="checkbox" checked={!!fields.bladesHeavyArmor} onChange={() => handleCheck('bladesHeavyArmor')} /> Heavy
+                <input type="checkbox" checked={!!fields.bladesHeavyArmor} onChange={() => handleCheck('bladesHeavyArmor')} /> {t('bladesHeavyArmorLabel')}
               </label>
               <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
-                <input type="checkbox" checked={!!fields.bladesSpecialArmor} onChange={() => handleCheck('bladesSpecialArmor')} /> Special
+                <input type="checkbox" checked={!!fields.bladesSpecialArmor} onChange={() => handleCheck('bladesSpecialArmor')} /> {t('bladesSpecialArmorLabel')}
               </label>
             </div>
           </fieldset>
           {deepCuts && (
             <fieldset>
-              <legend>Economy (Deep Cuts)</legend>
+              <legend>{t('bladesEconomy')}</legend>
               <div className="field-row">
                 <div className="field" style={{ width: 80 }}>
-                  <label>Coin</label>
+                  <label>{t('bladesCoin')}</label>
                   <input type="number" min={0} value={fields.bladesCoin || 0} onChange={e => handleField('bladesCoin', parseInt(e.target.value) || 0)} />
                 </div>
                 <div className="field" style={{ width: 80 }}>
-                  <label>Stash</label>
+                  <label>{t('bladesStash')}</label>
                   <input type="number" min={0} max={40} value={fields.bladesStash || 0} onChange={e => handleField('bladesStash', parseInt(e.target.value) || 0)} />
                 </div>
                 <div className="field" style={{ width: 80 }}>
-                  <label>Lifestyle</label>
+                  <label>{t('bladesLifestyle')}</label>
                   <input type="number" min={0} value={fields.bladesLifestyle || 0} onChange={e => handleField('bladesLifestyle', parseInt(e.target.value) || 0)} />
                 </div>
                 <div className="field" style={{ width: 80 }}>
-                  <label>Debt</label>
+                  <label>{t('bladesDebt')}</label>
                   <input type="number" min={0} value={fields.bladesDebt || 0} onChange={e => handleField('bladesDebt', parseInt(e.target.value) || 0)} />
                 </div>
                 <div className="field" style={{ width: 80 }}>
-                  <label>Edge</label>
+                  <label>{t('bladesEdge')}</label>
                   <input type="number" min={0} value={fields.bladesEdge || 0} onChange={e => handleField('bladesEdge', parseInt(e.target.value) || 0)} />
                 </div>
               </div>
@@ -592,7 +592,7 @@ export default function BladesForm() {
       <div hidden={tab !== 4}>
         <div className="form-section">
           <fieldset>
-            <legend>Load</legend>
+            <legend>{t('bladesLoad')}</legend>
             <div style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
               {LOAD_OPTIONS.map(opt => (
                 <label key={opt.value} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
@@ -608,7 +608,7 @@ export default function BladesForm() {
             </p>
           </fieldset>
           <fieldset>
-            <legend>Standard Items</legend>
+            <legend>{t('bladesStandardItems')}</legend>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
               {filteredStandardItems.map(item => (
                 <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: '0.85rem' }}>
@@ -713,8 +713,8 @@ export default function BladesForm() {
       {/* ── Tab 7: Backstory ── */}
       <div hidden={tab !== 7}>
         <div className="form-section">
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} aria-label={t('backstoryLabel')} /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} aria-label={t('notes')} /></fieldset>
         </div>
       </div>
 

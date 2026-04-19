@@ -286,6 +286,9 @@ const DUELING_STYLES = [
   { name: 'Valroux', nation: 'Montaigne', description: 'Classic fencing — elegant, precise, and lethal. The quintessential rapier school. Uses Finesse. Maneuvers: Slash, Feint, Lunge.' },
 ]
 
+const VIRTUE_CATALOG = VIRTUES.map(v => ({ value: v, description: v.split(' — ')[1] || '' }))
+const HUBRIS_CATALOG = HUBRISES.map(h => ({ value: h, description: h.split(' — ')[1] || '' }))
+
 const TRAIT_KEYS = ['traitBrawn', 'traitFinesse', 'traitResolve', 'traitWits7s', 'traitPanache']
 const TRAIT_LABEL = { traitBrawn: 'Brawn', traitFinesse: 'Finesse', traitResolve: 'Resolve', traitWits7s: 'Wits', traitPanache: 'Panache' }
 const SKILL_KEYS = [
@@ -485,9 +488,9 @@ export default function SeventhSeaForm() {
       <div hidden={tab !== 0}>
         <div className="form-section">
           <fieldset>
-            <legend>Load Template</legend>
+            <legend>{t('7sLoadTemplate')}</legend>
             <CatalogSelect
-              id="hero-template" name="heroTemplate" label="Premade Hero NPC"
+              id="hero-template" name="heroTemplate" label={t('7sPremadeHero')}
               value={templateName} onChange={(_, val) => loadTemplate(val)}
               catalog={SEVEN_SEA_HERO_CATALOG} placeholder="Search hero templates..."
               showDescOnSelect={false}
@@ -571,9 +574,9 @@ export default function SeventhSeaForm() {
             </div>
           </fieldset>
           <details style={{ marginTop: 'var(--space-sm)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Risk Roll Calculator</summary>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('7sRiskRollCalc')}</summary>
             <fieldset>
-              <legend>Risk Roll Calculator</legend>
+              <legend>{t('7sRiskRollCalc')}</legend>
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
                 Risks are resolved by rolling Trait + Skill in d10s, making sets of 10.
               </p>
@@ -628,7 +631,7 @@ export default function SeventhSeaForm() {
             return <TagInfoPanel entry={entry ? { name: entry.name, description: `Cost: ${entry.cost}. ${entry.description}` } : { name: tagInfo.name }} onClose={() => setTagInfo(null)} />
           })()}
           <fieldset>
-            <legend>Advantage Catalogue ({ADVANTAGES.length})</legend>
+            <legend>{t('7sAdvCatalogue')} ({ADVANTAGES.length})</legend>
             <div className="catalog-search-wrap">
               <input type="search" value={advSearch} onChange={e => setAdvSearch(e.target.value)}
                 placeholder="Search advantages..." aria-label="Search advantages" />
@@ -704,10 +707,10 @@ export default function SeventhSeaForm() {
       <div hidden={tab !== 5}>
         <div className="form-section">
           <fieldset>
-            <legend>Your Dueling Style</legend>
+            <legend>{t('7sYourDuelingStyle')}</legend>
             <div className="field-row">
               <div className="field" style={{ flex: 2 }}>
-                <label>Active Style</label>
+                <label>{t('7sActiveStyle')}</label>
                 <select value={activeDuelStyle} onChange={e => setActiveDuelStyle(e.target.value)}>
                   <option value="">None (not a Duelist)</option>
                   {DUELING_STYLES.map(s => <option key={s.name} value={s.name}>{t(s.name)} ({t(s.nation)})</option>)}
@@ -727,7 +730,7 @@ export default function SeventhSeaForm() {
             })()}
           </fieldset>
           <details style={{ marginTop: 'var(--space-sm)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)', marginBottom: 'var(--space-sm)' }}>Style Reference</summary>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)', marginBottom: 'var(--space-sm)' }}>{t('7sStyleRef')}</summary>
             <fieldset>
               <legend>{t('tab7sDueling')}</legend>
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
@@ -755,20 +758,10 @@ export default function SeventhSeaForm() {
             <legend>{t('7sArcana')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('arcanaHint')}</p>
             <div className="field-row">
-              <div className="field">
-                <label>{t('7sVirtue')}</label>
-                <select name="heroVirtue" value={fields.heroVirtue} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {VIRTUES.map(v => <option key={v} value={v}>{t(v)}</option>)}
-                </select>
-              </div>
-              <div className="field">
-                <label>{t('7sHubris')}</label>
-                <select name="heroHubris" value={fields.heroHubris} onChange={handleText}>
-                  <option value="">{t('select')}</option>
-                  {HUBRISES.map(h => <option key={h} value={h}>{t(h)}</option>)}
-                </select>
-              </div>
+              <CatalogSelect id="heroVirtue" name="heroVirtue" label={t('7sVirtue')} value={fields.heroVirtue}
+                onChange={handleField} catalog={VIRTUE_CATALOG} />
+              <CatalogSelect id="heroHubris" name="heroHubris" label={t('7sHubris')} value={fields.heroHubris}
+                onChange={handleField} catalog={HUBRIS_CATALOG} />
             </div>
           </fieldset>
           <fieldset>
@@ -811,7 +804,7 @@ export default function SeventhSeaForm() {
             return <TagInfoPanel entry={entry ? { name: entry.name, description: entry.description } : { name: tagInfo.name, description: tagInfo.description ? `Quirk: ${tagInfo.description}` : undefined }} onClose={() => setTagInfo(null)} />
           })()}
           <fieldset>
-            <legend>Background Catalogue ({BACKGROUND_CATALOG.length})</legend>
+            <legend>{t('7sBgCatalogue')} ({BACKGROUND_CATALOG.length})</legend>
             <div className="catalog-search-wrap">
               <input type="search" value={bgSearch} onChange={e => setBgSearch(e.target.value)}
                 placeholder="Search backgrounds..." aria-label="Search backgrounds" />
@@ -863,7 +856,7 @@ export default function SeventhSeaForm() {
           {/* Active Stories */}
           {parsedStories.length > 0 && (
             <fieldset>
-              <legend>Active Stories</legend>
+              <legend>{t('7sActiveStories')}</legend>
               {parsedStories.map((story, i) => (
                 <div key={i} className="form-section" style={{ padding: 'var(--space-md)', marginBottom: 'var(--space-sm)', borderLeft: '3px solid var(--color-accent-fg)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -880,23 +873,23 @@ export default function SeventhSeaForm() {
 
           {/* Add Story Form */}
           <fieldset>
-            <legend>New Story</legend>
+            <legend>{t('7sNewStory')}</legend>
             <div className="field-row">
               <div className="field" style={{ flex: 2 }}>
-                <label>Story Title</label>
+                <label>{t('7sStoryTitle')}</label>
                 <input type="text" value={newStory.title} onChange={e => setNewStory(p => ({ ...p, title: e.target.value }))} placeholder="The Lost Heir of Castille..." />
               </div>
               <div className="field" style={{ flex: 2 }}>
-                <label>Reward</label>
+                <label>{t('7sReward')}</label>
                 <input type="text" value={newStory.reward} onChange={e => setNewStory(p => ({ ...p, reward: e.target.value }))} placeholder="+1 Resolve, 3-pt Advantage, etc." />
               </div>
             </div>
             <div className="field">
-              <label>Goal / Ending</label>
+              <label>{t('7sGoalEnding')}</label>
               <input type="text" value={newStory.goal} onChange={e => setNewStory(p => ({ ...p, goal: e.target.value }))} placeholder="What does the ending of this story look like?" />
             </div>
             <div className="field">
-              <label>Steps (one per line)</label>
+              <label>{t('7sSteps')}</label>
               <textarea value={newStory.steps} onChange={e => setNewStory(p => ({ ...p, steps: e.target.value }))} rows={3} style={{ width: '100%' }} placeholder={"Find the old map in the library\nSail to the island\nConfront the usurper"} />
             </div>
             <button className="btn btn-secondary" onClick={handleAddStory}>{t('add')}</button>
@@ -904,13 +897,13 @@ export default function SeventhSeaForm() {
 
           {/* Raw Data */}
           <details>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Raw Story Data</summary>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('7sRawStoryData')}</summary>
             <textarea name="heroStories" value={fields.heroStories} onChange={handleText} rows={8} style={{ width: '100%', marginTop: 'var(--space-sm)' }} placeholder="Stories are added from the form above. Edit directly here if needed." />
           </details>
 
           {/* Story Rewards Reference */}
           <details style={{ marginTop: 'var(--space-md)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Story Rewards Reference</summary>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('7sRewardsRef')}</summary>
             <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
               <thead><tr><th>Steps</th><th>Reward</th></tr></thead>
               <tbody>
