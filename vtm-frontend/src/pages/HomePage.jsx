@@ -104,7 +104,7 @@ export default function HomePage() {
               <li>V: The Dark Ages (V20)</li>
               <li>Victorian Age Vampire</li>
               <li>Kindred of the East</li>
-              <li>Ghouls</li>
+              <li>Ghouls & Mortals</li>
             </ul>
           </div>
           <div className="homepage-card">
@@ -113,7 +113,8 @@ export default function HomePage() {
               <li>W: The Apocalypse (W20)</li>
               <li>W: The Wyld West (W20)</li>
               <li>Changing Breeds / Fera</li>
-              <li>Totems</li>
+              <li>Totems & Kinfolk</li>
+              <li>Black Spiral Dancers</li>
             </ul>
           </div>
           <div className="homepage-card">
@@ -125,12 +126,43 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="homepage-card">
+            <span className="splat-badge splat-badge--hunter" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Hunter</span>
+            <ul className="homepage-list">
+              <li>Hunter: The Reckoning</li>
+              <li>8 Creeds · 3 Virtues</li>
+              <li>Edges & Conviction</li>
+            </ul>
+          </div>
+          <div className="homepage-card">
+            <span className="splat-badge splat-badge--wraith" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Wraith</span>
+            <ul className="homepage-list">
+              <li>Wraith: The Oblivion</li>
+              <li>7 Legions · Shadow System</li>
+              <li>Arcanoi & Passions</li>
+            </ul>
+          </div>
+          <div className="homepage-card">
+            <span className="splat-badge splat-badge--changeling" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Changeling</span>
+            <ul className="homepage-list">
+              <li>Changeling: The Dreaming</li>
+              <li>9 Kiths · 3 Seemings</li>
+              <li>Arts, Realms & Glamour</li>
+            </ul>
+          </div>
+          <div className="homepage-card">
+            <span className="splat-badge splat-badge--demon" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Demon</span>
+            <ul className="homepage-list">
+              <li>Demon: The Fallen</li>
+              <li>7 Houses · 5 Factions</li>
+              <li>Lore, Faith & Apocalyptic Form</li>
+            </ul>
+          </div>
+          <div className="homepage-card">
             <span className="splat-badge splat-badge--seventh-sea" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>7th Sea</span>
             <ul className="homepage-list">
               <li>7th Sea 2nd Edition</li>
-              <li>Heroes & Villains</li>
-              <li>8 Sorcery Traditions</li>
-              <li>11 Dueling Styles</li>
+              <li>Heroes, Villains & Ship Builder</li>
+              <li>8 Sorceries · 11 Dueling Styles</li>
             </ul>
           </div>
           <div className="homepage-card">
@@ -145,9 +177,9 @@ export default function HomePage() {
           <div className="homepage-card">
             <span className="splat-badge splat-badge--blades" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Blades in the Dark</span>
             <ul className="homepage-list">
-              <li>Blades in the Dark + Deep Cuts</li>
-              <li>7 Standard + 3 Supernatural Playbooks</li>
-              <li>6 Crew Types</li>
+              <li>Blades + Deep Cuts</li>
+              <li>11 Playbooks · 6 Crew Types</li>
+              <li>Deep Cuts Toggle</li>
               <li>d6 Pool Dice Roller</li>
             </ul>
           </div>
@@ -156,16 +188,16 @@ export default function HomePage() {
             <ul className="homepage-list">
               <li>D&D 5th Edition (SRD)</li>
               <li>13 Classes · 9 Races</li>
-              <li>Searchable Spell Catalog</li>
+              <li>233 Spells · 49 Monsters</li>
               <li>d20 Dice Roller</li>
             </ul>
           </div>
           <div className="homepage-card">
             <span className="splat-badge splat-badge--uestrpg" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>UESTRPG</span>
             <ul className="homepage-list">
-              <li>Elder Scrolls RPG (D&D 5e Based)</li>
+              <li>Elder Scrolls RPG (D&D 5e)</li>
               <li>10 Races · 13 Classes</li>
-              <li>13 Constellations/Birthsigns</li>
+              <li>13 Constellations</li>
               <li>Magicka System</li>
             </ul>
           </div>
