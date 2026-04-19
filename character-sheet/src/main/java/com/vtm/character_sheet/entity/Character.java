@@ -754,4 +754,37 @@ public class Character {
     private Integer uestrpgMagickaMax = 0;
     private Integer uestrpgMagickaCurrent = 0;
     private Integer uestrpgLuck = 0;
+
+    // ── Cyberpunk 2020 ──
+    private String cpRole;
+    private String cpHandle;
+    private Integer cpInt;
+    private Integer cpRef;
+    private Integer cpTech;
+    private Integer cpCool;
+    private Integer cpAttr;
+    private Integer cpLuck;
+    private Integer cpMa;
+    private Integer cpBody;
+    private Integer cpEmp;
+    private Integer cpSpecialAbility;
+    private Integer cpHumanity;
+    private Integer cpCurrentHumanity;
+    private Integer cpIp;
+    private Integer cpEurodollars;
+    private Integer cpWoundState;
+    @Column(columnDefinition = "TEXT")
+    private String cpSkills;
+    @Column(columnDefinition = "TEXT")
+    private String cpCyberware;
+    @Column(columnDefinition = "TEXT")
+    private String cpWeapons;
+    @Column(columnDefinition = "TEXT")
+    private String cpArmor;
+    @Column(columnDefinition = "TEXT")
+    private String cpGear;
+    @Column(columnDefinition = "TEXT")
+    private String cpLifepath;
+    @Column(columnDefinition = "TEXT")
+    private String cpContacts;
 }

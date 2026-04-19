@@ -466,6 +466,31 @@ public class CharacterController {
             existing.setUestrpgMagickaMax(updated.getUestrpgMagickaMax());
             existing.setUestrpgMagickaCurrent(updated.getUestrpgMagickaCurrent());
             existing.setUestrpgLuck(updated.getUestrpgLuck());
+            // Cyberpunk 2020
+            existing.setCpRole(updated.getCpRole());
+            existing.setCpHandle(updated.getCpHandle());
+            existing.setCpInt(updated.getCpInt());
+            existing.setCpRef(updated.getCpRef());
+            existing.setCpTech(updated.getCpTech());
+            existing.setCpCool(updated.getCpCool());
+            existing.setCpAttr(updated.getCpAttr());
+            existing.setCpLuck(updated.getCpLuck());
+            existing.setCpMa(updated.getCpMa());
+            existing.setCpBody(updated.getCpBody());
+            existing.setCpEmp(updated.getCpEmp());
+            existing.setCpSpecialAbility(updated.getCpSpecialAbility());
+            existing.setCpHumanity(updated.getCpHumanity());
+            existing.setCpCurrentHumanity(updated.getCpCurrentHumanity());
+            existing.setCpIp(updated.getCpIp());
+            existing.setCpEurodollars(updated.getCpEurodollars());
+            existing.setCpWoundState(updated.getCpWoundState());
+            existing.setCpSkills(updated.getCpSkills());
+            existing.setCpCyberware(updated.getCpCyberware());
+            existing.setCpWeapons(updated.getCpWeapons());
+            existing.setCpArmor(updated.getCpArmor());
+            existing.setCpGear(updated.getCpGear());
+            existing.setCpLifepath(updated.getCpLifepath());
+            existing.setCpContacts(updated.getCpContacts());
             return ResponseEntity.ok(service.save(existing));
         }).orElse(ResponseEntity.notFound().build());
     }
@@ -491,6 +516,7 @@ public class CharacterController {
         Map.entry("BLADES", "BLADES"), Map.entry("BLADES_CREW", "BLADES"),
         Map.entry("DND", "DND"), Map.entry("DND_MONSTER", "DND"),
         Map.entry("UESTRPG", "UESTRPG"), Map.entry("UESTRPG_ANTAGONIST", "UESTRPG"),
+        Map.entry("CYBERPUNK", "CYBERPUNK"), Map.entry("CYBERPUNK_ANTAGONIST", "CYBERPUNK"),
         Map.entry("L5R_ANTAGONIST", "L5R"), Map.entry("BLADES_ANTAGONIST", "BLADES"),
         Map.entry("HUNTER", "VAMPIRE"), Map.entry("WRAITH", "VAMPIRE"),
         Map.entry("CHANGELING", "MAGE"), Map.entry("DEMON", "VAMPIRE"),

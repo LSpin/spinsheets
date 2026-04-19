@@ -85,6 +85,11 @@ const DndPage = lazyRetry(() => import('./pages/DndPage'))
 const UestrpgForm = lazyRetry(() => import('./components/UestrpgForm'))
 const UestrpgAntagonistForm = lazyRetry(() => import('./components/UestrpgAntagonistForm'))
 const UestrpgPage = lazyRetry(() => import('./pages/UestrpgPage'))
+
+// Cyberpunk 2020
+const CyberpunkForm = lazyRetry(() => import('./components/CyberpunkForm'))
+const CyberpunkAntagonistForm = lazyRetry(() => import('./components/CyberpunkAntagonistForm'))
+const CyberpunkPage = lazyRetry(() => import('./pages/CyberpunkPage'))
 const AllChroniclesPage = lazyRetry(() => import('./pages/AllChroniclesPage'))
 
 function ProtectedRoute({ children }) {
@@ -168,7 +173,7 @@ function UserMenu() {
   )
 }
 
-const THEME_TO_CHARACTERS_PATH = { wod: '/characters', '7thsea': '/7thsea', l5r: '/l5r', blades: '/blades', dnd: '/dnd', uestrpg: '/uestrpg' }
+const THEME_TO_CHARACTERS_PATH = { wod: '/characters', '7thsea': '/7thsea', l5r: '/l5r', blades: '/blades', dnd: '/dnd', uestrpg: '/uestrpg', cyberpunk: '/cyberpunk' }
 
 function AppShell() {
   const { user, isST } = useAuth()
@@ -393,6 +398,24 @@ function AppShell() {
             <ProtectedRoute><ChronicleForm system="UESTRPG" basePath="/uestrpg/chronicles" /></ProtectedRoute>
           } />
           <Route path="/uestrpg/chronicles/:id" element={
+            <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
+          } />
+          <Route path="/cyberpunk" element={
+            <ProtectedRoute><CyberpunkPage /></ProtectedRoute>
+          } />
+          <Route path="/cyberpunk/new" element={
+            <ProtectedRoute><CyberpunkForm /></ProtectedRoute>
+          } />
+          <Route path="/cyberpunk/antagonist/new" element={
+            <ProtectedRoute><CyberpunkAntagonistForm /></ProtectedRoute>
+          } />
+          <Route path="/cyberpunk/chronicles" element={
+            <ProtectedRoute><ChronicleList system="CYBERPUNK" basePath="/cyberpunk/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/cyberpunk/chronicles/new" element={
+            <ProtectedRoute><ChronicleForm system="CYBERPUNK" basePath="/cyberpunk/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/cyberpunk/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
           } />
           <Route path="/all-chronicles" element={

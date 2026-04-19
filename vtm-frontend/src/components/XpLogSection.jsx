@@ -220,6 +220,19 @@ const configs = {
     xpRef: [],
     freebieRef: [],
   },
+  cyberpunk: {
+    startingFreebies: 0,
+    noFreebies: true,
+    xpCosts: {
+      Earned: {},
+      Skill:       { multiplier: 1, inputLabel: 'currentRating' },
+      NewSkill:    { flat: 1 },
+      Other:       {},
+    },
+    freebieCosts: { Other: {} },
+    xpRef: [],
+    freebieRef: [],
+  },
   hunter: {
     startingFreebies: 15,
     xpCosts: {

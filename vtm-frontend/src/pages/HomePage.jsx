@@ -60,6 +60,11 @@ export default function HomePage() {
             <p>{t('systemUestrpgDesc')}</p>
             <span className="system-card-cta">{t('systemEnter')}</span>
           </Link>
+          <Link to={user ? '/cyberpunk' : '/login'} className="system-card system-card--cyberpunk" onClick={() => switchTheme('cyberpunk')}>
+            <h4>{t('systemCyberpunk')}</h4>
+            <p>{t('systemCyberpunkDesc')}</p>
+            <span className="system-card-cta">{t('systemEnter')}</span>
+          </Link>
         </div>
       </section>
 

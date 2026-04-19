@@ -10,7 +10,9 @@ public class SpaForwardController {
             "/characters/**", "/chronicles/**", "/all-chronicles",
             "/7thsea", "/7thsea/**", "/l5r", "/l5r/**",
             "/blades", "/blades/**", "/dnd", "/dnd/**",
-            "/uestrpg", "/uestrpg/**", "/players", "/admin", "/invite/**"},
+            "/uestrpg", "/uestrpg/**",
+            "/cyberpunk", "/cyberpunk/**",
+            "/players", "/admin", "/invite/**"},
             produces = "text/html")
     public String forward() {
         return "forward:/index.html";
