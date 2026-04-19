@@ -1598,6 +1598,8 @@ const en = {
   dndClassFeatures: 'Class Features',
   dndRacialTraits: 'Racial Traits',
   dndFeats: 'Feats',
+  dndSelectedFeats: 'Selected Feats',
+  dndSearchFeats: 'Search feats...',
   // Spells
   tabDndSpells: 'Spells',
   dndSpellcastingAbility: 'Spellcasting Ability',
@@ -3626,6 +3628,8 @@ const pt = {
   dndClassFeatures: 'Características de Classe',
   dndRacialTraits: 'Traços Raciais',
   dndFeats: 'Talentos',
+  dndSelectedFeats: 'Talentos Selecionados',
+  dndSearchFeats: 'Buscar talentos...',
   tabDndSpells: 'Magias',
   dndSpellcastingAbility: 'Habilidade de Conjuração',
   dndSpellSaveDC: 'CD de Resistência',

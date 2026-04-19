@@ -15,6 +15,7 @@ import { DND_RACES, DND_RACE_CATALOG, DND_ALIGNMENTS } from '../data/dnd5eRaces'
 import { DND_BACKGROUNDS, DND_SKILLS } from '../data/dnd5eBackgrounds'
 import { DND_SPELLS } from '../data/dnd5eSpells'
 import { DND_EQUIPMENT_CATALOG } from '../data/dnd5eEquipment'
+import { DND_FEATS } from '../data/dnd5eFeats'
 
 const TAB_KEYS = ['tabIdentity', 'tabDndAbilities', 'tabDndSkills', 'tabDndCombat', 'tabDndFeatures', 'tabDndSpells', 'tabDndEquipment', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
 
@@ -87,6 +88,8 @@ export default function DndForm() {
   const [spellLevelFilter, setSpellLevelFilter] = useState('all')
   const [expandedSpell, setExpandedSpell] = useState(null)
   const [equipSearch, setEquipSearch] = useState('')
+  const [featSearch, setFeatSearch] = useState('')
+  const [expandedFeat, setExpandedFeat] = useState(null)
 
   useEffect(() => {
     if (characterId) loadCharacter()
@@ -172,6 +175,16 @@ export default function DndForm() {
       return spell.name.toLowerCase().includes(q) || spell.school.toLowerCase().includes(q)
     }
     return true
+  })
+
+  // Selected feats
+  const selectedFeats = csvList(fields.dndFeats)
+
+  // Filtered feats
+  const filteredFeats = DND_FEATS.filter(feat => {
+    if (!featSearch) return true
+    const q = featSearch.toLowerCase()
+    return feat.name.toLowerCase().includes(q) || feat.description.toLowerCase().includes(q)
   })
 
   // Filtered equipment
@@ -459,9 +472,56 @@ export default function DndForm() {
               placeholder="Additional racial trait notes..." aria-label={t('dndRacialTraits')} />
           </fieldset>
           <fieldset>
-            <legend>{t('dndFeats')}</legend>
-            <textarea name="dndFeats" value={fields.dndFeats} onChange={handleText} rows={5} style={{ width: '100%' }}
-              placeholder="List your feats here..." aria-label={t('dndFeats')} />
+            <legend>{t('dndFeats')} ({selectedFeats.length})</legend>
+            {selectedFeats.length > 0 && (
+              <div style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: '4px' }}>
+                <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '4px' }}>{t('dndSelectedFeats')}:</div>
+                {selectedFeats.map(featName => {
+                  const feat = DND_FEATS.find(f => f.name === featName)
+                  return (
+                    <div key={featName} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
+                      <span style={{ fontSize: '0.85rem' }}>
+                        <strong>{featName}</strong>
+                        {feat?.prerequisite && <span className="muted-hint muted-hint--xs"> (Prereq: {feat.prerequisite})</span>}
+                      </span>
+                      <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                        onClick={() => toggleCsv('dndFeats', featName)}>Remove</button>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+            <div style={{ marginBottom: 'var(--space-sm)' }}>
+              <input type="text" placeholder={t('dndSearchFeats')} value={featSearch} onChange={e => setFeatSearch(e.target.value)} style={{ width: '100%' }} />
+            </div>
+            <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+              {filteredFeats.map(feat => {
+                const isSelected = selectedFeats.includes(feat.name)
+                const isExpanded = expandedFeat === feat.name
+                return (
+                  <div key={feat.name} style={{ borderBottom: '1px solid var(--color-border)', padding: '6px 0' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer' }}
+                      onClick={() => setExpandedFeat(isExpanded ? null : feat.name)}
+                      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpandedFeat(isExpanded ? null : feat.name) } }}
+                      role="button" tabIndex={0} aria-expanded={isExpanded} aria-label={`${feat.name} details`}>
+                      <span style={{ fontSize: '0.85rem', flex: 1 }}>
+                        <strong>{feat.name}</strong>
+                        {feat.prerequisite && <span className="muted-hint muted-hint--xs"> (Prereq: {feat.prerequisite})</span>}
+                      </span>
+                      <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                        onClick={e => { e.stopPropagation(); toggleCsv('dndFeats', feat.name) }}>
+                        {isSelected ? 'Remove' : 'Add'}
+                      </button>
+                    </div>
+                    {isExpanded && (
+                      <div style={{ padding: 'var(--space-sm)', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+                        <p style={{ marginTop: '4px' }}>{feat.description}</p>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
           </fieldset>
         </div>
       </div>

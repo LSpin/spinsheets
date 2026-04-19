@@ -215,19 +215,19 @@ export const UESTRPG_CLASS_CATALOG = Object.entries(UESTRPG_CLASSES).map(([key, 
 }));
 
 export const UESTRPG_CONSTELLATIONS = [
-  { value: "The Ritual", month: "Morning Star", description: "Mara's Gift healing + Blessed Word vs undead." },
-  { value: "The Lover", month: "Sun's Dawn", description: "Lover's Kiss — paralyze a humanoid on touch." },
-  { value: "The Lord", month: "First Seed", description: "Blood of the North healing, but Trollkin fire weakness." },
-  { value: "The Mage", month: "Rain's Hand", description: "+1 INT or WIL, advantage on concentration saves, learn a cantrip + 1st level spell." },
-  { value: "The Shadow", month: "Second Seed", description: "+1 INT/PER/WIL, Moonshadow (cast Invisibility once/day)." },
-  { value: "The Steed", month: "Mid Year", description: "+1 END, speed +10 feet." },
-  { value: "The Apprentice", month: "Sun's Height", description: "+1 magicka/level, but weakness to one magical damage type." },
-  { value: "The Warrior", month: "Last Seed", description: "+1 STR and END." },
-  { value: "The Lady", month: "Hearthfire", description: "+1 WIL and END." },
-  { value: "The Tower", month: "Frostfall", description: "Tower Key (cast Knock), Tower Warden (reflect damage)." },
-  { value: "The Atronach", month: "Sun's Dusk", description: "+2 magicka/level, but stunted magicka regeneration." },
-  { value: "The Thief", month: "Evening Star", description: "+1 AGI, +5 speed, 1 Luck Point (d6)." },
-  { value: "The Serpent", month: "--", description: "Cure disease/dispel magic, OR poison touch." }
+  { value: "The Ritual", month: "Morning Star", description: "Blessed with a variety of abilities depending on the season. Those born under the Ritual can heal themselves, turn undead, and protect themselves from the undead." },
+  { value: "The Lover", month: "Sun's Dawn", description: "Those born under the Lover are graceful and passionate. They can paralyze others with a kiss and are naturally more agile." },
+  { value: "The Lord", month: "First Seed", description: "Those born under the Lord are stronger and healthier than most. They can regenerate health and resist damage." },
+  { value: "The Mage", month: "Rain's Hand", description: "The Mage grants bonus magicka to those born under it. These individuals have larger magicka reserves." },
+  { value: "The Shadow", month: "Second Seed", description: "The Shadow grants the ability to become invisible once per day. Shadow-born are naturally stealthy." },
+  { value: "The Steed", month: "Mid Year", description: "The Steed grants increased speed to those born under it. They can carry more and move faster than others." },
+  { value: "The Apprentice", month: "Sun's Height", description: "The Apprentice grants a large bonus to magicka but also a weakness to magic. A double-edged blessing." },
+  { value: "The Warrior", month: "Last Seed", description: "The Warrior grants increased prowess in combat. Those born under it are naturally stronger and more skilled with weapons." },
+  { value: "The Lady", month: "Hearthfire", description: "The Lady grants bonus endurance and willpower. Those born under her sign are more resistant to physical and mental hardship." },
+  { value: "The Tower", month: "Frostfall", description: "Those born under the Tower can unlock doors and detect nearby objects and creatures." },
+  { value: "The Atronach", month: "Sun's Dusk", description: "The Atronach grants the largest magicka bonus but prevents natural magicka regeneration. Spell absorption is possible." },
+  { value: "The Thief", month: "Evening Star", description: "The Thief grants increased luck and agility. Once per day, those born under it can make their own luck." },
+  { value: "The Serpent", month: "--", description: "The Serpent grants no specific attribute bonuses but provides a powerful poison spell and resistance to poison." }
 ];
 
 export const UESTRPG_CONSTELLATION_CATALOG = UESTRPG_CONSTELLATIONS.map(c => ({
