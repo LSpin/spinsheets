@@ -212,10 +212,13 @@ function AppShell() {
         <div className="header-inner">
           <div className="header-title-row">
             <h1>{t('appTitle')}</h1>
-            <button className="hamburger-btn" onClick={() => setMenuOpen(!menuOpen)}
-              aria-label={menuOpen ? t('closeMenu') : t('openMenu')} aria-expanded={menuOpen}>
-              <span className={`hamburger-icon${menuOpen ? ' hamburger-icon--open' : ''}`} />
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+              <LanguageToggle />
+              <button className="hamburger-btn" onClick={() => setMenuOpen(!menuOpen)}
+                aria-label={menuOpen ? t('closeMenu') : t('openMenu')} aria-expanded={menuOpen}>
+                <span className={`hamburger-icon${menuOpen ? ' hamburger-icon--open' : ''}`} />
+              </button>
+            </div>
           </div>
           {user && (
             <nav aria-label="Primary navigation" className={`nav-menu${menuOpen ? ' nav-menu--open' : ''}`}>
@@ -240,7 +243,6 @@ function AppShell() {
               )}
               <div className="nav-utils">
                 <UserMenu />
-                <LanguageToggle />
               </div>
             </nav>
           )}
@@ -249,9 +251,6 @@ function AppShell() {
               <Link to="/" onClick={navTo}><button>{t('navHome')}</button></Link>
               <Link to="/login" onClick={navTo}><button>{t('signIn')}</button></Link>
               <Link to="/register" onClick={navTo}><button>{t('getStarted')}</button></Link>
-              <div className="nav-utils">
-                <LanguageToggle />
-              </div>
             </nav>
           )}
         </div>
