@@ -9,7 +9,7 @@ export default function LanguageToggle() {
       onClick={toggle}
       className="lang-toggle"
     >
-      {lang === 'en' ? 'Fala Português, Alienígena Filho da Puta' : 'English, motherfucker, do you speak it?'}
+      {lang === 'en' ? 'Mudar Idioma' : 'Switch Language'}
     </button>
   )
 }
