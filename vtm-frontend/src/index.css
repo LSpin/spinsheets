@@ -1752,19 +1752,46 @@ a:hover {
 }
 
 @media (max-width: 640px) {
+  /* ── Force everything to fit viewport ── */
+  *, *::before, *::after {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Exempt specific elements that need fixed sizing */
+  input[type="checkbox"], input[type="radio"],
+  .splat-badge, .step-number, svg, svg * {
+    max-width: none !important;
+  }
+
   /* ── Layout ── */
-  main { padding: var(--space-lg) var(--space-md); }
-  header[role="banner"] { padding: var(--space-md); }
+  main { padding: var(--space-md) var(--space-sm); }
+  header[role="banner"] { padding: var(--space-sm); }
   .header-inner { flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
 
-  /* ── Stacked layouts ── */
+  /* ── All grids: single column on mobile ── */
+  [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Allow 2-column for small stat grids */
+  [style*="minmax(100px"],
+  [style*="minmax(80px"],
+  [style*="minmax(120px"] {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+  }
+
+  /* ── All flex rows: wrap and shrink ── */
   .field-row { flex-direction: column; }
+  [style*="display: flex"][style*="gap"] { flex-wrap: wrap !important; }
+
+  /* ── Stacked layouts ── */
   .form-header { flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
   .character-list-header { flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
 
   /* ── Character cards ── */
-  .character-card { flex-direction: column; align-items: flex-start; }
-  .character-card-actions { width: 100%; }
+  .character-card { flex-direction: column; align-items: stretch; }
+  .character-card-actions { width: 100%; flex-wrap: wrap; }
   .character-card-actions .btn { flex: 1; }
 
   /* ── Form actions ── */
@@ -1772,10 +1799,18 @@ a:hover {
   .form-actions .btn { flex: 1; justify-content: center; }
 
   /* ── Rating grid ── */
-  .rating-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--space-md); }
+  .rating-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important; gap: var(--space-sm); }
 
   /* ── Splat grid: single column ── */
-  .splat-grid { grid-template-columns: 1fr; }
+  .splat-grid { grid-template-columns: 1fr !important; }
+
+  /* ── Fieldsets / form sections: no overflow ── */
+  fieldset, .form-section { overflow: hidden; }
+
+  /* ── Tables as stacked cards ── */
+  [style*="grid-template-columns: '1fr"] {
+    grid-template-columns: 1fr !important;
+  }
 
   /* ── Nav: horizontal scroll ── */
   nav[aria-label="Primary navigation"] {
@@ -1786,8 +1821,32 @@ a:hover {
   }
   nav button { white-space: nowrap; flex-shrink: 0; }
 
+  /* ── Tab list: scrollable ── */
+  .tab-list {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap !important;
+    padding-bottom: var(--space-xs);
+  }
+  .tab-list .btn, .tab-list [role="tab"] {
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 0.8rem;
+  }
+
   /* ── Modal: near full-width ── */
-  .modal-content { width: 95vw; max-height: 90vh; }
+  .modal-content { width: 95vw; max-height: 90vh; padding: var(--space-sm); }
+
+  /* ── Homepage: single column ── */
+  .homepage-grid, .system-grid, .homepage-grid--tutorial {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Inputs: prevent zoom on iOS ── */
+  input[type="text"], input[type="number"], input[type="email"],
+  input[type="search"], select, textarea {
+    font-size: 16px;
+  }
 }
 
 /* ── Health track table ── */
