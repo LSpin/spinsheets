@@ -180,47 +180,76 @@ function AppShell() {
   const { user, isST } = useAuth()
   const { t } = useLanguage()
   const { theme } = useTheme()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef(null)
   const charactersPath = THEME_TO_CHARACTERS_PATH[theme] || '/characters'
+
+  // Close menu on navigation
+  const navTo = () => { setMenuOpen(false) }
+
+  // Close menu on Escape key
+  useEffect(() => {
+    if (!menuOpen) return
+    const handleKey = (e) => { if (e.key === 'Escape') setMenuOpen(false) }
+    document.addEventListener('keydown', handleKey)
+    return () => document.removeEventListener('keydown', handleKey)
+  }, [menuOpen])
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    if (!menuOpen) return
+    const handleClick = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false)
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [menuOpen])
 
   return (
     <>
       <a href="#main-content" className="skip-link">Skip to main content</a>
-      <header role="banner">
+      <header role="banner" ref={menuRef}>
         <div className="header-inner">
-          <h1>{t('appTitle')}</h1>
+          <div className="header-title-row">
+            <h1>{t('appTitle')}</h1>
+            <button className="hamburger-btn" onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? t('closeMenu') : t('openMenu')} aria-expanded={menuOpen}>
+              <span className={`hamburger-icon${menuOpen ? ' hamburger-icon--open' : ''}`} />
+            </button>
+          </div>
           {user && (
-            <nav aria-label="Primary navigation">
-              <Link to="/">
+            <nav aria-label="Primary navigation" className={`nav-menu${menuOpen ? ' nav-menu--open' : ''}`}>
+              <Link to="/" onClick={navTo}>
                 <button>{t('navHome')}</button>
               </Link>
-              <Link to="/all-characters">
+              <Link to="/all-characters" onClick={navTo}>
                 <button>{t('navCharacters')}</button>
               </Link>
-              <Link to="/all-chronicles">
+              <Link to="/all-chronicles" onClick={navTo}>
                 <button>{t('navChronicles')}</button>
               </Link>
               {isST && (
-                <Link to="/players">
+                <Link to="/players" onClick={navTo}>
                   <button>{t('navPlayers')}</button>
                 </Link>
               )}
               {user?.username === 'spin' && (
-                <Link to="/admin">
+                <Link to="/admin" onClick={navTo}>
                   <button>{t('navAdmin')}</button>
                 </Link>
               )}
-              <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+              <div className="nav-utils">
                 <UserMenu />
                 <LanguageToggle />
               </div>
             </nav>
           )}
           {!user && (
-            <nav aria-label="Primary navigation">
-              <Link to="/"><button>{t('navHome')}</button></Link>
-              <Link to="/login"><button>{t('signIn')}</button></Link>
-              <Link to="/register"><button>{t('getStarted')}</button></Link>
-              <div style={{ marginLeft: 'auto' }}>
+            <nav aria-label="Primary navigation" className={`nav-menu${menuOpen ? ' nav-menu--open' : ''}`}>
+              <Link to="/" onClick={navTo}><button>{t('navHome')}</button></Link>
+              <Link to="/login" onClick={navTo}><button>{t('signIn')}</button></Link>
+              <Link to="/register" onClick={navTo}><button>{t('getStarted')}</button></Link>
+              <div className="nav-utils">
                 <LanguageToggle />
               </div>
             </nav>
