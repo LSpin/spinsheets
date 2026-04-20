@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { getCharacters, deleteCharacter } from '../api/characterApi'
+import { getChronicles } from '../api/chronicleApi'
 import { useTheme } from '../context/ThemeContext'
+import NewCharacterModal from '../components/NewCharacterModal'
 
 const SYSTEMS = [
   { key: 'ALL', labelKey: 'allSystems', badge: null, charPath: null },
@@ -47,9 +49,11 @@ function getSystemForSplat(splat) {
 
 export default function AllCharactersPage() {
   const [characters, setCharacters] = useState([])
+  const [chronicles, setChronicles] = useState([])
   const [filter, setFilter] = useState('ALL')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [showNewChar, setShowNewChar] = useState(false)
   const navigate = useNavigate()
   const { user, isST } = useAuth()
   const { t } = useLanguage()
@@ -58,8 +62,9 @@ export default function AllCharactersPage() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await getCharacters()
-        setCharacters(res.data)
+        const [charRes, chronRes] = await Promise.all([getCharacters(), getChronicles()])
+        setCharacters(charRes.data)
+        setChronicles(chronRes.data)
       } catch {
         setError(t('failedLoadChars'))
       } finally {
@@ -89,7 +94,10 @@ export default function AllCharactersPage() {
   return (
     <section aria-labelledby="all-chars-heading">
       <div className="character-list-header">
-        <h2 id="all-chars-heading">{t('allCharactersTitle')}</h2>
+        <h2 id="all-chars-heading">{t('navCharacters')}</h2>
+        <button className="btn btn-primary" onClick={() => setShowNewChar(true)}>
+          {t('newCharBtn')}
+        </button>
       </div>
 
       {error && <p className="status-error" role="alert">{error}</p>}
@@ -163,6 +171,7 @@ export default function AllCharactersPage() {
           })}
         </ul>
       )}
+      <NewCharacterModal open={showNewChar} onClose={() => setShowNewChar(false)} chronicles={chronicles} />
     </section>
   )
 }

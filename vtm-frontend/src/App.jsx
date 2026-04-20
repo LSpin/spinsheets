@@ -193,11 +193,8 @@ function AppShell() {
               <Link to="/">
                 <button>{t('navHome')}</button>
               </Link>
-              <Link to={charactersPath}>
-                <button>{t('navCharacters')}</button>
-              </Link>
               <Link to="/all-characters">
-                <button>{t('navAllCharacters')}</button>
+                <button>{t('navCharacters')}</button>
               </Link>
               <Link to="/all-chronicles">
                 <button>{t('navChronicles')}</button>
