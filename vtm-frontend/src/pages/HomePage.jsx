@@ -98,6 +98,42 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="homepage-tutorial">
+        <h3>{t('howToUseTitle')}</h3>
+        <div className="homepage-grid homepage-grid--tutorial">
+          <div className="homepage-card homepage-card--step">
+            <span className="step-number">1</span>
+            <h4>{t('tutorialStep1Title')}</h4>
+            <p>{t('tutorialStep1Desc')}</p>
+          </div>
+          <div className="homepage-card homepage-card--step">
+            <span className="step-number">2</span>
+            <h4>{t('tutorialStep2Title')}</h4>
+            <p>{t('tutorialStep2Desc')}</p>
+          </div>
+          <div className="homepage-card homepage-card--step">
+            <span className="step-number">3</span>
+            <h4>{t('tutorialStep3Title')}</h4>
+            <p>{t('tutorialStep3Desc')}</p>
+          </div>
+          <div className="homepage-card homepage-card--step">
+            <span className="step-number">4</span>
+            <h4>{t('tutorialStep4Title')}</h4>
+            <p>{t('tutorialStep4Desc')}</p>
+          </div>
+          <div className="homepage-card homepage-card--step">
+            <span className="step-number">5</span>
+            <h4>{t('tutorialStep5Title')}</h4>
+            <p>{t('tutorialStep5Desc')}</p>
+          </div>
+          <div className="homepage-card homepage-card--step">
+            <span className="step-number">6</span>
+            <h4>{t('tutorialStep6Title')}</h4>
+            <p>{t('tutorialStep6Desc')}</p>
+          </div>
+        </div>
+      </section>
+
       <section className="homepage-splats">
         <h3>{t('supportedGames')}</h3>
         <div className="homepage-grid">
