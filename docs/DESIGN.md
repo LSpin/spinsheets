@@ -223,6 +223,27 @@ export default function CharacterForm() {
 }
 ```
 
+### Mobile UX
+
+#### Hamburger Navigation Menu
+
+- **Breakpoint:** Appears at `max-width: 640px` — below this width the full navigation bar collapses into a hamburger icon
+- **Animation:** Three-line icon animates to an X when open (CSS transforms on the spans)
+- **Dismissal:** Closes on Escape key press, click/tap outside the menu, or on navigation (route change)
+- **Accessibility:** Uses `aria-expanded` on the toggle button, `aria-label="Menu"`, focus trapped while open
+
+#### Collapsible Tab Dropdown
+
+- On mobile viewports, the form tab bar collapses to show only the currently active tab name with a `▼` arrow indicator
+- Tapping the active tab expands the full list of tabs as a dropdown overlay
+- Selecting a tab from the list navigates to that tab and collapses the dropdown
+- Clicking/tapping outside the dropdown dismisses it without changing tabs
+- The dropdown uses the same `role="tablist"` semantics as the desktop tab bar
+
+#### Language Toggle
+
+- The language toggle button is always visible in the header, outside the hamburger menu, so users can switch languages regardless of navigation state
+
 ### Shared Components
 
 | Component | Purpose |
@@ -292,10 +313,11 @@ Push to main
 
 ### Caching Strategy
 
-- `WebConfig` filter sets cache headers:
-  - `/assets/**` → `public, max-age=31536000, immutable` (hashed filenames change on build)
-  - All HTML routes → `no-cache, no-store, must-revalidate` (always fresh index.html)
-- `lazyRetry` wrapper handles stale chunks after deploy (auto-reload once)
+- **`WebConfig` filter** (Spring Boot `OncePerRequestFilter`) sets HTTP cache headers based on request path:
+  - `/assets/**` → `Cache-Control: public, max-age=31536000, immutable` (hashed filenames change on every build, so these are safe to cache indefinitely)
+  - All other routes (HTML) → `Cache-Control: no-cache, no-store, must-revalidate` (ensures the browser always fetches a fresh `index.html` after deploys)
+- This two-tier approach guarantees users always get the latest app shell while benefiting from permanent caching for versioned assets
+- `lazyRetry` wrapper handles stale chunks after deploy (auto-reload once via sessionStorage flag)
 
 ---
 
@@ -309,7 +331,7 @@ Push to main
 - **Focus management** — Modals have `autoFocus`, `aria-modal`, Escape to close, click-outside dismiss
 - **Live regions** — `aria-live="polite"` on dynamic content, `role="alert"` on errors
 - **Color** — All information conveyed with text, not color alone. Contrast ratios checked per theme
-- **Mobile** — Hamburger menu with `aria-expanded`, touch targets, responsive layouts
+- **Mobile** — Hamburger menu with `aria-expanded`, animated icon, Escape/click-outside/navigation dismiss; collapsible tab dropdown shows active tab with `▼` indicator, expands full list on tap, dismisses on click-outside; touch targets meet 44px minimum
 - **Print** — `@media print` stylesheet shows all tabs, hides nav/buttons, clean black-on-white
 
 ---

@@ -223,6 +223,27 @@ export default function CharacterForm() {
 }
 ```
 
+### UX Mobile
+
+#### Menu Hamburger de Navegação
+
+- **Breakpoint:** Aparece em `max-width: 640px` — abaixo desta largura a barra de navegação completa colapsa em um ícone hamburger
+- **Animação:** Ícone de três linhas anima para um X quando aberto (CSS transforms nos spans)
+- **Fechamento:** Fecha ao pressionar Escape, clicar/tocar fora do menu, ou ao navegar (mudança de rota)
+- **Acessibilidade:** Usa `aria-expanded` no botão de toggle, `aria-label="Menu"`, foco capturado enquanto aberto
+
+#### Dropdown Colapsável de Abas
+
+- Em viewports mobile, a barra de abas do formulário colapsa para mostrar apenas o nome da aba ativa com um indicador `▼`
+- Tocar na aba ativa expande a lista completa de abas como um overlay dropdown
+- Selecionar uma aba da lista navega para aquela aba e colapsa o dropdown
+- Clicar/tocar fora do dropdown o fecha sem alterar a aba atual
+- O dropdown utiliza a mesma semântica `role="tablist"` da barra de abas desktop
+
+#### Toggle de Idioma
+
+- O botão de toggle de idioma está sempre visível no header, fora do menu hamburger, para que os usuários possam alternar idiomas independentemente do estado de navegação
+
 ### Componentes Compartilhados
 
 | Componente | Propósito |
@@ -292,10 +313,11 @@ Push to main
 
 ### Estratégia de Cache
 
-- Filtro `WebConfig` define headers de cache:
-  - `/assets/**` → `public, max-age=31536000, immutable` (nomes de arquivo com hash mudam a cada build)
-  - Todas as rotas HTML → `no-cache, no-store, must-revalidate` (sempre index.html atualizado)
-- Wrapper `lazyRetry` lida com chunks desatualizados após deploy (auto-reload único)
+- **Filtro `WebConfig`** (Spring Boot `OncePerRequestFilter`) define headers HTTP de cache baseados no caminho da requisição:
+  - `/assets/**` → `Cache-Control: public, max-age=31536000, immutable` (nomes de arquivo com hash mudam a cada build, portanto são seguros para cache indefinido)
+  - Todas as outras rotas (HTML) → `Cache-Control: no-cache, no-store, must-revalidate` (garante que o navegador sempre busque um `index.html` atualizado após deploys)
+- Esta abordagem em duas camadas garante que os usuários sempre recebam o app shell mais recente enquanto se beneficiam do cache permanente para assets versionados
+- Wrapper `lazyRetry` lida com chunks desatualizados após deploy (auto-reload único via flag no sessionStorage)
 
 ---
 
@@ -309,7 +331,7 @@ Push to main
 - **Gerenciamento de foco** — Modais possuem `autoFocus`, `aria-modal`, Escape para fechar, clique fora para dispensar
 - **Regiões ao vivo** — `aria-live="polite"` em conteúdo dinâmico, `role="alert"` em erros
 - **Cor** — Toda informação é transmitida com texto, não apenas cor. Razões de contraste verificadas por tema
-- **Mobile** — Menu hamburger com `aria-expanded`, alvos de toque, layouts responsivos
+- **Mobile** — Menu hamburger com `aria-expanded`, ícone animado, fechamento por Escape/clique-fora/navegação; dropdown colapsável de abas mostra aba ativa com indicador `▼`, expande lista completa ao tocar, fecha ao clicar fora; alvos de toque atendem mínimo de 44px
 - **Impressão** — Stylesheet `@media print` mostra todos os painéis de aba, esconde nav/botões, layout limpo preto-no-branco
 
 ---
