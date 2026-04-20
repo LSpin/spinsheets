@@ -12,6 +12,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Stamina',
     honor: 3.5,
     skills: 'Athletics, Defense, Heavy Weapons (Tetsubo), Intimidation, Kenjutsu, Lore: Shadowlands, any one Bugei skill',
+    outfit: 'Daisho, Heavy Armor, Sturdy Clothing, Traveling Pack, Tetsubo or Dai Tsuchi, 3 koku',
     techniques: [
       { rank: 1, name: 'The Way of the Crab', effect: 'Ignore TN penalties for heavy armor (except Stealth). +1k0 damage with Heavy Weapons.' },
       { rank: 2, name: 'The Mountain Does Not Move', effect: 'Gain Reduction equal to your Earth Ring.' },
@@ -27,6 +28,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Agility',
     honor: 4.5,
     skills: 'Athletics, Defense, Hunting (Tracking), Kenjutsu, Kyujutsu, Lore: Shadowlands, any one Bugei skill',
+    outfit: 'Daisho, Ashigaru Armor, Sturdy Clothing, Traveling Pack, Yumi with 20 Arrows, Knife, 3 koku',
     techniques: [
       { rank: 1, name: "Torch's Flame Flickers", effect: '+1k0 to attack rolls in Attack Stance. Make food/water/jade rations last twice as long for up to Hunting Rank people.' },
       { rank: 2, name: "Wolf's Little Lesson", effect: 'In Attack Stance, +5 Armor TN each time you hit with melee (stacks up to School Rank times per skirmish).' },
@@ -42,6 +44,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Reflexes',
     honor: 2.5,
     skills: 'Athletics, Hunting, Kenjutsu, Kyujutsu, Lore: Shadowlands, Stealth (Sneaking), any one Bugei skill',
+    outfit: 'Daisho, Ashigaru Armor, Sturdy Clothing, Traveling Pack, Yumi with 20 Arrows, Knife, 3 koku',
     techniques: [
       { rank: 1, name: "Dance the Razor's Edge", effect: 'Gain bonus to attack and Armor TN while in the Shadowlands. (Core Book)' },
       { rank: 2, name: 'Run Like the Wind', effect: 'Increased movement speed; bonus to Athletics rolls for running. (Core Book)' },
@@ -57,6 +60,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Intelligence',
     honor: 4.5,
     skills: 'Artisan: Architecture, Defense, Engineering, Kenjutsu, Lore: Architecture, War Fan, any one Skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 3 koku',
     techniques: [
       { rank: 1, name: 'The Kaiu Method', effect: '+1k0 to all School Skill rolls. Spending Void on School Skills grants +2k2 instead of +1k1 (not cumulative).' },
       { rank: 2, name: 'The Path of Stone', effect: 'Engineering TN 25: add School Rank x100 Wounds to large structures. Re-roll siege engine damage dice below School Rank.' },
@@ -72,6 +76,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Willpower',
     honor: 2.5,
     skills: 'Calligraphy (Cipher), Defense, Lore: Shadowlands, Lore: Theology, Spellcraft, any one Skill',
+    outfit: 'Wakizashi, Scroll Satchel, Sturdy Clothing, Traveling Pack, Jade Finger (worth 1 koku), 3 koku',
     techniques: [
       { rank: 1, name: 'Gaze Into Shadow', effect: 'Affinity: Earth. Deficiency: Air. Sense Taint within Earth Ring x5 feet by concentrating. +1k0 to Spellcasting vs. Tainted targets. (Core Book)' },
       { rank: 2, name: 'Touch of Desecration', effect: '+1k1 to Earth spell damage against Tainted creatures. Can identify type and rough strength of Taint. (Core Book)' },
@@ -87,6 +92,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Willpower',
     honor: 3.5,
     skills: 'Athletics, Defense, Hunting, Intimidation, Investigation (Interrogation), Kenjutsu, Lore: Shadowlands',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 3 koku',
     techniques: [
       { rank: 1, name: 'To See the Darkness', effect: 'Contested Investigation/Awareness vs. Sincerity/Willpower to detect Taint (bonus per Taint Rank). +1k1 to resist Taint and attack Tainted/Shadowlands foes.' },
       { rank: 2, name: 'To Ride the Darkness', effect: 'Free Action Lore: Shadowlands TN 20 to recall one strength or weakness of a Shadowlands creature. Raise for more info.' },
@@ -102,6 +108,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Perception',
     honor: 4.5,
     skills: 'Athletics, Defense, Hunting, Kenjutsu, Lore: Spirit Realms, Spears, any one Bugei skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 3 koku',
     techniques: [
       { rank: 1, name: "The Falcon's Eyes", effect: '+1k0 to all Perception-based Skill and Trait rolls. +1k0 damage vs. creatures from other Spirit Realms.' },
       { rank: 2, name: 'The Falcon Takes Flight', effect: 'Detect creatures from other Spirit Realms by Perception roll vs. TN of creature Air Ring x5.' },
@@ -117,6 +124,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 2.5,
     skills: 'Commerce (Appraisal), Courtier, Defense, Etiquette, Intimidation, Sincerity (Deceit), any one Merchant skill',
+    outfit: 'Wakizashi, Calligraphy Set, Sturdy Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'The Way of the Carp', effect: 'Free Raise on Commerce; no Honor/Glory loss for using Commerce. Contested Commerce/Perception vs. Etiquette/Awareness to learn what someone wants.' },
       { rank: 2, name: 'Do As We Say', effect: 'Use Commerce in place of Courtier for negotiations involving material goods or services. (Core Book)' },
@@ -132,6 +140,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Stamina',
     honor: 2.5,
     skills: 'Athletics, Defense, Jiujutsu, Hunting, Intimidation, Knives, any one Bugei skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 3 koku',
     techniques: [
       { rank: 1, name: 'The Eternal Stone Unleashed', effect: '+1k0 to resist Intimidation/Fear. +1k0 attack and damage unarmed/improvised (must keep high dice).' },
       { rank: 2, name: 'Wearing Down the Mountain', effect: 'Extra Attack Maneuver costs only 3 Raises (instead of 5) when unarmed or with improvised weapons.' },
@@ -151,6 +160,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 4.5,
     skills: 'Calligraphy (Cipher), Etiquette, Lore: Theology, Meditation, Sincerity, Spellcraft, any one High skill',
+    outfit: 'Wakizashi, Scroll Satchel, Fine Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'The Soul of Purity', effect: 'Affinity: Air. Deficiency: Fire. Free Raise on all spells with the Ward keyword. +1k0 to Spellcasting when spell has no damage component. (Core Book)' },
       { rank: 2, name: 'Shield of Air', effect: 'Air spells that protect or heal gain +1 Free Raise. Ward spells last twice as long. (Core Book)' },
@@ -166,6 +176,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Stamina',
     honor: 6.5,
     skills: 'Athletics, Battle, Defense, Iaijutsu, Kenjutsu, Kyujutsu, any one Bugei skill',
+    outfit: 'Daisho, Heavy Armor, Sturdy Clothing, Traveling Pack, Yari or Nagamaki, 3 koku',
     techniques: [
       { rank: 1, name: 'The Force of Honor', effect: 'Gain (Honor Rank - 4, min 1) bonus Wounds at each Wound Rank. +1k0 attack rolls in Attack Stance.' },
       { rank: 2, name: 'The Shield of Faith', effect: 'Guard Maneuver lasts an extra Round and grants +5 additional Armor TN (no self-penalty, target gets +15).' },
@@ -181,6 +192,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 6.5,
     skills: 'Courtier (Manipulation), Etiquette (Courtesy), Perform: Storytelling, Sincerity, Tea Ceremony, any two High skills',
+    outfit: 'Wakizashi, Fine Clothing, Calligraphy Set, Traveling Pack, 10 koku',
     techniques: [
       { rank: 1, name: 'The Soul of Honor', effect: 'At Honor 6.0+: Free Raise on Courtier, Sincerity, and Etiquette. Contested Courtier/Awareness to learn if someone needs a favor.' },
       { rank: 2, name: 'Speaking in Silence', effect: 'Courtier/Intelligence TN 15 to communicate simple ideas via Cadence gestures to other trained Crane.' },
@@ -196,6 +208,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 6.5,
     skills: 'Defense, Etiquette, Investigation (Notice), Jiujutsu, Kenjutsu, Sincerity, any one skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Temper Steel With Honor', effect: 'Add Air Ring to Armor TN. +1k0 attack with jitte or sasumata.' },
       { rank: 2, name: 'Flowing Like Water', effect: 'When controlling a Grapple or resolving Disarm, may use opponent\'s Strength instead of own.' },
@@ -211,6 +224,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Reflexes',
     honor: 6.5,
     skills: 'Etiquette, Iaijutsu (Focus), Kenjutsu, Kyujutsu, Sincerity, Tea Ceremony, any one High or Bugei skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'The Way of the Crane', effect: 'Add 2x Iaijutsu to Initiative. +1k1+School Rank to attack and Focus rolls in Center Stance (and the following Round).' },
       { rank: 2, name: 'Speed of Lightning', effect: '+2k0 attack rolls against opponents with lower Initiative.' },
@@ -226,6 +240,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 5.5,
     skills: 'Acting, Artisan: choice, Courtier, Etiquette, Perform: choice, Sincerity, any one High skill',
+    outfit: 'Wakizashi, Fine Clothing, Calligraphy Set, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Soul of the Artisan', effect: 'Choose one art as focus: +2k0 to rolls, Raises not limited by Void with chosen art.' },
       { rank: 2, name: "The Soul's Dream", effect: 'Contested art/Awareness vs. Etiquette/Willpower: shift audience emotions in desired direction for Insight Rank hours.' },
@@ -245,6 +260,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Perception',
     honor: 6.5,
     skills: 'Courtier, Etiquette, Investigation (Notice), Kenjutsu, Meditation, Sincerity, any one High skill',
+    outfit: 'Wakizashi, Fine Clothing, Calligraphy Set, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: "Kitsuki's Method", effect: 'Free Raise on all Investigation rolls. Add Perception to Armor TN in skirmishes.' },
       { rank: 2, name: 'Wisdom the Wind Brings', effect: 'Anyone lying to you or using Feint/Disarm against you adds +5 per School Rank to their TN.' },
@@ -260,6 +276,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Agility',
     honor: 4.5,
     skills: 'Athletics, Defense, Iaijutsu, Kenjutsu (Katana), Lore: Shugenja, Meditation, any one Bugei skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Way of the Dragon', effect: 'No dual-wield penalties with katana+wakizashi. +School Rank Armor TN (stacks with dual-wield bonus). May adjust spell TN targeting you by 5.' },
       { rank: 2, name: 'The Calm in Midst of Thunder', effect: 'In Center Stance: add Kenjutsu Rank to Iaijutsu rolls.' },
@@ -275,6 +292,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Stamina',
     honor: 4.5,
     skills: 'Athletics, Calligraphy (Cipher), Defense, Lore: Theology, Meditation, Spellcraft, any one Skill',
+    outfit: 'Wakizashi, Scroll Satchel, Sturdy Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Flesh of the Elements', effect: 'Affinity: Earth. Deficiency: Air. May craft potions/salves replicating Earth spell effects. Potions last School Rank days. (Core Book)' },
       { rank: 2, name: 'Body of Stone', effect: 'Spend Void Point to gain Reduction equal to Earth Ring for a number of Rounds equal to School Rank. (Core Book)' },
@@ -290,6 +308,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Reflexes',
     honor: 4.5,
     skills: 'Athletics, Jiujutsu, Lore: Theology, Meditation, any three Skills',
+    outfit: 'Bo Staff, Sturdy Clothing, Traveling Pack, 3 koku',
     techniques: [
       { rank: 1, name: 'Blood of the Kami', effect: 'Gain two Tattoos.' },
       { rank: 2, name: 'Body of Stone', effect: '+1k1 to all unarmed attack and damage rolls.' },
@@ -309,6 +328,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Agility',
     honor: 6.5,
     skills: 'Battle (Mass Combat), Defense, Kenjutsu, Kyujutsu, Lore: History, Sincerity, any one Bugei skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, War Fan, 3 koku',
     techniques: [
       { rank: 1, name: 'The Way of the Lion', effect: 'Ignore opponent armor TN bonus OR gain a Free Raise on attacks. +1k0 on first melee attack or vs. opponent who Raised against you.' },
       { rank: 2, name: 'Strength of Purity', effect: 'Add Honor Rank to one roll per Turn (not damage, not in Center Stance).' },
@@ -324,6 +344,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 6.5,
     skills: 'Courtier, Etiquette, Lore: History, Perform: Storytelling, Sincerity, any two High skills',
+    outfit: 'Wakizashi, Fine Clothing, Calligraphy Set, Traveling Pack, Biwa or Shamisen, 5 koku',
     techniques: [
       { rank: 1, name: 'The Herald of Glory', effect: 'Gain Precise Memory for free. Perform: Storytelling TN 20 to grant Glory equal to School Rank to another (School Rank times per month per person).' },
       { rank: 2, name: 'The Heart of the Lion', effect: 'No Honor/Glory loss for showing emotion for Lion or honorable causes. Others add +5 per School Rank to Intimidation/Temptation TNs against you.' },
@@ -339,6 +360,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 3.5,
     skills: 'Acting, Athletics, Courtier, Kenjutsu, Sincerity (Deceit), Stealth, any one Low skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 3 koku',
     techniques: [
       { rank: 1, name: 'No Boundaries', effect: 'Half Honor loss for Low Skills used for Lion Clan. Free Action: +1k0 attack/Contested rolls vs. up to School Rank opponents (School Rank uses/day).' },
       { rank: 2, name: 'The Lion Cannot Fail', effect: '+1k0 to all School Skill rolls.' },
@@ -354,6 +376,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Perception',
     honor: 4.5,
     skills: 'Calligraphy (Cipher), Etiquette, Lore: History, Lore: Theology, Meditation, Spellcraft, any one High skill',
+    outfit: 'Wakizashi, Scroll Satchel, Fine Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Senses of the Kitsu', effect: 'Affinity: Water. Deficiency: Fire. Detect spirit portals within School Rank x10 miles. Previous School Rank +1 for casting. (Core Book)' },
       { rank: 2, name: 'Hand of the Kitsu', effect: 'Unarmed damage +0k1 (spiritual talons). Meditation TN 30 to project soul into Meido or Yomi to interact with ancestors.' },
@@ -369,6 +392,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Strength',
     honor: 6.5,
     skills: 'Athletics, Battle, Jiujutsu, Kenjutsu, Kyujutsu, Lore: History, any one Bugei skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, any one weapon, 3 koku',
     techniques: [
       { rank: 1, name: "The Lion's Roar", effect: 'Add Honor Rank to all damage rolls. In Full Attack Stance: +5 feet additional movement.' },
       { rank: 2, name: "Matsu's Fury", effect: 'Intimidate opponents in combat; enemies who fail resist are shaken. Does not work against Fear-immune opponents.' },
@@ -388,6 +412,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Willpower',
     honor: 4.5,
     skills: 'Athletics, Calligraphy (Cipher), Hunting, Lore: Spirit Realms, Medicine, Spellcraft, any one Skill',
+    outfit: 'Wakizashi, Scroll Satchel, Sturdy Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Friend of the Spirits', effect: 'Affinity: Earth. Deficiency: Fire. +1k0 on all spell rolls targeting or interacting with animal spirits. Can communicate with animal spirits. (Core Book)' },
       { rank: 2, name: 'Kitsune\'s Gift', effect: 'May summon a minor fox spirit once per day as an ally. Spirit has Earth/Water 3. Lasts School Rank hours. (Core Book)' },
@@ -403,6 +428,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 4.5,
     skills: 'Calligraphy (Cipher), Lore: Theology, Meditation, Perform: Song, Spellcraft, any two Skills',
+    outfit: 'Wakizashi, Scroll Satchel, Fine Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Daughter of the Sun', effect: 'Affinity: Fire. Deficiency: Earth. In sunlight: +1k1 to Fire spell rolls. May re-roll one die on Fire spells cast outdoors during the day. (Core Book)' },
       { rank: 2, name: 'The Sun\'s Guidance', effect: '+1 Free Raise on Fire spells during daytime. Fire spells deal +1k0 damage in direct sunlight. (Core Book)' },
@@ -418,6 +444,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Reflexes',
     honor: 3.5,
     skills: 'Athletics, Defense, Hunting, Investigation, Kyujutsu (Yumi), any two Bugei skills',
+    outfit: 'Daisho, Ashigaru Armor, Sturdy Clothing, Traveling Pack, Yumi with 20 Arrows, 3 koku',
     techniques: [
       { rank: 1, name: 'Always Be Ready', effect: '+1k0 to all bow attack rolls. +3 Initiative.' },
       { rank: 2, name: 'The Arrow Knows the Way', effect: 'One Free Raise for Called Shot only. +2k0 damage with bows.' },
@@ -433,6 +460,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Perception',
     honor: 3.5,
     skills: 'Athletics, Hunting (Tracking), Intimidation, Investigation, Kenjutsu, Kyujutsu, any one Skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 3 koku',
     techniques: [
       { rank: 1, name: "A Hunter's Sense", effect: '+1k1 Intimidation vs. lower caste; +1k0 Social rolls vs. samurai seeking quarry. Add School Rank unkept dice to Hunting/Investigation for tracking.' },
       { rank: 2, name: 'No Prey Escapes', effect: 'Spend Void to auto-succeed Lore: Underworld to find local criminals who can help find your prey.' },
@@ -448,6 +476,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Strength',
     honor: 3.5,
     skills: 'Athletics, Commerce, Defense, Kenjutsu, Knives, Sailing, any one Bugei skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, Kama or Jiujutsu, 3 koku',
     techniques: [
       { rank: 1, name: 'The Way of the Mantis', effect: 'No terrain movement penalties. No Honor/Glory loss for Peasant weapons. No off-hand penalty with Peasant weapons. +1k0 attack rolls.' },
       { rank: 2, name: 'Voice of the Storm', effect: 'Each melee hit reduces target Armor TN by 5 (stacks up to School Rank times, lasts 2 Rounds, resets duration on reapplication).' },
@@ -463,6 +492,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Willpower',
     honor: 2.5,
     skills: 'Commerce, Courtier, Etiquette, Intimidation (Control), Sincerity, Temptation, any one Merchant skill',
+    outfit: 'Wakizashi, Fine Clothing, Calligraphy Set, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Duty Before Honor', effect: 'No Glory/Honor loss for Commerce or Intimidation (Control). Free Raises equal to School Rank on Social rolls vs. ronin, criminals, pirates, etc.' },
       { rank: 2, name: 'Storm Heart', effect: 'Spend Void Point: +2k2 on Intimidation rolls this Turn. Opponents in court find you unpredictable. (Core Book)' },
@@ -482,6 +512,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Intelligence',
     honor: 4.5,
     skills: 'Calligraphy (Cipher), Craft: Alchemy, Etiquette, Lore: Theology, Medicne, Spellcraft, any one High skill',
+    outfit: 'Wakizashi, Scroll Satchel, Sturdy Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Elements of All Things', effect: 'Affinity: Fire. Deficiency: Air. May craft potions using spell slots. Potion replicates a spell with Mastery Level up to School Rank. (Core Book)' },
       { rank: 2, name: 'The Agasha Flame', effect: 'Fire spell damage +1k0. Potions last twice as long. (Core Book)' },
@@ -497,6 +528,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Intelligence',
     honor: 4.5,
     skills: 'Calligraphy (Cipher), Etiquette, Lore: Theology, Meditation, Sincerity, Spellcraft, any one High skill',
+    outfit: 'Wakizashi, Scroll Satchel, Fine Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Isawa\'s Gift', effect: 'Choose Affinity and Deficiency freely (not Void, opposing elements). +1 Free Raise on Affinity spells. (Core Book)' },
       { rank: 2, name: 'Embrace the Elements', effect: 'Gain a second Affinity (no associated Deficiency). +1k0 to all Spellcasting rolls. (Core Book)' },
@@ -512,6 +544,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Willpower',
     honor: 4.0,
     skills: 'Calligraphy (Cipher), Defense, Lore: Theology, Meditation, Spellcraft, any two Skills',
+    outfit: 'Wakizashi, Scroll Satchel, Fine Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Embrace of the Elements', effect: 'Choose one Element as specialization. Affinity with that Element. Gain +1k1 on all Spellcasting rolls for that Element. (Core Book)' },
       { rank: 2, name: 'The Fury of the Kami', effect: 'Specialized element spells deal +1k1 damage. May spend Void Point to add +1 Free Raise on specialized element. (Core Book)' },
@@ -527,6 +560,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Agility',
     honor: 5.5,
     skills: 'Defense, Kenjutsu, Kyujutsu, Meditation, Polearms, Theology, any one Bugei or High skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'The Way of the Phoenix', effect: 'May spend 2 Void Points for +2k2 on a roll. Guard as Free Action (target gets +5 Armor TN instead of +10).' },
       { rank: 2, name: 'Dancing With the Elements', effect: 'Choose target within 30\' when taking Stance: increase or decrease spell TNs targeting them by 5. Same applies when you are targeted.' },
@@ -542,6 +576,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Intelligence',
     honor: 6.5,
     skills: 'Courtier, Etiquette (Courtesy), Lore: History, Lore: Theology, Meditation, Sincerity, any one Lore skill',
+    outfit: 'Wakizashi, Fine Clothing, Calligraphy Set, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Temple of the Soul', effect: 'Free Raise on all Lore Skill rolls. Spending Void on Etiquette gives +3k1 instead of +1k1.' },
       { rank: 2, name: 'From the Ashes', effect: 'After one day observing a court: Lore: History/Perception TN 20 for +2k0 to Social rolls in that court for two days.' },
@@ -561,6 +596,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Agility',
     honor: 2.5,
     skills: 'Defense, Etiquette, Iaijutsu, Kenjutsu, Kyujutsu, Sincerity, any one Bugei or Low skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'The Way of the Scorpion', effect: '+1k1 Initiative. +5 Armor TN against opponents with lower Initiative.' },
       { rank: 2, name: 'Pincers and Tail', effect: 'Feint Maneuver costs only 1 Raise instead of 2.' },
@@ -576,6 +612,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 2.5,
     skills: 'Calligraphy, Courtier (Gossip), Etiquette, Investigation, Sincerity (Deceit), Temptation, any one Skill',
+    outfit: 'Wakizashi, Fine Clothing, Calligraphy Set, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Weakness is My Strength', effect: 'On Contested Social rolls: gain 1 Free Raise per 3 points of target\'s Mental/Social Disadvantages (max 5 Raises).' },
       { rank: 2, name: 'Shallow Waters', effect: 'Contested Investigation/Awareness vs. Etiquette/Awareness: learn target\'s lowest Mental Trait and Social Skill.' },
@@ -591,6 +628,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Agility',
     honor: 1.5,
     skills: 'Acting, Athletics, Ninjutsu, Sincerity, Stealth (Sneaking), any two Low or Bugei skills',
+    outfit: 'Daisho, Ashigaru Armor, Sturdy Clothing, Traveling Pack, Ninjato, Poison (Rank 1), 3 koku',
     techniques: [
       { rank: 1, name: 'The Path of Shadows', effect: 'No Honor loss for Low Skills/Ninjutsu Weapons used for Scorpion Clan. +2k0 to all Stealth rolls.' },
       { rank: 2, name: 'Strike From Darkness', effect: 'Vs. unaware targets: Raises not limited by Void and add School Rank dice to attack. Half bonus vs. targets with Conditions.' },
@@ -606,6 +644,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 2.5,
     skills: 'Calligraphy (Cipher), Courtier, Etiquette, Lore: Theology, Sincerity, Spellcraft, any one Skill',
+    outfit: 'Wakizashi, Scroll Satchel, Fine Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'The Kami\'s Whisper', effect: 'Affinity: Air. Deficiency: Earth. May cast spells with no visible signs (only spiritual perception can detect). +1k0 to Stealth while spell is active. (Core Book)' },
       { rank: 2, name: 'Secrets on the Wind', effect: 'Air spells that spy, conceal, or deceive gain +1 Free Raise. May spend Void for +2k0 on Air Spellcasting. (Core Book)' },
@@ -621,6 +660,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Intelligence',
     honor: 2.5,
     skills: 'Calligraphy (Cipher), Defense, Investigation, Lore: Shadowlands, Spellcraft, any two Skills',
+    outfit: 'Wakizashi, Scroll Satchel, Sturdy Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'The Curse of Yogo', effect: 'Affinity: Earth. Deficiency: Air. Free Raise on Ward spells. +1k0 to Earth Spellcasting when protecting or warding. (Core Book)' },
       { rank: 2, name: 'Guarded by Stone', effect: 'Ward spells last twice as long. May spend Void Point to extend a Ward\'s radius by 10 feet. (Core Book)' },
@@ -640,6 +680,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Willpower',
     honor: 1.5,
     skills: 'Calligraphy (Cipher), Hunting, Intimidation, Lore: Shadowlands, Spellcraft, Stealth, any one Skill',
+    outfit: 'Wakizashi, Scroll Satchel, Sturdy Clothing, Traveling Pack, 3 koku',
     techniques: [
       { rank: 1, name: 'Dark Knowledge', effect: 'Affinity: Earth. Deficiency: Air. May use Taint Rank in place of Void on Spellcasting rolls. Maho spells do not cost Honor. (Core Book)' },
       { rank: 2, name: 'Secrets of Blood', effect: 'Maho spells gain +1k0 to Spellcasting per point of Taint Rank. May use blood (Wounds) in place of spell slots. (Core Book)' },
@@ -655,6 +696,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Strength',
     honor: 1.5,
     skills: 'Athletics, Defense, Heavy Weapons, Intimidation, Kenjutsu, Lore: Shadowlands, any one Bugei skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 3 koku',
     techniques: [
       { rank: 1, name: 'The Way of the Spider', effect: 'Each Round: reduce Wound penalties by Strength+Taint Rank OR add same to damage. TN to detect your Taint increased by 10.' },
       { rank: 2, name: 'Aura of Blood', effect: 'Spend Void Point as Simple Action: you and allies within 30\' add +2k0 damage for Taint Rank + Strength Rounds.' },
@@ -670,6 +712,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 1.5,
     skills: 'Courtier (Manipulation), Etiquette, Intimidation, Investigation, Sincerity (Deceit), Temptation, any one Skill',
+    outfit: 'Wakizashi, Fine Clothing, Calligraphy Set, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Insidious Whispers', effect: 'Free Raise on Sincerity (Deceit). Taint detection TN increased by 5x School Rank. Add School Rank to apparent Honor Rank.' },
       { rank: 2, name: 'Cracks in the Wall', effect: 'Spend Void + Courtier/Awareness TN 25: everyone within 20\' suffers -1k1 to Etiquette and Perform for one hour.' },
@@ -685,6 +728,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Reflexes',
     honor: 0.0,
     skills: 'Athletics, Hunting, Knives, Ninjutsu, Stealth (Sneaking), any two Low or Bugei skills',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 3 koku',
     techniques: [
       { rank: 1, name: 'The Cloak of Night', effect: 'Increase Armor TN up to School Rank x5, but same amount added as penalty to all non-Athletics/Defense/Stealth rolls.' },
       { rank: 2, name: 'Melting into Shadow', effect: 'Add School Rank dice to Stealth rolls. Uncontested detection TNs increased by School Rank x5. +1 Free Raise on attacks vs. unaware targets.' },
@@ -700,6 +744,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 0.0,
     skills: 'Calligraphy, Intimidation, Lore: Shadowlands, Sincerity (Deceit), Spellcraft, Stealth, any one Skill',
+    outfit: 'Wakizashi, Scroll Satchel, Sturdy Clothing, Traveling Pack, 3 koku',
     techniques: [
       { rank: 1, name: 'Shadows of the Mind', effect: 'Affinity: Air. Deficiency: Earth. May cast illusion spells without verbal/somatic components. +1k0 to Stealth while any spell is active. (Core Book)' },
       { rank: 2, name: 'Embrace of Nothing', effect: 'Air illusion spells gain +1k1. May spend Void Point to make illusions undetectable by mundane senses. (Core Book)' },
@@ -719,6 +764,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 5.5,
     skills: 'Courtier, Etiquette (Courtesy), Horsemanship, Investigation, Lore: Culture, Sincerity (Honesty), any one High skill',
+    outfit: 'Wakizashi, Fine Clothing, Calligraphy Set, Traveling Pack, Riding Horse, 5 koku',
     techniques: [
       { rank: 1, name: 'The Heart Speaks', effect: 'Etiquette/Awareness TN 20 to avoid giving inadvertent offense. Free Raise on Sincerity (Honesty), but +5 TN on Sincerity (Deceit).' },
       { rank: 2, name: 'Piercing the Veils', effect: 'Contested Investigation/Perception to discern the true emotions behind someone\'s words, bypassing cultural masks. (Core Book)' },
@@ -734,6 +780,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Intelligence',
     honor: 4.5,
     skills: 'Calligraphy (Cipher), Defense, Horsemanship, Lore: Theology, Medicine, Spellcraft, any one Skill',
+    outfit: 'Wakizashi, Scroll Satchel, Sturdy Clothing, Traveling Pack, Riding Horse, 5 koku',
     techniques: [
       { rank: 1, name: 'The Kami\'s Steed', effect: 'Affinity: Water. Deficiency: Fire. May cast spells while mounted without penalty. +1k0 to Spellcasting while on horseback. (Core Book)' },
       { rank: 2, name: 'Riding the Waves', effect: 'Water spells gain +1 Free Raise. May deliver touch-range spells through mount\'s touch. (Core Book)' },
@@ -749,6 +796,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Agility',
     honor: 3.5,
     skills: 'Athletics, Defense, Horsemanship, Hunting, Kenjutsu, any two Bugei skills',
+    outfit: 'Daisho, Heavy Armor, Sturdy Clothing, Traveling Pack, Scimitar, Riding Horse, 3 koku',
     techniques: [
       { rank: 1, name: 'The Way of the Unicorn', effect: 'Wield two-handed weapons one-handed (except bows). +1k0 damage while mounted, with scimitar, or with two-handed melee (no stacking). Scimitars have Samurai keyword.' },
       { rank: 2, name: "Shinsei's Smile", effect: 'Gain attack roll bonus equal to half of target\'s Wound Rank TN penalties.' },
@@ -764,6 +812,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Willpower',
     honor: 5.5,
     skills: 'Athletics, Defense, Horsemanship, Hunting, Kenjutsu, Lore: Shadowlands, any one Bugei skill',
+    outfit: 'Daisho, Heavy Armor, Sturdy Clothing, Traveling Pack, Riding Horse, 3 koku',
     techniques: [
       { rank: 1, name: 'Purity of the Breath', effect: 'Each Round choose: reduce Wound TN penalties by School Rank + Willpower, OR add same to Armor TN.' },
       { rank: 2, name: 'Facing the Dark Within', effect: '+2k0 to Investigation rolls (+2k1 when detecting Taint).' },
@@ -779,6 +828,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Reflexes',
     honor: 5.5,
     skills: 'Athletics, Defense, Horsemanship, Kenjutsu, Kyujutsu, any two Bugei skills',
+    outfit: 'Daisho, Light Armor, Riding Clothing, Traveling Pack, Riding Horse, 5 koku',
     techniques: [
       { rank: 1, name: 'The Way of the Ki-Rin', effect: 'When spending Void on School Skill rolls: also add Horsemanship Rank to the total (not in Center Stance).' },
       { rank: 2, name: 'Dance of the Blade', effect: 'In Full Defense: Contested Agility roll to negate a successful attack against you (School Rank times per Round).' },
@@ -794,6 +844,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Agility',
     honor: 6.5,
     skills: 'Battle, Defense, Horsemanship, Kenjutsu, Polearms, Sincerity, any one Bugei skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, Utaku Warhorse, 5 koku',
     techniques: [
       { rank: 1, name: 'Riding in Harmony', effect: 'Add Honor Rank to one attack per Round. While mounted: may apply to damage instead. Add Honor Rank to all Horsemanship rolls.' },
       { rank: 2, name: 'The Void of War', effect: 'Each Round: add 5 to either Initiative or Armor TN (lasts until changed or skirmish ends).' },
@@ -813,6 +864,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 6.5,
     skills: 'Calligraphy, Courtier, Etiquette (Courtesy), Horsemanship, Lore: Heraldry, Sincerity, any one High skill',
+    outfit: 'Wakizashi, Fine Clothing, Calligraphy Set, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Voice of the Emperor', effect: 'Spend Void for Way of the Land in current province (until sleep). Anyone who knowingly attacks you loses 2x School Rank Honor.' },
       { rank: 2, name: 'Eyes of the Emperor', effect: 'Add Honor Rank to Etiquette (Courtesy) rolls to resist influence.' },
@@ -828,6 +880,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 4.5,
     skills: 'Calligraphy, Courtier (Manipulation), Etiquette, Intimidation (Control), Lore: Law, Sincerity, any one High skill',
+    outfit: 'Wakizashi, Fine Clothing, Calligraphy Set, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'The Voice of Heaven', effect: 'No Honor loss for Intimidation (Control). Contested Courtier/Awareness vs. Etiquette/Awareness to provoke conflict between clan members and another faction.' },
       { rank: 2, name: 'Destiny Has No Secrets', effect: 'Spend Void: Courtier/Awareness TN 25 to learn one critical piece of information from your network.' },
@@ -843,6 +896,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Reflexes',
     honor: 6.5,
     skills: 'Battle, Defense, Etiquette, Iaijutsu, Investigation (Notice), Kenjutsu, any one Bugei skill',
+    outfit: 'Daisho, Light Armor, Sturdy Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Never in Darkness', effect: 'Add School Rank unkept dice to resist Social rolls that could lead you from duty. +1k1 to Investigation to detect ambush/surprise.' },
       { rank: 2, name: 'The Clouds Part', effect: 'Spend Void at start of Turn: add Honor Rank to attack and damage rolls until next Turn.' },
@@ -858,6 +912,7 @@ export const L5R_SCHOOLS = {
     traits: '+1 Awareness',
     honor: 4.5,
     skills: 'Calligraphy (Cipher), Defense, Etiquette, Lore: Theology, Meditation, Spellcraft, any one Skill',
+    outfit: 'Wakizashi, Scroll Satchel, Fine Clothing, Traveling Pack, 5 koku',
     techniques: [
       { rank: 1, name: 'Voice of the Emperor', effect: 'Affinity: Air. Deficiency: None (no free Deficiency). +1k0 to all defensive/protective spell rolls. May sense spiritual disturbances within School Rank x10 feet. (Core Book)' },
       { rank: 2, name: 'Shield of the Kami', effect: 'Protective spells gain +1 Free Raise. May extend duration of protective spells by spending additional spell slot. (Core Book)' },

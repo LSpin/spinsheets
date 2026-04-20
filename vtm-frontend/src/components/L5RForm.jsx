@@ -531,6 +531,12 @@ export default function L5RForm() {
 
   function handleField(name, value) { setFields(prev => ({ ...prev, [name]: typeof value === 'string' ? value : Number(value) })) }
   function handleText(e) { setFields(prev => ({ ...prev, [e.target.name]: e.target.value })) }
+  function addToInventory(text) {
+    setFields(prev => ({
+      ...prev,
+      personalItems: prev.personalItems ? prev.personalItems + '\n' + text : text
+    }))
+  }
 
   async function handleSave() {
     setSaving(true); setSaveError(null)
@@ -844,7 +850,13 @@ export default function L5RForm() {
             <div className="field-row">
               {schoolCatalog.length > 0 ? (
                 <CatalogSelect id="l5rSchool" name="l5rSchool" label={t('l5rSchool')} value={fields.l5rSchool}
-                  onChange={(name, val) => handleField(name, val)}
+                  onChange={(name, val) => {
+                    handleField(name, val)
+                    const sd = val && L5R_SCHOOLS[val]
+                    if (sd?.outfit && !fields.personalItems?.trim()) {
+                      handleField('personalItems', sd.outfit)
+                    }
+                  }}
                   catalog={schoolCatalog} />
               ) : (
                 <div className="field">
@@ -1824,7 +1836,7 @@ Traveling pack, spare kimono, 10 koku`} />
                 {key === 'armor' ? (
                   <table className="inv-table">
                     <thead>
-                      <tr><th>Name</th><th>ATN Bonus</th><th>Reduction</th><th>Cost</th><th>Notes</th></tr>
+                      <tr><th>Name</th><th>ATN Bonus</th><th>Reduction</th><th>Cost</th><th>Notes</th><th></th></tr>
                     </thead>
                     <tbody>
                       {L5R_EQUIPMENT[key].map(item => (
@@ -1834,6 +1846,8 @@ Traveling pack, spare kimono, 10 koku`} />
                           <td>{item.reduction}</td>
                           <td>{item.cost}</td>
                           <td className="inv-notes">{item.notes}</td>
+                          <td><button type="button" className="btn btn-sm" style={{ padding: '2px 6px' }}
+                            onClick={() => addToInventory(`${item.name} (+${item.atn} ATN, Red ${item.reduction})`)}>+</button></td>
                         </tr>
                       ))}
                     </tbody>
@@ -1841,7 +1855,7 @@ Traveling pack, spare kimono, 10 koku`} />
                 ) : key === 'arrows' ? (
                   <table className="inv-table">
                     <thead>
-                      <tr><th>Name</th><th>DR</th><th>Cost</th><th>Notes</th></tr>
+                      <tr><th>Name</th><th>DR</th><th>Cost</th><th>Notes</th><th></th></tr>
                     </thead>
                     <tbody>
                       {L5R_EQUIPMENT[key].map(item => (
@@ -1850,6 +1864,25 @@ Traveling pack, spare kimono, 10 koku`} />
                           <td>{item.dr}</td>
                           <td>{item.cost}</td>
                           <td className="inv-notes">{item.notes}</td>
+                          <td><button type="button" className="btn btn-sm" style={{ padding: '2px 6px' }}
+                            onClick={() => addToInventory(`${item.name} (${item.dr})`)}>+</button></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : key === 'adventuringGear' || key === 'siegeWeapons' ? (
+                  <table className="inv-table">
+                    <thead>
+                      <tr><th>Name</th><th>Cost</th><th>Notes</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                      {L5R_EQUIPMENT[key].map(item => (
+                        <tr key={item.name}>
+                          <td style={{ fontWeight: 600 }}>{item.name}</td>
+                          <td>{item.cost}</td>
+                          <td className="inv-notes">{item.notes}</td>
+                          <td><button type="button" className="btn btn-sm" style={{ padding: '2px 6px' }}
+                            onClick={() => addToInventory(`${item.name} \u2014 ${item.notes}`)}>+</button></td>
                         </tr>
                       ))}
                     </tbody>
@@ -1857,7 +1890,7 @@ Traveling pack, spare kimono, 10 koku`} />
                 ) : (
                   <table className="inv-table">
                     <thead>
-                      <tr><th>Name</th><th>DR</th><th>Keywords</th><th>Cost</th><th>Notes</th></tr>
+                      <tr><th>Name</th><th>DR</th><th>Keywords</th><th>Cost</th><th>Notes</th><th></th></tr>
                     </thead>
                     <tbody>
                       {L5R_EQUIPMENT[key].map(item => (
@@ -1867,6 +1900,10 @@ Traveling pack, spare kimono, 10 koku`} />
                           <td style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{item.keywords}</td>
                           <td>{item.cost}</td>
                           <td className="inv-notes">{item.notes}</td>
+                          <td><button type="button" className="btn btn-sm" style={{ padding: '2px 6px' }}
+                            onClick={() => addToInventory(key === 'schoolWeapons'
+                              ? `${item.name} (${item.dr}, ${item.keywords}) \u2014 ${item.notes}`
+                              : `${item.name} (${item.dr}, ${item.keywords})`)}>+</button></td>
                         </tr>
                       ))}
                     </tbody>
