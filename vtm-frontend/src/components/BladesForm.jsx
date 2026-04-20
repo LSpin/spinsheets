@@ -618,18 +618,55 @@ export default function BladesForm() {
               </label>
             </div>
           </fieldset>
+          <fieldset>
+            <legend>{t('bladesCoinStash')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              {t('bladesCoinStashHint')}
+            </p>
+            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+              <div className="field" style={{ width: 100 }}>
+                <label>{t('bladesCoin')} (0-4)</label>
+                <div style={{ display: 'flex', gap: '4px' }}>
+                  {[1, 2, 3, 4].map(i => (
+                    <span key={i} role="button" tabIndex={0}
+                      className={`blades-stress-box${i <= (fields.bladesCoin || 0) ? ' blades-stress-box--filled' : ''}`}
+                      style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', borderRadius: '4px', border: '2px solid var(--color-border)', fontSize: '0.75rem', fontWeight: 700 }}
+                      onClick={() => handleField('bladesCoin', (fields.bladesCoin || 0) === i ? i - 1 : i)}
+                      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleField('bladesCoin', (fields.bladesCoin || 0) === i ? i - 1 : i) } }}
+                      aria-label={`Coin ${i}`} aria-pressed={i <= (fields.bladesCoin || 0)}>
+                      {i <= (fields.bladesCoin || 0) ? '\u25CF' : ''}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="field" style={{ flex: 1 }}>
+                <label>{t('bladesStash')} ({fields.bladesStash || 0}/40)</label>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
+                  {Array.from({ length: 40 }, (_, i) => (
+                    <span key={i} role="button" tabIndex={0}
+                      style={{
+                        width: 14, height: 14, borderRadius: '2px', cursor: 'pointer',
+                        background: i < (fields.bladesStash || 0) ? 'var(--color-accent-fg)' : 'var(--color-surface-raised)',
+                        border: '1px solid var(--color-border)',
+                        opacity: i < (fields.bladesStash || 0) ? 1 : 0.5,
+                      }}
+                      onClick={() => handleField('bladesStash', (fields.bladesStash || 0) === i + 1 ? i : i + 1)}
+                      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleField('bladesStash', (fields.bladesStash || 0) === i + 1 ? i : i + 1) } }}
+                      aria-label={`Stash ${i + 1} of 40`} aria-pressed={i < (fields.bladesStash || 0)} />
+                  ))}
+                </div>
+                {(fields.bladesStash || 0) >= 40 && (
+                  <p style={{ color: 'var(--color-accent-fg)', fontWeight: 700, fontSize: '0.82rem', marginTop: 'var(--space-xs)' }}>
+                    {t('bladesStashRetire')}
+                  </p>
+                )}
+              </div>
+            </div>
+          </fieldset>
           {deepCuts && (
             <fieldset>
               <legend>{t('bladesEconomy')}</legend>
               <div className="field-row">
-                <div className="field" style={{ width: 80 }}>
-                  <label>{t('bladesCoin')}</label>
-                  <input type="number" min={0} value={fields.bladesCoin || 0} onChange={e => handleField('bladesCoin', parseInt(e.target.value) || 0)} />
-                </div>
-                <div className="field" style={{ width: 80 }}>
-                  <label>{t('bladesStash')}</label>
-                  <input type="number" min={0} max={40} value={fields.bladesStash || 0} onChange={e => handleField('bladesStash', parseInt(e.target.value) || 0)} />
-                </div>
                 <div className="field" style={{ width: 80 }}>
                   <label>{t('bladesLifestyle')}</label>
                   <input type="number" min={0} value={fields.bladesLifestyle || 0} onChange={e => handleField('bladesLifestyle', parseInt(e.target.value) || 0)} />
