@@ -88,6 +88,18 @@ const BLADES_DICE_POOL_RULES = [
       { heading: '2+ Stress', text: 'Elaborate action with special contingencies.' },
     ],
   },
+  {
+    title: 'XP & Advancement',
+    sections: [
+      { heading: 'Playbook XP (end of session)', text: 'Mark 1 XP for each: You addressed a challenge using your playbook\'s XP trigger. You expressed your beliefs, drives, heritage, or background. You struggled with issues from your vice or traumas.' },
+      { heading: 'Attribute XP (during play)', text: 'When you make a desperate action roll using an Insight action, mark Insight XP. Same for Prowess and Resolve. The riskier you play, the faster you advance.' },
+      { heading: 'Spending Playbook XP', text: 'At 8 XP, clear the track and gain a new playbook advance: a special ability, +1 action dot, or a veteran advance from another playbook.' },
+      { heading: 'Spending Attribute XP', text: 'At 6 XP on Insight/Prowess/Resolve, clear the track and gain +1 action dot in that attribute\'s category.' },
+      { heading: 'Training (Downtime)', text: 'During downtime, you can mark XP in one attribute or playbook track by spending a downtime activity on training.' },
+      { heading: 'Crew XP (end of session)', text: 'Mark 1 crew XP for each: The crew successfully completed a score. The crew contended with challenges related to its nature. The crew bolstered its reputation or developed assets.' },
+      { heading: 'Coin & Stash', text: 'Each coin earned can be spent on downtime activities or stashed for retirement. Stash fills a 40-segment track — when full, your character retires in safety. Each coin stashed fills 1 segment; larger stashes fill proportionally.' },
+    ],
+  },
 ]
 
 const INITIAL = {
