@@ -1273,6 +1273,7 @@ const en = {
   '7sCreateFirst': 'Create your first 7th Sea hero to get started.',
   // ── L5R ──
   editL5rSamurai: 'New Samurai',
+  editL5rCharacter: 'New L5R Character',
   l5r: 'L5R',
   tabL5rRings: 'Rings & Traits',
   tabL5rSkills: 'Skills',
@@ -3162,6 +3163,7 @@ const pt = {
   '7sCreateFirst': 'Crie seu primeiro herói do 7th Sea para começar.',
   // ── L5R ──
   editL5rSamurai: 'Novo Samurai',
+  editL5rCharacter: 'Novo Personagem L5R',
   l5r: 'L5R',
   tabL5rRings: 'Anéis & Traços',
   tabL5rSkills: 'Perícias',
