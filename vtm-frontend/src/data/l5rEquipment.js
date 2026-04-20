@@ -67,11 +67,51 @@ export const L5R_EQUIPMENT = {
   warFans: [
     { name: 'War Fan (Tessen)', dr: '0k1', keywords: 'Small', cost: '5 koku', notes: 'Concealed weapon. Symbol of authority.' },
   ],
+  schoolWeapons: [
+    // Crab Clan
+    { name: 'Kaiu Blade', dr: '3k2', keywords: 'Medium, Samurai', cost: '—', notes: 'Masterwork Crab katana. Ignores 3 points of Reduction from Shadowlands creatures. Unbreakable by normal means.' },
+    { name: 'Jade-Infused Tetsubo', dr: '3k3', keywords: 'Large, Jade', cost: '—', notes: 'Heavy weapon infused with jade. Deals full damage to Shadowlands creatures regardless of Invulnerability.' },
+    // Crane Clan
+    { name: 'Kakita Blade', dr: '4k2', keywords: 'Medium, Samurai', cost: '—', notes: 'Legendary Crane dueling katana. +1k0 to Iaijutsu Focus rolls. Passed down through the Kakita dojo.' },
+    { name: 'Daidoji Blade', dr: '3k2', keywords: 'Medium, Samurai', cost: '—', notes: 'Iron Crane katana. +5 to the TN of any Disarm attempt against the wielder.' },
+    // Dragon Clan
+    { name: 'Mirumoto Blade (Paired)', dr: '3k2 / 2k2', keywords: 'Medium, Samurai', cost: '—', notes: 'Matched pair of katana and wakizashi. When wielding both: +1k0 to one attack per round.' },
+    { name: 'Tamori Blade', dr: '3k2', keywords: 'Medium, Samurai', cost: '—', notes: 'Forged by Tamori smiths using earth kami. +1k0 damage vs. creatures with the Shadowlands taint.' },
+    // Lion Clan
+    { name: 'Akodo Blade', dr: '4k2', keywords: 'Medium, Samurai', cost: '—', notes: 'Ancestral Lion katana. +1k1 to all attack rolls when defending another Lion samurai. Symbol of Akodo leadership.' },
+    { name: 'Matsu Blade', dr: '3k2', keywords: 'Medium, Samurai', cost: '—', notes: 'Lion berserker katana. +1k0 damage while in Full Attack posture. Cannot be wielded in Defense posture.' },
+    // Mantis Clan
+    { name: 'Yoritomo Kama (Paired)', dr: '0k2 / 0k2', keywords: 'Small', cost: '—', notes: 'Matched pair of kama. When wielding both: extra attack per round at -2k0 on all attacks.' },
+    { name: 'Tsuruchi Longbow', dr: 'Str 5', keywords: 'Large', cost: '—', notes: 'Specially crafted Tsuruchi bow. Range 400 ft. +1k0 to Kyujutsu rolls. Min Str 3.' },
+    // Phoenix Clan
+    { name: 'Shiba Blade', dr: '3k2', keywords: 'Medium, Samurai', cost: '—', notes: 'Phoenix guardian katana. Spend a Void Point: gain +10 to ATN until your next turn.' },
+    { name: 'Isawa Staff', dr: '1k2', keywords: 'Large', cost: '—', notes: 'Staff imbued with elemental kami. +1k0 to Spell Casting Rolls of one element (chosen at creation).' },
+    // Scorpion Clan
+    { name: 'Bayushi Blade', dr: '3k2', keywords: 'Medium, Samurai', cost: '—', notes: 'Scorpion katana with hidden groove. Can deliver contact poison on a successful hit (1 dose per battle).' },
+    { name: 'Shosuro Blade', dr: '3k2', keywords: 'Medium, Ninja', cost: '—', notes: 'Counts as Small for concealment. Lacquered black — +5 to Stealth rolls while wielding at night.' },
+    // Unicorn Clan
+    { name: 'Moto Scimitar', dr: '2k3', keywords: 'Medium', cost: '—', notes: 'Unicorn cavalry blade. +1k0 damage on mounted charge attacks.' },
+    { name: 'Utaku Blade', dr: '3k2', keywords: 'Medium, Samurai', cost: '—', notes: 'Utaku battle maiden katana. +1k0 to attack while mounted on an Utaku warhorse.' },
+    // Spider Clan
+    { name: 'Daigotsu Blade', dr: '3k2', keywords: 'Medium, Samurai, Tainted', cost: '—', notes: 'Dark forged blade. Gains +0k1 damage against targets with Honor 5+. Wielder gains 0.1 Taint per month.' },
+    // Minor Clan / Ronin
+    { name: 'Ancestral Katana', dr: '4k2', keywords: 'Medium, Samurai', cost: '—', notes: 'Blade of your ancestors, passed down for generations. Choose one: +1k0 attack, +1k0 damage, or +5 ATN.' },
+    { name: 'Nemuranai Blade', dr: '3k2', keywords: 'Medium, Samurai, Awakened', cost: '—', notes: 'A katana containing an awakened spirit. Grants one Free Raise per day on a roll the spirit favors (GM discretion).' },
+    // Unique / Named Blades (from supplements)
+    { name: 'Ofushikai (Ancestral Sword of the Crane)', dr: '5k3', keywords: 'Large, Samurai, Nemuranai', cost: '—', notes: 'The Crane Clan Champion\'s ancestral blade. +3k0 to Iaijutsu. Only the Champion may wield it.' },
+    { name: 'Kunshu (Ancestral Sword of the Lion)', dr: '5k3', keywords: 'Medium, Samurai, Nemuranai', cost: '—', notes: 'The Lion Clan Champion\'s blade. +2k0 to Battle skill. Inspires all allied Lion within sight (+1k0 attack).' },
+    { name: 'Chikara (Ancestral Sword of the Crab)', dr: '5k4', keywords: 'Large, Samurai, Jade, Nemuranai', cost: '—', notes: 'The Crab Champion\'s tetsubo-blade. Ignores all Reduction. Deals aggravated damage to Shadowlands creatures.' },
+    { name: 'Sansetsukon (Three-Section Staff)', dr: '2k2', keywords: 'Large', cost: '8 koku', notes: 'Versatile monk weapon. Can be used at reach or close range. +1 Free Raise to Disarm.' },
+    // Specialized Arrows
+    { name: 'Jade-Tipped Arrow', dr: '2k2', keywords: 'Jade', cost: '1 koku', notes: 'Deals full damage to Shadowlands creatures. Consumed on use.' },
+    { name: 'Crystal Arrow', dr: '2k2', keywords: 'Crystal', cost: '5 koku', notes: 'Ignores all magical defenses. Extremely rare.' },
+  ],
 }
 
 export const L5R_EQUIPMENT_CATEGORIES = [
   { key: 'armor', label: 'Armor' },
   { key: 'swords', label: 'Swords' },
+  { key: 'schoolWeapons', label: 'School & Ancestral Weapons' },
   { key: 'polearms', label: 'Polearms' },
   { key: 'spears', label: 'Spears' },
   { key: 'heavyWeapons', label: 'Heavy Weapons' },

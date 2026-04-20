@@ -652,7 +652,8 @@ export default function L5RForm() {
 
   // ── Weapon computations ──
   const ALL_WEAPONS = [
-    ...L5R_EQUIPMENT.swords, ...L5R_EQUIPMENT.polearms, ...L5R_EQUIPMENT.spears,
+    ...L5R_EQUIPMENT.swords, ...L5R_EQUIPMENT.schoolWeapons,
+    ...L5R_EQUIPMENT.polearms, ...L5R_EQUIPMENT.spears,
     ...L5R_EQUIPMENT.heavyWeapons, ...L5R_EQUIPMENT.knives, ...L5R_EQUIPMENT.staves,
     ...L5R_EQUIPMENT.chain, ...L5R_EQUIPMENT.warFans,
   ]
@@ -1666,8 +1667,20 @@ export default function L5RForm() {
                 <label>{t('l5rEquippedWeapon')}</label>
                 <select value={equippedWeapon} onChange={e => setEquippedWeapon(e.target.value)} aria-label={t('l5rEquippedWeapon')}>
                   <option value="">None</option>
-                  <optgroup label="Melee Weapons">
-                    {ALL_WEAPONS.map(w => <option key={w.name} value={w.name}>{w.name} ({w.dr})</option>)}
+                  <optgroup label="School & Ancestral Weapons">
+                    {L5R_EQUIPMENT.schoolWeapons.map(w => <option key={w.name} value={w.name}>{w.name} ({w.dr})</option>)}
+                  </optgroup>
+                  <optgroup label="Swords">
+                    {L5R_EQUIPMENT.swords.map(w => <option key={w.name} value={w.name}>{w.name} ({w.dr})</option>)}
+                  </optgroup>
+                  <optgroup label="Polearms & Spears">
+                    {[...L5R_EQUIPMENT.polearms, ...L5R_EQUIPMENT.spears].map(w => <option key={w.name} value={w.name}>{w.name} ({w.dr})</option>)}
+                  </optgroup>
+                  <optgroup label="Heavy Weapons">
+                    {L5R_EQUIPMENT.heavyWeapons.map(w => <option key={w.name} value={w.name}>{w.name} ({w.dr})</option>)}
+                  </optgroup>
+                  <optgroup label="Other Melee">
+                    {[...L5R_EQUIPMENT.knives, ...L5R_EQUIPMENT.staves, ...L5R_EQUIPMENT.chain, ...L5R_EQUIPMENT.warFans].map(w => <option key={w.name} value={w.name}>{w.name} ({w.dr})</option>)}
                   </optgroup>
                   <optgroup label="Bows">
                     {L5R_EQUIPMENT.bows.map(b => <option key={b.name} value={b.name}>{b.name} ({b.dr})</option>)}
