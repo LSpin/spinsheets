@@ -1922,17 +1922,78 @@ a:hover {
     border-bottom: 1px solid var(--color-border);
   }
 
-  /* ── Tab list: scrollable ── */
+  /* ── Tab list: collapsed dropdown on mobile ── */
   .tab-list {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    flex-wrap: nowrap !important;
-    padding-bottom: var(--space-xs);
+    position: relative;
+    flex-wrap: wrap;
+    gap: 0;
+    padding-bottom: 0;
+    border-bottom: none;
   }
-  .tab-list .btn, .tab-list [role="tab"] {
+
+  .tab-list .btn,
+  .tab-list [role="tab"] {
     white-space: nowrap;
-    flex-shrink: 0;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.65rem var(--space-md);
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0;
+    display: none;
+  }
+
+  /* Only show the active tab by default */
+  .tab-list .tab-btn--active,
+  .tab-list [aria-selected="true"] {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  /* Arrow indicator on active tab */
+  .tab-list .tab-btn--active::after,
+  .tab-list [aria-selected="true"]::after {
+    content: '\25BC';
+    font-size: 0.6rem;
+    margin-left: var(--space-sm);
+    opacity: 0.6;
+  }
+
+  /* When tab-list is focused-within or has :hover, show all tabs */
+  .tab-list:focus-within .btn,
+  .tab-list:focus-within [role="tab"],
+  .tab-list.tab-list--expanded .btn,
+  .tab-list.tab-list--expanded [role="tab"] {
+    display: flex !important;
+  }
+
+  .tab-list:focus-within,
+  .tab-list.tab-list--expanded {
+    flex-direction: column;
+    position: relative;
+    z-index: 50;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .tab-list:focus-within .tab-btn--active::after,
+  .tab-list.tab-list--expanded .tab-btn--active::after,
+  .tab-list:focus-within [aria-selected="true"]::after,
+  .tab-list.tab-list--expanded [aria-selected="true"]::after {
+    content: '\25B2';
+  }
+
+  .tab-list:focus-within .btn:hover,
+  .tab-list.tab-list--expanded .btn:hover,
+  .tab-list:focus-within [role="tab"]:hover,
+  .tab-list.tab-list--expanded [role="tab"]:hover {
+    background: rgba(255, 255, 255, 0.05);
   }
 
   /* ── Modal: near full-width ── */

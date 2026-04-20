@@ -205,6 +205,36 @@ function AppShell() {
     return () => document.removeEventListener('mousedown', handleClick)
   }, [menuOpen])
 
+  // Mobile tab-list: toggle expanded on tap, collapse after selecting a tab
+  useEffect(() => {
+    function handleTabListClick(e) {
+      const tabList = e.target.closest('.tab-list')
+      if (!tabList) return
+      const isTab = e.target.closest('[role="tab"]') || e.target.closest('.btn')
+      if (!isTab) return
+      const isActive = isTab.classList.contains('tab-btn--active') || isTab.getAttribute('aria-selected') === 'true'
+      if (isActive && !tabList.classList.contains('tab-list--expanded')) {
+        // Tapped active tab = expand the list
+        e.preventDefault()
+        tabList.classList.add('tab-list--expanded')
+      } else {
+        // Tapped a different tab = collapse
+        tabList.classList.remove('tab-list--expanded')
+      }
+    }
+    function handleOutsideClick(e) {
+      if (!e.target.closest('.tab-list')) {
+        document.querySelectorAll('.tab-list--expanded').forEach(el => el.classList.remove('tab-list--expanded'))
+      }
+    }
+    document.addEventListener('click', handleTabListClick, true)
+    document.addEventListener('mousedown', handleOutsideClick)
+    return () => {
+      document.removeEventListener('click', handleTabListClick, true)
+      document.removeEventListener('mousedown', handleOutsideClick)
+    }
+  }, [])
+
   return (
     <>
       <a href="#main-content" className="skip-link">Skip to main content</a>
