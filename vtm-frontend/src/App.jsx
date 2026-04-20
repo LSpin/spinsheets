@@ -206,30 +206,86 @@ function AppShell() {
   }, [menuOpen])
 
   // Mobile tab-list: toggle expanded on tap, collapse after selecting a tab
+  // Also inject prev/next carousel buttons around tab-lists
   useEffect(() => {
+    const isMobile = () => window.innerWidth <= 640
+
+    function injectCarousel(tabList) {
+      if (tabList.parentElement?.classList.contains('tab-carousel')) return
+      if (!isMobile()) return
+      const wrapper = document.createElement('div')
+      wrapper.className = 'tab-carousel'
+      const prevBtn = document.createElement('button')
+      prevBtn.className = 'tab-carousel-btn'
+      prevBtn.setAttribute('aria-label', 'Previous tab')
+      prevBtn.textContent = '\u276E'
+      prevBtn.type = 'button'
+      const nextBtn = document.createElement('button')
+      nextBtn.className = 'tab-carousel-btn'
+      nextBtn.setAttribute('aria-label', 'Next tab')
+      nextBtn.textContent = '\u276F'
+      nextBtn.type = 'button'
+
+      function getTabButtons() {
+        return [...tabList.querySelectorAll('[role="tab"], .btn')]
+      }
+      function getActiveIndex() {
+        const tabs = getTabButtons()
+        return tabs.findIndex(t => t.classList.contains('tab-btn--active') || t.getAttribute('aria-selected') === 'true')
+      }
+
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation()
+        const tabs = getTabButtons()
+        const idx = getActiveIndex()
+        if (idx > 0) tabs[idx - 1].click()
+      })
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation()
+        const tabs = getTabButtons()
+        const idx = getActiveIndex()
+        if (idx < tabs.length - 1) tabs[idx + 1].click()
+      })
+
+      tabList.parentNode.insertBefore(wrapper, tabList)
+      wrapper.appendChild(prevBtn)
+      wrapper.appendChild(tabList)
+      wrapper.appendChild(nextBtn)
+    }
+
+    function injectAll() {
+      if (!isMobile()) return
+      document.querySelectorAll('.tab-list[role="tablist"]').forEach(injectCarousel)
+    }
+
+    // Inject on initial load and on DOM changes (for lazy-loaded forms)
+    const observer = new MutationObserver(() => { setTimeout(injectAll, 100) })
+    observer.observe(document.body, { childList: true, subtree: true })
+    setTimeout(injectAll, 200)
+
     function handleTabListClick(e) {
       const tabList = e.target.closest('.tab-list')
       if (!tabList) return
+      if (e.target.closest('.tab-carousel-btn')) return
       const isTab = e.target.closest('[role="tab"]') || e.target.closest('.btn')
       if (!isTab) return
       const isActive = isTab.classList.contains('tab-btn--active') || isTab.getAttribute('aria-selected') === 'true'
       if (isActive && !tabList.classList.contains('tab-list--expanded')) {
-        // Tapped active tab = expand the list
         e.preventDefault()
         tabList.classList.add('tab-list--expanded')
       } else {
-        // Tapped a different tab = collapse
         tabList.classList.remove('tab-list--expanded')
       }
     }
     function handleOutsideClick(e) {
-      if (!e.target.closest('.tab-list')) {
+      if (!e.target.closest('.tab-list') && !e.target.closest('.tab-carousel-btn')) {
         document.querySelectorAll('.tab-list--expanded').forEach(el => el.classList.remove('tab-list--expanded'))
       }
     }
     document.addEventListener('click', handleTabListClick, true)
     document.addEventListener('mousedown', handleOutsideClick)
     return () => {
+      observer.disconnect()
       document.removeEventListener('click', handleTabListClick, true)
       document.removeEventListener('mousedown', handleOutsideClick)
     }

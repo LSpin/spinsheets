@@ -536,6 +536,14 @@ legend {
   padding-bottom: var(--space-sm);
 }
 
+/* Carousel buttons: hidden on desktop, shown on mobile via media query */
+.tab-carousel {
+  display: none;
+}
+.tab-carousel-btn {
+  display: none;
+}
+
 .tab-btn--active {
   border-color: var(--color-accent-fg) !important;
   color: var(--color-accent-fg) !important;
@@ -1922,7 +1930,7 @@ a:hover {
     border-bottom: 1px solid var(--color-border);
   }
 
-  /* ── Tab list: collapsed dropdown on mobile ── */
+  /* ── Tab list: collapsed dropdown with prev/next carousel ── */
   .tab-list {
     position: relative;
     flex-wrap: wrap;
@@ -1948,11 +1956,12 @@ a:hover {
   .tab-list .tab-btn--active,
   .tab-list [aria-selected="true"] {
     display: flex !important;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
     cursor: pointer;
+    text-align: center;
   }
 
   /* Arrow indicator on active tab */
@@ -1964,15 +1973,12 @@ a:hover {
     opacity: 0.6;
   }
 
-  /* When tab-list is focused-within or has :hover, show all tabs */
-  .tab-list:focus-within .btn,
-  .tab-list:focus-within [role="tab"],
+  /* When expanded, show all tabs */
   .tab-list.tab-list--expanded .btn,
   .tab-list.tab-list--expanded [role="tab"] {
     display: flex !important;
   }
 
-  .tab-list:focus-within,
   .tab-list.tab-list--expanded {
     flex-direction: column;
     position: relative;
@@ -1982,18 +1988,67 @@ a:hover {
     border-radius: var(--radius);
   }
 
-  .tab-list:focus-within .tab-btn--active::after,
   .tab-list.tab-list--expanded .tab-btn--active::after,
-  .tab-list:focus-within [aria-selected="true"]::after,
   .tab-list.tab-list--expanded [aria-selected="true"]::after {
     content: '\25B2';
   }
 
-  .tab-list:focus-within .btn:hover,
   .tab-list.tab-list--expanded .btn:hover,
-  .tab-list:focus-within [role="tab"]:hover,
   .tab-list.tab-list--expanded [role="tab"]:hover {
     background: rgba(255, 255, 255, 0.05);
+  }
+
+  /* ── Carousel prev/next buttons ── */
+  .tab-carousel {
+    display: flex !important;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+  }
+
+  .tab-carousel-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-raised);
+    color: var(--color-text);
+    font-size: 1.1rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background var(--transition), border-color var(--transition);
+  }
+
+  .tab-carousel-btn:hover {
+    border-color: var(--color-accent-fg);
+    background: rgba(224, 85, 85, 0.1);
+  }
+
+  .tab-carousel-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .tab-carousel .tab-list {
+    flex: 1;
+    margin-bottom: 0;
+  }
+
+  /* ── Sticky bottom action bar ── */
+  .form-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 40;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-sm);
+    margin: 0 calc(-1 * var(--space-sm));
+    width: calc(100% + 2 * var(--space-sm));
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
   }
 
   /* ── Modal: near full-width ── */
