@@ -1723,237 +1723,42 @@ a:hover {
 }
 
 @media (max-width: 640px) {
-  main {
-    padding: var(--space-lg) var(--space-md);
-  }
+  /* ── Layout ── */
+  main { padding: var(--space-lg) var(--space-md); }
+  header[role="banner"] { padding: var(--space-md); }
+  .header-inner { flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
 
-  header[role="banner"] {
-    padding: var(--space-md);
-  }
+  /* ── Stacked layouts ── */
+  .field-row { flex-direction: column; }
+  .form-header { flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
+  .character-list-header { flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
 
-  .header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-sm);
-  }
+  /* ── Character cards ── */
+  .character-card { flex-direction: column; align-items: flex-start; }
+  .character-card-actions { width: 100%; }
+  .character-card-actions .btn { flex: 1; }
 
-  /* ── Typography: readable on mobile ── */
+  /* ── Form actions ── */
+  .form-actions { flex-wrap: wrap; }
+  .form-actions .btn { flex: 1; justify-content: center; }
 
-  body {
-    font-size: 1rem;
-    line-height: 1.6;
-  }
+  /* ── Rating grid ── */
+  .rating-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--space-md); }
 
-  h2 {
-    font-size: 1.25rem;
-  }
+  /* ── Splat grid: single column ── */
+  .splat-grid { grid-template-columns: 1fr; }
 
-  h3 {
-    font-size: 1.05rem;
-  }
-
-  label {
-    font-size: 0.85rem;
-  }
-
-  .muted-hint { font-size: 0.9rem; }
-  .muted-hint--sm { font-size: 0.82rem; }
-  .muted-hint--xs { font-size: 0.82rem; }
-  .muted { font-size: 0.85rem; }
-
-  legend {
-    font-size: 1rem;
-  }
-
-  /* ── Touch targets: WCAG 2.5.8 — 44px minimum ── */
-
-  .btn {
-    min-height: 44px;
-    padding: 0.55rem var(--space-md);
-    font-size: 0.9rem;
-  }
-
-  .btn-sm {
-    min-height: 38px;
-    font-size: 0.82rem;
-  }
-
-  /* Tab buttons: wrap naturally, comfortable size */
-  .tab-list {
-    gap: var(--space-xs);
-  }
-
-  .tab-list .btn,
-  .tab-list [role="tab"] {
-    min-height: 42px;
-    padding: 0.5rem var(--space-sm);
-    font-size: 0.82rem;
-  }
-
-  /* Form inputs: comfortable touch and readable text */
-  input[type="text"],
-  input[type="number"],
-  input[type="email"],
-  input[type="search"],
-  select {
-    padding: 0.6rem var(--space-sm);
-    font-size: 0.95rem;
-    min-height: 42px;
-  }
-
-  textarea {
-    padding: 0.6rem var(--space-sm);
-    font-size: 0.95rem;
-  }
-
-  /* Checkboxes & radios: larger touch area */
-  input[type="checkbox"],
-  input[type="radio"] {
-    width: 20px;
-    height: 20px;
-    min-width: 20px;
-  }
-
-  /* DotRating select: comfortable touch */
-  .rating-field select {
-    width: 80px;
-    min-height: 42px;
-    font-size: 0.95rem;
-  }
-
-  .rating-field label {
-    font-size: 0.85rem;
-  }
-
-  /* Form sections: balanced spacing */
-  .form-section {
-    padding: var(--space-md);
-  }
-
-  fieldset {
-    padding: var(--space-md) var(--space-sm);
-  }
-
-  .field {
-    margin-bottom: var(--space-sm);
-  }
-
-  /* Field rows: stack vertically */
-  .field-row {
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
-
-  /* Rating grid */
-  .rating-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: var(--space-md);
-  }
-
-  /* Character cards: stacked layout */
-  .character-card {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: var(--space-md);
-    gap: var(--space-sm);
-  }
-
-  .character-card-actions {
-    width: 100%;
-    justify-content: flex-end;
-    gap: var(--space-sm);
-  }
-
-  .character-card-actions .btn {
-    flex: 1;
-  }
-
-  /* Form action bar: side by side but wrap if needed */
-  .form-actions {
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-  }
-
-  .form-actions .btn {
-    flex: 1 1 auto;
-    min-width: 0;
-    justify-content: center;
-  }
-
-  /* Form header: stacked */
-  .form-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-sm);
-  }
-
-  .form-header h2 {
-    font-size: 1.15rem;
-  }
-
-  /* Character list header: stacked */
-  .character-list-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-sm);
-  }
-
-  /* Blades stress boxes: larger touch targets */
-  .blades-stress-box {
-    min-width: 34px;
-    min-height: 34px;
-  }
-
-  .blades-dots span[role="button"],
-  .blades-dots button {
-    min-width: 34px;
-    min-height: 34px;
-  }
-
-  /* Splat grid: single column */
-  .splat-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* Modal: full-width on mobile */
-  .modal-content {
-    width: 95vw;
-    max-height: 90vh;
-    padding: var(--space-md);
-  }
-
-  .modal-option-btn {
-    min-height: 44px;
-    padding: var(--space-md);
-  }
-
-  /* Catalog dropdown */
-  .catalog-dropdown {
-    max-height: 50vh;
-  }
-
-  .catalog-item {
-    min-height: 42px;
-    padding: var(--space-sm);
-    font-size: 0.9rem;
-  }
-
-  /* Nav: scrollable on small screens */
+  /* ── Nav: horizontal scroll ── */
   nav[aria-label="Primary navigation"] {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     flex-wrap: nowrap;
-    gap: var(--space-xs);
     padding-bottom: var(--space-xs);
   }
+  nav button { white-space: nowrap; flex-shrink: 0; }
 
-  nav button {
-    min-height: 40px;
-    padding: 0.4rem var(--space-sm);
-    font-size: 0.82rem;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
+  /* ── Modal: near full-width ── */
+  .modal-content { width: 95vw; max-height: 90vh; }
 }
 
 /* ── Health track table ── */
