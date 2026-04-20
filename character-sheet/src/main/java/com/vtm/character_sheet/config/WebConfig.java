@@ -1,30 +1,45 @@
 package com.vtm.character_sheet.config;
 
+import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.CacheControl;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.concurrent.TimeUnit;
+import java.io.IOException;
 
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfig {
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Hashed assets (JS/CSS with content hash in filename) — cache 1 year
-        registry.addResourceHandler("/assets/**")
-                .addResourceLocations("classpath:/static/assets/")
-                .setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS).cachePublic());
+    @Bean
+    public FilterRegistrationBean<CacheHeaderFilter> cacheHeaderFilter() {
+        FilterRegistrationBean<CacheHeaderFilter> bean = new FilterRegistrationBean<>();
+        bean.setFilter(new CacheHeaderFilter());
+        bean.addUrlPatterns("/*");
+        bean.setOrder(Integer.MIN_VALUE); // run first
+        return bean;
+    }
 
-        // index.html — never cache (so new deploys are picked up immediately)
-        registry.addResourceHandler("/index.html")
-                .addResourceLocations("classpath:/static/index.html")
-                .setCacheControl(CacheControl.noCache().mustRevalidate());
+    static class CacheHeaderFilter implements Filter {
+        @Override
+        public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+                throws IOException, ServletException {
+            HttpServletRequest request = (HttpServletRequest) req;
+            HttpServletResponse response = (HttpServletResponse) res;
+            String path = request.getRequestURI();
 
-        // favicon, icons — short cache
-        registry.addResourceHandler("/favicon.svg", "/icons.svg")
-                .addResourceLocations("classpath:/static/")
-                .setCacheControl(CacheControl.maxAge(1, TimeUnit.HOURS));
+            if (path.startsWith("/assets/")) {
+                // Hashed assets — cache 1 year
+                response.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+            } else if (path.equals("/") || path.equals("/index.html") || !path.startsWith("/api/")) {
+                // HTML pages — never cache
+                response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+                response.setHeader("Pragma", "no-cache");
+                response.setHeader("Expires", "0");
+            }
+
+            chain.doFilter(req, res);
+        }
     }
 }
