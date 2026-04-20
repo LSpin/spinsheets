@@ -91,6 +91,7 @@ const CyberpunkForm = lazyRetry(() => import('./components/CyberpunkForm'))
 const CyberpunkAntagonistForm = lazyRetry(() => import('./components/CyberpunkAntagonistForm'))
 const CyberpunkPage = lazyRetry(() => import('./pages/CyberpunkPage'))
 const AllChroniclesPage = lazyRetry(() => import('./pages/AllChroniclesPage'))
+const AllCharactersPage = lazyRetry(() => import('./pages/AllCharactersPage'))
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -194,6 +195,9 @@ function AppShell() {
               </Link>
               <Link to={charactersPath}>
                 <button>{t('navCharacters')}</button>
+              </Link>
+              <Link to="/all-characters">
+                <button>{t('navAllCharacters')}</button>
               </Link>
               <Link to="/all-chronicles">
                 <button>{t('navChronicles')}</button>
@@ -417,6 +421,9 @@ function AppShell() {
           } />
           <Route path="/cyberpunk/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
+          } />
+          <Route path="/all-characters" element={
+            <ProtectedRoute><AllCharactersPage /></ProtectedRoute>
           } />
           <Route path="/all-chronicles" element={
             <ProtectedRoute><AllChroniclesPage /></ProtectedRoute>

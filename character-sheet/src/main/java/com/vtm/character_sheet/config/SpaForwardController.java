@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SpaForwardController {
 
     @RequestMapping(value = {"/", "/login", "/register", "/reset-password",
-            "/characters/**", "/chronicles/**", "/all-chronicles",
+            "/characters/**", "/chronicles/**", "/all-chronicles", "/all-characters",
             "/7thsea", "/7thsea/**", "/l5r", "/l5r/**",
             "/blades", "/blades/**", "/dnd", "/dnd/**",
             "/uestrpg", "/uestrpg/**",

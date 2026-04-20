@@ -12,6 +12,7 @@ const SYSTEMS = [
   { key: 'BLADES', labelKey: 'systemBlades', badge: 'splat-badge--blades', basePath: '/blades/chronicles', theme: 'blades' },
   { key: 'DND', labelKey: 'systemDnd', badge: 'splat-badge--dnd', basePath: '/dnd/chronicles', theme: 'dnd' },
   { key: 'UESTRPG', labelKey: 'systemUestrpg', badge: 'splat-badge--uestrpg', basePath: '/uestrpg/chronicles', theme: 'uestrpg' },
+  { key: 'CYBERPUNK', labelKey: 'systemCyberpunk', badge: 'splat-badge--cyberpunk', basePath: '/cyberpunk/chronicles', theme: 'cyberpunk' },
 ]
 
 const CREATABLE_SYSTEMS = SYSTEMS.filter(s => s.key !== 'ALL')
