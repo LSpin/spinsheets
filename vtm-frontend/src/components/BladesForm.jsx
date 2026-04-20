@@ -409,13 +409,13 @@ export default function BladesForm() {
 
       <div className="tab-list" role="tablist">
         {tabKeys.map(tk => (
-          <button key={tk} role="tab" className={`btn btn-secondary${tab === tk ? ' tab-btn--active' : ''}`}
+          <button key={tk} id={tk} role="tab" className={`btn btn-secondary${tab === tk ? ' tab-btn--active' : ''}`}
             onClick={() => setTab(tk)} aria-selected={tab === tk}>{t(tk)}</button>
         ))}
       </div>
 
       {/* ── Identity ── */}
-      <div hidden={tab !== 'tabIdentity'}>
+      <div hidden={tab !== 'tabIdentity'} role="tabpanel" aria-labelledby="tabIdentity">
         <div className="form-section">
           <fieldset>
             <legend>{t('tabIdentity')}</legend>
@@ -470,7 +470,7 @@ export default function BladesForm() {
       </div>
 
       {/* ── Actions ── */}
-      <div hidden={tab !== 'tabBladesActions'}>
+      <div hidden={tab !== 'tabBladesActions'} role="tabpanel" aria-labelledby="tabBladesActions">
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesActionRatings')}</legend>
@@ -494,7 +494,7 @@ export default function BladesForm() {
       </div>
 
       {/* ── Abilities ── */}
-      <div hidden={tab !== 'tabBladesAbilities'}>
+      <div hidden={tab !== 'tabBladesAbilities'} role="tabpanel" aria-labelledby="tabBladesAbilities">
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesSpecialAbilities')}{selectedPlaybook ? ` - ${fields.bladesPlaybook}` : ''}</legend>
@@ -538,7 +538,7 @@ export default function BladesForm() {
       </div>
 
       {/* ── Stress & Harm ── */}
-      <div hidden={tab !== 'tabBladesStressHarm'}>
+      <div hidden={tab !== 'tabBladesStressHarm'} role="tabpanel" aria-labelledby="tabBladesStressHarm">
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesStress')}</legend>
@@ -565,7 +565,7 @@ export default function BladesForm() {
             <legend>{t('bladesTrauma')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               {t('bladesTraumaHint')}
-              {selectedTrauma.length >= 4 && <span style={{ color: 'var(--color-danger)', fontWeight: 600 }}> {t('bladesTraumaWarning')}</span>}
+              {selectedTrauma.length >= 4 && <span role="alert" style={{ color: 'var(--color-danger)', fontWeight: 600 }}> {t('bladesTraumaWarning')}</span>}
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)' }}>
               {BLADES_TRAUMA_CONDITIONS.map(tc => (
@@ -647,7 +647,7 @@ export default function BladesForm() {
       </div>
 
       {/* ── Items & Load ── */}
-      <div hidden={tab !== 'tabBladesItems'}>
+      <div hidden={tab !== 'tabBladesItems'} role="tabpanel" aria-labelledby="tabBladesItems">
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesLoad')}</legend>
@@ -660,7 +660,7 @@ export default function BladesForm() {
                 </label>
               ))}
             </div>
-            <p className="muted-hint muted-hint--xs">
+            <p className="muted-hint muted-hint--xs" role="status" aria-live="polite">
               {t('bladesCurrentLoad')}: <strong>{currentLoad}</strong> / {fields.bladesLoad || '?'}
               {fields.bladesLoad > 0 && currentLoad > fields.bladesLoad && <span style={{ color: 'var(--color-danger)', fontWeight: 600 }}> {t('bladesOverEncumbered')}</span>}
             </p>
@@ -693,7 +693,7 @@ export default function BladesForm() {
       </div>
 
       {/* ── Contacts ── */}
-      <div hidden={tab !== 'tabBladesContacts'}>
+      <div hidden={tab !== 'tabBladesContacts'} role="tabpanel" aria-labelledby="tabBladesContacts">
         <div className="form-section">
           {selectedPlaybook?.contacts?.length > 0 && (
             <fieldset>
@@ -764,7 +764,7 @@ export default function BladesForm() {
       </div>
 
       {/* ── Clocks (ST only) ── */}
-      <div hidden={tab !== 'tabBladesClocks'}>
+      <div hidden={tab !== 'tabBladesClocks'} role="tabpanel" aria-labelledby="tabBladesClocks">
         <div className="form-section">
           <fieldset>
             <legend>{t('tabBladesClocks')}</legend>
@@ -839,12 +839,12 @@ export default function BladesForm() {
       </div>
 
       {/* ── Dice Pools Reference ── */}
-      <div hidden={tab !== 'tabBladesDicePools'}>
+      <div hidden={tab !== 'tabBladesDicePools'} role="tabpanel" aria-labelledby="tabBladesDicePools">
         <RulesReferenceTab rules={BLADES_DICE_POOL_RULES} title={t('tabBladesDicePools')} />
       </div>
 
       {/* ── Backstory ── */}
-      <div hidden={tab !== 'tabBackstory'}>
+      <div hidden={tab !== 'tabBackstory'} role="tabpanel" aria-labelledby="tabBackstory">
         <div className="form-section">
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} aria-label={t('backstoryLabel')} /></fieldset>
           <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} aria-label={t('notes')} /></fieldset>
@@ -852,7 +852,7 @@ export default function BladesForm() {
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 'tabXpLog'}>
+      <div hidden={tab !== 'tabXpLog'} role="tabpanel" aria-labelledby="tabXpLog">
         <XpLogSection splat="blades" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
@@ -860,7 +860,7 @@ export default function BladesForm() {
       </div>
 
       {/* ── Dice Roller ── */}
-      <div hidden={tab !== 'tabDiceRoller'}>
+      <div hidden={tab !== 'tabDiceRoller'} role="tabpanel" aria-labelledby="tabDiceRoller">
         <BladesDiceRoller />
       </div>
 

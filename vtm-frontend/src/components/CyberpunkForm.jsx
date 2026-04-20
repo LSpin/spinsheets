@@ -294,13 +294,13 @@ export default function CyberpunkForm() {
       </div>
 
       {/* ── Tab 0: Identity ── */}
-      <div hidden={tab !== 0}>
+      <div hidden={tab !== 0} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>{t('tabCpIdentity')}</legend>
             <div className="field-row">
-              <div className="field"><label>{t('charName')} *</label><input name="name" value={fields.name} onChange={handleText} /></div>
-              <div className="field"><label>{t('cpHandle')}</label><input name="cpHandle" value={fields.cpHandle} onChange={handleText} placeholder="Street name" /></div>
+              <div className="field"><label htmlFor="cp-name">{t('charName')} *</label><input id="cp-name" name="name" value={fields.name} onChange={handleText} /></div>
+              <div className="field"><label htmlFor="cp-handle">{t('cpHandle')}</label><input id="cp-handle" name="cpHandle" value={fields.cpHandle} onChange={handleText} placeholder="Street name" /></div>
             </div>
             <div className="field-row">
               <CatalogSelect id="cpRole" name="cpRole" label={t('cpRole')} value={fields.cpRole}
@@ -331,7 +331,7 @@ export default function CyberpunkForm() {
       </div>
 
       {/* ── Tab 1: Stats ── */}
-      <div hidden={tab !== 1}>
+      <div hidden={tab !== 1} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>{t('tabCpStats')}</legend>
@@ -380,7 +380,7 @@ export default function CyberpunkForm() {
       </div>
 
       {/* ── Tab 2: Skills ── */}
-      <div hidden={tab !== 2}>
+      <div hidden={tab !== 2} role="tabpanel">
         <div className="form-section">
           {Object.entries(CP_SKILLS_BY_STAT).map(([statLabel, skillList]) => (
             <fieldset key={statLabel}>
@@ -419,7 +419,7 @@ export default function CyberpunkForm() {
       </div>
 
       {/* ── Tab 3: Cyberware ── */}
-      <div hidden={tab !== 3}>
+      <div hidden={tab !== 3} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>{t('tabCpCyberware')}</legend>
@@ -459,7 +459,7 @@ export default function CyberpunkForm() {
       </div>
 
       {/* ── Tab 4: Combat ── */}
-      <div hidden={tab !== 4}>
+      <div hidden={tab !== 4} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>{t('cpArmor')} — Stopping Power by Location</legend>
@@ -527,10 +527,12 @@ export default function CyberpunkForm() {
               {WOUND_STATES.map(ws => (
                 <button key={ws.level}
                   className={`btn ${fields.cpWoundState === ws.level ? 'btn-primary' : 'btn-secondary'}`}
+                  aria-label={`${ws.label}${ws.penalty !== 0 ? ' ' + ws.penalty : ''}`}
+                  aria-pressed={fields.cpWoundState === ws.level}
                   style={{
                     padding: '6px 12px', fontSize: '0.8rem',
                     background: fields.cpWoundState === ws.level
-                      ? (ws.level === 0 ? '#2ecc71' : ws.level <= 2 ? '#f39c12' : '#e74c3c')
+                      ? (ws.level === 0 ? '#2ecc71' : ws.level <= 2 ? '#f39c12' : '#f44336')
                       : undefined,
                     color: fields.cpWoundState === ws.level ? '#fff' : undefined,
                   }}
@@ -550,7 +552,7 @@ export default function CyberpunkForm() {
       </div>
 
       {/* ── Tab 5: Gear ── */}
-      <div hidden={tab !== 5}>
+      <div hidden={tab !== 5} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>{t('cpEurodollars')}</legend>
@@ -588,7 +590,7 @@ export default function CyberpunkForm() {
       </div>
 
       {/* ── Tab 6: Vehicles ── */}
-      <div hidden={tab !== 6}>
+      <div hidden={tab !== 6} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>{t('cpVehicles')}</legend>
@@ -621,7 +623,7 @@ export default function CyberpunkForm() {
       </div>
 
       {/* ── Tab 7: Lifepath ── */}
-      <div hidden={tab !== 7}>
+      <div hidden={tab !== 7} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>{t('cpLifepath')}</legend>
@@ -653,7 +655,7 @@ export default function CyberpunkForm() {
       </div>
 
       {/* ── Tab 8: Backstory ── */}
-      <div hidden={tab !== 8}>
+      <div hidden={tab !== 8} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
@@ -669,7 +671,7 @@ export default function CyberpunkForm() {
       </div>
 
       {/* ── Tab 9: IP Log ── */}
-      <div hidden={tab !== 9}>
+      <div hidden={tab !== 9} role="tabpanel">
         <XpLogSection splat="cyberpunk" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
@@ -677,7 +679,7 @@ export default function CyberpunkForm() {
       </div>
 
       {/* ── Tab 10: Dice Roller ── */}
-      <div hidden={tab !== 10}>
+      <div hidden={tab !== 10} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>Stat + Skill + d10</legend>
@@ -686,12 +688,12 @@ export default function CyberpunkForm() {
             </p>
             <div className="field-row">
               <div className="field">
-                <label>Stat Value</label>
-                <input type="number" min={0} max={10} value={diceStatVal} onChange={e => setDiceStatVal(Number(e.target.value) || 0)} style={{ width: '70px', textAlign: 'center' }} />
+                <label htmlFor="dice-stat-val">Stat Value</label>
+                <input id="dice-stat-val" type="number" min={0} max={10} value={diceStatVal} onChange={e => setDiceStatVal(Number(e.target.value) || 0)} style={{ width: '70px', textAlign: 'center' }} />
               </div>
               <div className="field">
-                <label>Skill Value</label>
-                <input type="number" min={0} max={10} value={diceSkillVal} onChange={e => setDiceSkillVal(Number(e.target.value) || 0)} style={{ width: '70px', textAlign: 'center' }} />
+                <label htmlFor="dice-skill-val">Skill Value</label>
+                <input id="dice-skill-val" type="number" min={0} max={10} value={diceSkillVal} onChange={e => setDiceSkillVal(Number(e.target.value) || 0)} style={{ width: '70px', textAlign: 'center' }} />
               </div>
               <button className="btn btn-primary" style={{ alignSelf: 'flex-end' }} onClick={handleStatSkillRoll}>Roll d10</button>
             </div>
@@ -712,8 +714,8 @@ export default function CyberpunkForm() {
             <legend>Damage Roller</legend>
             <div className="field-row">
               <div className="field">
-                <label>Dice Expression</label>
-                <input type="text" value={damageExpr} onChange={e => setDamageExpr(e.target.value)}
+                <label htmlFor="dice-expr">Dice Expression</label>
+                <input id="dice-expr" type="text" value={damageExpr} onChange={e => setDamageExpr(e.target.value)}
                   placeholder="e.g. 3d6+2" style={{ width: '120px' }}
                   onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleDamageRoll() } }} />
               </div>
@@ -742,8 +744,8 @@ export default function CyberpunkForm() {
         </div>
       </div>
 
-      {/* ── Tab 10: Rules Reference ── */}
-      <div hidden={tab !== 11}>
+      {/* ── Tab 11: Rules Reference ── */}
+      <div hidden={tab !== 11} role="tabpanel">
         <RulesReferenceTab rules={CP_RULES} title="Cyberpunk 2020 Rules Reference" />
       </div>
 

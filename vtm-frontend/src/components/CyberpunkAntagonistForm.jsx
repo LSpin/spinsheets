@@ -111,7 +111,7 @@ export default function CyberpunkAntagonistForm() {
       </div>
 
       {/* ── Identity ── */}
-      <div hidden={tab !== 0}>
+      <div hidden={tab !== 0} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>Load Template</legend>
@@ -153,7 +153,7 @@ export default function CyberpunkAntagonistForm() {
       </div>
 
       {/* ── Stats ── */}
-      <div hidden={tab !== 1}>
+      <div hidden={tab !== 1} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>Statistics</legend>
@@ -183,7 +183,7 @@ export default function CyberpunkAntagonistForm() {
       </div>
 
       {/* ── Combat ── */}
-      <div hidden={tab !== 2}>
+      <div hidden={tab !== 2} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>Skills</legend>
@@ -192,6 +192,7 @@ export default function CyberpunkAntagonistForm() {
             </p>
             <textarea
               name="cpSkills" value={fields.cpSkills} onChange={handleText}
+              aria-label="Skills"
               rows={6} style={{ width: '100%' }}
               placeholder="Handgun 6, Rifle 5, Melee 5, Brawling 4, Awareness/Notice 5, Stealth 4, Athletics 3"
             />
@@ -201,6 +202,7 @@ export default function CyberpunkAntagonistForm() {
             <legend>Weapons</legend>
             <textarea
               name="cpWeapons" value={fields.cpWeapons} onChange={handleText}
+              aria-label="Weapons"
               rows={4} style={{ width: '100%' }}
               placeholder="Sternmeyer Type 35 (11mm, 3d6, P), Monokatana (4d6, AP)"
             />
@@ -210,6 +212,7 @@ export default function CyberpunkAntagonistForm() {
             <legend>Armor</legend>
             <textarea
               name="cpArmor" value={fields.cpArmor} onChange={handleText}
+              aria-label="Armor"
               rows={3} style={{ width: '100%' }}
               placeholder="Medium Armor Jacket (SP 18), Skinweave (SP 12)"
             />
@@ -219,6 +222,7 @@ export default function CyberpunkAntagonistForm() {
             <legend>Cyberware</legend>
             <textarea
               name="cpCyberware" value={fields.cpCyberware} onChange={handleText}
+              aria-label="Cyberware"
               rows={5} style={{ width: '100%' }}
               placeholder="Kerenzikov Boosterware Lvl 2, Smartgun Link, Cyberoptic (Targeting Scope, Low-Light)"
             />
@@ -227,7 +231,7 @@ export default function CyberpunkAntagonistForm() {
       </div>
 
       {/* ── Notes ── */}
-      <div hidden={tab !== 3}>
+      <div hidden={tab !== 3} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>GM Notes & Tactics</legend>

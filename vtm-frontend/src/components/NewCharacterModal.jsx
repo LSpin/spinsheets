@@ -71,16 +71,18 @@ export default function NewCharacterModal({ open, onClose, chronicles, newCharPa
     <div className="modal-overlay" onClick={handleClose} role="dialog" aria-modal="true" aria-labelledby="newchar-modal-title"
       onKeyDown={e => { if (e.key === 'Escape') handleClose() }}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
+        <div aria-live="polite">
 
         {/* Step 1: Pick a game system (only when opened without a preset system) */}
         {step === 'system' && (
           <>
             <h3 id="newchar-modal-title">{t('pickSystemTitle')}</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
-              {GAME_SYSTEMS.map(sys => (
+              {GAME_SYSTEMS.map((sys, idx) => (
                 <button
                   key={sys.key}
                   className="modal-option-btn"
+                  autoFocus={idx === 0}
                   onClick={() => handlePickSystem(sys)}
                   style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-md)', textAlign: 'left' }}
                 >
@@ -103,7 +105,7 @@ export default function NewCharacterModal({ open, onClose, chronicles, newCharPa
               </p>
             )}
             <div className="modal-options">
-              <button className="modal-option-btn" onClick={handleForMyself}>
+              <button className="modal-option-btn" autoFocus onClick={handleForMyself}>
                 <span className="modal-option-label">{t('forMyself')}</span>
                 <span className="modal-option-desc">{t('forMyselfDesc')}</span>
               </button>
@@ -113,10 +115,10 @@ export default function NewCharacterModal({ open, onClose, chronicles, newCharPa
                   <div className="modal-option-divider">{t('or')}</div>
 
                   <div className="modal-option-chronicle">
-                    <span className="modal-option-label">{t('forAChronicle')}</span>
+                    <label htmlFor="chronicle-select" className="modal-option-label">{t('forAChronicle')}</label>
                     <span className="modal-option-desc">{t('forAChronicleDesc')}</span>
                     <div className="modal-chronicle-select">
-                      <select value={selectedChronicle} onChange={e => setSelectedChronicle(e.target.value)}>
+                      <select id="chronicle-select" value={selectedChronicle} onChange={e => setSelectedChronicle(e.target.value)}>
                         <option value="">{t('selectChronicleForAST')}</option>
                         {filteredChronicles.map(c => (
                           <option key={c.id} value={c.id}>{c.name}</option>
@@ -142,6 +144,7 @@ export default function NewCharacterModal({ open, onClose, chronicles, newCharPa
           </>
         )}
 
+        </div>
         <button className="modal-close" onClick={handleClose}>{t('cancel')}</button>
       </div>
     </div>

@@ -53,11 +53,11 @@ export default function CyberpunkPage() {
         <h2 id="cyberpunk-heading">Cyberpunk 2020 — {t('navCharacters')}</h2>
         <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
           <button className="btn btn-primary" onClick={() => setShowNewChar(true)}>
-            Cyberpunk 2020 — New Character
+            {t('cpPageTitle')}
           </button>
           {isST && (
             <button className="btn btn-secondary" onClick={() => navigate('/cyberpunk/antagonist/new')}>
-              New Antagonist / NPC
+              {t('cpNewAntagonistNpc')}
             </button>
           )}
         </div>
@@ -84,13 +84,13 @@ export default function CyberpunkPage() {
           <>
             {pcs.length === 0 && antagonists.length === 0 && (
               <div className="empty-state">
-                <p>No Cyberpunk 2020 characters yet.</p>
-                <p className="muted-hint">Create your first edgerunner to get started.</p>
+                <p>{t('cpNoCharsEmpty')}</p>
+                <p className="muted-hint">{t('cpCreateFirst')}</p>
               </div>
             )}
 
             {pcs.length > 0 && (
-              <ul className="character-list" aria-label="Cyberpunk Characters">
+              <ul className="character-list" aria-label={t('cpCharactersList')}>
                 {pcs.map(c => (
                   <li key={c.id} className="character-card">
                     <div className="character-card-info">
@@ -106,9 +106,9 @@ export default function CyberpunkPage() {
                       </dl>
                     </div>
                     <div className="character-card-actions">
-                      <button className="btn btn-secondary" onClick={() => navigate(`/characters/${c.id}?mode=view`)}>{t('viewBtn')}</button>
-                      <button className="btn btn-secondary" onClick={() => navigate(`/characters/${c.id}`)}>{t('edit')}</button>
-                      <button className="btn btn-danger" onClick={() => handleDelete(c.id, c.name)}>{t('deleteBtn')}</button>
+                      <button className="btn btn-secondary" aria-label={`${t('viewBtn')} ${c.name}`} onClick={() => navigate(`/characters/${c.id}?mode=view`)}>{t('viewBtn')}</button>
+                      <button className="btn btn-secondary" aria-label={`${t('edit')} ${c.name}`} onClick={() => navigate(`/characters/${c.id}`)}>{t('edit')}</button>
+                      <button className="btn btn-danger" aria-label={`${t('deleteBtn')} ${c.name}`} onClick={() => handleDelete(c.id, c.name)}>{t('deleteBtn')}</button>
                     </div>
                   </li>
                 ))}
@@ -118,7 +118,7 @@ export default function CyberpunkPage() {
             {isST && antagonists.length > 0 && (
               <>
                 <h3 style={{ marginTop: 'var(--space-xl)', marginBottom: 'var(--space-sm)' }}>NPCs / Antagonists ({antagonists.length})</h3>
-                <ul className="character-list" aria-label="Antagonists">
+                <ul className="character-list" aria-label={t('cpAntagonistsList')}>
                   {antagonists.map(c => (
                     <li key={c.id} className="character-card">
                       <div className="character-card-info">
@@ -131,8 +131,8 @@ export default function CyberpunkPage() {
                         </dl>
                       </div>
                       <div className="character-card-actions">
-                        <button className="btn btn-secondary" onClick={() => navigate(`/characters/${c.id}`)}>{t('edit')}</button>
-                        <button className="btn btn-danger" onClick={() => handleDelete(c.id, c.name)}>{t('deleteBtn')}</button>
+                        <button className="btn btn-secondary" aria-label={`${t('edit')} ${c.name}`} onClick={() => navigate(`/characters/${c.id}`)}>{t('edit')}</button>
+                        <button className="btn btn-danger" aria-label={`${t('deleteBtn')} ${c.name}`} onClick={() => handleDelete(c.id, c.name)}>{t('deleteBtn')}</button>
                       </div>
                     </li>
                   ))}
