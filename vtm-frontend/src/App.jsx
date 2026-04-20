@@ -213,18 +213,21 @@ function AppShell() {
     function injectCarousel(tabList) {
       if (tabList.parentElement?.classList.contains('tab-carousel')) return
       if (!isMobile()) return
+
       const wrapper = document.createElement('div')
       wrapper.className = 'tab-carousel'
+      wrapper.setAttribute('role', 'group')
+      wrapper.setAttribute('aria-label', 'Tab navigation')
+
       const prevBtn = document.createElement('button')
       prevBtn.className = 'tab-carousel-btn'
-      prevBtn.setAttribute('aria-label', 'Previous tab')
-      prevBtn.textContent = '\u276E'
       prevBtn.type = 'button'
+      prevBtn.textContent = '\u276E'
+
       const nextBtn = document.createElement('button')
       nextBtn.className = 'tab-carousel-btn'
-      nextBtn.setAttribute('aria-label', 'Next tab')
-      nextBtn.textContent = '\u276F'
       nextBtn.type = 'button'
+      nextBtn.textContent = '\u276F'
 
       function getTabButtons() {
         return [...tabList.querySelectorAll('[role="tab"], .btn')]
@@ -233,24 +236,37 @@ function AppShell() {
         const tabs = getTabButtons()
         return tabs.findIndex(t => t.classList.contains('tab-btn--active') || t.getAttribute('aria-selected') === 'true')
       }
+      function updateButtons() {
+        const tabs = getTabButtons()
+        const idx = getActiveIndex()
+        const total = tabs.length
+        prevBtn.disabled = idx <= 0
+        nextBtn.disabled = idx >= total - 1
+        prevBtn.setAttribute('aria-label', idx > 0 ? `Previous: ${tabs[idx - 1]?.textContent}` : 'No previous tab')
+        nextBtn.setAttribute('aria-label', idx < total - 1 ? `Next: ${tabs[idx + 1]?.textContent}` : 'No next tab')
+      }
 
       prevBtn.addEventListener('click', (e) => {
         e.stopPropagation()
         const tabs = getTabButtons()
         const idx = getActiveIndex()
-        if (idx > 0) tabs[idx - 1].click()
+        if (idx > 0) { tabs[idx - 1].click(); setTimeout(updateButtons, 50) }
       })
       nextBtn.addEventListener('click', (e) => {
         e.stopPropagation()
         const tabs = getTabButtons()
         const idx = getActiveIndex()
-        if (idx < tabs.length - 1) tabs[idx + 1].click()
+        if (idx < tabs.length - 1) { tabs[idx + 1].click(); setTimeout(updateButtons, 50) }
       })
+
+      // Update on any tab click within the list
+      tabList.addEventListener('click', () => setTimeout(updateButtons, 50))
 
       tabList.parentNode.insertBefore(wrapper, tabList)
       wrapper.appendChild(prevBtn)
       wrapper.appendChild(tabList)
       wrapper.appendChild(nextBtn)
+      updateButtons()
     }
 
     function injectAll() {
