@@ -323,7 +323,7 @@ export default function CyberpunkForm() {
               <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
                 <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{fields.cpRole}</div>
                 <p style={{ fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 'var(--space-xs)' }}>{selectedRole.description}</p>
-                <p className="muted-hint muted-hint--xs"><strong>Special Ability:</strong> {selectedRole.specialAbility}</p>
+                <p className="muted-hint muted-hint--xs"><strong>{t('cpSpecialAbilityLabel')}</strong> {selectedRole.specialAbility}</p>
               </div>
             )}
           </fieldset>
@@ -346,25 +346,25 @@ export default function CyberpunkForm() {
             </div>
           </fieldset>
           <fieldset>
-            <legend>Derived Values</legend>
+            <legend>{t('cpDerivedValues')}</legend>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 'var(--space-sm)' }}>
               <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
-                <strong>Run:</strong> {run} yards/turn
+                <strong>{t('cpRun')}:</strong> {run} yards/turn
               </div>
               <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
-                <strong>Leap:</strong> {leap} yards
+                <strong>{t('cpLeap')}:</strong> {leap} yards
               </div>
               <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
-                <strong>Lift:</strong> {lift} lbs
+                <strong>{t('cpLift')}:</strong> {lift} lbs
               </div>
               <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
-                <strong>Humanity:</strong> {humanity}
+                <strong>{t('cpHumanity')}:</strong> {humanity}
               </div>
               <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
-                <strong>Save Number:</strong> {fields.cpBody}
+                <strong>{t('cpSaveNumber')}:</strong> {fields.cpBody}
               </div>
               <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
-                <strong>BTM:</strong> {btm}
+                <strong>{t('cpBtm')}:</strong> {btm}
               </div>
             </div>
             <div className="field-row" style={{ marginTop: 'var(--space-md)' }}>
@@ -384,7 +384,7 @@ export default function CyberpunkForm() {
         <div className="form-section">
           {Object.entries(CP_SKILLS_BY_STAT).map(([statLabel, skillList]) => (
             <fieldset key={statLabel}>
-              <legend>{statLabel} Skills</legend>
+              <legend>{statLabel} {t('cpSkillsLabel')}</legend>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 {skillList.map(skillName => (
                   <div key={skillName} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: '2px 0', borderBottom: '1px solid var(--color-border)' }}>
@@ -397,7 +397,7 @@ export default function CyberpunkForm() {
             </fieldset>
           ))}
           <fieldset>
-            <legend>Custom Skills</legend>
+            <legend>{t('cpCustomSkills')}</legend>
             {customSkills.map(s => (
               <div key={s.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: '2px 0', borderBottom: '1px solid var(--color-border)' }}>
                 <span style={{ flex: 1, fontSize: '0.85rem' }}>{s.name}</span>
@@ -412,7 +412,7 @@ export default function CyberpunkForm() {
                 <input type="text" value={customSkillName} onChange={e => setCustomSkillName(e.target.value)}
                   placeholder="Custom skill name..." onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addCustomSkill() } }} />
               </div>
-              <button className="btn btn-secondary" onClick={addCustomSkill}>Add Skill</button>
+              <button className="btn btn-secondary" onClick={addCustomSkill}>{t('cpAddSkill')}</button>
             </div>
           </fieldset>
         </div>
@@ -424,10 +424,10 @@ export default function CyberpunkForm() {
           <fieldset>
             <legend>{t('tabCpCyberware')}</legend>
             <div style={{ padding: 'var(--space-sm)', marginBottom: 'var(--space-md)', background: 'rgba(231,76,60,0.1)', borderRadius: '4px', fontWeight: 600 }}>
-              Total Humanity Loss: <span style={{ color: totalHumanityLoss > 0 ? '#e55' : '#8c8' }}>{totalHumanityLoss}</span>
-              {' '} | Effective Humanity: {Math.max(0, humanity - totalHumanityLoss)}
+              {t('cpTotalHumanityLoss')}: <span style={{ color: totalHumanityLoss > 0 ? '#e55' : '#8c8' }}>{totalHumanityLoss}</span>
+              {' '} | {t('cpEffectiveHumanity')}: {Math.max(0, humanity - totalHumanityLoss)}
             </div>
-            <CatalogSelect id="cpCyberwareAdd" name="cpCyberwareAdd" label="Add Cyberware"
+            <CatalogSelect id="cpCyberwareAdd" name="cpCyberwareAdd" label={t('cpAddCyberware')}
               value="" onChange={(_, val) => {
                 if (!val) return
                 const item = CP_CYBERWARE.find(c => c.name === val)
@@ -450,7 +450,7 @@ export default function CyberpunkForm() {
               </div>
             )}
             <div className="field" style={{ marginTop: 'var(--space-md)' }}>
-              <label>Cyberware Notes</label>
+              <label>{t('cpCyberwareNotes')}</label>
               <textarea name="notes_cyber" value={fields.cpContacts} onChange={e => handleField('cpContacts', e.target.value)}
                 rows={3} style={{ width: '100%' }} placeholder="Options, modifications, notes..." />
             </div>
@@ -462,7 +462,7 @@ export default function CyberpunkForm() {
       <div hidden={tab !== 4} role="tabpanel">
         <div className="form-section">
           <fieldset>
-            <legend>{t('cpArmor')} — Stopping Power by Location</legend>
+            <legend>{t('cpArmor')} — {t('cpStoppingPowerByLocation')}</legend>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: 'var(--space-sm)' }}>
               {BODY_LOCATIONS.map(loc => (
                 <div key={loc} className="field" style={{ textAlign: 'center' }}>
@@ -480,7 +480,7 @@ export default function CyberpunkForm() {
 
           <fieldset>
             <legend>{t('cpWeapons')}</legend>
-            <CatalogSelect id="cpWeaponAdd" name="cpWeaponAdd" label="Add Weapon"
+            <CatalogSelect id="cpWeaponAdd" name="cpWeaponAdd" label={t('cpAddWeapon')}
               value="" onChange={(_, val) => {
                 if (!val) return
                 const item = CP_WEAPONS.find(w => w.name === val)
@@ -522,7 +522,7 @@ export default function CyberpunkForm() {
           </fieldset>
 
           <fieldset>
-            <legend>{t('cpWoundState')} — Wound Track</legend>
+            <legend>{t('cpWoundState')} — {t('cpWoundTrack')}</legend>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-xs)' }}>
               {WOUND_STATES.map(ws => (
                 <button key={ws.level}
@@ -544,7 +544,7 @@ export default function CyberpunkForm() {
             </div>
             {fields.cpWoundState > 0 && (
               <p style={{ marginTop: 'var(--space-sm)', fontWeight: 600, color: '#e55' }}>
-                Wound Penalty: {WOUND_STATES[fields.cpWoundState]?.penalty || 0} to all actions
+                {t('cpWoundPenalty')}: {WOUND_STATES[fields.cpWoundState]?.penalty || 0} {t('cpToAllActions')}
               </p>
             )}
           </fieldset>
@@ -565,7 +565,7 @@ export default function CyberpunkForm() {
           </fieldset>
           <fieldset>
             <legend>{t('cpGear')}</legend>
-            <CatalogSelect id="cpGearAdd" name="cpGearAdd" label="Add Gear"
+            <CatalogSelect id="cpGearAdd" name="cpGearAdd" label={t('cpAddGear')}
               value="" onChange={(_, val) => {
                 if (!val) return
                 const item = CP_GEAR.find(g => g.name === val)
@@ -635,7 +635,7 @@ export default function CyberpunkForm() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xs)' }}>
                   <label style={{ fontWeight: 700, fontSize: '0.9rem' }}>{key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase()).trim()}</label>
                   <button className="btn btn-secondary" style={{ padding: '4px 10px', fontSize: '0.75rem' }}
-                    onClick={() => rollLifepathStep(key)}>Roll Random</button>
+                    onClick={() => rollLifepathStep(key)}>{t('cpRollRandom')}</button>
                 </div>
                 <select value={lifepath[key] || ''} onChange={e => setLifepathStep(key, e.target.value)}
                   style={{ width: '100%' }}>
@@ -649,7 +649,7 @@ export default function CyberpunkForm() {
             <button className="btn btn-secondary" style={{ marginTop: 'var(--space-sm)' }}
               onClick={() => {
                 Object.keys(CP_LIFEPATH_TABLES).forEach(key => rollLifepathStep(key))
-              }}>Roll All Random</button>
+              }}>{t('cpRollAllRandom')}</button>
           </fieldset>
         </div>
       </div>
@@ -682,25 +682,25 @@ export default function CyberpunkForm() {
       <div hidden={tab !== 10} role="tabpanel">
         <div className="form-section">
           <fieldset>
-            <legend>Stat + Skill + d10</legend>
+            <legend>{t('cpStatSkillD10')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Standard CP2020 check: STAT + Skill + 1d10 vs. Difficulty. Fumble on 1, Critical on 10 (exploding).
             </p>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="dice-stat-val">Stat Value</label>
+                <label htmlFor="dice-stat-val">{t('cpStatValue')}</label>
                 <input id="dice-stat-val" type="number" min={0} max={10} value={diceStatVal} onChange={e => setDiceStatVal(Number(e.target.value) || 0)} style={{ width: '70px', textAlign: 'center' }} />
               </div>
               <div className="field">
-                <label htmlFor="dice-skill-val">Skill Value</label>
+                <label htmlFor="dice-skill-val">{t('cpSkillValue')}</label>
                 <input id="dice-skill-val" type="number" min={0} max={10} value={diceSkillVal} onChange={e => setDiceSkillVal(Number(e.target.value) || 0)} style={{ width: '70px', textAlign: 'center' }} />
               </div>
-              <button className="btn btn-primary" style={{ alignSelf: 'flex-end' }} onClick={handleStatSkillRoll}>Roll d10</button>
+              <button className="btn btn-primary" style={{ alignSelf: 'flex-end' }} onClick={handleStatSkillRoll}>{t('cpRollD10')}</button>
             </div>
             {diceResult && (
               <div style={{ marginTop: 'var(--space-md)', padding: 'var(--space-md)', border: '2px solid var(--color-accent-fg)', borderRadius: '8px', background: 'rgba(52,152,219,0.08)' }}>
                 <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>
-                  Total: {diceResult.total}
+                  {t('cpTotal')}: {diceResult.total}
                 </div>
                 <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
                   Stat ({diceResult.stat}) + Skill ({diceResult.skill}) + Roll ({diceResult.roll}) = {diceResult.total}
@@ -711,15 +711,15 @@ export default function CyberpunkForm() {
           </fieldset>
 
           <fieldset>
-            <legend>Damage Roller</legend>
+            <legend>{t('cpDamageRoller')}</legend>
             <div className="field-row">
               <div className="field">
-                <label htmlFor="dice-expr">Dice Expression</label>
+                <label htmlFor="dice-expr">{t('cpDiceExpression')}</label>
                 <input id="dice-expr" type="text" value={damageExpr} onChange={e => setDamageExpr(e.target.value)}
                   placeholder="e.g. 3d6+2" style={{ width: '120px' }}
                   onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleDamageRoll() } }} />
               </div>
-              <button className="btn btn-primary" style={{ alignSelf: 'flex-end' }} onClick={handleDamageRoll}>Roll Damage</button>
+              <button className="btn btn-primary" style={{ alignSelf: 'flex-end' }} onClick={handleDamageRoll}>{t('cpRollDamage')}</button>
             </div>
             {damageResult && !damageResult.error && (
               <div style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
@@ -732,8 +732,8 @@ export default function CyberpunkForm() {
           </fieldset>
 
           <fieldset>
-            <legend>Roll History</legend>
-            {diceHistory.length === 0 && <p className="muted-hint">No rolls yet.</p>}
+            <legend>{t('cpRollHistory')}</legend>
+            {diceHistory.length === 0 && <p className="muted-hint">{t('cpNoRollsYet')}</p>}
             {diceHistory.map((h, i) => (
               <div key={i} style={{ padding: '4px 0', borderBottom: '1px solid var(--color-border)', fontSize: '0.82rem' }}>
                 <span style={{ color: 'var(--color-text-muted)' }}>{h.time}</span>{' '}

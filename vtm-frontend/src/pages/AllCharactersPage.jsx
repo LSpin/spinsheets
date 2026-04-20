@@ -54,6 +54,9 @@ export default function AllCharactersPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [showNewChar, setShowNewChar] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [sortMode, setSortMode] = useState('newest')
+  const [npcFilter, setNpcFilter] = useState('all')
   const navigate = useNavigate()
   const { user, isST } = useAuth()
   const { t } = useLanguage()
@@ -84,12 +87,36 @@ export default function AllCharactersPage() {
     }
   }
 
-  const filtered = filter === 'ALL'
-    ? characters
-    : characters.filter(c => {
+  const SORT_OPTIONS = ['newest', 'oldest', 'az']
+
+  const filtered = characters
+    .filter(c => {
+      if (filter !== 'ALL') {
         const sys = SYSTEMS.find(s => s.key === filter)
-        return sys?.splats?.has(c.splat)
-      })
+        if (!sys?.splats?.has(c.splat)) return false
+      }
+      if (npcFilter === 'pcs' && c.npc) return false
+      if (npcFilter === 'npcs' && !c.npc) return false
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase()
+        if (!(c.name || '').toLowerCase().includes(q)) return false
+      }
+      return true
+    })
+    .sort((a, b) => {
+      if (sortMode === 'az') return (a.name || '').localeCompare(b.name || '')
+      const aKey = a.updatedAt || a.id
+      const bKey = b.updatedAt || b.id
+      return sortMode === 'oldest'
+        ? (aKey > bKey ? 1 : -1)
+        : (aKey < bKey ? 1 : -1)
+    })
+
+  const sortLabelKey = { newest: 'sortNewest', oldest: 'sortOldest', az: 'sortAZ' }
+
+  function cycleSortMode() {
+    setSortMode(prev => SORT_OPTIONS[(SORT_OPTIONS.indexOf(prev) + 1) % SORT_OPTIONS.length])
+  }
 
   return (
     <section aria-labelledby="all-chars-heading">
@@ -102,7 +129,7 @@ export default function AllCharactersPage() {
 
       {error && <p className="status-error" role="alert">{error}</p>}
 
-      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)', flexWrap: 'wrap' }}>
+      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-sm)', flexWrap: 'wrap' }}>
         {SYSTEMS.map(sys => {
           const count = sys.key === 'ALL'
             ? characters.length
@@ -121,11 +148,35 @@ export default function AllCharactersPage() {
         })}
       </div>
 
+      <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', alignItems: 'center', marginBottom: 'var(--space-lg)' }}>
+        <input
+          type="text"
+          className="input"
+          placeholder={t('searchByName')}
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          style={{ flex: '1 1 180px', minWidth: '140px' }}
+          aria-label={t('searchByName')}
+        />
+        <button className="btn btn-secondary" onClick={cycleSortMode} aria-label={t(sortLabelKey[sortMode])}>
+          {t(sortLabelKey[sortMode])}
+        </button>
+        {['all', 'pcs', 'npcs'].map(key => (
+          <button
+            key={key}
+            className={`btn btn-secondary${npcFilter === key ? ' tab-btn--active' : ''}`}
+            onClick={() => setNpcFilter(key)}
+          >
+            {t(key === 'all' ? 'filterAll' : key === 'pcs' ? 'filterPCs' : 'filterNPCs')}
+          </button>
+        ))}
+      </div>
+
       {loading && <p className="status-loading" aria-live="polite">{t('loading')}</p>}
 
       {!loading && filtered.length === 0 && (
         <div className="empty-state">
-          <p>{t('noCharsYet')}</p>
+          <p>{characters.length === 0 ? t('noCharsYet') : t('noMatchingCharacters')}</p>
         </div>
       )}
 

@@ -2789,41 +2789,79 @@ a:hover {
 /* ── Print Styles ── */
 
 @media print {
-  .tab-list,
-  .form-actions,
-  .view-actions,
-  .form-header button,
-  .btn,
-  .tag-remove,
-  .catalog-search-wrap,
-  .catalog-list,
-  .priority-selector,
-  nav,
-  footer,
-  .skip-link {
-    display: none !important;
+  /* Hide navigation, buttons, tabs, modals, and interactive-only elements */
+  header, footer, nav, .tab-list, .form-actions, .view-actions, .btn,
+  .modal-overlay, .splat-badge, .status-loading, .status-error,
+  .muted-hint, .skip-link, .tag-remove, .catalog-search-wrap,
+  .catalog-list, .priority-selector, .dice-roller,
+  .user-menu, .lang-toggle, .kofi-btn,
+  [role="tablist"] { display: none !important; }
+
+  /* Show all tab panels (unhide everything so full sheet prints) */
+  [role="tabpanel"], [hidden] { display: block !important; }
+  [role="tabpanel"][hidden] { display: block !important; }
+
+  /* Reset colors for print */
+  body, main, section, .form-section, fieldset {
+    background: white !important;
+    color: black !important;
+    border-color: #ccc !important;
   }
 
-  body {
-    background: white;
-    color: black;
-    font-size: 10pt;
+  /* Readable font sizing */
+  body { font-size: 11pt !important; }
+  h2 { font-size: 16pt !important; color: black !important; }
+  h3 { font-size: 13pt !important; color: black !important; }
+  legend { font-size: 12pt !important; font-weight: bold !important; color: black !important; }
+  label { color: #333 !important; }
+  p { color: black !important; }
+
+  /* Page-break control */
+  fieldset { page-break-inside: avoid; margin-bottom: 8pt; }
+  .form-section { page-break-inside: avoid; margin-bottom: 10pt; border: 1px solid #ccc !important; }
+
+  /* DotRating / selects — show as plain text */
+  .dot-rating select,
+  .rating-field select { border: none !important; background: none !important; }
+  select, input[type="text"], input[type="number"], textarea {
+    border: none !important;
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    padding-left: 0 !important;
   }
 
-  .form-section,
-  fieldset {
-    break-inside: avoid;
-    border-color: #ccc;
-  }
+  /* Make form header printable */
+  .form-header { border: none !important; padding: 0 !important; margin-bottom: 12pt !important; }
+  .form-header h2 { margin: 0 !important; }
 
-  [hidden] {
-    display: block !important;
+  /* Character card grid for lists */
+  .character-list { display: block !important; }
+  .character-card {
+    page-break-inside: avoid;
+    border: 1px solid #ccc !important;
+    margin-bottom: 8pt !important;
+    background: white !important;
   }
+  .character-card-actions { display: none !important; }
 
-  .form-view-mode input,
-  .form-view-mode select,
-  .form-view-mode textarea {
-    border: none;
-    background: transparent;
+  /* Remove dark-mode backgrounds from layout */
+  main { padding: 0 !important; max-width: none !important; }
+  .form-section { box-shadow: none !important; }
+
+  /* Tag info panel — hide sticky sidebar */
+  .tag-info-panel { display: none !important; }
+
+  /* Blades dots/pips — ensure visibility on paper */
+  .blades-dot, .blades-pip, .blades-stress-box {
+    border-color: #333 !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
   }
+  .blades-dot--filled { background: #333 !important; border-color: #333 !important; }
+  .blades-pip--filled { background: #666 !important; border-color: #666 !important; }
+  .blades-stress-box--filled { background: #999 !important; border-color: #999 !important; color: white !important; }
+
+  /* Links — show as plain text */
+  a { color: black !important; text-decoration: none !important; }
 }
