@@ -1766,19 +1766,40 @@ export default function L5RForm() {
                   {(() => {
                     if (isBow) {
                       const ref = fields.l5rReflexes || 2
-                      return `Xk${ref}`
+                      const kyujutsu = parsedSkills.find(s => s.name.toLowerCase().includes('kyujutsu'))?.rank || 0
+                      const rolled = ref + kyujutsu
+                      return `${rolled}k${ref}`
                     }
                     if (selectedWeapon) {
                       const agi = fields.l5rAgility || 2
-                      return `Xk${agi}`
+                      const keywords = (selectedWeapon.keywords || '').toLowerCase()
+                      let skillName = 'kenjutsu'
+                      if (keywords.includes('large') && !keywords.includes('samurai')) skillName = 'heavy weapons'
+                      else if (keywords.includes('chain')) skillName = 'chain weapons'
+                      else if (keywords.includes('small') && !keywords.includes('samurai')) skillName = 'knives'
+                      else if (keywords.includes('staves') || selectedWeapon.name?.toLowerCase().includes('bo')) skillName = 'staves'
+                      const skill = parsedSkills.find(s => s.name.toLowerCase().includes(skillName))?.rank || 0
+                      const rolled = agi + skill
+                      return `${rolled}k${agi}`
                     }
                     return '\u2014'
                   })()}
                 </div>
                 <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
                   {(() => {
-                    if (isBow) return `Reflexes + Kyujutsu: Xk${fields.l5rReflexes || 2}`
-                    if (selectedWeapon) return `Agility + [Weapon Skill]: Xk${fields.l5rAgility || 2}`
+                    if (isBow) {
+                      const kyujutsu = parsedSkills.find(s => s.name.toLowerCase().includes('kyujutsu'))?.rank || 0
+                      return `Reflexes ${fields.l5rReflexes || 2} + Kyujutsu ${kyujutsu}`
+                    }
+                    if (selectedWeapon) {
+                      const keywords = (selectedWeapon.keywords || '').toLowerCase()
+                      let skillName = 'Kenjutsu'
+                      if (keywords.includes('large') && !keywords.includes('samurai')) skillName = 'Heavy Weapons'
+                      else if (keywords.includes('chain')) skillName = 'Chain Weapons'
+                      else if (keywords.includes('small') && !keywords.includes('samurai')) skillName = 'Knives'
+                      const skill = parsedSkills.find(s => s.name.toLowerCase().includes(skillName.toLowerCase()))?.rank || 0
+                      return `Agility ${fields.l5rAgility || 2} + ${skillName} ${skill}`
+                    }
                     return 'No weapon equipped'
                   })()}
                 </div>
