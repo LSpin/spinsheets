@@ -1050,6 +1050,7 @@ const en = {
 
   // ── New Character Modal ──
   newCharModalTitle: 'Create a New Character',
+  pickSystemTitle: 'Choose a Game System',
   forMyself: 'For Myself',
   forMyselfDesc: 'Freeform creation — no restrictions.',
   forAChronicle: 'For a Chronicle',
@@ -2887,6 +2888,7 @@ const pt = {
 
   // ── New Character Modal ──
   newCharModalTitle: 'Criar Novo Personagem',
+  pickSystemTitle: 'Escolha um Sistema de Jogo',
   forMyself: 'Para Mim',
   forMyselfDesc: 'Criação livre — sem restrições.',
   forAChronicle: 'Para uma Crônica',

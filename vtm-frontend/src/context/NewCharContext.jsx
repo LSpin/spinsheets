@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { useLanguage } from '../i18n/LanguageContext'
 import { getChronicles } from '../api/chronicleApi'
 import { useAuth } from './AuthContext'
 import NewCharacterModal from '../components/NewCharacterModal'
