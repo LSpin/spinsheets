@@ -1441,6 +1441,7 @@ const en = {
   bladesVeteranAbility: 'Veteran (ability from another playbook)',
   // Stress & Harm
   tabBladesStressHarm: 'Stress & Harm',
+  tabBladesCoinStash: 'Coin & Stash',
   bladesStress: 'Stress',
   bladesTrauma: 'Trauma',
   bladesTraumaMax: 'Max 4 trauma conditions',
@@ -3616,6 +3617,7 @@ const pt = {
   bladesSpecialAbilities: 'Habilidades Especiais',
   bladesVeteranAbility: 'Veterano (habilidade de outro playbook)',
   tabBladesStressHarm: 'Estresse & Dano',
+  tabBladesCoinStash: 'Moeda e Reserva',
   bladesStress: 'Estresse',
   bladesTrauma: 'Trauma',
   bladesTraumaMax: 'Máximo 4 condições de trauma',

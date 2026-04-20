@@ -18,7 +18,7 @@ import {
   BLADES_PLAYBOOKS, BLADES_PLAYBOOK_CATALOG, BLADES_TRAUMA_CONDITIONS, BLADES_STANDARD_ITEMS,
 } from '../data/bladesPlaybooks'
 
-const ALL_TAB_KEYS = ['tabIdentity', 'tabBladesActions', 'tabBladesAbilities', 'tabBladesStressHarm', 'tabBladesItems', 'tabBladesContacts', 'tabBladesDicePools', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
+const ALL_TAB_KEYS = ['tabIdentity', 'tabBladesActions', 'tabBladesAbilities', 'tabBladesStressHarm', 'tabBladesCoinStash', 'tabBladesItems', 'tabBladesContacts', 'tabBladesDicePools', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
 const ST_ONLY_TABS = new Set()
 
 const BLADES_DICE_POOL_RULES = [
@@ -579,6 +579,12 @@ export default function BladesForm() {
               </label>
             </div>
           </fieldset>
+        </div>
+      </div>
+
+      {/* ── Coin & Stash ── */}
+      <div hidden={tab !== 'tabBladesCoinStash'} role="tabpanel" aria-labelledby="tabBladesCoinStash">
+        <div className="form-section">
           <fieldset>
             <legend>{t('bladesCoinStash')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
