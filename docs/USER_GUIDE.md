@@ -11,7 +11,8 @@
 7. [Dice Rollers](#dice-rollers)
 8. [Exporting & Printing](#exporting--printing)
 9. [Account Management](#account-management)
-10. [Troubleshooting](#troubleshooting)
+10. [Mobile Experience](#mobile-experience)
+11. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -286,6 +287,54 @@ The language toggle is always visible in the header. It shows:
 ### Deleting Your Account
 
 Available in your user menu. This permanently deletes your account and all associated characters.
+
+---
+
+## Mobile Experience
+
+### Installing as a PWA (Add to Home Screen)
+
+Spin's Sheets can be installed as a standalone app on your phone or tablet for a native-app experience.
+
+**On iOS (Safari):**
+1. Open https://spinsheets.com in Safari
+2. Tap the Share button (square with upward arrow)
+3. Scroll down and select **Add to Home Screen**
+4. Tap **Add** — the app icon appears on your home screen
+5. Opening it from the home screen launches a full-screen app with no browser bar
+
+**On Android (Chrome):**
+1. Open https://spinsheets.com in Chrome
+2. Tap the three-dot menu in the top-right corner
+3. Select **Add to Home Screen** (or **Install App** if prompted)
+4. Tap **Add** — the app icon appears on your home screen
+5. Opening it from the home screen launches a standalone app window
+
+Once installed, the app caches assets for faster loads and provides an offline fallback page if you lose connection.
+
+### Using the Hamburger Menu
+
+On screens narrower than 640px, the top navigation bar collapses into a hamburger icon (three horizontal lines). Tap it to open the full navigation menu. The menu closes when you:
+- Tap outside the menu
+- Press **Escape** on a connected keyboard
+- Select any navigation link
+
+The language toggle remains visible in the header at all times, outside the hamburger menu.
+
+### Navigating Tabs with the Carousel
+
+Character sheets have many tabs. On mobile, you have two ways to switch between them:
+
+1. **Dropdown:** Tap the current tab name (shown with a down arrow) to open a list of all tabs. Select one to jump to it.
+2. **Carousel Arrows:** Use the left and right arrow buttons flanking the dropdown to move to the previous or next tab. The arrows announce their destination to screen readers (e.g., "Next: Combat").
+
+### Sticky Save Button
+
+On mobile, the action bar (Save, Export PDF, Cancel) sticks to the bottom of the screen. No matter how far you scroll, these buttons remain within thumb reach. A subtle shadow separates them from the content above.
+
+### Landscape Mode for Complex Sheets
+
+Some character sheets — especially those with wide tables (Cyberpunk cyberware, D&D spells, Blades crew sheets) — benefit from rotating your device to landscape orientation. This gives more horizontal space for columns and reduces the need for horizontal scrolling.
 
 ---
 

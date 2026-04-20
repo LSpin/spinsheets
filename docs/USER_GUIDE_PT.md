@@ -11,7 +11,8 @@
 7. [Roladores de Dados](#roladores-de-dados)
 8. [Exportação e Impressão](#exportação-e-impressão)
 9. [Gerenciamento de Conta](#gerenciamento-de-conta)
-10. [Solução de Problemas](#solução-de-problemas)
+10. [Experiência Mobile](#experiência-mobile)
+11. [Solução de Problemas](#solução-de-problemas)
 
 ---
 
@@ -286,6 +287,54 @@ O toggle de idioma está sempre visível no header. Ele mostra:
 ### Excluindo Sua Conta
 
 Disponível no seu menu de usuário. Isso exclui permanentemente sua conta e todos os personagens associados.
+
+---
+
+## Experiência Mobile
+
+### Instalando como PWA (Adicionar à Tela Inicial)
+
+Spin's Sheets pode ser instalado como um app independente no seu celular ou tablet para uma experiência semelhante a um app nativo.
+
+**No iOS (Safari):**
+1. Abra https://spinsheets.com no Safari
+2. Toque no botão Compartilhar (quadrado com seta para cima)
+3. Role para baixo e selecione **Adicionar à Tela de Início**
+4. Toque em **Adicionar** — o ícone do app aparece na sua tela inicial
+5. Abrir pelo ícone na tela inicial inicia um app em tela cheia sem barra do navegador
+
+**No Android (Chrome):**
+1. Abra https://spinsheets.com no Chrome
+2. Toque no menu de três pontos no canto superior direito
+3. Selecione **Adicionar à tela inicial** (ou **Instalar app** se solicitado)
+4. Toque em **Adicionar** — o ícone do app aparece na sua tela inicial
+5. Abrir pelo ícone na tela inicial inicia uma janela de app independente
+
+Uma vez instalado, o app faz cache de assets para carregamentos mais rápidos e fornece uma página de fallback offline se você perder a conexão.
+
+### Usando o Menu Hamburger
+
+Em telas com menos de 640px de largura, a barra de navegação superior colapsa em um ícone hamburger (três linhas horizontais). Toque nele para abrir o menu de navegação completo. O menu fecha quando você:
+- Toca fora do menu
+- Pressiona **Escape** em um teclado conectado
+- Seleciona qualquer link de navegação
+
+O toggle de idioma permanece visível no header em todos os momentos, fora do menu hamburger.
+
+### Navegando Abas com o Carrossel
+
+Fichas de personagem têm muitas abas. No mobile, você tem duas formas de alternar entre elas:
+
+1. **Dropdown:** Toque no nome da aba atual (mostrado com uma seta para baixo) para abrir uma lista de todas as abas. Selecione uma para ir até ela.
+2. **Setas do Carrossel:** Use os botões de seta esquerda e direita ao lado do dropdown para ir para a aba anterior ou próxima. As setas anunciam seu destino para leitores de tela (ex.: "Próxima: Combate").
+
+### Botão Salvar Fixo
+
+No mobile, a barra de ações (Salvar, Exportar PDF, Cancelar) fica fixa na parte inferior da tela. Não importa o quanto você role, esses botões permanecem ao alcance do polegar. Uma sombra sutil os separa do conteúdo acima.
+
+### Modo Paisagem para Fichas Complexas
+
+Algumas fichas de personagem — especialmente aquelas com tabelas largas (cyberware de Cyberpunk, magias de D&D, fichas de crew de Blades) — se beneficiam de girar o dispositivo para orientação paisagem. Isso dá mais espaço horizontal para colunas e reduz a necessidade de rolagem horizontal.
 
 ---
 

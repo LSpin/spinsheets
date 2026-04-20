@@ -240,6 +240,28 @@ export default function CharacterForm() {
 - Clicar/tocar fora do dropdown o fecha sem alterar a aba atual
 - O dropdown utiliza a mesma semântica `role="tablist"` da barra de abas desktop
 
+#### Carrossel de Abas
+
+- **Setas Anterior/Próxima:** Botões de seta flanqueiam o dropdown colapsado de abas no mobile, permitindo navegação sequencial de abas sem abrir o dropdown
+- **ARIA Labels Dinâmicos:** Cada seta mostra o nome da aba de destino — ex.: `aria-label="Anterior: Stats"`, `aria-label="Próxima: Combate"` — para que leitores de tela anunciem para onde o usuário está indo
+- **Estado Desabilitado:** A seta anterior é desabilitada na primeira aba; a seta próxima é desabilitada na última aba. Setas desabilitadas são visualmente esmaecidas e excluídas da ordem de tabulação
+- **Wrapper de Grupo:** O carrossel (seta anterior + dropdown + seta próxima) é envolvido em `role="group"` com `aria-label="Navegação de abas"` para contexto de leitores de tela
+- **Atualização Automática:** Os labels das setas atualizam dinamicamente a cada mudança de aba para sempre refletir as abas vizinhas corretas
+
+#### Barra de Ações Inferior Fixa
+
+- Em viewports mobile, os botões de ação do formulário (Salvar, Exportar PDF, Cancelar) ficam fixos na parte inferior da tela via `position: sticky`
+- Um separador sutil de sombra distingue a barra de ações do conteúdo rolável acima
+- Os botões permanecem sempre visíveis e acessíveis ao polegar independentemente da posição de rolagem
+- A barra se integra ao fluxo normal do documento no desktop onde não é necessária
+
+#### Suporte a PWA
+
+- **manifest.json** configurado com `"display": "standalone"` para experiência semelhante a app nativo quando instalado
+- **Service Worker** faz cache de assets com hash (JS, CSS, imagens) usando estratégia cache-first para carregamentos instantâneos, e faz cache de HTML usando network-first com página de fallback offline
+- **Apple Meta Tags** (`apple-mobile-web-app-capable`, `apple-mobile-web-app-status-bar-style`, `apple-touch-icon`) habilitam instalação em tela cheia na home screen no iOS Safari
+- O app pode ser instalado via "Adicionar à Tela Inicial" tanto no iOS quanto no Android
+
 #### Toggle de Idioma
 
 - O botão de toggle de idioma está sempre visível no header, fora do menu hamburger, para que os usuários possam alternar idiomas independentemente do estado de navegação
@@ -347,6 +369,9 @@ Push to main
 ---
 
 ## Resumo de Funcionalidades
+
+### Para Todos
+- **PWA instalável** — Adicione à Tela Inicial no iOS ou Android para uma experiência semelhante a app nativo com suporte offline e tempos de carregamento instantâneos
 
 ### Para Jogadores
 - Criar personagens em 8 sistemas de jogo

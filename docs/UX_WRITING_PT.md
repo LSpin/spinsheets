@@ -19,6 +19,21 @@
 | Confirmacoes | Claro, reversivel | "Excluir este personagem? Esta acao nao pode ser desfeita." |
 | Estados de sucesso | Breve | "Salvo." / "Personagem criado." |
 
+## Acessibilidade em Primeiro Lugar
+
+Cada funcionalidade, cada label, cada interação deve funcionar para todos. Acessibilidade não é uma checklist para satisfazer após o fato — é uma restrição de design que molda cada decisão desde o início. Se uma funcionalidade não funciona com teclado, leitor de tela ou em uma tela de 320px, ela não está pronta.
+
+Este princípio se aplica à escrita tanto quanto ao código. As palavras que escolhemos determinam se uma interface é utilizável para pessoas que:
+- Navegam com teclado ou dispositivo switch ao invés de mouse
+- Usam leitor de tela para ouvir a interface ao invés de vê-la
+- Têm baixa visão e dependem de zoom, alto contraste ou texto grande
+- Têm deficiências motoras que tornam gestos precisos difíceis
+- Têm diferenças cognitivas ou de aprendizado que requerem linguagem clara e previsível
+
+Na dúvida, escolha a opção que funciona para a maior gama de pessoas. Essa opção quase sempre funciona melhor para todos.
+
+---
+
 ## Diretrizes de Escrita
 
 ### Faca
@@ -60,6 +75,70 @@
 - Texto de botao acessivel descreve a acao: "Exportar PDF" nao apenas "Exportar"
 - Acoes destrutivas usam confirmacao: "Excluir [Nome do Personagem]? Esta acao nao pode ser desfeita."
 - Botoes desabilitados devem explicar o motivo (via tooltip ou texto adjacente)
+
+### Padroes ARIA que Usamos
+
+- **Interfaces de abas:** `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-labelledby`, `aria-controls` em todos os 33 formularios
+- **Modais:** `aria-modal`, `aria-labelledby`, `autoFocus`, Escape para fechar, clique fora para dispensar
+- **Regioes ao vivo:** `aria-live="polite"` para conteudo dinamico, `role="alert"` para erros
+- **Navegacao por carrossel:** `role="group"`, aria-labels dinamicos mostrando destino ("Anterior: Stats")
+- **Menu hamburger:** `aria-expanded` no toggle, fecha com Escape/clique-fora/navegacao
+
+### Escrevendo para Leitores de Tela
+
+- Texto de botao deve descrever a acao: "Exportar PDF" nao apenas "Exportar"
+- Botoes destrutivos incluem o alvo: "Excluir Aria Venturi" nao apenas "Excluir"
+- Botoes somente-icone DEVEM ter aria-label (hamburger, setas do carrossel, botoes de fechar)
+- Mudancas de conteudo dinamico devem ser anunciadas via regioes aria-live
+- Nomes de abas sao lidos em voz alta — mantenha-os curtos e descritivos (1-3 palavras)
+- Legends de formulario descrevem a secao: "Combate — Trilha de Ferimentos" nao apenas "Combate"
+- Mensagens de erro anunciam automaticamente via role="alert"
+
+### Escrevendo para Usuarios de Teclado
+
+- Nunca escreva "clicar" — use "selecionar", "escolher", "abrir", "usar", "ativar"
+- Nao referencie acoes especificas de mouse: "passar o mouse", "clicar com botao direito", "arrastar"
+- Nao referencie posicao: "o botao a direita" — use o label do botao
+- Elementos interativos devem ter indicadores de foco visiveis (tratado por CSS `:focus-visible`)
+- A ordem de tabulacao deve seguir a ordem logica de leitura (tratado pela estrutura do DOM)
+
+### Escrevendo para Deficiencias Motoras
+
+- Alvos de toque sao minimo 44px (WCAG 2.5.8)
+- As setas do carrossel fornecem uma alternativa ao dropdown para navegacao de abas
+- A barra de acoes inferior fixa mantem Salvar/Exportar sempre ao alcance do polegar
+- Nao exija gestos precisos — todas as interacoes funcionam com toques simples
+
+### Escrevendo para Baixa Visao
+
+- Nao transmita informacao apenas por cor — sempre combine com texto
+- Tamanhos de fonte sao definidos em `rem`, nao `px`, para respeitar configuracoes de zoom do navegador
+- Razao de contraste minima: 4.5:1 para texto normal, 3:1 para texto grande (verificado por tema)
+- Texto `muted-hint` usa `--color-text-muted` que atende 4.5:1 em todos os backgrounds
+
+### Escrevendo para Acessibilidade Cognitiva
+
+- Use linguagem simples e direta — evite jargao e sentencas complexas
+- Uma ideia por sentenca
+- Terminologia consistente: sempre use "Narrador" nao as vezes "Mestre" e as vezes "Narrador"
+- Mensagens de erro explicam o que aconteceu E o que fazer em seguida
+- Estados vazios explicam para que serve a area E como popula-la
+- Confirmacoes para acoes destrutivas: "Excluir [nome]? Esta acao nao pode ser desfeita."
+
+### Checklist de Testes de Acessibilidade
+
+Para cada funcionalidade ou mudanca de UI, verifique o seguinte antes de considera-la completa:
+
+- [ ] Voce consegue completar todo o fluxo usando apenas teclado (Tab, Enter, Escape)?
+- [ ] VoiceOver/NVDA anuncia todos os campos de formulario, botoes e mudancas de estado?
+- [ ] Todas as imagens/icones sao decorativos (`aria-hidden`) ou rotulados (`aria-label`/`alt`)?
+- [ ] Mensagens de erro anunciam automaticamente?
+- [ ] A pagina faz sentido quando ampliada para 200%?
+- [ ] Todos os alvos de toque atendem o minimo de 44px no mobile?
+- [ ] Cor nunca e a unica forma de transmitir informacao?
+- [ ] Todos os modais capturam foco e fecham com Escape?
+- [ ] Todos os paineis de aba estao propriamente vinculados aos seus botoes de aba via ARIA?
+- [ ] A saida de impressao/exportacao inclui todo o conteudo visivel?
 
 ## Convencoes de Traducao
 

@@ -240,6 +240,28 @@ export default function CharacterForm() {
 - Clicking/tapping outside the dropdown dismisses it without changing tabs
 - The dropdown uses the same `role="tablist"` semantics as the desktop tab bar
 
+#### Tab Carousel
+
+- **Prev/Next Arrows:** Arrow buttons flank the collapsed tab dropdown on mobile, allowing sequential tab navigation without opening the dropdown
+- **Dynamic ARIA Labels:** Each arrow shows the destination tab name — e.g., `aria-label="Previous: Stats"`, `aria-label="Next: Combat"` — so screen readers announce where the user is heading
+- **Disabled State:** The previous arrow is disabled on the first tab; the next arrow is disabled on the last tab. Disabled arrows are visually dimmed and excluded from the tab order
+- **Group Wrapper:** The carousel (prev arrow + dropdown + next arrow) is wrapped in `role="group"` with `aria-label="Tab navigation"` for screen reader context
+- **Auto-Updates:** Arrow labels update dynamically on every tab change to always reflect the correct neighboring tabs
+
+#### Sticky Bottom Action Bar
+
+- On mobile viewports, the form action buttons (Save, Export PDF, Cancel) stick to the bottom of the screen via `position: sticky`
+- A subtle shadow separator distinguishes the action bar from scrollable content above
+- Buttons remain always visible and thumb-reachable regardless of scroll position
+- The bar collapses into the normal document flow on desktop where it is not needed
+
+#### PWA Support
+
+- **manifest.json** configured with `"display": "standalone"` for native-app-like experience when installed
+- **Service Worker** caches hashed assets (JS, CSS, images) using a cache-first strategy for instant loads, and caches HTML using network-first with an offline fallback page
+- **Apple Meta Tags** (`apple-mobile-web-app-capable`, `apple-mobile-web-app-status-bar-style`, `apple-touch-icon`) enable full-screen home screen install on iOS Safari
+- The app can be installed via "Add to Home Screen" on both iOS and Android
+
 #### Language Toggle
 
 - The language toggle button is always visible in the header, outside the hamburger menu, so users can switch languages regardless of navigation state
@@ -347,6 +369,9 @@ Push to main
 ---
 
 ## Feature Summary
+
+### For Everyone
+- **PWA installable** — Add to Home Screen on iOS or Android for a native-app experience with offline support and instant load times
 
 ### For Players
 - Create characters across 8 game systems

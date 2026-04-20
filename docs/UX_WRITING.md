@@ -19,6 +19,21 @@
 | Confirmations | Clear, reversible | "Delete this character? This cannot be undone." |
 | Success states | Brief | "Saved." / "Character created." |
 
+## Accessibility First
+
+Every feature, every label, every interaction must work for everyone. Accessibility is not a checklist to satisfy after the fact — it is a design constraint that shapes every decision from the start. If a feature doesn't work with a keyboard, a screen reader, or on a 320px screen, it's not done.
+
+This principle applies to writing as much as to code. The words we choose determine whether an interface is usable for people who:
+- Navigate with a keyboard or switch device instead of a mouse
+- Use a screen reader to hear the interface rather than see it
+- Have low vision and rely on zoom, high contrast, or large text
+- Have motor impairments that make precise gestures difficult
+- Have cognitive or learning differences that require clear, predictable language
+
+When in doubt, choose the option that works for the widest range of people. That option almost always works better for everyone.
+
+---
+
 ## Writing Guidelines
 
 ### Do
@@ -60,6 +75,70 @@
 - Accessible button text describes the action: "Export PDF" not just "Export"
 - Destructive actions use confirmation: "Delete [Character Name]? This cannot be undone."
 - Disabled buttons should explain why (via tooltip or adjacent text)
+
+### ARIA Patterns We Use
+
+- **Tab interfaces:** `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-labelledby`, `aria-controls` on all 33 forms
+- **Modals:** `aria-modal`, `aria-labelledby`, `autoFocus`, Escape to close, click-outside dismiss
+- **Live regions:** `aria-live="polite"` for dynamic content, `role="alert"` for errors
+- **Carousel navigation:** `role="group"`, dynamic aria-labels showing destination ("Previous: Stats")
+- **Hamburger menu:** `aria-expanded` on toggle, closes on Escape/click-outside/navigation
+
+### Writing for Screen Readers
+
+- Button text must describe the action: "Export PDF" not just "Export"
+- Destructive buttons include the target: "Delete Aria Venturi" not just "Delete"
+- Icon-only buttons MUST have aria-label (hamburger, carousel arrows, close buttons)
+- Dynamic content changes must be announced via aria-live regions
+- Tab names are read aloud — keep them short and descriptive (1-3 words)
+- Form legends describe the section: "Combat — Wound Track" not just "Combat"
+- Error messages announce automatically via role="alert"
+
+### Writing for Keyboard Users
+
+- Never write "click" — use "select", "choose", "open", "use", "activate"
+- Don't reference mouse-specific actions: "hover", "right-click", "drag"
+- Don't reference position: "the button on the right" — use the button's label instead
+- Interactive elements must have visible focus indicators (handled by CSS `:focus-visible`)
+- Tab order must follow logical reading order (handled by DOM structure)
+
+### Writing for Motor Impairments
+
+- Touch targets are minimum 44px (WCAG 2.5.8)
+- The carousel arrows provide an alternative to the dropdown for tab navigation
+- The sticky bottom action bar keeps Save/Export always in thumb reach
+- Don't require precise gestures — all interactions work with simple taps
+
+### Writing for Low Vision
+
+- Don't convey information through color alone — always pair with text
+- Font sizes are set in `rem`, not `px`, so they respect browser zoom settings
+- Minimum contrast ratio: 4.5:1 for normal text, 3:1 for large text (checked per theme)
+- `muted-hint` text uses `--color-text-muted` which meets 4.5:1 on all backgrounds
+
+### Writing for Cognitive Accessibility
+
+- Use plain, direct language — avoid jargon and complex sentences
+- One idea per sentence
+- Consistent terminology: always use "Storyteller" not sometimes "GM" and sometimes "Storyteller"
+- Error messages explain what happened AND what to do next
+- Empty states explain what the area is for AND how to populate it
+- Confirmations for destructive actions: "Delete [name]? This cannot be undone."
+
+### Accessibility Testing Checklist
+
+For every feature or UI change, verify the following before considering it complete:
+
+- [ ] Can you complete the entire flow using only a keyboard (Tab, Enter, Escape)?
+- [ ] Does VoiceOver/NVDA announce all form fields, buttons, and state changes?
+- [ ] Are all images/icons either decorative (`aria-hidden`) or labeled (`aria-label`/`alt`)?
+- [ ] Do error messages announce automatically?
+- [ ] Does the page make sense when zoomed to 200%?
+- [ ] Do all touch targets meet 44px minimum on mobile?
+- [ ] Is color never the only way to convey information?
+- [ ] Do all modals trap focus and close on Escape?
+- [ ] Are all tab panels properly linked to their tab buttons via ARIA?
+- [ ] Does the print/export output include all visible content?
 
 ## Translation Conventions
 
