@@ -5,6 +5,7 @@ import useAutoCreate from '../hooks/useAutoCreate'
 import CatalogSelect from './CatalogSelect'
 import DotRating from './DotRating'
 import { useLanguage } from '../i18n/LanguageContext'
+import ExportModal from './ExportModal'
 import { useTheme } from '../context/ThemeContext'
 import { CP_PREMADE_NPCS, CP_NPC_CATALOG } from '../data/cyberpunkNpcs'
 
@@ -50,6 +51,7 @@ export default function CyberpunkAntagonistForm() {
   const [templateName, setTemplateName] = useState('')
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
+  const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
 
   useEffect(() => { if (characterId) loadCharacter() }, [characterId])
@@ -241,10 +243,12 @@ export default function CyberpunkAntagonistForm() {
       </div>
 
       <div className="form-actions">
+        <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/cyberpunk')}>{t('cancel')}</button>
         <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
+      <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />
     </div>
   )
 }

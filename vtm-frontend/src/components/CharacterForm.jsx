@@ -23,6 +23,7 @@ import { COMBO_DISCIPLINES } from '../data/comboDisciplines'
 import { ELDER_POWERS } from '../data/elderPowers'
 import { VAMPIRE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { useLanguage } from '../i18n/LanguageContext'
+import ExportModal from './ExportModal'
 import XpLogSection from './XpLogSection'
 import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
@@ -596,6 +597,7 @@ export default function CharacterForm() {
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
+  const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
 
@@ -1515,6 +1517,7 @@ export default function CharacterForm() {
       </div>
 
       <div className="form-actions">
+        <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={onBack}>{t('cancel')}</button>
         <button
           className="btn btn-secondary"
@@ -1534,6 +1537,7 @@ export default function CharacterForm() {
           <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}
+      <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />
     </section>
   )
 }

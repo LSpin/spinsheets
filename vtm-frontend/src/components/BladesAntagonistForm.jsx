@@ -4,6 +4,7 @@ import { getCharacter, updateCharacter } from '../api/characterApi'
 import useAutoCreate from '../hooks/useAutoCreate'
 import CatalogSelect from './CatalogSelect'
 import { useLanguage } from '../i18n/LanguageContext'
+import ExportModal from './ExportModal'
 import { useTheme } from '../context/ThemeContext'
 import {
   BLADES_THREAT_LEVELS, BLADES_ANTAGONIST_TYPES, BLADES_PREMADE_ANTAGONISTS, BLADES_ANTAGONIST_CATALOG,
@@ -37,6 +38,7 @@ export default function BladesAntagonistForm() {
   const [fields, setFields] = useState(INITIAL)
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
+  const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [templateMsg, setTemplateMsg] = useState(null)
 
@@ -211,10 +213,12 @@ export default function BladesAntagonistForm() {
       </div>
 
       <div className="form-actions">
+        <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/blades')}>{t('cancel')}</button>
         <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
+      <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />
     </div>
   )
 }

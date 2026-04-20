@@ -9,6 +9,7 @@ import CatalogSelect from './CatalogSelect'
 import XpLogSection from './XpLogSection'
 import DndDiceRoller from './DndDiceRoller'
 import { useLanguage } from '../i18n/LanguageContext'
+import ExportModal from './ExportModal'
 import { useTheme } from '../context/ThemeContext'
 import { DND_CLASSES, DND_CLASS_CATALOG } from '../data/dnd5eClasses'
 import { DND_RACES, DND_RACE_CATALOG, DND_ALIGNMENTS } from '../data/dnd5eRaces'
@@ -82,6 +83,7 @@ export default function DndForm() {
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
+  const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
   const [spellSearch, setSpellSearch] = useState('')
@@ -706,6 +708,7 @@ export default function DndForm() {
       </div>
 
       <div className="form-actions">
+        <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/dnd')}>{t('cancel')}</button>
         <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
@@ -716,6 +719,7 @@ export default function DndForm() {
           <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}
+      <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />
     </div>
   )
 }

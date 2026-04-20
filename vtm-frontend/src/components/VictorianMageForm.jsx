@@ -21,6 +21,7 @@ import { MAGE_TRADITIONS } from '../data/mageTraditions'
 import { MAGE_ROTES } from '../data/mageRotes'
 import { SPHERE_INFO, SPHERE_KEYS, SPHERE_FIELD_MAP } from '../data/mageSpheres'
 import { useLanguage } from '../i18n/LanguageContext'
+import ExportModal from './ExportModal'
 import CatalogSelect from './CatalogSelect'
 import { MAGE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { WONDER_TYPES, MAGE_WONDERS } from '../data/mageWonders'
@@ -331,6 +332,7 @@ export default function VictorianMageForm() {
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
+  const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
   const [tagInfo, setTagInfo] = useState(null)
@@ -1367,6 +1369,7 @@ export default function VictorianMageForm() {
 
       {/* ── Save ── */}
       <div className="form-actions">
+        <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
         <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>
           {saving ? t('saving') : t('quickSave')}
@@ -1381,6 +1384,7 @@ export default function VictorianMageForm() {
           <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}
+      <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />
     </div>
   )
 }

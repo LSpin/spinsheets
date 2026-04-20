@@ -5,6 +5,7 @@ import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
+import ExportModal from './ExportModal'
 import CatalogSelect from './CatalogSelect'
 import { WOD_TOTEM_NPCS, WOD_TOTEM_NPC_CATALOG } from '../data/wodNpcs'
 import { SPIRIT_CHARMS } from '../data/spiritCharms'
@@ -114,6 +115,7 @@ export default function TotemForm() {
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
+  const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
 
@@ -399,6 +401,7 @@ export default function TotemForm() {
       </div>
 
       <div className="form-actions">
+        <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
         <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
@@ -409,6 +412,7 @@ export default function TotemForm() {
           <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}
+      <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />
     </div>
   )
 }

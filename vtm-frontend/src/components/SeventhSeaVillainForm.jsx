@@ -5,6 +5,7 @@ import useAutoCreate from '../hooks/useAutoCreate'
 import DotRating from './DotRating'
 import CatalogSelect from './CatalogSelect'
 import { useLanguage } from '../i18n/LanguageContext'
+import ExportModal from './ExportModal'
 import { useTheme } from '../context/ThemeContext'
 import TagInfoPanel from './TagInfoPanel'
 import SeventhSeaDiceRoller from './SeventhSeaDiceRoller'
@@ -118,6 +119,7 @@ export default function SeventhSeaVillainForm() {
   const [templateName, setTemplateName] = useState('')
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
+  const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
 
@@ -464,10 +466,12 @@ Consequence if unchecked: Civil war engulfs Castille`} />
       </div>
 
       <div className="form-actions">
+        <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/7thsea')}>{t('cancel')}</button>
         <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
+      <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />
     </div>
   )
 }

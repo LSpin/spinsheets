@@ -10,6 +10,7 @@ import XpLogSection from './XpLogSection'
 import BladesDiceRoller from './BladesDiceRoller'
 import RulesReferenceTab from './RulesReferenceTab'
 import { useLanguage } from '../i18n/LanguageContext'
+import ExportModal from './ExportModal'
 import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
 import {
@@ -253,6 +254,7 @@ export default function BladesForm() {
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
+  const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
   const [deepCuts, setDeepCuts] = useState(() => localStorage.getItem('blades-deep-cuts') !== 'false')
@@ -865,6 +867,7 @@ export default function BladesForm() {
       </div>
 
       <div className="form-actions">
+        <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/blades')}>{t('cancel')}</button>
         <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
@@ -875,6 +878,7 @@ export default function BladesForm() {
           <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}
+      <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={tabKeys} t={t} />
     </div>
   )
 }

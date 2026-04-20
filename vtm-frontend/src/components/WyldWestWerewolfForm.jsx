@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
+import ExportModal from './ExportModal'
 import {
   getCharacter, updateCharacter,
   getDisciplines, addDiscipline, removeDiscipline,
@@ -240,6 +241,7 @@ export default function WyldWestWerewolfForm() {
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
+  const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
   const [tagInfo, setTagInfo] = useState(null)
@@ -1123,6 +1125,7 @@ export default function WyldWestWerewolfForm() {
 
       {/* ── Save ── */}
       <div className="form-actions">
+        <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
         <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>
           {saving ? t('saving') : t('quickSave')}
@@ -1137,6 +1140,7 @@ export default function WyldWestWerewolfForm() {
           <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}
+      <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />
     </div>
   )
 }

@@ -12,6 +12,7 @@ import { WOD_WEREWOLF_NPCS } from '../data/wodNpcs'
 import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
 import { useLanguage } from '../i18n/LanguageContext'
+import ExportModal from './ExportModal'
 
 const KINFOLK_GIFTS = [
   { name: 'Persuasion', description: 'Ability to make others more receptive to your suggestions' },
@@ -157,6 +158,7 @@ export default function KinfolkForm() {
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
+  const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
 
@@ -432,6 +434,7 @@ export default function KinfolkForm() {
       </div>
 
       <div className="form-actions">
+        <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
         <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
@@ -442,6 +445,7 @@ export default function KinfolkForm() {
           <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}
+      <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />
     </div>
   )
 }

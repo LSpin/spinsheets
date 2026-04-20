@@ -19,6 +19,7 @@ import { COMBO_DISCIPLINES } from '../data/comboDisciplines'
 import DotRating from './DotRating'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { useLanguage } from '../i18n/LanguageContext'
+import ExportModal from './ExportModal'
 import { ELDER_POWERS } from '../data/elderPowers'
 import { VAMPIRE_DISCIPLINES } from '../data/vampireDisciplines'
 import { VAMPIRE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
@@ -250,6 +251,7 @@ export default function VictorianVampireForm() {
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
+  const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
   const [tagInfo, setTagInfo] = useState(null)
@@ -1073,6 +1075,7 @@ export default function VictorianVampireForm() {
 
       {/* ── Save ── */}
       <div className="form-actions">
+        <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
         <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>
           {saving ? t('saving') : t('quickSave')}
@@ -1087,6 +1090,7 @@ export default function VictorianVampireForm() {
           <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}
+      <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />
     </div>
   )
 }

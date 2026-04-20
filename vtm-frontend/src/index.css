@@ -2801,6 +2801,10 @@ a:hover {
   [role="tabpanel"], [hidden] { display: block !important; }
   [role="tabpanel"][hidden] { display: block !important; }
 
+  /* Selective export: hide panels marked for exclusion */
+  body.exporting-pdf [data-export-exclude] { display: none !important; }
+  body.exporting-pdf [data-export-exclude][hidden] { display: none !important; }
+
   /* Reset colors for print */
   body, main, section, .form-section, fieldset {
     background: white !important;

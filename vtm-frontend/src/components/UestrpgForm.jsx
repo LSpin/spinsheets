@@ -9,6 +9,7 @@ import CatalogSelect from './CatalogSelect'
 import XpLogSection from './XpLogSection'
 import DndDiceRoller from './DndDiceRoller'
 import { useLanguage } from '../i18n/LanguageContext'
+import ExportModal from './ExportModal'
 import { useTheme } from '../context/ThemeContext'
 import { UESTRPG_CLASSES, UESTRPG_CLASS_CATALOG } from '../data/uestrpgData'
 import { UESTRPG_RACES, UESTRPG_RACE_CATALOG, UESTRPG_ALIGNMENTS } from '../data/uestrpgData'
@@ -77,6 +78,7 @@ export default function UestrpgForm() {
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
+  const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
   const [spellSearch, setSpellSearch] = useState('')
@@ -673,6 +675,7 @@ export default function UestrpgForm() {
       </div>
 
       <div className="form-actions">
+        <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/uestrpg')}>{t('cancel')}</button>
         <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
@@ -683,6 +686,7 @@ export default function UestrpgForm() {
           <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}
+      <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />
     </div>
   )
 }

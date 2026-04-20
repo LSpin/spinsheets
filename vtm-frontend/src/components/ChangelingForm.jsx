@@ -14,6 +14,7 @@ import InventorySection from './InventorySection'
 import DotRating from './DotRating'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
+import ExportModal from './ExportModal'
 import CatalogSelect from './CatalogSelect'
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
@@ -219,6 +220,7 @@ export default function ChangelingForm() {
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
+  const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
   const [tagInfo, setTagInfo] = useState(null)
@@ -713,6 +715,7 @@ export default function ChangelingForm() {
 
       {/* ── Save ── */}
       <div className="form-actions">
+        <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
         <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>
           {saving ? t('saving') : t('quickSave')}
@@ -727,6 +730,7 @@ export default function ChangelingForm() {
           <button className="btn btn-primary" onClick={() => navigate(`/characters/${characterId}`, { replace: true })}>{t('edit')}</button>
         </div>
       )}
+      <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />
     </div>
   )
 }
