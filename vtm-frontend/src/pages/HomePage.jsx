@@ -1,8 +1,72 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
+
+const SYSTEMS = [
+  { path: '/characters', theme: 'wod', cls: 'system-card--wod', nameKey: 'systemWoD', descKey: 'systemWoDDesc' },
+  { path: '/7thsea', theme: '7thsea', cls: 'system-card--7thsea', nameKey: 'system7thSea', descKey: 'system7thSeaDesc' },
+  { path: '/l5r', theme: 'l5r', cls: 'system-card--l5r', nameKey: 'systemL5R', descKey: 'systemL5RDesc' },
+  { path: '/blades', theme: 'blades', cls: 'system-card--blades', nameKey: 'systemBlades', descKey: 'systemBladesDesc' },
+  { path: '/dnd', theme: 'dnd', cls: 'system-card--dnd', nameKey: 'systemDnd', descKey: 'systemDndDesc' },
+  { path: '/uestrpg', theme: 'uestrpg', cls: 'system-card--uestrpg', nameKey: 'systemUestrpg', descKey: 'systemUestrpgDesc' },
+  { path: '/cyberpunk', theme: 'cyberpunk', cls: 'system-card--cyberpunk', nameKey: 'systemCyberpunk', descKey: 'systemCyberpunkDesc' },
+]
+
+function SystemCarousel({ user, t, switchTheme }) {
+  const [activeIdx, setActiveIdx] = useState(0)
+
+  function prev() { setActiveIdx(i => Math.max(0, i - 1)) }
+  function next() { setActiveIdx(i => Math.min(SYSTEMS.length - 1, i + 1)) }
+
+  return (
+    <>
+      {/* Desktop: grid */}
+      <div className="system-grid system-grid--desktop">
+        {SYSTEMS.map(sys => (
+          <Link key={sys.path} to={user ? sys.path : '/login'} className={`system-card ${sys.cls}`} onClick={() => switchTheme(sys.theme)}>
+            <h4>{t(sys.nameKey)}</h4>
+            <p>{t(sys.descKey)}</p>
+            <span className="system-card-cta">{t('systemEnter')}</span>
+          </Link>
+        ))}
+      </div>
+
+      {/* Mobile: carousel */}
+      <div className="system-carousel" role="region" aria-label={t('chooseSystem')} aria-roledescription="carousel">
+        <button className="system-carousel-btn" onClick={prev} disabled={activeIdx === 0}
+          aria-label={activeIdx > 0 ? `Previous: ${t(SYSTEMS[activeIdx - 1].nameKey)}` : 'No previous system'}
+          type="button">{'\u276E'}</button>
+
+        <div className="system-carousel-track" aria-live="polite">
+          <Link to={user ? SYSTEMS[activeIdx].path : '/login'}
+            className={`system-card ${SYSTEMS[activeIdx].cls}`}
+            onClick={() => switchTheme(SYSTEMS[activeIdx].theme)}>
+            <h4>{t(SYSTEMS[activeIdx].nameKey)}</h4>
+            <p>{t(SYSTEMS[activeIdx].descKey)}</p>
+            <span className="system-card-cta">{t('systemEnter')}</span>
+          </Link>
+        </div>
+
+        <button className="system-carousel-btn" onClick={next} disabled={activeIdx === SYSTEMS.length - 1}
+          aria-label={activeIdx < SYSTEMS.length - 1 ? `Next: ${t(SYSTEMS[activeIdx + 1].nameKey)}` : 'No next system'}
+          type="button">{'\u276F'}</button>
+
+        {/* Dot indicators */}
+        <div className="system-carousel-dots" role="tablist" aria-label="System indicators">
+          {SYSTEMS.map((sys, i) => (
+            <button key={sys.path} role="tab" type="button"
+              className={`system-carousel-dot${i === activeIdx ? ' system-carousel-dot--active' : ''}`}
+              onClick={() => setActiveIdx(i)}
+              aria-selected={i === activeIdx}
+              aria-label={t(sys.nameKey)} />
+          ))}
+        </div>
+      </div>
+    </>
+  )
+}
 
 export default function HomePage() {
   const { user } = useAuth()
@@ -29,43 +93,7 @@ export default function HomePage() {
 
       <section className="homepage-systems">
         <h3>{t('chooseSystem')}</h3>
-        <div className="system-grid">
-          <Link to={user ? '/characters' : '/login'} className="system-card system-card--wod" onClick={() => switchTheme('wod')}>
-            <h4>{t('systemWoD')}</h4>
-            <p>{t('systemWoDDesc')}</p>
-            <span className="system-card-cta">{t('systemEnter')}</span>
-          </Link>
-          <Link to={user ? '/7thsea' : '/login'} className="system-card system-card--7thsea" onClick={() => switchTheme('7thsea')}>
-            <h4>{t('system7thSea')}</h4>
-            <p>{t('system7thSeaDesc')}</p>
-            <span className="system-card-cta">{t('systemEnter')}</span>
-          </Link>
-          <Link to={user ? '/l5r' : '/login'} className="system-card system-card--l5r" onClick={() => switchTheme('l5r')}>
-            <h4>{t('systemL5R')}</h4>
-            <p>{t('systemL5RDesc')}</p>
-            <span className="system-card-cta">{t('systemEnter')}</span>
-          </Link>
-          <Link to={user ? '/blades' : '/login'} className="system-card system-card--blades" onClick={() => switchTheme('blades')}>
-            <h4>{t('systemBlades')}</h4>
-            <p>{t('systemBladesDesc')}</p>
-            <span className="system-card-cta">{t('systemEnter')}</span>
-          </Link>
-          <Link to={user ? '/dnd' : '/login'} className="system-card system-card--dnd" onClick={() => switchTheme('dnd')}>
-            <h4>{t('systemDnd')}</h4>
-            <p>{t('systemDndDesc')}</p>
-            <span className="system-card-cta">{t('systemEnter')}</span>
-          </Link>
-          <Link to={user ? '/uestrpg' : '/login'} className="system-card system-card--uestrpg" onClick={() => switchTheme('uestrpg')}>
-            <h4>{t('systemUestrpg')}</h4>
-            <p>{t('systemUestrpgDesc')}</p>
-            <span className="system-card-cta">{t('systemEnter')}</span>
-          </Link>
-          <Link to={user ? '/cyberpunk' : '/login'} className="system-card system-card--cyberpunk" onClick={() => switchTheme('cyberpunk')}>
-            <h4>{t('systemCyberpunk')}</h4>
-            <p>{t('systemCyberpunkDesc')}</p>
-            <span className="system-card-cta">{t('systemEnter')}</span>
-          </Link>
-        </div>
+        <SystemCarousel user={user} t={t} switchTheme={switchTheme} />
       </section>
 
       <section className="homepage-features">

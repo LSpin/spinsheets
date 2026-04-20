@@ -1373,6 +1373,66 @@ legend {
   margin-top: var(--space-lg);
 }
 
+/* Desktop: show grid, hide carousel */
+.system-grid--desktop { display: grid; }
+.system-carousel { display: none; }
+
+/* ── System Carousel (mobile) ── */
+.system-carousel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.system-carousel-btn:hover { border-color: var(--color-accent-fg); background: rgba(224, 85, 85, 0.1); }
+.system-carousel-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.system-carousel-track {
+  flex: 1;
+  min-width: 0;
+}
+
+.system-carousel-track .system-card {
+  width: 100%;
+}
+
+.system-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xs);
+  grid-column: 1 / -1;
+  padding-top: var(--space-sm);
+}
+
+.system-carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--color-text-muted);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.system-carousel-dot--active {
+  background: var(--color-accent-fg);
+  border-color: var(--color-accent-fg);
+}
+
+.system-carousel-dot:hover { border-color: var(--color-accent-fg); }
+
 .system-card {
   display: flex;
   flex-direction: column;
@@ -2055,8 +2115,18 @@ a:hover {
   .modal-content { width: 95vw; max-height: 90vh; padding: var(--space-sm); }
 
   /* ── Homepage: single column ── */
-  .homepage-grid, .system-grid, .homepage-grid--tutorial {
+  .homepage-grid, .homepage-grid--tutorial {
     grid-template-columns: 1fr !important;
+  }
+
+  /* Hide grid, show carousel on mobile */
+  .system-grid--desktop { display: none !important; }
+  .system-carousel {
+    display: grid !important;
+    grid-template-columns: 44px 1fr 44px;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
   }
 
   /* ── Inputs: prevent zoom on iOS ── */
