@@ -177,13 +177,13 @@ export default function BsdForm() {
 
       <div className="tab-list" role="tablist">
         {TAB_KEYS.map((tk, i) => (
-          <button key={tk} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
-            onClick={() => setTab(i)} aria-selected={tab === i}>{t(tk)}</button>
+          <button key={tk} role="tab" id={`tab-${i}`} className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
+            onClick={() => setTab(i)} aria-selected={tab === i} aria-controls={`tabpanel-${i}`}>{t(tk)}</button>
         ))}
       </div>
 
       {/* Identity */}
-      <div hidden={tab !== 0}>
+      <div role="tabpanel" id="tabpanel-0" aria-labelledby="tab-0" hidden={tab !== 0}>
         <div className="form-section">
           <fieldset>
             <legend>{t('tabIdentity')}</legend>
@@ -216,7 +216,7 @@ export default function BsdForm() {
       </div>
 
       {/* Attributes */}
-      <div hidden={tab !== 1}>
+      <div role="tabpanel" id="tabpanel-1" aria-labelledby="tab-1" hidden={tab !== 1}>
         <div className="form-section">
           {[
             { legend: 'physicalAttr', attrs: ['strength', 'dexterity', 'stamina'] },
@@ -238,7 +238,7 @@ export default function BsdForm() {
       </div>
 
       {/* Abilities */}
-      <div hidden={tab !== 2}>
+      <div role="tabpanel" id="tabpanel-2" aria-labelledby="tab-2" hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
             <legend>{t('talents')}</legend>
@@ -268,7 +268,7 @@ export default function BsdForm() {
       </div>
 
       {/* Gifts & Wyrm Taint */}
-      <div hidden={tab !== 3}>
+      <div role="tabpanel" id="tabpanel-3" aria-labelledby="tab-3" hidden={tab !== 3}>
         <div className="form-section">
           <fieldset>
             <legend>Wyrm-Tainted Gifts</legend>
@@ -349,7 +349,7 @@ export default function BsdForm() {
       </div>
 
       {/* Health */}
-      <div hidden={tab !== 4}>
+      <div role="tabpanel" id="tabpanel-4" aria-labelledby="tab-4" hidden={tab !== 4}>
         <div className="form-section">
           <fieldset>
             <legend>{t('health')}</legend>
@@ -363,7 +363,7 @@ export default function BsdForm() {
       </div>
 
       {/* Backstory */}
-      <div hidden={tab !== 5}>
+      <div role="tabpanel" id="tabpanel-5" aria-labelledby="tab-5" hidden={tab !== 5}>
         <div className="form-section">
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
@@ -372,7 +372,7 @@ export default function BsdForm() {
       </div>
 
       {/* XP Log */}
-      <div hidden={tab !== 6}>
+      <div role="tabpanel" id="tabpanel-6" aria-labelledby="tab-6" hidden={tab !== 6}>
         <XpLogSection splat="werewolf" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
@@ -380,12 +380,12 @@ export default function BsdForm() {
       </div>
 
       {/* Dice Pools */}
-      <div hidden={tab !== 7}>
+      <div role="tabpanel" id="tabpanel-7" aria-labelledby="tab-7" hidden={tab !== 7}>
         <DicePoolsTab fields={fields} splat="BSD" characterId={characterId} />
       </div>
 
       {/* Dice Roller */}
-      <div hidden={tab !== 8}>
+      <div role="tabpanel" id="tabpanel-8" aria-labelledby="tab-8" hidden={tab !== 8}>
         <StorytellerDiceRoller />
       </div>
 

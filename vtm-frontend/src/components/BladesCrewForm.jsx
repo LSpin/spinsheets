@@ -179,13 +179,13 @@ export default function BladesCrewForm() {
 
       <div className="tab-list" role="tablist">
         {TAB_KEYS.map((tk, i) => (
-          <button key={tk} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
-            onClick={() => setTab(i)} aria-selected={tab === i}>{t(tk)}</button>
+          <button key={tk} role="tab" id={`tab-${i}`} className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
+            onClick={() => setTab(i)} aria-selected={tab === i} aria-controls={`tabpanel-${i}`}>{t(tk)}</button>
         ))}
       </div>
 
       {/* Tab 0 - Crew Identity */}
-      <div hidden={tab !== 0}>
+      <div role="tabpanel" id="tabpanel-0" aria-labelledby="tab-0" hidden={tab !== 0}>
         <div className="form-section">
           <fieldset>
             <legend>{t('tabBladesCrewIdentity')}</legend>
@@ -237,7 +237,7 @@ export default function BladesCrewForm() {
       </div>
 
       {/* Tab 1 - Crew Abilities */}
-      <div hidden={tab !== 1}>
+      <div role="tabpanel" id="tabpanel-1" aria-labelledby="tab-1" hidden={tab !== 1}>
         <div className="form-section">
           <fieldset>
             <legend>{t('tabBladesCrewAbilities')}</legend>
@@ -251,7 +251,7 @@ export default function BladesCrewForm() {
       </div>
 
       {/* Tab 2 - Upgrades */}
-      <div hidden={tab !== 2}>
+      <div role="tabpanel" id="tabpanel-2" aria-labelledby="tab-2" hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesCrewUpgradesLegend')}</legend>
@@ -281,7 +281,7 @@ export default function BladesCrewForm() {
       </div>
 
       {/* Tab 3 - Contacts */}
-      <div hidden={tab !== 3}>
+      <div role="tabpanel" id="tabpanel-3" aria-labelledby="tab-3" hidden={tab !== 3}>
         <div className="form-section">
           <fieldset>
             <legend>{t('tabBladesCrewContacts')}</legend>
@@ -308,7 +308,7 @@ export default function BladesCrewForm() {
       </div>
 
       {/* Tab 4 - Clocks */}
-      <div hidden={tab !== 4}>
+      <div role="tabpanel" id="tabpanel-4" aria-labelledby="tab-4" hidden={tab !== 4}>
         <div className="form-section">
           <fieldset>
             <legend>{t('tabBladesClocks')}</legend>
@@ -383,7 +383,7 @@ export default function BladesCrewForm() {
       </div>
 
       {/* Tab 5 - Notes */}
-      <div hidden={tab !== 5}>
+      <div role="tabpanel" id="tabpanel-5" aria-labelledby="tab-5" hidden={tab !== 5}>
         <div className="form-section">
           <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={t('bladesCrewNotesPh')} /></fieldset>
           <fieldset><legend>{t('tabBackstory')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={t('bladesCrewBackstoryPh')} /></fieldset>

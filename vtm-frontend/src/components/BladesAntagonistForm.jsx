@@ -99,13 +99,13 @@ export default function BladesAntagonistForm() {
 
       <div className="tab-list" role="tablist">
         {TAB_KEYS.map((tk, i) => (
-          <button key={tk} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
-            onClick={() => setTab(i)} aria-selected={tab === i}>{t(tk)}</button>
+          <button key={tk} role="tab" id={`tab-${i}`} className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
+            onClick={() => setTab(i)} aria-selected={tab === i} aria-controls={`tabpanel-${i}`}>{t(tk)}</button>
         ))}
       </div>
 
       {/* ── Identity ── */}
-      <div hidden={tab !== 0}>
+      <div role="tabpanel" id="tabpanel-0" aria-labelledby="tab-0" hidden={tab !== 0}>
         <div className="form-section">
           <fieldset>
             <legend>Identity</legend>
@@ -159,7 +159,7 @@ export default function BladesAntagonistForm() {
       </div>
 
       {/* ── Traits & Actions ── */}
-      <div hidden={tab !== 1}>
+      <div role="tabpanel" id="tabpanel-1" aria-labelledby="tab-1" hidden={tab !== 1}>
         <div className="form-section">
           <fieldset>
             <legend>Special Traits</legend>
@@ -195,7 +195,7 @@ export default function BladesAntagonistForm() {
       </div>
 
       {/* ── Notes & Backstory ── */}
-      <div hidden={tab !== 2}>
+      <div role="tabpanel" id="tabpanel-2" aria-labelledby="tab-2" hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
             <legend>Backstory</legend>

@@ -399,13 +399,13 @@ export default function KoteForm() {
       {/* Tabs */}
       <div className="tab-list" role="tablist">
         {TAB_KEYS.map((tk, i) => (
-          <button key={tk} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
-            onClick={() => setTab(i)} aria-selected={tab === i}>{t(tk)}</button>
+          <button key={tk} role="tab" id={`tab-${i}`} className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
+            onClick={() => setTab(i)} aria-selected={tab === i} aria-controls={`tabpanel-${i}`}>{t(tk)}</button>
         ))}
       </div>
 
       {/* ── Identity ── */}
-      <div hidden={tab !== 0}>
+      <div role="tabpanel" id={`tabpanel-0`} aria-labelledby={`tab-0`} hidden={tab !== 0}>
         <div className="form-section">
           <fieldset>
             <legend>{t('tabIdentity')}</legend>
@@ -475,7 +475,7 @@ export default function KoteForm() {
       </div>
 
       {/* ── Attributes ── */}
-      <div hidden={tab !== 1}>
+      <div role="tabpanel" id={`tabpanel-1`} aria-labelledby={`tab-1`} hidden={tab !== 1}>
         <div className="form-section">
           {[
             { legend: 'physicalAttr', group: 'physical', attrs: ['strength', 'dexterity', 'stamina'] },
@@ -505,7 +505,7 @@ export default function KoteForm() {
       </div>
 
       {/* ── Abilities ── */}
-      <div hidden={tab !== 2}>
+      <div role="tabpanel" id={`tabpanel-2`} aria-labelledby={`tab-2`} hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
             <legend>{t('talents')}</legend>
@@ -556,7 +556,7 @@ export default function KoteForm() {
       </div>
 
       {/* ── Secondary Abilities ── */}
-      <div hidden={tab !== 3}>
+      <div role="tabpanel" id={`tabpanel-3`} aria-labelledby={`tab-3`} hidden={tab !== 3}>
         <div className="form-section">
           <fieldset>
             <legend>{t('secondaryTalents')}</legend>
@@ -616,7 +616,7 @@ export default function KoteForm() {
       </div>
 
       {/* ── Dharma & Chi ── */}
-      <div hidden={tab !== 4}>
+      <div role="tabpanel" id={`tabpanel-4`} aria-labelledby={`tab-4`} hidden={tab !== 4}>
         <div className="form-section">
           <fieldset>
             <legend>{t('dharma')}</legend>
@@ -678,7 +678,7 @@ export default function KoteForm() {
       </div>
 
       {/* ── Health ── */}
-      <div hidden={tab !== 5}>
+      <div role="tabpanel" id={`tabpanel-5`} aria-labelledby={`tab-5`} hidden={tab !== 5}>
         <div className="form-section">
           <fieldset>
             <legend>{t('healthTrack')}</legend>
@@ -723,7 +723,7 @@ export default function KoteForm() {
       </div>
 
       {/* ── Shintai ── */}
-      <div hidden={tab !== 6}>
+      <div role="tabpanel" id={`tabpanel-6`} aria-labelledby={`tab-6`} hidden={tab !== 6}>
         <div className="form-section">
           <fieldset>
             <legend>Disciplines & Shintai ({disciplines.length})</legend>
@@ -817,7 +817,7 @@ export default function KoteForm() {
       </div>
 
       {/* ── Backgrounds ── */}
-      <div hidden={tab !== 7}>
+      <div role="tabpanel" id={`tabpanel-7`} aria-labelledby={`tab-7`} hidden={tab !== 7}>
         <div className="form-section">
           <fieldset>
             <legend>{t('backgrounds')} ({backgrounds.length})</legend>
@@ -875,17 +875,17 @@ export default function KoteForm() {
       </div>
 
       {/* ── Merits & Flaws ── */}
-      <div hidden={tab !== 8}>
+      <div role="tabpanel" id={`tabpanel-8`} aria-labelledby={`tab-8`} hidden={tab !== 8}>
         <MeritsFlawsSection characterId={characterId} merits={merits} setMerits={setMerits} flaws={flaws} setFlaws={setFlaws} meritCatalog={meritCatalog} flawCatalog={flawCatalog} />
       </div>
 
       {/* ── Inventory ── */}
-      <div hidden={tab !== 9}>
+      <div role="tabpanel" id={`tabpanel-9`} aria-labelledby={`tab-9`} hidden={tab !== 9}>
         <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
       </div>
 
       {/* ── Backstory ── */}
-      <div hidden={tab !== 10}>
+      <div role="tabpanel" id={`tabpanel-10`} aria-labelledby={`tab-10`} hidden={tab !== 10}>
         <div className="form-section">
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
@@ -898,7 +898,7 @@ export default function KoteForm() {
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 11}>
+      <div role="tabpanel" id={`tabpanel-11`} aria-labelledby={`tab-11`} hidden={tab !== 11}>
         <XpLogSection
           splat="kote"
           xpLog={xpLog}
@@ -910,12 +910,12 @@ export default function KoteForm() {
       </div>
 
       {/* ── Dice Pools ── */}
-      <div hidden={tab !== 12}>
+      <div role="tabpanel" id={`tabpanel-12`} aria-labelledby={`tab-12`} hidden={tab !== 12}>
         <DicePoolsTab fields={fields} splat="KOTE" characterId={characterId} />
       </div>
 
       {/* ── Dice Roller ── */}
-      <div hidden={tab !== 13}>
+      <div role="tabpanel" id={`tabpanel-13`} aria-labelledby={`tab-13`} hidden={tab !== 13}>
         <StorytellerDiceRoller />
       </div>
 

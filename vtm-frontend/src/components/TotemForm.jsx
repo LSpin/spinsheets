@@ -191,13 +191,13 @@ export default function TotemForm() {
 
       <div className="tab-list" role="tablist">
         {TAB_KEYS.map((tk, i) => (
-          <button key={tk} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
-            onClick={() => setTab(i)} aria-selected={tab === i}>{t(tk)}</button>
+          <button key={tk} role="tab" id={`tab-${i}`} className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
+            onClick={() => setTab(i)} aria-selected={tab === i} aria-controls={`tabpanel-${i}`}>{t(tk)}</button>
         ))}
       </div>
 
       {/* ── Identity ── */}
-      <div hidden={tab !== 0}>
+      <div role="tabpanel" id="tabpanel-0" aria-labelledby="tab-0" hidden={tab !== 0}>
         <div className="form-section">
           <fieldset>
             <legend>{t('tabIdentity')}</legend>
@@ -221,7 +221,7 @@ export default function TotemForm() {
       </div>
 
       {/* ── Traits ── */}
-      <div hidden={tab !== 1}>
+      <div role="tabpanel" id="tabpanel-1" aria-labelledby="tab-1" hidden={tab !== 1}>
         <div className="form-section">
           <fieldset>
             <legend>{t('totemTraits')}</legend>
@@ -304,7 +304,7 @@ export default function TotemForm() {
       </div>
 
       {/* ── Charms ── */}
-      <div hidden={tab !== 2}>
+      <div role="tabpanel" id="tabpanel-2" aria-labelledby="tab-2" hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
             <legend>{t('totemCharms')}</legend>
@@ -371,7 +371,7 @@ export default function TotemForm() {
       </div>
 
       {/* ── Backstory ── */}
-      <div hidden={tab !== 3}>
+      <div role="tabpanel" id="tabpanel-3" aria-labelledby="tab-3" hidden={tab !== 3}>
         <div className="form-section">
           <fieldset>
             <legend>{t('totemDescription')}</legend>
@@ -381,7 +381,7 @@ export default function TotemForm() {
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 4}>
+      <div role="tabpanel" id="tabpanel-4" aria-labelledby="tab-4" hidden={tab !== 4}>
         <XpLogSection splat="werewolf" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
@@ -389,12 +389,12 @@ export default function TotemForm() {
       </div>
 
       {/* ── Dice Pools ── */}
-      <div hidden={tab !== 5}>
+      <div role="tabpanel" id="tabpanel-5" aria-labelledby="tab-5" hidden={tab !== 5}>
         <DicePoolsTab fields={fields} splat="TOTEM" characterId={characterId} />
       </div>
 
       {/* ── Dice Roller ── */}
-      <div hidden={tab !== 6}>
+      <div role="tabpanel" id="tabpanel-6" aria-labelledby="tab-6" hidden={tab !== 6}>
         <StorytellerDiceRoller />
       </div>
 

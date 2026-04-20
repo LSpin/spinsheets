@@ -792,13 +792,13 @@ export default function L5RForm() {
 
       <div className="tab-list" role="tablist">
         {TAB_KEYS.map((tk, i) => (
-          <button key={tk} role="tab" className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
-            onClick={() => setTab(i)} aria-selected={tab === i}>{t(tk)}</button>
+          <button key={tk} role="tab" id={`tab-${i}`} className={`btn btn-secondary${tab === i ? ' tab-btn--active' : ''}`}
+            onClick={() => setTab(i)} aria-selected={tab === i} aria-controls={`tabpanel-${i}`}>{t(tk)}</button>
         ))}
       </div>
 
       {/* ── Identity ── */}
-      <div hidden={tab !== 0}>
+      <div role="tabpanel" id={`tabpanel-0`} aria-labelledby={`tab-0`} hidden={tab !== 0}>
         <div className="form-section">
           <fieldset>
             <legend>{t('l5rLoadTemplate')}</legend>
@@ -861,7 +861,7 @@ export default function L5RForm() {
       </div>
 
       {/* ── Rings & Traits ── */}
-      <div hidden={tab !== 1}>
+      <div role="tabpanel" id={`tabpanel-1`} aria-labelledby={`tab-1`} hidden={tab !== 1}>
         <div className="form-section">
           <fieldset>
             <legend>{t('l5rRingsTraits')}</legend>
@@ -934,7 +934,7 @@ export default function L5RForm() {
       </div>
 
       {/* ── Skills (Interactive) ── */}
-      <div hidden={tab !== 2}>
+      <div role="tabpanel" id={`tabpanel-2`} aria-labelledby={`tab-2`} hidden={tab !== 2}>
         <div className="form-section">
           {/* Skill Summary */}
           <fieldset>
@@ -1066,7 +1066,7 @@ export default function L5RForm() {
       </div>
 
       {/* ── Advantages / Disadvantages ── */}
-      <div hidden={tab !== 3}>
+      <div role="tabpanel" id={`tabpanel-3`} aria-labelledby={`tab-3`} hidden={tab !== 3}>
         <div className="form-section">
           {/* ── Advantages ── */}
           <fieldset>
@@ -1215,7 +1215,7 @@ export default function L5RForm() {
       </div>
 
       {/* ── Techniques ── */}
-      <div hidden={tab !== 4}>
+      <div role="tabpanel" id={`tabpanel-4`} aria-labelledby={`tab-4`} hidden={tab !== 4}>
         <div className="form-section">
           {(() => {
             const schoolData = fields.l5rSchool && L5R_SCHOOLS[fields.l5rSchool]
@@ -1308,7 +1308,7 @@ export default function L5RForm() {
       </div>
 
       {/* ── Spells (Interactive) ── */}
-      <div hidden={tab !== 5}>
+      <div role="tabpanel" id={`tabpanel-5`} aria-labelledby={`tab-5`} hidden={tab !== 5}>
         <div className="form-section">
           {/* ── Casting Dashboard ── */}
           <fieldset>
@@ -1505,7 +1505,7 @@ export default function L5RForm() {
       </div>
 
       {/* ── Kata Catalogue ── */}
-      <div hidden={tab !== 6}>
+      <div role="tabpanel" id={`tabpanel-6`} aria-labelledby={`tab-6`} hidden={tab !== 6}>
         <div className="form-section">
           {/* ── Active Kata ── */}
           <fieldset>
@@ -1654,7 +1654,7 @@ export default function L5RForm() {
       </div>
 
       {/* ── Equipment (tab 7) ── */}
-      <div hidden={tab !== 7}>
+      <div role="tabpanel" id={`tabpanel-7`} aria-labelledby={`tab-7`} hidden={tab !== 7}>
         <div className="form-section">
           {/* ── Loadout Dashboard ── */}
           <fieldset>
@@ -1864,7 +1864,7 @@ Traveling pack, spare kimono, 10 koku`} />
       </div>
 
       {/* ── Combat & Derived Stats (tab 8) ── */}
-      <div hidden={tab !== 8}>
+      <div role="tabpanel" id={`tabpanel-8`} aria-labelledby={`tab-8`} hidden={tab !== 8}>
         <div className="form-section">
           {/* ── Stance Dashboard ── */}
           <fieldset>
@@ -2058,7 +2058,7 @@ Traveling pack, spare kimono, 10 koku`} />
       </div>
 
       {/* ── Backstory ── */}
-      <div hidden={tab !== 9}>
+      <div role="tabpanel" id={`tabpanel-9`} aria-labelledby={`tab-9`} hidden={tab !== 9}>
         <div className="form-section">
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
@@ -2067,7 +2067,7 @@ Traveling pack, spare kimono, 10 koku`} />
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 10}>
+      <div role="tabpanel" id={`tabpanel-10`} aria-labelledby={`tab-10`} hidden={tab !== 10}>
         <XpLogSection splat="l5r" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
@@ -2075,12 +2075,12 @@ Traveling pack, spare kimono, 10 koku`} />
       </div>
 
       {/* ── Rules Reference ── */}
-      <div hidden={tab !== 11}>
+      <div role="tabpanel" id={`tabpanel-11`} aria-labelledby={`tab-11`} hidden={tab !== 11}>
         <RulesReferenceTab rules={L5R_RULES} title="L5R Rules Reference" />
       </div>
 
       {/* ── Dice Roller ── */}
-      <div hidden={tab !== 12}>
+      <div role="tabpanel" id={`tabpanel-12`} aria-labelledby={`tab-12`} hidden={tab !== 12}>
         <L5RDiceRoller />
       </div>
 
