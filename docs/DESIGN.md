@@ -232,6 +232,14 @@ export default function CharacterForm() {
 - **Dismissal:** Closes on Escape key press, click/tap outside the menu, or on navigation (route change)
 - **Accessibility:** Uses `aria-expanded` on the toggle button, `aria-label="Menu"`, focus trapped while open
 
+#### System Selector Carousel
+
+- On desktop, the homepage shows a responsive grid of system cards (7 systems)
+- On mobile (< 640px), the grid is replaced by a single-card carousel with prev/next arrow buttons and dot indicators
+- One system is visible at a time; arrows navigate between them
+- Dot indicators below allow direct jump to any system
+- Accessibility: `role="region"` with `aria-roledescription="carousel"`, `aria-live="polite"` on the track for screen reader announcements, dynamic `aria-label` on arrows showing destination system name, dots use `role="tab"` with `aria-selected`
+
 #### Collapsible Tab Dropdown
 
 - On mobile viewports, the form tab bar collapses to show only the currently active tab name with a `▼` arrow indicator

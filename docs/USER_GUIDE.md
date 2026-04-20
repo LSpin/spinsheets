@@ -312,6 +312,10 @@ Spin's Sheets can be installed as a standalone app on your phone or tablet for a
 
 Once installed, the app caches assets for faster loads and provides an offline fallback page if you lose connection.
 
+### Browsing Game Systems
+
+On the homepage, the game system cards display as a carousel on mobile. Use the left and right arrow buttons to browse through the available systems one at a time. You can also tap the dot indicators below the card to jump directly to a specific system. Select the card to enter that system.
+
 ### Using the Hamburger Menu
 
 On screens narrower than 640px, the top navigation bar collapses into a hamburger icon (three horizontal lines). Tap it to open the full navigation menu. The menu closes when you:

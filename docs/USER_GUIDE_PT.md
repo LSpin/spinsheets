@@ -312,6 +312,10 @@ Spin's Sheets pode ser instalado como um app independente no seu celular ou tabl
 
 Uma vez instalado, o app faz cache de assets para carregamentos mais rápidos e fornece uma página de fallback offline se você perder a conexão.
 
+### Navegando pelos Sistemas de Jogo
+
+Na página inicial, os cards de sistema de jogo são exibidos como um carrossel no mobile. Use os botões de seta esquerda e direita para navegar pelos sistemas disponíveis um de cada vez. Você também pode tocar nos indicadores de pontos abaixo do card para saltar diretamente para um sistema específico. Selecione o card para entrar naquele sistema.
+
 ### Usando o Menu Hamburger
 
 Em telas com menos de 640px de largura, a barra de navegação superior colapsa em um ícone hamburger (três linhas horizontais). Toque nele para abrir o menu de navegação completo. O menu fecha quando você:

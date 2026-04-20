@@ -232,6 +232,14 @@ export default function CharacterForm() {
 - **Fechamento:** Fecha ao pressionar Escape, clicar/tocar fora do menu, ou ao navegar (mudança de rota)
 - **Acessibilidade:** Usa `aria-expanded` no botão de toggle, `aria-label="Menu"`, foco capturado enquanto aberto
 
+#### Carrossel de Seleção de Sistema
+
+- No desktop, a página inicial exibe uma grade responsiva de cards de sistema (7 sistemas)
+- No mobile (< 640px), a grade é substituída por um carrossel de card único com botões de seta anterior/próximo e indicadores de pontos
+- Um sistema é visível por vez; as setas navegam entre eles
+- Indicadores de pontos abaixo permitem saltar diretamente para qualquer sistema
+- Acessibilidade: `role="region"` com `aria-roledescription="carousel"`, `aria-live="polite"` na faixa para anúncios de leitores de tela, `aria-label` dinâmico nas setas mostrando o nome do sistema de destino, pontos usam `role="tab"` com `aria-selected`
+
 #### Dropdown Colapsável de Abas
 
 - Em viewports mobile, a barra de abas do formulário colapsa para mostrar apenas o nome da aba ativa com um indicador `▼`
