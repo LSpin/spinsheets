@@ -676,11 +676,11 @@ const en = {
   getStarted: 'Get Started',
   chooseSystem: 'Choose Your Game',
   systemWoD: 'World of Darkness',
-  systemWoDDesc: 'Vampire, Werewolf, and Mage character sheets for the World of Darkness.',
+  systemWoDDesc: '20 sheets across Vampire, Werewolf, Mage, Hunter, Wraith, Changeling, and Demon. The complete World of Darkness under one roof.',
   system7thSea: '7th Sea',
-  system7thSeaDesc: 'Swashbuckling adventure in the world of Th\u00e9ah \u2014 2nd Edition character sheets.',
+  system7thSeaDesc: 'Swashbuckling heroes, scheming villains, and 8 sorceries across the nations of Th\u00e9ah. Includes ship builder and dueling styles.',
   systemL5R: 'Legend of the Five Rings',
-  systemL5RDesc: 'Samurai drama in Rokugan \u2014 4th Edition character sheets.',
+  systemL5RDesc: 'Samurai honor and courtly intrigue in Rokugan. 55 schools, 197 spells, roll-and-keep dice, and a full antagonist generator.',
   systemEnter: 'Enter',
   featuresTitle: 'What You Get',
   featureSheets: '33 Character Sheets',
@@ -1400,7 +1400,7 @@ const en = {
 
   // ── Blades in the Dark ──
   systemBlades: 'Blades in the Dark',
-  systemBladesDesc: 'Daring scoundrels in a haunted industrial-fantasy city',
+  systemBladesDesc: 'Daring scoundrels in a haunted city. 11 playbooks, crew sheets, clock tracker, and Deep Cuts expansion content with a toggle.',
   splatBlades: 'Blades in the Dark',
   splatBladesCrew: 'Crew',
   bladesMyScoundrels: 'My Scoundrels',
@@ -1582,7 +1582,7 @@ const en = {
 
   // ── D&D 5e ──
   systemDnd: 'D&D 5th Edition',
-  systemDndDesc: 'The world\'s greatest roleplaying game',
+  systemDndDesc: 'Full SRD support with 233 spells, 42 feats, 120 monster templates, and a complete equipment catalog. Roll d20 and track your adventure.',
   splatDnd: 'D&D 5e',
   dndMyCharacters: 'My Characters',
   dndNewCharacter: 'New Character',
@@ -1740,7 +1740,7 @@ const en = {
 
   // ── UESTRPG ──
   systemUestrpg: 'Elder Scrolls RPG',
-  systemUestrpgDesc: 'Adventure in Tamriel with D&D 5e mechanics',
+  systemUestrpgDesc: 'Explore Tamriel with D&D 5e mechanics. TES races, classes, constellations, magicka system, and Elder Scrolls-flavored gear.',
   splatUestrpg: 'UESTRPG',
   uestrpgMyChars: 'My Adventurers',
   uestrpgNewChar: 'New Adventurer',
@@ -1766,7 +1766,7 @@ const en = {
 
   // ── Cyberpunk 2020 ──
   systemCyberpunk: 'Cyberpunk 2020',
-  systemCyberpunkDesc: 'Gritty near-future action in Night City',
+  systemCyberpunkDesc: 'Chrome and neon in Night City. 150+ cyberware, 58 weapons, 38 vehicles, lifepath generator, and humanity tracking.',
   cpMyChars: 'My Edgerunners',
   cpNewChar: 'New Edgerunner',
   cpNoCharsYet: 'No edgerunners yet.',
@@ -2581,11 +2581,11 @@ const pt = {
   getStarted: 'Começar',
   chooseSystem: 'Escolha Seu Jogo',
   systemWoD: 'Mundo das Trevas',
-  systemWoDDesc: 'Fichas de Vampiro, Lobisomem e Mago para o Mundo das Trevas.',
+  systemWoDDesc: '20 fichas entre Vampiro, Lobisomem, Mago, Caçador, Aparição, Changeling e Demônio. O Mundo das Trevas completo num só lugar.',
   system7thSea: '7th Sea',
-  system7thSeaDesc: 'Aventura de capa e espada no mundo de Th\u00e9ah \u2014 fichas da 2\u00aa Edi\u00e7\u00e3o.',
+  system7thSeaDesc: 'Heróis destemidos, vilões ardilosos e 8 feitiçarias pelas nações de Théah. Inclui construtor de navios e estilos de duelo.',
   systemL5R: 'Lenda dos Cinco An\u00e9is',
-  systemL5RDesc: 'Drama samurai em Rokugan \u2014 fichas da 4\u00aa Edi\u00e7\u00e3o.',
+  systemL5RDesc: 'Honra samurai e intriga na corte de Rokugan. 55 escolas, 197 magias, dados rolar-e-manter, e gerador de antagonistas completo.',
   systemEnter: 'Entrar',
   featuresTitle: 'O Que Você Ganha',
   featureSheets: '33 Fichas de Personagem',
@@ -3575,7 +3575,7 @@ const pt = {
 
   // ── Blades in the Dark ──
   systemBlades: 'Blades in the Dark',
-  systemBladesDesc: 'Canalhas audaciosos numa cidade industrial assombrada',
+  systemBladesDesc: 'Canalhas audaciosos numa cidade assombrada. 11 playbooks, fichas de bando, rastreador de relógios e conteúdo Deep Cuts com toggle.',
   splatBlades: 'Blades in the Dark',
   splatBladesCrew: 'Bando',
   bladesMyScoundrels: 'Meus Canalhas',
@@ -3747,7 +3747,7 @@ const pt = {
 
   // ── D&D 5e ──
   systemDnd: 'D&D 5ª Edição',
-  systemDndDesc: 'O maior RPG do mundo',
+  systemDndDesc: 'Suporte completo ao SRD com 233 magias, 42 talentos, 120 monstros e catálogo de equipamentos. Role d20 e acompanhe sua aventura.',
   splatDnd: 'D&D 5e',
   dndMyCharacters: 'Meus Personagens',
   dndNewCharacter: 'Novo Personagem',
@@ -3894,7 +3894,7 @@ const pt = {
 
   // ── UESTRPG ──
   systemUestrpg: 'Elder Scrolls RPG',
-  systemUestrpgDesc: 'Aventure-se em Tamriel com mecânicas de D&D 5e',
+  systemUestrpgDesc: 'Explore Tamriel com mecânicas de D&D 5e. Raças TES, classes, constelações, sistema de magicka e equipamentos do Elder Scrolls.',
   splatUestrpg: 'UESTRPG',
   uestrpgMyChars: 'Meus Aventureiros',
   uestrpgNewChar: 'Novo Aventureiro',
@@ -3920,7 +3920,7 @@ const pt = {
 
   // ── Cyberpunk 2020 ──
   systemCyberpunk: 'Cyberpunk 2020',
-  systemCyberpunkDesc: 'Acao sombria no futuro proximo em Night City',
+  systemCyberpunkDesc: 'Chrome e neon em Night City. 150+ cibernéticos, 58 armas, 38 veículos, gerador de lifepath e rastreamento de humanidade.',
   cpMyChars: 'Meus Edgerunners',
   cpNewChar: 'Novo Edgerunner',
   cpNoCharsYet: 'Nenhum edgerunner ainda.',
