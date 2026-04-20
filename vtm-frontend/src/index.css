@@ -1724,45 +1724,210 @@ a:hover {
 
 @media (max-width: 640px) {
   main {
-    padding: var(--space-md);
+    padding: var(--space-md) var(--space-sm);
   }
 
   header[role="banner"] {
-    padding: var(--space-md);
+    padding: var(--space-md) var(--space-sm);
   }
 
   .header-inner {
     flex-direction: column;
     align-items: flex-start;
+    gap: var(--space-sm);
   }
 
+  /* ── Touch targets: WCAG 2.5.8 — 44px minimum ── */
+
+  .btn {
+    min-height: 44px;
+    padding: 0.6rem var(--space-md);
+    font-size: 0.9rem;
+  }
+
+  .btn-sm {
+    min-height: 40px;
+  }
+
+  /* Tab buttons: full width on small screens, comfortable touch targets */
+  .tab-list {
+    gap: var(--space-xs);
+  }
+
+  .tab-list .btn,
+  .tab-list [role="tab"] {
+    min-height: 44px;
+    padding: 0.6rem var(--space-sm);
+    font-size: 0.82rem;
+    flex: 1 1 auto;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Form inputs: larger padding for touch */
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="search"],
+  select,
+  textarea {
+    padding: 0.7rem var(--space-sm);
+    font-size: 1rem;
+    min-height: 44px;
+  }
+
+  /* Checkboxes & radios: larger touch area */
+  input[type="checkbox"],
+  input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    margin: 2px;
+  }
+
+  /* Labels with checkboxes: ensure touch spacing */
+  label:has(input[type="checkbox"]),
+  label:has(input[type="radio"]) {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-xs) 0;
+  }
+
+  /* DotRating select: wider and taller */
+  .rating-field select {
+    width: 90px;
+    min-height: 44px;
+    font-size: 1rem;
+  }
+
+  /* Form sections: comfortable spacing */
   .form-section {
-    padding: var(--space-lg) var(--space-md);
+    padding: var(--space-md) var(--space-sm);
   }
 
+  fieldset {
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  legend {
+    font-size: 0.95rem;
+    padding: 0 var(--space-xs);
+  }
+
+  .field {
+    margin-bottom: var(--space-md);
+  }
+
+  /* Field rows: stack vertically on mobile */
+  .field-row {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  /* Rating grid: single column on small screens */
   .rating-grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: var(--space-md);
   }
 
+  /* Character cards: stacked layout */
   .character-card {
     flex-direction: column;
     align-items: flex-start;
     padding: var(--space-md);
+    gap: var(--space-md);
   }
 
   .character-card-actions {
     width: 100%;
     justify-content: flex-end;
+    gap: var(--space-sm);
   }
 
+  .character-card-actions .btn {
+    flex: 1;
+  }
+
+  /* Form action bar: full-width stacked buttons */
   .form-actions {
-    justify-content: stretch;
+    flex-direction: column;
+    gap: var(--space-sm);
   }
 
   .form-actions .btn {
-    flex: 1;
+    width: 100%;
     justify-content: center;
+  }
+
+  /* Form header: stacked */
+  .form-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .form-header h2 {
+    font-size: 1.2rem;
+  }
+
+  /* Character list header: stacked */
+  .character-list-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  /* Blades stress boxes: larger touch targets */
+  .blades-stress-box {
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  /* Blades dots: larger */
+  .blades-dots span[role="button"],
+  .blades-dots button {
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  /* Splat grid: single column */
+  .splat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* System cards on homepage: single column */
+  .system-card {
+    padding: var(--space-lg);
+  }
+
+  /* Modal: full-width on mobile */
+  .modal-content {
+    width: 95vw;
+    max-height: 90vh;
+    padding: var(--space-md);
+  }
+
+  .modal-option-btn {
+    min-height: 48px;
+    padding: var(--space-md);
+  }
+
+  /* Catalog select: larger dropdown */
+  .catalog-dropdown {
+    max-height: 50vh;
+  }
+
+  .catalog-item {
+    min-height: 44px;
+    padding: var(--space-sm);
+  }
+
+  /* Nav buttons: comfortable spacing */
+  nav button {
+    min-height: 44px;
+    padding: 0.5rem var(--space-md);
   }
 }
 
