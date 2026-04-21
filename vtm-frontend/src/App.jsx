@@ -281,13 +281,14 @@ function AppShell() {
 
     function injectAll() {
       if (!isMobile()) return
-      document.querySelectorAll('.tab-list[role="tablist"]').forEach(injectCarousel)
+      document.querySelectorAll('.tab-list[role="tablist"]').forEach(tl => {
+        try { injectCarousel(tl) } catch { /* stale node */ }
+      })
     }
 
-    // Inject on initial load and on DOM changes (for lazy-loaded forms)
-    const observer = new MutationObserver(() => { setTimeout(injectAll, 100) })
-    observer.observe(document.body, { childList: true, subtree: true })
-    setTimeout(injectAll, 200)
+    // Re-inject periodically to catch lazy-loaded forms (no MutationObserver)
+    const interval = setInterval(injectAll, 1000)
+    setTimeout(() => clearInterval(interval), 10000) // stop after 10s
 
     function handleTabListClick(e) {
       const tabList = e.target.closest('.tab-list')
@@ -311,7 +312,7 @@ function AppShell() {
     document.addEventListener('click', handleTabListClick, true)
     document.addEventListener('mousedown', handleOutsideClick)
     return () => {
-      observer.disconnect()
+      clearInterval(interval)
       document.removeEventListener('click', handleTabListClick, true)
       document.removeEventListener('mousedown', handleOutsideClick)
     }

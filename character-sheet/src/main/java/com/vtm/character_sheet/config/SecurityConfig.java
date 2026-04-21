@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/register", "/api/auth/login", "/api/auth/reset-password", "/api/auth/forgot-password").permitAll()
                 .requestMatchers("/api/auth/reset-request").authenticated()
                 .requestMatchers("/api/merits", "/api/flaws").permitAll()
-                .requestMatchers("/", "/index.html", "/assets/**", "/favicon.svg", "/icons.svg").permitAll()
+                .requestMatchers("/", "/index.html", "/assets/**", "/favicon.svg", "/icons.svg", "/manifest.json", "/sw.js").permitAll()
                 .requestMatchers("/login", "/register", "/reset-password", "/characters/**", "/chronicles/**", "/all-chronicles", "/all-characters", "/7thsea/**", "/l5r/**", "/blades/**", "/dnd/**", "/uestrpg/**", "/cyberpunk/**", "/asoiaf/**", "/players", "/admin", "/invite/**").permitAll()
                 .anyRequest().authenticated()
             )
