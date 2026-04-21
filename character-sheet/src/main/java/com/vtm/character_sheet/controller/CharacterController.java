@@ -564,6 +564,7 @@ public class CharacterController {
             existing.setL5r5eArmor(updated.getL5r5eArmor());
             existing.setL5r5eInventory(updated.getL5r5eInventory());
             existing.setL5r5eCurriculum(updated.getL5r5eCurriculum());
+            existing.setL5r5eTwentyQuestions(updated.getL5r5eTwentyQuestions());
             return ResponseEntity.ok(service.save(existing));
         }).orElse(ResponseEntity.notFound().build());
     }

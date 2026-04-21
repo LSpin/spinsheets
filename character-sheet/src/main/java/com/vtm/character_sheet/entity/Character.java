@@ -879,4 +879,6 @@ public class Character {
     private String l5r5eInventory;
     @Column(columnDefinition = "TEXT")
     private String l5r5eCurriculum;
+    @Column(columnDefinition = "TEXT")
+    private String l5r5eTwentyQuestions;
 }

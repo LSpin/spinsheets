@@ -23,7 +23,7 @@ import {
   RING_DIE, SKILL_DIE,
 } from '../data/l5r5eData'
 
-const TAB_KEYS = ['tabL5r5eIdentity', 'tabL5r5eRings', 'tabL5r5eSkills', 'tabL5r5eTechniques', 'tabL5r5eAdvantages', 'tabL5r5eCombat', 'tabL5r5eSocial', 'tabL5r5eEquipment', 'tabBackstory', 'tabXpLog', 'tabDiceRoller', 'tabL5r5eRulesRef']
+const TAB_KEYS = ['tabL5r5eIdentity', 'tabL5r5e20Questions', 'tabL5r5eRings', 'tabL5r5eSkills', 'tabL5r5eTechniques', 'tabL5r5eAdvantages', 'tabL5r5eCombat', 'tabL5r5eSocial', 'tabL5r5eEquipment', 'tabBackstory', 'tabXpLog', 'tabDiceRoller', 'tabL5r5eRulesRef']
 
 const INITIAL = {
   splat: 'L5R_5E',
@@ -37,6 +37,7 @@ const INITIAL = {
   l5r5eStrife: 0, l5r5eVoidPoints: 0, l5r5eSchoolRank: 1,
   l5r5eSkills: '', l5r5eTechniques: '', l5r5eAdvantages: '', l5r5eDisadvantages: '',
   l5r5eWeapons: '', l5r5eArmor: '', l5r5eInventory: '', l5r5eCurriculum: '',
+  l5r5eTwentyQuestions: '',
   notes: '', backstory: '',
 }
 
@@ -93,6 +94,29 @@ const L5R5E_RULES = [
 ]
 
 function parseJson(str, fallback) { try { return JSON.parse(str) || fallback } catch { return fallback } }
+
+const TWENTY_QUESTIONS = [
+  { num: 1, part: 'Part I: Core Identity', question: 'What clan does your character belong to?', hint: 'Select your clan on the Identity tab. Grants +1 ring, +1 skill, and sets Status.' },
+  { num: 2, part: 'Part I: Core Identity', question: 'What family does your character belong to?', hint: 'Select your family on the Identity tab. Grants +1 ring, +2 skills, sets Glory and Starting Wealth.' },
+  { num: 3, part: 'Part II: Role and School', question: 'What is your character\'s school, and what roles does that school fall into?', hint: 'Select your school on the Identity tab. Grants +2 rings, starting skills, techniques, Honor, and outfit.' },
+  { num: 4, part: 'Part II: Role and School', question: 'How does your character stand out within their school?', hint: 'Choose: Creativity/passion (+1 Fire), Grace/eloquence (+1 Air), Adaptability/friendliness (+1 Water), Thoroughness/patience (+1 Earth), or Self-awareness/insight (+1 Void).' },
+  { num: 5, part: 'Part III: Honor and Glory', question: 'Who is your lord and what is your character\'s duty to them?', hint: 'Record your answer as your Giri on the Identity tab.' },
+  { num: 6, part: 'Part III: Honor and Glory', question: 'What does your character long for, and how might this impede their duty?', hint: 'Record your answer as your Ninj\u014d on the Identity tab.' },
+  { num: 7, part: 'Part III: Honor and Glory', question: 'What is your character\'s relationship with their clan?', hint: 'Orthodox: +5 Glory. Divergent: +1 rank in a skill you have at 0.' },
+  { num: 8, part: 'Part III: Honor and Glory', question: 'What does your character think of Bushid\u014d?', hint: 'Staunch believer: +10 Honor. Divergent views: +1 rank in Commerce, Labor, Medicine, Seafaring, Skulduggery, or Survival.' },
+  { num: 9, part: 'Part IV: Strengths and Weaknesses', question: 'What is your character\'s greatest accomplishment so far?', hint: 'Choose one Distinction advantage (see Advantages tab).' },
+  { num: 10, part: 'Part IV: Strengths and Weaknesses', question: 'What holds your character back the most in life?', hint: 'Choose one Adversity disadvantage (see Advantages tab).' },
+  { num: 11, part: 'Part IV: Strengths and Weaknesses', question: 'What activity most makes your character feel at peace?', hint: 'Choose one Passion advantage (see Advantages tab).' },
+  { num: 12, part: 'Part IV: Strengths and Weaknesses', question: 'What concern, fear, or foible troubles your character the most?', hint: 'Choose one Anxiety disadvantage (see Advantages tab).' },
+  { num: 13, part: 'Part IV: Strengths and Weaknesses', question: 'Who has your character learned the most from during their life?', hint: 'Record mentor name and relationship. Choose: 1 advantage related to them, OR 1 disadvantage + 1 skill rank.' },
+  { num: 14, part: 'Part V: Personality and Behavior', question: 'What do people notice first upon encountering your character?', hint: 'Choose one distinctive aesthetic accoutrement (scarf, hair ornament, engraved scabbard, etc.).' },
+  { num: 15, part: 'Part V: Personality and Behavior', question: 'How does your character react to stressful situations?', hint: 'Describe your stress behavior and unmasking style. Record under Personality on the Backstory tab.' },
+  { num: 16, part: 'Part VI: Ancestry and Family', question: 'What are your character\'s preexisting relationships with other clans, families, organizations, and traditions?', hint: 'Record relationships. Choose one item of rarity 7 or lower for your starting outfit.' },
+  { num: 17, part: 'Part VI: Ancestry and Family', question: 'How would your character\'s parents describe them?', hint: 'Gain +1 rank in a skill you have at 0.' },
+  { num: 18, part: 'Part VI: Ancestry and Family', question: 'Who was your character named to honor?', hint: 'Roll on Samurai Heritage table or choose an ancestor. Narrative only.' },
+  { num: 19, part: 'Part VI: Ancestry and Family', question: 'What is your character\'s personal name?', hint: 'Choose your personal name. Record on the Identity tab.' },
+  { num: 20, part: 'Part VII: Death', question: 'How should your character die?', hint: 'No mechanical effect \u2014 but your GM will remember this answer.' },
+]
 
 export default function L5R5eForm() {
   const { id: paramId } = useParams()
@@ -202,6 +226,12 @@ export default function L5R5eForm() {
   const inventory = parseJson(fields.l5r5eInventory, { items: [], koku: 0, bu: 0, zeni: 0 })
   function setInventory(next) { handleField('l5r5eInventory', JSON.stringify(next)) }
   const [newItem, setNewItem] = useState('')
+
+  // ── Twenty Questions ──
+  const twentyQ = parseJson(fields.l5r5eTwentyQuestions, {})
+  function setTwentyQ(next) { handleField('l5r5eTwentyQuestions', JSON.stringify(next)) }
+  function handleQAnswer(num, value) { setTwentyQ({ ...twentyQ, [`q${num}`]: value }) }
+  const answeredCount = TWENTY_QUESTIONS.filter(q => (twentyQ[`q${q.num}`] || '').trim().length > 0).length
 
   // ── Family catalog filtered by clan ──
   const familyCatalog = fields.l5r5eClan && L5R5E_FAMILY_CATALOG[fields.l5r5eClan]
@@ -444,8 +474,58 @@ export default function L5R5eForm() {
         </div>
       </div>
 
-      {/* ── Tab 1: Rings ── */}
+      {/* ── Tab 1: Twenty Questions ── */}
       <div hidden={tab !== 1} role="tabpanel">
+        <div className="form-section">
+          <fieldset>
+            <legend>Game of Twenty Questions</legend>
+            <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+              Walk through the 20 Questions from the L5R 5e corebook to build your character step by step.
+              Answer each question to flesh out your character's identity, abilities, and story.
+            </p>
+            <div style={{ marginBottom: 'var(--space-lg)', padding: 'var(--space-sm) var(--space-md)', background: 'rgba(52,152,219,0.08)', borderRadius: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: '4px' }}>
+                <strong style={{ fontSize: '0.9rem' }}>Progress: {answeredCount}/20</strong>
+                <span className="muted-hint muted-hint--xs">questions answered</span>
+              </div>
+              <div style={{ width: '100%', height: '8px', background: 'var(--color-border)', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ width: `${(answeredCount / 20) * 100}%`, height: '100%', background: 'var(--color-accent-fg)', borderRadius: '4px', transition: 'width 0.3s ease' }} />
+              </div>
+            </div>
+          </fieldset>
+          {(() => {
+            const parts = []
+            let currentPart = null
+            for (const q of TWENTY_QUESTIONS) {
+              if (q.part !== currentPart) {
+                currentPart = q.part
+                parts.push(
+                  <div key={`part-${q.part}`} style={{ marginTop: parts.length > 0 ? 'var(--space-lg)' : 0, marginBottom: 'var(--space-sm)', padding: 'var(--space-sm) var(--space-md)', background: 'rgba(52,152,219,0.12)', borderLeft: '4px solid var(--color-accent-fg)', borderRadius: '0 4px 4px 0' }}>
+                    <strong style={{ fontSize: '1rem' }}>{q.part}</strong>
+                  </div>
+                )
+              }
+              parts.push(
+                <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
+                  <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
+                  <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
+                  <textarea
+                    value={twentyQ[`q${q.num}`] || ''}
+                    onChange={e => handleQAnswer(q.num, e.target.value)}
+                    rows={3}
+                    style={{ width: '100%' }}
+                    placeholder="Write your answer here..."
+                  />
+                </fieldset>
+              )
+            }
+            return parts
+          })()}
+        </div>
+      </div>
+
+      {/* ── Tab 2: Rings ── */}
+      <div hidden={tab !== 2} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>Rings</legend>
@@ -483,8 +563,8 @@ export default function L5R5eForm() {
         </div>
       </div>
 
-      {/* ── Tab 2: Skills ── */}
-      <div hidden={tab !== 2} role="tabpanel">
+      {/* ── Tab 3: Skills ── */}
+      <div hidden={tab !== 3} role="tabpanel">
         <div className="form-section">
           {Object.entries(L5R5E_SKILL_GROUPS).map(([group, skillList]) => (
             <fieldset key={group}>
@@ -503,8 +583,8 @@ export default function L5R5eForm() {
         </div>
       </div>
 
-      {/* ── Tab 3: Techniques ── */}
-      <div hidden={tab !== 3} role="tabpanel">
+      {/* ── Tab 4: Techniques ── */}
+      <div hidden={tab !== 4} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>Techniques</legend>
@@ -554,8 +634,8 @@ export default function L5R5eForm() {
         </div>
       </div>
 
-      {/* ── Tab 4: Advantages / Disadvantages ── */}
-      <div hidden={tab !== 4} role="tabpanel">
+      {/* ── Tab 5: Advantages / Disadvantages ── */}
+      <div hidden={tab !== 5} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>Advantages (Distinctions & Passions)</legend>
@@ -621,8 +701,8 @@ export default function L5R5eForm() {
         </div>
       </div>
 
-      {/* ── Tab 5: Combat ── */}
-      <div hidden={tab !== 5} role="tabpanel">
+      {/* ── Tab 6: Combat ── */}
+      <div hidden={tab !== 6} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>Endurance & Composure</legend>
@@ -727,8 +807,8 @@ export default function L5R5eForm() {
         </div>
       </div>
 
-      {/* ── Tab 6: Social ── */}
-      <div hidden={tab !== 6} role="tabpanel">
+      {/* ── Tab 7: Social ── */}
+      <div hidden={tab !== 7} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>Honor, Glory & Status</legend>
@@ -758,8 +838,8 @@ export default function L5R5eForm() {
         </div>
       </div>
 
-      {/* ── Tab 7: Equipment ── */}
-      <div hidden={tab !== 7} role="tabpanel">
+      {/* ── Tab 8: Equipment ── */}
+      <div hidden={tab !== 8} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>Weapons</legend>
@@ -895,8 +975,8 @@ export default function L5R5eForm() {
         </div>
       </div>
 
-      {/* ── Tab 8: Backstory ── */}
-      <div hidden={tab !== 8} role="tabpanel">
+      {/* ── Tab 9: Backstory ── */}
+      <div hidden={tab !== 9} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>Ninj&#x14d; & Giri</legend>
@@ -924,16 +1004,16 @@ export default function L5R5eForm() {
         </div>
       </div>
 
-      {/* ── Tab 9: XP Log ── */}
-      <div hidden={tab !== 9} role="tabpanel">
+      {/* ── Tab 10: XP Log ── */}
+      <div hidden={tab !== 10} role="tabpanel">
         <XpLogSection splat="l5r5e" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
           onError={msg => setActionError(msg)} t={t} />
       </div>
 
-      {/* ── Tab 10: Dice Roller ── */}
-      <div hidden={tab !== 10} role="tabpanel">
+      {/* ── Tab 11: Dice Roller ── */}
+      <div hidden={tab !== 11} role="tabpanel">
         <div className="form-section">
           <fieldset>
             <legend>L5R 5e Narrative Dice Roller</legend>
@@ -1014,8 +1094,8 @@ export default function L5R5eForm() {
         </div>
       </div>
 
-      {/* ── Tab 11: Rules Reference ── */}
-      <div hidden={tab !== 11} role="tabpanel">
+      {/* ── Tab 12: Rules Reference ── */}
+      <div hidden={tab !== 12} role="tabpanel">
         <RulesReferenceTab rules={L5R5E_RULES} title="L5R 5th Edition Rules Reference" />
       </div>
 
