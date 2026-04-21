@@ -448,6 +448,8 @@ public class Character {
     private String l5rClan;
     private String l5rFamily;
     private String l5rSchool;
+    private String l5rAdvancedSchool;
+    private String l5rAlternativePath;
     @Column(columnDefinition = "TEXT")
     private String l5rTechniques;
 

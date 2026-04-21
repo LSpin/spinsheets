@@ -922,3 +922,150 @@ export const L5R_SCHOOLS = {
     ]
   },
 }
+
+// ══════════════════════════════════════
+//  ADVANCED SCHOOLS (Insight Rank 5+)
+// ══════════════════════════════════════
+
+export const L5R_ADVANCED_SCHOOLS = {
+  'Emerald Magistrate': {
+    clan: 'Imperial', type: 'Advanced', requirements: 'Insight Rank 5, Honor 5+, Lore: Law 5, Investigation 5',
+    traits: 'None',
+    honor: 6.5,
+    skills: 'None (advanced school)',
+    outfit: 'None (advanced school)',
+    techniques: [
+      { rank: 1, name: 'The Empire Rests on Its Laws', effect: 'Gain +1k0 to all Investigation and Lore: Law rolls. You may judge and sentence criminals in the Emperor\'s name.' },
+    ]
+  },
+  'Jade Magistrate': {
+    clan: 'Imperial', type: 'Advanced', requirements: 'Insight Rank 5, Honor 4+, Lore: Shadowlands 5, any one weapon skill 5',
+    traits: 'None',
+    honor: 5.5,
+    skills: 'None (advanced school)',
+    outfit: 'None (advanced school)',
+    techniques: [
+      { rank: 1, name: 'Jade Champion\'s Authority', effect: '+1k1 to attack and damage rolls against Tainted creatures. Immune to the Shadowlands Taint for the duration of each scene.' },
+    ]
+  },
+  'Topaz Champion': {
+    clan: 'Imperial', type: 'Advanced', requirements: 'Winner of the Topaz Championship, Insight Rank 5',
+    traits: 'None', honor: 6.5, skills: 'None', outfit: 'None',
+    techniques: [{ rank: 1, name: 'The Topaz Blade', effect: 'Once per skirmish, re-roll a failed attack roll. +2 to your Initiative Score.' }]
+  },
+  'Kenshinzen': {
+    clan: 'Any', type: 'Advanced', requirements: 'Insight Rank 5, Iaijutsu 7, must defeat a Kenshinzen in a duel',
+    traits: 'None', honor: 6.5, skills: 'None', outfit: 'None',
+    techniques: [{ rank: 1, name: 'One Strike, One Kill', effect: 'In an iaijutsu duel, your Focus roll gains +2k0. If you win the duel, add +1k1 to your damage.' }]
+  },
+  'Defender of the Wall': {
+    clan: 'Crab', type: 'Advanced', requirements: 'Insight Rank 5, Crab Clan, Heavy Weapons 5 or Kenjutsu 5',
+    traits: 'None', honor: 3.5, skills: 'None', outfit: 'None',
+    techniques: [{ rank: 1, name: 'No Retreat', effect: 'When fighting Shadowlands creatures, you may attack as a Free Action once per round. +3 Reduction vs. Tainted enemies.' }]
+  },
+  'Kensai': {
+    clan: 'Dragon', type: 'Advanced', requirements: 'Insight Rank 5, Dragon Clan, Kenjutsu 7 or Iaijutsu 7',
+    traits: 'None', honor: 5.5, skills: 'None', outfit: 'None',
+    techniques: [{ rank: 1, name: 'The Sword Is Life', effect: 'Choose one melee weapon. You gain +1k0 to attack and +0k1 to damage with that weapon permanently.' }]
+  },
+  'Lion\'s Pride': {
+    clan: 'Lion', type: 'Advanced', requirements: 'Insight Rank 5, Lion Clan, Battle 5, any weapon skill 5',
+    traits: 'None', honor: 5.5, skills: 'None', outfit: 'None',
+    techniques: [{ rank: 1, name: 'Heart of the Lion', effect: 'Allies within 30 feet gain +1k0 to attack rolls. You may spend a Void Point to grant an ally an immediate extra attack.' }]
+  },
+  'Storm Riders': {
+    clan: 'Unicorn', type: 'Advanced', requirements: 'Insight Rank 5, Unicorn Clan, Horsemanship 5, any weapon skill 5',
+    traits: 'None', honor: 4.5, skills: 'None', outfit: 'None',
+    techniques: [{ rank: 1, name: 'Thunder of Hooves', effect: 'While mounted, your damage rolls gain +1k1. Mounted charge attacks gain +2k0 to hit.' }]
+  },
+  'Master Sensei': {
+    clan: 'Any', type: 'Advanced', requirements: 'Insight Rank 5, any school skill 7, Teaching 5',
+    traits: 'None', honor: 5.5, skills: 'None', outfit: 'None',
+    techniques: [{ rank: 1, name: 'The Way of Teaching', effect: 'Students you train gain XP 25% faster. Once per session, grant a student +1k0 to any one roll by spending a Void Point.' }]
+  },
+  'Shadow Hunter': {
+    clan: 'Scorpion', type: 'Advanced', requirements: 'Insight Rank 5, Scorpion Clan, Stealth 5, either Ninjutsu 5 or Investigation 5',
+    traits: 'None', honor: 2.5, skills: 'None', outfit: 'None',
+    techniques: [{ rank: 1, name: 'Strike from Shadow', effect: 'When attacking from concealment, +2k1 to damage. If the target is unaware of you, your attack is a Simple Action.' }]
+  },
+  'Witch Hunter': {
+    clan: 'Any', type: 'Advanced', requirements: 'Insight Rank 5, Lore: Maho 5 or Lore: Shadowlands 5',
+    traits: 'None', honor: 4.5, skills: 'None', outfit: 'None',
+    techniques: [{ rank: 1, name: 'Purge the Darkness', effect: '+2k0 to attack rolls against maho-tsukai and Tainted creatures. You can sense the use of maho within 100 feet.' }]
+  },
+  'Kolat Assassin': {
+    clan: 'Kolat', type: 'Advanced', requirements: 'Insight Rank 5, Kolat membership, Stealth 5, any weapon skill 5',
+    traits: 'None', honor: 1.0, skills: 'None', outfit: 'None',
+    techniques: [{ rank: 1, name: 'Hidden Blade', effect: 'You may conceal a weapon with a Sleight of Hand / Agility roll at TN 20. Attacks from concealment deal +2k0 damage.' }]
+  },
+}
+
+// ══════════════════════════════════════
+//  ALTERNATIVE PATHS (Rank 2-4 replacements)
+// ══════════════════════════════════════
+
+export const L5R_ALTERNATIVE_PATHS = {
+  'Daidoji Harrier': {
+    clan: 'Crane', type: 'Alternative (Rank 2)', requirements: 'Crane Clan Bushi, Stealth 3',
+    traits: '+1 Reflexes', honor: 3.5, skills: 'Stealth (Ambush), Hunting',
+    outfit: 'None (replaces Rank 2 technique)',
+    techniques: [{ rank: 2, name: 'Striking from the Shadows', effect: 'When attacking from ambush, +1k1 to attack and damage. Penalties for being outnumbered reduced by 1.' }]
+  },
+  'Hiruma Sniper': {
+    clan: 'Crab', type: 'Alternative (Rank 3)', requirements: 'Crab Clan, Kyujutsu 5',
+    traits: 'None', honor: 3.5, skills: 'None',
+    outfit: 'None (replaces Rank 3 technique)',
+    techniques: [{ rank: 3, name: 'Death From Afar', effect: 'Bow attacks against unaware targets deal +2k0 damage. You may aim (spend a Complex Action) to gain +2k0 to your next shot.' }]
+  },
+  'Matsu Lion Guard': {
+    clan: 'Lion', type: 'Alternative (Rank 3)', requirements: 'Lion Clan Bushi, Defense 3',
+    traits: 'None', honor: 5.5, skills: 'None',
+    outfit: 'None (replaces Rank 3 technique)',
+    techniques: [{ rank: 3, name: 'Shield Wall', effect: 'While in Defense or Full Defense stance, allies adjacent to you gain +5 to their Armor TN.' }]
+  },
+  'Agasha Alchemist': {
+    clan: 'Dragon', type: 'Alternative (Rank 2)', requirements: 'Dragon Clan Shugenja, Medicine 3',
+    traits: 'None', honor: 4.5, skills: 'None',
+    outfit: 'None (replaces Rank 2 technique)',
+    techniques: [{ rank: 2, name: 'The Fire Within', effect: 'Create alchemical substances: potions of healing, poisons, flash powder. Craft roll = Intelligence + Medicine, TN varies.' }]
+  },
+  'Bayushi Deceiver': {
+    clan: 'Scorpion', type: 'Alternative (Rank 2)', requirements: 'Scorpion Clan, Sincerity 3 or Acting 3',
+    traits: 'None', honor: 2.5, skills: 'None',
+    outfit: 'None (replaces Rank 2 technique)',
+    techniques: [{ rank: 2, name: 'Mask of Many Faces', effect: '+2k0 to Deceit and Sincerity (Deceit) rolls. You may create a false identity that withstands casual scrutiny.' }]
+  },
+  'Shinjo Magistrate': {
+    clan: 'Unicorn', type: 'Alternative (Rank 2)', requirements: 'Unicorn Clan, Investigation 3',
+    traits: 'None', honor: 5.5, skills: 'None',
+    outfit: 'None (replaces Rank 2 technique)',
+    techniques: [{ rank: 2, name: 'Frontier Justice', effect: '+1k0 to Investigation and Hunting rolls. You may spend a Void Point to determine if someone is lying.' }]
+  },
+  'Isawa Inquisitor': {
+    clan: 'Phoenix', type: 'Alternative (Rank 3)', requirements: 'Phoenix Clan Shugenja, Lore: Maho 3',
+    traits: 'None', honor: 4.5, skills: 'None',
+    outfit: 'None (replaces Rank 3 technique)',
+    techniques: [{ rank: 3, name: 'Purifying Flame', effect: 'Sense maho use within 50 feet automatically. +2k0 to Spell Casting rolls when counterspelling maho.' }]
+  },
+  'Tsuruchi Wasp Archer': {
+    clan: 'Mantis', type: 'Alternative (Rank 2)', requirements: 'Mantis Clan, Kyujutsu 4',
+    traits: 'None', honor: 3.5, skills: 'None',
+    outfit: 'None (replaces Rank 2 technique)',
+    techniques: [{ rank: 2, name: 'The Wasp\'s Sting', effect: 'Bow attacks as Simple Actions (instead of Complex). -1k0 to damage for this benefit.' }]
+  },
+  'Toritaka Exorcist': {
+    clan: 'Crab', type: 'Alternative (Rank 2)', requirements: 'Crab Clan, Lore: Spirit Realms 3',
+    traits: 'None', honor: 4.5, skills: 'None',
+    outfit: 'None (replaces Rank 2 technique)',
+    techniques: [{ rank: 2, name: 'Eyes of the Spirit World', effect: 'See invisible spirits automatically. +2k0 to rolls against spirits and ghosts.' }]
+  },
+  'Doji Apologist': {
+    clan: 'Crane', type: 'Alternative (Rank 3)', requirements: 'Crane Clan Courtier, Etiquette 5',
+    traits: 'None', honor: 6.5, skills: 'None',
+    outfit: 'None (replaces Rank 3 technique)',
+    techniques: [{ rank: 3, name: 'Graceful Redirect', effect: 'In social situations, spend a Void Point to redirect an insult or accusation toward another target of your choice.' }]
+  },
+}
+
+export const L5R_ADVANCED_CATALOG = Object.keys(L5R_ADVANCED_SCHOOLS).map(k => ({ value: k, description: `${L5R_ADVANCED_SCHOOLS[k].clan} — ${L5R_ADVANCED_SCHOOLS[k].requirements}` }))
+export const L5R_ALTERNATIVE_CATALOG = Object.keys(L5R_ALTERNATIVE_PATHS).map(k => ({ value: k, description: `${L5R_ALTERNATIVE_PATHS[k].clan} ${L5R_ALTERNATIVE_PATHS[k].type} — ${L5R_ALTERNATIVE_PATHS[k].requirements}` }))

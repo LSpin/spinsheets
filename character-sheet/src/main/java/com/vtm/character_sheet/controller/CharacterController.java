@@ -321,6 +321,8 @@ public class CharacterController {
             existing.setL5rClan(updated.getL5rClan());
             existing.setL5rFamily(updated.getL5rFamily());
             existing.setL5rSchool(updated.getL5rSchool());
+            existing.setL5rAdvancedSchool(updated.getL5rAdvancedSchool());
+            existing.setL5rAlternativePath(updated.getL5rAlternativePath());
             existing.setL5rTechniques(updated.getL5rTechniques());
             existing.setL5rInitiative(updated.getL5rInitiative());
             existing.setL5rArmorTN(updated.getL5rArmorTN());

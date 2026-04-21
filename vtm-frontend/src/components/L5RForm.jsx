@@ -12,7 +12,7 @@ import DotRating from './DotRating'
 import { L5R_EQUIPMENT, L5R_EQUIPMENT_CATEGORIES } from '../data/l5rEquipment'
 import { L5R_KATA } from '../data/l5rKata'
 import { L5R_SPELLS } from '../data/l5rSpells'
-import { L5R_SCHOOLS } from '../data/l5rSchools'
+import { L5R_SCHOOLS, L5R_ADVANCED_SCHOOLS, L5R_ADVANCED_CATALOG, L5R_ALTERNATIVE_PATHS, L5R_ALTERNATIVE_CATALOG } from '../data/l5rSchools'
 import { L5R_SKILL_MASTERIES } from '../data/l5rSkillMasteries'
 import XpLogSection from './XpLogSection'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -440,6 +440,7 @@ const INITIAL = {
   name: '', altName: '', concept: '',
   nature: '', demeanor: '',
   l5rClan: '', l5rFamily: '', l5rSchool: '',
+  l5rAdvancedSchool: '', l5rAlternativePath: '',
   // Traits (Air)
   l5rReflexes: 2, l5rAwareness: 2,
   // Traits (Earth)
@@ -865,6 +866,18 @@ export default function L5RForm() {
                 </div>
               )}
             </div>
+            <div className="field-row" style={{ marginTop: 'var(--space-md)' }}>
+              <CatalogSelect id="l5rAdvancedSchool" name="l5rAdvancedSchool"
+                label={t('l5rAdvancedSchool')} value={fields.l5rAdvancedSchool}
+                onChange={handleField} catalog={L5R_ADVANCED_CATALOG}
+                placeholder={t('l5rAdvancedSchoolPh')} />
+            </div>
+            <div className="field-row">
+              <CatalogSelect id="l5rAlternativePath" name="l5rAlternativePath"
+                label={t('l5rAlternativePath')} value={fields.l5rAlternativePath}
+                onChange={handleField} catalog={L5R_ALTERNATIVE_CATALOG}
+                placeholder={t('l5rAlternativePathPh')} />
+            </div>
             <details style={{ marginTop: 'var(--space-md)' }}>
               <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Heritage Tables (Optional)</summary>
               <p className="muted-hint muted-hint--xs" style={{ padding: 'var(--space-sm) 0' }}>
@@ -1277,6 +1290,62 @@ export default function L5RForm() {
                     </p>
                   </fieldset>
                 )}
+
+                {fields.l5rAdvancedSchool && L5R_ADVANCED_SCHOOLS[fields.l5rAdvancedSchool] && (() => {
+                  const adv = L5R_ADVANCED_SCHOOLS[fields.l5rAdvancedSchool]
+                  return (
+                    <fieldset>
+                      <legend>{fields.l5rAdvancedSchool} (Advanced School)</legend>
+                      <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-md)', flexWrap: 'wrap', fontSize: '0.82rem' }}>
+                        <div><strong>Clan:</strong> {adv.clan}</div>
+                        <div><strong>Type:</strong> {adv.type}</div>
+                        <div><strong>Requirements:</strong> {adv.requirements}</div>
+                        <div><strong>Honor:</strong> {adv.honor}</div>
+                      </div>
+                      <table className="inv-table">
+                        <thead><tr><th>Rank</th><th>Technique</th><th>Effect</th></tr></thead>
+                        <tbody>
+                          {adv.techniques.map(tech => (
+                            <tr key={tech.rank} style={{ background: 'rgba(194,145,56,0.05)' }}>
+                              <td style={{ fontWeight: 700, color: 'var(--color-accent-fg)', textAlign: 'center' }}>{tech.rank}</td>
+                              <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{tech.name}</td>
+                              <td className="inv-notes">{tech.effect}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </fieldset>
+                  )
+                })()}
+
+                {fields.l5rAlternativePath && L5R_ALTERNATIVE_PATHS[fields.l5rAlternativePath] && (() => {
+                  const alt = L5R_ALTERNATIVE_PATHS[fields.l5rAlternativePath]
+                  return (
+                    <fieldset>
+                      <legend>{fields.l5rAlternativePath} (Alternative Path)</legend>
+                      <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-md)', flexWrap: 'wrap', fontSize: '0.82rem' }}>
+                        <div><strong>Clan:</strong> {alt.clan}</div>
+                        <div><strong>Type:</strong> {alt.type}</div>
+                        <div><strong>Requirements:</strong> {alt.requirements}</div>
+                        <div><strong>Honor:</strong> {alt.honor}</div>
+                        {alt.traits !== 'None' && <div><strong>Trait:</strong> {alt.traits}</div>}
+                        {alt.skills !== 'None' && <div><strong>Skills:</strong> {alt.skills}</div>}
+                      </div>
+                      <table className="inv-table">
+                        <thead><tr><th>Rank</th><th>Technique</th><th>Effect</th></tr></thead>
+                        <tbody>
+                          {alt.techniques.map(tech => (
+                            <tr key={tech.rank} style={{ background: 'rgba(194,145,56,0.05)' }}>
+                              <td style={{ fontWeight: 700, color: 'var(--color-accent-fg)', textAlign: 'center' }}>{tech.rank}</td>
+                              <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{tech.name}</td>
+                              <td className="inv-notes">{tech.effect}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </fieldset>
+                  )
+                })()}
 
                 <fieldset>
                   <legend>{t('l5rTechNotes')}</legend>
