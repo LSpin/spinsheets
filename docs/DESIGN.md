@@ -117,6 +117,10 @@ Browser
 | UESTRPG | UESTRPG, UESTRPG_ANTAGONIST | uestrpg (steel blue) | 2 | 34 |
 | Cyberpunk 2020 | CYBERPUNK, CYBERPUNK_ANTAGONIST | cyberpunk (neon cyan) | 2 | 25 |
 
+### Blades in the Dark
+
+Blades uses a dedicated **Clock Manager** at `/blades/clocks` (clocks are not embedded in character or crew sheets). Character sheets include a **Coin & Stash** tab (4 coin pips for spending money, 40 stash pips with retirement at 40/40). Crew sheets include a **Coin & Vault** tab (liquid coin number + 8-segment vault track). The Rules Reference tab includes an **XP & Advancement** guide.
+
 ### WoD Sub-Systems
 
 The World of Darkness umbrella covers 20 forms across multiple game lines:
@@ -395,6 +399,6 @@ Push to main
 - NPC generators with 350+ premade templates
 - Chronicle management (create, invite, manage sessions)
 - View and manage players' character sheets
-- Clock mechanics (Blades in the Dark)
+- Dedicated Clock Manager for Blades in the Dark (`/blades/clocks`)
 - Antagonist forms for every system
 - Player management page

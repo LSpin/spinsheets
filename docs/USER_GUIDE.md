@@ -38,7 +38,7 @@ If you run games, ask your group's admin to promote your account to **Storytelle
 - **NPC Generators** — Access 350+ premade antagonist templates across all systems
 - **Chronicle Management** — Create and manage game campaigns, invite players, track sessions
 - **Player Sheet Access** — View and edit your players' character sheets
-- **Clock Mechanics** — Track progress, danger, and faction clocks (Blades in the Dark)
+- **Clock Manager** — A dedicated Storyteller tool for Blades in the Dark clocks (not on character sheets)
 - **Session Notes** — Log session summaries within each chronicle
 
 ---
@@ -156,7 +156,7 @@ Storytellers have access to a dedicated **Clock Manager** for Blades:
 7. Filter by type or group
 8. Clear completed clocks when done
 
-Clocks are also available as a tab on individual Blades character and crew sheets.
+Clocks are managed exclusively through the Clock Manager and are not embedded in individual character or crew sheets.
 
 ### Viewing Player Sheets
 
@@ -201,7 +201,10 @@ As a Storyteller:
 
 ### Blades in the Dark
 
-**Features:** 11 Playbooks, 6 Crew Types, Deep Cuts toggle, Clock Manager, Stress/Trauma tracking
+**Features:** 11 Playbooks, 6 Crew Types, Deep Cuts toggle, dedicated Clock Manager (`/blades/clocks`), Stress/Trauma tracking
+**Character sheets:** Include a **Coin & Stash** tab (4 coin pips for spending money, 40 stash pips — retirement triggers at 40/40)
+**Crew sheets:** Include a **Coin & Vault** tab (liquid coin number + 8-segment vault track)
+**Rules Reference:** Includes an **XP & Advancement** guide
 **Dice system:** d6 pool
 **XP tracking:** Playbook XP pips
 

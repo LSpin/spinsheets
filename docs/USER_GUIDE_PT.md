@@ -38,7 +38,7 @@ Se você conduz jogos, peça ao administrador do seu grupo para promover sua con
 - **Geradores de NPC** — Acesse mais de 350 templates de antagonistas prontos em todos os sistemas
 - **Gerenciamento de Crônicas** — Crie e gerencie campanhas de jogo, convide jogadores, registre sessões
 - **Acesso às Fichas dos Jogadores** — Visualize e edite as fichas dos seus jogadores
-- **Mecânicas de Relógio** — Acompanhe progresso, perigo e relógios de facção (Blades in the Dark)
+- **Gerenciador de Relógios** — Ferramenta dedicada do Narrador para relógios de Blades in the Dark (não nas fichas de personagem)
 - **Notas de Sessão** — Registre resumos de sessão dentro de cada crônica
 
 ---
@@ -156,7 +156,7 @@ Narradores têm acesso a um **Gerenciador de Relógios** dedicado para Blades:
 7. Filtre por tipo ou grupo
 8. Limpe relógios completos quando terminados
 
-Relógios também estão disponíveis como aba em fichas individuais de personagem e crew de Blades.
+Relógios são gerenciados exclusivamente pelo Gerenciador de Relógios e não estão embutidos em fichas individuais de personagem ou crew.
 
 ### Visualizando Fichas dos Jogadores
 
@@ -201,7 +201,10 @@ Como Narrador:
 
 ### Blades in the Dark
 
-**Funcionalidades:** 11 Playbooks, 6 Tipos de Crew, toggle de Deep Cuts, Gerenciador de Relógios, rastreamento de Estresse/Trauma
+**Funcionalidades:** 11 Playbooks, 6 Tipos de Crew, toggle de Deep Cuts, Gerenciador de Relógios dedicado (`/blades/clocks`), rastreamento de Estresse/Trauma
+**Fichas de personagem:** Incluem uma aba **Coin & Stash** (4 pips de coin para dinheiro disponível, 40 pips de stash — aposentadoria ao atingir 40/40)
+**Fichas de crew:** Incluem uma aba **Coin & Vault** (número de coin líquido + trilha de vault com 8 segmentos)
+**Referência de Regras:** Inclui um guia de **XP & Avanço**
 **Sistema de dados:** pool de d6
 **Rastreamento de XP:** Pips de XP do Playbook
 

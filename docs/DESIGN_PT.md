@@ -117,6 +117,10 @@ Browser
 | UESTRPG | UESTRPG, UESTRPG_ANTAGONIST | uestrpg (azul aço) | 2 | 34 |
 | Cyberpunk 2020 | CYBERPUNK, CYBERPUNK_ANTAGONIST | cyberpunk (ciano neon) | 2 | 25 |
 
+### Blades in the Dark
+
+Blades utiliza um **Gerenciador de Relógios** dedicado em `/blades/clocks` (relógios não estão embutidos nas fichas de personagem ou crew). Fichas de personagem incluem uma aba **Coin & Stash** (4 pips de coin para dinheiro disponível, 40 pips de stash com aposentadoria em 40/40). Fichas de crew incluem uma aba **Coin & Vault** (número de coin líquido + trilha de vault com 8 segmentos). A aba Referência de Regras inclui um guia de **XP & Avanço**.
+
 ### Sub-Sistemas WoD
 
 O guarda-chuva World of Darkness cobre 20 formulários através de múltiplas linhas de jogo:
@@ -395,6 +399,6 @@ Push to main
 - Geradores de NPC com mais de 350 templates prontos
 - Gerenciamento de crônicas (criar, convidar, gerenciar sessões)
 - Visualizar e gerenciar fichas dos jogadores
-- Mecânicas de relógio (Blades in the Dark)
+- Gerenciador de Relógios dedicado para Blades in the Dark (`/blades/clocks`)
 - Formulários de antagonista para cada sistema
 - Página de gerenciamento de jogadores
