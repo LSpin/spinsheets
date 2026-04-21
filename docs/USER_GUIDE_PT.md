@@ -26,7 +26,7 @@
 4. Você será logado automaticamente como **Jogador**
 
 Como Jogador você pode:
-- Criar personagens para qualquer um dos 8 sistemas de jogo suportados
+- Criar personagens para qualquer um dos 9 sistemas de jogo suportados
 - Entrar em crônicas que Narradores criaram
 - Usar roladores de dados integrados, catálogos e rastreamento de XP
 - Exportar suas fichas de personagem como PDF
@@ -35,7 +35,7 @@ Como Jogador você pode:
 
 Se você conduz jogos, peça ao administrador do seu grupo para promover sua conta para **Narrador**. Essa role oferece ferramentas adicionais:
 
-- **Geradores de NPC** — Acesse mais de 350 templates de antagonistas prontos em todos os sistemas
+- **Geradores de NPC** — Acesse mais de 400 templates de antagonistas prontos em todos os sistemas
 - **Gerenciamento de Crônicas** — Crie e gerencie campanhas de jogo, convide jogadores, registre sessões
 - **Acesso às Fichas dos Jogadores** — Visualize e edite as fichas dos seus jogadores
 - **Gerenciador de Relógios** — Ferramenta dedicada do Narrador para relógios de Blades in the Dark (não nas fichas de personagem)
@@ -49,7 +49,7 @@ Se você conduz jogos, peça ao administrador do seu grupo para promover sua con
 
 1. Abra a página de **Personagens** no menu de navegação
 2. Selecione **Novo Personagem**
-3. Escolha seu sistema de jogo (World of Darkness, 7th Sea, L5R, Blades, D&D, UESTRPG ou Cyberpunk)
+3. Escolha seu sistema de jogo (World of Darkness, 7th Sea, L5R, Blades, D&D, UESTRPG, Cyberpunk ou ASOIAF)
 4. Escolha **Para Mim** (livre) ou **Para uma Crônica** (vinculado ao jogo de um Narrador)
 5. Para World of Darkness, você escolherá uma linha de jogo específica (Vampire, Werewolf, Mage, etc.)
 6. Sua ficha de personagem abre com abas para todas as seções relevantes
@@ -82,13 +82,15 @@ Ao invés de folhear livros de regras, use os catálogos pesquisáveis integrado
 5. Para habilidades com pontuação (como Disciplinas ou Habilidades), ajuste a pontuação de pontos após adicionar
 
 Catálogos estão disponíveis para:
-- **WoD:** Disciplinas, Dons, Ritos, Rotes, Esferas, Qualidades, Defeitos, Antecedentes, Arcanoi, Edges, Lores, Artes, Reinos
+- **WoD:** Disciplinas, Dons, Ritos, Rotes, Esferas, Qualidades, Defeitos, Antecedentes, Arcanoi, Edges, Lores, Artes, Reinos, Feiticaria de Sangue (com filtro de tradicao)
 - **7th Sea:** Vantagens, Feitiçarias, Estilos de Duelo
-- **L5R:** Escolas, Magias, Kata, Vantagens, Desvantagens, Equipamento
+- **L5R 4e:** Escolas, Magias, Kata, Vantagens, Desvantagens, Equipamento (com filtros de categoria)
+- **L5R 5e:** Escolas (filtradas por cla), Tecnicas (com filtros de categoria), Vantagens, Desvantagens, Armas (com filtros de categoria), Familias
 - **Blades:** Playbooks, Habilidades, Itens, Contatos, Tipos de Crew
-- **D&D:** Classes, Raças, Magias (233), Talentos (42), Equipamento, Monstros (120)
+- **D&D:** Classes, Raças, Magias (233), Talentos (42), Equipamento (com filtros de categoria), Monstros (120)
 - **UESTRPG:** Raças, Classes, Constelações, Equipamento (temática TES)
-- **Cyberpunk:** Roles, Cyberware (150+), Armas (58), Armaduras (24), Equipamento (52), Veículos (38)
+- **Cyberpunk:** Roles, Cyberware (150+, com filtros de categoria), Armas (58), Armaduras (24), Equipamento (52), Veiculos (38)
+- **ASOIAF:** Beneficios (60+), Desvantagens (28), Armas (28), Armaduras (10+), Recursos da Casa
 
 ### Salvando Seu Trabalho
 
@@ -141,9 +143,10 @@ Como Narrador, você tem acesso a geradores de NPC/Antagonista para cada sistema
 - **Blades:** 23 NPCs (Capangas de rua até Lord Scurlock)
 - **D&D:** 120 Monstros (CR 0 até CR 24)
 - **UESTRPG:** 34 NPCs (Bandidos até Dragões)
-- **Cyberpunk:** 25 NPCs (Boostergang até Operativos da Arasaka)
+- **Cyberpunk:** 25 NPCs (Boostergang ate Operativos da Arasaka)
+- **ASOIAF:** 27 NPCs (diversos arquetipos)
 
-### Mecânicas de Relógio (Blades in the Dark)
+### Mecanicas de Relogio (Blades in the Dark)
 
 Narradores têm acesso a um **Gerenciador de Relógios** dedicado para Blades:
 
@@ -187,9 +190,9 @@ Como Narrador:
 **Sistema de dados:** pool de d10 (Storyteller System)
 **Rastreamento de XP:** Pontos de experiência com orçamentos de pontos de bônus
 
-### 7th Sea (2a Edição)
+### 7th Sea (2a Edicao)
 
-**Funcionalidades:** Fichas de Herói e Vilão, Construtor de Navio, 8 Feitiçarias, Estilos de Duelo
+**Funcionalidades:** Fichas de Heroi e Vilao, Construtor de Navio (ficha independente), 8 Feiticarias, Estilos de Duelo
 **Sistema de dados:** conjuntos de d10 (Raises)
 **Rastreamento de XP:** Pontos de experiência
 
@@ -198,6 +201,13 @@ Como Narrador:
 **Funcionalidades:** 55 Escolas em 9 Clãs, 197 Magias, 26 Kata, Maestrias de Habilidade
 **Sistema de dados:** Roll-and-keep (k-dice)
 **Rastreamento de XP:** Pontos de experiência com cálculo de rank de insight
+
+### Legend of the Five Rings (5a Edicao / FFG)
+
+**Funcionalidades:** 5 Aneis (Ar/Terra/Fogo/Agua/Vazio, classificados de 1-5), ~89 Escolas de 10 suplementos, ~70 Familias, 30+ Clas, 230+ Tecnicas, 60+ Vantagens, 60+ Desvantagens, rastreamento de Conflito/Compostura, tensao narrativa Ninjo/Giri, filtros de categoria em tecnicas/vantagens/armas, escolas filtradas por cla
+**Fontes de dados:** Livro Base, Courts of Stone, Shadowlands, Fields of Victory, Celestial Realms, Path of Waves, Children of Five Winds, Writ of the Wilds, Minor Clans, Mantis DLC
+**Sistema de dados:** Dados narrativos customizados (d6 de anel + d12 de habilidade com simbolos de Sucesso/Explosivo/Oportunidade/Conflito)
+**Rastreamento de XP:** Pontos de experiencia
 
 ### Blades in the Dark
 
@@ -226,6 +236,12 @@ Como Narrador:
 **Sistema de dados:** d10 (STAT + Habilidade + d10)
 **Rastreamento de XP:** Pontos de Aprimoramento (IP)
 
+### ASOIAF RPG (A Song of Ice and Fire)
+
+**Funcionalidades:** 19 Habilidades (classificadas de 1-7), Especialidades, Pontos de Destino, 60+ Beneficios, 28 Desvantagens, 28 Armas, 10+ Armaduras, Criacao de Casa (7 recursos 0-70), sistema de Intriga (compostura, disposicao), 27 templates de NPC
+**Sistema de dados:** Pool de d6
+**Rastreamento de XP:** Pontos de experiencia
+
 ---
 
 ## Roladores de Dados
@@ -236,10 +252,12 @@ Cada sistema possui um rolador de dados dedicado acessível pela aba Rolador de 
 |---------|---------|----------|
 | WoD | Pool de d10 | Role X d10s, conte sucessos (8+), 1s subtraem |
 | 7th Sea | Conjuntos de d10 | Role X d10s, forme conjuntos de 10 para Raises |
-| L5R | Roll-and-Keep | Role X d10s, mantenha os Y maiores, 10s explodem |
+| L5R 4e | Roll-and-Keep | Role X d10s, mantenha os Y maiores, 10s explodem |
+| L5R 5e | Dados Narrativos | Role d6s de anel + d12s de habilidade, leia simbolos de Sucesso/Explosivo/Oportunidade/Conflito |
 | Blades | Pool de d6 | Role X d6s, pegue o maior (6=sucesso total, 4-5=parcial, 1-3=ruim) |
 | D&D / UESTRPG | d20 | d20 + modificador vs. CD, vantagem/desvantagem |
-| Cyberpunk | d10 | STAT + Habilidade + d10, falha crítica no 1, crítico no 10 (explode) |
+| Cyberpunk | d10 | STAT + Habilidade + d10, falha critica no 1, critico no 10 (explode) |
+| ASOIAF | Pool de d6 | Role X d6s, some os dados mantidos vs. dificuldade |
 
 Todos os roladores incluem:
 - Histórico de rolagens (últimas 10+ rolagens)

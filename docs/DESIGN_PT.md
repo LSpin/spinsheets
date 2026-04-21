@@ -2,7 +2,7 @@
 
 ## Visão Geral
 
-Spin's Sheets é um gerenciador de fichas de personagem para RPG de mesa baseado na web, suportando 8 sistemas de jogo com 33 formulários de personagem, mais de 350 templates de NPCs, gerenciamento de crônicas e roladores de dados integrados. A aplicação é totalmente bilíngue (Inglês / Português) e projetada para uso em desktop e dispositivos móveis.
+Spin's Sheets é um gerenciador de fichas de personagem para RPG de mesa baseado na web, suportando 9 sistemas de jogo com 37 formulários de personagem, mais de 400 templates de NPCs, gerenciamento de crônicas e roladores de dados integrados. A aplicação é totalmente bilíngue (Inglês / Português) e projetada para uso em desktop e dispositivos móveis.
 
 **URL ao vivo:** https://spinsheets.com
 
@@ -54,7 +54,7 @@ Browser
 
 ### Decisões de Design
 
-1. **Entidade Única de Personagem** — Uma tabela `Character` com ~250 colunas anuláveis cobre todos os 8 sistemas de jogo. Cada sistema utiliza um subconjunto de campos prefixados pelo sistema (`dnd*`, `cp*`, `blades*`, etc.) além de campos compartilhados (`name`, `concept`, `backstory`, `notes`). Isso evita joins complexos e mantém o CRUD simples.
+1. **Entidade Única de Personagem** — Uma tabela `Character` com ~250 colunas anuláveis cobre todos os 9 sistemas de jogo. Cada sistema utiliza um subconjunto de campos prefixados pelo sistema (`dnd*`, `cp*`, `blades*`, etc.) além de campos compartilhados (`name`, `concept`, `backstory`, `notes`). Isso evita joins complexos e mantém o CRUD simples.
 
 2. **Enum Splat** — O campo `splat` (ex.: `VAMPIRE`, `BLADES`, `DND`, `CYBERPUNK`) determina qual componente de formulário é renderizado e quais campos são relevantes. O Splat também direciona a segregação de crônicas (mapa `SPLAT_TO_CATEGORY`).
 
@@ -62,7 +62,7 @@ Browser
 
 4. **Campos JSON em TEXT** — Dados complexos de tamanho variável (skills, cyberware, armas, equipamentos, veículos, lifepath) são armazenados como strings JSON em colunas TEXT ao invés de tabelas de entidades separadas. O frontend faz parse/serialização do JSON; o backend os trata como strings opacas.
 
-5. **Sistema de Temas** — CSS custom properties (`--color-accent`, `--color-accent-fg`, etc.) alternam por sistema de jogo via atributo `data-theme` no elemento raiz. Oito temas: wod (vermelho), 7thsea (dourado), l5r (esmeralda), blades (carmesim), dnd (vermelho quente), uestrpg (azul aço), cyberpunk (ciano neon).
+5. **Sistema de Temas** — CSS custom properties (`--color-accent`, `--color-accent-fg`, etc.) alternam por sistema de jogo via atributo `data-theme` no elemento raiz. Nove temas: wod (vermelho), 7thsea (dourado), l5r (esmeralda), blades (carmesim), dnd (vermelho quente), uestrpg (azul aço), cyberpunk (ciano neon), asoiaf (dourado pergaminho).
 
 ---
 
@@ -110,16 +110,30 @@ Browser
 | Sistema | Valores de Splat | Tema | Formulários | Templates de NPC |
 |---------|-----------------|------|-------------|------------------|
 | World of Darkness | VAMPIRE, WEREWOLF, MAGE, HUNTER, WRAITH, CHANGELING, DEMON, BSD, MORTAL, + variantes | wod (vermelho) | 20 | 122 |
-| 7th Sea 2e | SEVENTH_SEA | 7thsea (dourado) | 2 | 35 |
+| 7th Sea 2e | SEVENTH_SEA, SEVENTH_SEA_SHIP | 7thsea (dourado) | 3 | 35 |
 | L5R 4e | L5R, L5R_ANTAGONIST | l5r (esmeralda) | 2 | 37 |
+| L5R 5e (FFG) | L5R_5E | l5r (esmeralda) | 1 | 0 |
 | Blades in the Dark | BLADES, BLADES_CREW, BLADES_ANTAGONIST | blades (carmesim) | 3 | 23 |
 | D&D 5e | DND, DND_MONSTER | dnd (vermelho quente) | 2 | 120 |
 | UESTRPG | UESTRPG, UESTRPG_ANTAGONIST | uestrpg (azul aço) | 2 | 34 |
 | Cyberpunk 2020 | CYBERPUNK, CYBERPUNK_ANTAGONIST | cyberpunk (ciano neon) | 2 | 25 |
+| ASOIAF RPG | ASOIAF | asoiaf (dourado pergaminho) | 1 | 27 |
 
 ### Blades in the Dark
 
 Blades utiliza um **Gerenciador de Relógios** dedicado em `/blades/clocks` (relógios não estão embutidos nas fichas de personagem ou crew). Fichas de personagem incluem uma aba **Coin & Stash** (4 pips de coin para dinheiro disponível, 40 pips de stash com aposentadoria em 40/40). Fichas de crew incluem uma aba **Coin & Vault** (número de coin líquido + trilha de vault com 8 segmentos). A aba Referência de Regras inclui um guia de **XP & Avanço**.
+
+### Navio 7th Sea
+
+O Construtor de Navios de 7th Sea e desacoplado como uma ficha independente (splat `SEVENTH_SEA_SHIP`), separada do formulario de personagem Heroi/Vilao.
+
+### L5R 5a Edicao (FFG)
+
+L5R 5e utiliza o sistema de dados narrativos FFG com 5 Aneis (Ar, Terra, Fogo, Agua, Vazio classificados de 1-5) e dados customizados d6+d12 com simbolos de Sucesso, Sucesso Explosivo, Oportunidade e Conflito. A ficha cobre dados de todos os 10 suplementos (Livro Base, Courts of Stone, Shadowlands, Fields of Victory, Celestial Realms, Path of Waves, Children of Five Winds, Writ of the Wilds, Minor Clans, Mantis DLC) com ~89 escolas, ~70 familias, 30+ clas, 230+ tecnicas, 60+ vantagens, 60+ desvantagens. Funcionalidades incluem rastreamento de Conflito/Compostura, tensao narrativa Ninjo/Giri, filtros de categoria em tecnicas, vantagens e armas, e escolas filtradas pelo cla selecionado. Um rolador de dados narrativo customizado renderiza o conjunto de simbolos FFG.
+
+### ASOIAF RPG
+
+A Song of Ice and Fire RPG utiliza 19 habilidades classificadas de 1-7 com especialidades e pontos de destino. A ficha inclui 60+ beneficios, 28 desvantagens, 28 armas, 10+ tipos de armadura, criacao de Casa com 7 recursos (0-70 cada), sistema de intriga (compostura, disposicao), 27 templates de NPC e um rolador de pool de d6. Utiliza o tema dourado pergaminho.
 
 ### Sub-Sistemas WoD
 
@@ -258,7 +272,7 @@ export default function CharacterForm() {
 
 #### Carrossel de Seleção de Sistema
 
-- No desktop, a página inicial exibe uma grade responsiva de cards de sistema (7 sistemas)
+- No desktop, a página inicial exibe uma grade responsiva de cards de sistema (9 sistemas)
 - No mobile (< 640px), a grade é substituída por um carrossel de card único com botões de seta anterior/próximo e indicadores de pontos
 - Um sistema é visível por vez; as setas navegam entre eles
 - Indicadores de pontos abaixo permitem saltar diretamente para qualquer sistema
@@ -312,6 +326,8 @@ export default function CharacterForm() {
 | `BladesDiceRoller` | Rolador de pool de d6 para Blades |
 | `StorytellerDiceRoller` | Rolador de pool de d10 para WoD |
 | `DndDiceRoller` | Rolador de d20 para D&D/UESTRPG |
+| `L5r5eDiceRoller` | Rolador de dados narrativos customizado para L5R 5e (simbolos FFG) |
+| `AsoiafDiceRoller` | Rolador de pool de d6 para ASOIAF RPG |
 
 ---
 
@@ -380,7 +396,7 @@ Push to main
 ### Conformidade WCAG 2.1 AA (~95%)
 
 - **HTML Semântico** — Todos os formulários usam `<fieldset>`, `<legend>`, `<label>`, hierarquia adequada de headings
-- **Abas ARIA** — Todos os 33 formulários possuem `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-labelledby`, `aria-controls`
+- **Abas ARIA** — Todos os 37 formulários possuem `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-labelledby`, `aria-controls`
 - **Navegação por teclado** — Todos os elementos interativos alcançáveis via Tab, controles customizados suportam Enter/Espaço
 - **Gerenciamento de foco** — Modais possuem `autoFocus`, `aria-modal`, Escape para fechar, clique fora para dispensar
 - **Regiões ao vivo** — `aria-live="polite"` em conteúdo dinâmico, `role="alert"` em erros
@@ -406,7 +422,7 @@ Push to main
 - **PWA instalável** — Adicione à Tela Inicial no iOS ou Android para uma experiência semelhante a app nativo com suporte offline e tempos de carregamento instantâneos
 
 ### Para Jogadores
-- Criar personagens em 8 sistemas de jogo
+- Criar personagens em 9 sistemas de jogo
 - Catálogos pesquisáveis para poderes, equipamentos, magias, cyberware
 - Roladores de dados integrados correspondentes à mecânica de cada sistema
 - Rastreamento de XP/IP com cálculos de custo adequados
@@ -416,7 +432,7 @@ Push to main
 
 ### Para Narradores
 - Todas as funcionalidades de jogador, mais:
-- Geradores de NPC com mais de 350 templates prontos
+- Geradores de NPC com mais de 400 templates prontos
 - Gerenciamento de crônicas (criar, convidar, gerenciar sessões)
 - Visualizar e gerenciar fichas dos jogadores
 - Gerenciador de Relógios dedicado para Blades in the Dark (`/blades/clocks`)

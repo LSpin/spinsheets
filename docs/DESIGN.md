@@ -2,7 +2,7 @@
 
 ## Overview
 
-Spin's Sheets is a web-based tabletop RPG character sheet manager supporting 8 game systems with 33 character forms, 350+ NPC templates, chronicle management, and built-in dice rollers. The application is fully bilingual (English / Portuguese) and designed for both desktop and mobile use.
+Spin's Sheets is a web-based tabletop RPG character sheet manager supporting 9 game systems with 37 character forms, 400+ NPC templates, chronicle management, and built-in dice rollers. The application is fully bilingual (English / Portuguese) and designed for both desktop and mobile use.
 
 **Live URL:** https://spinsheets.com
 
@@ -54,7 +54,7 @@ Browser
 
 ### Key Design Decisions
 
-1. **Single Character Entity** — One `Character` table with ~250 nullable columns covers all 8 game systems. Each system uses a subset of fields prefixed by system (`dnd*`, `cp*`, `blades*`, etc.) plus shared fields (`name`, `concept`, `backstory`, `notes`). This avoids complex joins and keeps CRUD simple.
+1. **Single Character Entity** — One `Character` table with ~250 nullable columns covers all 9 game systems. Each system uses a subset of fields prefixed by system (`dnd*`, `cp*`, `blades*`, etc.) plus shared fields (`name`, `concept`, `backstory`, `notes`). This avoids complex joins and keeps CRUD simple.
 
 2. **Splat Enum** — The `splat` field (e.g., `VAMPIRE`, `BLADES`, `DND`, `CYBERPUNK`) determines which form component renders and which fields are relevant. Splat also drives chronicle segregation (`SPLAT_TO_CATEGORY` map).
 
@@ -62,7 +62,7 @@ Browser
 
 4. **JSON Text Fields** — Complex variable-length data (skills, cyberware, weapons, gear, vehicles, lifepath) is stored as JSON strings in TEXT columns rather than separate entity tables. The frontend parses/serializes JSON; the backend treats them as opaque strings.
 
-5. **Theme System** — CSS custom properties (`--color-accent`, `--color-accent-fg`, etc.) switch per game system via `data-theme` attribute on the root element. Eight themes: wod (red), 7thsea (gold), l5r (emerald), blades (crimson), dnd (warm red), uestrpg (steel blue), cyberpunk (neon cyan).
+5. **Theme System** — CSS custom properties (`--color-accent`, `--color-accent-fg`, etc.) switch per game system via `data-theme` attribute on the root element. Nine themes: wod (red), 7thsea (gold), l5r (emerald), blades (crimson), dnd (warm red), uestrpg (steel blue), cyberpunk (neon cyan), asoiaf (parchment gold).
 
 ---
 
@@ -110,16 +110,30 @@ Browser
 | System | Splat Values | Theme | Forms | NPC Templates |
 |--------|-------------|-------|-------|---------------|
 | World of Darkness | VAMPIRE, WEREWOLF, MAGE, HUNTER, WRAITH, CHANGELING, DEMON, BSD, MORTAL, + variants | wod (red) | 20 | 122 |
-| 7th Sea 2e | SEVENTH_SEA | 7thsea (gold) | 2 | 35 |
+| 7th Sea 2e | SEVENTH_SEA, SEVENTH_SEA_SHIP | 7thsea (gold) | 3 | 35 |
 | L5R 4e | L5R, L5R_ANTAGONIST | l5r (emerald) | 2 | 37 |
+| L5R 5e (FFG) | L5R_5E | l5r (emerald) | 1 | 0 |
 | Blades in the Dark | BLADES, BLADES_CREW, BLADES_ANTAGONIST | blades (crimson) | 3 | 23 |
 | D&D 5e | DND, DND_MONSTER | dnd (warm red) | 2 | 120 |
 | UESTRPG | UESTRPG, UESTRPG_ANTAGONIST | uestrpg (steel blue) | 2 | 34 |
 | Cyberpunk 2020 | CYBERPUNK, CYBERPUNK_ANTAGONIST | cyberpunk (neon cyan) | 2 | 25 |
+| ASOIAF RPG | ASOIAF | asoiaf (parchment gold) | 1 | 27 |
 
 ### Blades in the Dark
 
 Blades uses a dedicated **Clock Manager** at `/blades/clocks` (clocks are not embedded in character or crew sheets). Character sheets include a **Coin & Stash** tab (4 coin pips for spending money, 40 stash pips with retirement at 40/40). Crew sheets include a **Coin & Vault** tab (liquid coin number + 8-segment vault track). The Rules Reference tab includes an **XP & Advancement** guide.
+
+### 7th Sea Ship
+
+The 7th Sea Ship Builder is decoupled as a standalone sheet (`SEVENTH_SEA_SHIP` splat), separate from the Hero/Villain character form.
+
+### L5R 5th Edition (FFG)
+
+L5R 5e uses the FFG narrative dice system with 5 Rings (Air, Earth, Fire, Water, Void rated 1-5) and custom d6+d12 dice with Success, Explosive Success, Opportunity, and Strife symbols. The sheet covers data from all 10 supplements (Corebook, Courts of Stone, Shadowlands, Fields of Victory, Celestial Realms, Path of Waves, Children of Five Winds, Writ of the Wilds, Minor Clans, Mantis DLC) with ~89 schools, ~70 families, 30+ clans, 230+ techniques, 60+ advantages, 60+ disadvantages. Features include Strife/Composure tracking, Ninjo/Giri narrative tension, category filters on techniques, advantages, and weapons, and schools filtered by selected clan. A custom narrative dice roller renders the FFG symbol set.
+
+### ASOIAF RPG
+
+A Song of Ice and Fire RPG uses 19 abilities rated 1-7 with specialties and destiny points. The sheet includes 60+ benefits, 28 drawbacks, 28 weapons, 10+ armor types, House creation with 7 resources (0-70 each), intrigue system tracking (composure, disposition), 27 NPC templates, and a d6 pool dice roller. Uses the parchment gold theme.
 
 ### WoD Sub-Systems
 
@@ -258,7 +272,7 @@ export default function CharacterForm() {
 
 #### System Selector Carousel
 
-- On desktop, the homepage shows a responsive grid of system cards (7 systems)
+- On desktop, the homepage shows a responsive grid of system cards (9 systems)
 - On mobile (< 640px), the grid is replaced by a single-card carousel with prev/next arrow buttons and dot indicators
 - One system is visible at a time; arrows navigate between them
 - Dot indicators below allow direct jump to any system
@@ -312,6 +326,8 @@ export default function CharacterForm() {
 | `BladesDiceRoller` | d6 pool roller for Blades |
 | `StorytellerDiceRoller` | d10 pool roller for WoD |
 | `DndDiceRoller` | d20 roller for D&D/UESTRPG |
+| `L5r5eDiceRoller` | Custom narrative dice roller for L5R 5e (FFG symbols) |
+| `AsoiafDiceRoller` | d6 pool roller for ASOIAF RPG |
 
 ---
 
@@ -380,7 +396,7 @@ Push to main
 ### WCAG 2.1 AA Compliance (~95%)
 
 - **Semantic HTML** — All forms use `<fieldset>`, `<legend>`, `<label>`, proper heading hierarchy
-- **ARIA tabs** — All 33 forms have `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-labelledby`, `aria-controls`
+- **ARIA tabs** — All 37 forms have `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-labelledby`, `aria-controls`
 - **Keyboard navigation** — All interactive elements reachable via Tab, custom controls support Enter/Space
 - **Focus management** — Modals have `autoFocus`, `aria-modal`, Escape to close, click-outside dismiss
 - **Live regions** — `aria-live="polite"` on dynamic content, `role="alert"` on errors
@@ -406,7 +422,7 @@ Push to main
 - **PWA installable** — Add to Home Screen on iOS or Android for a native-app experience with offline support and instant load times
 
 ### For Players
-- Create characters across 8 game systems
+- Create characters across 9 game systems
 - Searchable catalogs for powers, equipment, spells, cyberware
 - Built-in dice rollers matching each system's mechanics
 - XP/IP tracking with proper cost calculations
@@ -416,7 +432,7 @@ Push to main
 
 ### For Storytellers
 - All player features plus:
-- NPC generators with 350+ premade templates
+- NPC generators with 400+ premade templates
 - Chronicle management (create, invite, manage sessions)
 - View and manage players' character sheets
 - Dedicated Clock Manager for Blades in the Dark (`/blades/clocks`)

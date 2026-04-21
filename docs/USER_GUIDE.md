@@ -26,7 +26,7 @@
 4. You'll be logged in automatically as a **Player**
 
 As a Player you can:
-- Create characters for any of the 8 supported game systems
+- Create characters for any of the 9 supported game systems
 - Join chronicles that Storytellers have created
 - Use built-in dice rollers, catalogs, and XP tracking
 - Export your character sheets as PDF
@@ -35,7 +35,7 @@ As a Player you can:
 
 If you run games, ask your group's admin to promote your account to **Storyteller**. This role gives you additional tools:
 
-- **NPC Generators** — Access 350+ premade antagonist templates across all systems
+- **NPC Generators** — Access 400+ premade antagonist templates across all systems
 - **Chronicle Management** — Create and manage game campaigns, invite players, track sessions
 - **Player Sheet Access** — View and edit your players' character sheets
 - **Clock Manager** — A dedicated Storyteller tool for Blades in the Dark clocks (not on character sheets)
@@ -49,7 +49,7 @@ If you run games, ask your group's admin to promote your account to **Storytelle
 
 1. Open the **Characters** page from the navigation menu
 2. Select **New Character**
-3. Choose your game system (World of Darkness, 7th Sea, L5R, Blades, D&D, UESTRPG, or Cyberpunk)
+3. Choose your game system (World of Darkness, 7th Sea, L5R, Blades, D&D, UESTRPG, Cyberpunk, or ASOIAF)
 4. Choose **For Myself** (freeform) or **For a Chronicle** (links to a Storyteller's game)
 5. For World of Darkness, you'll pick a specific game line (Vampire, Werewolf, Mage, etc.)
 6. Your character sheet opens with tabs for all relevant sections
@@ -82,13 +82,15 @@ Instead of flipping through sourcebooks, use the built-in searchable catalogs:
 5. For rated abilities (like Disciplines or Skills), adjust the dot rating after adding
 
 Catalogs are available for:
-- **WoD:** Disciplines, Gifts, Rites, Rotes, Spheres, Merits, Flaws, Backgrounds, Arcanoi, Edges, Lores, Arts, Realms
+- **WoD:** Disciplines, Gifts, Rites, Rotes, Spheres, Merits, Flaws, Backgrounds, Arcanoi, Edges, Lores, Arts, Realms, Blood Sorcery (with tradition filter)
 - **7th Sea:** Advantages, Sorceries, Dueling Styles
-- **L5R:** Schools, Spells, Kata, Advantages, Disadvantages, Equipment
+- **L5R 4e:** Schools, Spells, Kata, Advantages, Disadvantages, Equipment (with category filters)
+- **L5R 5e:** Schools (filtered by clan), Techniques (with category filters), Advantages, Disadvantages, Weapons (with category filters), Families
 - **Blades:** Playbooks, Abilities, Items, Contacts, Crew Types
-- **D&D:** Classes, Races, Spells (233), Feats (42), Equipment, Monsters (120)
+- **D&D:** Classes, Races, Spells (233), Feats (42), Equipment (with category filters), Monsters (120)
 - **UESTRPG:** Races, Classes, Constellations, Equipment (TES-flavored)
-- **Cyberpunk:** Roles, Cyberware (150+), Weapons (58), Armor (24), Gear (52), Vehicles (38)
+- **Cyberpunk:** Roles, Cyberware (150+, with category filters), Weapons (58), Armor (24), Gear (52), Vehicles (38)
+- **ASOIAF:** Benefits (60+), Drawbacks (28), Weapons (28), Armor (10+), House Resources
 
 ### Saving Your Work
 
@@ -142,6 +144,7 @@ As a Storyteller, you have access to NPC/Antagonist generators for every system:
 - **D&D:** 120 Monsters (CR 0 through CR 24)
 - **UESTRPG:** 34 NPCs (Bandits through Dragons)
 - **Cyberpunk:** 25 NPCs (Boostergang through Arasaka Operatives)
+- **ASOIAF:** 27 NPCs (various archetypes)
 
 ### Clock Mechanics (Blades in the Dark)
 
@@ -189,7 +192,7 @@ As a Storyteller:
 
 ### 7th Sea (2nd Edition)
 
-**Features:** Hero and Villain sheets, Ship Builder, 8 Sorceries, Dueling Styles
+**Features:** Hero and Villain sheets, standalone Ship Builder sheet, 8 Sorceries, Dueling Styles
 **Dice system:** d10 sets (Raises)
 **XP tracking:** Experience points
 
@@ -198,6 +201,13 @@ As a Storyteller:
 **Features:** 55 Schools across 9 Clans, 197 Spells, 26 Kata, Skill Masteries
 **Dice system:** Roll-and-keep (k-dice)
 **XP tracking:** Experience points with insight rank calculation
+
+### Legend of the Five Rings (5th Edition / FFG)
+
+**Features:** 5 Rings (Air/Earth/Fire/Water/Void, rated 1-5), ~89 Schools from 10 supplements, ~70 Families, 30+ Clans, 230+ Techniques, 60+ Advantages, 60+ Disadvantages, Strife/Composure tracking, Ninjo/Giri narrative tension, category filters on techniques/advantages/weapons, schools filtered by clan
+**Data sources:** Corebook, Courts of Stone, Shadowlands, Fields of Victory, Celestial Realms, Path of Waves, Children of Five Winds, Writ of the Wilds, Minor Clans, Mantis DLC
+**Dice system:** Custom narrative dice (d6 ring dice + d12 skill dice with Success/Explosive/Opportunity/Strife symbols)
+**XP tracking:** Experience points
 
 ### Blades in the Dark
 
@@ -226,6 +236,12 @@ As a Storyteller:
 **Dice system:** d10 (STAT + Skill + d10)
 **XP tracking:** Improvement Points (IP)
 
+### ASOIAF RPG (A Song of Ice and Fire)
+
+**Features:** 19 Abilities (rated 1-7), Specialties, Destiny Points, 60+ Benefits, 28 Drawbacks, 28 Weapons, 10+ Armor, House Creation (7 resources 0-70), Intrigue system (composure, disposition), 27 NPC templates
+**Dice system:** d6 pool
+**XP tracking:** Experience points
+
 ---
 
 ## Dice Rollers
@@ -236,10 +252,12 @@ Each system has a dedicated dice roller accessible from the Dice Roller tab:
 |--------|--------|-----------|
 | WoD | d10 Pool | Roll X d10s, count successes (8+), 1s subtract |
 | 7th Sea | d10 Sets | Roll X d10s, form sets of 10 for Raises |
-| L5R | Roll-and-Keep | Roll X d10s, keep Y highest, exploding 10s |
+| L5R 4e | Roll-and-Keep | Roll X d10s, keep Y highest, exploding 10s |
+| L5R 5e | Narrative Dice | Roll ring d6s + skill d12s, read Success/Explosive/Opportunity/Strife symbols |
 | Blades | d6 Pool | Roll X d6s, take highest (6=full, 4-5=partial, 1-3=bad) |
 | D&D / UESTRPG | d20 | d20 + modifier vs. DC, advantage/disadvantage |
 | Cyberpunk | d10 | STAT + Skill + d10, fumble on 1, critical on 10 (exploding) |
+| ASOIAF | d6 Pool | Roll X d6s, sum kept dice vs. difficulty |
 
 All rollers include:
 - Roll history (last 10+ rolls)
