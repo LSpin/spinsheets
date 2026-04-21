@@ -8,7 +8,7 @@ import { useTheme } from '../context/ThemeContext'
 import CatalogSelect from './CatalogSelect'
 import { BLADES_CREW_TYPES, BLADES_CREW_TYPE_CATALOG } from '../data/bladesPlaybooks'
 
-const TAB_KEYS = ['tabBladesCrewIdentity', 'tabBladesCrewAbilities', 'tabBladesCrewUpgrades', 'tabBladesCrewContacts', 'tabBackstory']
+const TAB_KEYS = ['tabBladesCrewIdentity', 'tabBladesCrewAbilities', 'tabBladesCrewUpgrades', 'tabBladesCrewCoinVault', 'tabBladesCrewContacts', 'tabBackstory']
 
 
 const INITIAL = {
@@ -173,13 +173,6 @@ export default function BladesCrewForm() {
               <ClickTrack label={t('bladesHeat')} value={fields.bladesHeat} max={9} onChange={v => handleField('bladesHeat', v)} />
               <ClickTrack label={t('bladesWanted')} value={fields.bladesWanted} max={4} onChange={v => handleField('bladesWanted', v)} />
             </div>
-            <div className="field-row" style={{ marginTop: 'var(--space-sm)' }}>
-              <div className="field">
-                <label>{t('bladesCoin')}</label>
-                <input type="number" name="bladesCoin" value={fields.bladesCoin} min={0} onChange={e => handleField('bladesCoin', parseInt(e.target.value) || 0)} style={{ width: 80 }} />
-              </div>
-              <ClickTrack label={t('bladesVault')} value={fields.bladesVault} max={8} onChange={v => handleField('bladesVault', v)} />
-            </div>
             <div style={{ marginTop: 'var(--space-sm)' }}>
               <ClickTrack label={t('bladesCrewXp')} value={fields.bladesCrewXp} max={8} onChange={v => handleField('bladesCrewXp', v)} />
             </div>
@@ -231,8 +224,29 @@ export default function BladesCrewForm() {
         </div>
       </div>
 
-      {/* Tab 3 - Contacts */}
+      {/* Tab 3 - Coin & Vault */}
       <div role="tabpanel" id="tabpanel-3" aria-labelledby="tab-3" hidden={tab !== 3}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('tabBladesCrewCoinVault')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              {t('bladesCrewCoinVaultHint')}
+            </p>
+            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+              <div className="field" style={{ width: 100 }}>
+                <label>{t('bladesCoin')}</label>
+                <input type="number" name="bladesCoin" value={fields.bladesCoin} min={0} onChange={e => handleField('bladesCoin', parseInt(e.target.value) || 0)} style={{ width: 80 }} />
+              </div>
+              <div className="field" style={{ flex: 1 }}>
+                <ClickTrack label={t('bladesVault')} value={fields.bladesVault} max={8} onChange={v => handleField('bladesVault', v)} />
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+
+      {/* Tab 4 - Contacts */}
+      <div role="tabpanel" id="tabpanel-4" aria-labelledby="tab-4" hidden={tab !== 4}>
         <div className="form-section">
           <fieldset>
             <legend>{t('tabBladesCrewContacts')}</legend>
@@ -258,8 +272,8 @@ export default function BladesCrewForm() {
         </div>
       </div>
 
-      {/* Tab 4 - Notes */}
-      <div role="tabpanel" id="tabpanel-4" aria-labelledby="tab-4" hidden={tab !== 4}>
+      {/* Tab 5 - Notes */}
+      <div role="tabpanel" id="tabpanel-5" aria-labelledby="tab-5" hidden={tab !== 5}>
         <div className="form-section">
           <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={t('bladesCrewNotesPh')} /></fieldset>
           <fieldset><legend>{t('tabBackstory')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={t('bladesCrewBackstoryPh')} /></fieldset>
