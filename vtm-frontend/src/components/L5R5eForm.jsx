@@ -231,7 +231,81 @@ export default function L5R5eForm() {
   const twentyQ = parseJson(fields.l5r5eTwentyQuestions, {})
   function setTwentyQ(next) { handleField('l5r5eTwentyQuestions', JSON.stringify(next)) }
   function handleQAnswer(num, value) { setTwentyQ({ ...twentyQ, [`q${num}`]: value }) }
-  const answeredCount = TWENTY_QUESTIONS.filter(q => (twentyQ[`q${q.num}`] || '').trim().length > 0).length
+
+  // Q4: Stand out within school — +1 to a ring
+  const Q4_OPTIONS = [
+    { label: 'Creativity, passion, or drive', ring: 'l5r5eFire', ringLabel: 'Fire' },
+    { label: 'Grace, eloquence, or empathy', ring: 'l5r5eAir', ringLabel: 'Air' },
+    { label: 'Adaptability, friendliness, or awareness', ring: 'l5r5eWater', ringLabel: 'Water' },
+    { label: 'Thoroughness, patience, or calm', ring: 'l5r5eEarth', ringLabel: 'Earth' },
+    { label: 'Self-awareness, insight, or mysticism', ring: 'l5r5eVoid', ringLabel: 'Void' },
+  ]
+
+  function handleQ4(ringLabel) {
+    const option = Q4_OPTIONS.find(o => o.ringLabel === ringLabel)
+    if (!option) return
+    const prevRing = twentyQ.q4_ring
+    setFields(prev => {
+      const next = { ...prev }
+      // Revert previous bonus
+      if (prevRing && prevRing !== option.ring) {
+        next[prevRing] = Math.max(1, (next[prevRing] || 1) - 1)
+      }
+      // Apply new bonus (skip if same ring already applied)
+      if (prevRing !== option.ring) {
+        next[option.ring] = Math.min(5, (next[option.ring] || 1) + 1)
+      }
+      next.l5r5eTwentyQuestions = JSON.stringify({ ...twentyQ, q4: ringLabel, q4_ring: option.ring })
+      return next
+    })
+  }
+
+  // Q7: Relationship with clan — Orthodox (+5 Glory) or Divergent (+1 skill rank)
+  function handleQ7(choice, skillName) {
+    const prevChoice = twentyQ.q7
+    setFields(prev => {
+      const next = { ...prev }
+      // Revert previous bonus
+      if (prevChoice === 'orthodox' && choice !== 'orthodox') {
+        next.l5r5eGlory = Math.max(0, (next.l5r5eGlory || 0) - 5)
+      }
+      // Apply new bonus
+      if (choice === 'orthodox' && prevChoice !== 'orthodox') {
+        next.l5r5eGlory = Math.min(100, (next.l5r5eGlory || 0) + 5)
+      }
+      const qData = { ...twentyQ, q7: choice }
+      if (choice === 'divergent') { qData.q7_skill = skillName || '' } else { delete qData.q7_skill }
+      next.l5r5eTwentyQuestions = JSON.stringify(qData)
+      return next
+    })
+  }
+
+  // Q8: Bushido — Staunch (+10 Honor) or Divergent (+1 skill rank)
+  function handleQ8(choice, skillName) {
+    const prevChoice = twentyQ.q8
+    setFields(prev => {
+      const next = { ...prev }
+      // Revert previous bonus
+      if (prevChoice === 'staunch' && choice !== 'staunch') {
+        next.l5r5eHonor = Math.max(0, (next.l5r5eHonor || 0) - 10)
+      }
+      // Apply new bonus
+      if (choice === 'staunch' && prevChoice !== 'staunch') {
+        next.l5r5eHonor = Math.min(100, (next.l5r5eHonor || 0) + 10)
+      }
+      const qData = { ...twentyQ, q8: choice }
+      if (choice === 'divergent') { qData.q8_skill = skillName || '' } else { delete qData.q8_skill }
+      next.l5r5eTwentyQuestions = JSON.stringify(qData)
+      return next
+    })
+  }
+
+  const answeredCount = TWENTY_QUESTIONS.filter(q => {
+    const val = twentyQ[`q${q.num}`]
+    if (val === undefined || val === null) return false
+    if (typeof val === 'string') return val.trim().length > 0
+    return true // non-string truthy values (e.g. from radio selections)
+  }).length
 
   // ── Family catalog filtered by clan ──
   const familyCatalog = fields.l5r5eClan && L5R5E_FAMILY_CATALOG[fields.l5r5eClan]
@@ -496,6 +570,8 @@ export default function L5R5eForm() {
           {(() => {
             const parts = []
             let currentPart = null
+            const identityQs = [1, 2, 3]
+            const advantageQs = [9, 10, 11, 12]
             for (const q of TWENTY_QUESTIONS) {
               if (q.part !== currentPart) {
                 currentPart = q.part
@@ -505,19 +581,169 @@ export default function L5R5eForm() {
                   </div>
                 )
               }
-              parts.push(
-                <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
-                  <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
-                  <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
-                  <textarea
-                    value={twentyQ[`q${q.num}`] || ''}
-                    onChange={e => handleQAnswer(q.num, e.target.value)}
-                    rows={3}
-                    style={{ width: '100%' }}
-                    placeholder="Write your answer here..."
-                  />
-                </fieldset>
-              )
+
+              // Questions 1-3: Identity tab references
+              if (identityQs.includes(q.num)) {
+                const displayVal = q.num === 1 ? fields.l5r5eClan : q.num === 2 ? fields.l5r5eFamily : fields.l5r5eSchool
+                parts.push(
+                  <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
+                    <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
+                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
+                    <div style={{ padding: 'var(--space-sm) var(--space-md)', background: 'rgba(52,152,219,0.06)', borderRadius: '4px', fontSize: '0.85rem' }}>
+                      <em>Set on the Identity tab.</em>
+                      {displayVal && <span style={{ marginLeft: 'var(--space-sm)', fontWeight: 600 }}>Current: {displayVal}</span>}
+                    </div>
+                  </fieldset>
+                )
+              }
+              // Question 4: Ring bonus radio buttons
+              else if (q.num === 4) {
+                parts.push(
+                  <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
+                    <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
+                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      {Q4_OPTIONS.map(opt => (
+                        <label key={opt.ringLabel} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px', background: twentyQ.q4 === opt.ringLabel ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
+                          <input type="radio" name="q4_ring" checked={twentyQ.q4 === opt.ringLabel}
+                            onChange={() => handleQ4(opt.ringLabel)} />
+                          <span style={{ fontSize: '0.85rem' }}>{opt.label} <strong>(+1 {opt.ringLabel})</strong></span>
+                        </label>
+                      ))}
+                    </div>
+                    {twentyQ.q4 && (
+                      <p style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-accent-fg)', fontWeight: 600 }}>
+                        Applied: +1 {twentyQ.q4} Ring
+                      </p>
+                    )}
+                  </fieldset>
+                )
+              }
+              // Question 7: Clan relationship — Orthodox / Divergent
+              else if (q.num === 7) {
+                parts.push(
+                  <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
+                    <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
+                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px', background: twentyQ.q7 === 'orthodox' ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
+                        <input type="radio" name="q7_choice" checked={twentyQ.q7 === 'orthodox'}
+                          onChange={() => handleQ7('orthodox')} />
+                        <span style={{ fontSize: '0.85rem' }}>Orthodox <strong>(+5 Glory)</strong></span>
+                      </label>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px', background: twentyQ.q7 === 'divergent' ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
+                        <input type="radio" name="q7_choice" checked={twentyQ.q7 === 'divergent'}
+                          onChange={() => handleQ7('divergent', twentyQ.q7_skill || '')} />
+                        <span style={{ fontSize: '0.85rem' }}>Divergent <strong>(+1 rank in a skill you have at 0)</strong></span>
+                      </label>
+                      {twentyQ.q7 === 'divergent' && (
+                        <div style={{ marginLeft: '28px' }}>
+                          <input type="text" value={twentyQ.q7_skill || ''}
+                            onChange={e => {
+                              const qData = { ...twentyQ, q7_skill: e.target.value }
+                              handleField('l5r5eTwentyQuestions', JSON.stringify(qData))
+                            }}
+                            placeholder="Which skill? (e.g. Commerce)"
+                            style={{ fontSize: '0.85rem', width: '250px' }} />
+                        </div>
+                      )}
+                    </div>
+                    {twentyQ.q7 === 'orthodox' && (
+                      <p style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-accent-fg)', fontWeight: 600 }}>
+                        Applied: +5 Glory
+                      </p>
+                    )}
+                    {twentyQ.q7 === 'divergent' && twentyQ.q7_skill && (
+                      <p style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-accent-fg)', fontWeight: 600 }}>
+                        Note: +1 rank in {twentyQ.q7_skill} (apply manually on Skills tab)
+                      </p>
+                    )}
+                  </fieldset>
+                )
+              }
+              // Question 8: Bushido — Staunch / Divergent
+              else if (q.num === 8) {
+                const Q8_SKILLS = ['Commerce', 'Labor', 'Medicine', 'Seafaring', 'Skulduggery', 'Survival']
+                parts.push(
+                  <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
+                    <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
+                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px', background: twentyQ.q8 === 'staunch' ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
+                        <input type="radio" name="q8_choice" checked={twentyQ.q8 === 'staunch'}
+                          onChange={() => handleQ8('staunch')} />
+                        <span style={{ fontSize: '0.85rem' }}>Staunch believer <strong>(+10 Honor)</strong></span>
+                      </label>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px', background: twentyQ.q8 === 'divergent' ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
+                        <input type="radio" name="q8_choice" checked={twentyQ.q8 === 'divergent'}
+                          onChange={() => handleQ8('divergent', twentyQ.q8_skill || '')} />
+                        <span style={{ fontSize: '0.85rem' }}>Divergent views <strong>(+1 rank in a skill)</strong></span>
+                      </label>
+                      {twentyQ.q8 === 'divergent' && (
+                        <div style={{ marginLeft: '28px' }}>
+                          <select value={twentyQ.q8_skill || ''}
+                            onChange={e => {
+                              const qData = { ...twentyQ, q8_skill: e.target.value }
+                              handleField('l5r5eTwentyQuestions', JSON.stringify(qData))
+                            }}
+                            style={{ fontSize: '0.85rem', width: '250px' }}>
+                            <option value="">Select a skill...</option>
+                            {Q8_SKILLS.map(s => <option key={s} value={s}>{s}</option>)}
+                          </select>
+                        </div>
+                      )}
+                    </div>
+                    {twentyQ.q8 === 'staunch' && (
+                      <p style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-accent-fg)', fontWeight: 600 }}>
+                        Applied: +10 Honor
+                      </p>
+                    )}
+                    {twentyQ.q8 === 'divergent' && twentyQ.q8_skill && (
+                      <p style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-accent-fg)', fontWeight: 600 }}>
+                        Note: +1 rank in {twentyQ.q8_skill} (apply manually on Skills tab)
+                      </p>
+                    )}
+                  </fieldset>
+                )
+              }
+              // Questions 9-12: Advantages tab references
+              else if (advantageQs.includes(q.num)) {
+                const advLabel = q.num <= 10
+                  ? (q.num === 9 ? 'Distinction' : 'Adversity')
+                  : (q.num === 11 ? 'Passion' : 'Anxiety')
+                const relevantList = q.num === 9 || q.num === 11 ? advantages : disadvantages
+                const matching = relevantList.filter(a => a.type === advLabel)
+                parts.push(
+                  <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
+                    <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
+                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
+                    <div style={{ padding: 'var(--space-sm) var(--space-md)', background: 'rgba(52,152,219,0.06)', borderRadius: '4px', fontSize: '0.85rem' }}>
+                      <em>Select on the Advantages tab.</em>
+                      {matching.length > 0 && (
+                        <span style={{ marginLeft: 'var(--space-sm)', fontWeight: 600 }}>
+                          Selected: {matching.map(a => a.value).join(', ')}
+                        </span>
+                      )}
+                    </div>
+                  </fieldset>
+                )
+              }
+              // All other questions: plain textarea
+              else {
+                parts.push(
+                  <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
+                    <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
+                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
+                    <textarea
+                      value={twentyQ[`q${q.num}`] || ''}
+                      onChange={e => handleQAnswer(q.num, e.target.value)}
+                      rows={3}
+                      style={{ width: '100%' }}
+                      placeholder="Write your answer here..."
+                    />
+                  </fieldset>
+                )
+              }
             }
             return parts
           })()}
