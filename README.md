@@ -1,6 +1,6 @@
 # Spin's Sheets
 
-**Tabletop RPG character sheet manager for 8 game systems.**
+**Tabletop RPG character sheet manager for 9 game systems.**
 
 Live at [spinsheets.com](https://spinsheets.com)
 
@@ -15,17 +15,18 @@ A web app for creating, managing, and sharing tabletop RPG character sheets. Bui
 | System | Sheets | NPC Templates |
 |--------|--------|---------------|
 | World of Darkness (V20, W20, M20) | 20 | 122 |
-| 7th Sea 2nd Edition | 2 | 35 |
-| Legend of the Five Rings 4e | 2 | 37 |
+| 7th Sea 2nd Edition | 3 | 35 |
+| Legend of the Five Rings 4e + 5e | 3 | 37 |
 | Blades in the Dark + Deep Cuts | 3 | 23 |
 | D&D 5th Edition (SRD) | 2 | 120 |
 | UESTRPG (Elder Scrolls) | 2 | 34 |
 | Cyberpunk 2020 | 2 | 25 |
-| **Total** | **33** | **396** |
+| ASOIAF RPG | 2 | 27 |
+| **Total** | **37** | **423** |
 
 ### Features
 
-- **33 character sheets** — each tailored to its system's mechanics
+- **37 character sheets** — each tailored to its system's mechanics
 - **Searchable catalogs** — Disciplines, Gifts, Spells, Cyberware, Feats, Equipment with descriptions
 - **Dice rollers** — d10 pools, d6 pools, d20, roll-and-keep, d10 with fumble/critical
 - **Chronicle management** — create campaigns, invite players, track sessions

@@ -220,6 +220,7 @@ function AppShell() {
     function injectCarousel(tabList) {
       if (tabList.parentElement?.classList.contains('tab-carousel')) return
       if (!isMobile()) return
+      if (!tabList.parentNode || !document.body.contains(tabList)) return
 
       const wrapper = document.createElement('div')
       wrapper.className = 'tab-carousel'
@@ -269,11 +270,13 @@ function AppShell() {
       // Update on any tab click within the list
       tabList.addEventListener('click', () => setTimeout(updateButtons, 50))
 
-      tabList.parentNode.insertBefore(wrapper, tabList)
-      wrapper.appendChild(prevBtn)
-      wrapper.appendChild(tabList)
-      wrapper.appendChild(nextBtn)
-      updateButtons()
+      try {
+        tabList.parentNode.insertBefore(wrapper, tabList)
+        wrapper.appendChild(prevBtn)
+        wrapper.appendChild(tabList)
+        wrapper.appendChild(nextBtn)
+        updateButtons()
+      } catch { /* DOM node may have been removed during navigation */ }
     }
 
     function injectAll() {
