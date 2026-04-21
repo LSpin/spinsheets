@@ -286,9 +286,9 @@ function AppShell() {
       })
     }
 
-    // Re-inject periodically to catch lazy-loaded forms (no MutationObserver)
-    const interval = setInterval(injectAll, 1000)
-    setTimeout(() => clearInterval(interval), 10000) // stop after 10s
+    // Inject on load and re-check every 2s for lazy-loaded forms
+    injectAll()
+    const interval = setInterval(injectAll, 2000)
 
     function handleTabListClick(e) {
       const tabList = e.target.closest('.tab-list')
