@@ -1,0 +1,130 @@
+/* ── Tags ── */
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.25rem var(--space-sm);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--color-text);
+}
+
+.tag-remove {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0 0 0 var(--space-xs);
+  font-size: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  transition: color var(--transition);
+}
+
+.tag-remove:hover { color: var(--color-danger); }
+
+.tag--clickable {
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.tag--clickable:hover  { border-color: var(--color-accent-fg); }
+.tag--clickable:focus-visible {
+  outline: 2px solid var(--color-accent-fg);
+  outline-offset: 2px;
+}
+.tag--clickable.tag--active {
+  border-color: var(--color-accent-fg);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ── Disciplines / Backgrounds layout with side info panel ── */
+
+.disc-bg-layout {
+  display: flex;
+  gap: var(--space-xl);
+  align-items: flex-start;
+}
+
+.disc-bg-layout > .form-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.tag-info-panel {
+  width: 260px;
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--space-lg);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.tag-info-panel-name {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-accent-fg);
+  margin: 0;
+}
+
+.tag-info-panel-desc {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.tag-info-levels {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: 0;
+  margin: 0;
+}
+
+.tag-info-level {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+}
+
+.tag-info-level--active {
+  background: #2a0a0a;
+  border-left: 2px solid var(--color-accent-fg);
+  color: var(--color-text);
+  font-weight: 600;
+  padding-left: calc(var(--space-sm) - 2px);
+}
+
+.tag-info-panel-close {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: 0.78rem;
+  align-self: flex-end;
+  padding: 0;
+  transition: color var(--transition);
+}
+.tag-info-panel-close:hover { color: var(--color-text); }

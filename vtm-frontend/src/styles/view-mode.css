@@ -1,0 +1,91 @@
+/* ── View Mode ── */
+.form-view-mode input,
+.form-view-mode select,
+.form-view-mode textarea {
+  pointer-events: none;
+  opacity: 0.85;
+  background: var(--color-surface);
+}
+.form-view-mode .btn-secondary,
+.form-view-mode .btn-primary,
+.form-view-mode .btn-danger,
+.form-view-mode .tag-remove {
+  display: none;
+}
+.form-view-mode .form-actions {
+  display: none;
+}
+.form-view-mode .view-actions {
+  display: flex;
+}
+
+.view-actions {
+  display: none;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+  padding: var(--space-md) 0;
+}
+
+/* Keep tab buttons visible in view mode */
+.form-view-mode .tab-list .btn-secondary {
+  display: inline-flex;
+}
+
+.splat-badge--victorian-vampire {
+  color: var(--color-splat-familiar);
+  border-color: rgba(179, 80, 112, 0.3);
+  background: rgba(179, 80, 112, 0.1);
+}
+
+.splat-badge--wyld-west-werewolf {
+  color: var(--color-splat-kote);
+  border-color: rgba(196, 163, 46, 0.3);
+  background: rgba(196, 163, 46, 0.1);
+}
+
+.splat-badge--victorian-mage {
+  color: var(--color-splat-kinfolk);
+  border-color: rgba(138, 106, 180, 0.3);
+  background: rgba(138, 106, 180, 0.1);
+}
+
+.splat-badge--changing-breeds {
+  color: var(--color-splat-totem);
+  border-color: rgba(122, 170, 74, 0.3);
+  background: rgba(122, 170, 74, 0.1);
+}
+
+.splat-badge--hunter {
+  color: #c4841d;
+  border-color: rgba(196, 132, 29, 0.3);
+  background: rgba(196, 132, 29, 0.1);
+}
+
+.splat-badge--wraith {
+  color: #5a7a8a;
+  border-color: rgba(90, 122, 138, 0.3);
+  background: rgba(90, 122, 138, 0.1);
+}
+
+.splat-badge--changeling {
+  color: #64b464;
+  border-color: rgba(100, 180, 100, 0.3);
+  background: rgba(100, 180, 100, 0.1);
+}
+
+.splat-badge--demon {
+  color: #b4501e;
+  border-color: rgba(180, 80, 30, 0.3);
+  background: rgba(180, 80, 30, 0.1);
+}
+
+.splat-badge--bsd {
+  color: #648c3c;
+  border-color: rgba(100, 140, 60, 0.3);
+  background: rgba(100, 140, 60, 0.1);
+}
+
+.splat-badge--mortal {
+  background: rgba(160, 160, 160, 0.15);
+  color: #a0a0a0;
+}

@@ -1,0 +1,127 @@
+/* ── Tokens ── */
+
+:root {
+  --color-bg:             #0a0a0a;
+  --color-surface:        #141414;
+  --color-surface-raised: #1e1e1e;
+  --color-border:         #2e2e2e;
+  --color-border-focus:   #e05555;
+  --color-text:           #f0ece6;
+  --color-text-muted:     #b0b0b0;  /* 4.6:1 on #0a0a0a, 4.5:1+ on #141414 */
+  --color-text-disabled:  #8a8a8a;  /* 4.5:1 on #0a0a0a — WCAG AA compliant */
+  --color-accent:         #cc2222;  /* button backgrounds — 5.3:1 with white text */
+  --color-accent-fg:      #e05555;  /* accent as foreground text on dark — 4.7:1+ on bg */
+  --color-accent-hover:   #dd3333;  /* hover — 4.6:1 with white text */
+  --color-accent-text:    #ffffff;
+  --color-danger:         #ff4444;
+  --color-danger-hover:   #ff6666;
+  --color-warning:        #ddaa00;
+
+  --font-body: Georgia, 'Times New Roman', serif;
+  --font-ui:   system-ui, -apple-system, sans-serif;
+
+  --radius-sm: 3px;
+  --radius:    5px;
+  --radius-lg: 8px;
+
+  --space-xs:  0.25rem;
+  --space-sm:  0.5rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2rem;
+  --space-2xl: 3rem;
+
+  --transition: 150ms ease;
+
+  --color-splat-vampire: #e05555;
+  --color-splat-werewolf: #9aab5a;
+  --color-splat-mage: #9a7cd4;
+  --color-splat-kote: #c4a32e;
+  --color-splat-ghoul: #cc4444;
+  --color-splat-familiar: #b35070;
+  --color-splat-totem: #7aaa4a;
+  --color-splat-kinfolk: #8a6ab4;
+  --color-splat-7thsea: #3498db;
+  --color-splat-l5r: #c29138;
+}
+
+/* ── 7th Sea theme — accent-only override ── */
+
+[data-theme="7thsea"] {
+  --color-border-focus:   #5dade2;
+  --color-accent:         #2180c0;
+  --color-accent-fg:      #5dade2;  /* 5.1:1 on #0a0a0a */
+  --color-accent-hover:   #3498db;
+}
+
+/* ── L5R theme — accent-only override ── */
+
+[data-theme="l5r"] {
+  --color-border-focus:   #d4a84a;
+  --color-accent:         #a07a20;
+  --color-accent-fg:      #d4a84a;  /* 4.8:1 on #0a0a0a */
+  --color-accent-hover:   #e0b85a;
+}
+
+/* ── D&D 5e theme — deep crimson ── */
+
+[data-theme="dnd"] {
+  --color-border-focus:   #dd5555;
+  --color-accent:         #a03030;
+  --color-accent-fg:      #dd5555;  /* 4.6:1 on #0a0a0a — WCAG AA */
+  --color-accent-hover:   #ee6666;
+}
+
+/* ── Blades in the Dark theme — industrial steel ── */
+
+[data-theme="blades"] {
+  --color-border-focus:   #8a9bae;
+  --color-accent:         #5a6d80;
+  --color-accent-fg:      #8a9bae;
+  --color-accent-hover:   #9aabbc;
+}
+
+/* ── UESTRPG theme — Elder Scrolls steel blue ── */
+
+[data-theme="uestrpg"] {
+  --color-border-focus:   #7a99b5;
+  --color-accent:         #4a6a85;
+  --color-accent-fg:      #7a99b5;
+  --color-accent-hover:   #8aa9c5;
+}
+
+[data-theme="uestrpg"] .tab-btn--active {
+  background: rgba(122, 153, 181, 0.1) !important;
+}
+
+[data-theme="uestrpg"] .tag--active {
+  background: #101a24;
+}
+
+/* ── Cyberpunk 2020 theme — neon cyan ── */
+
+[data-theme="cyberpunk"] {
+  --color-border-focus:   #00d4ff;
+  --color-accent:         #007a99;
+  --color-accent-fg:      #00d4ff;
+  --color-accent-hover:   #00bbdd;
+}
+
+[data-theme="cyberpunk"] .tab-btn--active {
+  background: rgba(0, 212, 255, 0.1) !important;
+}
+
+[data-theme="cyberpunk"] .tag--active {
+  background: #001a22;
+}
+
+@media (forced-colors: active) {
+  :root {
+    --color-accent:       Highlight;
+    --color-accent-fg:    Highlight;
+    --color-border-focus: Highlight;
+    --color-text:         ButtonText;
+    --color-bg:           Canvas;
+    --color-surface:      Canvas;
+  }
+}

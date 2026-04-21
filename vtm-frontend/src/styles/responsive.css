@@ -1,0 +1,283 @@
+/* ── Responsive ── */
+
+@media (max-width: 1024px) {
+  .form-section {
+    padding: var(--space-sm);
+  }
+
+  .field-row {
+    flex-wrap: wrap;
+  }
+
+  .disc-bg-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dice-pool-table {
+    font-size: 0.75rem;
+  }
+
+  .dice-pool-desc {
+    display: none;
+  }
+
+  .tab-list {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  /* ── Force everything to fit viewport ── */
+  *, *::before, *::after {
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Exempt specific elements that need fixed sizing */
+  input[type="checkbox"], input[type="radio"],
+  .splat-badge, .step-number, svg, svg * {
+    max-width: none !important;
+  }
+
+  /* ── Layout ── */
+  main { padding: var(--space-md) var(--space-sm); }
+  header[role="banner"] { padding: var(--space-sm); }
+  .header-inner { flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
+
+  /* ── All grids: single column on mobile ── */
+  [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Allow 2-column for small stat grids */
+  [style*="minmax(100px"],
+  [style*="minmax(80px"],
+  [style*="minmax(120px"] {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+  }
+
+  /* ── All flex rows: wrap and shrink ── */
+  .field-row { flex-direction: column; }
+  [style*="display: flex"][style*="gap"] { flex-wrap: wrap !important; }
+
+  /* ── Stacked layouts ── */
+  .form-header { flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
+  .character-list-header { flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
+
+  /* ── Character cards ── */
+  .character-card { flex-direction: column; align-items: stretch; }
+  .character-card-actions { width: 100%; flex-wrap: wrap; }
+  .character-card-actions .btn { flex: 1; }
+
+  /* ── Form actions ── */
+  .form-actions { flex-wrap: wrap; }
+  .form-actions .btn { flex: 1; justify-content: center; }
+
+  /* ── Rating grid ── */
+  .rating-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important; gap: var(--space-sm); }
+
+  /* ── Splat grid: single column ── */
+  .splat-grid { grid-template-columns: 1fr !important; }
+
+  /* ── Fieldsets / form sections: no overflow ── */
+  fieldset, .form-section { overflow: hidden; }
+
+  /* ── Tables as stacked cards ── */
+  [style*="grid-template-columns: '1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Hamburger menu: show toggle, collapse nav ── */
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none !important;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-sm);
+    margin-top: var(--space-sm);
+  }
+
+  .nav-menu--open {
+    display: flex !important;
+  }
+
+  .nav-menu a,
+  .nav-menu > a {
+    width: 100%;
+  }
+
+  .nav-menu button,
+  .nav-menu > a > button {
+    width: 100%;
+    text-align: left;
+    padding: 0.7rem var(--space-md);
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.95rem;
+  }
+
+  .nav-menu button:hover,
+  .nav-menu > a > button:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-utils {
+    margin-left: 0;
+    padding: var(--space-sm) var(--space-md);
+    width: 100%;
+    justify-content: flex-start;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* ── Tab list: collapsed dropdown with prev/next carousel ── */
+  .tab-list {
+    position: relative;
+    flex-wrap: wrap;
+    gap: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .tab-list .btn,
+  .tab-list [role="tab"] {
+    white-space: nowrap;
+    font-size: 0.85rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.65rem var(--space-md);
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0;
+    display: none;
+  }
+
+  /* Only show the active tab by default */
+  .tab-list .tab-btn--active,
+  .tab-list [aria-selected="true"] {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    text-align: center;
+  }
+
+  /* Arrow indicator on active tab */
+  .tab-list .tab-btn--active::after,
+  .tab-list [aria-selected="true"]::after {
+    content: '\25BC';
+    font-size: 0.6rem;
+    margin-left: var(--space-sm);
+    opacity: 0.6;
+  }
+
+  /* When expanded, show all tabs */
+  .tab-list.tab-list--expanded .btn,
+  .tab-list.tab-list--expanded [role="tab"] {
+    display: flex !important;
+  }
+
+  .tab-list.tab-list--expanded {
+    flex-direction: column;
+    position: relative;
+    z-index: 50;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .tab-list.tab-list--expanded .tab-btn--active::after,
+  .tab-list.tab-list--expanded [aria-selected="true"]::after {
+    content: '\25B2';
+  }
+
+  .tab-list.tab-list--expanded .btn:hover,
+  .tab-list.tab-list--expanded [role="tab"]:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  /* ── Carousel prev/next buttons ── */
+  .tab-carousel {
+    display: flex !important;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+  }
+
+  .tab-carousel-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-raised);
+    color: var(--color-text);
+    font-size: 1.1rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background var(--transition), border-color var(--transition);
+  }
+
+  .tab-carousel-btn:hover {
+    border-color: var(--color-accent-fg);
+    background: rgba(224, 85, 85, 0.1);
+  }
+
+  .tab-carousel-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .tab-carousel .tab-list {
+    flex: 1;
+    margin-bottom: 0;
+  }
+
+  /* ── Sticky bottom action bar ── */
+  .form-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 40;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-sm);
+    margin: 0 calc(-1 * var(--space-sm));
+    width: calc(100% + 2 * var(--space-sm));
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  /* ── Modal: near full-width ── */
+  .modal-content { width: 95vw; max-height: 90vh; padding: var(--space-sm); }
+
+  /* ── Homepage: single column ── */
+  .homepage-grid, .homepage-grid--tutorial {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Hide grid, show carousel on mobile */
+  .system-grid--desktop { display: none !important; }
+  .system-carousel {
+    display: grid !important;
+    grid-template-columns: 44px 1fr 44px;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+  }
+
+  /* ── Inputs: prevent zoom on iOS ── */
+  input[type="text"], input[type="number"], input[type="email"],
+  input[type="search"], select, textarea {
+    font-size: 16px;
+  }
+}
