@@ -1463,11 +1463,21 @@ legend {
 }
 
 .system-card-cta {
+  display: inline-block;
   font-size: 0.82rem;
   font-weight: 600;
   margin-top: var(--space-md);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  padding: 0.5rem var(--space-lg);
+  border: 2px solid currentColor;
+  border-radius: var(--radius);
+  transition: background var(--transition), color var(--transition);
+}
+
+.system-card:hover .system-card-cta {
+  background: currentColor;
+  color: var(--color-bg);
 }
 
 .system-card--wod {
