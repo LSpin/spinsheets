@@ -725,6 +725,7 @@ const en = {
   filterAll: 'All',
   filterPCs: 'PCs',
   filterNPCs: 'NPCs',
+  l5r5eCreationSummary: 'Creation Bonuses',
   l5r5eFilterType: 'Filter by type',
   l5r5eFilterClan: 'Filter by clan',
   l5r5eFilterCategory: 'Filter by category',
@@ -1900,6 +1901,7 @@ const en = {
   '7sRewardsRef': 'Story Rewards Reference',
 
   // ── L5R extra labels ──
+  l5rCreationSummary: 'Creation Bonuses',
   l5rLoadTemplate: 'Load Template',
   l5rPremadeSamurai: 'Premade Samurai',
   l5rRingsTraits: 'Rings & Traits',
@@ -2769,6 +2771,7 @@ const pt = {
   filterAll: 'Todos',
   filterPCs: 'PJs',
   filterNPCs: 'PdNs',
+  l5r5eCreationSummary: 'B\u00f4nus de Cria\u00e7\u00e3o',
   l5r5eFilterType: 'Filtrar por tipo',
   l5r5eFilterClan: 'Filtrar por cl\u00e3',
   l5r5eFilterCategory: 'Filtrar por categoria',
@@ -4193,6 +4196,7 @@ const pt = {
   '7sRewardsRef': 'Referência de Recompensas',
 
   // ── L5R extra labels ──
+  l5rCreationSummary: 'Bônus de Criação',
   l5rLoadTemplate: 'Carregar Modelo',
   l5rPremadeSamurai: 'Samurai Pronto',
   l5rRingsTraits: 'Anéis e Traços',

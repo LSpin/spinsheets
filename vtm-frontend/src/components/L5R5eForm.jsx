@@ -342,6 +342,9 @@ export default function L5R5eForm() {
     : L5R5E_WEAPON_CATALOG.filter((_, i) => L5R5E_WEAPONS[i]?.category === weaponFilter)
 
   const selectedClan = L5R5E_CLANS.find(c => c.value === fields.l5r5eClan)
+  const selectedFamily = fields.l5r5eClan && fields.l5r5eFamily
+    ? (L5R5E_FAMILIES[fields.l5r5eClan] || []).find(f => f.value === fields.l5r5eFamily)
+    : null
   const selectedSchool = L5R5E_SCHOOLS.find(s => s.value === fields.l5r5eSchool)
 
   // ── Dice Roller ──
@@ -485,7 +488,11 @@ export default function L5R5eForm() {
             </div>
             <div className="field-row">
               <CatalogSelect id="l5r5eClan" name="l5r5eClan" label="Clan" value={fields.l5r5eClan}
-                onChange={(name, val) => { handleField(name, val); handleField('l5r5eFamily', ''); handleField('l5r5eSchool', '') }}
+                onChange={(name, val) => {
+                  handleField(name, val); handleField('l5r5eFamily', ''); handleField('l5r5eSchool', '')
+                  const clan = L5R5E_CLANS.find(c => c.value === val)
+                  if (clan) { handleField('l5r5eStatus', clan.status) }
+                }}
                 catalog={L5R5E_CLAN_CATALOG} />
             </div>
             {selectedClan && (
@@ -497,21 +504,29 @@ export default function L5R5eForm() {
             )}
             <div className="field-row">
               <CatalogSelect id="l5r5eFamily" name="l5r5eFamily" label="Family" value={fields.l5r5eFamily}
-                onChange={handleField} catalog={familyCatalog} />
+                onChange={(name, val) => {
+                  handleField(name, val)
+                  const clanFamilies = L5R5E_FAMILIES[fields.l5r5eClan] || []
+                  const family = clanFamilies.find(f => f.value === val)
+                  if (family) { handleField('l5r5eGlory', family.glory) }
+                }}
+                catalog={familyCatalog} />
             </div>
-            {fields.l5r5eFamily && (() => {
-              const fam = L5R5E_FAMILIES[fields.l5r5eClan]?.find(f => f.value === fields.l5r5eFamily)
-              return fam ? (
-                <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-xs)', marginBottom: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
-                  <div style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>
-                    <strong>Rings:</strong> +1 to {fam.ringOptions.join(' or ')} | <strong>Skills:</strong> {fam.skills.join(', ')} | <strong>Glory:</strong> {fam.glory} | <strong>Wealth:</strong> {fam.wealth} koku
-                  </div>
+            {selectedFamily && (
+              <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-xs)', marginBottom: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                <div style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>
+                  <strong>Rings:</strong> +1 to {selectedFamily.ringOptions.join(' or ')} | <strong>Skills:</strong> {selectedFamily.skills.join(', ')} | <strong>Glory:</strong> {selectedFamily.glory} | <strong>Wealth:</strong> {selectedFamily.wealth} koku
                 </div>
-              ) : null
-            })()}
+              </div>
+            )}
             <div className="field-row">
               <CatalogSelect id="l5r5eSchool" name="l5r5eSchool" label="School" value={fields.l5r5eSchool}
-                onChange={handleField} catalog={schoolCatalog} />
+                onChange={(name, val) => {
+                  handleField(name, val)
+                  const school = L5R5E_SCHOOLS.find(s => s.value === val)
+                  if (school) { handleField('l5r5eHonor', school.honor) }
+                }}
+                catalog={schoolCatalog} />
             </div>
             {selectedSchool && (
               <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-xs)', marginBottom: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
@@ -545,6 +560,25 @@ export default function L5R5eForm() {
                 placeholder="Describe your character's appearance..." />
             </div>
           </fieldset>
+          {(selectedClan || selectedFamily || selectedSchool) && (
+            <fieldset>
+              <legend>{t('l5r5eCreationSummary')}</legend>
+              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+                Ring and skill bonuses are listed for reference. Apply them manually on the Rings and Skills tabs, since they stack from multiple sources.
+              </p>
+              <div style={{ fontSize: '0.85rem', lineHeight: 1.8 }}>
+                {selectedClan && (
+                  <p style={{ margin: 0 }}><strong>{selectedClan.value} Clan:</strong> +1 {selectedClan.ringIncrease}, +1 {selectedClan.skillIncrease}, Status {selectedClan.status} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto-applied)</span></p>
+                )}
+                {selectedFamily && (
+                  <p style={{ margin: 0 }}><strong>{selectedFamily.value} Family:</strong> +1 {selectedFamily.ringOptions.join(' or ')}, {selectedFamily.skills.join(', ')}, Glory {selectedFamily.glory} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto-applied)</span>, {selectedFamily.wealth} koku</p>
+                )}
+                {selectedSchool && (
+                  <p style={{ margin: 0 }}><strong>{selectedSchool.value}:</strong> Rings: {selectedSchool.rings}, Starting Skills: {selectedSchool.skills}, Honor {selectedSchool.honor} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto-applied)</span></p>
+                )}
+              </div>
+            </fieldset>
+          )}
         </div>
       </div>
 

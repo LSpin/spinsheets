@@ -28,94 +28,94 @@ import { L5R_HERO_NPCS, L5R_HERO_CATALOG } from '../data/l5rNpcs'
 const CLANS = {
   'Crab': {
     families: [
-      { value: 'Hida', description: 'Warriors and defenders of the Wall' },
-      { value: 'Hiruma', description: 'Scouts and monster hunters' },
-      { value: 'Kaiu', description: 'Engineers and siege specialists' },
-      { value: 'Kuni', description: 'Witch hunters and Taint experts' },
-      { value: 'Toritaka', description: 'Spirit hunters of the Falcon' },
-      { value: 'Yasuki', description: 'Merchants and diplomats' },
+      { value: 'Hida', description: 'Warriors and defenders of the Wall', trait: '+1 Strength' },
+      { value: 'Hiruma', description: 'Scouts and monster hunters', trait: '+1 Agility' },
+      { value: 'Kaiu', description: 'Engineers and siege specialists', trait: '+1 Intelligence' },
+      { value: 'Kuni', description: 'Witch hunters and Taint experts', trait: '+1 Intelligence' },
+      { value: 'Toritaka', description: 'Spirit hunters of the Falcon', trait: '+1 Perception' },
+      { value: 'Yasuki', description: 'Merchants and diplomats', trait: '+1 Awareness' },
     ],
     schools: ['Hida Bushi', 'Hiruma Bushi', 'Hiruma Scout', 'Kaiu Engineer', 'Kuni Shugenja', 'Kuni Witch Hunter', 'Toritaka Bushi', 'Yasuki Courtier', 'Hida Pragmatist'],
   },
   'Crane': {
     families: [
-      { value: 'Asahina', description: 'Pacifist shugenja and artisans' },
-      { value: 'Daidoji', description: 'Iron warriors and bodyguards' },
-      { value: 'Doji', description: 'Courtiers and politicians' },
-      { value: 'Kakita', description: 'Master duelists and artisans' },
+      { value: 'Asahina', description: 'Pacifist shugenja and artisans', trait: '+1 Awareness' },
+      { value: 'Daidoji', description: 'Iron warriors and bodyguards', trait: '+1 Agility' },
+      { value: 'Doji', description: 'Courtiers and politicians', trait: '+1 Awareness' },
+      { value: 'Kakita', description: 'Master duelists and artisans', trait: '+1 Reflexes' },
     ],
     schools: ['Asahina Shugenja', 'Daidoji Iron Warrior', 'Doji Courtier', 'Doji Magistrate', 'Kakita Bushi', 'Kakita Artisan'],
   },
   'Dragon': {
     families: [
-      { value: 'Kitsuki', description: 'Investigators and magistrates' },
-      { value: 'Mirumoto', description: 'Two-sword style warriors' },
-      { value: 'Tamori', description: 'Mountain shugenja and alchemists' },
-      { value: 'Togashi', description: 'Tattooed monks' },
+      { value: 'Kitsuki', description: 'Investigators and magistrates', trait: '+1 Perception' },
+      { value: 'Mirumoto', description: 'Two-sword style warriors', trait: '+1 Agility' },
+      { value: 'Tamori', description: 'Mountain shugenja and alchemists', trait: '+1 Willpower' },
+      { value: 'Togashi', description: 'Tattooed monks', trait: '+1 Reflexes' },
     ],
     schools: ['Kitsuki Investigator', 'Mirumoto Bushi', 'Tamori Shugenja', 'Togashi Tattooed Order'],
   },
   'Lion': {
     families: [
-      { value: 'Akodo', description: 'Master strategists and tacticians' },
-      { value: 'Ikoma', description: 'Historians and storytellers' },
-      { value: 'Kitsu', description: 'Spirit-speaker shugenja' },
-      { value: 'Matsu', description: 'Fearless berserker warriors' },
+      { value: 'Akodo', description: 'Master strategists and tacticians', trait: '+1 Perception' },
+      { value: 'Ikoma', description: 'Historians and storytellers', trait: '+1 Intelligence' },
+      { value: 'Kitsu', description: 'Spirit-speaker shugenja', trait: '+1 Intelligence' },
+      { value: 'Matsu', description: 'Fearless berserker warriors', trait: '+1 Strength' },
     ],
     schools: ['Akodo Bushi', 'Ikoma Bard', 'Ikoma Lion\'s Shadow', 'Kitsu Shugenja', 'Matsu Berserker'],
   },
   'Mantis': {
     families: [
-      { value: 'Kitsune', description: 'Fox spirit shugenja' },
-      { value: 'Moshi', description: 'Sun priestesses' },
-      { value: 'Tsuruchi', description: 'Legendary archers' },
-      { value: 'Yoritomo', description: 'Sailors and storm warriors' },
+      { value: 'Kitsune', description: 'Fox spirit shugenja', trait: '+1 Willpower' },
+      { value: 'Moshi', description: 'Sun priestesses', trait: '+1 Intelligence' },
+      { value: 'Tsuruchi', description: 'Legendary archers', trait: '+1 Reflexes' },
+      { value: 'Yoritomo', description: 'Sailors and storm warriors', trait: '+1 Strength' },
     ],
     schools: ['Kitsune Shugenja', 'Moshi Shugenja', 'Tsuruchi Archer', 'Tsuruchi Bounty Hunter', 'Yoritomo Bushi', 'Yoritomo Courtier'],
   },
   'Phoenix': {
     families: [
-      { value: 'Agasha', description: 'Crystal and potion masters' },
-      { value: 'Asako', description: 'Monks and scholars' },
-      { value: 'Isawa', description: 'Most powerful shugenja in Rokugan' },
-      { value: 'Shiba', description: 'Guardian warriors of the Phoenix' },
+      { value: 'Agasha', description: 'Crystal and potion masters', trait: '+1 Intelligence' },
+      { value: 'Asako', description: 'Monks and scholars', trait: '+1 Awareness' },
+      { value: 'Isawa', description: 'Most powerful shugenja in Rokugan', trait: '+1 Willpower' },
+      { value: 'Shiba', description: 'Guardian warriors of the Phoenix', trait: '+1 Perception' },
     ],
     schools: ['Agasha Shugenja', 'Isawa Shugenja', 'Isawa Tensai', 'Shiba Bushi', 'Asako Loremaster'],
   },
   'Scorpion': {
     families: [
-      { value: 'Bayushi', description: 'Master manipulators and spies' },
-      { value: 'Shosuro', description: 'Assassins and actors' },
-      { value: 'Soshi', description: 'Shadow shugenja' },
-      { value: 'Yogo', description: 'Curse-bearing ward masters' },
+      { value: 'Bayushi', description: 'Master manipulators and spies', trait: '+1 Agility' },
+      { value: 'Shosuro', description: 'Assassins and actors', trait: '+1 Awareness' },
+      { value: 'Soshi', description: 'Shadow shugenja', trait: '+1 Intelligence' },
+      { value: 'Yogo', description: 'Curse-bearing ward masters', trait: '+1 Willpower' },
     ],
     schools: ['Bayushi Bushi', 'Bayushi Courtier', 'Shosuro Infiltrator', 'Soshi Shugenja', 'Yogo Shugenja'],
   },
   'Spider': {
     families: [
-      { value: 'Chuda', description: 'Maho-tsukai blood sorcerers' },
-      { value: 'Daigotsu', description: 'Dark lords of the Spider' },
-      { value: 'Goju', description: 'Ninja of the Nothing' },
-      { value: 'Susumu', description: 'Dark courtiers' },
+      { value: 'Chuda', description: 'Maho-tsukai blood sorcerers', trait: '+1 Intelligence' },
+      { value: 'Daigotsu', description: 'Dark lords of the Spider', trait: '+1 Willpower' },
+      { value: 'Goju', description: 'Ninja of the Nothing', trait: '+1 Reflexes' },
+      { value: 'Susumu', description: 'Dark courtiers', trait: '+1 Awareness' },
     ],
     schools: ['Chuda Shugenja', 'Daigotsu Bushi', 'Daigotsu Courtier', 'Goju Ninja', 'Ninube Shugenja'],
   },
   'Unicorn': {
     families: [
-      { value: 'Horiuchi', description: 'Meishodo name magic' },
-      { value: 'Ide', description: 'Diplomats and traders' },
-      { value: 'Iuchi', description: 'Desert shugenja' },
-      { value: 'Moto', description: 'Fearsome Death Priests' },
-      { value: 'Shinjo', description: 'Horse lords and explorers' },
-      { value: 'Utaku', description: 'Elite mounted warriors' },
+      { value: 'Horiuchi', description: 'Meishodo name magic', trait: '+1 Willpower' },
+      { value: 'Ide', description: 'Diplomats and traders', trait: '+1 Awareness' },
+      { value: 'Iuchi', description: 'Desert shugenja', trait: '+1 Willpower' },
+      { value: 'Moto', description: 'Fearsome Death Priests', trait: '+1 Agility' },
+      { value: 'Shinjo', description: 'Horse lords and explorers', trait: '+1 Reflexes' },
+      { value: 'Utaku', description: 'Elite mounted warriors', trait: '+1 Stamina' },
     ],
     schools: ['Ide Emissary', 'Iuchi Shugenja', 'Moto Bushi', 'Moto Vindicator', 'Shinjo Bushi', 'Utaku Battle Maiden'],
   },
   'Imperial': {
     families: [
-      { value: 'Miya', description: 'Imperial heralds' },
-      { value: 'Otomo', description: 'Imperial politicians' },
-      { value: 'Seppun', description: 'Imperial guard' },
+      { value: 'Miya', description: 'Imperial heralds', trait: '+1 Awareness' },
+      { value: 'Otomo', description: 'Imperial politicians', trait: '+1 Intelligence' },
+      { value: 'Seppun', description: 'Imperial guard', trait: '+1 Reflexes' },
     ],
     schools: ['Miya Herald', 'Otomo Courtier', 'Seppun Guardsman', 'Seppun Shugenja'],
   },
@@ -617,6 +617,8 @@ export default function L5RForm() {
 
   // Families filtered by selected clan (catalog format for CatalogSelect)
   const familyCatalog = fields.l5rClan && CLANS[fields.l5rClan] ? CLANS[fields.l5rClan].families : []
+  const selectedFamilyData = familyCatalog.find(f => f.value === fields.l5rFamily)
+  const selectedSchoolData = fields.l5rSchool ? L5R_SCHOOLS[fields.l5rSchool] : null
 
   // Schools filtered by selected clan (catalog format for CatalogSelect)
   const schoolCatalog = ((fields.l5rClan && CLANS[fields.l5rClan]?.schools) || []).map(s => {
@@ -858,6 +860,9 @@ export default function L5RForm() {
                     if (sd?.outfit && !fields.personalItems?.trim()) {
                       handleField('personalItems', sd.outfit)
                     }
+                    if (sd?.honor != null && fields.l5rHonor === 0) {
+                      handleField('l5rHonor', Math.round(sd.honor * 10))
+                    }
                   }}
                   catalog={schoolCatalog} />
               ) : (
@@ -886,6 +891,25 @@ export default function L5RForm() {
               </p>
             </details>
           </fieldset>
+
+          {(selectedFamilyData?.trait || selectedSchoolData) && (
+            <fieldset>
+              <legend>{t('l5rCreationSummary')}</legend>
+              <div style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>
+                {selectedFamilyData?.trait && (
+                  <p><strong>{fields.l5rFamily}:</strong> {selectedFamilyData.trait}</p>
+                )}
+                {selectedSchoolData && (
+                  <>
+                    <p><strong>{fields.l5rSchool}:</strong> {selectedSchoolData.traits}</p>
+                    <p><strong>Starting Skills:</strong> {selectedSchoolData.skills}</p>
+                    <p><strong>Honor:</strong> {selectedSchoolData.honor}</p>
+                    <p><strong>Starting Outfit:</strong> {selectedSchoolData.outfit}</p>
+                  </>
+                )}
+              </div>
+            </fieldset>
+          )}
         </div>
       </div>
 
