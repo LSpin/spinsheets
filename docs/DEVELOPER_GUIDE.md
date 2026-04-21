@@ -58,7 +58,27 @@ The backend uses Hibernate `ddl-auto=update`, which automatically creates and mo
 │   │   ├── hooks/          # Custom hooks (useAutoCreate)
 │   │   ├── i18n/           # Translations (EN + PT)
 │   │   ├── pages/          # Page-level components
-│   │   ├── index.css       # All styles (~3000 lines, single file)
+│   │   ├── index.css       # Import hub (19 @import statements)
+│   │   ├── styles/         # Modular CSS (19 files)
+│   │   │   ├── reset.css          # Box-sizing reset
+│   │   │   ├── tokens.css         # CSS custom properties, all themes
+│   │   │   ├── base.css           # html/body, accessibility helpers
+│   │   │   ├── layout.css         # Header, nav, hamburger, footer
+│   │   │   ├── typography.css     # Headings, paragraphs
+│   │   │   ├── buttons.css        # All button variants
+│   │   │   ├── forms.css          # Inputs, selects, fieldsets, tabs, ratings
+│   │   │   ├── tags.css           # Tag system, info panel
+│   │   │   ├── catalog.css        # Catalog search, items
+│   │   │   ├── character-list.css # Character cards, list layout
+│   │   │   ├── helpers.css        # Combobox, hints, role toggle
+│   │   │   ├── badges.css         # Splat badge colors
+│   │   │   ├── homepage.css       # Homepage, system cards, carousel
+│   │   │   ├── view-mode.css      # Read-only form display
+│   │   │   ├── splat-select.css   # Splat selection page
+│   │   │   ├── responsive.css     # Media queries (1024px, 640px)
+│   │   │   ├── components.css     # Health track, modals, blades dots
+│   │   │   ├── dice-roller.css    # Dice roller styles
+│   │   │   └── print.css          # Print styles, error boundary
 │   │   └── main.jsx        # App entry
 │   └── index.html          # SPA shell
 │
@@ -200,9 +220,9 @@ Filter characters by splat, show chronicles, new character/antagonist buttons.
 
 ### Step 8: Frontend — Styling
 
-**File:** `index.css`
+**File:** `styles/tokens.css`
 
-Add theme:
+Add theme tokens:
 ```css
 [data-theme="newsystem"] {
   --color-border-focus:   #yourcolor;
@@ -212,7 +232,7 @@ Add theme:
 }
 ```
 
-Add system card and splat badge styles.
+Add system card styles to `styles/homepage.css` and splat badge colors to `styles/badges.css`. Any new component styles should go in the appropriate module file under `styles/`.
 
 ### Step 9: Frontend — Translations
 

@@ -177,7 +177,27 @@ vtm-frontend/src/
 │   ├── AllCharactersPage.jsx # Navegador unificado de personagens
 │   ├── AllChroniclesPage.jsx # Navegador unificado de crônicas
 │   └── ...                  # Páginas específicas por sistema
-├── index.css               # Todos os estilos (~3000 linhas)
+├── index.css               # Hub de importação (19 declarações @import)
+├── styles/                 # CSS modular (19 arquivos)
+│   ├── reset.css          # Reset de box-sizing
+│   ├── tokens.css         # Propriedades customizadas CSS, todos os temas
+│   ├── base.css           # html/body, helpers de acessibilidade
+│   ├── layout.css         # Header, nav, hamburger, footer
+│   ├── typography.css     # Títulos, parágrafos
+│   ├── buttons.css        # Todas as variantes de botão
+│   ├── forms.css          # Inputs, selects, fieldsets, tabs, ratings
+│   ├── tags.css           # Sistema de tags, painel de informações
+│   ├── catalog.css        # Busca do catálogo, itens
+│   ├── character-list.css # Cards de personagem, layout de lista
+│   ├── helpers.css        # Combobox, dicas, toggle de papel
+│   ├── badges.css         # Cores de badge de splat
+│   ├── homepage.css       # Homepage, cards de sistema, carrossel
+│   ├── view-mode.css      # Exibição de formulário somente leitura
+│   ├── splat-select.css   # Página de seleção de splat
+│   ├── responsive.css     # Media queries (1024px, 640px)
+│   ├── components.css     # Health track, modais, blades dots
+│   ├── dice-roller.css    # Estilos do rolador de dados
+│   └── print.css          # Estilos de impressão, error boundary
 └── main.jsx                # Ponto de entrada da aplicação
 ```
 

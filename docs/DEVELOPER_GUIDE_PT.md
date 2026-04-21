@@ -58,7 +58,27 @@ O backend usa Hibernate `ddl-auto=update`, que cria e modifica tabelas automatic
 │   │   ├── hooks/          # Hooks customizados (useAutoCreate)
 │   │   ├── i18n/           # Traduções (EN + PT)
 │   │   ├── pages/          # Componentes de nível de página
-│   │   ├── index.css       # Todos os estilos (~3000 linhas, arquivo único)
+│   │   ├── index.css       # Hub de importação (19 declarações @import)
+│   │   ├── styles/         # CSS modular (19 arquivos)
+│   │   │   ├── reset.css          # Reset de box-sizing
+│   │   │   ├── tokens.css         # Propriedades customizadas CSS, todos os temas
+│   │   │   ├── base.css           # html/body, helpers de acessibilidade
+│   │   │   ├── layout.css         # Header, nav, hamburger, footer
+│   │   │   ├── typography.css     # Títulos, parágrafos
+│   │   │   ├── buttons.css        # Todas as variantes de botão
+│   │   │   ├── forms.css          # Inputs, selects, fieldsets, tabs, ratings
+│   │   │   ├── tags.css           # Sistema de tags, painel de informações
+│   │   │   ├── catalog.css        # Busca do catálogo, itens
+│   │   │   ├── character-list.css # Cards de personagem, layout de lista
+│   │   │   ├── helpers.css        # Combobox, dicas, toggle de papel
+│   │   │   ├── badges.css         # Cores de badge de splat
+│   │   │   ├── homepage.css       # Homepage, cards de sistema, carrossel
+│   │   │   ├── view-mode.css      # Exibição de formulário somente leitura
+│   │   │   ├── splat-select.css   # Página de seleção de splat
+│   │   │   ├── responsive.css     # Media queries (1024px, 640px)
+│   │   │   ├── components.css     # Health track, modais, blades dots
+│   │   │   ├── dice-roller.css    # Estilos do rolador de dados
+│   │   │   └── print.css          # Estilos de impressão, error boundary
 │   │   └── main.jsx        # Entrada da aplicação
 │   └── index.html          # Shell da SPA
 │
@@ -200,9 +220,9 @@ Filtra personagens por splat, mostra crônicas, botões de novo personagem/antag
 
 ### Passo 8: Frontend — Estilização
 
-**Arquivo:** `index.css`
+**Arquivo:** `styles/tokens.css`
 
-Adicione tema:
+Adicione tokens de tema:
 ```css
 [data-theme="newsystem"] {
   --color-border-focus:   #yourcolor;
@@ -212,7 +232,7 @@ Adicione tema:
 }
 ```
 
-Adicione estilos de card do sistema e badge de splat.
+Adicione estilos de card do sistema em `styles/homepage.css` e cores de badge de splat em `styles/badges.css`. Quaisquer novos estilos de componente devem ir no arquivo de módulo apropriado em `styles/`.
 
 ### Passo 9: Frontend — Traduções
 
