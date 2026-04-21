@@ -461,6 +461,27 @@ const INITIAL = {
   backstory: '', notes: '', appearanceDesc: '', personalItems: '',
 }
 
+const TRAIT_TO_FIELD = {
+  'Strength': 'l5rStrength7', 'Stamina': 'l5rStamina7',
+  'Willpower': 'l5rWillpower7', 'Intelligence': 'l5rIntelligence7',
+  'Perception': 'l5rPerception7', 'Agility': 'l5rAgility',
+  'Reflexes': 'l5rReflexes', 'Awareness': 'l5rAwareness',
+  'Void': 'l5rVoid',
+}
+
+function parseBonusTraits(traitStr) {
+  if (!traitStr) return []
+  const results = []
+  for (const part of traitStr.split(',')) {
+    const match = part.trim().match(/\+1\s+(\w+)/)
+    if (match) {
+      const fieldKey = TRAIT_TO_FIELD[match[1]]
+      if (fieldKey) results.push(fieldKey)
+    }
+  }
+  return results
+}
+
 const TAB_KEYS = ['tabIdentity', 'tabL5rRings', 'tabL5rSkills', 'tabL5rAdvantages', 'tabL5rTechniques', 'tabL5rSpells', 'tabL5rKata', 'tabL5rEquipment', 'tabL5rCombat', 'tabBackstory', 'tabXpLog', 'tabRulesRef', 'tabDiceRoller']
 
 export default function L5RForm() {
@@ -837,12 +858,40 @@ export default function L5RForm() {
             <div className="field-row">
               <CatalogSelect id="l5rClan" name="l5rClan" label={t('l5rClan')} value={fields.l5rClan}
                 onChange={(name, val) => {
-                  setFields(prev => ({ ...prev, l5rClan: val, l5rFamily: '', l5rSchool: '' }))
+                  setFields(prev => {
+                    const next = { ...prev, l5rClan: val, l5rFamily: '', l5rSchool: '' }
+                    // Revert old family trait bonus
+                    const oldFamData = (CLANS[prev.l5rClan]?.families || []).find(f => f.value === prev.l5rFamily)
+                    for (const fk of parseBonusTraits(oldFamData?.trait)) {
+                      next[fk] = Math.max(2, (prev[fk] || 2) - 1)
+                    }
+                    // Revert old school trait bonuses
+                    const oldSchool = prev.l5rSchool && L5R_SCHOOLS[prev.l5rSchool]
+                    for (const fk of parseBonusTraits(oldSchool?.traits)) {
+                      next[fk] = Math.max(2, (next[fk] || 2) - 1)
+                    }
+                    return next
+                  })
                 }}
                 catalog={CLAN_CATALOG} />
               {familyCatalog.length > 0 ? (
                 <CatalogSelect id="l5rFamily" name="l5rFamily" label={t('l5rFamily')} value={fields.l5rFamily}
-                  onChange={(name, val) => handleField(name, val)}
+                  onChange={(name, val) => {
+                    setFields(prev => {
+                      const next = { ...prev, l5rFamily: val }
+                      // Revert old family trait bonus
+                      const oldFamData = (CLANS[prev.l5rClan]?.families || []).find(f => f.value === prev.l5rFamily)
+                      for (const fk of parseBonusTraits(oldFamData?.trait)) {
+                        next[fk] = Math.max(2, (prev[fk] || 2) - 1)
+                      }
+                      // Apply new family trait bonus
+                      const newFamData = (CLANS[prev.l5rClan]?.families || []).find(f => f.value === val)
+                      for (const fk of parseBonusTraits(newFamData?.trait)) {
+                        next[fk] = (next[fk] || 2) + 1
+                      }
+                      return next
+                    })
+                  }}
                   catalog={familyCatalog} />
               ) : (
                 <div className="field">
@@ -855,14 +904,28 @@ export default function L5RForm() {
               {schoolCatalog.length > 0 ? (
                 <CatalogSelect id="l5rSchool" name="l5rSchool" label={t('l5rSchool')} value={fields.l5rSchool}
                   onChange={(name, val) => {
-                    handleField(name, val)
-                    const sd = val && L5R_SCHOOLS[val]
-                    if (sd?.outfit && !fields.personalItems?.trim()) {
-                      handleField('personalItems', sd.outfit)
-                    }
-                    if (sd?.honor != null && fields.l5rHonor === 0) {
-                      handleField('l5rHonor', Math.round(sd.honor * 10))
-                    }
+                    setFields(prev => {
+                      const next = { ...prev, l5rSchool: val }
+                      // Revert old school trait bonuses
+                      const oldSchool = prev.l5rSchool && L5R_SCHOOLS[prev.l5rSchool]
+                      for (const fk of parseBonusTraits(oldSchool?.traits)) {
+                        next[fk] = Math.max(2, (prev[fk] || 2) - 1)
+                      }
+                      // Apply new school trait bonuses
+                      const newSchool = val && L5R_SCHOOLS[val]
+                      for (const fk of parseBonusTraits(newSchool?.traits)) {
+                        next[fk] = (next[fk] || 2) + 1
+                      }
+                      // Auto-fill outfit
+                      if (newSchool?.outfit && !prev.personalItems?.trim()) {
+                        next.personalItems = newSchool.outfit
+                      }
+                      // Auto-set honor
+                      if (newSchool?.honor != null) {
+                        next.l5rHonor = Math.round(newSchool.honor * 10)
+                      }
+                      return next
+                    })
                   }}
                   catalog={schoolCatalog} />
               ) : (

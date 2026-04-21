@@ -95,6 +95,22 @@ const L5R5E_RULES = [
 
 function parseJson(str, fallback) { try { return JSON.parse(str) || fallback } catch { return fallback } }
 
+// Parse school ring bonus strings like '+1 Earth, +1 Water' into [{ring: 'Earth', amount: 1}, ...]
+function parseRingBonuses(ringsStr) {
+  if (!ringsStr) return []
+  return ringsStr.split(',').map(s => s.trim()).map(s => {
+    const match = s.match(/\+(\d+)\s+(\w+)/)
+    if (!match) return null
+    return { amount: parseInt(match[1]), ring: match[2] }
+  }).filter(Boolean)
+}
+
+// Resolve a ring label ('Earth') to a field key ('l5r5eEarth')
+function ringLabelToKey(label) {
+  const r = L5R5E_RINGS.find(r => r.label === label)
+  return r ? r.key : null
+}
+
 const TWENTY_QUESTIONS = [
   { num: 1, part: 'Part I: Core Identity', question: 'What clan does your character belong to?', hint: 'Select your clan on the Identity tab. Grants +1 ring, +1 skill, and sets Status.' },
   { num: 2, part: 'Part I: Core Identity', question: 'What family does your character belong to?', hint: 'Select your family on the Identity tab. Grants +1 ring, +2 skills, sets Glory and Starting Wealth.' },
@@ -489,9 +505,37 @@ export default function L5R5eForm() {
             <div className="field-row">
               <CatalogSelect id="l5r5eClan" name="l5r5eClan" label="Clan" value={fields.l5r5eClan}
                 onChange={(name, val) => {
-                  handleField(name, val); handleField('l5r5eFamily', ''); handleField('l5r5eSchool', '')
-                  const clan = L5R5E_CLANS.find(c => c.value === val)
-                  if (clan) { handleField('l5r5eStatus', clan.status) }
+                  setFields(prev => {
+                    const prevQ = parseJson(prev.l5r5eTwentyQuestions, {})
+                    const next = { ...prev, [name]: val, l5r5eFamily: '', l5r5eSchool: '' }
+                    // Revert old clan ring bonus
+                    if (prevQ.clan_ring) {
+                      next[prevQ.clan_ring] = Math.max(1, (next[prevQ.clan_ring] || 1) - 1)
+                    }
+                    // Revert old family ring bonus
+                    if (prevQ.family_ring) {
+                      next[prevQ.family_ring] = Math.max(1, (next[prevQ.family_ring] || 1) - 1)
+                    }
+                    // Revert old school ring bonuses
+                    if (prevQ.school_rings && Array.isArray(prevQ.school_rings)) {
+                      for (const rk of prevQ.school_rings) {
+                        next[rk] = Math.max(1, (next[rk] || 1) - 1)
+                      }
+                    }
+                    // Apply new clan bonuses
+                    const newClan = L5R5E_CLANS.find(c => c.value === val)
+                    const qData = { ...prevQ, clan_ring: null, family_ring: null, school_rings: null }
+                    if (newClan) {
+                      next.l5r5eStatus = newClan.status
+                      const ringKey = ringLabelToKey(newClan.ringIncrease)
+                      if (ringKey) {
+                        next[ringKey] = Math.min(5, (next[ringKey] || 1) + 1)
+                        qData.clan_ring = ringKey
+                      }
+                    }
+                    next.l5r5eTwentyQuestions = JSON.stringify(qData)
+                    return next
+                  })
                 }}
                 catalog={L5R5E_CLAN_CATALOG} />
             </div>
@@ -505,26 +549,70 @@ export default function L5R5eForm() {
             <div className="field-row">
               <CatalogSelect id="l5r5eFamily" name="l5r5eFamily" label="Family" value={fields.l5r5eFamily}
                 onChange={(name, val) => {
-                  handleField(name, val)
-                  const clanFamilies = L5R5E_FAMILIES[fields.l5r5eClan] || []
-                  const family = clanFamilies.find(f => f.value === val)
-                  if (family) { handleField('l5r5eGlory', family.glory) }
+                  setFields(prev => {
+                    const prevQ = parseJson(prev.l5r5eTwentyQuestions, {})
+                    const next = { ...prev, [name]: val }
+                    // Revert old family ring bonus
+                    if (prevQ.family_ring) {
+                      next[prevQ.family_ring] = Math.max(1, (next[prevQ.family_ring] || 1) - 1)
+                    }
+                    // Apply new family bonuses
+                    const clanFamilies = L5R5E_FAMILIES[prev.l5r5eClan] || []
+                    const family = clanFamilies.find(f => f.value === val)
+                    const qData = { ...prevQ, family_ring: null }
+                    if (family) {
+                      next.l5r5eGlory = family.glory
+                      // Apply first ring option automatically
+                      const ringKey = ringLabelToKey(family.ringOptions?.[0])
+                      if (ringKey) {
+                        next[ringKey] = Math.min(5, (next[ringKey] || 1) + 1)
+                        qData.family_ring = ringKey
+                      }
+                    }
+                    next.l5r5eTwentyQuestions = JSON.stringify(qData)
+                    return next
+                  })
                 }}
                 catalog={familyCatalog} />
             </div>
             {selectedFamily && (
               <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-xs)', marginBottom: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
                 <div style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>
-                  <strong>Rings:</strong> +1 to {selectedFamily.ringOptions.join(' or ')} | <strong>Skills:</strong> {selectedFamily.skills.join(', ')} | <strong>Glory:</strong> {selectedFamily.glory} | <strong>Wealth:</strong> {selectedFamily.wealth} koku
+                  <strong>Ring (auto):</strong> +1 {selectedFamily.ringOptions[0]} (of {selectedFamily.ringOptions.join('/')}) | <strong>Skills (manual):</strong> {selectedFamily.skills.join(', ')} | <strong>Glory:</strong> {selectedFamily.glory} | <strong>Wealth:</strong> {selectedFamily.wealth} koku
                 </div>
               </div>
             )}
             <div className="field-row">
               <CatalogSelect id="l5r5eSchool" name="l5r5eSchool" label="School" value={fields.l5r5eSchool}
                 onChange={(name, val) => {
-                  handleField(name, val)
-                  const school = L5R5E_SCHOOLS.find(s => s.value === val)
-                  if (school) { handleField('l5r5eHonor', school.honor) }
+                  setFields(prev => {
+                    const prevQ = parseJson(prev.l5r5eTwentyQuestions, {})
+                    const next = { ...prev, [name]: val }
+                    // Revert old school ring bonuses
+                    if (prevQ.school_rings && Array.isArray(prevQ.school_rings)) {
+                      for (const rk of prevQ.school_rings) {
+                        next[rk] = Math.max(1, (next[rk] || 1) - 1)
+                      }
+                    }
+                    // Apply new school bonuses
+                    const school = L5R5E_SCHOOLS.find(s => s.value === val)
+                    const qData = { ...prevQ, school_rings: null }
+                    if (school) {
+                      next.l5r5eHonor = school.honor
+                      const bonuses = parseRingBonuses(school.rings)
+                      const appliedKeys = []
+                      for (const b of bonuses) {
+                        const ringKey = ringLabelToKey(b.ring)
+                        if (ringKey) {
+                          next[ringKey] = Math.min(5, (next[ringKey] || 1) + b.amount)
+                          appliedKeys.push(ringKey)
+                        }
+                      }
+                      if (appliedKeys.length) qData.school_rings = appliedKeys
+                    }
+                    next.l5r5eTwentyQuestions = JSON.stringify(qData)
+                    return next
+                  })
                 }}
                 catalog={schoolCatalog} />
             </div>
@@ -564,17 +652,17 @@ export default function L5R5eForm() {
             <fieldset>
               <legend>{t('l5r5eCreationSummary')}</legend>
               <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-                Ring and skill bonuses are listed for reference. Apply them manually on the Rings and Skills tabs, since they stack from multiple sources.
+                Ring bonuses are auto-applied when you select clan, family, and school. Skill bonuses are listed for reference — apply them on the Skills tab.
               </p>
               <div style={{ fontSize: '0.85rem', lineHeight: 1.8 }}>
                 {selectedClan && (
-                  <p style={{ margin: 0 }}><strong>{selectedClan.value} Clan:</strong> +1 {selectedClan.ringIncrease}, +1 {selectedClan.skillIncrease}, Status {selectedClan.status} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto-applied)</span></p>
+                  <p style={{ margin: 0 }}><strong>{selectedClan.value} Clan:</strong> +1 {selectedClan.ringIncrease} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto)</span>, +1 {selectedClan.skillIncrease} <span style={{ color: 'var(--color-muted)', fontSize: '0.75rem' }}>(manual)</span>, Status {selectedClan.status} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto)</span></p>
                 )}
                 {selectedFamily && (
-                  <p style={{ margin: 0 }}><strong>{selectedFamily.value} Family:</strong> +1 {selectedFamily.ringOptions.join(' or ')}, {selectedFamily.skills.join(', ')}, Glory {selectedFamily.glory} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto-applied)</span>, {selectedFamily.wealth} koku</p>
+                  <p style={{ margin: 0 }}><strong>{selectedFamily.value} Family:</strong> +1 {selectedFamily.ringOptions[0]} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto — first option)</span>, {selectedFamily.skills.join(', ')} <span style={{ color: 'var(--color-muted)', fontSize: '0.75rem' }}>(manual)</span>, Glory {selectedFamily.glory} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto)</span>, {selectedFamily.wealth} koku</p>
                 )}
                 {selectedSchool && (
-                  <p style={{ margin: 0 }}><strong>{selectedSchool.value}:</strong> Rings: {selectedSchool.rings}, Starting Skills: {selectedSchool.skills}, Honor {selectedSchool.honor} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto-applied)</span></p>
+                  <p style={{ margin: 0 }}><strong>{selectedSchool.value}:</strong> Rings: {selectedSchool.rings} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto)</span>, Starting Skills: {selectedSchool.skills} <span style={{ color: 'var(--color-muted)', fontSize: '0.75rem' }}>(manual)</span>, Honor {selectedSchool.honor} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto)</span></p>
                 )}
               </div>
             </fieldset>
