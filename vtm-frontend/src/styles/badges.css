@@ -38,6 +38,12 @@
   color: var(--color-splat-l5r);
 }
 
+.splat-badge--l5r-5e {
+  background: rgba(46, 139, 87, 0.15);
+  color: #2e8b57;
+  border-color: rgba(46, 139, 87, 0.3);
+}
+
 .splat-badge--dnd {
   background: rgba(221, 85, 85, 0.15);
   color: #dd5555;

@@ -26,7 +26,7 @@ export default function L5RPage() {
     async function load() {
       try {
         const [charRes, chronRes] = await Promise.all([getCharacters(), getChronicles()])
-        setCharacters(charRes.data.filter(c => c.splat === 'L5R' || c.splat === 'L5R_ANTAGONIST'))
+        setCharacters(charRes.data.filter(c => c.splat === 'L5R' || c.splat === 'L5R_ANTAGONIST' || c.splat === 'L5R_5E'))
         setChronicles(chronRes.data.filter(c => (c.gameSystem || 'WOD') === 'L5R'))
       } catch {
         setError(t('failedLoadChars'))
@@ -58,6 +58,9 @@ export default function L5RPage() {
           <button className="btn btn-secondary" onClick={() => navigate('/l5r/new')}>
             {t('l5rBlankSheet')}
           </button>
+          <button className="btn btn-secondary" onClick={() => navigate('/l5r/5e/new')}>
+            {t('l5r5eNewChar')}
+          </button>
           {isST && (
             <button className="btn btn-secondary" onClick={() => navigate('/l5r/antagonist/new')}>
               {t('l5rNewAntagonist')}
@@ -82,10 +85,11 @@ export default function L5RPage() {
 
       {pageTab === 0 && !loading && (() => {
         const samurai = characters.filter(c => c.splat === 'L5R')
+        const fiveE = characters.filter(c => c.splat === 'L5R_5E')
         const antagonists = characters.filter(c => c.splat === 'L5R_ANTAGONIST')
         return (
           <>
-            {samurai.length === 0 && antagonists.length === 0 && (
+            {samurai.length === 0 && fiveE.length === 0 && antagonists.length === 0 && (
               <div className="empty-state">
                 <p>{t('l5rNoSamuraiYet')}</p>
                 <p>{t('l5rCreateFirst')}</p>
@@ -115,6 +119,34 @@ export default function L5RPage() {
                   </li>
                 ))}
               </ul>
+            )}
+
+            {fiveE.length > 0 && (
+              <>
+                <h3 style={{ marginTop: 'var(--space-xl)', marginBottom: 'var(--space-sm)' }}>{t('splatL5R5e')} ({fiveE.length})</h3>
+                <ul className="character-list" aria-label={t('splatL5R5e')}>
+                  {fiveE.map(c => (
+                    <li key={c.id} className="character-card">
+                      <div className="character-card-info">
+                        <h3>{c.name || t('unnamedCharacter')}</h3>
+                        <dl className="character-card-meta">
+                          <dt className="sr-only">System</dt>
+                          <dd className="splat-badge splat-badge--l5r-5e">L5R 5e</dd>
+                          {c.l5r5eClan && <><dt className="sr-only">{t('l5r5eClan')}</dt><dd>{c.l5r5eClan}</dd></>}
+                          {c.l5r5eFamily && <><dt className="sr-only">{t('l5r5eFamily')}</dt><dd>{c.l5r5eFamily}</dd></>}
+                          {c.l5r5eSchool && <><dt className="sr-only">{t('l5r5eSchool')}</dt><dd>{c.l5r5eSchool}</dd></>}
+                          {isST && c.owner && <><dt className="sr-only">{t('playerLabel')}</dt><dd>{t('playerLabel')}: {c.owner.username}</dd></>}
+                        </dl>
+                      </div>
+                      <div className="character-card-actions">
+                        <button className="btn btn-secondary" onClick={() => navigate(`/characters/${c.id}?mode=view`)}>{t('viewBtn')}</button>
+                        <button className="btn btn-secondary" onClick={() => navigate(`/characters/${c.id}`)}>{t('edit')}</button>
+                        <button className="btn btn-danger" onClick={() => handleDelete(c.id, c.name)}>{t('deleteBtn')}</button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </>
             )}
 
             {isST && antagonists.length > 0 && (

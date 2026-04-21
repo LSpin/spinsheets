@@ -196,6 +196,14 @@ const configs = {
       ['freebieL5rTraitCost', 'freebieL5rSkillCost', 'freebieL5rVoidCost'],
     ],
   },
+  'l5r5e': {
+    startingFreebies: 0,
+    noFreebies: true,
+    xpCosts: { Earned: {}, Other: {} },
+    freebieCosts: { Other: {} },
+    xpRef: [],
+    freebieRef: [],
+  },
   dnd: {
     startingFreebies: 0,
     noFreebies: true,
@@ -327,6 +335,22 @@ const configs = {
       Other: {},
     },
     xpRef: [],
+    freebieRef: [],
+  },
+  l5r5e: {
+    startingFreebies: 0,
+    noFreebies: true,
+    xpCosts: {
+      Earned: {},
+      Ring:        { multiplier: 3, inputLabel: 'newRank' },
+      Skill:       { multiplier: 1, inputLabel: 'newRank' },
+      Technique:   {},
+      Other:       {},
+    },
+    freebieCosts: { Other: {} },
+    xpRef: [
+      ['xpL5r5eRingCost', 'xpL5r5eSkillCost'],
+    ],
     freebieRef: [],
   },
   asoiaf: {

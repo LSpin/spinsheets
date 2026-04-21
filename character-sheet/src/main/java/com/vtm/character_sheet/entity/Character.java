@@ -839,4 +839,44 @@ public class Character {
     private String asoiafInjuries;
     @Column(columnDefinition = "TEXT")
     private String asoiafHouseData;
+
+    // ── L5R 5th Edition (FFG) ──
+    private Integer l5r5eAir;
+    private Integer l5r5eEarth;
+    private Integer l5r5eFire;
+    private Integer l5r5eWater;
+    private Integer l5r5eVoid;
+    private Integer l5r5eHonor;
+    private Integer l5r5eGlory;
+    private Integer l5r5eStatus;
+    private Integer l5r5eEndurance;
+    private Integer l5r5eEnduranceCurrent;
+    private Integer l5r5eComposure;
+    private Integer l5r5eComposureCurrent;
+    private Integer l5r5eFocus;
+    private Integer l5r5eVigilance;
+    private Integer l5r5eStrife;
+    private Integer l5r5eVoidPoints;
+    private Integer l5r5eSchoolRank;
+    private String l5r5eClan;
+    private String l5r5eFamily;
+    private String l5r5eSchool;
+    private String l5r5eNinjo;
+    private String l5r5eGiri;
+    @Column(columnDefinition = "TEXT")
+    private String l5r5eSkills;
+    @Column(columnDefinition = "TEXT")
+    private String l5r5eTechniques;
+    @Column(columnDefinition = "TEXT")
+    private String l5r5eAdvantages;
+    @Column(columnDefinition = "TEXT")
+    private String l5r5eDisadvantages;
+    @Column(columnDefinition = "TEXT")
+    private String l5r5eWeapons;
+    @Column(columnDefinition = "TEXT")
+    private String l5r5eArmor;
+    @Column(columnDefinition = "TEXT")
+    private String l5r5eInventory;
+    @Column(columnDefinition = "TEXT")
+    private String l5r5eCurriculum;
 }

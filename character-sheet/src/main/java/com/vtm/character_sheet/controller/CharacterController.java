@@ -533,6 +533,37 @@ public class CharacterController {
             existing.setAsoiafInventory(updated.getAsoiafInventory());
             existing.setAsoiafInjuries(updated.getAsoiafInjuries());
             existing.setAsoiafHouseData(updated.getAsoiafHouseData());
+            // L5R 5th Edition (FFG)
+            existing.setL5r5eAir(updated.getL5r5eAir());
+            existing.setL5r5eEarth(updated.getL5r5eEarth());
+            existing.setL5r5eFire(updated.getL5r5eFire());
+            existing.setL5r5eWater(updated.getL5r5eWater());
+            existing.setL5r5eVoid(updated.getL5r5eVoid());
+            existing.setL5r5eHonor(updated.getL5r5eHonor());
+            existing.setL5r5eGlory(updated.getL5r5eGlory());
+            existing.setL5r5eStatus(updated.getL5r5eStatus());
+            existing.setL5r5eEndurance(updated.getL5r5eEndurance());
+            existing.setL5r5eEnduranceCurrent(updated.getL5r5eEnduranceCurrent());
+            existing.setL5r5eComposure(updated.getL5r5eComposure());
+            existing.setL5r5eComposureCurrent(updated.getL5r5eComposureCurrent());
+            existing.setL5r5eFocus(updated.getL5r5eFocus());
+            existing.setL5r5eVigilance(updated.getL5r5eVigilance());
+            existing.setL5r5eStrife(updated.getL5r5eStrife());
+            existing.setL5r5eVoidPoints(updated.getL5r5eVoidPoints());
+            existing.setL5r5eSchoolRank(updated.getL5r5eSchoolRank());
+            existing.setL5r5eClan(updated.getL5r5eClan());
+            existing.setL5r5eFamily(updated.getL5r5eFamily());
+            existing.setL5r5eSchool(updated.getL5r5eSchool());
+            existing.setL5r5eNinjo(updated.getL5r5eNinjo());
+            existing.setL5r5eGiri(updated.getL5r5eGiri());
+            existing.setL5r5eSkills(updated.getL5r5eSkills());
+            existing.setL5r5eTechniques(updated.getL5r5eTechniques());
+            existing.setL5r5eAdvantages(updated.getL5r5eAdvantages());
+            existing.setL5r5eDisadvantages(updated.getL5r5eDisadvantages());
+            existing.setL5r5eWeapons(updated.getL5r5eWeapons());
+            existing.setL5r5eArmor(updated.getL5r5eArmor());
+            existing.setL5r5eInventory(updated.getL5r5eInventory());
+            existing.setL5r5eCurriculum(updated.getL5r5eCurriculum());
             return ResponseEntity.ok(service.save(existing));
         }).orElse(ResponseEntity.notFound().build());
     }
@@ -554,7 +585,7 @@ public class CharacterController {
         Map.entry("MAGE", "MAGE"), Map.entry("VICTORIAN_MAGE", "MAGE"),
         Map.entry("FAMILIAR", "MAGE"),
         Map.entry("SEVENTH_SEA", "SEVENTH_SEA"), Map.entry("SEVENTH_SEA_SHIP", "SEVENTH_SEA"),
-        Map.entry("L5R", "L5R"),
+        Map.entry("L5R", "L5R"), Map.entry("L5R_5E", "L5R"),
         Map.entry("BLADES", "BLADES"), Map.entry("BLADES_CREW", "BLADES"),
         Map.entry("DND", "DND"), Map.entry("DND_MONSTER", "DND"),
         Map.entry("UESTRPG", "UESTRPG"), Map.entry("UESTRPG_ANTAGONIST", "UESTRPG"),

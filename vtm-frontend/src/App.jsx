@@ -68,6 +68,7 @@ const SeventhSeaPage = lazyRetry(() => import('./pages/SeventhSeaPage'))
 // L5R
 const L5RForm = lazyRetry(() => import('./components/L5RForm'))
 const L5RAntagonistForm = lazyRetry(() => import('./components/L5RAntagonistForm'))
+const L5R5eForm = lazyRetry(() => import('./components/L5R5eForm'))
 const L5RPage = lazyRetry(() => import('./pages/L5RPage'))
 
 // Blades
@@ -467,6 +468,9 @@ function AppShell() {
           } />
           <Route path="/l5r/new" element={
             <ProtectedRoute><L5RForm /></ProtectedRoute>
+          } />
+          <Route path="/l5r/5e/new" element={
+            <ProtectedRoute><L5R5eForm /></ProtectedRoute>
           } />
           <Route path="/l5r/antagonist/new" element={
             <ProtectedRoute><L5RAntagonistForm /></ProtectedRoute>
