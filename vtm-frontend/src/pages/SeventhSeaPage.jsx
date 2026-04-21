@@ -26,7 +26,7 @@ export default function SeventhSeaPage() {
     async function load() {
       try {
         const [charRes, chronRes] = await Promise.all([getCharacters(), getChronicles()])
-        setCharacters(charRes.data.filter(c => c.splat === 'SEVENTH_SEA'))
+        setCharacters(charRes.data.filter(c => c.splat === 'SEVENTH_SEA' || c.splat === 'SEVENTH_SEA_SHIP'))
         setChronicles(chronRes.data.filter(c => (c.gameSystem || 'WOD') === 'SEVENTH_SEA'))
       } catch {
         setError(t('failedLoadChars'))
@@ -58,6 +58,9 @@ export default function SeventhSeaPage() {
           <button className="btn btn-secondary" onClick={() => navigate('/7thsea/new')}>
             {t('7sBlankHero')}
           </button>
+          <button className="btn btn-secondary" onClick={() => navigate('/7thsea/ship/new')}>
+            {t('sevenSeaNewShip')}
+          </button>
         </div>
       </div>
 
@@ -77,7 +80,7 @@ export default function SeventhSeaPage() {
 
       {/* ── Heroes ── */}
       {pageTab === 0 && !loading && (() => {
-        const heroes = characters.filter(c => !c.npc)
+        const heroes = characters.filter(c => c.splat === 'SEVENTH_SEA' && !c.npc)
         return heroes.length === 0 ? (
           <div className="empty-state">
             <p>{t('7sNoHeroesYet')}</p>
@@ -108,9 +111,44 @@ export default function SeventhSeaPage() {
         )
       })()}
 
+      {/* ── Ships ── */}
+      {pageTab === 0 && !loading && (() => {
+        const ships = characters.filter(c => c.splat === 'SEVENTH_SEA_SHIP')
+        return (
+          <div style={{ marginTop: 'var(--space-xl)' }}>
+            <div className="character-list-header">
+              <h2>{t('sevenSeaShips')}</h2>
+            </div>
+            {ships.length === 0 ? (
+              <div className="empty-state"><p>{t('sevenSeaNoShipsYet')}</p></div>
+            ) : (
+              <ul className="character-list" aria-label={t('sevenSeaShips')}>
+                {ships.map(c => (
+                  <li key={c.id} className="character-card">
+                    <div className="character-card-info">
+                      <h3>{c.name || t('unnamedCharacter')}</h3>
+                      <dl className="character-card-meta">
+                        <dt className="sr-only">Type</dt>
+                        <dd className="splat-badge splat-badge--seventh-sea-ship">{t('splatSeventhSeaShip')}</dd>
+                        {c.concept && <><dt className="sr-only">{t('concept')}</dt><dd>{c.concept}</dd></>}
+                      </dl>
+                    </div>
+                    <div className="character-card-actions">
+                      <button className="btn btn-secondary" onClick={() => navigate(`/characters/${c.id}?mode=view`)}>{t('viewBtn')}</button>
+                      <button className="btn btn-secondary" onClick={() => navigate(`/characters/${c.id}`)}>{t('edit')}</button>
+                      <button className="btn btn-danger" onClick={() => handleDelete(c.id, c.name)}>{t('deleteBtn')}</button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )
+      })()}
+
       {/* ── Villains & Monsters (ST only) ── */}
       {pageTab === 0 && !loading && isST && (() => {
-        const villains = characters.filter(c => c.npc)
+        const villains = characters.filter(c => c.splat === 'SEVENTH_SEA' && c.npc)
         return (
           <div style={{ marginTop: 'var(--space-xl)' }}>
             <div className="character-list-header">

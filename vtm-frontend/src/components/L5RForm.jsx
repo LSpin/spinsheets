@@ -494,6 +494,7 @@ export default function L5RForm() {
   const [spellAffinity, setSpellAffinity] = useState('')
   const [spellDeficiency, setSpellDeficiency] = useState('')
   const [activeKata, setActiveKata] = useState('')
+  const [equipFilter, setEquipFilter] = useState('all')
   const [advSearch, setAdvSearch] = useState('')
   const [disadvSearch, setDisadvSearch] = useState('')
   const [spellSearch, setSpellSearch] = useState('')
@@ -1919,7 +1920,29 @@ Light Armor (+5 ATN, Red 3)
 Traveling pack, spare kimono, 10 koku`} />
           </fieldset>
 
-          {L5R_EQUIPMENT_CATEGORIES.map(({ key, label }) => (
+          <div style={{ marginBottom: 'var(--space-md)' }}>
+            <label htmlFor="equip-filter" style={{ marginRight: 'var(--space-sm)' }}>{t('l5rFilterCategory')}</label>
+            <select id="equip-filter" value={equipFilter} onChange={e => setEquipFilter(e.target.value)} style={{ fontSize: '0.85rem' }}>
+              <option value="all">{t('filterAll')}</option>
+              <option value="weapons">{t('l5rFilterWeapons')}</option>
+              <option value="ranged">{t('l5rFilterRanged')}</option>
+              <option value="armor">{t('l5rFilterArmor')}</option>
+              <option value="gear">{t('l5rFilterGear')}</option>
+            </select>
+          </div>
+
+          {L5R_EQUIPMENT_CATEGORIES
+            .filter(({ key }) => {
+              if (equipFilter === 'all') return true
+              const EQUIP_FILTER_MAP = {
+                weapons: new Set(['swords', 'schoolWeapons', 'polearms', 'spears', 'heavyWeapons', 'knives', 'staves', 'chain', 'warFans']),
+                ranged: new Set(['bows', 'arrows']),
+                armor: new Set(['armor']),
+                gear: new Set(['adventuringGear', 'siegeWeapons']),
+              }
+              return EQUIP_FILTER_MAP[equipFilter]?.has(key)
+            })
+            .map(({ key, label }) => (
             <details key={key} style={{ marginBottom: 'var(--space-sm)' }}>
               <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{label} Catalogue</summary>
               <div style={{ padding: 'var(--space-sm) 0' }}>

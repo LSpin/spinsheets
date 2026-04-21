@@ -1,7 +1,7 @@
 // V20 Blood Sorcery — Thaumaturgy, Necromancy, and Koldunic paths + rituals
 
 export const SORCERY_PATHS = [
-  { value: 'Path of Blood', description: 'The primary path taught to all Tremere — mastery over vitae itself.',
+  { value: 'Path of Blood', tradition: 'Thaumaturgy', description: 'The primary path taught to all Tremere — mastery over vitae itself.',
     levels: [
       '●  A Taste for Blood — Taste a sample of vitae to learn the owner\'s generation, Humanity, and blood pool.',
       '●● Blood Rage — Force a vampire to spend blood against their will, activating powers involuntarily.',
@@ -9,7 +9,7 @@ export const SORCERY_PATHS = [
       '●●●● Theft of Vitae — Draw blood from a victim at range without physical contact.',
       '●●●●● Cauldron of Blood — Boil the blood inside a victim\'s body, inflicting catastrophic aggravated damage.',
     ] },
-  { value: 'Lure of Flames', description: 'Command and conjure fire — a Tremere favourite and a fearsome weapon.',
+  { value: 'Lure of Flames', tradition: 'Thaumaturgy', description: 'Command and conjure fire — a Tremere favourite and a fearsome weapon.',
     levels: [
       '●  Hand of Flame — Ignite your palm with a controllable flame you can hold safely.',
       '●● The Torch — Project a sustained jet of fire at a target.',
@@ -17,7 +17,7 @@ export const SORCERY_PATHS = [
       '●●●● The Conflagration — Engulf a single target completely in a column of flame.',
       '●●●●● Firestorm — Call down a catastrophic firestorm over a wide area.',
     ] },
-  { value: 'Movement of the Mind', description: 'Telekinesis — move objects and people with thought alone.',
+  { value: 'Movement of the Mind', tradition: 'Thaumaturgy', description: 'Telekinesis — move objects and people with thought alone.',
     levels: [
       '●  Pebble — Move very small objects telekinetically with minor precision.',
       '●● Updraft — Lift and move larger objects; enough force to hurl a person.',
@@ -25,7 +25,7 @@ export const SORCERY_PATHS = [
       '●●●● The Flying Dutchman — Move objects with fine precision at significant speed and force.',
       '●●●●● Control — Lift, carry, and precisely control large objects or restrain people completely.',
     ] },
-  { value: 'Path of Conjuring', description: 'Bring objects and eventually living things into existence from nothing.',
+  { value: 'Path of Conjuring', tradition: 'Thaumaturgy', description: 'Bring objects and eventually living things into existence from nothing.',
     levels: [
       '●  Summon the Simple Form — Conjure a single simple inanimate object.',
       '●● Permanency — Make a conjured object persist indefinitely without upkeep.',
@@ -33,7 +33,7 @@ export const SORCERY_PATHS = [
       '●●●● The Reverse — Deconstruct conjured matter back into nothingness instantly.',
       '●●●●● Power Over Life — Conjure a living creature of up to medium size.',
     ] },
-  { value: 'Path of Corruption', description: 'Corrupt, taint, and create dependence in mortals and Kindred.',
+  { value: 'Path of Corruption', tradition: 'Thaumaturgy', description: 'Corrupt, taint, and create dependence in mortals and Kindred.',
     levels: [
       '●  Contaminate — Corrupt a small quantity of food, drink, or blood with a touch.',
       '●● Corrupt the Undead Flesh — Inflict a supernatural wasting disease on a vampire.',
@@ -41,7 +41,7 @@ export const SORCERY_PATHS = [
       '●●●● Addiction — Create a supernatural, obsessive craving in a mortal for a specific thing.',
       '●●●●● Dependence — Establish a blood-bond-like dominance over a target without actually feeding them.',
     ] },
-  { value: 'Path of Mars', description: 'Blood magic focused on combat — bolstering allies and cursing enemies.',
+  { value: 'Path of Mars', tradition: 'Thaumaturgy', description: 'Blood magic focused on combat — bolstering allies and cursing enemies.',
     levels: [
       '●  War Cry — Strengthen resolve and combat ability of yourself or an ally.',
       '●● Strike True — Grant extraordinary accuracy to a combatant\'s attacks for a scene.',
@@ -49,7 +49,7 @@ export const SORCERY_PATHS = [
       '●●●● Spark of Rage — Induce paranoia and violent aggression in a target.',
       '●●●●● Spur the Homunculus — Animate an inanimate object to fight autonomously on your behalf.',
     ] },
-  { value: 'Path of Technomancy', description: 'Apply blood sorcery to modern technology — analyse, control, and destroy electronics.',
+  { value: 'Path of Technomancy', tradition: 'Thaumaturgy', description: 'Apply blood sorcery to modern technology — analyse, control, and destroy electronics.',
     levels: [
       '●  Analyze — Perfectly understand the function and operation of any technological device.',
       '●● Burnout — Destroy a small electronic device with a touch.',
@@ -57,7 +57,7 @@ export const SORCERY_PATHS = [
       '●●●● Telecommute — Project your consciousness into electronic networks to communicate or gather data.',
       '●●●●● Sys Failure — Crash and permanently destroy complex computer systems at range.',
     ] },
-  { value: 'Green Path', description: 'Wicce blood sorcery rooted in nature — plants, beasts, and the living world.',
+  { value: 'Green Path', tradition: 'Thaumaturgy', description: 'Wicce blood sorcery rooted in nature — plants, beasts, and the living world.',
     levels: [
       '●  Decay — Cause rapid rot in plant matter with a touch.',
       '●● Enrich the Fallow Field — Restore barren land to fertility and promote rapid growth.',
@@ -65,7 +65,7 @@ export const SORCERY_PATHS = [
       '●●●● Verdant Haven — Grow a dense, impenetrable barrier of rapid-growing plants.',
       '●●●●● Awaken the Forest Giants — Animate large trees or plants as powerful servants.',
     ] },
-  { value: "Neptune's Might", description: 'Dominion over water — sense, shape, and weaponise it against enemies.',
+  { value: "Neptune's Might", tradition: 'Thaumaturgy', description: 'Dominion over water — sense, shape, and weaponise it against enemies.',
     levels: [
       '●  Eyes of the Sea — Perceive through any connected body of water nearby.',
       '●● Prison of Water — Surround a target with a swirling column of water, restraining them.',
@@ -73,7 +73,7 @@ export const SORCERY_PATHS = [
       '●●●● Flowing Wall — Form a solid wall of water as a barrier or shield.',
       '●●●●● Dehydrate — Draw all moisture from a target\'s body, inflicting severe aggravated damage.',
     ] },
-  { value: 'Hands of Destruction', description: 'Entropy and dissolution — rot, wither, and unmake.',
+  { value: 'Hands of Destruction', tradition: 'Thaumaturgy', description: 'Entropy and dissolution — rot, wither, and unmake.',
     levels: [
       '●  Decay — Rapidly deteriorate organic matter with a touch.',
       '●● Gnarl Wood — Warp, weaken, and render wooden objects useless.',
@@ -81,7 +81,7 @@ export const SORCERY_PATHS = [
       '●●●● Atrophy — Wither a target\'s limb, rendering it useless until healed.',
       '●●●●● Turn to Dust — Dissolve a target entirely to dry powder and ash.',
     ] },
-  { value: 'Spirit Manipulation', description: 'Perceive, empower, and command spirits of the dead and the unseen world.',
+  { value: 'Spirit Manipulation', tradition: 'Thaumaturgy', description: 'Perceive, empower, and command spirits of the dead and the unseen world.',
     levels: [
       '●  Hermetic Sight — See and detect all spirits present in the immediate area.',
       '●● Élan — Grant a spirit temporary power or a burst of energy.',
@@ -89,7 +89,7 @@ export const SORCERY_PATHS = [
       '●●●● Rouse — Awaken and enrage a dormant or bound spirit.',
       '●●●●● Bind/Dismiss Spirit — Command a spirit to obey or banish it permanently.',
     ] },
-  { value: 'Elemental Mastery', description: 'Commune with, animate, and summon the classic elementals.',
+  { value: 'Elemental Mastery', tradition: 'Thaumaturgy', description: 'Commune with, animate, and summon the classic elementals.',
     levels: [
       '●  Elemental Strength — Draw power from earth to temporarily boost physical Attributes.',
       '●● Wooden Tongue — Communicate with and receive information from plants.',
@@ -97,7 +97,7 @@ export const SORCERY_PATHS = [
       '●●●● Elemental Form — Partially transform your body into a chosen element.',
       '●●●●● Summon Elemental — Call and bind a true elemental to serve you.',
     ] },
-  { value: 'Weather Control', description: 'Command the weather — fog, wind, lightning, and storm.',
+  { value: 'Weather Control', tradition: 'Thaumaturgy', description: 'Command the weather — fog, wind, lightning, and storm.',
     levels: [
       '●  Fog — Call up a dense, obscuring supernatural fog over a wide area.',
       '●● Mists of Confusion — Disorient and confuse anyone caught within your fog.',
@@ -105,7 +105,7 @@ export const SORCERY_PATHS = [
       '●●●● Lightning Strike — Call down a precise bolt of lightning on a specific target.',
       '●●●●● The Eye of the Storm — Create a full, localised supernatural storm at will.',
     ] },
-  { value: 'Path of Shadowcrafting', description: 'Command and inhabit shadows — travel, strike, and vanish through darkness.',
+  { value: 'Path of Shadowcrafting', tradition: 'Thaumaturgy', description: 'Command and inhabit shadows — travel, strike, and vanish through darkness.',
     levels: [
       '●  Shadowstep — Move instantly between two shadows within sight.',
       '●● Shadow Hands — Extend tendrils of shadow to grab, hold, or strike.',

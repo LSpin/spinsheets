@@ -102,6 +102,11 @@ export default function BloodSorcerySection({ characterId, elderMax = 5 }) {
   const [newRitual, setNewRitual] = useState({ name: '', level: 1, notes: '' })
   const [sorcInfo, setSorcInfo] = useState(null)
   const [actionError, setActionError] = useState(null)
+  const [traditionFilter, setTraditionFilter] = useState('all')
+
+  const traditions = [...new Set(SORCERY_PATHS.map(p => p.tradition).filter(Boolean))].sort()
+  const filteredPaths = traditionFilter === 'all' ? SORCERY_PATHS : SORCERY_PATHS.filter(p => p.tradition === traditionFilter)
+  const filteredRituals = traditionFilter === 'all' ? RITUALS : RITUALS.filter(r => r.tradition === traditionFilter)
 
   useEffect(() => {
     if (!characterId) return
@@ -146,6 +151,13 @@ export default function BloodSorcerySection({ characterId, elderMax = 5 }) {
     <div className="disc-bg-layout">
       <div className="form-section">
         {actionError && <p className="status-error" role="alert">{actionError}</p>}
+        <div style={{ marginBottom: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+          <label htmlFor="tradition-filter" style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('sorceryFilterTradition')}</label>
+          <select id="tradition-filter" value={traditionFilter} onChange={e => setTraditionFilter(e.target.value)} style={{ fontSize: '0.85rem' }}>
+            <option value="all">{t('filterAll')}</option>
+            {traditions.map(tr => <option key={tr} value={tr}>{tr}</option>)}
+          </select>
+        </div>
         {/* ── Paths ── */}
         <fieldset>
           <legend>{t('sorceryPaths')}</legend>
@@ -169,7 +181,7 @@ export default function BloodSorcerySection({ characterId, elderMax = 5 }) {
             <SearchableInput
               id="path-name"
               label={t('pathNameLabel')}
-              catalog={SORCERY_PATHS}
+              catalog={filteredPaths}
               value={newPath.name}
               onChange={val => setNewPath(p => ({ ...p, name: val }))}
               placeholder={t('phPath')}
@@ -221,7 +233,7 @@ export default function BloodSorcerySection({ characterId, elderMax = 5 }) {
             <SearchableInput
               id="ritual-name"
               label={t('ritualNameLabel')}
-              catalog={RITUALS}
+              catalog={filteredRituals}
               value={newRitual.name}
               onChange={val => {
                 const match = RITUALS.find(r => r.value === val)

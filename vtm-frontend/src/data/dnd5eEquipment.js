@@ -108,7 +108,7 @@ export const DND_ADVENTURING_GEAR = [
 ];
 
 export const DND_EQUIPMENT_CATALOG = [
-  ...DND_WEAPONS.map(w => ({ value: w.name, description: `${w.category} ${w.type} — ${w.damage} ${w.properties || ''}`.trim() })),
-  ...DND_ARMOR.map(a => ({ value: a.name, description: `${a.category} — AC ${a.ac}${a.stealth ? ' (stealth disadvantage)' : ''}` })),
-  ...DND_ADVENTURING_GEAR.map(g => ({ value: g.name, description: g.description })),
+  ...DND_WEAPONS.map(w => ({ value: w.name, description: `${w.category} ${w.type} — ${w.damage} ${w.properties || ''}`.trim(), type: 'weapons' })),
+  ...DND_ARMOR.map(a => ({ value: a.name, description: `${a.category} — AC ${a.ac}${a.stealth ? ' (stealth disadvantage)' : ''}`, type: 'armor' })),
+  ...DND_ADVENTURING_GEAR.map(g => ({ value: g.name, description: g.description, type: 'gear' })),
 ]

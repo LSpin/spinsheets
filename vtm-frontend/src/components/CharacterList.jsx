@@ -23,6 +23,7 @@ const SPLAT_LABEL_KEYS = {
   TOTEM: 'splatTotem',
   KINFOLK: 'splatKinfolk',
   SEVENTH_SEA: 'splat7thSea',
+  SEVENTH_SEA_SHIP: 'splatSeventhSeaShip',
   L5R: 'splatL5R',
   BLADES: 'splatBlades',
   BLADES_CREW: 'splatBladesCrew',
@@ -193,7 +194,7 @@ export default function CharacterList() {
         getCharacters(),
         isST ? getChronicles() : Promise.resolve({ data: [] }),
       ])
-      const NON_WOD = new Set(['SEVENTH_SEA', 'L5R', 'L5R_ANTAGONIST', 'BLADES', 'BLADES_CREW', 'BLADES_ANTAGONIST', 'DND', 'DND_MONSTER', 'UESTRPG', 'UESTRPG_ANTAGONIST', 'CYBERPUNK', 'CYBERPUNK_ANTAGONIST', 'ASOIAF', 'ASOIAF_ANTAGONIST'])
+      const NON_WOD = new Set(['SEVENTH_SEA', 'SEVENTH_SEA_SHIP', 'L5R', 'L5R_ANTAGONIST', 'BLADES', 'BLADES_CREW', 'BLADES_ANTAGONIST', 'DND', 'DND_MONSTER', 'UESTRPG', 'UESTRPG_ANTAGONIST', 'CYBERPUNK', 'CYBERPUNK_ANTAGONIST', 'ASOIAF', 'ASOIAF_ANTAGONIST'])
       setCharacters(charsRes.data.filter(c => !NON_WOD.has(c.splat)))
       setChronicles(chronRes.data)
     } catch {

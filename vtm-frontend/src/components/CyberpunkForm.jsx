@@ -112,6 +112,7 @@ export default function CyberpunkForm() {
   const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
+  const [cyberCategory, setCyberCategory] = useState('all')
 
   // Dice roller state
   const [diceStatVal, setDiceStatVal] = useState(0)
@@ -429,12 +430,21 @@ export default function CyberpunkForm() {
               {t('cpTotalHumanityLoss')}: <span style={{ color: totalHumanityLoss > 0 ? '#e55' : '#8c8' }}>{totalHumanityLoss}</span>
               {' '} | {t('cpEffectiveHumanity')}: {Math.max(0, humanity - totalHumanityLoss)}
             </div>
+            <div style={{ marginBottom: 'var(--space-sm)' }}>
+              <label htmlFor="cyber-category" style={{ marginRight: 'var(--space-xs)', fontSize: '0.85rem' }}>{t('cpFilterCategory')}</label>
+              <select id="cyber-category" value={cyberCategory} onChange={e => setCyberCategory(e.target.value)} style={{ fontSize: '0.85rem' }}>
+                <option value="all">{t('filterAll')}</option>
+                {[...new Set(CP_CYBERWARE.map(c => c.category))].map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
+            </div>
             <CatalogSelect id="cpCyberwareAdd" name="cpCyberwareAdd" label={t('cpAddCyberware')}
               value="" onChange={(_, val) => {
                 if (!val) return
                 const item = CP_CYBERWARE.find(c => c.name === val)
                 if (item) setCyberware([...cyberware, { name: item.name, category: item.category, humanityCost: item.humanityCost }])
-              }} catalog={CP_CYBERWARE_CATALOG} showDescOnSelect={false} />
+              }} catalog={cyberCategory === 'all' ? CP_CYBERWARE_CATALOG : CP_CYBERWARE_CATALOG.filter((_, i) => CP_CYBERWARE[i].category === cyberCategory)} showDescOnSelect={false} />
             {cyberware.length > 0 && (
               <div style={{ marginTop: 'var(--space-md)' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 120px 80px 60px', gap: '4px', fontWeight: 700, fontSize: '0.75rem', padding: '0 0 4px 0', borderBottom: '1px solid var(--color-border)' }}>

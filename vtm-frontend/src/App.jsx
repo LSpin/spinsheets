@@ -62,6 +62,7 @@ const MortalsForm = lazyRetry(() => import('./components/MortalsForm'))
 // 7th Sea
 const SeventhSeaForm = lazyRetry(() => import('./components/SeventhSeaForm'))
 const SeventhSeaVillainForm = lazyRetry(() => import('./components/SeventhSeaVillainForm'))
+const SeventhSeaShipForm = lazyRetry(() => import('./components/SeventhSeaShipForm'))
 const SeventhSeaPage = lazyRetry(() => import('./pages/SeventhSeaPage'))
 
 // L5R
@@ -448,6 +449,9 @@ function AppShell() {
           } />
           <Route path="/7thsea/villain/new" element={
             <ProtectedRoute><SeventhSeaVillainForm /></ProtectedRoute>
+          } />
+          <Route path="/7thsea/ship/new" element={
+            <ProtectedRoute><SeventhSeaShipForm /></ProtectedRoute>
           } />
           <Route path="/7thsea/chronicles" element={
             <ProtectedRoute><ChronicleList system="SEVENTH_SEA" basePath="/7thsea/chronicles" /></ProtectedRoute>

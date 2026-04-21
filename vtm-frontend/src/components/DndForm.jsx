@@ -90,6 +90,7 @@ export default function DndForm() {
   const [spellLevelFilter, setSpellLevelFilter] = useState('all')
   const [expandedSpell, setExpandedSpell] = useState(null)
   const [equipSearch, setEquipSearch] = useState('')
+  const [equipCategory, setEquipCategory] = useState('all')
   const [featSearch, setFeatSearch] = useState('')
   const [expandedFeat, setExpandedFeat] = useState(null)
 
@@ -191,6 +192,7 @@ export default function DndForm() {
 
   // Filtered equipment
   const filteredEquip = DND_EQUIPMENT_CATALOG.filter(item => {
+    if (equipCategory !== 'all' && item.type !== equipCategory) return false
     if (!equipSearch) return true
     const q = equipSearch.toLowerCase()
     return item.value.toLowerCase().includes(q) || item.description.toLowerCase().includes(q)
@@ -636,8 +638,17 @@ export default function DndForm() {
           </fieldset>
           <fieldset>
             <legend>{t('dndEquipment')}</legend>
-            <div style={{ marginBottom: 'var(--space-sm)' }}>
-              <input type="text" placeholder="Search equipment..." value={equipSearch} onChange={e => setEquipSearch(e.target.value)} style={{ width: '100%' }} />
+            <div style={{ marginBottom: 'var(--space-sm)', display: 'flex', gap: 'var(--space-sm)', alignItems: 'center', flexWrap: 'wrap' }}>
+              <div>
+                <label htmlFor="dnd-equip-category" style={{ marginRight: 'var(--space-xs)', fontSize: '0.85rem' }}>{t('dndFilterCategory')}</label>
+                <select id="dnd-equip-category" value={equipCategory} onChange={e => setEquipCategory(e.target.value)} style={{ fontSize: '0.85rem' }}>
+                  <option value="all">{t('filterAll')}</option>
+                  <option value="weapons">{t('dndFilterWeapons')}</option>
+                  <option value="armor">{t('dndFilterArmor')}</option>
+                  <option value="gear">{t('dndFilterGear')}</option>
+                </select>
+              </div>
+              <input type="text" placeholder="Search equipment..." value={equipSearch} onChange={e => setEquipSearch(e.target.value)} style={{ flex: 1, minWidth: '150px' }} />
             </div>
             {equipment.length > 0 && (
               <div style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: '4px' }}>

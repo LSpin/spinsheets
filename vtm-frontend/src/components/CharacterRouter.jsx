@@ -38,6 +38,7 @@ const BsdForm = lazyRetry(() => import('./BsdForm'))
 const MortalsForm = lazyRetry(() => import('./MortalsForm'))
 const SeventhSeaForm = lazyRetry(() => import('./SeventhSeaForm'))
 const SeventhSeaVillainForm = lazyRetry(() => import('./SeventhSeaVillainForm'))
+const SeventhSeaShipForm = lazyRetry(() => import('./SeventhSeaShipForm'))
 const L5RForm = lazyRetry(() => import('./L5RForm'))
 const L5RAntagonistForm = lazyRetry(() => import('./L5RAntagonistForm'))
 const BladesForm = lazyRetry(() => import('./BladesForm'))
@@ -69,7 +70,7 @@ export default function CharacterRouter() {
         setSplat(s)
         setIsNpc(!!res.data.npc)
         setNotFound(false)
-        switchTheme(s === 'SEVENTH_SEA' ? '7thsea' : s === 'L5R' || s === 'L5R_ANTAGONIST' ? 'l5r' : s === 'BLADES' || s === 'BLADES_CREW' || s === 'BLADES_ANTAGONIST' ? 'blades' : s === 'DND' || s === 'DND_MONSTER' ? 'dnd' : s === 'UESTRPG' || s === 'UESTRPG_ANTAGONIST' ? 'uestrpg' : s === 'CYBERPUNK' || s === 'CYBERPUNK_ANTAGONIST' ? 'cyberpunk' : s === 'ASOIAF' || s === 'ASOIAF_ANTAGONIST' ? 'asoiaf' : 'wod')
+        switchTheme(s === 'SEVENTH_SEA' || s === 'SEVENTH_SEA_SHIP' ? '7thsea' : s === 'L5R' || s === 'L5R_ANTAGONIST' ? 'l5r' : s === 'BLADES' || s === 'BLADES_CREW' || s === 'BLADES_ANTAGONIST' ? 'blades' : s === 'DND' || s === 'DND_MONSTER' ? 'dnd' : s === 'UESTRPG' || s === 'UESTRPG_ANTAGONIST' ? 'uestrpg' : s === 'CYBERPUNK' || s === 'CYBERPUNK_ANTAGONIST' ? 'cyberpunk' : s === 'ASOIAF' || s === 'ASOIAF_ANTAGONIST' ? 'asoiaf' : 'wod')
       } catch {
         setNotFound(true)
       } finally {
