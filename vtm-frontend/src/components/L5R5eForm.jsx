@@ -109,6 +109,10 @@ export default function L5R5eForm() {
 
   const [tab, setTab] = useState(0)
   const [fields, setFields] = useState(INITIAL)
+  const [techFilter, setTechFilter] = useState('all')
+  const [advFilter, setAdvFilter] = useState('all')
+  const [disFilter, setDisFilter] = useState('all')
+  const [weaponFilter, setWeaponFilter] = useState('all')
   const [xpLog, setXpLog] = useState([])
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
@@ -206,11 +210,32 @@ export default function L5R5eForm() {
 
   // ── School catalog filtered by clan ──
   const schoolCatalog = fields.l5r5eClan
-    ? L5R5E_SCHOOL_CATALOG.filter(s => {
-        const school = L5R5E_SCHOOLS.find(sc => sc.value === s.value)
-        return school && school.clan === fields.l5r5eClan
+    ? L5R5E_SCHOOL_CATALOG.filter((_, i) => {
+        const school = L5R5E_SCHOOLS[i]
+        return school && (school.clan === fields.l5r5eClan || school.clan === 'Ronin')
       })
     : L5R5E_SCHOOL_CATALOG
+
+  // ── Filtered catalogs ──
+  const techTypes = [...new Set(L5R5E_TECHNIQUES.map(t => t.type).filter(Boolean))].sort()
+  const filteredTechCatalog = techFilter === 'all'
+    ? L5R5E_TECHNIQUE_CATALOG
+    : L5R5E_TECHNIQUE_CATALOG.filter((_, i) => L5R5E_TECHNIQUES[i]?.type === techFilter)
+
+  const advTypes = [...new Set(L5R5E_ADVANTAGES.map(a => a.type).filter(Boolean))].sort()
+  const filteredAdvCatalog = advFilter === 'all'
+    ? L5R5E_ADVANTAGE_CATALOG
+    : L5R5E_ADVANTAGE_CATALOG.filter((_, i) => L5R5E_ADVANTAGES[i]?.type === advFilter)
+
+  const disTypes = [...new Set(L5R5E_DISADVANTAGES.map(d => d.type).filter(Boolean))].sort()
+  const filteredDisCatalog = disFilter === 'all'
+    ? L5R5E_DISADVANTAGE_CATALOG
+    : L5R5E_DISADVANTAGE_CATALOG.filter((_, i) => L5R5E_DISADVANTAGES[i]?.type === disFilter)
+
+  const weaponCategories = [...new Set(L5R5E_WEAPONS.map(w => w.category).filter(Boolean))].sort()
+  const filteredWeaponCatalog = weaponFilter === 'all'
+    ? L5R5E_WEAPON_CATALOG
+    : L5R5E_WEAPON_CATALOG.filter((_, i) => L5R5E_WEAPONS[i]?.category === weaponFilter)
 
   const selectedClan = L5R5E_CLANS.find(c => c.value === fields.l5r5eClan)
   const selectedSchool = L5R5E_SCHOOLS.find(s => s.value === fields.l5r5eSchool)
@@ -483,6 +508,13 @@ export default function L5R5eForm() {
         <div className="form-section">
           <fieldset>
             <legend>Techniques</legend>
+            <div style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+              <label htmlFor="tech-filter" style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('l5r5eFilterType')}</label>
+              <select id="tech-filter" value={techFilter} onChange={e => setTechFilter(e.target.value)} style={{ fontSize: '0.85rem' }}>
+                <option value="all">{t('filterAll')}</option>
+                {techTypes.map(type => <option key={type} value={type}>{type}</option>)}
+              </select>
+            </div>
             <CatalogSelect id="l5r5eTechAdd" name="l5r5eTechAdd" label="Add Technique"
               value="" onChange={(_, val) => {
                 if (!val) return
@@ -490,7 +522,7 @@ export default function L5R5eForm() {
                 if (tech && !techniques.find(tc => tc.value === tech.value)) {
                   setTechniques([...techniques, { value: tech.value, type: tech.type, ring: tech.ring, rank: tech.rank }])
                 }
-              }} catalog={L5R5E_TECHNIQUE_CATALOG} showDescOnSelect={false} />
+              }} catalog={filteredTechCatalog} showDescOnSelect={false} />
             {techniques.length === 0 && <p className="muted-hint" style={{ marginTop: 'var(--space-sm)' }}>No techniques learned yet.</p>}
             {techniques.length > 0 && (
               <div style={{ marginTop: 'var(--space-md)' }}>
@@ -527,6 +559,13 @@ export default function L5R5eForm() {
         <div className="form-section">
           <fieldset>
             <legend>Advantages (Distinctions & Passions)</legend>
+            <div style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+              <label htmlFor="adv-filter" style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('l5r5eFilterType')}</label>
+              <select id="adv-filter" value={advFilter} onChange={e => setAdvFilter(e.target.value)} style={{ fontSize: '0.85rem' }}>
+                <option value="all">{t('filterAll')}</option>
+                {advTypes.map(type => <option key={type} value={type}>{type}</option>)}
+              </select>
+            </div>
             <CatalogSelect id="l5r5eAdvAdd" name="l5r5eAdvAdd" label="Add Advantage"
               value="" onChange={(_, val) => {
                 if (!val) return
@@ -534,7 +573,7 @@ export default function L5R5eForm() {
                 if (adv && !advantages.find(a => a.value === adv.value)) {
                   setAdvantages([...advantages, { value: adv.value, type: adv.type, ring: adv.ring }])
                 }
-              }} catalog={L5R5E_ADVANTAGE_CATALOG} showDescOnSelect={false} />
+              }} catalog={filteredAdvCatalog} showDescOnSelect={false} />
             {advantages.length === 0 && <p className="muted-hint" style={{ marginTop: 'var(--space-sm)' }}>No advantages selected.</p>}
             {advantages.map((adv, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
@@ -551,6 +590,13 @@ export default function L5R5eForm() {
 
           <fieldset>
             <legend>Disadvantages (Adversities & Anxieties)</legend>
+            <div style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+              <label htmlFor="dis-filter" style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('l5r5eFilterType')}</label>
+              <select id="dis-filter" value={disFilter} onChange={e => setDisFilter(e.target.value)} style={{ fontSize: '0.85rem' }}>
+                <option value="all">{t('filterAll')}</option>
+                {disTypes.map(type => <option key={type} value={type}>{type}</option>)}
+              </select>
+            </div>
             <CatalogSelect id="l5r5eDisAdd" name="l5r5eDisAdd" label="Add Disadvantage"
               value="" onChange={(_, val) => {
                 if (!val) return
@@ -558,7 +604,7 @@ export default function L5R5eForm() {
                 if (dis && !disadvantages.find(d => d.value === dis.value)) {
                   setDisadvantages([...disadvantages, { value: dis.value, type: dis.type, ring: dis.ring }])
                 }
-              }} catalog={L5R5E_DISADVANTAGE_CATALOG} showDescOnSelect={false} />
+              }} catalog={filteredDisCatalog} showDescOnSelect={false} />
             {disadvantages.length === 0 && <p className="muted-hint" style={{ marginTop: 'var(--space-sm)' }}>No disadvantages selected.</p>}
             {disadvantages.map((dis, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
@@ -717,12 +763,19 @@ export default function L5R5eForm() {
         <div className="form-section">
           <fieldset>
             <legend>Weapons</legend>
+            <div style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+              <label htmlFor="weapon-filter" style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('l5r5eFilterCategory')}</label>
+              <select id="weapon-filter" value={weaponFilter} onChange={e => setWeaponFilter(e.target.value)} style={{ fontSize: '0.85rem' }}>
+                <option value="all">{t('filterAll')}</option>
+                {weaponCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+              </select>
+            </div>
             <CatalogSelect id="l5r5eWeaponAdd" name="l5r5eWeaponAdd" label="Add Weapon"
               value="" onChange={(_, val) => {
                 if (!val) return
                 const item = L5R5E_WEAPONS.find(w => w.name === val)
                 if (item) setWeapons([...weapons, { name: item.name, category: item.category, grip: item.grip, range: item.range, damage: item.damage, deadliness: item.deadliness, qualities: item.qualities }])
-              }} catalog={L5R5E_WEAPON_CATALOG} showDescOnSelect={false} />
+              }} catalog={filteredWeaponCatalog} showDescOnSelect={false} />
             {weapons.length > 0 && (
               <div style={{ marginTop: 'var(--space-md)', overflowX: 'auto' }}>
                 <table style={{ width: '100%', fontSize: '0.82rem', borderCollapse: 'collapse' }}>
