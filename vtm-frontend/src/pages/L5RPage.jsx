@@ -12,6 +12,8 @@ export default function L5RPage() {
   const [characters, setCharacters] = useState([])
   const [chronicles, setChronicles] = useState([])
   const [showNewChar, setShowNewChar] = useState(false)
+  const [showEditionPicker, setShowEditionPicker] = useState(false)
+  const [selectedEdition, setSelectedEdition] = useState(null)
   const [pageTab, setPageTab] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -52,14 +54,8 @@ export default function L5RPage() {
       <div className="character-list-header">
         <h2 id="l5r-heading">{t('systemL5R')} — {t('l5rMySamurai')}</h2>
         <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
-          <button className="btn btn-primary" onClick={() => setShowNewChar(true)}>
+          <button className="btn btn-primary" onClick={() => setShowEditionPicker(true)}>
             {t('l5rNewSamurai')}
-          </button>
-          <button className="btn btn-secondary" onClick={() => navigate('/l5r/new')}>
-            {t('l5rBlankSheet')}
-          </button>
-          <button className="btn btn-secondary" onClick={() => navigate('/l5r/5e/new')}>
-            {t('l5r5eNewChar')}
           </button>
           {isST && (
             <button className="btn btn-secondary" onClick={() => navigate('/l5r/antagonist/new')}>
@@ -175,7 +171,40 @@ export default function L5RPage() {
           </>
         )
       })()}
-      <NewCharacterModal open={showNewChar} onClose={() => setShowNewChar(false)} chronicles={chronicles} newCharPath="/l5r/new" />
+      {/* Edition Picker Modal */}
+      {showEditionPicker && (
+        <div className="modal-overlay" onClick={() => setShowEditionPicker(false)}
+          role="dialog" aria-modal="true" aria-labelledby="edition-picker-title"
+          onKeyDown={e => { if (e.key === 'Escape') setShowEditionPicker(false) }}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: '500px' }}>
+            <h3 id="edition-picker-title">{t('l5rChooseEdition')}</h3>
+            <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+              {t('l5rChooseEditionDesc')}
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+              <button className="modal-option-btn" autoFocus
+                onClick={() => { setShowEditionPicker(false); setSelectedEdition('4e'); setShowNewChar(true) }}
+                style={{ padding: 'var(--space-lg)', textAlign: 'left' }}>
+                <strong style={{ fontSize: '1.1rem' }}>L5R 4th Edition</strong>
+                <span className="muted-hint" style={{ display: 'block', marginTop: 'var(--space-xs)' }}>
+                  {t('l5r4eDesc')}
+                </span>
+              </button>
+              <button className="modal-option-btn"
+                onClick={() => { setShowEditionPicker(false); setSelectedEdition('5e'); setShowNewChar(true) }}
+                style={{ padding: 'var(--space-lg)', textAlign: 'left' }}>
+                <strong style={{ fontSize: '1.1rem' }}>L5R 5th Edition (FFG)</strong>
+                <span className="muted-hint" style={{ display: 'block', marginTop: 'var(--space-xs)' }}>
+                  {t('l5r5eDesc')}
+                </span>
+              </button>
+            </div>
+            <button className="modal-close" onClick={() => setShowEditionPicker(false)}>{t('cancel')}</button>
+          </div>
+        </div>
+      )}
+      <NewCharacterModal open={showNewChar} onClose={() => { setShowNewChar(false); setSelectedEdition(null) }}
+        chronicles={chronicles} newCharPath={selectedEdition === '5e' ? '/l5r/5e/new' : '/l5r/new'} />
     </section>
   )
 }
