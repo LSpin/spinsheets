@@ -11,6 +11,7 @@ const GAME_SYSTEMS = [
   { key: 'DND', labelKey: 'systemDnd', badge: 'splat-badge--dnd', newPath: '/dnd/new', gameSystem: 'DND' },
   { key: 'UESTRPG', labelKey: 'systemUestrpg', badge: 'splat-badge--uestrpg', newPath: '/uestrpg/new', gameSystem: 'UESTRPG' },
   { key: 'CYBERPUNK', labelKey: 'systemCyberpunk', badge: 'splat-badge--cyberpunk', newPath: '/cyberpunk/new', gameSystem: 'CYBERPUNK' },
+  { key: 'ASOIAF', labelKey: 'systemAsoiaf', badge: 'splat-badge--asoiaf', newPath: '/asoiaf/new', gameSystem: 'ASOIAF' },
 ]
 
 export default function NewCharacterModal({ open, onClose, chronicles, newCharPath, system }) {

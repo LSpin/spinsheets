@@ -25,6 +25,8 @@ const SYSTEMS = [
     splats: new Set(['UESTRPG', 'UESTRPG_ANTAGONIST']) },
   { key: 'CYBERPUNK', labelKey: 'systemCyberpunk', badge: 'splat-badge--cyberpunk', charPath: '/cyberpunk', theme: 'cyberpunk',
     splats: new Set(['CYBERPUNK', 'CYBERPUNK_ANTAGONIST']) },
+  { key: 'ASOIAF', labelKey: 'systemAsoiaf', badge: 'splat-badge--asoiaf', charPath: '/asoiaf', theme: 'asoiaf',
+    splats: new Set(['ASOIAF', 'ASOIAF_ANTAGONIST']) },
 ]
 
 const SPLAT_LABELS = {
@@ -41,6 +43,7 @@ const SPLAT_LABELS = {
   DND: 'splatDnd', DND_MONSTER: 'splatDndMonster',
   UESTRPG: 'splatUestrpg', UESTRPG_ANTAGONIST: 'splatUestrpgAntagonist',
   CYBERPUNK: 'splatCyberpunk', CYBERPUNK_ANTAGONIST: 'splatCyberpunkAntagonist',
+  ASOIAF: 'splatAsoiaf', ASOIAF_ANTAGONIST: 'splatAsoiafAntagonist',
 }
 
 function getSystemForSplat(splat) {

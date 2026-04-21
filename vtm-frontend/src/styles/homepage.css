@@ -255,6 +255,11 @@
 .system-card--cyberpunk h4 { color: #00d4ff; }
 .system-card--cyberpunk .system-card-cta { color: #00d4ff; }
 
+.system-card--asoiaf { border-color: rgba(196, 168, 50, 0.3); }
+.system-card--asoiaf:hover { border-color: #c4a832; }
+.system-card--asoiaf h4 { color: #c4a832; }
+.system-card--asoiaf .system-card-cta { color: #c4a832; }
+
 .homepage-systems {
   margin-top: var(--space-xl);
 }

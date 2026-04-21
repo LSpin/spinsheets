@@ -49,6 +49,8 @@ const UestrpgForm = lazyRetry(() => import('./UestrpgForm'))
 const UestrpgAntagonistForm = lazyRetry(() => import('./UestrpgAntagonistForm'))
 const CyberpunkForm = lazyRetry(() => import('./CyberpunkForm'))
 const CyberpunkAntagonistForm = lazyRetry(() => import('./CyberpunkAntagonistForm'))
+const AsoiafForm = lazyRetry(() => import('./AsoiafForm'))
+const AsoiafAntagonistForm = lazyRetry(() => import('./AsoiafAntagonistForm'))
 
 export default function CharacterRouter() {
   const { id } = useParams()
@@ -67,7 +69,7 @@ export default function CharacterRouter() {
         setSplat(s)
         setIsNpc(!!res.data.npc)
         setNotFound(false)
-        switchTheme(s === 'SEVENTH_SEA' ? '7thsea' : s === 'L5R' || s === 'L5R_ANTAGONIST' ? 'l5r' : s === 'BLADES' || s === 'BLADES_CREW' || s === 'BLADES_ANTAGONIST' ? 'blades' : s === 'DND' || s === 'DND_MONSTER' ? 'dnd' : s === 'UESTRPG' || s === 'UESTRPG_ANTAGONIST' ? 'uestrpg' : s === 'CYBERPUNK' || s === 'CYBERPUNK_ANTAGONIST' ? 'cyberpunk' : 'wod')
+        switchTheme(s === 'SEVENTH_SEA' ? '7thsea' : s === 'L5R' || s === 'L5R_ANTAGONIST' ? 'l5r' : s === 'BLADES' || s === 'BLADES_CREW' || s === 'BLADES_ANTAGONIST' ? 'blades' : s === 'DND' || s === 'DND_MONSTER' ? 'dnd' : s === 'UESTRPG' || s === 'UESTRPG_ANTAGONIST' ? 'uestrpg' : s === 'CYBERPUNK' || s === 'CYBERPUNK_ANTAGONIST' ? 'cyberpunk' : s === 'ASOIAF' || s === 'ASOIAF_ANTAGONIST' ? 'asoiaf' : 'wod')
       } catch {
         setNotFound(true)
       } finally {
@@ -119,6 +121,8 @@ export default function CharacterRouter() {
   else if (splat === 'UESTRPG') FormComponent = UestrpgForm
   else if (splat === 'CYBERPUNK') FormComponent = CyberpunkForm
   else if (splat === 'CYBERPUNK_ANTAGONIST') FormComponent = CyberpunkAntagonistForm
+  else if (splat === 'ASOIAF') FormComponent = AsoiafForm
+  else if (splat === 'ASOIAF_ANTAGONIST') FormComponent = AsoiafAntagonistForm
 
   return (
     <Suspense fallback={<p className="status-loading">{t('loading')}</p>}>

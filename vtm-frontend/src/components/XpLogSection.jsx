@@ -329,6 +329,14 @@ const configs = {
     xpRef: [],
     freebieRef: [],
   },
+  asoiaf: {
+    startingFreebies: 0,
+    noFreebies: true,
+    xpCosts: { Earned: {}, Other: {} },
+    freebieCosts: { Other: {} },
+    xpRef: [],
+    freebieRef: [],
+  },
 }
 
 export default function XpLogSection({ splat, xpLog, onAdd, onRemove, onError, t }) {

@@ -90,6 +90,11 @@ const UestrpgPage = lazyRetry(() => import('./pages/UestrpgPage'))
 const CyberpunkForm = lazyRetry(() => import('./components/CyberpunkForm'))
 const CyberpunkAntagonistForm = lazyRetry(() => import('./components/CyberpunkAntagonistForm'))
 const CyberpunkPage = lazyRetry(() => import('./pages/CyberpunkPage'))
+
+// ASOIAF RPG
+const AsoiafForm = lazyRetry(() => import('./components/AsoiafForm'))
+const AsoiafAntagonistForm = lazyRetry(() => import('./components/AsoiafAntagonistForm'))
+const AsoiafPage = lazyRetry(() => import('./pages/AsoiafPage'))
 const AllChroniclesPage = lazyRetry(() => import('./pages/AllChroniclesPage'))
 const AllCharactersPage = lazyRetry(() => import('./pages/AllCharactersPage'))
 
@@ -174,7 +179,7 @@ function UserMenu() {
   )
 }
 
-const THEME_TO_CHARACTERS_PATH = { wod: '/characters', '7thsea': '/7thsea', l5r: '/l5r', blades: '/blades', dnd: '/dnd', uestrpg: '/uestrpg', cyberpunk: '/cyberpunk' }
+const THEME_TO_CHARACTERS_PATH = { wod: '/characters', '7thsea': '/7thsea', l5r: '/l5r', blades: '/blades', dnd: '/dnd', uestrpg: '/uestrpg', cyberpunk: '/cyberpunk', asoiaf: '/asoiaf' }
 
 function AppShell() {
   const { user, isST } = useAuth()
@@ -547,6 +552,24 @@ function AppShell() {
             <ProtectedRoute><ChronicleForm system="CYBERPUNK" basePath="/cyberpunk/chronicles" /></ProtectedRoute>
           } />
           <Route path="/cyberpunk/chronicles/:id" element={
+            <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
+          } />
+          <Route path="/asoiaf" element={
+            <ProtectedRoute><AsoiafPage /></ProtectedRoute>
+          } />
+          <Route path="/asoiaf/new" element={
+            <ProtectedRoute><AsoiafForm /></ProtectedRoute>
+          } />
+          <Route path="/asoiaf/antagonist/new" element={
+            <ProtectedRoute><AsoiafAntagonistForm /></ProtectedRoute>
+          } />
+          <Route path="/asoiaf/chronicles" element={
+            <ProtectedRoute><ChronicleList system="ASOIAF" basePath="/asoiaf/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/asoiaf/chronicles/new" element={
+            <ProtectedRoute><ChronicleForm system="ASOIAF" basePath="/asoiaf/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/asoiaf/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
           } />
           <Route path="/all-characters" element={

@@ -12,6 +12,7 @@ public class SpaForwardController {
             "/blades", "/blades/**", "/dnd", "/dnd/**",
             "/uestrpg", "/uestrpg/**",
             "/cyberpunk", "/cyberpunk/**",
+            "/asoiaf", "/asoiaf/**",
             "/players", "/admin", "/invite/**"},
             produces = "text/html")
     public String forward() {

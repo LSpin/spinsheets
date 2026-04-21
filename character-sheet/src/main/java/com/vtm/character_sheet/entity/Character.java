@@ -789,4 +789,52 @@ public class Character {
     private String cpContacts;
     @Column(columnDefinition = "TEXT")
     private String cpVehicles;
+
+    // ── ASOIAF RPG (A Song of Ice and Fire) ──
+    private String asoiafHouse;
+    private String asoiafAge;
+    private String asoiafRole;
+    private Integer asoiafAgility;
+    private Integer asoiafAnimalHandling;
+    private Integer asoiafAthletics;
+    private Integer asoiafAwareness;
+    private Integer asoiafCunning;
+    private Integer asoiafDeception;
+    private Integer asoiafEndurance;
+    private Integer asoiafFighting;
+    private Integer asoiafHealing;
+    private Integer asoiafKnowledge;
+    private Integer asoiafLanguage;
+    private Integer asoiafMarksmanship;
+    private Integer asoiafPersuasion;
+    private Integer asoiafStatusAbility;
+    private Integer asoiafStealth;
+    private Integer asoiafSurvival;
+    private Integer asoiafThievery;
+    private Integer asoiafWarfare;
+    private Integer asoiafWill;
+    private Integer asoiafDestinyPoints;
+    private Integer asoiafHealthMax;
+    private Integer asoiafHealthCurrent;
+    private Integer asoiafComposureMax;
+    private Integer asoiafComposureCurrent;
+    private Integer asoiafGoldDragons;
+    private Integer asoiafSilverStags;
+    private Integer asoiafCopperPennies;
+    @Column(columnDefinition = "TEXT")
+    private String asoiafSpecialties;
+    @Column(columnDefinition = "TEXT")
+    private String asoiafBenefits;
+    @Column(columnDefinition = "TEXT")
+    private String asoiafDrawbacks;
+    @Column(columnDefinition = "TEXT")
+    private String asoiafWeapons;
+    @Column(columnDefinition = "TEXT")
+    private String asoiafArmor;
+    @Column(columnDefinition = "TEXT")
+    private String asoiafInventory;
+    @Column(columnDefinition = "TEXT")
+    private String asoiafInjuries;
+    @Column(columnDefinition = "TEXT")
+    private String asoiafHouseData;
 }

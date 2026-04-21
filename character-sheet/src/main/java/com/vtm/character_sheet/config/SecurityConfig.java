@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/reset-request").authenticated()
                 .requestMatchers("/api/merits", "/api/flaws").permitAll()
                 .requestMatchers("/", "/index.html", "/assets/**", "/favicon.svg", "/icons.svg").permitAll()
-                .requestMatchers("/login", "/register", "/reset-password", "/characters/**", "/chronicles/**", "/all-chronicles", "/all-characters", "/7thsea/**", "/l5r/**", "/blades/**", "/dnd/**", "/uestrpg/**", "/cyberpunk/**", "/players", "/admin", "/invite/**").permitAll()
+                .requestMatchers("/login", "/register", "/reset-password", "/characters/**", "/chronicles/**", "/all-chronicles", "/all-characters", "/7thsea/**", "/l5r/**", "/blades/**", "/dnd/**", "/uestrpg/**", "/cyberpunk/**", "/asoiaf/**", "/players", "/admin", "/invite/**").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)

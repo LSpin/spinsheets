@@ -115,6 +115,19 @@
   background: #001a22;
 }
 
+/* ── ASOIAF RPG theme — parchment gold ── */
+
+[data-theme="asoiaf"] {
+  --color-border-focus: #c4a832;
+  --color-accent: #8a7523;
+  --color-accent-fg: #c4a832;
+  --color-accent-hover: #d4b842;
+}
+
+[data-theme="asoiaf"] .tab-btn--active {
+  background: rgba(196, 168, 50, 0.1) !important;
+}
+
 @media (forced-colors: active) {
   :root {
     --color-accent:       Highlight;

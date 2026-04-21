@@ -492,6 +492,45 @@ public class CharacterController {
             existing.setCpLifepath(updated.getCpLifepath());
             existing.setCpContacts(updated.getCpContacts());
             existing.setCpVehicles(updated.getCpVehicles());
+            // ASOIAF RPG
+            existing.setAsoiafHouse(updated.getAsoiafHouse());
+            existing.setAsoiafAge(updated.getAsoiafAge());
+            existing.setAsoiafRole(updated.getAsoiafRole());
+            existing.setAsoiafAgility(updated.getAsoiafAgility());
+            existing.setAsoiafAnimalHandling(updated.getAsoiafAnimalHandling());
+            existing.setAsoiafAthletics(updated.getAsoiafAthletics());
+            existing.setAsoiafAwareness(updated.getAsoiafAwareness());
+            existing.setAsoiafCunning(updated.getAsoiafCunning());
+            existing.setAsoiafDeception(updated.getAsoiafDeception());
+            existing.setAsoiafEndurance(updated.getAsoiafEndurance());
+            existing.setAsoiafFighting(updated.getAsoiafFighting());
+            existing.setAsoiafHealing(updated.getAsoiafHealing());
+            existing.setAsoiafKnowledge(updated.getAsoiafKnowledge());
+            existing.setAsoiafLanguage(updated.getAsoiafLanguage());
+            existing.setAsoiafMarksmanship(updated.getAsoiafMarksmanship());
+            existing.setAsoiafPersuasion(updated.getAsoiafPersuasion());
+            existing.setAsoiafStatusAbility(updated.getAsoiafStatusAbility());
+            existing.setAsoiafStealth(updated.getAsoiafStealth());
+            existing.setAsoiafSurvival(updated.getAsoiafSurvival());
+            existing.setAsoiafThievery(updated.getAsoiafThievery());
+            existing.setAsoiafWarfare(updated.getAsoiafWarfare());
+            existing.setAsoiafWill(updated.getAsoiafWill());
+            existing.setAsoiafDestinyPoints(updated.getAsoiafDestinyPoints());
+            existing.setAsoiafHealthMax(updated.getAsoiafHealthMax());
+            existing.setAsoiafHealthCurrent(updated.getAsoiafHealthCurrent());
+            existing.setAsoiafComposureMax(updated.getAsoiafComposureMax());
+            existing.setAsoiafComposureCurrent(updated.getAsoiafComposureCurrent());
+            existing.setAsoiafGoldDragons(updated.getAsoiafGoldDragons());
+            existing.setAsoiafSilverStags(updated.getAsoiafSilverStags());
+            existing.setAsoiafCopperPennies(updated.getAsoiafCopperPennies());
+            existing.setAsoiafSpecialties(updated.getAsoiafSpecialties());
+            existing.setAsoiafBenefits(updated.getAsoiafBenefits());
+            existing.setAsoiafDrawbacks(updated.getAsoiafDrawbacks());
+            existing.setAsoiafWeapons(updated.getAsoiafWeapons());
+            existing.setAsoiafArmor(updated.getAsoiafArmor());
+            existing.setAsoiafInventory(updated.getAsoiafInventory());
+            existing.setAsoiafInjuries(updated.getAsoiafInjuries());
+            existing.setAsoiafHouseData(updated.getAsoiafHouseData());
             return ResponseEntity.ok(service.save(existing));
         }).orElse(ResponseEntity.notFound().build());
     }
@@ -518,6 +557,7 @@ public class CharacterController {
         Map.entry("DND", "DND"), Map.entry("DND_MONSTER", "DND"),
         Map.entry("UESTRPG", "UESTRPG"), Map.entry("UESTRPG_ANTAGONIST", "UESTRPG"),
         Map.entry("CYBERPUNK", "CYBERPUNK"), Map.entry("CYBERPUNK_ANTAGONIST", "CYBERPUNK"),
+        Map.entry("ASOIAF", "ASOIAF"), Map.entry("ASOIAF_ANTAGONIST", "ASOIAF"),
         Map.entry("L5R_ANTAGONIST", "L5R"), Map.entry("BLADES_ANTAGONIST", "BLADES"),
         Map.entry("HUNTER", "VAMPIRE"), Map.entry("WRAITH", "VAMPIRE"),
         Map.entry("CHANGELING", "MAGE"), Map.entry("DEMON", "VAMPIRE"),

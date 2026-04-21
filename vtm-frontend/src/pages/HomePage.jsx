@@ -12,6 +12,7 @@ const SYSTEMS = [
   { path: '/dnd', theme: 'dnd', cls: 'system-card--dnd', nameKey: 'systemDnd', descKey: 'systemDndDesc' },
   { path: '/uestrpg', theme: 'uestrpg', cls: 'system-card--uestrpg', nameKey: 'systemUestrpg', descKey: 'systemUestrpgDesc' },
   { path: '/cyberpunk', theme: 'cyberpunk', cls: 'system-card--cyberpunk', nameKey: 'systemCyberpunk', descKey: 'systemCyberpunkDesc' },
+  { path: '/asoiaf', theme: 'asoiaf', cls: 'system-card--asoiaf', nameKey: 'systemAsoiaf', descKey: 'systemAsoiafDesc' },
 ]
 
 function SystemCarousel({ user, t, switchTheme }) {
