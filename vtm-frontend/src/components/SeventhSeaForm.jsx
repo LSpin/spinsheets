@@ -92,6 +92,34 @@ const HUBRIS_CATALOG = HUBRISES.map(h => ({ value: h, description: h.split(' \u2
 // Map dueling style name to primary trait used (from imported data)
 const DUELING_STYLE_TRAIT = Object.fromEntries(SEVEN_SEA_DUELING_STYLES.map(s => [s.name, s.trait]))
 
+// ── Skill name → field key mapping (for background auto-apply) ──
+const SKILL_NAME_TO_KEY = {
+  'Aim': 'skillAim', 'Athletics': 'skillAthletics7s', 'Brawl': 'skillBrawl7s',
+  'Convince': 'skillConvince', 'Empathy': 'skillEmpathy7s', 'Hide': 'skillHide',
+  'Intimidate': 'skillIntimidate7s', 'Notice': 'skillNotice', 'Perform': 'skillPerform7s',
+  'Ride': 'skillRide7s', 'Sailing': 'skillSailing', 'Scholarship': 'skillScholarship',
+  'Tempt': 'skillTempt', 'Theft': 'skillTheft', 'Warfare': 'skillWarfare', 'Weaponry': 'skillWeaponry',
+}
+
+// ── Nation → Religion mapping (for auto-suggest) ──
+const NATION_RELIGIONS = {
+  'Avalon': ['Objectionism', 'Sidhe Worship'],
+  'Inismore': ['Sidhe Worship', 'Vaticine Church'],
+  'Highland Marches': ['Objectionism', 'Sidhe Worship'],
+  'Castille': ['Vaticine Church'],
+  'Montaigne': ['Vaticine Church', 'Objectionism'],
+  'Eisen': ['Objectionism', 'Vaticine Church'],
+  'Vodacce': ['Vaticine Church', 'Losejas'],
+  'Ussura': ['Ussuran Orthodox'],
+  'Vestenmennavenjar': ['Old Vestenmannavnjar Faith', 'Vaticine Church'],
+  'Sarmatian Commonwealth': ['Vaticine Church', 'Objectionism'],
+  'Numa': ['Vaticine Church', 'Agnosticism'],
+  'Pirate Nations': ['Agnosticism', 'Vaticine Church'],
+  'Atabean Trading Company': ['Vaticine Church', 'Crescent Faith'],
+  'Rahuri': ['Crescent Faith'],
+  'Ifrian': ['Crescent Faith'],
+}
+
 const INITIAL = {
   npc: false, splat: 'SEVENTH_SEA',
   name: '', altName: '', concept: '',
@@ -172,6 +200,7 @@ export default function SeventhSeaForm() {
   const [advSourceFilter, setAdvSourceFilter] = useState('')
   const [bgSourceFilter, setBgSourceFilter] = useState('')
   const [nationRegionFilter, setNationRegionFilter] = useState('')
+  const [bgAutoApplyMsg, setBgAutoApplyMsg] = useState(null)
 
   useEffect(() => {
     if (characterId) loadCharacter()
@@ -264,6 +293,59 @@ export default function SeventhSeaForm() {
     } catch { setActionError(t('failedToSave')) }
   }
 
+  // Background auto-apply: add advantages and increment skills
+  async function handleAddBackgroundFromCatalog(bgEntry) {
+    try {
+      const res = await addBackground(characterId, { name: bgEntry.name, level: 1, description: '' })
+      setBackgrounds(prev => [...prev, res.data])
+
+      const applied = { skills: [], advantages: [] }
+
+      // Auto-increment skills (cap at 5)
+      if (bgEntry.skills && bgEntry.skills.length > 0) {
+        setFields(prev => {
+          const updated = { ...prev }
+          for (const skillName of bgEntry.skills) {
+            const key = SKILL_NAME_TO_KEY[skillName]
+            if (key && updated[key] < 5) {
+              updated[key] = updated[key] + 1
+              applied.skills.push(skillName)
+            }
+          }
+          return updated
+        })
+      }
+
+      // Auto-add advantages
+      if (bgEntry.advantages && bgEntry.advantages.length > 0) {
+        for (const advName of bgEntry.advantages) {
+          const hit = ADVANTAGES.find(a => a.name.toLowerCase() === advName.toLowerCase())
+          if (hit) {
+            try {
+              const advRes = await addDiscipline(characterId, { name: hit.name, level: hit.cost, notes: '' })
+              setDisciplines(prev => [...prev, advRes.data])
+              applied.advantages.push(`${hit.name} (${hit.cost}pt)`)
+            } catch { /* skip duplicates silently */ }
+          }
+        }
+        // Reload disciplines to ensure sync
+        try {
+          const discRes = await getDisciplines(characterId)
+          setDisciplines(discRes.data)
+        } catch { /* non-critical */ }
+      }
+
+      // Show confirmation message
+      const parts = []
+      if (applied.skills.length > 0) parts.push(`Skills +1: ${applied.skills.join(', ')}`)
+      if (applied.advantages.length > 0) parts.push(`Advantages: ${applied.advantages.join(', ')}`)
+      if (parts.length > 0) {
+        setBgAutoApplyMsg(`${bgEntry.name} applied -- ${parts.join('. ')}`)
+        setTimeout(() => setBgAutoApplyMsg(null), 6000)
+      }
+    } catch { setActionError(t('failedToSave')) }
+  }
+
   async function handleAddAdvantage() {
     if (!newAdv.name.trim()) return
     try {
@@ -339,6 +421,26 @@ export default function SeventhSeaForm() {
     ? BACKGROUND_CATALOG.filter(b => b.source === bgSourceFilter)
     : BACKGROUND_CATALOG
 
+  // ── Religion auto-suggest: reorder based on nation ──
+  const recommendedReligions = fields.nation && NATION_RELIGIONS[fields.nation] ? NATION_RELIGIONS[fields.nation] : []
+  const sortedReligionCatalog = recommendedReligions.length > 0
+    ? [
+        ...RELIGION_CATALOG.filter(r => recommendedReligions.includes(r.value)).map(r => ({ ...r, recommended: true })),
+        ...RELIGION_CATALOG.filter(r => !recommendedReligions.includes(r.value)),
+      ]
+    : RELIGION_CATALOG
+
+  // ── Background → Advantage synergy: collect recommended advantages from selected backgrounds ──
+  const bgRecommendedAdvantages = new Set()
+  for (const bg of backgrounds) {
+    const entry = BACKGROUND_CATALOG.find(b => b.name.toLowerCase() === bg.name.toLowerCase())
+    if (entry?.advantages) entry.advantages.forEach(a => bgRecommendedAdvantages.add(a.toLowerCase()))
+  }
+
+  // ── Virtue / Hubris effect parsing ──
+  const virtueEffect = fields.heroVirtue ? fields.heroVirtue.split(' \u2014 ')[1] || '' : ''
+  const hubrisEffect = fields.heroHubris ? fields.heroHubris.split(' \u2014 ')[1] || '' : ''
+
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
   return (
@@ -397,7 +499,15 @@ export default function SeventhSeaForm() {
             </div>
             <div className="field-row">
               <CatalogSelect id="religion" name="religion" label={t('7sReligion')} value={fields.religion}
-                onChange={handleField} catalog={RELIGION_CATALOG} />
+                onChange={handleField} catalog={sortedReligionCatalog.map(r => ({
+                  ...r,
+                  description: r.recommended ? `[Recommended for ${fields.nation}] ${r.description}` : r.description,
+                }))} />
+              {recommendedReligions.length > 0 && !fields.religion && (
+                <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
+                  Recommended for {fields.nation}: {recommendedReligions.join(', ')}
+                </p>
+              )}
             </div>
             {nationTraits && (
               <div style={{ marginBottom: 'var(--space-sm)' }}>
@@ -497,11 +607,14 @@ export default function SeventhSeaForm() {
                       <tr key={key}>
                         <td style={{ fontWeight: 600 }}>{t(key)}</td>
                         <td style={{ textAlign: 'center' }}>{rank}</td>
-                        {TRAIT_KEYS.map(tk => (
-                          <td key={tk} style={{ textAlign: 'center', color: 'var(--color-accent-fg)', fontWeight: 600 }}>
-                            {rank + fields[tk]}d10
-                          </td>
-                        ))}
+                        {TRAIT_KEYS.map(tk => {
+                          const isStrong = rank >= 2 && fields[tk] >= 3
+                          return (
+                            <td key={tk} style={{ textAlign: 'center', color: 'var(--color-accent-fg)', fontWeight: 600, background: isStrong ? 'rgba(46,204,113,0.15)' : undefined }}>
+                              {rank + fields[tk]}d10
+                            </td>
+                          )
+                        })}
                       </tr>
                     )
                   })}
@@ -539,6 +652,11 @@ export default function SeventhSeaForm() {
           })()}
           <fieldset>
             <legend>{t('7sAdvCatalogue')} ({filteredAdvantages.length})</legend>
+            {guidedMode && (
+              <div style={{ padding: 'var(--space-sm) var(--space-md)', marginBottom: 'var(--space-sm)', background: advSpent > ADVANTAGE_BUDGET ? 'rgba(231,76,60,0.12)' : advSpent === ADVANTAGE_BUDGET ? 'rgba(46,204,113,0.12)' : 'rgba(52,152,219,0.10)', borderLeft: `3px solid ${advSpent > ADVANTAGE_BUDGET ? '#e74c3c' : advSpent === ADVANTAGE_BUDGET ? '#2ecc71' : 'var(--color-accent-fg)'}`, borderRadius: 'var(--radius)', fontSize: '0.9rem', fontWeight: 600 }}>
+                Spent: {advSpent}/{ADVANTAGE_BUDGET} pts -- {ADVANTAGE_BUDGET - advSpent >= 0 ? `${ADVANTAGE_BUDGET - advSpent} remaining` : `${advSpent - ADVANTAGE_BUDGET} over budget`}
+              </div>
+            )}
             <div className="catalog-search-wrap" style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', alignItems: 'center' }}>
               <input type="search" value={advSearch} onChange={e => setAdvSearch(e.target.value)}
                 placeholder="Search advantages..." aria-label="Search advantages" style={{ flex: 1, minWidth: 180 }} />
@@ -570,7 +688,12 @@ export default function SeventhSeaForm() {
                             }
                           }}>
                             <div className="catalog-item-main">
-                              <span className="catalog-item-name">{a.name}</span>
+                              <span className="catalog-item-name">
+                                {a.name}
+                                {bgRecommendedAdvantages.has(a.name.toLowerCase()) && !already && (
+                                  <span style={{ marginLeft: '6px', fontSize: '0.7rem', fontWeight: 700, color: '#fff', background: 'var(--color-accent-fg)', padding: '1px 6px', borderRadius: '8px', verticalAlign: 'middle' }}>Recommended</span>
+                                )}
+                              </span>
                               <span className="catalog-item-desc">{a.description}</span>
                               {a.source && <span className="muted-hint muted-hint--xs" style={{ display: 'block', marginTop: '2px', fontStyle: 'italic' }}>{a.source}</span>}
                               {wouldExceed && (
@@ -607,6 +730,26 @@ export default function SeventhSeaForm() {
                 <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)', color: 'var(--color-accent-fg)' }}>{nationSorcery}</h3>
                 <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>{SORCERY_INFO[nationSorcery]?.nation}</strong></p>
                 <p style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>{SORCERY_INFO[nationSorcery]?.description}</p>
+                {(() => {
+                  const hasSorcery = disciplines.some(d => d.name === 'Sorcery' && d.notes === nationSorcery)
+                  const wouldExceed = guidedMode && (advSpent + 4) > ADVANTAGE_BUDGET
+                  return !hasSorcery ? (
+                    <button className="btn btn-secondary" style={{ marginTop: 'var(--space-sm)' }}
+                      disabled={guidedMode && wouldExceed}
+                      onClick={() => {
+                        addDiscipline(characterId, { name: 'Sorcery', level: 4, notes: nationSorcery })
+                          .then(res => setDisciplines(prev => [...prev, res.data]))
+                          .catch(() => setActionError(t('failedToSave')))
+                      }}>
+                      Add {nationSorcery} (4 pts)
+                      {guidedMode && wouldExceed && ' -- exceeds budget'}
+                    </button>
+                  ) : (
+                    <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-sm)', color: 'var(--color-accent-fg)' }}>
+                      {nationSorcery} already added as an advantage.
+                    </p>
+                  )
+                })()}
               </div>
             ) : (
               <p className="muted-hint" style={{ paddingBottom: 0 }}>Select a nation on the Identity tab to see your available sorcery tradition.</p>
@@ -694,11 +837,34 @@ export default function SeventhSeaForm() {
               <CatalogSelect id="heroHubris" name="heroHubris" label={t('7sHubris')} value={fields.heroHubris}
                 onChange={handleField} catalog={HUBRIS_CATALOG} />
             </div>
+            {(virtueEffect || hubrisEffect) && (
+              <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-sm)' }}>
+                {virtueEffect && (
+                  <div style={{ flex: 1, minWidth: 200, padding: 'var(--space-sm) var(--space-md)', background: 'rgba(46,204,113,0.10)', borderLeft: '3px solid #2ecc71', borderRadius: 'var(--radius)', fontSize: '0.85rem' }}>
+                    <strong style={{ color: '#2ecc71' }}>Virtue:</strong> {virtueEffect}
+                  </div>
+                )}
+                {hubrisEffect && (
+                  <div style={{ flex: 1, minWidth: 200, padding: 'var(--space-sm) var(--space-md)', background: 'rgba(231,76,60,0.10)', borderLeft: '3px solid #e74c3c', borderRadius: 'var(--radius)', fontSize: '0.85rem' }}>
+                    <strong style={{ color: '#e74c3c' }}>Hubris:</strong> {hubrisEffect}
+                  </div>
+                )}
+              </div>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('7sResources')}</legend>
             <div className="rating-grid">
-              <div className="ability-row"><DotRating label={t('7sHeroPoints')} name="heroPoints" value={fields.heroPoints} onChange={handleField} min={0} max={10} /></div>
+              <div className="ability-row">
+                {guidedMode ? (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                    <DotRating label={t('7sHeroPoints')} name="heroPoints" value={1} onChange={() => {}} min={1} max={1} />
+                    <span className="muted-hint muted-hint--xs" style={{ color: 'var(--color-accent-fg)', whiteSpace: 'nowrap' }}>Auto-set for character creation</span>
+                  </div>
+                ) : (
+                  <DotRating label={t('7sHeroPoints')} name="heroPoints" value={fields.heroPoints} onChange={handleField} min={0} max={10} />
+                )}
+              </div>
               <div className="ability-row"><DotRating label={t('7sWealth')} name="wealth7s" value={fields.wealth7s} onChange={handleField} min={0} max={10} /></div>
               <div className="ability-row"><DotRating label={t('7sDramaticWounds')} name="dramaticWounds" value={fields.dramaticWounds} onChange={handleField} min={0} max={5} /></div>
               <div className="ability-row"><DotRating label={t('7sCorruption')} name="corruption" value={fields.corruption} onChange={handleField} min={0} max={10} /></div>
@@ -735,10 +901,21 @@ export default function SeventhSeaForm() {
       <div role="tabpanel" id={`tabpanel-7`} aria-labelledby={`tab-7`} hidden={tab !== 7}>
         <div className="form-section">
           <fieldset>
-            <legend>{t('tab7sBackgrounds')}</legend>
+            <legend>{t('tab7sBackgrounds')}{guidedMode ? ` -- Backgrounds: ${backgrounds.length}/2` : ''}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Choose 2 Backgrounds. Each provides a Quirk, Skills, and Advantages.
             </p>
+            {guidedMode && (
+              <span className={`points-remaining ${backgrounds.length < 2 ? 'points-remaining--ok' : backgrounds.length === 2 ? 'points-remaining--done' : 'points-remaining--over'}`}
+                style={{ display: 'inline-block', marginBottom: 'var(--space-sm)' }}>
+                Backgrounds: {backgrounds.length}/2{backgrounds.length < 2 ? ` -- ${2 - backgrounds.length} remaining` : ''}
+              </span>
+            )}
+            {bgAutoApplyMsg && (
+              <div role="status" aria-live="polite" style={{ padding: 'var(--space-sm) var(--space-md)', marginBottom: 'var(--space-sm)', background: 'rgba(46,204,113,0.12)', borderLeft: '3px solid #2ecc71', borderRadius: 'var(--radius)', fontSize: '0.85rem', color: 'var(--color-text)' }}>
+                {bgAutoApplyMsg}
+              </div>
+            )}
             {guidedMode && backgrounds.length >= 2 && (
               <p className="points-remaining points-remaining--done" style={{ marginBottom: 'var(--space-sm)' }}>
                 Background limit reached (2/2). Remove one to add a different background.
@@ -759,10 +936,26 @@ export default function SeventhSeaForm() {
           </fieldset>
           {tagInfo?.kind === 'background' && (() => {
             const entry = BACKGROUND_CATALOG.find(bg => bg.name.toLowerCase() === tagInfo.name.toLowerCase())
-            const desc = entry
-              ? `Skills: ${entry.skills.join(', ')}.\nAdvantages: ${entry.advantages.join(', ')}.\nQuirk: ${entry.quirk}`
-              : tagInfo.description ? `Quirk: ${tagInfo.description}` : undefined
-            return <TagInfoPanel entry={{ name: entry?.name || tagInfo.name, description: desc }} onClose={() => setTagInfo(null)} />
+            if (!entry) {
+              const desc = tagInfo.description ? `Quirk: ${tagInfo.description}` : undefined
+              return <TagInfoPanel entry={{ name: tagInfo.name, description: desc }} onClose={() => setTagInfo(null)} />
+            }
+            return (
+              <aside className="tag-info-panel">
+                <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
+                <p className="tag-info-panel-name">{entry.name}</p>
+                <p className="tag-info-panel-desc" style={{ marginBottom: 'var(--space-xs)' }}>
+                  <strong>Skills:</strong> {entry.skills.join(', ')}
+                </p>
+                <p className="tag-info-panel-desc" style={{ marginBottom: 'var(--space-xs)' }}>
+                  <strong>Advantages:</strong> {entry.advantages.join(', ')}
+                </p>
+                <div style={{ padding: 'var(--space-sm) var(--space-md)', marginTop: 'var(--space-sm)', background: 'rgba(241,196,15,0.12)', borderLeft: '3px solid #f1c40f', borderRadius: 'var(--radius)' }}>
+                  <span style={{ display: 'inline-block', fontSize: '0.72rem', fontWeight: 700, color: '#fff', background: '#f1c40f', padding: '1px 8px', borderRadius: '8px', marginRight: '6px', verticalAlign: 'middle' }}>Hero Point</span>
+                  <span style={{ fontSize: '0.85rem', fontStyle: 'italic' }}>{entry.quirk}</span>
+                </div>
+              </aside>
+            )
           })()}
           <fieldset>
             <legend>{t('7sBgCatalogue')} ({filteredBackgrounds.length})</legend>
@@ -784,9 +977,7 @@ export default function SeventhSeaForm() {
                     <li key={b.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
                       <button className="catalog-item-btn" disabled={!already && guidedMode && backgrounds.length >= 2} onClick={() => {
                         if (!already) {
-                          addBackground(characterId, { name: b.name, level: 1, description: '' })
-                            .then(res => setBackgrounds(prev => [...prev, res.data]))
-                            .catch(() => setActionError(t('failedToSave')))
+                          handleAddBackgroundFromCatalog(b)
                         } else {
                           const bg = backgrounds.find(bg => bg.name.toLowerCase() === b.name.toLowerCase())
                           if (bg) setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' })
