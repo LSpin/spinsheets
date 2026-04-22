@@ -18,27 +18,20 @@ import RulesReferenceTab from './RulesReferenceTab'
 import { SEVEN_SEA_RULES } from '../data/sevenSeaRules'
 import SeventhSeaDiceRoller from './SeventhSeaDiceRoller'
 import { SEVEN_SEA_HERO_NPCS, SEVEN_SEA_HERO_CATALOG } from '../data/sevenSeaNpcs'
+import {
+  SEVEN_SEA_NATIONS, SEVEN_SEA_ADVANTAGES,
+  BACKGROUNDS as SEVEN_SEA_BACKGROUNDS,
+  DUELING_STYLES as SEVEN_SEA_DUELING_STYLES,
+  SECRET_SOCIETIES as SEVEN_SEA_SECRET_SOCIETIES,
+  ARCANA as SEVEN_SEA_ARCANA,
+  getAllArcana, getAllRegions, getAllSources,
+} from '../data/sevenSeaData'
 
-// ── Nations with favored trait pairs (pick one for +1) ──
-const NATIONS = {
-  'Avalon':                  ['Panache', 'Resolve'],
-  'Inismore':                ['Panache', 'Wits'],
-  'Highland Marches':        ['Brawn', 'Finesse'],
-  'Castille':                ['Finesse', 'Wits'],
-  'Eisen':                   ['Brawn', 'Resolve'],
-  'Montaigne':               ['Finesse', 'Panache'],
-  'Sarmatian Commonwealth':  ['Brawn', 'Panache'],
-  'Ussura':                  ['Resolve', 'Wits'],
-  'Vestenmennavenjar':       ['Brawn', 'Wits'],
-  'Vodacce':                 ['Finesse', 'Resolve'],
-  'Crescent Empire':         ['Resolve', 'Wits'],
-  'Ifri':                    ['Brawn', 'Panache'],
-  'Aztlan':                  ['Finesse', 'Panache'],
-}
-const NATION_NAMES = Object.keys(NATIONS)
+// ── Derived data from imported data file ──
+const NATIONS = Object.fromEntries(SEVEN_SEA_NATIONS.map(n => [n.value, n.traits]))
 
 const RELIGION_CATALOG = [
-  { value: 'Vaticine Church', description: 'The dominant faith of Théah. Worships Theus and the Prophets. Opposes sorcery.' },
+  { value: 'Vaticine Church', description: 'The dominant faith of Th\u00e9ah. Worships Theus and the Prophets. Opposes sorcery.' },
   { value: 'Objectionism', description: 'Protestant reformation of the Vaticine Church. Rejects Papal authority and embraces reason.' },
   { value: 'Ussuran Orthodox', description: 'Ussuran branch of the Vaticine faith. Emphasizes Matushka (Mother Nature) alongside Theus.' },
   { value: 'Die Kreuzritter', description: 'Secretive holy order of monster hunters. Ancient knights fighting supernatural threats.' },
@@ -50,221 +43,54 @@ const RELIGION_CATALOG = [
   { value: 'Atheism', description: 'Rejects divine authority entirely. Rare and socially dangerous in most nations.' },
 ]
 
-const NATION_CATALOG = [
-  { value: 'Avalon', description: 'Inspired by Elizabethan England. A land of knights, Sidhe magic, and Glamour sorcery.' },
-  { value: 'Inismore', description: 'Inspired by Ireland. Wild and mystical, home to ancient fae bargains.' },
-  { value: 'Highland Marches', description: 'Inspired by Scotland. Proud clans united by honor and fierce independence.' },
-  { value: 'Castille', description: 'Inspired by Spain. A nation of scholars, duelists, and religious devotion.' },
-  { value: 'Eisen', description: 'Inspired by the Holy Roman Empire. War-torn land of iron-willed soldiers and Hexenwerk.' },
-  { value: 'Montaigne', description: 'Inspired by France. Decadent nobility wielding Porte sorcery and political intrigue.' },
-  { value: 'Sarmatian Commonwealth', description: 'Inspired by Poland-Lithuania. A democratic republic of noble cavaliers.' },
-  { value: 'Ussura', description: 'Inspired by Russia. A frozen land where Dar Matushki grants the gift of transformation.' },
-  { value: 'Vestenmennavenjar', description: 'Inspired by Scandinavia. Vikings turned merchants with ancient Galdr rune magic.' },
-  { value: 'Vodacce', description: 'Inspired by Italy. Scheming merchant princes and Fate Witches who weave Sorte.' },
-  { value: 'Crescent Empire', description: 'Inspired by the Ottoman Empire. A diverse land of scholars, warriors, and ancient knowledge.' },
-  { value: 'Ifri', description: 'Inspired by Africa. Rich in culture, trade, and powerful spiritual traditions.' },
-  { value: 'Aztlan', description: 'Inspired by Mesoamerica. An empire of blood sacrifice and ancient calendar magic.' },
-]
+const NATION_CATALOG = SEVEN_SEA_NATIONS.map(n => ({
+  value: n.value,
+  description: `${n.region}${n.sorcery ? ` \u2014 Sorcery: ${n.sorcery}` : ''}. Traits: +1 ${n.traits[0]} or ${n.traits[1]}.`,
+  region: n.region,
+  source: n.source,
+}))
 
-// ── Sorcery types by nation ──
-const SORCERIES = {
-  'Avalon': 'Glamour', 'Inismore': 'Glamour', 'Highland Marches': 'Glamour',
-  'Castille': 'Alquimia', 'Eisen': 'Hexenwerk', 'Montaigne': 'Porté',
-  'Sarmatian Commonwealth': 'Sanderis', 'Ussura': 'Dar Matushki',
-  'Vestenmennavenjar': 'Galdr', 'Vodacce': 'Sorte',
-}
+// ── Sorcery types by nation (derived from imported data) ──
+const SORCERIES = Object.fromEntries(
+  SEVEN_SEA_NATIONS.filter(n => n.sorcery).map(n => [n.value, n.sorcery])
+)
 
 const SORCERY_INFO = {
-  'Glamour': { nation: 'Avalon / Inismore / Highland Marches', description: 'The Knights of Avalon channel the power of legendary heroes through the Sidhe. By bonding with a legendary Knight, you gain access to their Glamour — supernatural abilities tied to their legend. At Rank 1, you bond with one Knight; at Rank 2, you bond with a second. Each Knight grants specific powers based on their legend.' },
-  'Hexenwerk': { nation: 'Eisen', description: 'Dark alchemy involving Unguents — potions brewed from disturbing ingredients like corpse-parts, blood, and monster ichor. At Rank 1, you know 3 Unguents; at Rank 2, you know 6. Unguents can grant night-vision, inhuman strength, protection from harm, or raise the dead briefly.' },
-  'Porté': { nation: 'Montaigne', description: 'Blood magic that tears holes in reality. A Porté sorcerer marks objects with their blood, then rips open a Porte to pull the item through space — or walks through the Porte to travel instantly. At Rank 1, you can pull Blooded objects to you. At Rank 2, you can create Walks (portals for travel). The Walkway between portals is a terrifying void.' },
-  'Sanderis': { nation: 'Sarmatian Commonwealth', description: 'Pact magic with Losejai — powerful devils. The sorcerer trades Deals with their Dievas, gaining supernatural abilities in exchange for obligations. You and your Dievas are locked in a quiet war: you seek its true name to destroy it, while it tries to corrupt you. At Rank 1, you have 1 Deal; at Rank 2, you have 3 Deals.' },
-  'Dar Matushki': { nation: 'Ussura', description: 'Mother\'s Touch — gifts from Matushka, the living spirit of Ussura. Ussurans who accept Matushka\'s guidance gain the ability to speak with animals, shapeshift, endure any weather, or command the land itself. At Rank 1, you gain 2 Gifts; at Rank 2, you gain 4 Gifts. Matushka\'s power only works on Ussuran soil.' },
-  'Sorte': { nation: 'Vodacce', description: 'Fate witchery, practiced only by Vodacce women. Sorte strega can see the Strands of Fate connecting all people — strands of Cups (love), Coins (wealth), Swords (conflict), and Staves (authority). At Rank 1, you can Read strands. At Rank 2, you can Weave them, pulling or pushing fate. Manipulating fate always has consequences.' },
+  'Glamour': { nation: 'Avalon / Inismore / Highland Marches', description: 'The Knights of Avalon channel the power of legendary heroes through the Sidhe. By bonding with a legendary Knight, you gain access to their Glamour \u2014 supernatural abilities tied to their legend. At Rank 1, you bond with one Knight; at Rank 2, you bond with a second. Each Knight grants specific powers based on their legend.' },
+  'Hexenwerk': { nation: 'Eisen', description: 'Dark alchemy involving Unguents \u2014 potions brewed from disturbing ingredients like corpse-parts, blood, and monster ichor. At Rank 1, you know 3 Unguents; at Rank 2, you know 6. Unguents can grant night-vision, inhuman strength, protection from harm, or raise the dead briefly.' },
+  'Port\u00e9': { nation: 'Montaigne', description: 'Blood magic that tears holes in reality. A Port\u00e9 sorcerer marks objects with their blood, then rips open a Porte to pull the item through space \u2014 or walks through the Porte to travel instantly. At Rank 1, you can pull Blooded objects to you. At Rank 2, you can create Walks (portals for travel). The Walkway between portals is a terrifying void.' },
+  'Sanderis': { nation: 'Sarmatian Commonwealth', description: 'Pact magic with Losejai \u2014 powerful devils. The sorcerer trades Deals with their Dievas, gaining supernatural abilities in exchange for obligations. You and your Dievas are locked in a quiet war: you seek its true name to destroy it, while it tries to corrupt you. At Rank 1, you have 1 Deal; at Rank 2, you have 3 Deals.' },
+  'Dar Matushki': { nation: 'Ussura', description: 'Mother\'s Touch \u2014 gifts from Matushka, the living spirit of Ussura. Ussurans who accept Matushka\'s guidance gain the ability to speak with animals, shapeshift, endure any weather, or command the land itself. At Rank 1, you gain 2 Gifts; at Rank 2, you gain 4 Gifts. Matushka\'s power only works on Ussuran soil.' },
+  'Sorte': { nation: 'Vodacce', description: 'Fate witchery, practiced only by Vodacce women. Sorte strega can see the Strands of Fate connecting all people \u2014 strands of Cups (love), Coins (wealth), Swords (conflict), and Staves (authority). At Rank 1, you can Read strands. At Rank 2, you can Weave them, pulling or pushing fate. Manipulating fate always has consequences.' },
   'Galdr': { nation: 'Vestenmennavenjar', description: 'Rune magic of the ancient Vesten. By inscribing sacred runes on objects, weapons, or living skin, the Galdr sorcerer invokes the power of the old gods. At Rank 1, you know 3 Runes; at Rank 2, you know 6. Runes can be permanent inscriptions or temporary invocations.' },
   'Alquimia': { nation: 'Castille', description: 'The sacred science of transformation. Castillian alchemists study the elements and transmute matter through faith and reason. They create elixirs, transform materials, and channel elemental forces. Purchase as an Advantage.' },
 }
 
-// ── Advantages catalogue (7th Sea 2e Core Book) ──
-const ADVANTAGES = [
-  // 1-point Advantages
-  { name: 'Able Drinker', cost: 1, description: 'Spend a Hero Point to avoid the effects of alcohol.' },
-  { name: 'Cast Iron Stomach', cost: 1, description: 'Spend a Hero Point to ignore poison effects for a scene.' },
-  { name: 'Direction Sense', cost: 1, description: 'Always know which way is north; never get lost.' },
-  { name: 'Foreign Born', cost: 1, description: 'Choose a second Nation; gain its bonus.' },
-  { name: 'Large', cost: 1, description: '+1 Bonus Die on Intimidate; take hits better but harder to hide.' },
-  { name: 'Linguist', cost: 1, description: 'Speak, read, and write all Th\u00e9an languages.' },
-  { name: 'Sea Legs', cost: 1, description: 'Never suffer penalties from rough seas or unsteady ground.' },
-  { name: 'Small', cost: 1, description: '+1 Bonus Die on Hide; squeeze through tight spaces.' },
-  { name: 'Survivalist', cost: 1, description: 'Spend a Hero Point to find food/water/shelter in the wild.' },
-  { name: 'Time Sense', cost: 1, description: 'Always know what time it is; excellent internal clock.' },
-  // 2-point Advantages
-  { name: 'Barterer', cost: 2, description: 'Spend a Hero Point to find a buyer or seller for any item. (1 pt if Glamour Isles)' },
-  { name: 'Come Hither', cost: 2, description: 'Spend a Hero Point to charm someone into a private conversation.' },
-  { name: 'Connection', cost: 2, description: 'Spend a Hero Point to reveal a helpful contact in the current area.' },
-  { name: 'Disarming Smile', cost: 2, description: 'Spend a Hero Point to keep someone from attacking for one Round.' },
-  { name: 'Eagle Eyes', cost: 2, description: 'Spend a Hero Point to see fine details at great distance.' },
-  { name: 'Extended Family', cost: 2, description: 'Spend a Hero Point to find a relative in the current area.' },
-  { name: 'Fascinate', cost: 2, description: 'Spend a Hero Point to hold a target\'s attention with performance.' },
-  { name: 'Friend at Court', cost: 2, description: 'Spend a Hero Point to get an audience with a noble.' },
-  { name: 'Got It!', cost: 2, description: 'Spend a Hero Point to reveal you brought a useful mundane item.' },
-  { name: 'Handy', cost: 2, description: 'Spend a Hero Point to repair a broken item temporarily.' },
-  { name: 'Indomitable Will', cost: 2, description: 'Spend a Hero Point to resist fear or intimidation for a scene.' },
-  { name: 'Inspire Generosity', cost: 2, description: 'Spend a Hero Point to convince someone to donate to your cause.' },
-  { name: 'Leadership', cost: 2, description: 'Spend a Hero Point to rally allies, giving them +1 die. (1 pt if Sarmatian)' },
-  { name: 'Staredown', cost: 2, description: 'Spend a Hero Point to intimidate an opponent into backing down. (1 pt if Eisen)' },
-  { name: 'Streetwise', cost: 2, description: 'Spend a Hero Point to find the local criminal underworld.' },
-  { name: 'Team Player', cost: 2, description: 'Spend a Hero Point to give your Raises to an ally.' },
-  { name: 'Valiant Spirit', cost: 2, description: 'Spend a Hero Point to resist supernatural fear or compulsion.' },
-  // 3-point Advantages
-  { name: 'An Honest Misunderstanding', cost: 3, description: 'Spend a Hero Point to have been elsewhere when accused.' },
-  { name: 'Bar Fighter', cost: 3, description: 'Spend a Hero Point to improvise a weapon from your surroundings.' },
-  { name: 'Boxer', cost: 3, description: 'Spend a Hero Point to knock out a target with a bare-fisted strike.' },
-  { name: 'Bruiser', cost: 3, description: '+1 Bonus Die when using a heavy melee weapon.' },
-  { name: 'Brush Pass', cost: 3, description: 'Spend a Hero Point to slip a small item to someone unnoticed.' },
-  { name: 'Camaraderie', cost: 3, description: 'Spend a Hero Point to inspire your allies to fight harder. (2 pts if Montaigne)' },
-  { name: 'Deadeye', cost: 3, description: '+1 Bonus Die when using a pistol or thrown weapon.' },
-  { name: 'Dynamic Approach', cost: 3, description: 'Spend a Hero Point to change your Approach after seeing results.' },
-  { name: 'Fencer', cost: 3, description: 'Spend a Hero Point to reroll a single die on a Weaponry roll.' },
-  { name: 'Foul Weather Jack', cost: 3, description: 'Gain a second Hero Story.' },
-  { name: 'Masterpiece Crafter', cost: 3, description: 'Create signature items with special properties. (2 pts if Vesten)' },
-  { name: 'Opportunist', cost: 3, description: '+1 Bonus Die on attacks against unaware targets.' },
-  { name: 'Ordained', cost: 3, description: 'Sanctuary in churches; +1 Bonus Die on social rolls with faithful. (2 pts if Castillian)' },
-  { name: 'Patron', cost: 3, description: 'A wealthy patron provides resources and missions.' },
-  { name: 'Perfect Balance', cost: 3, description: 'Spend a Hero Point to keep your footing in any situation.' },
-  { name: 'Poison Immunity', cost: 3, description: 'Immune to all mundane poisons. (1 pt if Vodacce)' },
-  { name: 'Psst, Over Here', cost: 3, description: 'Spend a Hero Point to lure a target into an ambush.' },
-  { name: 'Quick Reflexes', cost: 3, description: '+1 Bonus Die on rolls to react to sudden danger.' },
-  { name: 'Reckless Takedown', cost: 3, description: 'Spend a Hero Point to wipe out a Brute Squad, take 1 DW.' },
-  { name: 'Reputation', cost: 3, description: '+1 Bonus Die on social rolls when your reputation precedes you.' },
-  { name: 'Rich', cost: 3, description: 'Start each session with extra Wealth.' },
-  { name: 'Second Story Work', cost: 3, description: 'Spend a Hero Point to find entry to any building.' },
-  { name: 'Signature Item', cost: 3, description: 'A beloved item grants +1 Bonus Die when used.' },
-  { name: 'Slip Free', cost: 3, description: 'Spend a Hero Point to escape bonds, grapples, or cells.' },
-  { name: 'Sniper', cost: 3, description: '+1 Bonus Die when attacking from a hidden position with a ranged weapon.' },
-  { name: 'Specialist', cost: 3, description: 'Choose one Skill; earn 2 Raises instead of 1 on sets of 15+.' },
-  { name: 'Tenure', cost: 3, description: 'Academic position provides resources and social standing.' },
-  { name: 'Trusted Companion', cost: 3, description: 'A loyal NPC ally who aids you.' },
-  { name: 'Virtuoso', cost: 3, description: '+1 Bonus Die on all Perform rolls.' },
-  // 4-point Advantages
-  { name: 'Academy', cost: 4, description: 'Formal military training; +1 to two Skills.' },
-  { name: 'Alchemist', cost: 4, description: 'Create alchemical concoctions. (Castillian only)' },
-  { name: 'Hard to Kill', cost: 4, description: '+1 Dramatic Wound before becoming Helpless.' },
-  { name: 'Legendary Trait', cost: 4, description: 'Choose a Trait; treat as 1 higher for one roll per scene.' },
-  { name: 'Lyceum', cost: 4, description: 'Studied at the Lyceum; +1 to two Skills.' },
-  { name: 'Miracle Worker', cost: 4, description: 'Spend a Hero Point to heal 1 Dramatic Wound on a target.' },
-  { name: 'Riot Breaker', cost: 4, description: 'Reduce Brute Squad damage by your Resolve.' },
-  { name: 'Seidr', cost: 4, description: 'Skald naming and divination powers. (Vesten only)' },
-  { name: 'Sorcery', cost: 4, description: 'Access to your nation\'s sorcery tradition.' },
-  // 5-point Advantages
-  { name: 'Duelist Academy', cost: 5, description: 'Trained in a formal Dueling Style; gain Style Bonus.' },
-  { name: 'I Won\'t Die Here', cost: 5, description: 'Spend a Hero Point to survive lethal damage. (3 pts if Eisen)' },
-  { name: 'I\'m Taking You With Me', cost: 5, description: 'Deal extra damage from your Dramatic Wounds. (3 pts if Vesten)' },
-  { name: 'Joie de Vivre', cost: 5, description: 'Dice \u2264 Skill rank count as 10s when aiding allies. (3 pts if Montaigne)' },
-  { name: 'Spark of Genius', cost: 5, description: 'Spend a Hero Point to gain Raises = Wits. (3 pts if Castillian)' },
-  { name: 'Strength of Ten', cost: 5, description: 'Spend a Hero Point for +dice = Brawn/Resolve. (3 pts if Ussuran)' },
-  { name: 'The Devil\'s Own Luck', cost: 5, description: 'Spend a Hero Point to reroll all dice. (3 pts if Glamour Isles)' },
-  { name: 'Together We Are Strong', cost: 5, description: 'Allies in the scene add dice to your roll. (3 pts if Sarmatian)' },
-  { name: 'University', cost: 5, description: 'Extensive education; +1 to three Skills.' },
-  { name: 'We\'re Not So Different', cost: 5, description: 'Spend a Hero Point to gain a Villain\'s trust. (3 pts if Vodacce)' },
-]
+// ── Advantages catalogue (from imported data \u2014 all supplements) ──
+const ADVANTAGES = SEVEN_SEA_ADVANTAGES
+const ALL_ADV_SOURCES = [...new Set(SEVEN_SEA_ADVANTAGES.map(a => a.source))]
+const ALL_BG_SOURCES = [...new Set(SEVEN_SEA_BACKGROUNDS.map(b => b.source))]
+const ALL_NATION_REGIONS = [...new Set(SEVEN_SEA_NATIONS.map(n => n.region))]
 
-// ── All 20 Arcana (2e Core Book) ──
-const VIRTUES = [
-  'The Fool — Wily: Activate when you act on insufficient information. Gain 1 Hero Point.',
-  'The Road — Friendly: Activate when you meet someone for the first time. Gain 1 Hero Point.',
-  'The Magician — Willful: Activate when you solve a problem through sheer determination. Gain 1 Hero Point.',
-  'The Lovers — Passionate: Activate when you put yourself in danger to protect someone you love. Gain 1 Hero Point.',
-  'The Wheel — Fortunate: Activate when you stumble upon something that benefits you unexpectedly. Gain 1 Hero Point.',
-  'The Devil — Astute: Activate when you uncover a deception. Gain 1 Hero Point.',
-  'The Tower — Humble: Activate when you sacrifice something important to help someone in need. Gain 1 Hero Point.',
-  'The Beggar — Insightful: Activate when you discover something nobody else noticed. Gain 1 Hero Point.',
-  'The War — Victorious: Activate when you defeat a Villain in combat. Gain 1 Hero Point.',
-  'The Hanged Man — Altruistic: Activate when you sacrifice something for the greater good with no reward. Gain 1 Hero Point.',
-  'The Witch — Intuitive: Activate when you correctly guess a character\'s motivation. Gain 1 Hero Point.',
-  'The Thrones — Comforting: Activate when you ease someone\'s suffering. Gain 1 Hero Point.',
-  'The Moonless Night — Subtle: Activate when you accomplish a goal without anyone noticing. Gain 1 Hero Point.',
-  'Reunion — Exemplary: Activate when you set an example for others to follow. Gain 1 Hero Point.',
-  'The Hero — Courageous: Activate when you risk life and limb to save someone. Gain 1 Hero Point.',
-  'The Glyph — Temperate: Activate when you resist temptation and choose the difficult path. Gain 1 Hero Point.',
-  'The Sun — Glorious: Activate when you achieve an impressive feat witnessed by others. Gain 1 Hero Point.',
-  'The Prophet — Illuminating: Activate when you teach someone a valuable lesson. Gain 1 Hero Point.',
-  'The Emperor — Commanding: Activate when you lead a group successfully. Gain 1 Hero Point.',
-  'Coins — Adaptable: Activate when you turn a setback into an opportunity. Gain 1 Hero Point.',
-]
+// ── Arcana-derived virtues and hubrises (from imported data \u2014 all supplements) ──
+const ALL_ARCANA = getAllArcana()
+const VIRTUES = ALL_ARCANA.map(a => `${a.card} \u2014 ${a.virtue.name}: ${a.virtue.effect}`)
+const HUBRISES = ALL_ARCANA.map(a => `${a.card} \u2014 ${a.hubris.name}: ${a.hubris.effect}`)
 
-const HUBRISES = [
-  'The Fool — Curious: Receive a Hero Point when you investigate something dangerous.',
-  'The Road — Underconfident: Receive a Hero Point when you doubt yourself at a critical moment.',
-  'The Magician — Ambitious: Receive a Hero Point when you chase power at the expense of others.',
-  'The Lovers — Star-Crossed: Receive a Hero Point when your romantic entanglement causes problems.',
-  'The Wheel — Unfortunate: Receive a Hero Point when bad luck catches up with you.',
-  'The Devil — Trusting: Receive a Hero Point when you trust someone you shouldn\'t.',
-  'The Tower — Arrogant: Receive a Hero Point when your pride leads you into trouble.',
-  'The Beggar — Envious: Receive a Hero Point when you covet what someone else has.',
-  'The War — Loyal: Receive a Hero Point when your loyalty to someone gets you in trouble.',
-  'The Hanged Man — Indecisive: Receive a Hero Point when you hesitate and miss an opportunity.',
-  'The Witch — Manipulative: Receive a Hero Point when you manipulate someone who trusts you.',
-  'The Thrones — Stubborn: Receive a Hero Point when you refuse to change your mind when you should.',
-  'The Moonless Night — Confusion: Receive a Hero Point when you overthink and make the wrong choice.',
-  'Reunion — Bitterness: Receive a Hero Point when your resentment drives your actions.',
-  'The Hero — Foolhardy: Receive a Hero Point when you rush into danger without a plan.',
-  'The Glyph — Superstitious: Receive a Hero Point when your superstitions cause problems.',
-  'The Sun — Proud: Receive a Hero Point when your need for recognition costs you.',
-  'The Prophet — Overzealous: Receive a Hero Point when your fervor alienates someone.',
-  'The Emperor — Hot-Headed: Receive a Hero Point when your temper makes things worse.',
-  'Coins — Relentless: Receive a Hero Point when you refuse to give up when you should.',
-]
+// ── Backgrounds catalogue (from imported data \u2014 all supplements) ──
+const BACKGROUND_CATALOG = SEVEN_SEA_BACKGROUNDS
 
-// ── Backgrounds (2e Core Book) ──
-const BACKGROUND_CATALOG = [
-  { name: 'Archaeologist', description: 'Ruins explorer. Skills: Athletics, Empathy, Notice, Ride, Scholarship. Advantages: Direction Sense, Linguist. Quirk: Earn a Hero Point when you solve a mystery.', skills: ['Athletics', 'Empathy', 'Notice', 'Ride', 'Scholarship'], advantages: ['Direction Sense', 'Linguist'], quirk: 'Earn a Hero Point when you solve a mystery.' },
-  { name: 'Aristocrat', description: 'Born to privilege. Skills: Aim, Convince, Empathy, Ride, Scholarship. Advantages: Rich, Disarming Smile. Quirk: Earn a Hero Point when you prove there is more to you than your noble birth.', skills: ['Aim', 'Convince', 'Empathy', 'Ride', 'Scholarship'], advantages: ['Rich', 'Disarming Smile'], quirk: 'Earn a Hero Point when you prove there is more to you than your noble birth.' },
-  { name: 'Army Officer', description: 'Military leader. Skills: Aim, Athletics, Intimidate, Ride, Warfare. Advantages: Leadership, Academy. Quirk: Earn a Hero Point when you lead soldiers into danger.', skills: ['Aim', 'Athletics', 'Intimidate', 'Ride', 'Warfare'], advantages: ['Leadership', 'Academy'], quirk: 'Earn a Hero Point when you lead soldiers into danger.' },
-  { name: 'Artist', description: 'Creative soul. Skills: Convince, Empathy, Notice, Perform, Tempt. Advantages: Virtuoso, Fascinate. Quirk: Earn a Hero Point when you express yourself and inspire someone.', skills: ['Convince', 'Empathy', 'Notice', 'Perform', 'Tempt'], advantages: ['Virtuoso', 'Fascinate'], quirk: 'Earn a Hero Point when you express yourself and inspire someone.' },
-  { name: 'Assassin', description: 'Silent killer. Skills: Athletics, Empathy, Hide, Intimidate, Weaponry. Advantages: Fencer, Psst Over Here. Quirk: Earn a Hero Point when you kill a target no one thought you could reach.', skills: ['Athletics', 'Empathy', 'Hide', 'Intimidate', 'Weaponry'], advantages: ['Fencer', 'Psst Over Here'], quirk: 'Earn a Hero Point when you kill a target no one thought you could reach.' },
-  { name: 'Cavalry', description: 'Mounted warrior. Skills: Intimidate, Notice, Ride, Warfare, Weaponry. Advantages: Bruiser, Indomitable Will. Quirk: Earn a Hero Point when you lead a mounted charge.', skills: ['Intimidate', 'Notice', 'Ride', 'Warfare', 'Weaponry'], advantages: ['Bruiser', 'Indomitable Will'], quirk: 'Earn a Hero Point when you lead a mounted charge.' },
-  { name: 'Courtier', description: 'Political player. Skills: Convince, Empathy, Perform, Scholarship, Tempt. Advantages: Friend at Court, Come Hither. Quirk: Earn a Hero Point when you resolve a conflict via social grace.', skills: ['Convince', 'Empathy', 'Perform', 'Scholarship', 'Tempt'], advantages: ['Friend at Court', 'Come Hither'], quirk: 'Earn a Hero Point when you resolve a conflict via social grace.' },
-  { name: 'Crafter', description: 'Skilled artisan. Skills: Athletics, Convince, Notice, Perform, Scholarship. Advantages: Masterpiece Crafter, Handy. Quirk: Earn a Hero Point when you create something useful.', skills: ['Athletics', 'Convince', 'Notice', 'Perform', 'Scholarship'], advantages: ['Masterpiece Crafter', 'Handy'], quirk: 'Earn a Hero Point when you create something useful.' },
-  { name: 'Criminal', description: 'Underworld figure. Skills: Athletics, Hide, Intimidate, Theft, Weaponry. Advantages: Streetwise, Got It!. Quirk: Earn a Hero Point when you break the law for a good reason.', skills: ['Athletics', 'Hide', 'Intimidate', 'Theft', 'Weaponry'], advantages: ['Streetwise', 'Got It!'], quirk: 'Earn a Hero Point when you break the law for a good reason.' },
-  { name: 'Doctor', description: 'Physician and healer. Skills: Convince, Empathy, Notice, Scholarship, Warfare. Advantages: Miracle Worker, Eagle Eyes. Quirk: Earn a Hero Point when you tend to the wounded.', skills: ['Convince', 'Empathy', 'Notice', 'Scholarship', 'Warfare'], advantages: ['Miracle Worker', 'Eagle Eyes'], quirk: 'Earn a Hero Point when you tend to the wounded.' },
-  { name: 'Duelist', description: 'Swordfighter. Skills: Athletics, Empathy, Intimidate, Perform, Weaponry. Advantages: Duelist Academy. Quirk: Earn a Hero Point when you resolve a conflict through single combat.', skills: ['Athletics', 'Empathy', 'Intimidate', 'Perform', 'Weaponry'], advantages: ['Duelist Academy'], quirk: 'Earn a Hero Point when you resolve a conflict through single combat.' },
-  { name: 'Engineer', description: 'Builder and inventor. Skills: Athletics, Notice, Ride, Scholarship, Warfare. Advantages: Academy, Handy. Quirk: Earn a Hero Point when you solve a problem with engineering.', skills: ['Athletics', 'Notice', 'Ride', 'Scholarship', 'Warfare'], advantages: ['Academy', 'Handy'], quirk: 'Earn a Hero Point when you solve a problem with engineering.' },
-  { name: 'Explorer', description: 'Globe-trotter. Skills: Athletics, Notice, Ride, Sailing, Scholarship. Advantages: Connection, Direction Sense. Quirk: Earn a Hero Point when you discover a new place.', skills: ['Athletics', 'Notice', 'Ride', 'Sailing', 'Scholarship'], advantages: ['Connection', 'Direction Sense'], quirk: 'Earn a Hero Point when you discover a new place.' },
-  { name: 'Farmkid', description: 'Rural upbringing. Skills: Athletics, Empathy, Hide, Notice, Ride. Advantages: Survivalist, Team Player. Quirk: Earn a Hero Point when you put simple values ahead of politics.', skills: ['Athletics', 'Empathy', 'Hide', 'Notice', 'Ride'], advantages: ['Survivalist', 'Team Player'], quirk: 'Earn a Hero Point when you put simple values ahead of politics.' },
-  { name: 'Hunter', description: 'Tracker and scout. Skills: Aim, Athletics, Hide, Notice, Ride. Advantages: Survivalist, Eagle Eyes. Quirk: Earn a Hero Point when you catch your prey.', skills: ['Aim', 'Athletics', 'Hide', 'Notice', 'Ride'], advantages: ['Survivalist', 'Eagle Eyes'], quirk: 'Earn a Hero Point when you catch your prey.' },
-  { name: 'Jenny/Jack', description: 'Companion for hire. Skills: Convince, Empathy, Notice, Perform, Tempt. Advantages: Come Hither, Streetwise. Quirk: Earn a Hero Point when you uncover a secret.', skills: ['Convince', 'Empathy', 'Notice', 'Perform', 'Tempt'], advantages: ['Come Hither', 'Streetwise'], quirk: 'Earn a Hero Point when you uncover a secret.' },
-  { name: 'Mercenary', description: 'Sword for hire. Skills: Athletics, Brawl, Intimidate, Notice, Weaponry. Advantages: Hard to Kill, Cast Iron Stomach. Quirk: Earn a Hero Point when you complete a dangerous job for pay.', skills: ['Athletics', 'Brawl', 'Intimidate', 'Notice', 'Weaponry'], advantages: ['Hard to Kill', 'Cast Iron Stomach'], quirk: 'Earn a Hero Point when you complete a dangerous job for pay.' },
-  { name: 'Merchant', description: 'Trader. Skills: Convince, Notice, Ride, Scholarship, Tempt. Advantages: Barterer, Rich. Quirk: Earn a Hero Point when you negotiate a profitable deal.', skills: ['Convince', 'Notice', 'Ride', 'Scholarship', 'Tempt'], advantages: ['Barterer', 'Rich'], quirk: 'Earn a Hero Point when you negotiate a profitable deal.' },
-  { name: 'Naval Officer', description: 'Officer of the fleet. Skills: Intimidate, Notice, Sailing, Warfare, Weaponry. Advantages: Perfect Balance, Sea Legs. Quirk: Earn a Hero Point when you lead sailors through a crisis.', skills: ['Intimidate', 'Notice', 'Sailing', 'Warfare', 'Weaponry'], advantages: ['Perfect Balance', 'Sea Legs'], quirk: 'Earn a Hero Point when you lead sailors through a crisis.' },
-  { name: 'Orphan', description: 'Raised alone. Skills: Athletics, Brawl, Hide, Notice, Theft. Advantages: Streetwise, Survivalist. Quirk: Earn a Hero Point when you rely on yourself to solve a problem.', skills: ['Athletics', 'Brawl', 'Hide', 'Notice', 'Theft'], advantages: ['Streetwise', 'Survivalist'], quirk: 'Earn a Hero Point when you rely on yourself to solve a problem.' },
-  { name: 'Performer', description: 'Entertainer. Skills: Athletics, Convince, Empathy, Perform, Tempt. Advantages: Fascinate, Virtuoso. Quirk: Earn a Hero Point when you entertain an audience.', skills: ['Athletics', 'Convince', 'Empathy', 'Perform', 'Tempt'], advantages: ['Fascinate', 'Virtuoso'], quirk: 'Earn a Hero Point when you entertain an audience.' },
-  { name: 'Pirate', description: 'Sea raider. Skills: Athletics, Brawl, Intimidate, Sailing, Weaponry. Advantages: Sea Legs, Bar Fighter. Quirk: Earn a Hero Point when you rob from the rich.', skills: ['Athletics', 'Brawl', 'Intimidate', 'Sailing', 'Weaponry'], advantages: ['Sea Legs', 'Bar Fighter'], quirk: 'Earn a Hero Point when you rob from the rich.' },
-  { name: 'Priest', description: 'Cleric. Skills: Convince, Empathy, Notice, Perform, Scholarship. Advantages: Ordained, Valiant Spirit. Quirk: Earn a Hero Point when you defend the faith.', skills: ['Convince', 'Empathy', 'Notice', 'Perform', 'Scholarship'], advantages: ['Ordained', 'Valiant Spirit'], quirk: 'Earn a Hero Point when you defend the faith.' },
-  { name: 'Professor', description: 'Academic teacher. Skills: Convince, Empathy, Perform, Scholarship, Tempt. Advantages: Tenure, Team Player. Quirk: Earn a Hero Point when you teach someone an important lesson.', skills: ['Convince', 'Empathy', 'Perform', 'Scholarship', 'Tempt'], advantages: ['Tenure', 'Team Player'], quirk: 'Earn a Hero Point when you teach someone an important lesson.' },
-  { name: 'Pugilist', description: 'Bare-knuckle fighter. Skills: Athletics, Brawl, Intimidate, Notice, Perform. Advantages: Boxer, Bar Fighter. Quirk: Earn a Hero Point when you win a fight with your bare hands.', skills: ['Athletics', 'Brawl', 'Intimidate', 'Notice', 'Perform'], advantages: ['Boxer', 'Bar Fighter'], quirk: 'Earn a Hero Point when you win a fight with your bare hands.' },
-  { name: 'Quartermaster', description: 'Ship supplier. Skills: Aim, Brawl, Hide, Sailing, Warfare. Advantages: Handy, Got It!, Sea Legs. Quirk: Earn a Hero Point when you provide for your crew.', skills: ['Aim', 'Brawl', 'Hide', 'Sailing', 'Warfare'], advantages: ['Handy', 'Got It!', 'Sea Legs'], quirk: 'Earn a Hero Point when you provide for your crew.' },
-  { name: 'Sailor', description: 'Seafarer. Skills: Athletics, Brawl, Notice, Sailing, Weaponry. Advantages: Sea Legs, Perfect Balance. Quirk: Earn a Hero Point when you put the ship above yourself.', skills: ['Athletics', 'Brawl', 'Notice', 'Sailing', 'Weaponry'], advantages: ['Sea Legs', 'Perfect Balance'], quirk: 'Earn a Hero Point when you put the ship above yourself.' },
-  { name: 'Scholar', description: 'Academic. Skills: Convince, Empathy, Notice, Scholarship, Tempt. Advantages: University, Linguist. Quirk: Earn a Hero Point when you use knowledge to solve a problem.', skills: ['Convince', 'Empathy', 'Notice', 'Scholarship', 'Tempt'], advantages: ['University', 'Linguist'], quirk: 'Earn a Hero Point when you use knowledge to solve a problem.' },
-  { name: 'Servant', description: 'In service to others. Skills: Athletics, Convince, Empathy, Hide, Notice. Advantages: Got It!, Streetwise. Quirk: Earn a Hero Point when you go unnoticed to help your allies.', skills: ['Athletics', 'Convince', 'Empathy', 'Hide', 'Notice'], advantages: ['Got It!', 'Streetwise'], quirk: 'Earn a Hero Point when you go unnoticed to help your allies.' },
-  { name: 'Ship Captain', description: 'Master of a vessel. Skills: Aim, Convince, Notice, Sailing, Warfare. Advantages: Leadership, Sea Legs. Quirk: Earn a Hero Point when your orders save the ship.', skills: ['Aim', 'Convince', 'Notice', 'Sailing', 'Warfare'], advantages: ['Leadership', 'Sea Legs'], quirk: 'Earn a Hero Point when your orders save the ship.' },
-  { name: 'Soldier', description: 'Professional warrior. Skills: Aim, Athletics, Brawl, Intimidate, Warfare. Advantages: Academy, Indomitable Will. Quirk: Earn a Hero Point when you follow orders despite danger.', skills: ['Aim', 'Athletics', 'Brawl', 'Intimidate', 'Warfare'], advantages: ['Academy', 'Indomitable Will'], quirk: 'Earn a Hero Point when you follow orders despite danger.' },
-  { name: 'Spy', description: 'Infiltrator. Skills: Convince, Hide, Notice, Tempt, Theft. Advantages: Brush Pass, An Honest Misunderstanding. Quirk: Earn a Hero Point when you complete a covert mission.', skills: ['Convince', 'Hide', 'Notice', 'Tempt', 'Theft'], advantages: ['Brush Pass', 'An Honest Misunderstanding'], quirk: 'Earn a Hero Point when you complete a covert mission.' },
-]
+// ── Secret Societies (from imported data \u2014 all supplements) ──
+const SECRET_SOCIETIES = SEVEN_SEA_SECRET_SOCIETIES.map(s => ({ value: s.name, description: s.description, source: s.source }))
 
-// ── Secret Societies (2e Core Book) ──
-const SECRET_SOCIETIES = [
-  { value: 'The Brotherhood of the Coast', description: 'Pirate brotherhood dedicated to freedom of the seas.' },
-  { value: 'Die Kreuzritter', description: 'Ancient order fighting supernatural threats in the shadows.' },
-  { value: "The Explorer's Society", description: 'Seekers of lost knowledge and ancient artifacts.' },
-  { value: 'The Invisible College', description: 'Scientists preserving knowledge from Vaticine persecution.' },
-  { value: 'Knights of the Rose & Cross', description: 'Champions of justice who protect the innocent.' },
-  { value: 'Los Vagabundos', description: 'Masked vigilantes fighting tyranny in Castille.' },
-  { value: 'Mociutes Skara', description: 'Sarmatian witches guarding ancient pacts and traditions.' },
-  { value: 'Rilasciare', description: 'Revolutionary anarchists seeking to overthrow all tyrants.' },
-  { value: "Sophia's Daughters", description: 'Secret sisterhood protecting women across Th\u00e9ah.' },
-  { value: 'Novus Ordo Mundi', description: 'Shadowy manipulators seeking to control nations from behind the scenes.' },
-]
+// ── Dueling Styles (from imported data \u2014 all supplements) ──
+const DUELING_STYLES = SEVEN_SEA_DUELING_STYLES
+
+const VIRTUE_CATALOG = VIRTUES.map(v => ({ value: v, description: v.split(' \u2014 ')[1] || '' }))
+const HUBRIS_CATALOG = HUBRISES.map(h => ({ value: h, description: h.split(' \u2014 ')[1] || '' }))
+
+// Map dueling style name to primary trait used (from imported data)
+const DUELING_STYLE_TRAIT = Object.fromEntries(SEVEN_SEA_DUELING_STYLES.map(s => [s.name, s.trait]))
 
 const INITIAL = {
   npc: false, splat: 'SEVENTH_SEA',
@@ -285,37 +111,11 @@ const INITIAL = {
 
 const TAB_KEYS = ['tabIdentity', 'tab7sTraits', 'tab7sSkills', 'tab7sAdvantages', 'tab7sSorcery', 'tab7sDueling', 'tab7sArcana', 'tab7sBackgrounds', 'tab7sStories', 'tab7sBelongings', 'tabBackstory', 'tabXpLog', 'tabRulesRef', 'tabDiceRoller']
 
-// ── Dueling Styles (2e Core Book) ──
-const DUELING_STYLES = [
-  { name: 'Aldana', nation: 'Castille', description: 'Fluid and graceful, Aldana focuses on using your opponent\'s aggression against them. Uses Finesse. Maneuvers: Feint (turn a Slash into bonus dice), Riposte (deal damage when you parry).' },
-  { name: 'Ambrogia', nation: 'Vodacce', description: 'Dual-wielding style using a main-gauche. Fights with two weapons simultaneously. Uses Finesse. Maneuvers: Slash (basic attack), Feint, Lunge (extra Wounds on hit).' },
-  { name: 'Donovan', nation: 'Avalon', description: 'Heavy-hitting and defensive. Uses Resolve. Maneuvers: Bash (knock opponent off-balance), Riposte, Slash.' },
-  { name: 'Drexel', nation: 'Eisen', description: 'Two-handed weapon style — greatswords, polearms. Powerful but slow. Uses Brawn. Maneuvers: Slash, Beat (destroy opponent\'s weapon), Lunge.' },
-  { name: 'Eisenfaust', nation: 'Eisen', description: 'Panzerhand (iron gauntlet) fighting. Catches blades bare-handed. Uses Resolve. Maneuvers: Slash, Riposte, Iron Reply (catch and counter).' },
-  { name: 'Leegstra', nation: 'Vestenmennavenjar', description: 'Berserker fury — fights without regard for personal safety. Uses Brawn. Maneuvers: Slash, Lunge, Rage (take Wounds to deal extra damage).' },
-  { name: 'Mantovani', nation: 'Vodacce', description: 'Cloak-and-rapier, deceptive and theatrical. Uses Panache. Maneuvers: Feint, Flourish (distract and reposition), Slash.' },
-  { name: 'Mireli', nation: 'Sarmatian Commonwealth', description: 'Sabre style emphasizing speed and mounted combat. Uses Finesse. Maneuvers: Slash, Feint, Lunge.' },
-  { name: 'Sabat', nation: 'Crescent Empire', description: 'Scimitar fighting incorporating footwork and misdirection. Uses Panache. Maneuvers: Slash, Feint, Flourish.' },
-  { name: 'Torres', nation: 'Castille', description: 'Defensive and patient, waiting for the perfect counter. Uses Wits. Maneuvers: Riposte, Bash, Slash.' },
-  { name: 'Valroux', nation: 'Montaigne', description: 'Classic fencing — elegant, precise, and lethal. The quintessential rapier school. Uses Finesse. Maneuvers: Slash, Feint, Lunge.' },
-  { name: 'Boucher', nation: 'Montaigne', description: 'A brutal Montaigne street-fighting style. Uses Brawn. Uses overwhelming force and dirty tricks. Style Bonus: Boucher Step — spend a Hero Point to deal wounds equal to Brawn to a Brute Squad.' },
-]
-
-const VIRTUE_CATALOG = VIRTUES.map(v => ({ value: v, description: v.split(' — ')[1] || '' }))
-const HUBRIS_CATALOG = HUBRISES.map(h => ({ value: h, description: h.split(' — ')[1] || '' }))
-
 const TRAIT_KEYS = ['traitBrawn', 'traitFinesse', 'traitResolve', 'traitWits7s', 'traitPanache']
 const TRAIT_LABEL = { traitBrawn: 'Brawn', traitFinesse: 'Finesse', traitResolve: 'Resolve', traitWits7s: 'Wits', traitPanache: 'Panache' }
 const TRAIT_NAME_TO_KEY = { 'Brawn': 'traitBrawn', 'Finesse': 'traitFinesse', 'Resolve': 'traitResolve', 'Wits': 'traitWits7s', 'Panache': 'traitPanache' }
 
-// Map dueling style name → primary trait used
-const DUELING_STYLE_TRAIT = {
-  'Aldana': 'Finesse', 'Ambrogia': 'Finesse', 'Donovan': 'Resolve', 'Drexel': 'Brawn',
-  'Eisenfaust': 'Resolve', 'Leegstra': 'Brawn', 'Mantovani': 'Panache', 'Mireli': 'Finesse',
-  'Sabat': 'Panache', 'Torres': 'Wits', 'Valroux': 'Finesse', 'Boucher': 'Brawn',
-}
-
-// Story step → reward tier mapping
+// Story step \u2192 reward tier mapping
 const STORY_REWARD_TIERS = [
   { steps: 1, reward: '1-pt Advantage or new Skill Rank' },
   { steps: 2, reward: '2-pt Advantage' },
@@ -369,6 +169,9 @@ export default function SeventhSeaForm() {
   const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
+  const [advSourceFilter, setAdvSourceFilter] = useState('')
+  const [bgSourceFilter, setBgSourceFilter] = useState('')
+  const [nationRegionFilter, setNationRegionFilter] = useState('')
 
   useEffect(() => {
     if (characterId) loadCharacter()
@@ -525,6 +328,17 @@ export default function SeventhSeaForm() {
   const nationTraits = fields.nation && NATIONS[fields.nation] ? NATIONS[fields.nation] : null
   const nationSorcery = fields.nation && SORCERIES[fields.nation] ? SORCERIES[fields.nation] : null
 
+  // Filtered catalogs based on source/region filters
+  const filteredNationCatalog = nationRegionFilter
+    ? NATION_CATALOG.filter(n => n.region === nationRegionFilter)
+    : NATION_CATALOG
+  const filteredAdvantages = advSourceFilter
+    ? ADVANTAGES.filter(a => a.source === advSourceFilter)
+    : ADVANTAGES
+  const filteredBackgrounds = bgSourceFilter
+    ? BACKGROUND_CATALOG.filter(b => b.source === bgSourceFilter)
+    : BACKGROUND_CATALOG
+
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
   return (
@@ -546,7 +360,7 @@ export default function SeventhSeaForm() {
         ))}
       </div>
 
-      {/* ── Identity ── */}
+      {/* \u2500\u2500 Identity \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-0`} aria-labelledby={`tab-0`} hidden={tab !== 0}>
         <div className="form-section">
           <fieldset>
@@ -559,7 +373,7 @@ export default function SeventhSeaForm() {
             />
             {templateName && (
               <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
-                Loaded from template: <strong>{templateName}</strong> — customize freely below.
+                Loaded from template: <strong>{templateName}</strong> \u2014 customize freely below.
               </p>
             )}
           </fieldset>
@@ -570,9 +384,18 @@ export default function SeventhSeaForm() {
               <div className="field"><label>{t('charName')} *</label><input name="name" value={fields.name} onChange={handleText} /></div>
               <div className="field"><label>{t('concept')}</label><input name="concept" value={fields.concept} onChange={handleText} /></div>
             </div>
-            <div className="field-row">
+            <div className="field-row" style={{ alignItems: 'flex-end' }}>
               <CatalogSelect id="nation" name="nation" label={t('7sNation')} value={fields.nation}
-                onChange={handleField} catalog={NATION_CATALOG} />
+                onChange={handleField} catalog={filteredNationCatalog} />
+              <div className="field" style={{ maxWidth: 180 }}>
+                <label style={{ fontSize: '0.78rem' }}>Region</label>
+                <select value={nationRegionFilter} onChange={e => setNationRegionFilter(e.target.value)} style={{ fontSize: '0.82rem' }}>
+                  <option value="">All Regions ({NATION_CATALOG.length})</option>
+                  {ALL_NATION_REGIONS.map(r => <option key={r} value={r}>{r} ({NATION_CATALOG.filter(n => n.region === r).length})</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="field-row">
               <CatalogSelect id="religion" name="religion" label={t('7sReligion')} value={fields.religion}
                 onChange={handleField} catalog={RELIGION_CATALOG} />
             </div>
@@ -618,7 +441,7 @@ export default function SeventhSeaForm() {
         </div>
       </div>
 
-      {/* ── Traits ── */}
+      {/* \u2500\u2500 Traits \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-1`} aria-labelledby={`tab-1`} hidden={tab !== 1}>
         <div className="form-section">
           <fieldset>
@@ -640,7 +463,7 @@ export default function SeventhSeaForm() {
         </div>
       </div>
 
-      {/* ── Skills ── */}
+      {/* \u2500\u2500 Skills \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-2`} aria-labelledby={`tab-2`} hidden={tab !== 2}>
         <div className="form-section">
           <fieldset>
@@ -689,7 +512,7 @@ export default function SeventhSeaForm() {
         </div>
       </div>
 
-      {/* ── Advantages ── */}
+      {/* \u2500\u2500 Advantages \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-3`} aria-labelledby={`tab-3`} hidden={tab !== 3}>
         <div className="form-section">
           <fieldset>
@@ -712,23 +535,27 @@ export default function SeventhSeaForm() {
           </fieldset>
           {tagInfo?.kind === 'advantage' && (() => {
             const entry = ADVANTAGES.find(a => a.name.toLowerCase() === tagInfo.name.toLowerCase())
-            return <TagInfoPanel entry={entry ? { name: entry.name, description: `Cost: ${entry.cost}. ${entry.description}` } : { name: tagInfo.name }} onClose={() => setTagInfo(null)} />
+            return <TagInfoPanel entry={entry ? { name: entry.name, description: `Cost: ${entry.cost}. ${entry.description}${entry.source ? ` (${entry.source})` : ''}` } : { name: tagInfo.name }} onClose={() => setTagInfo(null)} />
           })()}
           <fieldset>
-            <legend>{t('7sAdvCatalogue')} ({ADVANTAGES.length})</legend>
-            <div className="catalog-search-wrap">
+            <legend>{t('7sAdvCatalogue')} ({filteredAdvantages.length})</legend>
+            <div className="catalog-search-wrap" style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', alignItems: 'center' }}>
               <input type="search" value={advSearch} onChange={e => setAdvSearch(e.target.value)}
-                placeholder="Search advantages..." aria-label="Search advantages" />
-              <span className="catalog-search-count">{ADVANTAGES.filter(a => a.name.toLowerCase().includes(advSearch.toLowerCase()) || a.description.toLowerCase().includes(advSearch.toLowerCase())).length}</span>
+                placeholder="Search advantages..." aria-label="Search advantages" style={{ flex: 1, minWidth: 180 }} />
+              <select value={advSourceFilter} onChange={e => setAdvSourceFilter(e.target.value)} style={{ fontSize: '0.82rem', maxWidth: 200 }} aria-label="Filter by source book">
+                <option value="">All Sources ({ADVANTAGES.length})</option>
+                {ALL_ADV_SOURCES.map(s => <option key={s} value={s}>{s} ({ADVANTAGES.filter(a => a.source === s).length})</option>)}
+              </select>
+              <span className="catalog-search-count">{filteredAdvantages.filter(a => a.name.toLowerCase().includes(advSearch.toLowerCase()) || a.description.toLowerCase().includes(advSearch.toLowerCase())).length}</span>
             </div>
             <ul className="catalog-list" aria-label="Advantage catalog">
-              {ADVANTAGES
+              {filteredAdvantages
                 .filter(a => a.name.toLowerCase().includes(advSearch.toLowerCase()) || a.description.toLowerCase().includes(advSearch.toLowerCase()))
                 .slice(0, 30)
                 .map(a => {
                   const already = disciplines.some(d => d.name.toLowerCase() === a.name.toLowerCase())
                   return (
-                    <li key={a.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
+                    <li key={`${a.name}-${a.source}`} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
                       {(() => {
                         const wouldExceed = guidedMode && !already && (advSpent + a.cost) > ADVANTAGE_BUDGET
                         return (
@@ -745,6 +572,7 @@ export default function SeventhSeaForm() {
                             <div className="catalog-item-main">
                               <span className="catalog-item-name">{a.name}</span>
                               <span className="catalog-item-desc">{a.description}</span>
+                              {a.source && <span className="muted-hint muted-hint--xs" style={{ display: 'block', marginTop: '2px', fontStyle: 'italic' }}>{a.source}</span>}
                               {wouldExceed && (
                                 <span className="muted-hint muted-hint--xs" style={{ color: 'var(--color-danger)', display: 'block', marginTop: '2px' }}>
                                   Exceeds {ADVANTAGE_BUDGET}-point budget ({advSpent} + {a.cost} = {advSpent + a.cost})
@@ -766,7 +594,7 @@ export default function SeventhSeaForm() {
         </div>
       </div>
 
-      {/* ── Sorcery ── */}
+      {/* \u2500\u2500 Sorcery \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-4`} aria-labelledby={`tab-4`} hidden={tab !== 4}>
         <div className="form-section">
           <fieldset>
@@ -785,7 +613,7 @@ export default function SeventhSeaForm() {
             )}
             {!nationSorcery && Object.entries(SORCERY_INFO).map(([name, info]) => (
               <details key={name} style={{ marginBottom: 'var(--space-sm)' }}>
-                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{name} <span style={{ fontWeight: 400, fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>— {info.nation}</span></summary>
+                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{name} <span style={{ fontWeight: 400, fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>\u2014 {info.nation}</span></summary>
                 <p style={{ fontSize: '0.85rem', lineHeight: 1.6, padding: 'var(--space-sm) 0' }}>{info.description}</p>
               </details>
             ))}
@@ -797,7 +625,7 @@ export default function SeventhSeaForm() {
         </div>
       </div>
 
-      {/* ── Dueling ── */}
+      {/* \u2500\u2500 Dueling \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-5`} aria-labelledby={`tab-5`} hidden={tab !== 5}>
         <div className="form-section">
           <fieldset>
@@ -821,7 +649,7 @@ export default function SeventhSeaForm() {
               return (
                 <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', marginBottom: 0, background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
                   <div style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{style.name}</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)' }}>{style.nation}</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)' }}>{style.nation}{style.source ? ` \u2014 ${style.source}` : ''}</div>
                   <div style={{ fontSize: '0.9rem' }}>{style.description}</div>
                   {traitLow && (
                     <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
@@ -841,7 +669,7 @@ export default function SeventhSeaForm() {
               </p>
               {DUELING_STYLES.map(s => (
                 <details key={s.name} style={{ marginBottom: 'var(--space-sm)' }}>
-                  <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{s.name} <span style={{ fontWeight: 400, fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>— {s.nation}</span></summary>
+                  <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{s.name} <span style={{ fontWeight: 400, fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>\u2014 {s.nation}{s.source ? ` (${s.source})` : ''}</span></summary>
                   <p style={{ fontSize: '0.85rem', lineHeight: 1.6, padding: 'var(--space-sm) 0' }}>{s.description}</p>
                 </details>
               ))}
@@ -854,7 +682,7 @@ export default function SeventhSeaForm() {
         </div>
       </div>
 
-      {/* ── Arcana & Resources ── */}
+      {/* \u2500\u2500 Arcana & Resources \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-6`} aria-labelledby={`tab-6`} hidden={tab !== 6}>
         <div className="form-section">
           <fieldset>
@@ -903,7 +731,7 @@ export default function SeventhSeaForm() {
         </div>
       </div>
 
-      {/* ── Backgrounds ── */}
+      {/* \u2500\u2500 Backgrounds \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-7`} aria-labelledby={`tab-7`} hidden={tab !== 7}>
         <div className="form-section">
           <fieldset>
@@ -922,7 +750,7 @@ export default function SeventhSeaForm() {
                   <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`} onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' }); } }}
                     role="button" tabIndex={0}>
-                    <span>{b.name}{b.description ? ` — ${b.description}` : ''}</span>
+                    <span>{b.name}{b.description ? ` \u2014 ${b.description}` : ''}</span>
                     <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)); if (tagInfo?.id === b.id) setTagInfo(null) }}>x</button>
                   </li>
                 ))}
@@ -937,14 +765,18 @@ export default function SeventhSeaForm() {
             return <TagInfoPanel entry={{ name: entry?.name || tagInfo.name, description: desc }} onClose={() => setTagInfo(null)} />
           })()}
           <fieldset>
-            <legend>{t('7sBgCatalogue')} ({BACKGROUND_CATALOG.length})</legend>
-            <div className="catalog-search-wrap">
+            <legend>{t('7sBgCatalogue')} ({filteredBackgrounds.length})</legend>
+            <div className="catalog-search-wrap" style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', alignItems: 'center' }}>
               <input type="search" value={bgSearch} onChange={e => setBgSearch(e.target.value)}
-                placeholder="Search backgrounds..." aria-label="Search backgrounds" />
-              <span className="catalog-search-count">{BACKGROUND_CATALOG.filter(b => b.name.toLowerCase().includes(bgSearch.toLowerCase()) || b.description.toLowerCase().includes(bgSearch.toLowerCase())).length}</span>
+                placeholder="Search backgrounds..." aria-label="Search backgrounds" style={{ flex: 1, minWidth: 180 }} />
+              <select value={bgSourceFilter} onChange={e => setBgSourceFilter(e.target.value)} style={{ fontSize: '0.82rem', maxWidth: 200 }} aria-label="Filter backgrounds by source">
+                <option value="">All Sources ({BACKGROUND_CATALOG.length})</option>
+                {ALL_BG_SOURCES.map(s => <option key={s} value={s}>{s} ({BACKGROUND_CATALOG.filter(b => b.source === s).length})</option>)}
+              </select>
+              <span className="catalog-search-count">{filteredBackgrounds.filter(b => b.name.toLowerCase().includes(bgSearch.toLowerCase()) || b.description.toLowerCase().includes(bgSearch.toLowerCase())).length}</span>
             </div>
             <ul className="catalog-list" aria-label="Background catalog">
-              {BACKGROUND_CATALOG
+              {filteredBackgrounds
                 .filter(b => b.name.toLowerCase().includes(bgSearch.toLowerCase()) || b.description.toLowerCase().includes(bgSearch.toLowerCase()))
                 .map(b => {
                   const already = backgrounds.some(bg => bg.name.toLowerCase() === b.name.toLowerCase())
@@ -963,6 +795,7 @@ export default function SeventhSeaForm() {
                         <div className="catalog-item-main">
                           <span className="catalog-item-name">{b.name}</span>
                           <span className="catalog-item-desc">{b.description}</span>
+                          {b.source && <span className="muted-hint muted-hint--xs" style={{ display: 'block', marginTop: '2px', fontStyle: 'italic' }}>{b.source}</span>}
                         </div>
                         <div className="catalog-item-meta">
                           {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
@@ -976,7 +809,7 @@ export default function SeventhSeaForm() {
         </div>
       </div>
 
-      {/* ── Stories (advancement system) ── */}
+      {/* \u2500\u2500 Stories (advancement system) \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-8`} aria-labelledby={`tab-8`} hidden={tab !== 8}>
         <div className="form-section">
           <fieldset>
@@ -1062,7 +895,7 @@ export default function SeventhSeaForm() {
         </div>
       </div>
 
-      {/* ── Belongings ── */}
+      {/* \u2500\u2500 Belongings \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-9`} aria-labelledby={`tab-9`} hidden={tab !== 9}>
         <div className="form-section">
           <fieldset>
@@ -1073,14 +906,14 @@ export default function SeventhSeaForm() {
             <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={10} style={{ width: '100%' }} placeholder={
 `Signature sword (Castillian rapier, family heirloom)
 Ship: The Silver Gull (brigantine, 20 crew)
-Porté-marked locket (blooded to my mother)
+Port\u00e9-marked locket (blooded to my mother)
 Eisen dracheneisen pauldron (left shoulder)
 Coded journal of trade routes`} />
           </fieldset>
         </div>
       </div>
 
-      {/* ── Backstory ── */}
+      {/* \u2500\u2500 Backstory \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-10`} aria-labelledby={`tab-10`} hidden={tab !== 10}>
         <div className="form-section">
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
@@ -1089,7 +922,7 @@ Coded journal of trade routes`} />
         </div>
       </div>
 
-      {/* ── XP Log ── */}
+      {/* \u2500\u2500 XP Log \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-11`} aria-labelledby={`tab-11`} hidden={tab !== 11}>
         <XpLogSection splat="seventh-sea" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
@@ -1097,12 +930,12 @@ Coded journal of trade routes`} />
           onError={msg => setActionError(msg)} t={t} />
       </div>
 
-      {/* ── Rules Reference ── */}
+      {/* \u2500\u2500 Rules Reference \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-12`} aria-labelledby={`tab-12`} hidden={tab !== 12}>
         <RulesReferenceTab rules={SEVEN_SEA_RULES} title="7th Sea Rules Reference" />
       </div>
 
-      {/* ── Dice Roller ── */}
+      {/* \u2500\u2500 Dice Roller \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-13`} aria-labelledby={`tab-13`} hidden={tab !== 13}>
         <SeventhSeaDiceRoller />
       </div>
