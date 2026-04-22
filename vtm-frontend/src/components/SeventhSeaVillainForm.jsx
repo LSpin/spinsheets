@@ -10,6 +10,7 @@ import { useTheme } from '../context/ThemeContext'
 import TagInfoPanel from './TagInfoPanel'
 import SeventhSeaDiceRoller from './SeventhSeaDiceRoller'
 import { SEVEN_SEA_NPCS, SEVEN_SEA_NPC_CATALOG } from '../data/sevenSeaNpcs'
+import { SEVEN_SEA_ADVANTAGES, DUELING_STYLES, SEVEN_SEA_NATIONS } from '../data/sevenSeaData'
 
 const VILLAIN_RANKS = [
   { rank: 1, description: 'Minor nuisance — a bandit captain, petty noble, or small-time crook.' },
@@ -39,22 +40,8 @@ const MONSTER_QUALITIES = [
   { name: 'Undead', description: 'Immune to fear, poison, and disease.' },
 ]
 
-const ADVANTAGES = [
-  { name: 'Duelist Academy', cost: 5, description: 'Trained in a Dueling style with special maneuvers.' },
-  { name: 'Hard to Kill', cost: 5, description: 'Extra Dramatic Wound before becoming Helpless.' },
-  { name: 'Sorcery (1 rank)', cost: 2, description: 'Access to a sorcerous tradition at Rank 1.' },
-  { name: 'Sorcery (2 ranks)', cost: 4, description: 'Full mastery of a sorcerous tradition.' },
-  { name: 'Indomitable Will', cost: 3, description: 'Resist mental influence or torture.' },
-  { name: 'Leadership', cost: 4, description: 'Inspire and lead a group effectively.' },
-  { name: 'Rich', cost: 3, description: 'Begin each session with Wealth 3.' },
-  { name: 'Connection', cost: 3, description: 'Know people in a particular organisation.' },
-  { name: 'Patron', cost: 3, description: 'A wealthy patron provides financial support.' },
-  { name: 'Spy Network', cost: 4, description: 'Network of informants across a region.' },
-  { name: 'Staredown', cost: 3, description: 'Frighten a single target.' },
-  { name: 'Opportunist', cost: 4, description: 'Act outside your normal turn.' },
-  { name: 'Sniper', cost: 4, description: 'Add Aim to damage at range.' },
-  { name: 'Fencer', cost: 4, description: 'Add Weaponry to damage.' },
-]
+// Use SEVEN_SEA_ADVANTAGES from data file for the full catalog
+const ADVANTAGES = SEVEN_SEA_ADVANTAGES
 
 const NPC_TYPES = [
   { key: 'villain', label: 'Villain', description: 'A named antagonist with Rank, Traits, Advantages, Schemes, and Arcana. Villains are the main opponents of the Heroes.' },
@@ -116,6 +103,7 @@ export default function SeventhSeaVillainForm() {
   const [advSearch, setAdvSearch] = useState('')
   const [tagInfo, setTagInfo] = useState(null)
   const [npcType, setNpcType] = useState('villain')
+  const [duelingStyle, setDuelingStyle] = useState('')
   const [templateName, setTemplateName] = useState('')
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
@@ -231,7 +219,16 @@ export default function SeventhSeaVillainForm() {
               {NPC_TYPES.find(nt => nt.key === npcType)?.description}
             </p>
             <div className="field-row">
-              <div className="field"><label>Nation / Origin</label><input name="nation" value={fields.nation} onChange={handleText} /></div>
+              <div className="field">
+                <label>Nation / Origin</label>
+                <select name="nation" value={fields.nation} onChange={handleText}>
+                  <option value="">Select or type below</option>
+                  {SEVEN_SEA_NATIONS.map(n => <option key={n.value} value={n.value}>{n.value} ({n.source})</option>)}
+                </select>
+                {!SEVEN_SEA_NATIONS.some(n => n.value === fields.nation) && (
+                  <input name="nation" value={fields.nation} onChange={handleText} placeholder="Custom nation..." style={{ marginTop: 'var(--space-xs)' }} />
+                )}
+              </div>
               <div className="field"><label>Concept</label><input name="concept" value={fields.concept} onChange={handleText} placeholder="Ruthless pirate queen, cursed knight..." /></div>
             </div>
             {(npcType === 'villain') && (
@@ -252,6 +249,40 @@ export default function SeventhSeaVillainForm() {
                 </div>
               </div>
             )}
+            {(npcType === 'villain') && (
+              <div className="field-row">
+                <div className="field">
+                  <label>Dueling Style</label>
+                  <select value={duelingStyle} onChange={e => setDuelingStyle(e.target.value)}>
+                    <option value="">None</option>
+                    {DUELING_STYLES.map(ds => <option key={ds.name} value={ds.name}>{ds.name} ({ds.nation})</option>)}
+                  </select>
+                  {duelingStyle && (() => {
+                    const ds = DUELING_STYLES.find(d => d.name === duelingStyle)
+                    return ds && (
+                      <div className="archetype-desc" style={{ marginTop: 'var(--space-xs)' }}>
+                        <strong>{ds.name}</strong> ({ds.nation}) — {ds.trait}
+                        <p className="muted-hint muted-hint--xs" style={{ margin: '2px 0' }}>{ds.description}</p>
+                        <p style={{ fontSize: '0.82rem', fontWeight: 600 }}>Style Bonus: {ds.styleBonus}</p>
+                        <span className="muted-hint muted-hint--xs">Source: {ds.source}</span>
+                      </div>
+                    )
+                  })()}
+                </div>
+              </div>
+            )}
+            {fields.nation && (() => {
+              const nationData = SEVEN_SEA_NATIONS.find(n => n.value === fields.nation)
+              if (!nationData || !nationData.sorcery) return null
+              return (
+                <div style={{ padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: 'var(--radius)', borderLeft: '3px solid var(--color-accent-fg)', marginTop: 'var(--space-sm)' }}>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 600 }}>Sorcery Tradition: {nationData.sorcery}</div>
+                  <p className="muted-hint muted-hint--xs" style={{ margin: '2px 0 0' }}>
+                    Available to characters from {nationData.value} ({nationData.region}). Source: {nationData.source}
+                  </p>
+                </div>
+              )
+            })()}
           </fieldset>
         </div>
       </div>
@@ -411,7 +442,7 @@ export default function SeventhSeaVillainForm() {
                       }}>
                         <div className="catalog-item-main">
                           <span className="catalog-item-name">{a.name}</span>
-                          <span className="catalog-item-desc">{a.description}</span>
+                          <span className="catalog-item-desc">{a.description}{a.source && a.source !== 'Core' ? ` [${a.source}]` : ''}</span>
                         </div>
                         <div className="catalog-item-meta">
                           <span className="catalog-item-cost">{a.cost}pt</span>

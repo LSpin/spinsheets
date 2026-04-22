@@ -8,26 +8,40 @@ import { useTheme } from '../context/ThemeContext'
 
 // ── Ship Builder Data (7th Sea 2e) ──
 const SHIP_ORIGINS = [
-  { value: 'Avalon', description: 'Sleek and fast. Bonus: +1 to Sailing rolls for maneuverability.' },
-  { value: 'Castille', description: 'Well-armed galleons. Bonus: +1 Cannon damage.' },
-  { value: 'Eisen', description: 'Iron-reinforced hulls. Bonus: +1 to resist structural damage.' },
-  { value: 'Montaigne', description: 'Elegant and luxurious. Bonus: +1 to social encounters aboard.' },
-  { value: 'Sarmatian Commonwealth', description: 'Versatile river/sea craft. Bonus: can navigate shallow waters.' },
-  { value: 'Ussura', description: 'Ice-hardened and sturdy. Bonus: immune to cold-weather penalties.' },
-  { value: 'Vestenmennavenjar', description: 'Viking-style longships. Bonus: +1 to boarding actions.' },
-  { value: 'Vodacce', description: 'Fast merchant vessels. Bonus: +1 to trade and smuggling rolls.' },
-  { value: 'Crescent Empire', description: 'Dhows with lateen sails. Bonus: +1 to long-distance voyages.' },
+  // ── Core Rulebook ──
+  { value: 'Avalon', description: 'Sleek and fast. Bonus: +1 to Sailing rolls for maneuverability.', source: 'Core' },
+  { value: 'Castille', description: 'Well-armed galleons. Bonus: +1 Cannon damage.', source: 'Core' },
+  { value: 'Eisen', description: 'Iron-reinforced hulls. Bonus: +1 to resist structural damage.', source: 'Core' },
+  { value: 'Montaigne', description: 'Elegant and luxurious. Bonus: +1 to social encounters aboard.', source: 'Core' },
+  { value: 'Sarmatian Commonwealth', description: 'Versatile river/sea craft. Bonus: can navigate shallow waters.', source: 'Core' },
+  { value: 'Ussura', description: 'Ice-hardened and sturdy. Bonus: immune to cold-weather penalties.', source: 'Core' },
+  { value: 'Vestenmennavenjar', description: 'Viking-style longships. Bonus: +1 to boarding actions.', source: 'Core' },
+  { value: 'Vodacce', description: 'Fast merchant vessels. Bonus: +1 to trade and smuggling rolls.', source: 'Core' },
+  { value: 'Crescent Empire', description: 'Dhows with lateen sails. Bonus: +1 to long-distance voyages.', source: 'Core' },
+  // ── Pirate Nations ──
+  { value: 'Aragosta', description: 'Always gains 1 additional Raise for Crew Risks at sea.', source: 'Pirate Nations' },
+  { value: 'Atabean Trading Company', description: 'Once per Episode, can repel all boarders for a single Round.', source: 'Pirate Nations' },
+  { value: 'Jaragua', description: 'Earns 1 additional Wealth selling goods in Company ports.', source: 'Pirate Nations' },
+  { value: 'La Bucca', description: 'Once per session, present a Letter of Marque from any Nation (forged).', source: 'Pirate Nations' },
+  { value: 'Numa', description: 'Whenever a Hero activates a Knack Advantage, any Hero on the Ship can pay the Hero Point cost.', source: 'Pirate Nations' },
+  { value: 'Rahuri', description: 'Ship and Crews take 1 fewer Hit/Wound (minimum 1) from Ships or Monsters in the Atabean.', source: 'Pirate Nations' },
 ]
 
 const SHIP_BACKGROUNDS = [
-  { value: 'Merchant Vessel', description: 'A trading ship with large cargo holds. Extra cargo capacity.' },
-  { value: 'Military Warship', description: 'A decommissioned naval vessel. Comes with extra cannons.' },
-  { value: 'Pirate Prize', description: 'Captured from enemies. Fast but battle-scarred. +1 Intimidation at sea.' },
-  { value: 'Explorer\'s Ship', description: 'Built for long voyages. Extra supplies and navigation equipment.' },
-  { value: 'Smuggler\'s Craft', description: 'Hidden compartments and shallow draft. +1 to evade customs.' },
-  { value: 'Privateer', description: 'Licensed by a nation. Legal protection in home waters. Letter of marque.' },
-  { value: 'Ghost Ship', description: 'Rumored haunted. Crew is superstitious but enemies fear to approach.' },
-  { value: 'Custom Built', description: 'Purpose-built to your specifications. Choose one extra modification.' },
+  // ── Core Rulebook ──
+  { value: 'Merchant Vessel', description: 'A trading ship with large cargo holds. Extra cargo capacity.', source: 'Core' },
+  { value: 'Military Warship', description: 'A decommissioned naval vessel. Comes with extra cannons.', source: 'Core' },
+  { value: 'Pirate Prize', description: 'Captured from enemies. Fast but battle-scarred. +1 Intimidation at sea.', source: 'Core' },
+  { value: 'Explorer\'s Ship', description: 'Built for long voyages. Extra supplies and navigation equipment.', source: 'Core' },
+  { value: 'Smuggler\'s Craft', description: 'Hidden compartments and shallow draft. +1 to evade customs.', source: 'Core' },
+  { value: 'Privateer', description: 'Licensed by a nation. Legal protection in home waters. Letter of marque.', source: 'Core' },
+  { value: 'Ghost Ship', description: 'Rumored haunted. Crew is superstitious but enemies fear to approach.', source: 'Core' },
+  { value: 'Custom Built', description: 'Purpose-built to your specifications. Choose one extra modification.', source: 'Core' },
+  // ── Pirate Nations ──
+  { value: 'Black Flag', description: 'Renowned pirate vessel; pirate NPCs treat you with respect.', source: 'Pirate Nations' },
+  { value: 'Port of Ghosts', description: 'Visited Soryana; can reforge ties with Lost ancestors aboard.', source: 'Pirate Nations' },
+  { value: 'Salacio\'s Favorite', description: 'First Hero Point gain each session grants an additional Hero Point.', source: 'Pirate Nations' },
+  { value: 'Smuggler Queen', description: 'Spend a Hero Point to sail into forbidden waters undetected.', source: 'Pirate Nations' },
 ]
 
 const SHIP_MODIFICATIONS = [
@@ -165,17 +179,23 @@ export default function SeventhSeaShipForm() {
                 <label>{t('ship7sOrigin')}</label>
                 <select value={ship.origin} onChange={e => updateShip({ origin: e.target.value })}>
                   <option value="">{t('select')}</option>
-                  {SHIP_ORIGINS.map(o => <option key={o.value} value={o.value}>{o.value}</option>)}
+                  {SHIP_ORIGINS.map(o => <option key={o.value} value={o.value}>{o.value}{o.source !== 'Core' ? ` (${o.source})` : ''}</option>)}
                 </select>
-                {ship.origin && <p className="archetype-desc">{SHIP_ORIGINS.find(o => o.value === ship.origin)?.description}</p>}
+                {ship.origin && (() => {
+                  const o = SHIP_ORIGINS.find(o => o.value === ship.origin)
+                  return o && <p className="archetype-desc">{o.description} <span className="muted-hint muted-hint--xs">({o.source})</span></p>
+                })()}
               </div>
               <div className="field">
                 <label>{t('ship7sBackground')}</label>
                 <select value={ship.background} onChange={e => updateShip({ background: e.target.value })}>
                   <option value="">{t('select')}</option>
-                  {SHIP_BACKGROUNDS.map(b => <option key={b.value} value={b.value}>{b.value}</option>)}
+                  {SHIP_BACKGROUNDS.map(b => <option key={b.value} value={b.value}>{b.value}{b.source !== 'Core' ? ` (${b.source})` : ''}</option>)}
                 </select>
-                {ship.background && <p className="archetype-desc">{SHIP_BACKGROUNDS.find(b => b.value === ship.background)?.description}</p>}
+                {ship.background && (() => {
+                  const b = SHIP_BACKGROUNDS.find(b => b.value === ship.background)
+                  return b && <p className="archetype-desc">{b.description} <span className="muted-hint muted-hint--xs">({b.source})</span></p>
+                })()}
               </div>
             </div>
           </fieldset>
