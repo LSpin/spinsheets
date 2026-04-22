@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   getCharacter, updateCharacter,
@@ -523,6 +523,7 @@ export default function L5RForm() {
   const [newSkillName, setNewSkillName] = useState('')
   const [newSkillRank, setNewSkillRank] = useState(1)
   const [newSkillEmphases, setNewSkillEmphases] = useState([])
+  const [editingSkillEmphasis, setEditingSkillEmphasis] = useState(null)
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [showExport, setShowExport] = useState(false)
@@ -721,6 +722,17 @@ export default function L5RForm() {
 
   const parsedSkills = parseSkills(fields.l5rSkillsText)
   const totalSkillRanks = parsedSkills.reduce((sum, s) => sum + s.rank, 0)
+
+  function updateSkillEmphases(skillIndex, newEmphases) {
+    const lines = (fields.l5rSkillsText || '').split('\n')
+    const skill = parsedSkills[skillIndex]
+    if (!skill) return
+    const lineIndex = lines.findIndex(l => l.trim() === skill.raw.trim())
+    if (lineIndex === -1) return
+    const emphStr = newEmphases.length > 0 ? ` (${newEmphases.join(', ')})` : ''
+    lines[lineIndex] = `${skill.name}${emphStr} ${skill.rank}`
+    setFields(prev => ({ ...prev, l5rSkillsText: lines.join('\n') }))
+  }
 
   const TRAIT_VALUES = {
     'Awareness': fields.l5rAwareness, 'Reflexes': fields.l5rReflexes,
@@ -1127,14 +1139,58 @@ export default function L5RForm() {
                       }
                     }
                     return (
-                      <tr key={i}>
+                      <Fragment key={i}>
+                      <tr>
                         <td style={{ fontWeight: 600 }}><span style={{ color: typeColor, fontSize: '0.7rem', marginRight: '0.3rem' }}>{'\u25CF'}</span>{s.name}</td>
                         <td style={{ fontWeight: 700, textAlign: 'center' }}>{s.rank}</td>
                         <td style={{ fontWeight: 600, color: 'var(--color-accent-fg)' }}>{s.rank > 0 ? roll : '\u2014'}</td>
-                        <td style={{ fontSize: '0.78rem' }}>{s.emphases || '\u2014'}</td>
+                        <td style={{ fontSize: '0.78rem', cursor: 'pointer' }}
+                          onClick={() => setEditingSkillEmphasis(editingSkillEmphasis === i ? null : i)}>
+                          {s.emphases || <span className="muted-hint">+ Add emphasis</span>}
+                        </td>
                         <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{activeMasteries.length > 0 ? activeMasteries.join(' | ') : '\u2014'}</td>
                         <td><button className="tag-remove" onClick={() => handleRemoveSkill(i)} aria-label={`Remove ${s.name}`}>{'\u00d7'}</button></td>
                       </tr>
+                      {editingSkillEmphasis === i && (
+                        <tr>
+                          <td colSpan={6} style={{ background: 'var(--color-surface-raised)', padding: 'var(--space-sm)' }}>
+                            {data?.emphases?.length > 0 && (
+                              <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                                {data.emphases.map(emp => {
+                                  const currentEmphases = s.emphases ? s.emphases.split(', ').map(e => e.trim()) : []
+                                  const active = currentEmphases.includes(emp)
+                                  return (
+                                    <button key={emp} type="button"
+                                      className={`tag${active ? ' tag--active' : ''}`}
+                                      style={{ cursor: 'pointer', fontSize: '0.78rem', padding: '0.2rem 0.5rem' }}
+                                      onClick={() => {
+                                        const updated = active
+                                          ? currentEmphases.filter(e => e !== emp)
+                                          : [...currentEmphases, emp]
+                                        updateSkillEmphases(i, updated)
+                                      }}>
+                                      {emp}{active ? ' \u2713' : ''}
+                                    </button>
+                                  )
+                                })}
+                              </div>
+                            )}
+                            <div style={{ display: 'flex', gap: 'var(--space-xs)', alignItems: 'center', marginTop: 'var(--space-xs)' }}>
+                              <input type="text" placeholder="Custom emphasis..." style={{ fontSize: '0.78rem', width: '140px' }}
+                                onKeyDown={e => {
+                                  if (e.key === 'Enter' && e.target.value.trim()) {
+                                    const currentEmphases = s.emphases ? s.emphases.split(', ').map(em => em.trim()) : []
+                                    updateSkillEmphases(i, [...currentEmphases, e.target.value.trim()])
+                                    e.target.value = ''
+                                  }
+                                }} />
+                              <button className="btn btn-secondary" style={{ fontSize: '0.75rem', padding: '2px 8px' }}
+                                onClick={() => setEditingSkillEmphasis(null)}>Done</button>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                      </Fragment>
                     )
                   })}
                 </tbody>
