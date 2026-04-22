@@ -102,7 +102,7 @@ Character sheets include built-in auto-calculations that help enforce game rules
 - **D&D + UESTRPG:** Race ability score increases auto-applied, HP suggestion based on class/level, AC baseline calculation
 - **Cyberpunk 2020:** BTM/run/leap/lift derived stats displayed, humanity loss and cyberpsychosis warnings, wound state penalties shown
 - **Blades in the Dark:** Stress warnings at 8 and 9, load capacity with remaining slots displayed
-- **7th Sea:** National trait bonuses auto-applied when you select a nation, wound tracker, story reward calculations, dueling trait warnings
+- **7th Sea:** National trait bonuses auto-applied when you select a nation, wound tracker, story reward calculations, dueling trait warnings. In guided mode: background auto-apply (auto-grants skills +1 rank and advantages on selection), background budget counter (X/2), advantage cost running tally (Spent: X/5 pts), Hero Points locked to 1, sorcery one-click add button for your nation's tradition, Virtue/Hubris mechanical effect display, dice pool highlighting for strong synergies, background-to-advantage "Recommended" badges, nation-to-religion auto-suggest, and quirk display with Hero Point badge styling
 - **L5R 4e:** Insight rank auto-calculated, school rank detection, skill +/- buttons for quick adjustments, heritage roller
 - **Changeling:** Banality threshold warnings
 - **Wraith:** Corpus/Pathos/Angst caps enforced, Shadow Thorns validation
@@ -213,7 +213,7 @@ As a Storyteller:
 
 ### 7th Sea (2nd Edition)
 
-**Features:** Hero and Villain sheets, standalone Ship Builder sheet, 8 Sorceries, Dueling Styles, national trait auto-apply, wound tracker, story reward calculations
+**Features:** Hero and Villain sheets, standalone Ship Builder sheet, 8 Sorceries, Dueling Styles, national trait auto-apply, background auto-apply with guided mode budgets, sorcery auto-add button, wound tracker, story reward calculations
 **Data scope:** 37 nations, 235+ advantages, 161 backgrounds, 33 dueling styles, 26 secret societies, 44 arcana cards — sourced from all 12 supplements. Source book filters on all catalogs.
 **Ship Builder:** 15 ship origins, 12 ship backgrounds
 **Villain form:** Full advantages, dueling styles, scheme tracking, correct arcana
@@ -398,7 +398,7 @@ Some character sheets — especially those with wide tables (Cyberpunk cyberware
 ### Character sheet won't load
 
 - **Try refreshing the page** — the `lazyRetry` system will automatically reload if chunk files are stale
-- **Clear browser cache** if refreshing doesn't help
+- **Clear browser cache** if refreshing doesn't help — a service worker update (cache version bump and SPA navigation route handling fix) resolved earlier mobile load failures; clearing the cache ensures you pick up the latest version
 
 ### Mobile layout issues
 

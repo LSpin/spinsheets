@@ -127,6 +127,8 @@ Blades utiliza um **Gerenciador de Relógios** dedicado em `/blades/clocks` (rel
 
 Os dados de 7th Sea estao consolidados em `sevenSeaData.js` (111KB), provenientes de todos os 12 suplementos: 37 nacoes (era 13), 235+ vantagens (era ~48 com custos incorretos), 161 antecedentes (era 31), 33 estilos de duelo (era 11), 26 sociedades secretas (era 0), 44 cartas de arcana (era 20 com nomes errados). Todos os catalogos incluem campos `source` para filtragem por livro-fonte. Bonus de tracos nacionais sao auto-aplicados na selecao de nacao. A ficha de Heroi inclui rastreamento de ferimentos, calculos de recompensa de historia e avisos de tracos de duelo. O formulario de Vilao suporta vantagens completas, estilos de duelo, rastreamento de esquemas e arcana corretos.
 
+A ficha de Heroi tambem suporta 10 funcionalidades de automacao no modo guiado: auto-aplicacao de antecedente (concede automaticamente +1 rank em habilidades e vantagens ao selecionar), botao de adicao rapida de feiticaria (um clique para adicionar a tradicao de feiticaria da nacao), exibicao de efeitos mecanicos de Virtude/Hubris, contador de orcamento de antecedentes (X/2), contagem corrente de custo de vantagens (Gasto: X/5 pts), destaque de pool de dados para sinergias fortes, dicas de sinergia antecedente-vantagem (badges "Recomendado"), auto-sugestao de religiao por nacao (reordena por afinidade cultural), Pontos de Heroi travados em 1 no modo guiado, e exibicao de quirk com estilo de badge de Ponto de Heroi.
+
 O Construtor de Navios de 7th Sea e desacoplado como uma ficha independente (splat `SEVENTH_SEA_SHIP`), com 15 origens de navio (era 9) e 12 antecedentes de navio (era 8).
 
 ### L5R 5a Edicao (FFG)
@@ -307,7 +309,7 @@ export default function CharacterForm() {
 #### Suporte a PWA
 
 - **manifest.json** configurado com `"display": "standalone"` para experiência semelhante a app nativo quando instalado
-- **Service Worker** faz cache de assets com hash (JS, CSS, imagens) usando estratégia cache-first para carregamentos instantâneos, e faz cache de HTML usando network-first com página de fallback offline
+- **Service Worker** faz cache de assets com hash (JS, CSS, imagens) usando estrategia cache-first para carregamentos instantaneos, e faz cache de HTML usando network-first com pagina de fallback offline. Um bump de versao de cache e correcao de rotas de navegacao SPA resolveram falhas anteriores de carregamento no mobile
 - **Apple Meta Tags** (`apple-mobile-web-app-capable`, `apple-mobile-web-app-status-bar-style`, `apple-touch-icon`) habilitam instalação em tela cheia na home screen no iOS Safari
 - O app pode ser instalado via "Adicionar à Tela Inicial" tanto no iOS quanto no Android
 
@@ -426,7 +428,7 @@ Push to main
 
 ### Para Jogadores
 - Criar personagens em 9 sistemas de jogo
-- **Auto-calculos e avisos** em todas as fichas — avisos de maldicao de cla (Vampire), limitacao de esferas e avisos de Paradoxo (Mage), modificadores de stat por forma (Werewolf), aumento de atributo racial auto-aplicado e sugestoes de HP/AC (D&D/UESTRPG), avisos de BTM/humanidade/cyberpsicose (Cyberpunk), rastreamento de estresse/carga (Blades), aplicacao automatica de tracos nacionais e rastreamento de ferimentos (7th Sea), auto-calculo de rank de Insight (L5R), alem de limites de Banalidade/Corpus/Tormento/Conviccao/Dharma para os demais splats WoD
+- **Auto-calculos e avisos** em todas as fichas — avisos de maldicao de cla (Vampire), limitacao de esferas e avisos de Paradoxo (Mage), modificadores de stat por forma (Werewolf), aumento de atributo racial auto-aplicado e sugestoes de HP/AC (D&D/UESTRPG), avisos de BTM/humanidade/cyberpsicose (Cyberpunk), rastreamento de estresse/carga (Blades), aplicacao automatica de tracos nacionais, auto-aplicacao de antecedentes com orcamentos no modo guiado, adicao rapida de feiticaria e rastreamento de ferimentos (7th Sea), auto-calculo de rank de Insight (L5R), alem de limites de Banalidade/Corpus/Tormento/Conviccao/Dharma para os demais splats WoD
 - Catalogos pesquisaveis para poderes, equipamentos, magias, cyberware — com filtros de livro-fonte quando aplicavel
 - Roladores de dados integrados correspondentes a mecanica de cada sistema
 - Rastreamento de XP/IP com calculos de custo adequados

@@ -27,7 +27,7 @@ A web app for creating, managing, and sharing tabletop RPG character sheets. Bui
 ### Features
 
 - **37 character sheets** — each tailored to its system's mechanics
-- **Auto-calculations** — clan curse warnings, blood pool alerts, form stat modifiers, race ASI auto-apply, insight rank detection, and more across all sheets
+- **Auto-calculations** — clan curse warnings, blood pool alerts, form stat modifiers, race ASI auto-apply, insight rank detection, 7th Sea background auto-apply with guided mode budgets, and more across all sheets
 - **Searchable catalogs** — Disciplines, Gifts, Spells, Cyberware, Feats, Equipment with descriptions and source book filters
 - **Dice rollers** — d10 pools, d6 pools, d20, roll-and-keep, d10 with fumble/critical
 - **Chronicle management** — create campaigns, invite players, track sessions

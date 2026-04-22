@@ -102,7 +102,7 @@ As fichas de personagem incluem auto-calculos integrados que ajudam a aplicar re
 - **D&D + UESTRPG:** Aumentos de atributo racial auto-aplicados, sugestao de HP baseada em classe/nivel, calculo base de AC
 - **Cyberpunk 2020:** Stats derivados BTM/corrida/salto/carga exibidos, avisos de perda de humanidade e cyberpsicose, penalidades de estado de ferimento mostradas
 - **Blades in the Dark:** Avisos de estresse em 8 e 9, capacidade de carga com slots restantes exibida
-- **7th Sea:** Bonus de traco nacional auto-aplicados ao selecionar uma nacao, rastreador de ferimentos, calculos de recompensa de historia, avisos de tracos de duelo
+- **7th Sea:** Bonus de traco nacional auto-aplicados ao selecionar uma nacao, rastreador de ferimentos, calculos de recompensa de historia, avisos de tracos de duelo. No modo guiado: auto-aplicacao de antecedente (concede automaticamente +1 rank em habilidades e vantagens ao selecionar), contador de orcamento de antecedentes (X/2), contagem corrente de custo de vantagens (Gasto: X/5 pts), Pontos de Heroi travados em 1, botao de adicao rapida de feiticaria da tradicao da nacao, exibicao de efeitos mecanicos de Virtude/Hubris, destaque de pool de dados para sinergias fortes, badges "Recomendado" de sinergia antecedente-vantagem, auto-sugestao de religiao por nacao, e exibicao de quirk com estilo de badge de Ponto de Heroi
 - **L5R 4e:** Rank de Insight auto-calculado, deteccao de rank de escola, botoes +/- de habilidade para ajustes rapidos, rolador de heranca
 - **Changeling:** Avisos de limite de Banalidade
 - **Wraith:** Limites de Corpus/Pathos/Angst aplicados, validacao de Shadow Thorns
@@ -213,7 +213,7 @@ Como Narrador:
 
 ### 7th Sea (2a Edicao)
 
-**Funcionalidades:** Fichas de Heroi e Vilao, Construtor de Navio (ficha independente), 8 Feiticarias, Estilos de Duelo, aplicacao automatica de tracos nacionais, rastreador de ferimentos, calculos de recompensa de historia
+**Funcionalidades:** Fichas de Heroi e Vilao, Construtor de Navio (ficha independente), 8 Feiticarias, Estilos de Duelo, aplicacao automatica de tracos nacionais, auto-aplicacao de antecedentes com orcamentos no modo guiado, botao de adicao rapida de feiticaria, rastreador de ferimentos, calculos de recompensa de historia
 **Escopo de dados:** 37 nacoes, 235+ vantagens, 161 antecedentes, 33 estilos de duelo, 26 sociedades secretas, 44 cartas de arcana — provenientes de todos os 12 suplementos. Filtros de livro-fonte em todos os catalogos.
 **Construtor de Navio:** 15 origens de navio, 12 antecedentes de navio
 **Formulario de Vilao:** Vantagens completas, estilos de duelo, rastreamento de esquemas, arcana corretos
@@ -398,7 +398,7 @@ Algumas fichas de personagem — especialmente aquelas com tabelas largas (cyber
 ### Ficha de personagem não carrega
 
 - **Tente atualizar a página** — o sistema `lazyRetry` vai automaticamente recarregar se os arquivos de chunk estiverem desatualizados
-- **Limpe o cache do navegador** se atualizar não ajudar
+- **Limpe o cache do navegador** se atualizar nao ajudar — uma atualizacao do service worker (bump de versao de cache e correcao de rotas de navegacao SPA) resolveu falhas anteriores de carregamento no mobile; limpar o cache garante que voce receba a versao mais recente
 
 ### Problemas de layout no mobile
 

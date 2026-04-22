@@ -127,6 +127,8 @@ Blades uses a dedicated **Clock Manager** at `/blades/clocks` (clocks are not em
 
 7th Sea data is consolidated in `sevenSeaData.js` (111KB), sourced from all 12 supplements: 37 nations (was 13), 235+ advantages (was ~48 with incorrect costs), 161 backgrounds (was 31), 33 dueling styles (was 11), 26 secret societies (was 0), 44 arcana cards (was 20 with wrong names). All catalogs include `source` fields for source book filtering. Nation trait bonuses are auto-applied on nation selection. The Hero sheet includes wound tracking, story reward calculations, and dueling trait warnings. The Villain form supports full advantages, dueling styles, scheme tracking, and correct arcana.
 
+The Hero sheet also supports 10 guided-mode automation features: background auto-apply (auto-grants skills +1 rank and advantages when selecting a background), sorcery auto-add button (one-click to add nation's sorcery tradition), Virtue/Hubris mechanical effect display, background budget counter (X/2), advantage cost running tally (Spent: X/5 pts), dice pool highlighting for strong synergies, background-to-advantage synergy hints ("Recommended" badges), nation-to-religion auto-suggest (reorders by cultural fit), Hero Points locked to 1 in guided mode, and quirk display with Hero Point badge styling.
+
 The 7th Sea Ship Builder is decoupled as a standalone sheet (`SEVENTH_SEA_SHIP` splat), with 15 ship origins (was 9) and 12 ship backgrounds (was 8).
 
 ### L5R 5th Edition (FFG)
@@ -307,7 +309,7 @@ export default function CharacterForm() {
 #### PWA Support
 
 - **manifest.json** configured with `"display": "standalone"` for native-app-like experience when installed
-- **Service Worker** caches hashed assets (JS, CSS, images) using a cache-first strategy for instant loads, and caches HTML using network-first with an offline fallback page
+- **Service Worker** caches hashed assets (JS, CSS, images) using a cache-first strategy for instant loads, and caches HTML using network-first with an offline fallback page. A cache version bump and SPA navigation route handling fix resolved earlier mobile load failures
 - **Apple Meta Tags** (`apple-mobile-web-app-capable`, `apple-mobile-web-app-status-bar-style`, `apple-touch-icon`) enable full-screen home screen install on iOS Safari
 - The app can be installed via "Add to Home Screen" on both iOS and Android
 
@@ -426,7 +428,7 @@ Push to main
 
 ### For Players
 - Create characters across 9 game systems
-- **Auto-calculations and warnings** across all sheets — clan curse warnings (Vampire), sphere cap enforcement and Paradox warnings (Mage), form stat modifiers (Werewolf), race ASI auto-apply and HP/AC suggestions (D&D/UESTRPG), BTM/humanity/cyberpsychosis warnings (Cyberpunk), stress/load tracking (Blades), national trait auto-apply and wound tracking (7th Sea), insight rank auto-calc (L5R), plus Banality/Corpus/Torment/Conviction/Dharma thresholds for remaining WoD splats
+- **Auto-calculations and warnings** across all sheets — clan curse warnings (Vampire), sphere cap enforcement and Paradox warnings (Mage), form stat modifiers (Werewolf), race ASI auto-apply and HP/AC suggestions (D&D/UESTRPG), BTM/humanity/cyberpsychosis warnings (Cyberpunk), stress/load tracking (Blades), national trait auto-apply, background auto-apply with guided mode budgets, sorcery auto-add, and wound tracking (7th Sea), insight rank auto-calc (L5R), plus Banality/Corpus/Torment/Conviction/Dharma thresholds for remaining WoD splats
 - Searchable catalogs for powers, equipment, spells, cyberware — with source book filters where applicable
 - Built-in dice rollers matching each system's mechanics
 - XP/IP tracking with proper cost calculations
