@@ -10,7 +10,11 @@ import { useTheme } from '../context/ThemeContext'
 import TagInfoPanel from './TagInfoPanel'
 import SeventhSeaDiceRoller from './SeventhSeaDiceRoller'
 import { SEVEN_SEA_NPCS, SEVEN_SEA_NPC_CATALOG } from '../data/sevenSeaNpcs'
-import { SEVEN_SEA_ADVANTAGES, DUELING_STYLES, SEVEN_SEA_NATIONS } from '../data/sevenSeaData'
+import { SEVEN_SEA_ADVANTAGES, DUELING_STYLES, SEVEN_SEA_NATIONS, getAllArcana } from '../data/sevenSeaData'
+
+const SEVEN_SEA_ARCANA = getAllArcana()
+const VIRTUES = SEVEN_SEA_ARCANA.map(a => `${a.card} — ${a.virtue.name}`)
+const HUBRISES = SEVEN_SEA_ARCANA.map(a => `${a.card} — ${a.hubris.name}`)
 
 const VILLAIN_RANKS = [
   { rank: 1, description: 'Minor nuisance — a bandit captain, petty noble, or small-time crook.' },
@@ -60,27 +64,9 @@ const INITIAL = {
   willpower: 0, currentWillpower: 0,
   heroPoints: 0, wealth7s: 0, corruption: 0, dramaticWounds: 0,
   heroStories: '', backstory: '', notes: '', appearanceDesc: '', personalItems: '',
+  activeScheme: '', schemeSteps: 3, schemeProgress: 0, schemeDesc: '',
 }
 
-const VIRTUES = [
-  'The Fool — Wily', 'The Road — Willing', 'The Magician — Temperate',
-  'Reunion — Triumphant', 'The Lovers — Passionate', 'The Thrones — Commanding',
-  'Coins — Adaptable', 'The Witch — Intuitive', 'The War — Victorious',
-  'The Hanged Man — Altruistic', 'The Beggar Prince — Insightful',
-  'The Devil — Astute', 'The Tower — Humble', 'The Moonless Night — Subtle',
-  'The Sun — Glorious', 'The Prophet — Illuminating', 'The Hero — Courageous',
-  'The Glyph — Perceptive', 'The Emperor — Proud', 'Swords — Exemplary',
-]
-
-const HUBRISES = [
-  'The Fool — Reckless', 'The Road — Lost', 'The Magician — Ambitious',
-  'Reunion — Beholden', 'The Lovers — Star-Crossed', 'The Thrones — Stubborn',
-  'Coins — Greedy', 'The Witch — Manipulative', 'The War — Loyal',
-  'The Hanged Man — Indecisive', 'The Beggar Prince — Envious',
-  'The Devil — Trusting', 'The Tower — Arrogant', 'The Moonless Night — Rash',
-  'The Sun — Proud', 'The Prophet — Overzealous', 'The Hero — Hot-Headed',
-  'The Glyph — Curious', 'The Emperor — Imperious', 'Swords — Loyal',
-]
 
 const TAB_KEYS = ['tabIdentity', 'tab7sVillainStats', 'tab7sTraits', 'tab7sAdvantages', 'tab7sSchemes', 'tabBackstory', 'tabDiceRoller']
 
@@ -160,8 +146,8 @@ export default function SeventhSeaVillainForm() {
   }
 
   const vRank = fields.willpower || 0
-  const strength = vRank + 2
-  const influence = vRank + 2
+  const strength = vRank
+  const influence = vRank
   const danger = Math.ceil(vRank / 2)
   const vDesc = VILLAIN_RANKS.reduce((best, v) => v.rank <= vRank ? v : best, VILLAIN_RANKS[0])
 
@@ -366,8 +352,8 @@ export default function SeventhSeaVillainForm() {
                 {VILLAIN_RANKS.map(v => (
                   <tr key={v.rank} style={{ background: fields.willpower === v.rank ? 'rgba(52,152,219,0.08)' : 'transparent' }}>
                     <td style={{ fontWeight: 600 }}>{v.rank}</td>
-                    <td>{v.rank + 2}</td>
-                    <td>{v.rank + 2}</td>
+                    <td>{v.rank}</td>
+                    <td>{v.rank}</td>
                     <td>{Math.ceil(v.rank / 2)}</td>
                     <td className="inv-notes">{v.description}</td>
                   </tr>
@@ -461,9 +447,59 @@ export default function SeventhSeaVillainForm() {
       <div role="tabpanel" id={`tabpanel-4`} aria-labelledby={`tab-4`} hidden={tab !== 4}>
         <div className="form-section">
           <fieldset>
-            <legend>Schemes</legend>
+            <legend>Active Scheme</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Villains have Schemes — multi-step evil plans. Each Scheme has an Objective, Steps (the Villain completes one step per session unless the Heroes intervene), and Consequences.
+              Villains have Schemes — multi-step evil plans. The Villain completes one step per session unless the Heroes intervene. Influence ({influence}) dice for social/political schemes, Strength ({strength}) dice for combat schemes.
+            </p>
+            <div className="field-row">
+              <div className="field" style={{ flex: 2 }}>
+                <label>Active Scheme</label>
+                <input name="activeScheme" value={fields.activeScheme} onChange={handleText} placeholder="Seize the Throne of Castille..." />
+              </div>
+            </div>
+            <div className="field">
+              <label>Scheme Description</label>
+              <textarea name="schemeDesc" value={fields.schemeDesc} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="What is this villain trying to accomplish and why?" />
+            </div>
+            <div className="field-row">
+              <div className="field">
+                <label>Total Scheme Steps (1-5)</label>
+                <select name="schemeSteps" value={fields.schemeSteps} onChange={e => handleField('schemeSteps', parseInt(e.target.value))}>
+                  {[1,2,3,4,5].map(n => <option key={n} value={n}>{n} step{n !== 1 ? 's' : ''}</option>)}
+                </select>
+              </div>
+              <div className="field">
+                <label>Steps Completed</label>
+                <select name="schemeProgress" value={fields.schemeProgress} onChange={e => handleField('schemeProgress', parseInt(e.target.value))}>
+                  {Array.from({ length: (fields.schemeSteps || 3) + 1 }, (_, i) => i).map(n => <option key={n} value={n}>{n} of {fields.schemeSteps || 3}</option>)}
+                </select>
+              </div>
+            </div>
+            {fields.activeScheme && (
+              <div style={{ padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: 'var(--radius)', borderLeft: '3px solid var(--color-accent-fg)', marginTop: 'var(--space-sm)' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Scheme Progress</div>
+                <div style={{ display: 'flex', gap: '4px', marginBottom: '4px' }}>
+                  {Array.from({ length: fields.schemeSteps || 3 }, (_, i) => (
+                    <div key={i} style={{
+                      width: 28, height: 28, borderRadius: 'var(--radius-sm)',
+                      background: i < (fields.schemeProgress || 0) ? 'var(--color-accent-fg)' : 'var(--color-border)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '0.75rem', fontWeight: 700, color: i < (fields.schemeProgress || 0) ? '#fff' : 'var(--color-text-muted)',
+                    }}>{i + 1}</div>
+                  ))}
+                </div>
+                <div className="muted-hint muted-hint--xs">
+                  {(fields.schemeProgress || 0) >= (fields.schemeSteps || 3)
+                    ? 'Scheme complete! The villain has achieved their goal.'
+                    : `${(fields.schemeSteps || 3) - (fields.schemeProgress || 0)} step${(fields.schemeSteps || 3) - (fields.schemeProgress || 0) !== 1 ? 's' : ''} remaining. Heroes must intervene!`}
+                </div>
+              </div>
+            )}
+          </fieldset>
+          <fieldset>
+            <legend>All Schemes (Notes)</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Document all villain schemes here -- past, present, and future plans.
             </p>
             <textarea name="heroStories" value={fields.heroStories} onChange={handleText} rows={10} style={{ width: '100%' }} placeholder={
 `Scheme 1: Seize the Throne of Castille
@@ -472,7 +508,7 @@ Steps:
   1. Bribe the Inquisition generals
   2. Discredit the true heir
   3. Arrange a "tragic accident"
-  4. March on San Cristóbal
+  4. March on San Cristobal
 Consequence if unchecked: Civil war engulfs Castille`} />
           </fieldset>
           <fieldset>
