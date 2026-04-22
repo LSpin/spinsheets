@@ -521,6 +521,21 @@ export default function ChangelingForm() {
             <div className="field-row">
               <DotRating label={t('banality')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={10} />
             </div>
+            {fields.quintessence >= 10 && (
+              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c', textAlign: 'center' }}>
+                Undone — Character becomes fully mortal. The Dreaming is lost forever.
+              </div>
+            )}
+            {fields.quintessence >= 8 && fields.quintessence < 10 && (
+              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(231,76,60,0.15)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c' }}>
+                Severe — Glamour recovery greatly reduced (Banality {fields.quintessence})
+              </div>
+            )}
+            {fields.quintessence === 7 && (
+              <div role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(243,156,18,0.15)', border: '2px solid #f39c12', borderRadius: '6px', fontWeight: 600, color: '#f39c12' }}>
+                High Banality — Difficulty creating cantrips increased (Banality {fields.quintessence})
+              </div>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('willpower')}</legend>

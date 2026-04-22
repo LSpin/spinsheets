@@ -155,8 +155,10 @@ const RESOLVE_ACTIONS = [
 ]
 
 const LOAD_OPTIONS = [
-  { label: 'Discreet (4)', value: 4 },
-  { label: 'Conspicuous (6)', value: 6 },
+  { label: 'Light', value: 3 },
+  { label: 'Normal', value: 5 },
+  { label: 'Heavy', value: 6 },
+  { label: 'Encumbered', value: 9 },
 ]
 
 /* ── Small dot-rating for 0-4 action dots ── */
@@ -523,6 +525,16 @@ export default function BladesForm() {
               ))}
               <span style={{ marginLeft: 'var(--space-sm)', fontSize: '0.85rem', fontWeight: 600 }}>{fields.bladesStress}/9</span>
             </div>
+            {fields.bladesStress >= 9 && (
+              <div role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c', textAlign: 'center' }}>
+                Trauma! Take a trauma condition and clear your stress.
+              </div>
+            )}
+            {fields.bladesStress >= 8 && fields.bladesStress < 9 && (
+              <div role="alert" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(243,156,18,0.15)', border: '2px solid #f39c12', borderRadius: '6px', fontWeight: 600, color: '#f39c12' }}>
+                Warning: One more stress and you take trauma!
+              </div>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('bladesTrauma')}</legend>
@@ -666,10 +678,19 @@ export default function BladesForm() {
                 </label>
               ))}
             </div>
-            <p className="muted-hint muted-hint--xs" role="status" aria-live="polite">
-              {t('bladesCurrentLoad')}: <strong>{currentLoad}</strong> / {fields.bladesLoad || '?'}
-              {fields.bladesLoad > 0 && currentLoad > fields.bladesLoad && <span style={{ color: 'var(--color-danger)', fontWeight: 600 }}> {t('bladesOverEncumbered')}</span>}
-            </p>
+            <div role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '6px', background: 'rgba(52,152,219,0.05)' }}>
+              <div style={{ fontSize: '0.9rem', fontWeight: 600 }}>
+                {t('bladesCurrentLoad')}: <strong>{currentLoad}</strong> / {fields.bladesLoad || '?'}
+                {fields.bladesLoad > 0 && (
+                  <span style={{ marginLeft: 'var(--space-sm)', color: currentLoad > fields.bladesLoad ? 'var(--color-danger)' : 'var(--color-text-muted)' }}>
+                    ({fields.bladesLoad - currentLoad >= 0 ? `${fields.bladesLoad - currentLoad} slots remaining` : `${currentLoad - fields.bladesLoad} over capacity`})
+                  </span>
+                )}
+              </div>
+              {fields.bladesLoad > 0 && currentLoad > fields.bladesLoad && (
+                <div style={{ color: 'var(--color-danger)', fontWeight: 600, fontSize: '0.85rem', marginTop: '4px' }}>{t('bladesOverEncumbered')}</div>
+              )}
+            </div>
           </fieldset>
           <fieldset>
             <legend>{t('bladesStandardItems')}</legend>

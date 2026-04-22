@@ -919,7 +919,7 @@ export default function CharacterForm() {
                   handleField('clan', val)
                   const entry = CLANS.find(c => c.value === val)
                   if (entry) handleField('clanCurse', entry.curse)
-                  if (val === 'Nosferatu' || val === 'Samedi') handleField('appearance', 0)
+                  if (val === 'Nosferatu' || val === 'Nosferatu Antitribu' || val === 'Samedi' || val === 'Blood Brothers') handleField('appearance', 0)
                 }}
                 catalog={CLANS.map(c => ({ value: c.value, description: c.curse }))} />
               <CatalogSelect id="sect" name="sect" label={t('sect')} value={fields.sect}
@@ -940,6 +940,36 @@ export default function CharacterForm() {
               </p>
             )}
           </fieldset>
+
+          {/* Clan curse warning */}
+          {fields.clan && (() => {
+            const clanEntry = CLANS.find(c => c.value === fields.clan)
+            if (!clanEntry) return null
+            const isNosferatu = fields.clan === 'Nosferatu' || fields.clan === 'Nosferatu Antitribu' || fields.clan === 'Samedi' || fields.clan === 'Blood Brothers'
+            const isMalkavian = fields.clan === 'Malkavian' || fields.clan === 'Malkavian Antitribu'
+            const isVentrue = fields.clan === 'Ventrue' || fields.clan === 'Ventrue Antitribu'
+            return (
+              <fieldset>
+                <legend>{t('clan')} — {fields.clan}</legend>
+                {isNosferatu && (
+                  <p className="status-error" role="alert" aria-live="assertive" style={{ fontWeight: 700, marginBottom: 'var(--space-sm)' }}>
+                    Appearance is 0 — {fields.clan} cannot raise Appearance
+                  </p>
+                )}
+                {isMalkavian && (
+                  <p className="status-warning" role="status" aria-live="polite" style={{ fontWeight: 700, marginBottom: 'var(--space-sm)' }}>
+                    Must select a permanent Derangement — this can never be fully cured
+                  </p>
+                )}
+                {isVentrue && (
+                  <p className="role-hint" role="status" aria-live="polite" style={{ marginBottom: 'var(--space-sm)' }}>
+                    Restricted feeding — specify prey exclusion in notes (e.g. only feeds on the wealthy, redheads, soldiers, etc.)
+                  </p>
+                )}
+                <p className="muted-hint muted-hint--xs" style={{ fontStyle: 'italic' }}>{clanEntry.curse}</p>
+              </fieldset>
+            )
+          })()}
 
           <fieldset>
             <legend>{t('clanCurseDerangements')}</legend>
@@ -979,7 +1009,7 @@ export default function CharacterForm() {
             { legendKey: 'socialAttr',   group: 'social',   attrs: ['charisma', 'manipulation', 'appearance'] },
             { legendKey: 'mentalAttr',   group: 'mental',   attrs: ['perception', 'intelligence', 'wits'] },
           ].map(({ legendKey, group, attrs }) => {
-            const zeroAppearance = fields.clan === 'Nosferatu' || fields.clan === 'Samedi'
+            const zeroAppearance = fields.clan === 'Nosferatu' || fields.clan === 'Nosferatu Antitribu' || fields.clan === 'Samedi' || fields.clan === 'Blood Brothers'
             return (
               <fieldset key={legendKey}>
                 <legend>{t(legendKey)}</legend>
@@ -1136,8 +1166,25 @@ export default function CharacterForm() {
           </fieldset>
 
           <fieldset>
-            <legend>{t('bloodPool')} — {ordinal(fields.generation)} Gen (max {maxBlood}, {perTurn}/turn)</legend>
+            <legend>{t('bloodPool')} — {ordinal(fields.generation)} Gen</legend>
+            <div style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center', flexWrap: 'wrap', marginBottom: 'var(--space-sm)' }}>
+              <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Max Blood Pool: {maxBlood}</span>
+              <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Blood per Turn: {perTurn}</span>
+              <span style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)' }}>
+                ({fields.currentBlood}/{maxBlood} current)
+              </span>
+            </div>
             <DotRating label={t('currentBlood')} name="currentBlood" value={fields.currentBlood} onChange={handleField} min={0} max={maxBlood} />
+            {fields.currentBlood <= 2 && fields.currentBlood > 0 && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Blood pool critically low — risk of hunger frenzy
+              </p>
+            )}
+            {fields.currentBlood === 0 && (
+              <p className="status-error" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Blood pool empty — torpor is imminent
+              </p>
+            )}
           </fieldset>
 
           <fieldset>

@@ -60,6 +60,32 @@ function getAbilityScore(fields, abilityName) {
   return fields[map[abilityName]] || 10
 }
 
+// UESTRPG uses STR/AGI/END/INT/WIL/PER abbreviations
+const ABILITY_ABBREV_TO_KEY = { STR: 'dndStrength', AGI: 'dndDexterity', END: 'dndConstitution', INT: 'dndIntelligence', WIL: 'dndWisdom', PER: 'dndCharisma' }
+
+function parseAbilityBonuses(bonusStr) {
+  if (!bonusStr) return {}
+  if (bonusStr.includes('+1 to all')) {
+    return { dndStrength: 1, dndDexterity: 1, dndConstitution: 1, dndIntelligence: 1, dndWisdom: 1, dndCharisma: 1 }
+  }
+  const result = {}
+  const parts = bonusStr.split(',').map(s => s.trim())
+  for (const part of parts) {
+    const match = part.match(/([+-]\d+)\s+(STR|AGI|END|INT|WIL|PER)/)
+    if (match) {
+      const key = ABILITY_ABBREV_TO_KEY[match[2]]
+      if (key) result[key] = (result[key] || 0) + parseInt(match[1])
+    }
+  }
+  return result
+}
+
+function computeSuggestedHp(hitDie, level, conMod) {
+  if (!hitDie || level < 1) return 0
+  const avgPerLevel = Math.floor(hitDie / 2) + 1
+  return hitDie + (avgPerLevel * (level - 1)) + (conMod * level)
+}
+
 export default function UestrpgForm() {
   const { id: paramId } = useParams()
   const navigate = useNavigate()
@@ -85,10 +111,53 @@ export default function UestrpgForm() {
   const [spellLevelFilter, setSpellLevelFilter] = useState('all')
   const [expandedSpell, setExpandedSpell] = useState(null)
   const [equipSearch, setEquipSearch] = useState('')
+  const [appliedRaceBonuses, setAppliedRaceBonuses] = useState(null)
 
   useEffect(() => {
     if (characterId) loadCharacter()
   }, [characterId])
+
+  // Race ASI auto-apply: when race/subrace changes, revert old bonuses and apply new ones
+  useEffect(() => {
+    const raceKey = fields.dndRace
+    const subraceKey = fields.dndSubrace
+    const raceData = UESTRPG_RACES[raceKey]
+    if (!raceKey) {
+      if (appliedRaceBonuses) {
+        setFields(prev => {
+          const next = { ...prev }
+          for (const [key, val] of Object.entries(appliedRaceBonuses.bonuses)) {
+            next[key] = (next[key] || 10) - val
+          }
+          return next
+        })
+        setAppliedRaceBonuses(null)
+      }
+      return
+    }
+    const raceBonuses = raceData ? parseAbilityBonuses(raceData.abilityBonuses) : {}
+    const subraceData = raceData?.subraces?.find(s => s.value === subraceKey)
+    const subraceBonuses = subraceData ? parseAbilityBonuses(subraceData.abilityBonuses) : {}
+    const newBonuses = { ...raceBonuses }
+    for (const [key, val] of Object.entries(subraceBonuses)) {
+      newBonuses[key] = (newBonuses[key] || 0) + val
+    }
+    const tag = `${raceKey}||${subraceKey || ''}`
+    if (appliedRaceBonuses?.tag === tag) return
+    setFields(prev => {
+      const next = { ...prev }
+      if (appliedRaceBonuses) {
+        for (const [key, val] of Object.entries(appliedRaceBonuses.bonuses)) {
+          next[key] = (next[key] || 10) - val
+        }
+      }
+      for (const [key, val] of Object.entries(newBonuses)) {
+        next[key] = (next[key] || 10) + val
+      }
+      return next
+    })
+    setAppliedRaceBonuses({ tag, bonuses: newBonuses })
+  }, [fields.dndRace, fields.dndSubrace])
 
   async function loadCharacter() {
     try {
@@ -223,6 +292,16 @@ export default function UestrpgForm() {
                   onChange={handleField} catalog={selectedRace?.subraces || []} />
               )}
             </div>
+            {appliedRaceBonuses && Object.keys(appliedRaceBonuses.bonuses).length > 0 && (
+              <div className="form-section" role="status" aria-live="polite" style={{ padding: 'var(--space-sm) var(--space-md)', marginTop: 'var(--space-xs)', background: 'rgba(46,204,113,0.10)', borderLeft: '3px solid #2ecc71', fontSize: '0.85rem' }}>
+                <strong>Race ASI Applied:</strong>{' '}
+                {Object.entries(appliedRaceBonuses.bonuses).map(([key, val]) => {
+                  const ab = ABILITIES.find(a => a.key === key)
+                  return ab ? `${ab.label} ${formatMod(val)}` : null
+                }).filter(Boolean).join(', ')}
+                {selectedRace && <span className="muted-hint muted-hint--xs"> ({selectedRace.abilityBonuses})</span>}
+              </div>
+            )}
             <div className="field-row">
               <CatalogSelect id="dndClass" name="dndClass" label={t('dndClass')} value={fields.dndClass}
                 onChange={handleField} catalog={UESTRPG_CLASS_CATALOG} />
@@ -360,6 +439,7 @@ export default function UestrpgForm() {
               <div className="field">
                 <label>{t('dndArmorClass')}</label>
                 <input type="number" name="dndArmorClass" value={fields.dndArmorClass} onChange={handleNumber} />
+                <span className="muted-hint muted-hint--xs">Unarmored: {10 + abilityMod(fields.dndDexterity)}</span>
               </div>
               <div className="field">
                 <label>{t('dndInitiative')}</label>
@@ -378,6 +458,11 @@ export default function UestrpgForm() {
               <div className="field">
                 <label>{t('dndHpMax')}</label>
                 <input type="number" name="dndHpMax" min={0} value={fields.dndHpMax} onChange={handleNumber} />
+                {selectedClass && (
+                  <span className="muted-hint muted-hint--xs" aria-label="Suggested maximum hit points">
+                    Suggested: {computeSuggestedHp(selectedClass.hitDie, fields.dndLevel, abilityMod(fields.dndConstitution))}
+                  </span>
+                )}
               </div>
               <div className="field">
                 <label>{t('dndHpCurrent')}</label>

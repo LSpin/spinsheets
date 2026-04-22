@@ -49,12 +49,14 @@ const SHIP_MODIFICATIONS = [
 ]
 
 const SHIP_CREW_QUALITY = [
-  { value: 'Rabble', description: 'Untrained press-ganged crew. Strength 1. Unreliable but cheap.' },
-  { value: 'Landlubbers', description: 'Inexperienced but willing sailors. Strength 3. Still learning the ropes.' },
-  { value: 'Able Seamen', description: 'Competent professional sailors. Strength 5. Solid and dependable.' },
-  { value: 'Veterans', description: 'Experienced old salts. Strength 7. They\'ve survived storms and battles.' },
-  { value: 'Elite', description: 'The finest crew on the seas. Strength 10. Legendary sailors and fighters.' },
+  { value: 'Rabble', strength: 1, description: 'Untrained press-ganged crew. Strength 1. Unreliable but cheap.' },
+  { value: 'Landlubbers', strength: 3, description: 'Inexperienced but willing sailors. Strength 3. Still learning the ropes.' },
+  { value: 'Able Seamen', strength: 5, description: 'Competent professional sailors. Strength 5. Solid and dependable.' },
+  { value: 'Veterans', strength: 7, description: 'Experienced old salts. Strength 7. They\'ve survived storms and battles.' },
+  { value: 'Elite', strength: 10, description: 'The finest crew on the seas. Strength 10. Legendary sailors and fighters.' },
 ]
+
+const CREW_QUALITY_STRENGTH = { 'Rabble': 1, 'Landlubbers': 3, 'Able Seamen': 5, 'Veterans': 7, 'Elite': 10 }
 
 const TAB_KEYS = ['tab7sShipIdentity', 'tab7sShipCrew', 'tabBackstory']
 
@@ -222,6 +224,29 @@ export default function SeventhSeaShipForm() {
               </div>
             </div>
           </fieldset>
+
+          {ship.crewQuality && ship.crewSize > 0 && (() => {
+            const qualityVal = CREW_QUALITY_STRENGTH[ship.crewQuality] || 0
+            const crewStrength = qualityVal * ship.crewSize
+            return (
+              <fieldset>
+                <legend>Crew Strength</legend>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: 'var(--radius)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--color-accent-fg)', minWidth: 80, textAlign: 'center' }}>
+                    {crewStrength}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.95rem', fontWeight: 600 }}>
+                      {ship.crewQuality} (quality {qualityVal}) x {ship.crewSize} crew = {crewStrength} Crew Strength
+                    </div>
+                    <p className="muted-hint muted-hint--xs" style={{ marginTop: '2px' }}>
+                      Crew Strength determines combat effectiveness in ship-to-ship boarding and crew actions.
+                    </p>
+                  </div>
+                </div>
+              </fieldset>
+            )
+          })()}
 
           <fieldset>
             <legend>{t('ship7sMods')} ({t('ship7sModCost')}: {totalModCost})</legend>

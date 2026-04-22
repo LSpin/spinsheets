@@ -576,12 +576,44 @@ export default function WerewolfForm() {
               if (!form || selectedForm === 'homid') return (
                 <p className="muted-hint muted-hint--xs">{t('homidNoMods')}</p>
               )
+              const FORM_ATTR_MAP = [
+                { attr: 'strength', modKey: 'str', label: t('strength') },
+                { attr: 'dexterity', modKey: 'dex', label: t('dexterity') },
+                { attr: 'stamina', modKey: 'sta', label: t('stamina') },
+                { attr: 'manipulation', modKey: 'man', label: t('manipulation') },
+                { attr: 'appearance', modKey: 'app', label: t('appearance') },
+              ]
               return (
-                <div className="form-stat-mods">
-                  <span>
-                    {t('strength')} {form.str} · {t('dexterity')} {form.dex} · {t('stamina')} {form.sta} · {t('manipulation')} {form.man} · {t('appearance')} {form.app} · {t('diff')} {form.diff}
+                <div className="form-stat-mods" style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+                    {FORM_ATTR_MAP.map(({ attr, modKey, label: attrLabel }) => {
+                      const modStr = form[modKey]
+                      const base = fields[attr] || 0
+                      if (modStr === '0' || modStr === '+0') return null
+                      if (modStr === '—') return (
+                        <span key={attr} style={{ fontSize: '0.82rem' }}>
+                          <strong>{attrLabel}:</strong> <span style={{ color: '#e55' }}>N/A in {t(form.formKey)}</span>
+                        </span>
+                      )
+                      const modVal = parseInt(modStr)
+                      if (isNaN(modVal)) return null
+                      const effective = modStr === '0' ? 0 : Math.max(0, base + modVal)
+                      return (
+                        <span key={attr} style={{ fontSize: '0.82rem' }}>
+                          <strong>{attrLabel}:</strong> {base} {modVal >= 0 ? '+' : ''}{modVal} = <strong style={{ color: modVal > 0 ? '#6c6' : '#e95' }}>{effective}</strong>
+                        </span>
+                      )
+                    })}
+                  </div>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                    Difficulty: {form.diff}
+                    {form.noteKey && <> · {t(form.noteKey)}</>}
                   </span>
-                  {form.noteKey && <span className="form-stat-note">{t(form.noteKey)}</span>}
+                  {selectedForm === 'crinos' && (
+                    <span style={{ fontSize: '0.78rem', color: '#e95', fontWeight: 600 }}>
+                      Cannot speak human language in Crinos form. Appearance is 0.
+                    </span>
+                  )}
                 </div>
               )
             })()}
@@ -895,23 +927,38 @@ export default function WerewolfForm() {
           <fieldset>
             <legend>{t('rage')}</legend>
             <div className="field-row">
-              <DotRating label={t('permanentRage')} name="rage" value={fields.rage} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('permanentRage')} name="rage" value={fields.rage} onChange={handleField} min={fields.auspice && AUSPICE_RAGE[fields.auspice] ? AUSPICE_RAGE[fields.auspice] : 0} max={10} />
               <DotRating label={t('temporaryRage')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
             </div>
+            {fields.auspice && AUSPICE_RAGE[fields.auspice] !== undefined && (
+              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>
+                Starting Rage {AUSPICE_RAGE[fields.auspice]} — set by Auspice ({fields.auspice}). Cannot be reduced below this value.
+              </p>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('gnosis')}</legend>
             <div className="field-row">
-              <DotRating label={t('permanentGnosis')} name="gnosis" value={fields.gnosis} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('permanentGnosis')} name="gnosis" value={fields.gnosis} onChange={handleField} min={fields.breed && BREED_GNOSIS[fields.breed] ? BREED_GNOSIS[fields.breed] : 0} max={10} />
               <DotRating label={t('temporaryGnosis')} name="currentGnosis" value={fields.currentGnosis} onChange={handleField} min={0} max={10} />
             </div>
+            {fields.breed && BREED_GNOSIS[fields.breed] !== undefined && (
+              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>
+                Starting Gnosis {BREED_GNOSIS[fields.breed]} — set by Breed ({fields.breed}). Cannot be reduced below this value.
+              </p>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('willpower')}</legend>
             <div className="field-row">
-              <DotRating label={t('permanent')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
+              <DotRating label={t('permanent')} name="willpower" value={fields.willpower} onChange={handleField} min={fields.tribe && TRIBE_WP[fields.tribe] ? TRIBE_WP[fields.tribe] : 1} max={10} />
               <DotRating label={t('temporary')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
+            {fields.tribe && TRIBE_WP[fields.tribe] !== undefined && (
+              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>
+                Starting Willpower {TRIBE_WP[fields.tribe]} — set by Tribe ({fields.tribe}). Cannot be reduced below this value.
+              </p>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('renown')}</legend>

@@ -350,7 +350,7 @@ export default function CyberpunkForm() {
           </fieldset>
           <fieldset>
             <legend>{t('cpDerivedValues')}</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 'var(--space-sm)' }}>
+            <div role="status" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 'var(--space-sm)' }}>
               <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
                 <strong>{t('cpRun')}:</strong> {run} yards/turn
               </div>
@@ -378,6 +378,21 @@ export default function CyberpunkForm() {
                 <span className="muted-hint muted-hint--xs">Max: {humanity} | Lost to cyberware: {totalHumanityLoss}</span>
               </div>
             </div>
+            {fields.cpCurrentHumanity <= 0 && fields.cpCurrentHumanity !== undefined && (
+              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c', fontSize: '1rem', textAlign: 'center' }}>
+                CYBERPSYCHO — Character lost
+              </div>
+            )}
+            {fields.cpCurrentHumanity > 0 && fields.cpCurrentHumanity < 3 && (
+              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(231,76,60,0.15)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c' }}>
+                Critical: Extreme cyberpsychosis risk (Humanity {fields.cpCurrentHumanity})
+              </div>
+            )}
+            {fields.cpCurrentHumanity >= 3 && fields.cpCurrentHumanity < 5 && (
+              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(243,156,18,0.15)', border: '2px solid #f39c12', borderRadius: '6px', fontWeight: 600, color: '#f39c12' }}>
+                Warning: Cyberpsychosis risk (Humanity {fields.cpCurrentHumanity})
+              </div>
+            )}
           </fieldset>
         </div>
       </div>
@@ -429,7 +444,23 @@ export default function CyberpunkForm() {
             <div style={{ padding: 'var(--space-sm)', marginBottom: 'var(--space-md)', background: 'rgba(231,76,60,0.1)', borderRadius: '4px', fontWeight: 600 }}>
               {t('cpTotalHumanityLoss')}: <span style={{ color: totalHumanityLoss > 0 ? '#e55' : '#8c8' }}>{totalHumanityLoss}</span>
               {' '} | {t('cpEffectiveHumanity')}: {Math.max(0, humanity - totalHumanityLoss)}
+              {' '} | {t('cpCurrentHumanity')}: <span style={{ fontWeight: 700, color: fields.cpCurrentHumanity < 5 ? '#e55' : '#8c8' }}>{fields.cpCurrentHumanity}</span>
             </div>
+            {fields.cpCurrentHumanity <= 0 && (
+              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ padding: 'var(--space-sm)', marginBottom: 'var(--space-sm)', background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c', textAlign: 'center' }}>
+                CYBERPSYCHO — Character lost
+              </div>
+            )}
+            {fields.cpCurrentHumanity > 0 && fields.cpCurrentHumanity < 3 && (
+              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ padding: 'var(--space-sm)', marginBottom: 'var(--space-sm)', background: 'rgba(231,76,60,0.15)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c' }}>
+                Critical: Extreme cyberpsychosis risk (Humanity {fields.cpCurrentHumanity})
+              </div>
+            )}
+            {fields.cpCurrentHumanity >= 3 && fields.cpCurrentHumanity < 5 && (
+              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ padding: 'var(--space-sm)', marginBottom: 'var(--space-sm)', background: 'rgba(243,156,18,0.15)', border: '2px solid #f39c12', borderRadius: '6px', fontWeight: 600, color: '#f39c12' }}>
+                Warning: Cyberpsychosis risk (Humanity {fields.cpCurrentHumanity})
+              </div>
+            )}
             <div style={{ marginBottom: 'var(--space-sm)' }}>
               <label htmlFor="cyber-category" style={{ marginRight: 'var(--space-xs)', fontSize: '0.85rem' }}>{t('cpFilterCategory')}</label>
               <select id="cyber-category" value={cyberCategory} onChange={e => setCyberCategory(e.target.value)} style={{ fontSize: '0.85rem' }}>
@@ -473,6 +504,33 @@ export default function CyberpunkForm() {
       {/* ── Tab 4: Combat ── */}
       <div hidden={tab !== 4} role="tabpanel">
         <div className="form-section">
+          <fieldset>
+            <legend>{t('cpDerivedValues')} — {t('tabCpCombat')}</legend>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)' }}>
+              <div style={{ padding: 'var(--space-sm)', border: '2px solid var(--color-accent-fg)', borderRadius: '8px', textAlign: 'center', background: 'rgba(52,152,219,0.08)' }}>
+                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>{t('cpBtm')}</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{btm}</div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>BODY {fields.cpBody}</div>
+              </div>
+              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>{t('cpRun')}</div>
+                <div style={{ fontSize: '1.3rem', fontWeight: 700 }}>{run} yds</div>
+              </div>
+              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>{t('cpLeap')}</div>
+                <div style={{ fontSize: '1.3rem', fontWeight: 700 }}>{leap} yds</div>
+              </div>
+              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>{t('cpLift')}</div>
+                <div style={{ fontSize: '1.3rem', fontWeight: 700 }}>{lift} lbs</div>
+              </div>
+              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>{t('cpSaveNumber')}</div>
+                <div style={{ fontSize: '1.3rem', fontWeight: 700 }}>{fields.cpBody}</div>
+              </div>
+            </div>
+          </fieldset>
+
           <fieldset>
             <legend>{t('cpArmor')} — {t('cpStoppingPowerByLocation')}</legend>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: 'var(--space-sm)' }}>
@@ -555,9 +613,17 @@ export default function CyberpunkForm() {
               ))}
             </div>
             {fields.cpWoundState > 0 && (
-              <p style={{ marginTop: 'var(--space-sm)', fontWeight: 600, color: '#e55' }}>
-                {t('cpWoundPenalty')}: {WOUND_STATES[fields.cpWoundState]?.penalty || 0} {t('cpToAllActions')}
-              </p>
+              <div role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', border: '2px solid', borderColor: fields.cpWoundState >= 4 ? '#e74c3c' : fields.cpWoundState >= 3 ? '#e67e22' : '#f39c12', borderRadius: '8px', background: fields.cpWoundState >= 4 ? 'rgba(231,76,60,0.1)' : fields.cpWoundState >= 3 ? 'rgba(230,126,34,0.1)' : 'rgba(243,156,18,0.1)' }}>
+                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: fields.cpWoundState >= 4 ? '#e74c3c' : fields.cpWoundState >= 3 ? '#e67e22' : '#f39c12' }}>
+                  {WOUND_STATES[fields.cpWoundState]?.label}: {WOUND_STATES[fields.cpWoundState]?.penalty || 0} REF {t('cpToAllActions')}
+                </div>
+                <div style={{ fontSize: '0.85rem', marginTop: '4px', color: 'var(--color-text-muted)' }}>
+                  {fields.cpWoundState === 1 && 'Light wound. -1 REF penalty to all actions.'}
+                  {fields.cpWoundState === 2 && 'Serious wound. -2 REF penalty to all actions. Must make Stun Save (BODY) or be stunned for 1 round.'}
+                  {fields.cpWoundState === 3 && 'Critical wound. -3 REF penalty. Must make Stun Save each round at -1 or be stunned.'}
+                  {fields.cpWoundState >= 4 && `Mortal wound. ${WOUND_STATES[fields.cpWoundState]?.penalty} REF penalty. Must make Death Save (BODY) each round or die. Stun Save at -${fields.cpWoundState - 2}.`}
+                </div>
+              </div>
             )}
           </fieldset>
         </div>

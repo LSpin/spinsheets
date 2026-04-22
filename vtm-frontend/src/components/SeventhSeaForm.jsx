@@ -241,6 +241,23 @@ const HUBRIS_CATALOG = HUBRISES.map(h => ({ value: h, description: h.split(' —
 
 const TRAIT_KEYS = ['traitBrawn', 'traitFinesse', 'traitResolve', 'traitWits7s', 'traitPanache']
 const TRAIT_LABEL = { traitBrawn: 'Brawn', traitFinesse: 'Finesse', traitResolve: 'Resolve', traitWits7s: 'Wits', traitPanache: 'Panache' }
+const TRAIT_NAME_TO_KEY = { 'Brawn': 'traitBrawn', 'Finesse': 'traitFinesse', 'Resolve': 'traitResolve', 'Wits': 'traitWits7s', 'Panache': 'traitPanache' }
+
+// Map dueling style name → primary trait used
+const DUELING_STYLE_TRAIT = {
+  'Aldana': 'Finesse', 'Ambrogia': 'Finesse', 'Donovan': 'Resolve', 'Drexel': 'Brawn',
+  'Eisenfaust': 'Resolve', 'Leegstra': 'Brawn', 'Mantovani': 'Panache', 'Mireli': 'Finesse',
+  'Sabat': 'Panache', 'Torres': 'Wits', 'Valroux': 'Finesse',
+}
+
+// Story step → reward tier mapping
+const STORY_REWARD_TIERS = [
+  { steps: 1, reward: '1-pt Advantage or new Skill Rank' },
+  { steps: 2, reward: '2-pt Advantage' },
+  { steps: 3, reward: '3-pt Advantage' },
+  { steps: 4, reward: '4-pt Advantage' },
+  { steps: 5, reward: '5-pt Advantage or +1 to a Trait' },
+]
 const SKILL_KEYS = [
   'skillAim', 'skillAthletics7s', 'skillBrawl7s', 'skillConvince',
   'skillEmpathy7s', 'skillHide', 'skillIntimidate7s', 'skillNotice',
@@ -280,6 +297,8 @@ export default function SeventhSeaForm() {
   const [activeDuelStyle, setActiveDuelStyle] = useState('')
   const [newStory, setNewStory] = useState({ title: '', goal: '', reward: '', steps: '' })
   const [templateName, setTemplateName] = useState('')
+  const [nationBonusTrait, setNationBonusTrait] = useState(null) // which trait got the +1
+  const [wounds, setWounds] = useState(0) // regular wounds counter
   const [loading, setLoading] = useState(!!characterId)
   const [saving, setSaving] = useState(false)
   const [showExport, setShowExport] = useState(false)
@@ -309,8 +328,35 @@ export default function SeventhSeaForm() {
     finally { setLoading(false) }
   }
 
-  function handleField(name, value) { setFields(prev => ({ ...prev, [name]: typeof value === 'string' ? value : Number(value) })) }
+  function handleField(name, value) {
+    // When nation changes, revert old bonus and clear picker
+    if (name === 'nation') {
+      if (nationBonusTrait) {
+        const key = TRAIT_NAME_TO_KEY[nationBonusTrait]
+        if (key) setFields(prev => ({ ...prev, [key]: Math.max(2, prev[key] - 1), [name]: typeof value === 'string' ? value : Number(value) }))
+        else setFields(prev => ({ ...prev, [name]: typeof value === 'string' ? value : Number(value) }))
+        setNationBonusTrait(null)
+        return
+      }
+    }
+    setFields(prev => ({ ...prev, [name]: typeof value === 'string' ? value : Number(value) }))
+  }
   function handleText(e) { setFields(prev => ({ ...prev, [e.target.name]: e.target.value })) }
+
+  // Apply national trait bonus
+  function applyNationBonus(traitName) {
+    // Revert old bonus if any
+    if (nationBonusTrait) {
+      const oldKey = TRAIT_NAME_TO_KEY[nationBonusTrait]
+      if (oldKey) setFields(prev => ({ ...prev, [oldKey]: Math.max(2, prev[oldKey] - 1) }))
+    }
+    // Apply new bonus
+    const newKey = TRAIT_NAME_TO_KEY[traitName]
+    if (newKey) {
+      setFields(prev => ({ ...prev, [newKey]: Math.min(5, prev[newKey] + 1) }))
+      setNationBonusTrait(traitName)
+    }
+  }
 
   async function handleSave() {
     setSaving(true); setSaveError(null)
@@ -466,10 +512,29 @@ export default function SeventhSeaForm() {
                 onChange={handleField} catalog={RELIGION_CATALOG} />
             </div>
             {nationTraits && (
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-                {fields.nation}: +1 to {nationTraits[0]} or {nationTraits[1]}.
-                {nationSorcery && ` Sorcery: ${nationSorcery}.`}
-              </p>
+              <div style={{ marginBottom: 'var(--space-sm)' }}>
+                <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>
+                  {fields.nation}: +1 to {nationTraits[0]} or {nationTraits[1]}.
+                  {nationSorcery && ` Sorcery: ${nationSorcery}.`}
+                </p>
+                <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: '0.82rem', fontWeight: 600 }}>Apply national +1:</span>
+                  {nationTraits.map(trait => (
+                    <button key={trait} type="button"
+                      className={`btn btn-secondary${nationBonusTrait === trait ? ' tab-btn--active' : ''}`}
+                      style={{ fontSize: '0.78rem', padding: '2px 10px' }}
+                      aria-pressed={nationBonusTrait === trait}
+                      onClick={() => applyNationBonus(trait)}>
+                      {trait}{nationBonusTrait === trait ? ' (applied)' : ''}
+                    </button>
+                  ))}
+                  {nationBonusTrait && (
+                    <span style={{ fontSize: '0.78rem', color: 'var(--color-accent-fg)' }}>
+                      +1 {nationBonusTrait} applied
+                    </span>
+                  )}
+                </div>
+              </div>
             )}
             <div className="field-row">
               <div className="field"><label>{t('7sMembership')}</label><input name="demeanor" value={fields.demeanor} onChange={handleText} placeholder="Secret Society, guild, order..." /></div>
@@ -493,7 +558,9 @@ export default function SeventhSeaForm() {
           <fieldset>
             <legend>{t('tab7sTraits')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              {t('traitsHint')} {nationTraits && `${fields.nation} grants +1 to ${nationTraits[0]} or ${nationTraits[1]} (apply manually).`}
+              {t('traitsHint')} {nationTraits && (nationBonusTrait
+                ? `${fields.nation}: +1 ${nationBonusTrait} applied via Identity tab.`
+                : `${fields.nation} grants +1 to ${nationTraits[0]} or ${nationTraits[1]} -- select on the Identity tab.`)}
             </p>
             {guidedMode && <PointsBudget spent={traitSpent} budget={TRAIT_BUDGET} />}
             <div className="rating-grid">
@@ -596,25 +663,35 @@ export default function SeventhSeaForm() {
                   const already = disciplines.some(d => d.name.toLowerCase() === a.name.toLowerCase())
                   return (
                     <li key={a.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
-                      <button className="catalog-item-btn" onClick={() => {
-                        if (!already) {
-                          addDiscipline(characterId, { name: a.name, level: a.cost, notes: '' })
-                            .then(res => setDisciplines(prev => [...prev, res.data]))
-                            .catch(() => setActionError(t('failedToSave')))
-                        } else {
-                          const d = disciplines.find(d => d.name.toLowerCase() === a.name.toLowerCase())
-                          if (d) setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'advantage' })
-                        }
-                      }}>
-                        <div className="catalog-item-main">
-                          <span className="catalog-item-name">{a.name}</span>
-                          <span className="catalog-item-desc">{a.description}</span>
-                        </div>
-                        <div className="catalog-item-meta">
-                          <span className="catalog-item-cost">{a.cost}pt</span>
-                          {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
-                        </div>
-                      </button>
+                      {(() => {
+                        const wouldExceed = guidedMode && !already && (advSpent + a.cost) > ADVANTAGE_BUDGET
+                        return (
+                          <button className="catalog-item-btn" disabled={wouldExceed && !already} onClick={() => {
+                            if (!already) {
+                              addDiscipline(characterId, { name: a.name, level: a.cost, notes: '' })
+                                .then(res => setDisciplines(prev => [...prev, res.data]))
+                                .catch(() => setActionError(t('failedToSave')))
+                            } else {
+                              const d = disciplines.find(d => d.name.toLowerCase() === a.name.toLowerCase())
+                              if (d) setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'advantage' })
+                            }
+                          }}>
+                            <div className="catalog-item-main">
+                              <span className="catalog-item-name">{a.name}</span>
+                              <span className="catalog-item-desc">{a.description}</span>
+                              {wouldExceed && (
+                                <span className="muted-hint muted-hint--xs" style={{ color: 'var(--color-danger)', display: 'block', marginTop: '2px' }}>
+                                  Exceeds {ADVANTAGE_BUDGET}-point budget ({advSpent} + {a.cost} = {advSpent + a.cost})
+                                </span>
+                              )}
+                            </div>
+                            <div className="catalog-item-meta">
+                              <span className="catalog-item-cost">{a.cost}pt</span>
+                              {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
+                            </div>
+                          </button>
+                        )
+                      })()}
                     </li>
                   )
                 })}
@@ -671,11 +748,20 @@ export default function SeventhSeaForm() {
             {activeDuelStyle && (() => {
               const style = DUELING_STYLES.find(s => s.name === activeDuelStyle)
               if (!style) return null
+              const requiredTrait = DUELING_STYLE_TRAIT[style.name]
+              const traitKey = requiredTrait ? TRAIT_NAME_TO_KEY[requiredTrait] : null
+              const traitVal = traitKey ? fields[traitKey] : 0
+              const traitLow = requiredTrait && traitVal < 3
               return (
                 <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', marginBottom: 0, background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
                   <div style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{style.name}</div>
                   <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)' }}>{style.nation}</div>
                   <div style={{ fontSize: '0.9rem' }}>{style.description}</div>
+                  {traitLow && (
+                    <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
+                      Your {requiredTrait} is {traitVal} -- this style works best with {requiredTrait} 3+.
+                    </p>
+                  )}
                 </div>
               )
             })()}
@@ -725,6 +811,28 @@ export default function SeventhSeaForm() {
             </div>
           </fieldset>
 
+          <fieldset>
+            <legend>Wound Tracker</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Each Dramatic Wound equals your Resolve in regular wounds. Track regular wounds here and Dramatic Wounds are calculated automatically.
+            </p>
+            <div className="field-row" style={{ alignItems: 'center' }}>
+              <div className="field" style={{ width: 140 }}>
+                <label>Regular Wounds</label>
+                <input type="number" min={0} max={99} value={wounds} onChange={e => setWounds(Math.max(0, parseInt(e.target.value) || 0))} />
+              </div>
+              <div role="status" aria-live="polite" aria-atomic="true" style={{ flex: 1, padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: 'var(--radius)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '2px' }}>
+                  {wounds} regular wound{wounds !== 1 ? 's' : ''} = {Math.floor(wounds / (fields.traitResolve || 1))} Dramatic Wound{Math.floor(wounds / (fields.traitResolve || 1)) !== 1 ? 's' : ''}
+                </div>
+                <div className="muted-hint muted-hint--xs">
+                  Resolve {fields.traitResolve} = {fields.traitResolve} wound{fields.traitResolve !== 1 ? 's' : ''} per Dramatic Wound level
+                  {wounds > 0 && ` | ${wounds % (fields.traitResolve || 1)} wound${wounds % (fields.traitResolve || 1) !== 1 ? 's' : ''} toward next`}
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
           {/* Villain/Monster creation is now a separate form at /7thsea/villain/new */}
         </div>
       </div>
@@ -737,6 +845,11 @@ export default function SeventhSeaForm() {
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Choose 2 Backgrounds. Each provides a Quirk, Skills, and Advantages.
             </p>
+            {guidedMode && backgrounds.length >= 2 && (
+              <p className="points-remaining points-remaining--done" style={{ marginBottom: 'var(--space-sm)' }}>
+                Background limit reached (2/2). Remove one to add a different background.
+              </p>
+            )}
             {backgrounds.length > 0 && (
               <ul className="tag-list">
                 {backgrounds.map(b => (
@@ -768,7 +881,7 @@ export default function SeventhSeaForm() {
                   const already = backgrounds.some(bg => bg.name.toLowerCase() === b.name.toLowerCase())
                   return (
                     <li key={b.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
-                      <button className="catalog-item-btn" onClick={() => {
+                      <button className="catalog-item-btn" disabled={!already && guidedMode && backgrounds.length >= 2} onClick={() => {
                         if (!already) {
                           addBackground(characterId, { name: b.name, level: 1, description: '' })
                             .then(res => setBackgrounds(prev => [...prev, res.data]))
@@ -843,6 +956,17 @@ export default function SeventhSeaForm() {
               <label>{t('7sSteps')}</label>
               <textarea value={newStory.steps} onChange={e => setNewStory(p => ({ ...p, steps: e.target.value }))} rows={3} style={{ width: '100%' }} placeholder={"Find the old map in the library\nSail to the island\nConfront the usurper"} />
             </div>
+            {(() => {
+              const stepCount = newStory.steps ? newStory.steps.split('\n').filter(s => s.trim()).length : 0
+              if (stepCount === 0) return null
+              const tier = STORY_REWARD_TIERS.find(t => t.steps === Math.min(stepCount, 5)) || STORY_REWARD_TIERS[STORY_REWARD_TIERS.length - 1]
+              return (
+                <p role="status" aria-live="polite" className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)', padding: 'var(--space-xs) var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: 'var(--radius)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                  <strong>{stepCount} step{stepCount !== 1 ? 's' : ''}</strong> = <strong>{tier.reward}</strong>
+                  {stepCount > 5 && ' (capped at 5-step reward tier)'}
+                </p>
+              )
+            })()}
             <button className="btn btn-secondary" onClick={handleAddStory}>{t('add')}</button>
           </fieldset>
 
