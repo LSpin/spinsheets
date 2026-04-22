@@ -8,7 +8,213 @@ import { useTheme } from '../context/ThemeContext'
 import CatalogSelect from './CatalogSelect'
 import { BLADES_CREW_TYPES, BLADES_CREW_TYPE_CATALOG } from '../data/bladesPlaybooks'
 
-const TAB_KEYS = ['tabBladesCrewIdentity', 'tabBladesCrewAbilities', 'tabBladesCrewUpgrades', 'tabBladesCrewCoinVault', 'tabBladesCrewContacts', 'tabBackstory']
+const FACTIONS = [
+  // Underworld
+  { name: 'The Unseen', tier: 4, description: 'Assassins guild. Secretive and deadly.' },
+  { name: 'The Hive', tier: 2, description: 'Extortion racket and loan sharks.' },
+  { name: 'The Circle of Flame', tier: 3, description: 'Occult conspiracy of nobles and academics.' },
+  { name: 'The Silver Nails', tier: 3, description: 'Mercenary company turned gang.' },
+  { name: 'The Dimmer Sisters', tier: 3, description: 'Spirit traffickers and ghost dealers.' },
+  { name: 'The Wraiths', tier: 2, description: 'Smugglers who use ghost passage.' },
+  { name: 'The Lampblacks', tier: 2, description: 'Former union workers, now thugs and racketeers.' },
+  { name: 'The Red Sashes', tier: 2, description: 'Iruvian sword-artists running drug dens.' },
+  { name: 'The Billhooks', tier: 2, description: 'Brutal butchers and muscle for hire.' },
+  { name: 'The Crows', tier: 2, description: 'Thieves and fences in Crow\'s Foot.' },
+  { name: 'The Gondoliers', tier: 3, description: 'Canal transport and body disposal. Ancient guild.' },
+  { name: 'The Lost', tier: 1, description: 'Drug-addled wretches, desperate and unpredictable.' },
+  { name: 'Ulf Ironborn', tier: 1, description: 'Skovlander refugee gang. Fierce fighters.' },
+  // Institutions
+  { name: 'Bluecoats', tier: 3, description: 'City police. Corrupt and violent.' },
+  { name: 'Inspectors', tier: 3, description: 'Elite investigators. Less corrupt than Bluecoats.' },
+  { name: 'Imperial Military', tier: 6, description: 'The Empire\'s occupying force.' },
+  { name: 'City Council', tier: 5, description: 'Ruling body of Doskvol.' },
+  { name: 'Ministry of Preservation', tier: 5, description: 'Manages the lightning barriers.' },
+  { name: 'Leviathan Hunters', tier: 5, description: 'Brave souls who hunt leviathans for fuel.' },
+  { name: 'Spirit Wardens', tier: 4, description: 'Elite force that destroys rogue spirits.' },
+  { name: 'Deathlands Scavengers', tier: 2, description: 'Brave fools who venture beyond the barriers.' },
+  // Citizens
+  { name: 'Citizenry', tier: 0, description: 'The common people of Doskvol.' },
+  { name: 'Dockers', tier: 3, description: 'Dockworker union. Strong and organized.' },
+  { name: 'Ink Rakes', tier: 2, description: 'Tabloid journalists and scandal mongers.' },
+  { name: 'Servants', tier: 2, description: 'The household staff of nobles and institutions.' },
+]
+
+const TURF_SLOTS = [
+  { name: 'Turf', benefit: '+1 coin per score for each turf claimed', repeatable: true },
+  { name: 'Cover Identity', benefit: '+1d to deceive when you leverage your false identity' },
+  { name: 'Cover Operation', benefit: '-2 Heat per score' },
+  { name: 'Informants', benefit: '+1d to gather info for a score' },
+  { name: 'Hagfish Farm', benefit: 'Body disposal. No evidence of murder on your turf.' },
+  { name: 'Lookouts', benefit: '+1d to Survey on your turf' },
+  { name: 'Personal Quarters', benefit: '+1d to indulge vice during downtime' },
+  { name: 'Tavern', benefit: '+1d to Consort and Sway on your turf' },
+  { name: 'Warehouse', benefit: 'Stores contraband. +1d to acquire assets during downtime' },
+]
+
+const STANDARD_CREW_UPGRADES = [
+  'Vault', 'Boat House', 'Carriage House', 'Hidden Lair', 'Mastery', 'Quality', 'Secure Lair', 'Workshop',
+]
+
+const FACTION_STATUS_LABELS = {
+  '-3': 'War',
+  '-2': 'Hostile',
+  '-1': 'Unfriendly',
+  '0': 'Neutral',
+  '1': 'Friendly',
+  '2': 'Allied',
+  '3': 'Allied',
+}
+
+function getFactionStatusColor(status) {
+  if (status <= -2) return '#e74c3c'
+  if (status === -1) return '#e67e22'
+  if (status === 0) return '#888'
+  if (status === 1) return '#3498db'
+  return '#27ae60'
+}
+
+function FactionTracker({ factionData, onChange }) {
+  const [customName, setCustomName] = useState('')
+  const [customTier, setCustomTier] = useState(1)
+
+  function setStatus(factionName, status) {
+    const next = { ...factionData, [factionName]: status }
+    onChange(next)
+  }
+
+  const allFactions = [...FACTIONS]
+  // Add custom factions from data
+  for (const key of Object.keys(factionData)) {
+    if (!FACTIONS.find(f => f.name === key) && key.startsWith('custom:')) {
+      const parts = key.replace('custom:', '').split('|')
+      allFactions.push({ name: key, tier: parseInt(parts[1]) || 0, description: parts[2] || '', displayName: parts[0] })
+    }
+  }
+
+  function addCustomFaction() {
+    if (!customName.trim()) return
+    const key = `custom:${customName.trim()}|${customTier}|`
+    setStatus(key, 0)
+    setCustomName('')
+    setCustomTier(1)
+  }
+
+  return (
+    <div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+        {allFactions.map(faction => {
+          const key = faction.name
+          const displayName = faction.displayName || faction.name
+          const status = factionData[key] || 0
+          const color = getFactionStatusColor(status)
+          return (
+            <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', borderBottom: '1px solid var(--color-border-subtle, rgba(255,255,255,0.08))' }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                  <strong style={{ fontSize: '0.88rem' }}>{displayName}</strong>
+                  <span className="muted-hint" style={{ fontSize: '0.75rem' }}>T{faction.tier}</span>
+                </div>
+                {faction.description && <span className="muted-hint muted-hint--xs" style={{ display: 'block' }}>{faction.description}</span>}
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0 }}>
+                {[-3, -2, -1, 0, 1, 2, 3].map(v => (
+                  <button key={v} type="button"
+                    onClick={() => setStatus(key, v)}
+                    style={{
+                      width: 28, height: 28, borderRadius: 4, border: 'none', cursor: 'pointer', fontSize: '0.75rem', fontWeight: status === v ? 700 : 400,
+                      background: status === v ? color : 'var(--color-surface-elevated, rgba(255,255,255,0.06))',
+                      color: status === v ? '#fff' : 'var(--color-text-secondary, #aaa)',
+                    }}
+                    title={`${FACTION_STATUS_LABELS[String(v)]} (${v > 0 ? '+' : ''}${v})`}
+                    aria-label={`${displayName} ${FACTION_STATUS_LABELS[String(v)]}`}
+                  >
+                    {v > 0 ? `+${v}` : v}
+                  </button>
+                ))}
+              </div>
+              <span style={{ fontSize: '0.7rem', color, fontWeight: 600, width: 65, textAlign: 'center', flexShrink: 0 }}>
+                {FACTION_STATUS_LABELS[String(status)]}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+      <div style={{ marginTop: 'var(--space-md)', display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-end', flexWrap: 'wrap' }}>
+        <div className="field" style={{ flex: 1, minWidth: 150 }}>
+          <label>Custom Faction Name</label>
+          <input value={customName} onChange={e => setCustomName(e.target.value)} placeholder="Faction name..." />
+        </div>
+        <div className="field" style={{ width: 80 }}>
+          <label>Tier</label>
+          <input type="number" value={customTier} min={0} max={6} onChange={e => setCustomTier(parseInt(e.target.value) || 0)} />
+        </div>
+        <button type="button" className="btn btn-secondary" onClick={addCustomFaction} style={{ marginBottom: 2 }}>Add Faction</button>
+      </div>
+    </div>
+  )
+}
+
+function TurfTracker({ turfData, onChange }) {
+  const claimed = turfData ? turfData.split(',').map(s => s.trim()).filter(Boolean) : []
+
+  function toggleTurf(name) {
+    const next = claimed.includes(name) ? claimed.filter(c => c !== name) : [...claimed, name]
+    onChange(next.join(', '))
+  }
+
+  // Count turf claims (the repeatable "Turf" entry can appear multiple times)
+  const turfCount = claimed.filter(c => c.startsWith('Turf')).length
+  const totalClaimed = claimed.length
+
+  return (
+    <div>
+      <div style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', borderRadius: 6, background: 'var(--color-surface-elevated, rgba(255,255,255,0.06))' }}>
+        <strong>Total Turf Claimed: {totalClaimed}</strong>
+        {turfCount > 0 && <span className="muted-hint" style={{ marginLeft: 'var(--space-sm)' }}>({turfCount} turf = +{turfCount} coin per score)</span>}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+        {TURF_SLOTS.map((slot, idx) => {
+          // For repeatable turf, generate multiple slots
+          if (slot.repeatable) {
+            return Array.from({ length: 6 }, (_, i) => {
+              const name = i === 0 ? slot.name : `${slot.name} ${i + 1}`
+              return (
+                <label key={name} style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-start', cursor: 'pointer', padding: 'var(--space-xs) 0' }}>
+                  <input type="checkbox" checked={claimed.includes(name)} onChange={() => toggleTurf(name)} style={{ marginTop: '3px' }} />
+                  <div>
+                    <strong style={{ fontSize: '0.88rem' }}>{name}</strong>
+                    <span className="muted-hint muted-hint--xs" style={{ display: 'block' }}>{slot.benefit}</span>
+                  </div>
+                </label>
+              )
+            })
+          }
+          return (
+            <label key={slot.name} style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-start', cursor: 'pointer', padding: 'var(--space-xs) 0' }}>
+              <input type="checkbox" checked={claimed.includes(slot.name)} onChange={() => toggleTurf(slot.name)} style={{ marginTop: '3px' }} />
+              <div>
+                <strong style={{ fontSize: '0.88rem' }}>{slot.name}</strong>
+                <span className="muted-hint muted-hint--xs" style={{ display: 'block' }}>{slot.benefit}</span>
+              </div>
+            </label>
+          )
+        })}
+      </div>
+      <div style={{ marginTop: 'var(--space-md)' }}>
+        <strong style={{ fontSize: '0.85rem' }}>Benefits Summary:</strong>
+        <ul style={{ margin: 'var(--space-xs) 0 0 var(--space-md)', fontSize: '0.82rem' }}>
+          {claimed.map(c => {
+            const slot = TURF_SLOTS.find(s => c === s.name || c.startsWith(s.name))
+            return slot ? <li key={c}><strong>{c}:</strong> {slot.benefit}</li> : <li key={c}>{c}</li>
+          })}
+          {claimed.length === 0 && <li className="muted-hint">No turf claimed yet.</li>}
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+const TAB_KEYS = ['tabBladesCrewIdentity', 'tabBladesCrewAbilities', 'tabBladesCrewUpgrades', 'tabBladesCrewCoinVault', 'tabBladesCrewContacts', 'tabBladesCrewFactions', 'tabBladesCrewTurf', 'tabBackstory']
 
 
 const INITIAL = {
@@ -21,6 +227,7 @@ const INITIAL = {
   bladesCrewAbilities: '', bladesCrewUpgrades: '',
   bladesHuntingGrounds: '', bladesCrewContacts: '',
   bladesCohorts: '', bladesCrewXp: 0,
+  bladesFactions: '', bladesTurf: '',
   notes: '', backstory: '',
   havens: '',
 }
@@ -108,6 +315,25 @@ export default function BladesCrewForm() {
   async function handleDoneEditing() { await handleSave(); navigate('/blades') }
 
   const crewType = BLADES_CREW_TYPES[fields.bladesCrewType] || null
+
+  // Merge standard crew upgrades with crew-type-specific upgrades
+  const allUpgrades = crewType
+    ? [...new Set([...crewType.upgrades, ...STANDARD_CREW_UPGRADES])]
+    : STANDARD_CREW_UPGRADES
+
+  // Vault upgrade bonus: each "Vault" upgrade adds +8 capacity
+  const upgradesList = fields.bladesCrewUpgrades ? fields.bladesCrewUpgrades.split(',').map(s => s.trim()).filter(Boolean) : []
+  const hasVaultUpgrade = upgradesList.includes('Vault')
+  const vaultMax = hasVaultUpgrade ? 16 : 8
+
+  // Parse faction data (stored as JSON string)
+  let factionData = {}
+  try { if (fields.bladesFactions) factionData = JSON.parse(fields.bladesFactions) } catch { /* ignore parse errors */ }
+
+  function handleFactionChange(data) {
+    handleField('bladesFactions', JSON.stringify(data))
+  }
+
   const contactsList = fields.bladesCrewContacts ? fields.bladesCrewContacts.split(',').map(s => s.trim()).filter(Boolean) : []
 
   function toggleContact(contact) {
@@ -199,11 +425,8 @@ export default function BladesCrewForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesCrewUpgradesLegend')}</legend>
-            {crewType ? (
-              <CheckboxList items={crewType.upgrades} selected={fields.bladesCrewUpgrades} onChange={v => handleField('bladesCrewUpgrades', v)} />
-            ) : (
-              <p className="muted-hint">{t('bladesSelectCrewForUpgrades')}</p>
-            )}
+            <CheckboxList items={allUpgrades} selected={fields.bladesCrewUpgrades} onChange={v => handleField('bladesCrewUpgrades', v)} />
+            {!crewType && <p className="muted-hint" style={{ marginTop: 'var(--space-xs)' }}>{t('bladesSelectCrewForUpgrades')}</p>}
           </fieldset>
           <fieldset>
             <legend>{t('bladesHuntingGrounds')}</legend>
@@ -238,7 +461,8 @@ export default function BladesCrewForm() {
                 <input type="number" name="bladesCoin" value={fields.bladesCoin} min={0} onChange={e => handleField('bladesCoin', parseInt(e.target.value) || 0)} style={{ width: 80 }} />
               </div>
               <div className="field" style={{ flex: 1 }}>
-                <ClickTrack label={t('bladesVault')} value={fields.bladesVault} max={8} onChange={v => handleField('bladesVault', v)} />
+                <ClickTrack label={t('bladesVault')} value={fields.bladesVault} max={vaultMax} onChange={v => handleField('bladesVault', v)} />
+                {hasVaultUpgrade && <span className="muted-hint muted-hint--xs">Vault upgrade: capacity increased to {vaultMax}</span>}
               </div>
             </div>
           </fieldset>
@@ -272,8 +496,34 @@ export default function BladesCrewForm() {
         </div>
       </div>
 
-      {/* Tab 5 - Notes */}
+      {/* Tab 5 - Factions */}
       <div role="tabpanel" id="tabpanel-5" aria-labelledby="tab-5" hidden={tab !== 5}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('tabBladesCrewFactions')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              {t('bladesFactionTrackerHint')}
+            </p>
+            <FactionTracker factionData={factionData} onChange={handleFactionChange} />
+          </fieldset>
+        </div>
+      </div>
+
+      {/* Tab 6 - Turf */}
+      <div role="tabpanel" id="tabpanel-6" aria-labelledby="tab-6" hidden={tab !== 6}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('tabBladesCrewTurf')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              {t('bladesTurfTrackerHint')}
+            </p>
+            <TurfTracker turfData={fields.bladesTurf} onChange={v => handleField('bladesTurf', v)} />
+          </fieldset>
+        </div>
+      </div>
+
+      {/* Tab 7 - Notes */}
+      <div role="tabpanel" id="tabpanel-7" aria-labelledby="tab-7" hidden={tab !== 7}>
         <div className="form-section">
           <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={t('bladesCrewNotesPh')} /></fieldset>
           <fieldset><legend>{t('tabBackstory')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={t('bladesCrewBackstoryPh')} /></fieldset>
