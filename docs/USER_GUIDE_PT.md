@@ -83,7 +83,7 @@ Ao invés de folhear livros de regras, use os catálogos pesquisáveis integrado
 
 Catálogos estão disponíveis para:
 - **WoD:** Disciplinas, Dons, Ritos, Rotes, Esferas, Qualidades, Defeitos, Antecedentes, Arcanoi, Edges, Lores, Artes, Reinos, Feiticaria de Sangue (com filtro de tradicao)
-- **7th Sea:** Vantagens, Feitiçarias, Estilos de Duelo
+- **7th Sea:** Vantagens (235+), Antecedentes (161), Estilos de Duelo (33), Sociedades Secretas (26), Feiticarias, Arcana (44) — com filtros de livro-fonte
 - **L5R 4e:** Escolas, Magias, Kata, Vantagens, Desvantagens, Equipamento (com filtros de categoria)
 - **L5R 5e:** Escolas (filtradas por cla), Tecnicas (com filtros de categoria), Vantagens, Desvantagens, Armas (com filtros de categoria), Familias
 - **Blades:** Playbooks, Habilidades, Itens, Contatos, Tipos de Crew
@@ -91,6 +91,27 @@ Catálogos estão disponíveis para:
 - **UESTRPG:** Raças, Classes, Constelações, Equipamento (temática TES)
 - **Cyberpunk:** Roles, Cyberware (150+, com filtros de categoria), Armas (58), Armaduras (24), Equipamento (52), Veiculos (38)
 - **ASOIAF:** Beneficios (60+), Desvantagens (28), Armas (28), Armaduras (10+), Recursos da Casa
+
+### Auto-Calculos e Avisos
+
+As fichas de personagem incluem auto-calculos integrados que ajudam a aplicar regras do jogo e alertar sobre limites importantes:
+
+- **Vampire (todas as edicoes):** Avisos de maldicao de cla (ex.: Nosferatu com Aparencia travada em 0, lembrete de perturbacao Malkaviana), avisos de pool de sangue maximo e baixo
+- **Mage (M20 + Victoriana):** Esferas limitadas por Arete, avisos de limite de Paradoxo em 5+, 10+ e 15+
+- **Werewolf (todas as variantes):** Modificadores de stat por forma auto-calculados (Crinos, Hispo, etc.), Furia/Gnose/Forca de Vontade iniciais travados em raca/auspcio/tribo
+- **D&D + UESTRPG:** Aumentos de atributo racial auto-aplicados, sugestao de HP baseada em classe/nivel, calculo base de AC
+- **Cyberpunk 2020:** Stats derivados BTM/corrida/salto/carga exibidos, avisos de perda de humanidade e cyberpsicose, penalidades de estado de ferimento mostradas
+- **Blades in the Dark:** Avisos de estresse em 8 e 9, capacidade de carga com slots restantes exibida
+- **7th Sea:** Bonus de traco nacional auto-aplicados ao selecionar uma nacao, rastreador de ferimentos, calculos de recompensa de historia, avisos de tracos de duelo
+- **L5R 4e:** Rank de Insight auto-calculado, deteccao de rank de escola, botoes +/- de habilidade para ajustes rapidos, rolador de heranca
+- **Changeling:** Avisos de limite de Banalidade
+- **Wraith:** Limites de Corpus/Pathos/Angst aplicados, validacao de Shadow Thorns
+- **Demon:** Avisos de Tormento, balanco Fe/Tormento, dicas de Lore da Casa
+- **Hunter:** Limite de Conviccao aplicado, disponibilidade de Edge filtrada por Virtude
+- **KotE:** Dicas de avanco de Dharma, avisos de Po/Hun, balanco de Chi
+- **Splats menores (Ghoul, Kinfolk, Mortais, Familiar):** Limites de Forca de Vontade, avisos de trilha de saude
+
+Todos os avisos usam regioes `aria-live` acessiveis para que leitores de tela os anunciem automaticamente.
 
 ### Salvando Seu Trabalho
 
@@ -192,9 +213,12 @@ Como Narrador:
 
 ### 7th Sea (2a Edicao)
 
-**Funcionalidades:** Fichas de Heroi e Vilao, Construtor de Navio (ficha independente), 8 Feiticarias, Estilos de Duelo
+**Funcionalidades:** Fichas de Heroi e Vilao, Construtor de Navio (ficha independente), 8 Feiticarias, Estilos de Duelo, aplicacao automatica de tracos nacionais, rastreador de ferimentos, calculos de recompensa de historia
+**Escopo de dados:** 37 nacoes, 235+ vantagens, 161 antecedentes, 33 estilos de duelo, 26 sociedades secretas, 44 cartas de arcana — provenientes de todos os 12 suplementos. Filtros de livro-fonte em todos os catalogos.
+**Construtor de Navio:** 15 origens de navio, 12 antecedentes de navio
+**Formulario de Vilao:** Vantagens completas, estilos de duelo, rastreamento de esquemas, arcana corretos
 **Sistema de dados:** conjuntos de d10 (Raises)
-**Rastreamento de XP:** Pontos de experiência
+**Rastreamento de XP:** Pontos de experiencia
 
 ### Legend of the Five Rings (4a Edição)
 

@@ -123,9 +123,11 @@ Browser
 
 Blades utiliza um **Gerenciador de Relógios** dedicado em `/blades/clocks` (relógios não estão embutidos nas fichas de personagem ou crew). Fichas de personagem incluem uma aba **Coin & Stash** (4 pips de coin para dinheiro disponível, 40 pips de stash com aposentadoria em 40/40). Fichas de crew incluem uma aba **Coin & Vault** (número de coin líquido + trilha de vault com 8 segmentos). A aba Referência de Regras inclui um guia de **XP & Avanço**.
 
-### Navio 7th Sea
+### Dados e Navio 7th Sea
 
-O Construtor de Navios de 7th Sea e desacoplado como uma ficha independente (splat `SEVENTH_SEA_SHIP`), separada do formulario de personagem Heroi/Vilao.
+Os dados de 7th Sea estao consolidados em `sevenSeaData.js` (111KB), provenientes de todos os 12 suplementos: 37 nacoes (era 13), 235+ vantagens (era ~48 com custos incorretos), 161 antecedentes (era 31), 33 estilos de duelo (era 11), 26 sociedades secretas (era 0), 44 cartas de arcana (era 20 com nomes errados). Todos os catalogos incluem campos `source` para filtragem por livro-fonte. Bonus de tracos nacionais sao auto-aplicados na selecao de nacao. A ficha de Heroi inclui rastreamento de ferimentos, calculos de recompensa de historia e avisos de tracos de duelo. O formulario de Vilao suporta vantagens completas, estilos de duelo, rastreamento de esquemas e arcana corretos.
+
+O Construtor de Navios de 7th Sea e desacoplado como uma ficha independente (splat `SEVENTH_SEA_SHIP`), com 15 origens de navio (era 9) e 12 antecedentes de navio (era 8).
 
 ### L5R 5a Edicao (FFG)
 
@@ -172,6 +174,7 @@ vtm-frontend/src/
 │   ├── ThemeContext.jsx     # Troca de tema
 │   └── NewCharContext.jsx   # Modal global de novo personagem
 ├── data/                   # Catálogos de dados de jogo
+│   ├── sevenSeaData.js     # 7th Sea: 111KB, todos os 12 suplementos (nacoes, vantagens, etc.)
 │   ├── cyberpunkData.js    # CP2020: roles, habilidades, cyberware, armas, veículos
 │   ├── cyberpunkNpcs.js    # CP2020: 25 templates de NPC
 │   ├── dnd5eSpells.js      # D&D: 233 magias
@@ -399,7 +402,7 @@ Push to main
 - **Abas ARIA** — Todos os 37 formulários possuem `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-labelledby`, `aria-controls`
 - **Navegação por teclado** — Todos os elementos interativos alcançáveis via Tab, controles customizados suportam Enter/Espaço
 - **Gerenciamento de foco** — Modais possuem `autoFocus`, `aria-modal`, Escape para fechar, clique fora para dispensar
-- **Regiões ao vivo** — `aria-live="polite"` em conteúdo dinâmico, `role="alert"` em erros
+- **Regioes ao vivo** — `aria-live="polite"` em todo conteudo dinamico incluindo avisos de auto-calculo, `role="alert"` em erros e avisos de limite
 - **Cor** — Toda informação é transmitida com texto, não apenas cor. Razões de contraste verificadas por tema
 - **Mobile** — Menu hamburger com `aria-expanded`, ícone animado, fechamento por Escape/clique-fora/navegação; dropdown colapsável de abas mostra aba ativa com indicador `▼`, expande lista completa ao tocar, fecha ao clicar fora; alvos de toque atendem mínimo de 44px
 - **Impressão** — Stylesheet `@media print` mostra todos os painéis de aba, esconde nav/botões, layout limpo preto-no-branco
@@ -423,11 +426,12 @@ Push to main
 
 ### Para Jogadores
 - Criar personagens em 9 sistemas de jogo
-- Catálogos pesquisáveis para poderes, equipamentos, magias, cyberware
-- Roladores de dados integrados correspondentes à mecânica de cada sistema
-- Rastreamento de XP/IP com cálculos de custo adequados
-- Exportar PDF com seções selecionáveis
-- Entrar em crônicas via link de convite
+- **Auto-calculos e avisos** em todas as fichas — avisos de maldicao de cla (Vampire), limitacao de esferas e avisos de Paradoxo (Mage), modificadores de stat por forma (Werewolf), aumento de atributo racial auto-aplicado e sugestoes de HP/AC (D&D/UESTRPG), avisos de BTM/humanidade/cyberpsicose (Cyberpunk), rastreamento de estresse/carga (Blades), aplicacao automatica de tracos nacionais e rastreamento de ferimentos (7th Sea), auto-calculo de rank de Insight (L5R), alem de limites de Banalidade/Corpus/Tormento/Conviccao/Dharma para os demais splats WoD
+- Catalogos pesquisaveis para poderes, equipamentos, magias, cyberware — com filtros de livro-fonte quando aplicavel
+- Roladores de dados integrados correspondentes a mecanica de cada sistema
+- Rastreamento de XP/IP com calculos de custo adequados
+- Exportar PDF com secoes selecionaveis
+- Entrar em cronicas via link de convite
 - Buscar, ordenar e filtrar personagens
 
 ### Para Narradores

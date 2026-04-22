@@ -27,14 +27,15 @@ A web app for creating, managing, and sharing tabletop RPG character sheets. Bui
 ### Features
 
 - **37 character sheets** — each tailored to its system's mechanics
-- **Searchable catalogs** — Disciplines, Gifts, Spells, Cyberware, Feats, Equipment with descriptions
+- **Auto-calculations** — clan curse warnings, blood pool alerts, form stat modifiers, race ASI auto-apply, insight rank detection, and more across all sheets
+- **Searchable catalogs** — Disciplines, Gifts, Spells, Cyberware, Feats, Equipment with descriptions and source book filters
 - **Dice rollers** — d10 pools, d6 pools, d20, roll-and-keep, d10 with fumble/critical
 - **Chronicle management** — create campaigns, invite players, track sessions
 - **350+ NPC templates** — premade antagonists loadable in one selection
 - **XP tracking** — per-system cost calculations and advancement logs
 - **Export PDF** — print any sheet with selectable sections
 - **Bilingual** — English and Portuguese (800+ translation keys)
-- **Accessible** — WCAG 2.1 AA compliant (~95%), screen reader support, keyboard navigation
+- **Accessible** — WCAG 2.1 AA compliant (~95%), screen reader support, keyboard navigation, aria-live regions on all dynamic warnings
 - **Mobile-friendly** — hamburger nav, collapsible tab carousel, sticky save bar, PWA installable
 
 ---
@@ -104,11 +105,12 @@ vtm-frontend/src/
 ├── api/            # Axios API clients
 ├── components/     # 60+ components (33 character forms + shared UI)
 ├── context/        # Auth, Theme, NewChar contexts
-├── data/           # Game catalogs (skills, spells, cyberware, NPCs)
+├── data/           # Game catalogs (skills, spells, cyberware, NPCs, sevenSeaData.js)
 ├── hooks/          # useAutoCreate
 ├── i18n/           # EN + PT translations
 ├── pages/          # Page-level components
-└── index.css       # All styles
+├── index.css       # Import hub (19 @import statements)
+└── styles/         # Modular CSS (19 files)
 
 character-sheet/src/main/java/.../
 ├── config/         # Security, caching, SPA forwarding, data seeding
@@ -146,7 +148,7 @@ The [Developer Guide](docs/DEVELOPER_GUIDE.md) has an 11-step walkthrough. In sh
 6. Create antagonist form + NPC templates
 7. Create system page
 8. Wire up `App.jsx`, `CharacterRouter.jsx`, `splatCategories.js`
-9. Add theme to `index.css`
+9. Add theme to `styles/tokens.css`
 10. Add translations (EN + PT)
 11. Add to homepage
 
@@ -173,8 +175,8 @@ Each with structured catalogs (Disciplines, Gifts, Rotes, Arcanoi, Edges, Lores,
 - ARIA tab interfaces on all 33 forms (`role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-labelledby`)
 - Hamburger nav with `aria-expanded`, Escape key, click-outside dismiss
 - Tab carousel with dynamic `aria-label` showing destination tab name
-- Live regions (`aria-live="polite"`) for dynamic content
-- `role="alert"` on all error messages
+- Live regions (`aria-live="polite"`) for all dynamic content including auto-calculation warnings
+- `role="alert"` on all error messages and threshold warnings
 - Minimum 4.5:1 contrast ratios across all 8 themes
 - 44px minimum touch targets on mobile
 - No color-only information — all paired with text

@@ -123,9 +123,11 @@ Browser
 
 Blades uses a dedicated **Clock Manager** at `/blades/clocks` (clocks are not embedded in character or crew sheets). Character sheets include a **Coin & Stash** tab (4 coin pips for spending money, 40 stash pips with retirement at 40/40). Crew sheets include a **Coin & Vault** tab (liquid coin number + 8-segment vault track). The Rules Reference tab includes an **XP & Advancement** guide.
 
-### 7th Sea Ship
+### 7th Sea Data and Ship
 
-The 7th Sea Ship Builder is decoupled as a standalone sheet (`SEVENTH_SEA_SHIP` splat), separate from the Hero/Villain character form.
+7th Sea data is consolidated in `sevenSeaData.js` (111KB), sourced from all 12 supplements: 37 nations (was 13), 235+ advantages (was ~48 with incorrect costs), 161 backgrounds (was 31), 33 dueling styles (was 11), 26 secret societies (was 0), 44 arcana cards (was 20 with wrong names). All catalogs include `source` fields for source book filtering. Nation trait bonuses are auto-applied on nation selection. The Hero sheet includes wound tracking, story reward calculations, and dueling trait warnings. The Villain form supports full advantages, dueling styles, scheme tracking, and correct arcana.
+
+The 7th Sea Ship Builder is decoupled as a standalone sheet (`SEVENTH_SEA_SHIP` splat), with 15 ship origins (was 9) and 12 ship backgrounds (was 8).
 
 ### L5R 5th Edition (FFG)
 
@@ -172,6 +174,7 @@ vtm-frontend/src/
 │   ├── ThemeContext.jsx     # Theme switching
 │   └── NewCharContext.jsx   # Global new character modal
 ├── data/                   # Game data catalogs
+│   ├── sevenSeaData.js     # 7th Sea: 111KB, all 12 supplements (nations, advantages, etc.)
 │   ├── cyberpunkData.js    # CP2020: roles, skills, cyberware, weapons, vehicles
 │   ├── cyberpunkNpcs.js    # CP2020: 25 NPC templates
 │   ├── dnd5eSpells.js      # D&D: 233 spells
@@ -399,7 +402,7 @@ Push to main
 - **ARIA tabs** — All 37 forms have `role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-labelledby`, `aria-controls`
 - **Keyboard navigation** — All interactive elements reachable via Tab, custom controls support Enter/Space
 - **Focus management** — Modals have `autoFocus`, `aria-modal`, Escape to close, click-outside dismiss
-- **Live regions** — `aria-live="polite"` on dynamic content, `role="alert"` on errors
+- **Live regions** — `aria-live="polite"` on all dynamic content including auto-calculation warnings, `role="alert"` on errors and threshold warnings
 - **Color** — All information conveyed with text, not color alone. Contrast ratios checked per theme
 - **Mobile** — Hamburger menu with `aria-expanded`, animated icon, Escape/click-outside/navigation dismiss; collapsible tab dropdown shows active tab with `▼` indicator, expands full list on tap, dismisses on click-outside; touch targets meet 44px minimum
 - **Print** — `@media print` stylesheet shows all tabs, hides nav/buttons, clean black-on-white
@@ -423,7 +426,8 @@ Push to main
 
 ### For Players
 - Create characters across 9 game systems
-- Searchable catalogs for powers, equipment, spells, cyberware
+- **Auto-calculations and warnings** across all sheets — clan curse warnings (Vampire), sphere cap enforcement and Paradox warnings (Mage), form stat modifiers (Werewolf), race ASI auto-apply and HP/AC suggestions (D&D/UESTRPG), BTM/humanity/cyberpsychosis warnings (Cyberpunk), stress/load tracking (Blades), national trait auto-apply and wound tracking (7th Sea), insight rank auto-calc (L5R), plus Banality/Corpus/Torment/Conviction/Dharma thresholds for remaining WoD splats
+- Searchable catalogs for powers, equipment, spells, cyberware — with source book filters where applicable
 - Built-in dice rollers matching each system's mechanics
 - XP/IP tracking with proper cost calculations
 - Export PDF with selectable sections

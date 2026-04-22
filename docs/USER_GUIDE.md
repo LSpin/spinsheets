@@ -83,7 +83,7 @@ Instead of flipping through sourcebooks, use the built-in searchable catalogs:
 
 Catalogs are available for:
 - **WoD:** Disciplines, Gifts, Rites, Rotes, Spheres, Merits, Flaws, Backgrounds, Arcanoi, Edges, Lores, Arts, Realms, Blood Sorcery (with tradition filter)
-- **7th Sea:** Advantages, Sorceries, Dueling Styles
+- **7th Sea:** Advantages (235+), Backgrounds (161), Dueling Styles (33), Secret Societies (26), Sorceries, Arcana (44) — with source book filters
 - **L5R 4e:** Schools, Spells, Kata, Advantages, Disadvantages, Equipment (with category filters)
 - **L5R 5e:** Schools (filtered by clan), Techniques (with category filters), Advantages, Disadvantages, Weapons (with category filters), Families
 - **Blades:** Playbooks, Abilities, Items, Contacts, Crew Types
@@ -91,6 +91,27 @@ Catalogs are available for:
 - **UESTRPG:** Races, Classes, Constellations, Equipment (TES-flavored)
 - **Cyberpunk:** Roles, Cyberware (150+, with category filters), Weapons (58), Armor (24), Gear (52), Vehicles (38)
 - **ASOIAF:** Benefits (60+), Drawbacks (28), Weapons (28), Armor (10+), House Resources
+
+### Auto-Calculations and Warnings
+
+Character sheets include built-in auto-calculations that help enforce game rules and alert you to important thresholds:
+
+- **Vampire (all editions):** Clan curse warnings (e.g., Nosferatu Appearance locked to 0, Malkavian derangement reminder), blood pool max and low blood warnings
+- **Mage (M20 + Victorian):** Sphere ratings capped by Arete, Paradox threshold warnings at 5+, 10+, and 15+
+- **Werewolf (all variants):** Form stat modifiers auto-calculated (Crinos, Hispo, etc.), Rage/Gnosis/Willpower starting values locked to breed/auspice/tribe
+- **D&D + UESTRPG:** Race ability score increases auto-applied, HP suggestion based on class/level, AC baseline calculation
+- **Cyberpunk 2020:** BTM/run/leap/lift derived stats displayed, humanity loss and cyberpsychosis warnings, wound state penalties shown
+- **Blades in the Dark:** Stress warnings at 8 and 9, load capacity with remaining slots displayed
+- **7th Sea:** National trait bonuses auto-applied when you select a nation, wound tracker, story reward calculations, dueling trait warnings
+- **L5R 4e:** Insight rank auto-calculated, school rank detection, skill +/- buttons for quick adjustments, heritage roller
+- **Changeling:** Banality threshold warnings
+- **Wraith:** Corpus/Pathos/Angst caps enforced, Shadow Thorns validation
+- **Demon:** Torment warnings, Faith/Torment balance tracking, House Lore hints
+- **Hunter:** Conviction cap enforced, Edge availability filtered by Virtue
+- **KotE:** Dharma advancement hints, Po/Hun warnings, Chi balance tracking
+- **Minor splats (Ghoul, Kinfolk, Mortals, Familiar):** Willpower caps, health track warnings
+
+All warnings use accessible `aria-live` regions so screen readers announce them automatically.
 
 ### Saving Your Work
 
@@ -192,7 +213,10 @@ As a Storyteller:
 
 ### 7th Sea (2nd Edition)
 
-**Features:** Hero and Villain sheets, standalone Ship Builder sheet, 8 Sorceries, Dueling Styles
+**Features:** Hero and Villain sheets, standalone Ship Builder sheet, 8 Sorceries, Dueling Styles, national trait auto-apply, wound tracker, story reward calculations
+**Data scope:** 37 nations, 235+ advantages, 161 backgrounds, 33 dueling styles, 26 secret societies, 44 arcana cards — sourced from all 12 supplements. Source book filters on all catalogs.
+**Ship Builder:** 15 ship origins, 12 ship backgrounds
+**Villain form:** Full advantages, dueling styles, scheme tracking, correct arcana
 **Dice system:** d10 sets (Raises)
 **XP tracking:** Experience points
 

@@ -145,6 +145,8 @@ export const NS_ROLES = [
 export const NS_ROLE_CATALOG = NS_ROLES.map(r => ({ value: r.value, description: r.description }))
 ```
 
+**Nota sobre o padrao:** Para sistemas com grandes catalogos de dados, extraia todos os arrays inline para um arquivo de dados dedicado. Por exemplo, `sevenSeaData.js` (111KB) consolida dados de todos os 12 suplementos de 7th Sea em um unico arquivo — 37 nacoes, 235+ vantagens, 161 antecedentes, 33 estilos de duelo, 26 sociedades secretas e 44 cartas de arcana. Cada array de catalogo inclui um campo `source` para que a UI possa oferecer filtros por livro-fonte. Isso mantem os componentes de formulario focados na logica de renderizacao ao inves de abrigar grandes arrays de dados.
+
 ### Passo 4: Frontend — Formulário de Personagem
 
 **Arquivo:** `vtm-frontend/src/components/NewSystemForm.jsx`
