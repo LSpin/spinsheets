@@ -677,7 +677,7 @@ export default function L5RForm() {
   }
 
   const totalATN = baseATN + armorATN + stanceATNmod
-  const initRoll = `${fields.l5rSchoolRank || 1}k${fields.l5rReflexes}`
+  // initRoll is set below after computedSchoolRank is calculated
   const moveFree = waterRing * 5
   const moveSimple = waterRing * 10
   const moveMax = waterRing * 20
@@ -821,6 +821,47 @@ export default function L5RForm() {
   const totalXpSpent = traitXpSpent + voidXpSpent + totalSkillRanks + advXpSpent
   const totalXpAvailable = XP_BUDGET + disadvXpGained
   const xpRemaining = totalXpAvailable - totalXpSpent
+
+  // ── Auto-computed Insight & School Rank ──
+  const computedInsight = (airRing + earthRing + fireRing + waterRing + voidRing) * 10 + totalSkillRanks
+  const computedSchoolRank = computedInsight >= 250 ? 5 : computedInsight >= 225 ? 4 : computedInsight >= 200 ? 3 : computedInsight >= 175 ? 2 : 1
+  const nextRankInsight = computedSchoolRank === 1 ? 175 : computedSchoolRank === 2 ? 200 : computedSchoolRank === 3 ? 225 : computedSchoolRank === 4 ? 250 : null
+  const initRoll = `${computedSchoolRank}k${fields.l5rReflexes}`
+
+  // ── Skill rank-up/down ──
+  function changeSkillRank(skillIndex, delta) {
+    const lines = (fields.l5rSkillsText || '').split('\n')
+    const skill = parsedSkills[skillIndex]
+    if (!skill) return
+    const lineIndex = lines.findIndex(l => l.trim() === skill.raw.trim())
+    if (lineIndex === -1) return
+    const newRank = Math.max(0, Math.min(10, skill.rank + delta))
+    const emphStr = skill.emphases ? ` (${skill.emphases})` : ''
+    if (newRank === 0) { lines.splice(lineIndex, 1) }
+    else { lines[lineIndex] = `${skill.name}${emphStr} ${newRank}` }
+    setFields(prev => ({ ...prev, l5rSkillsText: lines.join('\n') }))
+  }
+
+  // ── Heritage roll table ──
+  const HERITAGE_TABLE = [
+    { roll: 1, name: 'Famous Deed', effect: 'Glory +3, heirloom item' },
+    { roll: 2, name: 'Glorious Sacrifice', effect: 'Honor +5, Glory +5, lost heirloom' },
+    { roll: 3, name: 'Wondrous Work', effect: 'Glory +5, Artisan skill +1' },
+    { roll: 4, name: 'Dynasty Builder', effect: 'Glory -3, Social skill +1' },
+    { roll: 5, name: 'Discovery', effect: 'Glory +3, Scholar skill +1' },
+    { roll: 6, name: 'Ruthless Victor', effect: 'Honor -5, Martial skill +1' },
+    { roll: 7, name: 'Elevated for Service', effect: 'Glory -3, Honor +3, Trade skill +1' },
+    { roll: 8, name: 'Stolen Knowledge', effect: 'Honor -5, extra technique' },
+    { roll: 9, name: 'Imperial Heritage', effect: 'Status +10' },
+    { roll: 10, name: 'Unusual Name Origin', effect: 'Glory -3, ring swap or item' },
+  ]
+  const [heritageResult, setHeritageResult] = useState(null)
+  function rollHeritage() {
+    const d10a = Math.floor(Math.random() * 10) + 1
+    const d10b = Math.floor(Math.random() * 10) + 1
+    const entry = HERITAGE_TABLE.find(h => h.roll === d10a)
+    setHeritageResult({ roll1: d10a, roll2: d10b, entry })
+  }
 
   if (loading || isAutoCreating) return <p className="status-loading">{t('loading')}</p>
 
@@ -1057,6 +1098,30 @@ export default function L5RForm() {
                 <div className="ability-row"><DotRating label={t('l5rCurrentVoid')} name="l5rCurrentVoid" value={fields.l5rCurrentVoid} onChange={handleField} min={0} max={fields.l5rVoid} /></div>
               </div>
             </fieldset>
+
+            {/* Auto-computed Insight & Rank */}
+            <fieldset style={{ marginBottom: 'var(--space-md)', background: 'var(--color-surface-raised)', borderRadius: 'var(--radius-sm)', padding: 'var(--space-md)' }}>
+              <legend>Insight &amp; School Rank (Auto-Calculated)</legend>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-md)' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Total Insight</div>
+                  <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{computedInsight}</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Rings {(airRing + earthRing + fireRing + waterRing + voidRing) * 10} + Skills {totalSkillRanks}</div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>School Rank</div>
+                  <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{computedSchoolRank}</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                    {nextRankInsight ? `Next rank at ${nextRankInsight} insight (need ${nextRankInsight - computedInsight} more)` : 'Maximum rank reached'}
+                  </div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Base ATN</div>
+                  <div style={{ fontSize: '2rem', fontWeight: 700 }}>{baseATN}</div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Reflexes {fields.l5rReflexes} x5 + 5{armorATN > 0 ? ` (+${armorATN} armor) = ${baseATN + armorATN}` : ''}</div>
+                </div>
+              </div>
+            </fieldset>
           </fieldset>
         </div>
       </div>
@@ -1071,7 +1136,9 @@ export default function L5RForm() {
               <div><strong>Total Skill Ranks:</strong> {totalSkillRanks}</div>
               <div><strong>Insight from Skills:</strong> {totalSkillRanks}</div>
               <div><strong>Insight from Rings:</strong> {(airRing + earthRing + fireRing + waterRing + voidRing) * 10}</div>
-              <div><strong>Total Insight:</strong> <span style={{ color: 'var(--color-accent-fg)', fontWeight: 700 }}>{(airRing + earthRing + fireRing + waterRing + voidRing) * 10 + totalSkillRanks}</span></div>
+              <div><strong>Total Insight:</strong> <span style={{ color: 'var(--color-accent-fg)', fontWeight: 700 }}>{computedInsight}</span></div>
+              <div><strong>School Rank:</strong> <span style={{ color: 'var(--color-accent-fg)', fontWeight: 700 }}>{computedSchoolRank}</span></div>
+              {nextRankInsight && <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Next rank at {nextRankInsight} (need {nextRankInsight - computedInsight} more)</div>}
               {guidedMode && <div><strong>Skill XP:</strong> <span style={{ color: '#e95' }}>-{totalSkillRanks}</span> · <strong>Remaining:</strong> <span style={{ color: xpRemaining >= 0 ? '#8c8' : '#e55', fontWeight: 700 }}>{xpRemaining} XP</span></div>}
             </div>
           </fieldset>
@@ -1142,7 +1209,11 @@ export default function L5RForm() {
                       <Fragment key={i}>
                       <tr>
                         <td style={{ fontWeight: 600 }}><span style={{ color: typeColor, fontSize: '0.7rem', marginRight: '0.3rem' }}>{'\u25CF'}</span>{s.name}</td>
-                        <td style={{ fontWeight: 700, textAlign: 'center' }}>{s.rank}</td>
+                        <td style={{ textAlign: 'center', whiteSpace: 'nowrap' }}>
+                          <button onClick={() => changeSkillRank(i, -1)} style={{ padding: '0 4px', fontSize: '0.8rem', cursor: 'pointer', border: 'none', background: 'transparent', color: 'var(--color-text-muted)' }} title="Decrease rank">{'\u2212'}</button>
+                          <span style={{ fontWeight: 700, margin: '0 4px' }}>{s.rank}</span>
+                          <button onClick={() => changeSkillRank(i, 1)} style={{ padding: '0 4px', fontSize: '0.8rem', cursor: 'pointer', border: 'none', background: 'transparent', color: 'var(--color-text-muted)' }} title="Increase rank">+</button>
+                        </td>
                         <td style={{ fontWeight: 600, color: 'var(--color-accent-fg)' }}>{s.rank > 0 ? roll : '\u2014'}</td>
                         <td style={{ fontSize: '0.78rem', cursor: 'pointer' }}
                           onClick={() => setEditingSkillEmphasis(editingSkillEmphasis === i ? null : i)}>
@@ -1391,17 +1462,19 @@ export default function L5RForm() {
         <div className="form-section">
           {(() => {
             const schoolData = fields.l5rSchool && L5R_SCHOOLS[fields.l5rSchool]
-            const schoolRank = fields.l5rSchoolRank || 1
+            const schoolRank = computedSchoolRank
             return (
               <>
                 {schoolData ? (
                   <fieldset>
-                    <legend>{fields.l5rSchool}</legend>
+                    <legend>{fields.l5rSchool} — Rank {schoolRank}</legend>
                     <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-md)', flexWrap: 'wrap', fontSize: '0.82rem' }}>
                       <div><strong>Clan:</strong> {schoolData.clan}</div>
                       <div><strong>Type:</strong> {schoolData.type}</div>
                       <div><strong>Trait:</strong> {schoolData.traits}</div>
                       <div><strong>Honor:</strong> {schoolData.honor}</div>
+                      <div><strong>Insight:</strong> <span style={{ color: 'var(--color-accent-fg)', fontWeight: 700 }}>{computedInsight}</span></div>
+                      {nextRankInsight && <div style={{ color: 'var(--color-text-muted)', fontStyle: 'italic' }}>Next rank at {nextRankInsight} insight ({nextRankInsight - computedInsight} more needed)</div>}
                     </div>
                     <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
                       <strong>Skills:</strong> {schoolData.skills}
@@ -1413,13 +1486,18 @@ export default function L5RForm() {
                       <tbody>
                         {schoolData.techniques.map(tech => {
                           const unlocked = tech.rank <= schoolRank
+                          const isNext = tech.rank === schoolRank + 1
+                          const insightNeeded = tech.rank === 2 ? 175 : tech.rank === 3 ? 200 : tech.rank === 4 ? 225 : tech.rank === 5 ? 250 : null
                           return (
-                            <tr key={tech.rank} style={{ opacity: unlocked ? 1 : 0.4, background: unlocked ? 'rgba(194,145,56,0.05)' : 'transparent' }}>
+                            <tr key={tech.rank} style={{ opacity: unlocked ? 1 : isNext ? 0.6 : 0.3, background: unlocked ? 'rgba(194,145,56,0.05)' : isNext ? 'rgba(194,145,56,0.02)' : 'transparent' }}>
                               <td style={{ fontWeight: 700, color: unlocked ? 'var(--color-accent-fg)' : 'var(--color-text-muted)', textAlign: 'center', whiteSpace: 'nowrap' }}>
-                                {tech.rank} {unlocked ? '✓' : ''}
+                                {tech.rank} {unlocked ? '\u2713' : ''}
                               </td>
-                              <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{tech.name}</td>
-                              <td className="inv-notes">{tech.effect}</td>
+                              <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>
+                                {tech.name}
+                                {isNext && insightNeeded && <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', fontWeight: 400, marginLeft: '0.5rem' }}>Unlocks at Insight {insightNeeded}</span>}
+                              </td>
+                              <td className="inv-notes">{unlocked || isNext ? tech.effect : <span style={{ fontStyle: 'italic' }}>Locked</span>}</td>
                             </tr>
                           )
                         })}
@@ -1575,7 +1653,7 @@ export default function L5RForm() {
                     <tr key={el.name} style={{ background: isAff ? 'rgba(136,204,136,0.08)' : isDef ? 'rgba(224,85,85,0.08)' : 'transparent' }}>
                       <td style={{ fontWeight: 600 }}>{el.name}</td>
                       <td>{el.ring}</td>
-                      <td style={{ fontWeight: 600 }}>{el.ring + (fields.l5rSchoolRank || 1)}k{el.ring}</td>
+                      <td style={{ fontWeight: 600 }}>{el.ring + (computedSchoolRank)}k{el.ring}</td>
                       <td style={{ color: isAff ? '#8c8' : isDef ? '#e55' : 'var(--color-text-muted)' }}>
                         {isAff ? 'Affinity (−1 slot)' : isDef ? 'Deficiency (+1 slot)' : '—'}
                       </td>
@@ -1639,7 +1717,7 @@ export default function L5RForm() {
                   .slice(0, 30)
                   .map(s => {
                     const ringMap = { Air: airRing, Earth: earthRing, Fire: fireRing, Water: waterRing, Void: voidRing }
-                    const canCast = s.mastery <= (ringMap[s.element] || 2) + (fields.l5rSchoolRank || 1)
+                    const canCast = s.mastery <= (ringMap[s.element] || 2) + (computedSchoolRank)
                     const already = parsedSpells.some(p => p.name.toLowerCase().includes(s.name.toLowerCase()))
                     const isAff = spellAffinity === s.element
                     const isDef = spellDeficiency === s.element
@@ -1668,14 +1746,14 @@ export default function L5RForm() {
               ['Air', 'Earth', 'Fire', 'Water', 'Void'].map(elem => {
                 const ringMap = { Air: airRing, Earth: earthRing, Fire: fireRing, Water: waterRing, Void: voidRing }
                 const ring = ringMap[elem]
-                const castMax = ring + (fields.l5rSchoolRank || 1)
+                const castMax = ring + (computedSchoolRank)
                 const elemSpells = L5R_SPELLS.filter(s => s.element === elem)
                 const isAff = spellAffinity === elem
                 const isDef = spellDeficiency === elem
                 return (
                   <details key={elem} style={{ marginBottom: 'var(--space-sm)' }}>
                     <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: isAff ? '#8c8' : isDef ? '#e55' : 'var(--color-accent-fg)' }}>
-                      {elem} ({elemSpells.length}) — Cast {ring + (fields.l5rSchoolRank || 1)}k{ring}
+                      {elem} ({elemSpells.length}) — Cast {ring + (computedSchoolRank)}k{ring}
                       {isAff && ' ★ Affinity'}{isDef && ' ✗ Deficiency'}
                     </summary>
                     <ul className="catalog-list" aria-label={`${elem} spells`}>
@@ -2210,7 +2288,7 @@ Traveling pack, spare kimono, 10 koku`} />
               <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
                 <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Initiative</div>
                 <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{initRoll}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Insight Rank {fields.l5rSchoolRank || 1} / Reflexes {fields.l5rReflexes}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Insight Rank {computedSchoolRank} / Reflexes {fields.l5rReflexes}</div>
               </div>
               <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
                 <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Reduction</div>
@@ -2256,22 +2334,28 @@ Traveling pack, spare kimono, 10 koku`} />
                 <input type="number" name="l5rStatus" value={fields.l5rStatus} onChange={handleText} min={0} max={100} />
               </div>
             </div>
-            <div className="field-row">
-              <div className="field">
-                <label>{t('l5rInsight')} (Rings {(airRing + earthRing + fireRing + waterRing + voidRing) * 10} + Skills {totalSkillRanks} = {(airRing + earthRing + fireRing + waterRing + voidRing) * 10 + totalSkillRanks})</label>
-                <input type="number" name="l5rInsight" value={fields.l5rInsight} onChange={handleText} min={0} />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-md)', marginBottom: 'var(--space-md)' }}>
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Insight</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{computedInsight}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Rings {(airRing + earthRing + fireRing + waterRing + voidRing) * 10} + Skills {totalSkillRanks}</div>
               </div>
-              <div className="field">
-                <label>{t('l5rSchoolRank')}</label>
-                <input type="number" name="l5rSchoolRank" value={fields.l5rSchoolRank} onChange={handleText} min={1} max={10} />
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>School Rank</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{computedSchoolRank}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                  {nextRankInsight ? `Next at ${nextRankInsight} (${nextRankInsight - computedInsight} more)` : 'Max rank'}
+                </div>
               </div>
-              <div className="field">
-                <label>{t('l5rArmorTN')}</label>
-                <input type="number" name="l5rArmorTN" value={fields.l5rArmorTN} onChange={handleText} min={0} />
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Base ATN</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{baseATN}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Ref {fields.l5rReflexes} x5 + 5{armorATN > 0 ? ` (+${armorATN} armor) = ${baseATN + armorATN}` : ''}</div>
               </div>
-              <div className="field">
-                <label>{t('l5rInitiative')}</label>
-                <input type="number" name="l5rInitiative" value={fields.l5rInitiative} onChange={handleText} min={0} />
+              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Initiative</div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{initRoll}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Rank {computedSchoolRank}k Ref {fields.l5rReflexes}</div>
               </div>
             </div>
           </fieldset>
@@ -2371,6 +2455,43 @@ Traveling pack, spare kimono, 10 koku`} />
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+
+          {/* Heritage Roll */}
+          <fieldset>
+            <legend>Heritage Roll Table</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Roll on the Heritage Table from the L5R 4th Edition corebook to determine your family&apos;s history.
+            </p>
+            <button className="btn btn-secondary" onClick={rollHeritage} style={{ marginBottom: 'var(--space-sm)' }}>Roll Heritage (2d10)</button>
+            {heritageResult && (
+              <div style={{ background: 'var(--color-surface-raised)', padding: 'var(--space-md)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--space-sm)' }}>
+                <div style={{ fontSize: '0.85rem', marginBottom: 'var(--space-xs)' }}>
+                  <strong>First d10:</strong> {heritageResult.roll1} &mdash; <strong>Second d10:</strong> {heritageResult.roll2}
+                </div>
+                {heritageResult.entry && (
+                  <div>
+                    <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{heritageResult.entry.name}</div>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{heritageResult.entry.effect}</div>
+                  </div>
+                )}
+              </div>
+            )}
+            <details>
+              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', color: 'var(--color-accent-fg)' }}>Full Heritage Table</summary>
+              <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
+                <thead><tr><th>Roll</th><th>Result</th><th>Effect</th></tr></thead>
+                <tbody>
+                  {HERITAGE_TABLE.map(h => (
+                    <tr key={h.roll} style={{ background: heritageResult?.roll1 === h.roll ? 'rgba(194,145,56,0.1)' : 'transparent' }}>
+                      <td style={{ fontWeight: 700, textAlign: 'center' }}>{h.roll}</td>
+                      <td style={{ fontWeight: 600 }}>{h.name}</td>
+                      <td className="inv-notes">{h.effect}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </details>
+          </fieldset>
         </div>
       </div>
 
