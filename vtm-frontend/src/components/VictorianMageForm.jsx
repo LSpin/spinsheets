@@ -830,6 +830,24 @@ export default function VictorianMageForm() {
               <DotRating label={t('quintessence')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={20} />
               <DotRating label={t('paradox')} name="paradox" value={fields.paradox} onChange={handleField} min={0} max={20} />
             </div>
+            <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>
+              Quintessence fuels Effects and is stored in your Avatar or a Node. Paradox accumulates from vulgar magic (especially when witnessed by Sleepers).
+            </p>
+            {fields.paradox >= 5 && fields.paradox < 10 && (
+              <p className="status-warning" role="status" aria-live="polite" aria-atomic="true" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Paradox is building up ({fields.paradox}) — risk of Paradox backlash. Quiet may manifest soon.
+              </p>
+            )}
+            {fields.paradox >= 10 && fields.paradox < 15 && (
+              <p className="status-error" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Dangerous Paradox levels ({fields.paradox}) — severe backlash imminent. Paradox spirits may be drawn to you.
+              </p>
+            )}
+            {fields.paradox >= 15 && (
+              <p className="status-error" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+                Critical Paradox ({fields.paradox}) — Paradox Realm or catastrophic backlash likely. Reality is rejecting you.
+              </p>
+            )}
           </fieldset>
         </div>
       </div>

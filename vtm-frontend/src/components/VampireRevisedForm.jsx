@@ -519,7 +519,7 @@ export default function VampireRevisedForm() {
                   handleField('clan', val)
                   const entry = CLANS.find(c => c.value === val)
                   if (entry) handleField('clanCurse', entry.curse)
-                  if (val === 'Nosferatu' || val === 'Samedi') handleField('appearance', 0)
+                  if (val === 'Nosferatu' || val === 'Samedi' || val === 'Blood Brothers') handleField('appearance', 0)
                 }}
                 catalog={CLANS.map(c => ({ value: c.value, description: c.curse }))} />
               <CatalogSelect id="sect" name="sect" label={t('sect')} value={fields.sect}
@@ -560,6 +560,36 @@ export default function VampireRevisedForm() {
             </div>
           </fieldset>
 
+          {/* Clan curse warning */}
+          {fields.clan && (() => {
+            const clanEntry = CLANS.find(c => c.value === fields.clan)
+            if (!clanEntry) return null
+            const isNosferatu = fields.clan === 'Nosferatu' || fields.clan === 'Samedi' || fields.clan === 'Blood Brothers'
+            const isMalkavian = fields.clan === 'Malkavian'
+            const isVentrue = fields.clan === 'Ventrue'
+            return (
+              <fieldset>
+                <legend>{t('clan')} — {fields.clan}</legend>
+                {isNosferatu && (
+                  <p className="status-error" role="alert" aria-live="assertive" style={{ fontWeight: 700, marginBottom: 'var(--space-sm)' }}>
+                    Appearance is 0 — {fields.clan} cannot raise Appearance
+                  </p>
+                )}
+                {isMalkavian && (
+                  <p className="status-warning" role="status" aria-live="polite" style={{ fontWeight: 700, marginBottom: 'var(--space-sm)' }}>
+                    Must select a permanent Derangement — this can never be fully cured
+                  </p>
+                )}
+                {isVentrue && (
+                  <p className="role-hint" role="status" aria-live="polite" style={{ marginBottom: 'var(--space-sm)' }}>
+                    Restricted feeding — specify prey exclusion in notes (e.g. only feeds on the wealthy, redheads, soldiers, etc.)
+                  </p>
+                )}
+                <p className="muted-hint muted-hint--xs" style={{ fontStyle: 'italic' }}>{clanEntry.curse}</p>
+              </fieldset>
+            )
+          })()}
+
           <fieldset>
             <legend>{t('clanCurseDerangements')}</legend>
             <div className="field">
@@ -594,26 +624,36 @@ export default function VampireRevisedForm() {
             { legendKey: 'physicalAttr', group: 'physical', attrs: ['strength', 'dexterity', 'stamina'] },
             { legendKey: 'socialAttr',   group: 'social',   attrs: ['charisma', 'manipulation', 'appearance'] },
             { legendKey: 'mentalAttr',   group: 'mental',   attrs: ['perception', 'intelligence', 'wits'] },
-          ].map(({ legendKey, group, attrs }) => (
-            <fieldset key={legendKey}>
-              <legend>{t(legendKey)}</legend>
-              {guidedMode && (
-                <>
-                  <PrioritySelector group={group} priorities={attrPriority} setPriorities={setAttrPriority} budgets={ATTR_BUDGETS} />
-                  <PointsIndicator spent={getAttrSpent(group)} budget={getAttrBudget(group)} />
-                </>
-              )}
-              <div className="rating-grid">
-                {attrs.map(a => (
-                  <div key={a} className="ability-row">
-                    <DotRating label={t(a)} name={a} value={fields[a]} onChange={handleField} min={1} />
-                    <input className="spec-input" type="text" name={a + 'Spec'} value={fields[a + 'Spec'] ?? ''} onChange={handleText}
-                      placeholder={t('specialty')} aria-label={`${t(a)} ${t('specialty')}`} />
-                  </div>
-                ))}
-              </div>
-            </fieldset>
-          ))}
+          ].map(({ legendKey, group, attrs }) => {
+            const zeroAppearance = fields.clan === 'Nosferatu' || fields.clan === 'Samedi' || fields.clan === 'Blood Brothers'
+            return (
+              <fieldset key={legendKey}>
+                <legend>{t(legendKey)}</legend>
+                {guidedMode && (
+                  <>
+                    <PrioritySelector group={group} priorities={attrPriority} setPriorities={setAttrPriority} budgets={ATTR_BUDGETS} />
+                    <PointsIndicator spent={getAttrSpent(group)} budget={getAttrBudget(group)} />
+                  </>
+                )}
+                <div className="rating-grid">
+                  {attrs.map(a => (
+                    <div key={a} className="ability-row">
+                      <DotRating
+                        label={a === 'appearance' && zeroAppearance ? `${t('appearance')} (0)` : t(a)}
+                        name={a}
+                        value={a === 'appearance' && zeroAppearance ? 0 : fields[a]}
+                        onChange={handleField}
+                        min={a === 'appearance' && zeroAppearance ? 0 : 1}
+                        max={a === 'appearance' && zeroAppearance ? 0 : 5}
+                      />
+                      <input className="spec-input" type="text" name={a + 'Spec'} value={fields[a + 'Spec'] ?? ''} onChange={handleText}
+                        placeholder={t('specialty')} aria-label={`${t(a)} ${t('specialty')}`} />
+                    </div>
+                  ))}
+                </div>
+              </fieldset>
+            )
+          })}
         </div>
       </div>
 
@@ -732,8 +772,25 @@ export default function VampireRevisedForm() {
           </fieldset>
 
           <fieldset>
-            <legend>{t('bloodPool')} — {ordinal(fields.generation)} Gen (max {maxBlood}, {perTurn}/turn)</legend>
+            <legend>{t('bloodPool')} — {ordinal(fields.generation)} Gen</legend>
+            <div style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center', flexWrap: 'wrap', marginBottom: 'var(--space-sm)' }}>
+              <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Max Blood Pool: {maxBlood}</span>
+              <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Blood per Turn: {perTurn}</span>
+              <span style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)' }}>
+                ({fields.currentBlood}/{maxBlood} current)
+              </span>
+            </div>
             <DotRating label={t('currentBlood')} name="currentBlood" value={fields.currentBlood} onChange={handleField} min={0} max={maxBlood} />
+            {fields.currentBlood <= 2 && fields.currentBlood > 0 && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Blood pool critically low — risk of hunger frenzy
+              </p>
+            )}
+            {fields.currentBlood === 0 && (
+              <p className="status-error" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Blood pool empty — torpor is imminent
+              </p>
+            )}
           </fieldset>
 
           <fieldset>

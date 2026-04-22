@@ -558,13 +558,42 @@ export default function ChangingBreedsForm() {
                         </button>
                       ))}
                     </div>
-                    {currentFormData && !isHomid ? (
-                      <div className="form-stat-mods">
-                        <span>
-                          {t('strength')} {currentFormData.str} · {t('dexterity')} {currentFormData.dex} · {t('stamina')} {currentFormData.sta} · {t('manipulation')} {currentFormData.man} · {t('appearance')} {currentFormData.app} · {t('diff')} {currentFormData.diff}
-                        </span>
-                      </div>
-                    ) : (
+                    {currentFormData && !isHomid ? (() => {
+                      const FORM_ATTR_MAP = [
+                        { attr: 'strength', modKey: 'str', label: t('strength') },
+                        { attr: 'dexterity', modKey: 'dex', label: t('dexterity') },
+                        { attr: 'stamina', modKey: 'sta', label: t('stamina') },
+                        { attr: 'manipulation', modKey: 'man', label: t('manipulation') },
+                        { attr: 'appearance', modKey: 'app', label: t('appearance') },
+                      ]
+                      return (
+                        <div className="form-stat-mods" aria-live="polite" style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+                            {FORM_ATTR_MAP.map(({ attr, modKey, label: attrLabel }) => {
+                              const modStr = currentFormData[modKey]
+                              const base = fields[attr] || 0
+                              if (modStr === '0' || modStr === '+0') return null
+                              if (modStr === '—') return (
+                                <span key={attr} style={{ fontSize: '0.82rem' }}>
+                                  <strong>{attrLabel}:</strong> <span style={{ color: '#e55' }}>N/A in {currentFormData.form}</span>
+                                </span>
+                              )
+                              const modVal = parseInt(modStr)
+                              if (isNaN(modVal)) return null
+                              const effective = Math.max(0, base + modVal)
+                              return (
+                                <span key={attr} style={{ fontSize: '0.82rem' }}>
+                                  <strong>{attrLabel}:</strong> {base} {modVal >= 0 ? '+' : ''}{modVal} = <strong style={{ color: modVal > 0 ? '#6c6' : '#e95' }}>{effective}</strong>
+                                </span>
+                              )
+                            })}
+                          </div>
+                          <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                            Difficulty: {currentFormData.diff}
+                          </span>
+                        </div>
+                      )
+                    })() : (
                       <p className="muted-hint muted-hint--xs">{t('homidNoMods')}</p>
                     )}
                   </fieldset>
@@ -873,23 +902,38 @@ export default function ChangingBreedsForm() {
           <fieldset>
             <legend>{t('rage')}</legend>
             <div className="field-row">
-              <DotRating label={t('permanentRage')} name="rage" value={fields.rage} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('permanentRage')} name="rage" value={fields.rage} onChange={handleField} min={selectedSpecies ? selectedSpecies.rage : 0} max={10} />
               <DotRating label={t('temporaryRage')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
             </div>
+            {selectedSpecies && (
+              <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+                Starting Rage {selectedSpecies.rage} — set by species ({selectedSpecies.value}). Cannot be reduced below this value.
+              </p>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('gnosis')}</legend>
             <div className="field-row">
-              <DotRating label={t('permanentGnosis')} name="gnosis" value={fields.gnosis} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('permanentGnosis')} name="gnosis" value={fields.gnosis} onChange={handleField} min={selectedSpecies ? selectedSpecies.gnosis : 0} max={10} />
               <DotRating label={t('temporaryGnosis')} name="currentGnosis" value={fields.currentGnosis} onChange={handleField} min={0} max={10} />
             </div>
+            {selectedSpecies && (
+              <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+                Starting Gnosis {selectedSpecies.gnosis} — set by species ({selectedSpecies.value}). Cannot be reduced below this value.
+              </p>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('willpower')}</legend>
             <div className="field-row">
-              <DotRating label={t('permanent')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
+              <DotRating label={t('permanent')} name="willpower" value={fields.willpower} onChange={handleField} min={selectedSpecies ? selectedSpecies.willpower : 1} max={10} />
               <DotRating label={t('temporary')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
+            {selectedSpecies && (
+              <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+                Starting Willpower {selectedSpecies.willpower} — set by species ({selectedSpecies.value}). Cannot be reduced below this value.
+              </p>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('renown')}</legend>

@@ -346,12 +346,27 @@ export default function GhoulForm() {
             <legend>{t('ghoulVitals')}</legend>
             <div className="field-row">
               <DotRating label={t('willpower')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
-              <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
+            {fields.currentWillpower > fields.willpower && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Temporary Willpower cannot exceed permanent ({fields.willpower}).
+              </p>
+            )}
             <div className="field-row">
               <DotRating label={t('ghoulBloodPool')} name="currentBlood" value={fields.currentBlood} onChange={handleField} min={0} max={5} />
             </div>
             <p className="muted-hint muted-hint--xs">{t('ghoulBloodHint')}</p>
+            {fields.currentBlood === 0 && (
+              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+                No vitae remaining. The ghoul cannot use Disciplines and will begin aging if blood is not replenished.
+              </p>
+            )}
+            {fields.currentBlood === 1 && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Blood pool critically low. The ghoul is desperate for vitae.
+              </p>
+            )}
             <div className="field-row" style={{ marginTop: 'var(--space-sm)' }}>
               <div className="field">
                 <label>{t('pathName')}</label>
@@ -373,6 +388,16 @@ export default function GhoulForm() {
               <DotRating label={t('lethal')} name="woundLethal" value={fields.woundLethal} onChange={handleField} min={0} max={7} />
               <DotRating label={t('aggravated')} name="woundAgg" value={fields.woundAgg} onChange={handleField} min={0} max={7} />
             </div>
+            {(fields.woundBashing + fields.woundLethal + fields.woundAgg) >= 7 && (
+              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+                Incapacitated. The ghoul is out of action{fields.woundAgg >= 7 ? ' and may be dead.' : '.'}
+              </p>
+            )}
+            {(fields.woundBashing + fields.woundLethal + fields.woundAgg) >= 5 && (fields.woundBashing + fields.woundLethal + fields.woundAgg) < 7 && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Severely wounded ({fields.woundBashing + fields.woundLethal + fields.woundAgg}/7 health levels filled).
+              </p>
+            )}
           </fieldset>
         </div>
       </div>

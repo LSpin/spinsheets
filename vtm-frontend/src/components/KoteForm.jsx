@@ -636,9 +636,22 @@ export default function KoteForm() {
                 <div style={{ marginTop: 'var(--space-sm)' }}>
                   <p className="archetype-desc">{dharmaInfo.description}</p>
                   <p className="archetype-desc" style={{ marginTop: '0.25rem' }}><strong>Training:</strong> {dharmaInfo.training}</p>
+                  {dharmaInfo.auspice && (
+                    <p className="archetype-desc" style={{ marginTop: '0.25rem' }}><strong>Auspice:</strong> {dharmaInfo.auspice}</p>
+                  )}
                 </div>
               ) : null
             })()}
+            {fields.dharmaRating === 0 && fields.dharmaName && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Dharma at 0. The Kuei-jin has lost the Way and risks becoming a chih-mei (mindless hungry dead).
+              </p>
+            )}
+            {fields.dharmaRating >= 6 && (
+              <p role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+                Dharma {fields.dharmaRating}: {fields.dharmaRating >= 9 ? 'Bodhisattva -- nearing transcendence.' : fields.dharmaRating >= 7 ? 'Enlightened -- profound spiritual authority.' : 'Advancing on the path. Respected among the Kuei-jin.'}
+              </p>
+            )}
           </fieldset>
 
           <fieldset>
@@ -647,6 +660,26 @@ export default function KoteForm() {
               <DotRating label="Hun" name="hun" value={fields.hun} onChange={handleField} min={0} max={10} />
               <DotRating label="P'o" name="po" value={fields.po} onChange={handleField} min={0} max={10} />
             </div>
+            {fields.po >= 8 && (
+              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+                P'o at {fields.po}. The Demon is ascendant -- shadow soul may seize control (Fire Soul or Wave Soul).
+              </p>
+            )}
+            {fields.po >= 5 && fields.po < 8 && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                P'o is high ({fields.po}). The Demon grows restless. Frenzy checks may be required.
+              </p>
+            )}
+            {fields.hun >= 8 && (
+              <p role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+                Hun at {fields.hun}. The higher soul is strong -- clarity of purpose and spiritual insight.
+              </p>
+            )}
+            {fields.hun === 0 && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Hun at 0. The higher soul has gone silent. The Kuei-jin acts on pure instinct.
+              </p>
+            )}
           </fieldset>
 
           <fieldset>
@@ -655,6 +688,15 @@ export default function KoteForm() {
               <DotRating label="Yin Chi" name="yinChi" value={fields.yinChi} onChange={handleField} min={0} max={10} />
               <DotRating label="Yang Chi" name="yangChi" value={fields.yangChi} onChange={handleField} min={0} max={10} />
               <DotRating label="Demon Chi" name="demonChi" value={fields.demonChi} onChange={handleField} min={0} max={10} />
+            </div>
+            <div role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: fields.demonChi > (fields.yinChi + fields.yangChi) ? 'rgba(231,76,60,0.08)' : 'rgba(52,152,219,0.08)', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '0.85rem' }}>
+              <p style={{ margin: 0 }}>
+                <strong>Yin {fields.yinChi}</strong> / <strong>Yang {fields.yangChi}</strong> / <strong>Demon {fields.demonChi}</strong>
+                {fields.yinChi > fields.yangChi + 3 && ' -- Heavy Yin imbalance. Cold, deathly aura; risk of Yin-tainted madness.'}
+                {fields.yangChi > fields.yinChi + 3 && ' -- Heavy Yang imbalance. Feral, ravenous hunger; risk of Yang-fueled frenzy.'}
+                {Math.abs(fields.yinChi - fields.yangChi) <= 1 && fields.yinChi > 0 && ' -- Chi is balanced. Harmony of dark and light.'}
+                {fields.demonChi > (fields.yinChi + fields.yangChi) && ' -- Demon Chi dominates. The P\'o threatens to overwhelm.'}
+              </p>
             </div>
           </fieldset>
 

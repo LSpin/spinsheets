@@ -553,6 +553,11 @@ export default function DemonForm() {
             </>
           )}
 
+          {houseLoreInfo && (
+            <div role="status" aria-live="polite" style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '0.85rem' }}>
+              <p style={{ margin: 0 }}><strong>{fields.clan}</strong> House Lores: Primary is <strong>{houseLoreInfo.primary}</strong>. Secondary: <strong>{houseLoreInfo.secondary.join(', ')}</strong>. Other Lores cost double XP.</p>
+            </div>
+          )}
           {!houseLoreInfo && (
             <fieldset>
               <legend>{t('demonLores')}</legend>
@@ -654,14 +659,41 @@ export default function DemonForm() {
             <legend>{t('faith')}</legend>
             <div className="field-row">
               <DotRating label={t('faith')} name="gnosis" value={fields.gnosis} onChange={handleField} min={0} max={10} />
-              <DotRating label={t('currentFaith')} name="currentGnosis" value={fields.currentGnosis} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('currentFaith')} name="currentGnosis" value={fields.currentGnosis} onChange={handleField} min={0} max={fields.gnosis} />
             </div>
+            {fields.currentGnosis === 0 && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                No Faith remaining. The demon cannot fuel Lore evocations.
+              </p>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('torment')}</legend>
             <div className="field-row">
               <DotRating label={t('torment')} name="rage" value={fields.rage} onChange={handleField} min={0} max={10} />
               <DotRating label={t('currentTorment')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
+            </div>
+            {fields.rage >= 7 && fields.rage < 10 && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                High Torment ({fields.rage}). Risk of losing control -- Lore evocations default to high-Torment effects.
+              </p>
+            )}
+            {fields.rage >= 10 && (
+              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+                Torment at 10: Earthbound. The demon has fully succumbed to its monstrous nature.
+              </p>
+            )}
+          </fieldset>
+          {/* Faith / Torment Balance */}
+          <fieldset>
+            <legend>Faith &amp; Torment Balance</legend>
+            <div role="status" aria-live="polite" style={{ padding: 'var(--space-sm)', background: fields.rage > fields.gnosis ? 'rgba(231,76,60,0.08)' : fields.gnosis > fields.rage ? 'rgba(46,204,113,0.08)' : 'rgba(243,156,18,0.08)', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '0.85rem' }}>
+              <p style={{ margin: 0 }}>
+                <strong>Faith {fields.gnosis}</strong> vs <strong>Torment {fields.rage}</strong>
+                {fields.gnosis > fields.rage && ' -- The angel endures. Low-Torment evocations are more likely.'}
+                {fields.rage > fields.gnosis && ' -- Darkness prevails. High-Torment effects dominate evocations.'}
+                {fields.rage === fields.gnosis && ' -- Balanced on the edge. Each evocation is a test of will.'}
+              </p>
             </div>
           </fieldset>
           <fieldset>

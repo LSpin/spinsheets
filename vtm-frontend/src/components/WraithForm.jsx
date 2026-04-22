@@ -474,6 +474,14 @@ export default function WraithForm() {
             <div className="field-row">
               <DotRating label={t('wraithAngst')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={10} />
             </div>
+            {fields.sect && (() => {
+              const thornsPart = (fields.shadowDesc || '').split('||')[0].split(',').map(s => s.trim()).filter(Boolean)
+              return thornsPart.length === 0 ? (
+                <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                  Shadow Archetype "{fields.sect}" selected but no Thorns chosen. Every Shadow should have at least one Thorn.
+                </p>
+              ) : null
+            })()}
           </fieldset>
           <fieldset>
             <legend>{t('wraithDarkPassions') || 'Dark Passions & Thorns'}</legend>
@@ -530,28 +538,58 @@ export default function WraithForm() {
             <legend>{t('willpower')}</legend>
             <div className="field-row">
               <DotRating label={t('permanent')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
-              <DotRating label={t('temporary')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('temporary')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
+            {fields.currentWillpower > fields.willpower && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Temporary Willpower cannot exceed permanent ({fields.willpower}).
+              </p>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('wraithPathos')}</legend>
             <div className="field-row">
               <DotRating label={t('permanent')} name="gnosis" value={fields.gnosis} onChange={handleField} min={0} max={10} />
-              <DotRating label={t('temporary')} name="currentGnosis" value={fields.currentGnosis} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('temporary')} name="currentGnosis" value={fields.currentGnosis} onChange={handleField} min={0} max={fields.gnosis} />
             </div>
+            {fields.currentGnosis === 0 && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                No Pathos remaining. The wraith cannot fuel Arcanoi.
+              </p>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('wraithCorpus')}</legend>
             <div className="field-row">
               <DotRating label={t('permanent')} name="rage" value={fields.rage} onChange={handleField} min={0} max={10} />
-              <DotRating label={t('temporary')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('temporary')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={fields.rage} />
             </div>
+            {fields.currentRage <= 2 && fields.currentRage > 0 && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Corpus critically low ({fields.currentRage}/{fields.rage}). Risk of dissolution.
+              </p>
+            )}
+            {fields.currentRage === 0 && (
+              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+                Corpus destroyed. The wraith has been dissolved into the Tempest.
+              </p>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('wraithAngst')}</legend>
             <div className="field-row">
               <DotRating label={t('permanent')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={10} />
             </div>
+            {fields.quintessence >= 7 && fields.quintessence < 10 && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                High Angst ({fields.quintessence}). The Shadow grows powerful and may attempt to seize control.
+              </p>
+            )}
+            {fields.quintessence >= 10 && (
+              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+                Angst at maximum. The Shadow dominates -- Spectre transformation imminent.
+              </p>
+            )}
           </fieldset>
         </div>
       </div>

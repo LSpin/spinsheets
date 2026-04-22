@@ -379,8 +379,13 @@ export default function KinfolkForm() {
             <legend>{t('willpowerAndHumanity')}</legend>
             <div className="field-row">
               <DotRating label={t('willpower')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
-              <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
+            {fields.currentWillpower > fields.willpower && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Temporary Willpower cannot exceed permanent ({fields.willpower}).
+              </p>
+            )}
             <div className="field-row">
               <div className="field">
                 <label>{t('pathName')}</label>
@@ -402,6 +407,16 @@ export default function KinfolkForm() {
               <DotRating label={t('lethal')} name="woundLethal" value={fields.woundLethal} onChange={handleField} min={0} max={7} />
               <DotRating label={t('aggravated')} name="woundAgg" value={fields.woundAgg} onChange={handleField} min={0} max={7} />
             </div>
+            {(fields.woundBashing + fields.woundLethal + fields.woundAgg) >= 7 && (
+              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+                Incapacitated. The kinfolk is out of action{fields.woundAgg >= 7 ? ' and may be dead.' : '.'}
+              </p>
+            )}
+            {(fields.woundBashing + fields.woundLethal + fields.woundAgg) >= 5 && (fields.woundBashing + fields.woundLethal + fields.woundAgg) < 7 && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Severely wounded ({fields.woundBashing + fields.woundLethal + fields.woundAgg}/7 health levels filled).
+              </p>
+            )}
           </fieldset>
         </div>
       </div>

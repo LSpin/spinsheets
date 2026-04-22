@@ -300,6 +300,18 @@ export default function HunterForm() {
               <CatalogSelect id="clan" name="clan" label={t('hunterCreed')} value={fields.clan} onChange={handleField} catalog={CREEDS} />
               <CatalogSelect id="sect" name="sect" label={t('hunterVirtue')} value={fields.sect} onChange={handleField} catalog={VIRTUES} />
             </div>
+            {fields.clan && !fields.sect && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Creed "{fields.clan}" selected but no primary Virtue chosen. Select a Virtue to determine available Edges.
+              </p>
+            )}
+            {fields.sect && (
+              <div role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '0.85rem' }}>
+                <p style={{ margin: 0 }}>
+                  <strong>{fields.sect}</strong> Virtue selected. Primary Edges available: {HUNTER_EDGES.filter(e => e.virtue === fields.sect).map(e => e.name).filter((v, i, arr) => arr.indexOf(v) === i).join(', ')}.
+                </p>
+              </div>
+            )}
           </fieldset>
         </div>
       </div>
@@ -446,15 +458,30 @@ export default function HunterForm() {
             <legend>{t('willpower')}</legend>
             <div className="field-row">
               <DotRating label={t('permanent')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
-              <DotRating label={t('temporary')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('temporary')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
+            {fields.currentWillpower > fields.willpower && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Temporary Willpower cannot exceed permanent ({fields.willpower}).
+              </p>
+            )}
           </fieldset>
           <fieldset>
             <legend>{t('hunterConviction')}</legend>
             <div className="field-row">
               <DotRating label={t('permanent')} name="rage" value={fields.rage} onChange={handleField} min={0} max={10} />
-              <DotRating label={t('temporary')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('temporary')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={fields.rage} />
             </div>
+            {fields.currentRage > fields.rage && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Current Conviction cannot exceed permanent ({fields.rage}).
+              </p>
+            )}
+            {fields.rage === 0 && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                No Conviction. The hunter has lost their calling and cannot use Edges.
+              </p>
+            )}
           </fieldset>
         </div>
       </div>

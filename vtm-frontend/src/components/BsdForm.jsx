@@ -84,6 +84,10 @@ function serializeCommaSeparated(arr) {
   return arr.filter(Boolean).join(',')
 }
 
+const AUSPICE_RAGE = { Ragabash: 1, Theurge: 2, Philodox: 3, Galliard: 4, Ahroun: 5 }
+const BREED_GNOSIS = { Homid: 1, Metis: 3, Lupus: 5 }
+const BSD_WP = 3
+
 const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabGifts', 'tabHealth', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
 
 const INITIAL = {
@@ -149,7 +153,22 @@ export default function BsdForm() {
     finally { setLoading(false) }
   }
 
-  function handleField(name, value) { setFields(prev => ({ ...prev, [name]: typeof value === 'string' ? value : Number(value) })) }
+  function handleField(name, value) {
+    setFields(prev => {
+      const next = { ...prev, [name]: typeof value === 'string' ? value : Number(value) }
+      // Auto-set Rage from auspice (stored in 'sect')
+      if (name === 'sect' && AUSPICE_RAGE[value] !== undefined) {
+        next.rage = AUSPICE_RAGE[value]
+        next.currentRage = AUSPICE_RAGE[value]
+      }
+      // Auto-set Gnosis from breed (stored in 'sire')
+      if (name === 'sire' && BREED_GNOSIS[value] !== undefined) {
+        next.gnosis = BREED_GNOSIS[value]
+        next.currentGnosis = BREED_GNOSIS[value]
+      }
+      return next
+    })
+  }
   function handleText(e) { setFields(prev => ({ ...prev, [e.target.name]: e.target.value })) }
 
   async function handleSave() {
@@ -335,17 +354,35 @@ export default function BsdForm() {
           <fieldset>
             <legend>Rage, Gnosis &amp; Willpower</legend>
             <div className="field-row">
-              <DotRating label={t('rage')} name="rage" value={fields.rage} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('rage')} name="rage" value={fields.rage} onChange={handleField} min={fields.sect && AUSPICE_RAGE[fields.sect] ? AUSPICE_RAGE[fields.sect] : 0} max={10} />
               <DotRating label={t('currentRage')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
             </div>
+            {fields.sect && AUSPICE_RAGE[fields.sect] !== undefined && (
+              <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+                Starting Rage {AUSPICE_RAGE[fields.sect]} — set by Auspice ({fields.sect}). Cannot be reduced below this value.
+              </p>
+            )}
             <div className="field-row">
-              <DotRating label={t('gnosis')} name="gnosis" value={fields.gnosis} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('gnosis')} name="gnosis" value={fields.gnosis} onChange={handleField} min={fields.sire && BREED_GNOSIS[fields.sire] ? BREED_GNOSIS[fields.sire] : 0} max={10} />
               <DotRating label={t('currentGnosis')} name="currentGnosis" value={fields.currentGnosis} onChange={handleField} min={0} max={10} />
             </div>
+            {fields.sire && BREED_GNOSIS[fields.sire] !== undefined && (
+              <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+                Starting Gnosis {BREED_GNOSIS[fields.sire]} — set by Breed ({fields.sire}). Cannot be reduced below this value.
+              </p>
+            )}
+            {fields.sire === 'Metis' && (
+              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                Metis breed: this character bears a deformity (chosen at creation). Record it in the Notes or Derangements section.
+              </p>
+            )}
             <div className="field-row">
-              <DotRating label={t('willpower')} name="willpower" value={fields.willpower} onChange={handleField} min={1} max={10} />
-              <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={10} />
+              <DotRating label={t('willpower')} name="willpower" value={fields.willpower} onChange={handleField} min={BSD_WP} max={10} />
+              <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
+            <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+              Starting Willpower {BSD_WP} — set by Tribe (Black Spiral Dancers). Cannot be reduced below this value.
+            </p>
           </fieldset>
         </div>
       </div>
