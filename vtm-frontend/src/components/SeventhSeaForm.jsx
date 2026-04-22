@@ -280,6 +280,7 @@ export default function SeventhSeaForm() {
       traitPanache: tmpl.panache || 2,
       heroVirtue: tmpl.virtue || '',
       heroHubris: tmpl.hubris || '',
+      backstory: tmpl.backstory || '',
       notes: tmpl.notes || '',
     }))
   }

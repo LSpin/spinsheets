@@ -129,6 +129,12 @@ export default function SeventhSeaVillainForm() {
       traitResolve: tmpl.resolve || 2,
       traitWits7s: tmpl.wits || 2,
       traitPanache: tmpl.panache || 2,
+      heroVirtue: tmpl.virtue || '',
+      heroHubris: tmpl.hubris || '',
+      activeScheme: tmpl.scheme || '',
+      schemeSteps: tmpl.schemeSteps || 3,
+      schemeProgress: 0,
+      schemeDesc: tmpl.schemeDesc || '',
       notes: tmpl.notes || '',
     }))
     setNpcType(tmpl.type || 'villain')
