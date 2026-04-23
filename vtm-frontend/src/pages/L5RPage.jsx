@@ -58,9 +58,15 @@ export default function L5RPage() {
             {t('l5rNewSamurai')}
           </button>
           {isST && (
-            <button className="btn btn-secondary" onClick={() => navigate('/l5r/antagonist/new')}>
-              {t('l5rNewAntagonist')}
-            </button>
+            <>
+              <button className="btn btn-secondary" onClick={() => navigate('/l5r/antagonist/new')}>
+                {t('l5rNewAntagonist')}
+              </button>
+              <button className="btn btn-secondary" onClick={() => navigate('/l5r/st-tools')}
+                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+                {t('l5rSTTools')}
+              </button>
+            </>
           )}
         </div>
       </div>

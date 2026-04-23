@@ -56,9 +56,15 @@ export default function DndPage() {
             {t('systemDnd')} — {t('dndNewCharacter')}
           </button>
           {isST && (
-            <button className="btn btn-secondary" onClick={() => navigate('/dnd/monster/new')}>
-              {t('systemDnd')} — {t('dndNewMonster')}
-            </button>
+            <>
+              <button className="btn btn-secondary" onClick={() => navigate('/dnd/monster/new')}>
+                {t('systemDnd')} — {t('dndNewMonster')}
+              </button>
+              <button className="btn btn-secondary" onClick={() => navigate('/dnd/st-tools')}
+                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+                {t('dndSTTools')}
+              </button>
+            </>
           )}
         </div>
       </div>

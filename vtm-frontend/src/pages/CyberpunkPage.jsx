@@ -56,9 +56,15 @@ export default function CyberpunkPage() {
             {t('cpPageTitle')}
           </button>
           {isST && (
-            <button className="btn btn-secondary" onClick={() => navigate('/cyberpunk/antagonist/new')}>
-              {t('cpNewAntagonistNpc')}
-            </button>
+            <>
+              <button className="btn btn-secondary" onClick={() => navigate('/cyberpunk/antagonist/new')}>
+                {t('cpNewAntagonistNpc')}
+              </button>
+              <button className="btn btn-secondary" onClick={() => navigate('/cyberpunk/st-tools')}
+                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+                {t('cpSTTools')}
+              </button>
+            </>
           )}
         </div>
       </div>

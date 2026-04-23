@@ -64,12 +64,14 @@ const SeventhSeaForm = lazyRetry(() => import('./components/SeventhSeaForm'))
 const SeventhSeaVillainForm = lazyRetry(() => import('./components/SeventhSeaVillainForm'))
 const SeventhSeaShipForm = lazyRetry(() => import('./components/SeventhSeaShipForm'))
 const SeventhSeaPage = lazyRetry(() => import('./pages/SeventhSeaPage'))
+const SeventhSeaSTTools = lazyRetry(() => import('./components/SeventhSeaSTTools'))
 
 // L5R
 const L5RForm = lazyRetry(() => import('./components/L5RForm'))
 const L5RAntagonistForm = lazyRetry(() => import('./components/L5RAntagonistForm'))
 const L5R5eForm = lazyRetry(() => import('./components/L5R5eForm'))
 const L5RPage = lazyRetry(() => import('./pages/L5RPage'))
+const L5RSTTools = lazyRetry(() => import('./components/L5RSTTools'))
 
 // Blades
 const BladesForm = lazyRetry(() => import('./components/BladesForm'))
@@ -78,11 +80,13 @@ const BladesAntagonistForm = lazyRetry(() => import('./components/BladesAntagoni
 const BladesPage = lazyRetry(() => import('./pages/BladesPage'))
 const BladesClockManager = lazyRetry(() => import('./pages/BladesClockManager'))
 const BladesSTTools = lazyRetry(() => import('./components/BladesSTTools'))
+const WoDSTTools = lazyRetry(() => import('./components/WoDSTTools'))
 
 // D&D
 const DndForm = lazyRetry(() => import('./components/DndForm'))
 const DndMonsterForm = lazyRetry(() => import('./components/DndMonsterForm'))
 const DndPage = lazyRetry(() => import('./pages/DndPage'))
+const DndSTTools = lazyRetry(() => import('./components/DndSTTools'))
 
 // UESTRPG
 const UestrpgForm = lazyRetry(() => import('./components/UestrpgForm'))
@@ -93,11 +97,13 @@ const UestrpgPage = lazyRetry(() => import('./pages/UestrpgPage'))
 const CyberpunkForm = lazyRetry(() => import('./components/CyberpunkForm'))
 const CyberpunkAntagonistForm = lazyRetry(() => import('./components/CyberpunkAntagonistForm'))
 const CyberpunkPage = lazyRetry(() => import('./pages/CyberpunkPage'))
+const CyberpunkSTTools = lazyRetry(() => import('./components/CyberpunkSTTools'))
 
 // ASOIAF RPG
 const AsoiafForm = lazyRetry(() => import('./components/AsoiafForm'))
 const AsoiafAntagonistForm = lazyRetry(() => import('./components/AsoiafAntagonistForm'))
 const AsoiafPage = lazyRetry(() => import('./pages/AsoiafPage'))
+const AsoiafSTTools = lazyRetry(() => import('./components/AsoiafSTTools'))
 const AllChroniclesPage = lazyRetry(() => import('./pages/AllChroniclesPage'))
 const AllCharactersPage = lazyRetry(() => import('./pages/AllCharactersPage'))
 
@@ -444,6 +450,9 @@ function AppShell() {
           <Route path="/characters/new/mortal" element={
             <ProtectedRoute><MortalsForm /></ProtectedRoute>
           } />
+          <Route path="/characters/st-tools" element={
+            <ProtectedRoute><WoDSTTools /></ProtectedRoute>
+          } />
           <Route path="/characters/:id" element={
             <ProtectedRoute><CharacterRouter /></ProtectedRoute>
           } />
@@ -468,6 +477,9 @@ function AppShell() {
           <Route path="/7thsea/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
           } />
+          <Route path="/7thsea/st-tools" element={
+            <ProtectedRoute><SeventhSeaSTTools /></ProtectedRoute>
+          } />
           <Route path="/l5r" element={
             <ProtectedRoute><L5RPage /></ProtectedRoute>
           } />
@@ -488,6 +500,9 @@ function AppShell() {
           } />
           <Route path="/l5r/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
+          } />
+          <Route path="/l5r/st-tools" element={
+            <ProtectedRoute><L5RSTTools /></ProtectedRoute>
           } />
           <Route path="/blades" element={
             <ProtectedRoute><BladesPage /></ProtectedRoute>
@@ -534,6 +549,9 @@ function AppShell() {
           <Route path="/dnd/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
           } />
+          <Route path="/dnd/st-tools" element={
+            <ProtectedRoute><DndSTTools /></ProtectedRoute>
+          } />
           <Route path="/uestrpg" element={
             <ProtectedRoute><UestrpgPage /></ProtectedRoute>
           } />
@@ -570,6 +588,9 @@ function AppShell() {
           <Route path="/cyberpunk/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
           } />
+          <Route path="/cyberpunk/st-tools" element={
+            <ProtectedRoute><CyberpunkSTTools /></ProtectedRoute>
+          } />
           <Route path="/asoiaf" element={
             <ProtectedRoute><AsoiafPage /></ProtectedRoute>
           } />
@@ -587,6 +608,9 @@ function AppShell() {
           } />
           <Route path="/asoiaf/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
+          } />
+          <Route path="/asoiaf/st-tools" element={
+            <ProtectedRoute><AsoiafSTTools /></ProtectedRoute>
           } />
           <Route path="/all-characters" element={
             <ProtectedRoute><AllCharactersPage /></ProtectedRoute>

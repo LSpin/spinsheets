@@ -249,9 +249,15 @@ export default function CharacterList() {
             {t('newCharBtn')}
           </button>
           {isST && (
-            <button className="btn btn-secondary" onClick={() => navigate('/characters/new?npc=true')}>
-              {t('newNpc')}
-            </button>
+            <>
+              <button className="btn btn-secondary" onClick={() => navigate('/characters/new?npc=true')}>
+                {t('newNpc')}
+              </button>
+              <button className="btn btn-secondary" onClick={() => navigate('/characters/st-tools')}
+                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+                {t('wodSTTools')}
+              </button>
+            </>
           )}
         </div>
       </div>

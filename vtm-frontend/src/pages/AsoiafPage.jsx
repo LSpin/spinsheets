@@ -56,9 +56,15 @@ export default function AsoiafPage() {
             {t('asoiafPageTitle')}
           </button>
           {isST && (
-            <button className="btn btn-secondary" onClick={() => navigate('/asoiaf/antagonist/new')}>
-              {t('asoiafNewAntagonistNpc')}
-            </button>
+            <>
+              <button className="btn btn-secondary" onClick={() => navigate('/asoiaf/antagonist/new')}>
+                {t('asoiafNewAntagonistNpc')}
+              </button>
+              <button className="btn btn-secondary" onClick={() => navigate('/asoiaf/st-tools')}
+                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+                {t('asoiafSTTools')}
+              </button>
+            </>
           )}
         </div>
       </div>

@@ -61,6 +61,12 @@ export default function SeventhSeaPage() {
           <button className="btn btn-secondary" onClick={() => navigate('/7thsea/ship/new')}>
             {t('sevenSeaNewShip')}
           </button>
+          {isST && (
+            <button className="btn btn-secondary" onClick={() => navigate('/7thsea/st-tools')}
+              style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+              {t('sevenSeaSTTools')}
+            </button>
+          )}
         </div>
       </div>
 
