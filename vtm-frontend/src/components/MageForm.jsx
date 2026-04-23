@@ -259,6 +259,8 @@ export default function MageForm() {
   const [wonderSearch, setWonderSearch] = useState('')
   const [bgSearch, setBgSearch] = useState('')
   const [newWonder, setNewWonder] = useState({ name: '', level: 1, notes: '' })
+  const [roteFilterSphere, setRoteFilterSphere] = useState('')
+  const [showGiftRef, setShowGiftRef] = useState(false)
 
   // Guided creation state
   const [attrPriority, setAttrPriority] = useState({ physical: null, social: null, mental: null })
@@ -495,6 +497,18 @@ export default function MageForm() {
               <CatalogSelect id="essence" name="essence" label={t('essence')} value={fields.essence} onChange={handleField} catalog={ESSENCES} />
             </div>
           </fieldset>
+
+          {fields.essence && (
+            <aside className="form-reference-box" role="note" aria-live="polite" style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
+              <p style={{ margin: 0, fontWeight: 600, fontSize: '0.85rem' }}>Avatar Essence: {fields.essence}</p>
+              <p style={{ margin: '0.25rem 0 0', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                {fields.essence === 'Dynamic' && 'Your Avatar pushes you toward change and action. It rewards bold, transformative deeds and penalizes stagnation.'}
+                {fields.essence === 'Pattern' && 'Your Avatar values structure and stability. It rewards methodical progress and penalizes reckless disruption.'}
+                {fields.essence === 'Primordial' && 'Your Avatar connects you to primal forces. It rewards communion with fundamental reality and penalizes artificiality.'}
+                {fields.essence === 'Questing' && 'Your Avatar drives you to seek and discover. It rewards exploration and new understanding, penalizes complacency.'}
+              </p>
+            </aside>
+          )}
 
           <fieldset>
             <legend>{t('affiliation')}</legend>
@@ -744,6 +758,34 @@ export default function MageForm() {
           </fieldset>
 
           <fieldset>
+            <legend>Resonance</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Resonance reflects how your magic feels and manifests. It colors your Effects and influences how spirits and other mages perceive you.
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+              {[
+                { value: 'Dynamic', desc: 'Energetic, passionate, volatile. Fire, lightning, motion. Magic crackles and surges. Associated with the Wyld.' },
+                { value: 'Entropic', desc: 'Decaying, dissolving, darkening. Shadows, cold, entropy. Magic corrodes and unmakes. Associated with the Wyrm.' },
+                { value: 'Static', desc: 'Stabilizing, solidifying, ordering. Crystal, geometry, silence. Magic reinforces and binds. Associated with the Weaver.' },
+              ].map(res => (
+                <div key={res.value} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-xs)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)' }}>
+                  <span style={{ fontWeight: 600, fontSize: '0.85rem', minWidth: 70 }}>{res.value}</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{res.desc}</span>
+                </div>
+              ))}
+            </div>
+            {fields.essence && (
+              <p className="muted-hint muted-hint--xs" role="note" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+                Your Essence ({fields.essence}) influences your Resonance.
+                {fields.essence === 'Dynamic' && ' Dynamic Essences tend toward Dynamic Resonance.'}
+                {fields.essence === 'Pattern' && ' Pattern Essences tend toward Static Resonance.'}
+                {fields.essence === 'Primordial' && ' Primordial Essences can lean Dynamic or Entropic.'}
+                {fields.essence === 'Questing' && ' Questing Essences vary based on the nature of the quest.'}
+              </p>
+            )}
+          </fieldset>
+
+          <fieldset>
             <legend>{t('quintessenceParadox')}</legend>
             <div className="field-row">
               <DotRating label={t('quintessence')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={20} />
@@ -780,28 +822,45 @@ export default function MageForm() {
               Rotes are tried-and-true magical Effects — specific spells you have practiced and perfected.
             </p>
             {rotes.length > 0 && (
-              <table className="rote-table" style={{ width: '100%', marginBottom: 'var(--space-md)', fontSize: '0.85rem' }}>
-                <thead>
-                  <tr>
-                    <th style={{ textAlign: 'left' }}>{t('name')}</th>
-                    <th style={{ textAlign: 'left' }}>Spheres</th>
-                    <th>Lv</th>
-                    <th style={{ textAlign: 'left' }}>{t('description')}</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rotes.map(r => (
-                    <tr key={r.id}>
-                      <td style={{ fontWeight: 600 }}>{r.name}</td>
-                      <td style={{ color: 'var(--color-text-muted)' }}>{r.spheres}</td>
-                      <td style={{ textAlign: 'center' }}>{r.level}</td>
-                      <td style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>{r.description}</td>
-                      <td><button className="btn btn-danger btn-sm" onClick={() => handleRemoveRote(r.id)}>×</button></td>
+              <>
+                <div style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                  <label htmlFor="rote-filter-sphere" style={{ fontSize: '0.82rem', fontWeight: 600, whiteSpace: 'nowrap' }}>Filter by Sphere:</label>
+                  <select id="rote-filter-sphere" value={roteFilterSphere} onChange={e => setRoteFilterSphere(e.target.value)}
+                    style={{ flex: '0 1 auto', minWidth: 140 }} aria-label="Filter rotes by sphere">
+                    <option value="">All Spheres</option>
+                    {['Correspondence', 'Entropy', 'Forces', 'Life', 'Matter', 'Mind', 'Prime', 'Spirit', 'Time'].map(s => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                  {roteFilterSphere && (
+                    <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }} aria-live="polite" role="status">
+                      Showing {rotes.filter(r => (r.spheres || '').toLowerCase().includes(roteFilterSphere.toLowerCase())).length} of {rotes.length} rotes
+                    </span>
+                  )}
+                </div>
+                <table className="rote-table" style={{ width: '100%', marginBottom: 'var(--space-md)', fontSize: '0.85rem' }}>
+                  <thead>
+                    <tr>
+                      <th style={{ textAlign: 'left' }}>{t('name')}</th>
+                      <th style={{ textAlign: 'left' }}>Spheres</th>
+                      <th>Lv</th>
+                      <th style={{ textAlign: 'left' }}>{t('description')}</th>
+                      <th></th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {rotes.filter(r => !roteFilterSphere || (r.spheres || '').toLowerCase().includes(roteFilterSphere.toLowerCase())).map(r => (
+                      <tr key={r.id}>
+                        <td style={{ fontWeight: 600 }}>{r.name}</td>
+                        <td style={{ color: 'var(--color-text-muted)' }}>{r.spheres}</td>
+                        <td style={{ textAlign: 'center' }}>{r.level}</td>
+                        <td style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>{r.description}</td>
+                        <td><button className="btn btn-danger btn-sm" onClick={() => handleRemoveRote(r.id)}>×</button></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
             )}
             <div className="field-row" style={{ alignItems: 'flex-end', gap: 'var(--space-sm)' }}>
               <div className="field" style={{ flex: 2 }}>
@@ -1182,6 +1241,34 @@ export default function MageForm() {
                 ))}
               </ul>
             </details>
+          </fieldset>
+
+          <fieldset>
+            <legend>Paradigm Casting Reference</legend>
+            <aside style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--space-sm)' }} role="note">
+              <p style={{ margin: 0, fontSize: '0.82rem', fontWeight: 600 }}>Paradigm &amp; Focus Rules</p>
+              <p style={{ margin: '0.25rem 0 0', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                Acting outside your paradigm increases difficulty by +1. Each Arete milestone allows discarding one instrument:
+              </p>
+              <ul style={{ margin: '0.25rem 0 0', paddingLeft: '1.2rem', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                <li style={{ color: fields.arete >= 3 ? 'var(--color-text)' : undefined, fontWeight: fields.arete >= 3 ? 600 : 400 }}>
+                  Arete 3: Discard 1 instrument {fields.arete >= 3 ? '(unlocked)' : `(need Arete 3, currently ${fields.arete})`}
+                </li>
+                <li style={{ color: fields.arete >= 6 ? 'var(--color-text)' : undefined, fontWeight: fields.arete >= 6 ? 600 : 400 }}>
+                  Arete 6: Discard another instrument {fields.arete >= 6 ? '(unlocked)' : `(need Arete 6, currently ${fields.arete})`}
+                </li>
+                <li style={{ color: fields.arete >= 9 ? 'var(--color-text)' : undefined, fontWeight: fields.arete >= 9 ? 600 : 400 }}>
+                  Arete 9: Discard another instrument {fields.arete >= 9 ? '(unlocked)' : `(need Arete 9, currently ${fields.arete})`}
+                </li>
+              </ul>
+              <p style={{ margin: '0.35rem 0 0', fontSize: '0.78rem', color: 'var(--color-text-muted)' }} aria-live="polite" role="status">
+                At Arete {fields.arete}, you may have discarded up to <strong>{fields.arete >= 9 ? 3 : fields.arete >= 6 ? 2 : fields.arete >= 3 ? 1 : 0}</strong> instrument(s).
+                {fields.instruments && (() => {
+                  const instrumentList = fields.instruments.split('\n').filter(i => i.trim())
+                  return instrumentList.length > 0 ? ` You currently have ${instrumentList.length} instrument(s) listed.` : ''
+                })()}
+              </p>
+            </aside>
           </fieldset>
 
           <fieldset>

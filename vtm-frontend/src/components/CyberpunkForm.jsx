@@ -114,6 +114,12 @@ export default function CyberpunkForm() {
   const [actionError, setActionError] = useState(null)
   const [cyberCategory, setCyberCategory] = useState('all')
 
+  // IP calculator state
+  const [ipCurrentLevel, setIpCurrentLevel] = useState(0)
+  const [ipTargetLevel, setIpTargetLevel] = useState(1)
+  const [ipIsCareer, setIpIsCareer] = useState(true)
+  const [ipCalcOpen, setIpCalcOpen] = useState(false)
+
   // Dice roller state
   const [diceStatVal, setDiceStatVal] = useState(0)
   const [diceSkillVal, setDiceSkillVal] = useState(0)
@@ -378,6 +384,30 @@ export default function CyberpunkForm() {
                 <span className="muted-hint muted-hint--xs">Max: {humanity} | Lost to cyberware: {totalHumanityLoss}</span>
               </div>
             </div>
+            {/* Humanity Remaining Counter */}
+            <div role="status" aria-live="polite" aria-atomic="true" style={{ marginTop: 'var(--space-md)', padding: 'var(--space-md)', border: '2px solid var(--color-accent-fg)', borderRadius: '8px', background: 'rgba(52,152,219,0.06)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
+                <span style={{ fontSize: '1.1rem', fontWeight: 700 }}>Humanity Remaining: {fields.cpCurrentHumanity} / {humanity}</span>
+                <span style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>Empathy {fields.cpEmp} x 10 = {humanity}</span>
+              </div>
+              <div style={{ width: '100%', height: '12px', background: 'var(--color-surface-raised)', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--color-border)' }}>
+                <div style={{
+                  width: `${humanity > 0 ? Math.max(0, Math.min(100, (fields.cpCurrentHumanity / humanity) * 100)) : 0}%`,
+                  height: '100%',
+                  borderRadius: '6px',
+                  transition: 'width 0.3s ease, background 0.3s ease',
+                  background: fields.cpCurrentHumanity <= 0 ? '#e74c3c'
+                    : fields.cpCurrentHumanity < 5 ? '#e74c3c'
+                    : fields.cpCurrentHumanity < 10 ? '#f39c12'
+                    : '#2ecc71',
+                }} />
+              </div>
+              <div style={{ marginTop: 'var(--space-xs)', fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>
+                {fields.cpCurrentHumanity > 0
+                  ? `${fields.cpCurrentHumanity} points of cyberware away from cyberpsychosis threshold.`
+                  : 'Cyberpsychosis threshold reached!'}
+              </div>
+            </div>
             {fields.cpCurrentHumanity <= 0 && fields.cpCurrentHumanity !== undefined && (
               <div role="alert" aria-live="assertive" aria-atomic="true" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c', fontSize: '1rem', textAlign: 'center' }}>
                 CYBERPSYCHO — Character lost
@@ -394,6 +424,69 @@ export default function CyberpunkForm() {
               </div>
             )}
           </fieldset>
+          {/* IP Cost Calculator */}
+          <details open={ipCalcOpen} onToggle={e => setIpCalcOpen(e.target.open)}>
+            <summary style={{ cursor: 'pointer', fontWeight: 700, fontSize: '0.95rem', color: 'var(--color-accent-fg)', padding: 'var(--space-sm) 0' }}>
+              IP Cost Calculator
+            </summary>
+            <div style={{ padding: 'var(--space-md)', border: '1px solid var(--color-border)', borderRadius: '8px', background: 'rgba(52,152,219,0.04)' }}>
+              <div style={{ marginBottom: 'var(--space-sm)', fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>
+                <strong>IP Cost Formula:</strong><br />
+                Same career skill: New Level x 1 IP<br />
+                Different career skill: New Level x 2 IP
+              </div>
+              <div className="field-row" style={{ alignItems: 'flex-end', gap: 'var(--space-md)' }}>
+                <div className="field">
+                  <label htmlFor="ip-current" style={{ fontSize: '0.85rem' }}>Current Level</label>
+                  <select id="ip-current" value={ipCurrentLevel} onChange={e => { const v = Number(e.target.value); setIpCurrentLevel(v); if (ipTargetLevel <= v) setIpTargetLevel(v + 1) }}>
+                    {Array.from({ length: 10 }, (_, i) => (
+                      <option key={i} value={i}>{i}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="field">
+                  <label htmlFor="ip-target" style={{ fontSize: '0.85rem' }}>Target Level</label>
+                  <select id="ip-target" value={ipTargetLevel} onChange={e => setIpTargetLevel(Number(e.target.value))}>
+                    {Array.from({ length: 10 - ipCurrentLevel }, (_, i) => (
+                      <option key={i + ipCurrentLevel + 1} value={i + ipCurrentLevel + 1}>{i + ipCurrentLevel + 1}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="field">
+                  <label style={{ fontSize: '0.85rem' }}>Skill Type</label>
+                  <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
+                      <input type="radio" name="ipCareer" checked={ipIsCareer} onChange={() => setIpIsCareer(true)} /> Career
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
+                      <input type="radio" name="ipCareer" checked={!ipIsCareer} onChange={() => setIpIsCareer(false)} /> Non-career
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div role="status" aria-live="polite" aria-atomic="true" style={{ marginTop: 'var(--space-md)', padding: 'var(--space-sm)', border: '2px solid var(--color-accent-fg)', borderRadius: '8px', background: 'rgba(52,152,219,0.08)', textAlign: 'center' }}>
+                <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginBottom: '4px' }}>
+                  Level {ipCurrentLevel} → {ipTargetLevel} ({ipIsCareer ? 'Career' : 'Non-career'})
+                </div>
+                <div style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>
+                  {(() => {
+                    const mult = ipIsCareer ? 1 : 2
+                    let total = 0
+                    for (let lvl = ipCurrentLevel + 1; lvl <= ipTargetLevel; lvl++) total += lvl * mult
+                    return total
+                  })()} IP
+                </div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginTop: '4px' }}>
+                  {(() => {
+                    const mult = ipIsCareer ? 1 : 2
+                    const parts = []
+                    for (let lvl = ipCurrentLevel + 1; lvl <= ipTargetLevel; lvl++) parts.push(`${lvl}x${mult}`)
+                    return parts.join(' + ')
+                  })()}
+                </div>
+              </div>
+            </div>
+          </details>
         </div>
       </div>
 

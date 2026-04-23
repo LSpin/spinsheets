@@ -29,6 +29,7 @@ const INITIAL = {
   dndHpMax: 0, dndHpCurrent: 0, dndHpTemp: 0,
   dndArmorClass: 10, dndSpeed: 30, dndInitiativeBonus: 0,
   dndHitDiceRemaining: 0, dndDeathSaveSuccesses: 0, dndDeathSaveFailures: 0,
+  dndExhaustion: 0,
   dndInspiration: false,
   dndSkillProficiencies: '', dndSkillExpertise: '',
   dndSavingThrows: '', dndArmorProf: '', dndWeaponProf: '',
@@ -541,6 +542,56 @@ export default function DndForm() {
                 ))}
               </div>
             </div>
+          </fieldset>
+          {/* Exhaustion Tracker */}
+          <fieldset>
+            <legend>Exhaustion</legend>
+            <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
+              <span style={{ fontSize: '0.85rem', fontWeight: 600, marginRight: 'var(--space-xs)' }}>Level</span>
+              {[0, 1, 2, 3, 4, 5, 6].map(lvl => (
+                <span
+                  key={lvl}
+                  className={`blades-dot${(fields.dndExhaustion || 0) >= lvl && lvl > 0 ? ' blades-dot--filled' : ''}`}
+                  onClick={() => handleField('dndExhaustion', (fields.dndExhaustion || 0) === lvl ? lvl - 1 : lvl)}
+                  onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleField('dndExhaustion', (fields.dndExhaustion || 0) === lvl ? lvl - 1 : lvl) } }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Exhaustion level ${lvl}`}
+                  aria-pressed={(fields.dndExhaustion || 0) >= lvl && lvl > 0}
+                  style={{
+                    cursor: 'pointer',
+                    width: '28px', height: '28px',
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    borderRadius: '50%', fontSize: '0.75rem', fontWeight: 700,
+                    border: lvl === 0 ? 'none' : undefined,
+                    background: lvl === 0 ? 'transparent' : undefined,
+                  }}
+                >
+                  {lvl === 0 ? '' : lvl}
+                </span>
+              ))}
+              <span style={{ marginLeft: 'var(--space-sm)', fontSize: '0.9rem', fontWeight: 700, color: (fields.dndExhaustion || 0) >= 6 ? '#e74c3c' : (fields.dndExhaustion || 0) >= 4 ? '#e67e22' : (fields.dndExhaustion || 0) >= 1 ? '#f39c12' : 'var(--color-text-muted)' }}>
+                {(fields.dndExhaustion || 0) === 0 ? 'None' : `Level ${fields.dndExhaustion}`}
+              </span>
+            </div>
+            {(fields.dndExhaustion || 0) > 0 && (
+              <div role="status" aria-live="polite" aria-atomic="true" style={{ padding: 'var(--space-sm)', border: '2px solid', borderColor: (fields.dndExhaustion || 0) >= 6 ? '#e74c3c' : (fields.dndExhaustion || 0) >= 4 ? '#e67e22' : '#f39c12', borderRadius: '8px', background: (fields.dndExhaustion || 0) >= 6 ? 'rgba(231,76,60,0.12)' : (fields.dndExhaustion || 0) >= 4 ? 'rgba(230,126,34,0.1)' : 'rgba(243,156,18,0.08)' }}>
+                <div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: 'var(--space-xs)', color: (fields.dndExhaustion || 0) >= 6 ? '#e74c3c' : (fields.dndExhaustion || 0) >= 4 ? '#e67e22' : '#f39c12' }}>
+                  Active Exhaustion Effects:
+                </div>
+                <ul style={{ margin: 0, paddingLeft: 'var(--space-md)', fontSize: '0.85rem', lineHeight: 1.8 }}>
+                  {(fields.dndExhaustion || 0) >= 1 && <li style={{ fontWeight: (fields.dndExhaustion || 0) === 1 ? 700 : 400 }}>Level 1: Disadvantage on ability checks</li>}
+                  {(fields.dndExhaustion || 0) >= 2 && <li style={{ fontWeight: (fields.dndExhaustion || 0) === 2 ? 700 : 400 }}>Level 2: Speed halved</li>}
+                  {(fields.dndExhaustion || 0) >= 3 && <li style={{ fontWeight: (fields.dndExhaustion || 0) === 3 ? 700 : 400 }}>Level 3: Disadvantage on attack rolls and saving throws</li>}
+                  {(fields.dndExhaustion || 0) >= 4 && <li style={{ fontWeight: (fields.dndExhaustion || 0) === 4 ? 700 : 400 }}>Level 4: HP maximum halved</li>}
+                  {(fields.dndExhaustion || 0) >= 5 && <li style={{ fontWeight: (fields.dndExhaustion || 0) === 5 ? 700 : 400 }}>Level 5: Speed reduced to 0</li>}
+                  {(fields.dndExhaustion || 0) >= 6 && <li style={{ fontWeight: 700, color: '#e74c3c' }}>Level 6: Death</li>}
+                </ul>
+              </div>
+            )}
+            <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-sm)' }}>
+              Exhaustion effects are cumulative. Finishing a long rest reduces exhaustion by 1 level (with food and drink).
+            </p>
           </fieldset>
         </div>
       </div>

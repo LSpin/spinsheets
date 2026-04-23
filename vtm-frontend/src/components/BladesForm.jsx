@@ -230,6 +230,12 @@ export default function BladesForm() {
     localStorage.setItem('blades-deep-cuts', String(next))
   }
 
+  // Long-term project clocks (stored in havens field as JSON)
+  const clocks = (() => { try { return JSON.parse(fields.havens) || [] } catch { return [] } })()
+  function setClocks(next) { handleField('havens', JSON.stringify(next)) }
+  const [newClockName, setNewClockName] = useState('')
+  const [newClockSegments, setNewClockSegments] = useState(4)
+
   const filteredPlaybookCatalog = deepCuts ? BLADES_PLAYBOOK_CATALOG : BLADES_PLAYBOOK_CATALOG.filter(p => !BLADES_PLAYBOOKS[p.value]?.supernatural)
   const filteredStandardItems = deepCuts ? BLADES_STANDARD_ITEMS : BLADES_STANDARD_ITEMS.filter(i => !i.deepCuts)
 
@@ -591,6 +597,94 @@ export default function BladesForm() {
               </label>
             </div>
           </fieldset>
+          {/* Long-term Project Clocks */}
+          <fieldset>
+            <legend>Long-term Project Clocks</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Track long-term projects during downtime. Roll a relevant action to tick segments.
+            </p>
+            <div className="field-row" style={{ marginBottom: 'var(--space-md)', alignItems: 'flex-end' }}>
+              <div className="field" style={{ flex: 1 }}>
+                <label htmlFor="new-clock-name">Clock Name</label>
+                <input id="new-clock-name" type="text" value={newClockName} onChange={e => setNewClockName(e.target.value)}
+                  placeholder="e.g. Research arcane artifact..."
+                  onKeyDown={e => { if (e.key === 'Enter' && newClockName.trim()) { e.preventDefault(); setClocks([...clocks, { name: newClockName.trim(), total: newClockSegments, filled: 0 }]); setNewClockName('') } }} />
+              </div>
+              <div className="field">
+                <label htmlFor="new-clock-segs">Segments</label>
+                <select id="new-clock-segs" value={newClockSegments} onChange={e => setNewClockSegments(Number(e.target.value))}>
+                  <option value={4}>4</option>
+                  <option value={6}>6</option>
+                  <option value={8}>8</option>
+                </select>
+              </div>
+              <button className="btn btn-secondary" onClick={() => {
+                if (!newClockName.trim()) return
+                setClocks([...clocks, { name: newClockName.trim(), total: newClockSegments, filled: 0 }])
+                setNewClockName('')
+              }}>Add Clock</button>
+            </div>
+            {clocks.length === 0 && <p className="muted-hint">No project clocks yet.</p>}
+            <div role="list" aria-live="polite" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+              {clocks.map((clock, ci) => (
+                <div key={ci} role="listitem" style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', background: 'rgba(52,152,219,0.04)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xs)' }}>
+                    <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>{clock.name}</span>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>{clock.filled}/{clock.total}</span>
+                  </div>
+                  {/* Pie-chart style clock */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+                    <svg width="64" height="64" viewBox="0 0 64 64" role="img" aria-label={`${clock.name}: ${clock.filled} of ${clock.total} segments filled`}>
+                      <circle cx="32" cy="32" r="30" fill="none" stroke="var(--color-border)" strokeWidth="2" />
+                      {Array.from({ length: clock.total }, (_, si) => {
+                        const angle = (360 / clock.total)
+                        const startAngle = (si * angle - 90) * (Math.PI / 180)
+                        const endAngle = ((si + 1) * angle - 90) * (Math.PI / 180)
+                        const x1 = 32 + 28 * Math.cos(startAngle)
+                        const y1 = 32 + 28 * Math.sin(startAngle)
+                        const x2 = 32 + 28 * Math.cos(endAngle)
+                        const y2 = 32 + 28 * Math.sin(endAngle)
+                        const largeArc = angle > 180 ? 1 : 0
+                        const d = `M32,32 L${x1},${y1} A28,28 0 ${largeArc},1 ${x2},${y2} Z`
+                        return (
+                          <path key={si} d={d}
+                            fill={si < clock.filled ? 'var(--color-accent-fg)' : 'transparent'}
+                            stroke="var(--color-border)" strokeWidth="1"
+                            style={{ cursor: 'pointer', opacity: si < clock.filled ? 0.85 : 0.3 }}
+                            onClick={() => {
+                              const next = [...clocks]
+                              next[ci] = { ...clock, filled: clock.filled === si + 1 ? si : Math.min(si + 1, clock.total) }
+                              setClocks(next)
+                            }}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Segment ${si + 1}${si < clock.filled ? ' (filled)' : ''}`}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault()
+                                const next = [...clocks]
+                                next[ci] = { ...clock, filled: clock.filled === si + 1 ? si : Math.min(si + 1, clock.total) }
+                                setClocks(next)
+                              }
+                            }}
+                          />
+                        )
+                      })}
+                    </svg>
+                    <div style={{ flex: 1 }}>
+                      {clock.filled >= clock.total && (
+                        <div role="alert" aria-live="assertive" style={{ fontWeight: 700, color: '#2ecc71', fontSize: '0.9rem' }}>
+                          Project Complete!
+                        </div>
+                      )}
+                    </div>
+                    <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                      onClick={() => setClocks(clocks.filter((_, j) => j !== ci))} aria-label={`Remove ${clock.name}`}>Remove</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </fieldset>
         </div>
       </div>
 
@@ -813,6 +907,17 @@ export default function BladesForm() {
 
       {/* ── Dice Roller ── */}
       <div hidden={tab !== 'tabDiceRoller'} role="tabpanel" aria-labelledby="tabDiceRoller">
+        <details style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', background: 'rgba(243,156,18,0.06)' }}>
+          <summary style={{ cursor: 'pointer', fontWeight: 700, fontSize: '0.9rem', color: '#f39c12' }}>
+            Devil's Bargain
+          </summary>
+          <div role="note" aria-live="polite" style={{ padding: 'var(--space-sm) 0', fontSize: '0.85rem', lineHeight: 1.6, color: 'var(--color-text-muted)' }}>
+            <strong>Devil's Bargain:</strong> The GM offers you <strong>+1d</strong> to your roll, but with a complication.
+            You can always refuse. The complication occurs regardless of the roll's outcome.
+            Common complications include: collateral damage, betraying a friend, attracting unwanted attention,
+            or creating a problematic obligation.
+          </div>
+        </details>
         <BladesDiceRoller />
       </div>
 

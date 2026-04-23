@@ -324,6 +324,7 @@ export default function WerewolfForm() {
 
   const [fetishSearch, setFetishSearch] = useState('')
   const [bgSearch, setBgSearch] = useState('')
+  const [showGiftRef, setShowGiftRef] = useState(false)
 
   const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
 
@@ -748,6 +749,30 @@ export default function WerewolfForm() {
             <>
               <fieldset>
                 <legend>{t('gifts')} ({gifts.length})</legend>
+                <div style={{ marginBottom: 'var(--space-sm)' }}>
+                  <button type="button" className="btn btn-secondary btn-sm" onClick={() => setShowGiftRef(prev => !prev)}
+                    aria-expanded={showGiftRef} aria-controls="gift-activation-ref">
+                    {showGiftRef ? 'Hide' : 'Show'} Gift Activation Reference
+                  </button>
+                  {showGiftRef && (
+                    <aside id="gift-activation-ref" role="note" aria-live="polite"
+                      style={{ marginTop: 'var(--space-xs)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
+                      <p style={{ margin: 0, fontWeight: 600, fontSize: '0.85rem' }}>Gift Activation Rules</p>
+                      <ul style={{ margin: '0.25rem 0 0', paddingLeft: '1.2rem', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                        <li>Most Gifts require a <strong>Gnosis roll</strong> (difficulty varies by Gift).</li>
+                        <li>Standard cost: <strong>1 Gnosis</strong> to activate.</li>
+                        <li>Some Gifts require <strong>Rage</strong> or <strong>Willpower</strong> instead of (or in addition to) Gnosis.</li>
+                        <li>Auspice Gifts cost <strong>1 less Gnosis</strong> to activate (minimum 0).</li>
+                        <li>Higher-level Gifts (4-5) may require multiple Gnosis or have additional costs.</li>
+                      </ul>
+                      {fields.auspice && (
+                        <p style={{ margin: '0.25rem 0 0', fontSize: '0.78rem' }}>
+                          Your auspice is <strong>{fields.auspice}</strong> — {fields.auspice} Gifts cost 1 less Gnosis for you.
+                        </p>
+                      )}
+                    </aside>
+                  )}
+                </div>
                 {gifts.length > 0 && (
                   <ul className="tag-list">
                     {gifts.map(g => (
@@ -935,6 +960,44 @@ export default function WerewolfForm() {
                 Starting Rage {AUSPICE_RAGE[fields.auspice]} — set by Auspice ({fields.auspice}). Cannot be reduced below this value.
               </p>
             )}
+            <details style={{ marginTop: 'var(--space-sm)' }}>
+              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.82rem', color: 'var(--color-accent-fg)' }}>Frenzy Difficulty Reference</summary>
+              <aside role="note" aria-live="polite" style={{ marginTop: 'var(--space-xs)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
+                <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                  Roll Rage (difficulty varies) to resist frenzy. Failure means the Beast takes over.
+                </p>
+                <table style={{ marginTop: 'var(--space-xs)', fontSize: '0.78rem', width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th style={{ textAlign: 'left', padding: '2px 8px', borderBottom: '1px solid var(--color-border)' }}>Trigger</th>
+                      <th style={{ textAlign: 'center', padding: '2px 8px', borderBottom: '1px solid var(--color-border)' }}>Difficulty</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { trigger: 'Ahroun near combat', diff: '5' },
+                      { trigger: 'Smell of blood', diff: '6' },
+                      { trigger: 'Loved one in danger', diff: '6' },
+                      { trigger: 'Humiliated', diff: '7' },
+                    ].map(row => (
+                      <tr key={row.trigger}>
+                        <td style={{ padding: '2px 8px', color: 'var(--color-text-muted)' }}>{row.trigger}</td>
+                        <td style={{ padding: '2px 8px', textAlign: 'center', fontWeight: 600 }}>{row.diff}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <p style={{ margin: '0.35rem 0 0', fontSize: '0.75rem', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
+                  Metis: +1 difficulty to resist frenzy.
+                  {fields.breed === 'Metis' && <strong style={{ color: '#e95' }}> (applies to you)</strong>}
+                </p>
+                {fields.auspice === 'Ahroun' && (
+                  <p style={{ margin: '0.15rem 0 0', fontSize: '0.75rem', color: '#e95', fontWeight: 600 }}>
+                    As an Ahroun, your frenzy difficulty near combat is only 5.
+                  </p>
+                )}
+              </aside>
+            </details>
           </fieldset>
           <fieldset>
             <legend>{t('gnosis')}</legend>
@@ -974,6 +1037,47 @@ export default function WerewolfForm() {
               <DotRating label={t('wisdomPerm')} name="wisdomRenown" value={fields.wisdomRenown} onChange={handleField} min={0} max={10} />
               <DotRating label={t('wisdomTemp')} name="currentWisdomRenown" value={fields.currentWisdomRenown} onChange={handleField} min={0} max={10} />
             </div>
+            {(() => {
+              const glory = fields.glory || 0
+              const honor = fields.honor || 0
+              const wisdom = fields.wisdomRenown || 0
+              const total = glory + honor + wisdom
+              const maxSingle = Math.max(glory, honor, wisdom)
+              const thresholds = [
+                { rank: 'Cliath', label: 'Rank 1', req: 'Starting rank after Rite of Passage', met: true },
+                { rank: 'Fostern', label: 'Rank 2', req: '3 in any one Renown category', met: maxSingle >= 3 },
+                { rank: 'Adren', label: 'Rank 3', req: 'Total of 7 across all Renown', met: total >= 7 },
+                { rank: 'Athro', label: 'Rank 4', req: 'Total of 13 across all Renown', met: total >= 13 },
+                { rank: 'Elder', label: 'Rank 5', req: 'Total of 20 across all Renown', met: total >= 20 },
+              ]
+              const currentRankIndex = thresholds.reduce((best, t, i) => t.met ? i : best, 0)
+              const nextThreshold = thresholds[currentRankIndex + 1]
+              const nextTotal = currentRankIndex < 1 ? null : currentRankIndex < 2 ? 7 : currentRankIndex < 3 ? 13 : currentRankIndex < 4 ? 20 : null
+              const needed = nextTotal ? nextTotal - total : null
+              return (
+                <aside style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }} role="note">
+                  <p style={{ margin: 0, fontWeight: 600, fontSize: '0.85rem' }}>Renown Rank Thresholds</p>
+                  <p style={{ margin: '0.25rem 0', fontSize: '0.82rem' }} aria-live="polite" role="status">
+                    Current Renown: {glory} Glory + {honor} Honor + {wisdom} Wisdom = <strong>{total}</strong> total.
+                    {maxSingle > 0 && ` Highest single category: ${maxSingle}.`}
+                  </p>
+                  {nextThreshold && (
+                    <p style={{ margin: '0.15rem 0 0.35rem', fontSize: '0.82rem', color: 'var(--color-accent-fg)', fontWeight: 600 }} aria-live="polite" role="status">
+                      Next rank: {nextThreshold.rank} ({nextThreshold.label}) — {nextThreshold.req}.
+                      {needed !== null && needed > 0 && ` Need ${needed} more total Renown.`}
+                      {currentRankIndex < 1 && maxSingle < 3 && ` Need ${3 - maxSingle} more in your highest category.`}
+                    </p>
+                  )}
+                  <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+                    {thresholds.map((th, i) => (
+                      <li key={th.rank} style={{ fontWeight: i === currentRankIndex ? 700 : 400, color: i === currentRankIndex ? 'var(--color-text)' : th.met ? 'var(--color-text-muted)' : undefined }}>
+                        {th.rank} ({th.label}): {th.req}{i === currentRankIndex ? ' (current)' : ''}
+                      </li>
+                    ))}
+                  </ul>
+                </aside>
+              )
+            })()}
           </fieldset>
           <fieldset>
             <legend>{t('health')}</legend>
