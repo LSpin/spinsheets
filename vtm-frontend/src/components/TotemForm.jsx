@@ -203,10 +203,12 @@ export default function TotemForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabIdentity')}</legend>
-            <div className="field-row">
-              <CatalogSelect id="totem-template" name="totemTemplate" label={t('dndLoadTemplate')}
-                value="" onChange={(_, v) => loadTemplate(v)} catalog={WOD_TOTEM_NPC_CATALOG} showDescOnSelect={false} />
-            </div>
+            {!viewMode && (
+              <div className="field-row">
+                <CatalogSelect id="totem-template" name="totemTemplate" label={t('dndLoadTemplate')}
+                  value="" onChange={(_, v) => loadTemplate(v)} catalog={WOD_TOTEM_NPC_CATALOG} showDescOnSelect={false} />
+              </div>
+            )}
             <div className="field-row">
               <div className="field"><label>{t('totemName')} *</label><input name="name" value={fields.name} onChange={handleText} placeholder={t('totemNamePh')} /></div>
               <CatalogSelect id="altName" name="altName" label={t('totemType')} value={fields.altName} onChange={handleField} catalog={TOTEM_TYPES} />

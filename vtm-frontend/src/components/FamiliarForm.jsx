@@ -160,10 +160,12 @@ export default function FamiliarForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabIdentity')}</legend>
-            <div className="field-row">
-              <CatalogSelect id="familiar-template" name="familiarTemplate" label={t('dndLoadTemplate')}
-                value="" onChange={(_, v) => loadTemplate(v)} catalog={WOD_FAMILIAR_NPC_CATALOG} showDescOnSelect={false} />
-            </div>
+            {!viewMode && (
+              <div className="field-row">
+                <CatalogSelect id="familiar-template" name="familiarTemplate" label={t('dndLoadTemplate')}
+                  value="" onChange={(_, v) => loadTemplate(v)} catalog={WOD_FAMILIAR_NPC_CATALOG} showDescOnSelect={false} />
+              </div>
+            )}
             <div className="field-row">
               <div className="field"><label>{t('charName')} *</label><input name="name" value={fields.name} onChange={handleText} /></div>
               <div className="field"><label>{t('familiarType')}</label><input name="altName" value={fields.altName} onChange={handleText} placeholder={t('familiarTypePh')} /></div>

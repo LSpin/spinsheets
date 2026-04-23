@@ -887,20 +887,22 @@ export default function L5RForm() {
       {/* ── Identity ── */}
       <div role="tabpanel" id={`tabpanel-0`} aria-labelledby={`tab-0`} hidden={tab !== 0}>
         <div className="form-section">
-          <fieldset>
-            <legend>{t('l5rLoadTemplate')}</legend>
-            <CatalogSelect
-              id="hero-template" name="heroTemplate" label={t('l5rPremadeSamurai')}
-              value={templateName} onChange={(_, val) => loadTemplate(val)}
-              catalog={L5R_HERO_CATALOG} placeholder="Search samurai templates..."
-              showDescOnSelect={false}
-            />
-            {templateName && (
-              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
-                Loaded from template: <strong>{templateName}</strong> — customize freely below.
-              </p>
-            )}
-          </fieldset>
+          {!viewMode && (
+            <fieldset>
+              <legend>{t('l5rLoadTemplate')}</legend>
+              <CatalogSelect
+                id="hero-template" name="heroTemplate" label={t('l5rPremadeSamurai')}
+                value={templateName} onChange={(_, val) => loadTemplate(val)}
+                catalog={L5R_HERO_CATALOG} placeholder="Search samurai templates..."
+                showDescOnSelect={false}
+              />
+              {templateName && (
+                <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
+                  Loaded from template: <strong>{templateName}</strong> — customize freely below.
+                </p>
+              )}
+            </fieldset>
+          )}
 
           <fieldset>
             <legend>{t('tabIdentity')}</legend>

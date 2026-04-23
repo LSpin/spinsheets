@@ -240,11 +240,13 @@ export default function KinfolkForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabIdentity')}</legend>
-            <div className="field-row">
-              <CatalogSelect id="kinfolk-template" name="kinfolkTemplate" label={t('dndLoadTemplate')}
-                value="" onChange={(_, v) => loadTemplate(v)}
-                catalog={WOD_WEREWOLF_NPCS.map(w => ({ value: w.name, description: w.concept }))} showDescOnSelect={false} />
-            </div>
+            {!viewMode && (
+              <div className="field-row">
+                <CatalogSelect id="kinfolk-template" name="kinfolkTemplate" label={t('dndLoadTemplate')}
+                  value="" onChange={(_, v) => loadTemplate(v)}
+                  catalog={WOD_WEREWOLF_NPCS.map(w => ({ value: w.name, description: w.concept }))} showDescOnSelect={false} />
+              </div>
+            )}
             <div className="field-row">
               <div className="field"><label>{t('charName')} *</label><input name="name" value={fields.name} onChange={handleText} /></div>
               <div className="field"><label>{t('concept')}</label><input name="concept" value={fields.concept} onChange={handleText} /></div>

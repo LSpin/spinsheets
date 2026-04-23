@@ -237,11 +237,13 @@ export default function GhoulForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabIdentity')}</legend>
-            <div className="field-row">
-              <CatalogSelect id="ghoul-template" name="ghoulTemplate" label={t('dndLoadTemplate')}
-                value="" onChange={(_, v) => loadTemplate(v)}
-                catalog={WOD_GHOUL_NPC_CATALOG} showDescOnSelect={false} />
-            </div>
+            {!viewMode && (
+              <div className="field-row">
+                <CatalogSelect id="ghoul-template" name="ghoulTemplate" label={t('dndLoadTemplate')}
+                  value="" onChange={(_, v) => loadTemplate(v)}
+                  catalog={WOD_GHOUL_NPC_CATALOG} showDescOnSelect={false} />
+              </div>
+            )}
             <div className="field-row">
               <div className="field"><label>{t('charName')} *</label><input name="name" value={fields.name} onChange={handleText} /></div>
               <div className="field"><label>{t('concept')}</label><input name="concept" value={fields.concept} onChange={handleText} /></div>
