@@ -230,18 +230,19 @@ export default function HomePage() {
           <div className="homepage-card">
             <span className="splat-badge splat-badge--seventh-sea" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>7th Sea</span>
             <ul className="homepage-list">
-              <li>7th Sea 2nd Edition</li>
+              <li>7th Sea 2nd Edition (12 books)</li>
+              <li>37 Nations · 33 Dueling Styles</li>
+              <li>235+ Advantages · 161 Backgrounds</li>
               <li>Heroes, Villains & Ship Builder</li>
-              <li>8 Sorceries · 11 Dueling Styles</li>
             </ul>
           </div>
           <div className="homepage-card">
             <span className="splat-badge splat-badge--l5r" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>L5R</span>
             <ul className="homepage-list">
-              <li>L5R 4th Edition</li>
-              <li>55 Schools (9 Clans)</li>
-              <li>197 Spells · 26 Kata</li>
-              <li>Interactive Combat</li>
+              <li>L5R 4th & 5th Edition</li>
+              <li>144 Schools · 34 Clans</li>
+              <li>Auto-calc Insight & Rings</li>
+              <li>Interactive Combat & Dice</li>
             </ul>
           </div>
           <div className="homepage-card">
@@ -249,8 +250,8 @@ export default function HomePage() {
             <ul className="homepage-list">
               <li>Blades + Deep Cuts</li>
               <li>11 Playbooks · 6 Crew Types</li>
-              <li>Deep Cuts Toggle</li>
-              <li>d6 Pool Dice Roller</li>
+              <li>Faction & Turf Trackers</li>
+              <li>Project Clocks · d6 Roller</li>
             </ul>
           </div>
           <div className="homepage-card">
