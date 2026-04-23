@@ -169,7 +169,7 @@ Como Narrador, você tem acesso a geradores de NPC/Antagonista para cada sistema
 
 ### Ferramentas do Narrador (ST Tools)
 
-Cada um dos 7 sistemas principais possui uma página de **Ferramentas do Narrador** dedicada, acessível a partir da página de lista de personagens daquele sistema. Todas as ferramentas são exclusivas para Narradores e totalmente bilíngues (EN + PT).
+Uma página de **Ferramentas do Narrador** no `/st-tools` exibe todos os 7 sistemas de jogo como cards, servindo como hub para acessar os 37 abas de ferramentas exclusivas de Narradores. A página também é acessível via um link "ST Tools" no menu hamburger (visível apenas para Narradores). Todas as ferramentas são totalmente bilíngues (EN + PT).
 
 | Sistema | Abas | Conteúdo |
 |---------|------|----------|

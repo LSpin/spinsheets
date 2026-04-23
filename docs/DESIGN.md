@@ -119,6 +119,10 @@ Browser
 | Cyberpunk 2020 | CYBERPUNK, CYBERPUNK_ANTAGONIST | cyberpunk (neon cyan) | 2 | 25 |
 | ASOIAF RPG | ASOIAF | asoiaf (parchment gold) | 1 | 27 |
 
+### Routing
+
+The app uses React Router v7 for client-side routing with SPA forwarding via `SpaForwardController`. Key routes: system hubs (`/blades`, `/wod`, `/dnd`, etc.), character forms (`/characters/:id`), chronicling (`/chronicles`), Clock Manager (`/blades/clocks`), and the new ST Tools landing page (`/st-tools`).
+
 ### Blades in the Dark
 
 Blades uses a dedicated **Clock Manager** at `/blades/clocks` (clocks are not embedded in character or crew sheets). Character sheets include a **Coin & Stash** tab (4 coin pips for spending money, 40 stash pips with retirement at 40/40). Crew sheets include a **Coin & Vault** tab (liquid coin number + 8-segment vault track). The Rules Reference tab includes an **XP & Advancement** guide.

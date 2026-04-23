@@ -119,6 +119,10 @@ Browser
 | Cyberpunk 2020 | CYBERPUNK, CYBERPUNK_ANTAGONIST | cyberpunk (ciano neon) | 2 | 25 |
 | ASOIAF RPG | ASOIAF | asoiaf (dourado pergaminho) | 1 | 27 |
 
+### Roteamento
+
+O app usa React Router v7 para roteamento no cliente com encaminhamento de SPA via `SpaForwardController`. Rotas principais: hubs de sistema (`/blades`, `/wod`, `/dnd`, etc.), formulários de personagem (`/characters/:id`), cronística (`/chronicles`), Gerenciador de Relógios (`/blades/clocks`) e a nova página de hub ST Tools (`/st-tools`).
+
 ### Blades in the Dark
 
 Blades utiliza um **Gerenciador de Relógios** dedicado em `/blades/clocks` (relógios não estão embutidos nas fichas de personagem ou crew). Fichas de personagem incluem uma aba **Coin & Stash** (4 pips de coin para dinheiro disponível, 40 pips de stash com aposentadoria em 40/40). Fichas de crew incluem uma aba **Coin & Vault** (número de coin líquido + trilha de vault com 8 segmentos). A aba Referência de Regras inclui um guia de **XP & Avanço**.

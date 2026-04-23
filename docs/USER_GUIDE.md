@@ -169,7 +169,7 @@ As a Storyteller, you have access to NPC/Antagonist generators for every system:
 
 ### ST Tools
 
-Each of the 7 main game systems has a dedicated **ST Tools** hub page, accessible from that system's character list page. All tools are Storyteller-only and fully bilingual (EN + PT).
+A central **ST Tools** landing page at `/st-tools` displays all 7 main game systems as cards, serving as a hub to access all 37 Storyteller-only tool tabs. The landing page is also accessible via a "ST Tools" link in the hamburger nav menu (visible to Storytellers only). All tools are fully bilingual (EN + PT).
 
 | System | Tabs | What's Inside |
 |--------|------|--------------|
