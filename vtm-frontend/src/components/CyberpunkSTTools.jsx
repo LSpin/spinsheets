@@ -87,7 +87,7 @@ function EncounterTab() {
             <div><strong>{t('cpSTSituation')}:</strong> {result.situation}</div>
             <div>
               <strong>{t('cpSTThreat')}:</strong>{' '}
-              <span style={{ color: threatColor(result.threat), fontWeight: 700 }}>{result.threat}</span>
+              <span style={{ color: threatColor(result.threat), fontWeight: 700 }} aria-label={`Threat level: ${result.threat}`}>{result.threat}</span>
             </div>
           </div>
         </ResultCard>
@@ -95,7 +95,7 @@ function EncounterTab() {
 
       <HistoryPanel items={history} label="Encounter history" renderItem={(item) => (
         <div style={{ fontSize: '0.85rem' }}>
-          <strong>{item.location}</strong> — <span style={{ color: threatColor(item.threat) }}>{item.threat}</span>
+          <strong>{item.location}</strong> — <span style={{ color: threatColor(item.threat) }} aria-label={`Threat level: ${item.threat}`}>{item.threat}</span>
         </div>
       )} />
     </div>
@@ -255,7 +255,7 @@ function NetrunningTab() {
             <span style={{
               fontSize: '0.75rem', padding: '2px 8px', borderRadius: '3px',
               background: `${typeColor(result.type)}22`, color: typeColor(result.type), fontWeight: 600,
-            }}>{result.type}</span>
+            }} aria-label={`Encounter type: ${result.type}`}>{result.type}</span>
           </div>
           <p style={{ margin: 0, lineHeight: 1.6 }}>{result.description}</p>
         </ResultCard>
@@ -263,7 +263,7 @@ function NetrunningTab() {
 
       <HistoryPanel items={history} label="Netrunning encounter history" renderItem={(item) => (
         <div style={{ fontSize: '0.85rem' }}>
-          <strong>{item.name}</strong> — <span style={{ color: typeColor(item.type) }}>{item.type}</span>
+          <strong>{item.name}</strong> — <span style={{ color: typeColor(item.type) }} aria-label={`Encounter type: ${item.type}`}>{item.type}</span>
         </div>
       )} />
     </div>

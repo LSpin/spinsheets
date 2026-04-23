@@ -380,7 +380,8 @@ function FactionTurnTab() {
                   border: '2px solid var(--text-muted, #555)',
                 }}>{d}</span>
               ))}
-              <span style={{ fontWeight: 700, color: outcomeColor(rollResult.outcome), marginLeft: 'var(--space-sm)', fontSize: '1.1rem' }}>
+              <span style={{ fontWeight: 700, color: outcomeColor(rollResult.outcome), marginLeft: 'var(--space-sm)', fontSize: '1.1rem' }}
+                aria-label={`Outcome: ${outcomeLabel(rollResult.outcome)}`}>
                 {outcomeLabel(rollResult.outcome)}
               </span>
             </div>
@@ -401,7 +402,8 @@ function FactionTurnTab() {
           <tbody>
             {ENGAGEMENT_MODIFIERS.map((mod, i) => (
               <tr key={i}>
-                <td style={{ padding: 'var(--space-xs)', fontWeight: 700, color: mod.modifier.startsWith('+') ? '#51cf66' : '#fa5252' }}>{mod.modifier}</td>
+                <td style={{ padding: 'var(--space-xs)', fontWeight: 700, color: mod.modifier.startsWith('+') ? '#51cf66' : '#fa5252' }}
+                  aria-label={`${mod.modifier.startsWith('+') ? 'Bonus' : 'Penalty'}: ${mod.modifier}`}>{mod.modifier}</td>
                 <td style={{ padding: 'var(--space-xs)' }}>{mod.condition}</td>
               </tr>
             ))}
@@ -423,7 +425,7 @@ function FactionTurnTab() {
 
       <HistoryPanel items={history} label="Fortune roll history" renderItem={(item) => (
         <div style={{ fontSize: '0.85rem' }}>
-          <strong>{item.pool}d6</strong> [{item.dice.join(', ')}] — <span style={{ color: outcomeColor(item.outcome) }}>{outcomeLabel(item.outcome)}</span>
+          <strong>{item.pool}d6</strong> [{item.dice.join(', ')}] — <span style={{ color: outcomeColor(item.outcome) }} aria-label={`Outcome: ${outcomeLabel(item.outcome)}`}>{outcomeLabel(item.outcome)}</span>
         </div>
       )} />
     </div>
@@ -621,7 +623,7 @@ function CampaignClocksTab() {
                 <span style={{
                   fontSize: '0.7rem', padding: '1px 6px', borderRadius: '3px',
                   background: `${color}22`, color, fontWeight: 600,
-                }}>{clock.type}</span>
+                }} aria-label={`Clock type: ${clock.type}`}>{clock.type}</span>
               </div>
               <ClockSVG segments={clock.segments} filled={clock.filled} size={110}
                 color={color} onClick={(i) => tickClock(clock.id, i)} />

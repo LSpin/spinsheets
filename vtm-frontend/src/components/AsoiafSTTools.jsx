@@ -92,7 +92,8 @@ function HouseEventsTab() {
             <div><strong>{t('asoiafSTEventType')}:</strong> {result.eventType}</div>
             <div>
               <strong>{t('asoiafSTSeverity')}:</strong>{' '}
-              <span style={{ fontWeight: 700, color: result.severity.level === 'Severe' ? '#fa5252' : result.severity.level === 'Moderate' ? '#fcc419' : '#51cf66' }}>
+              <span style={{ fontWeight: 700, color: result.severity.level === 'Severe' ? '#fa5252' : result.severity.level === 'Moderate' ? '#fcc419' : '#51cf66' }}
+                aria-label={`Severity: ${result.severity.level}`}>
                 {result.severity.level}
               </span>
               {' — '}{result.severity.description}

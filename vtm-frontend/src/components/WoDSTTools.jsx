@@ -219,7 +219,8 @@ function ParadoxBacklashTab() {
 
       <HistoryPanel items={history} label="Paradox history" renderItem={(item) => (
         <div style={{ fontSize: '0.85rem' }}>
-          <span style={{ color: severityColor(item.severity), fontWeight: 700 }}>
+          <span style={{ color: severityColor(item.severity), fontWeight: 700 }}
+            aria-label={`Severity: ${item.severity}`}>
             [{item.severity}]
           </span>{' '}
           {item.text}
@@ -380,7 +381,8 @@ function FrenzyReferenceTab() {
           {FRENZY_TRIGGERS.map((row, i) => (
             <tr key={i} style={{ background: selectedDiff === row.difficulty && rollResult?.trigger === row.trigger ? 'var(--surface-2, rgba(255,255,255,0.05))' : undefined }}>
               <td style={{ padding: 'var(--space-xs)' }}>{row.trigger}</td>
-              <td style={{ padding: 'var(--space-xs)', color: row.type === 'Rotschreck' ? '#fd7e14' : '#fa5252', fontWeight: 600 }}>{row.type}</td>
+              <td style={{ padding: 'var(--space-xs)', color: row.type === 'Rotschreck' ? '#fd7e14' : '#fa5252', fontWeight: 600 }}
+                aria-label={`Type: ${row.type}`}>{row.type}</td>
               <td style={{ padding: 'var(--space-xs)', textAlign: 'center', fontWeight: 700 }}>{row.difficulty}</td>
               <td style={{ padding: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--text-muted)' }}>{row.notes}</td>
               <td style={{ padding: 'var(--space-xs)', textAlign: 'center' }}>
@@ -412,7 +414,8 @@ function FrenzyReferenceTab() {
                 border: '2px solid var(--text-muted, #555)',
               }}>{d}</span>
             ))}
-            <span style={{ fontWeight: 700, color: outcomeColor(rollResult.outcome), marginLeft: 'var(--space-sm)', fontSize: '1.1rem' }}>
+            <span style={{ fontWeight: 700, color: outcomeColor(rollResult.outcome), marginLeft: 'var(--space-sm)', fontSize: '1.1rem' }}
+              aria-label={`Outcome: ${outcomeLabel(rollResult.outcome)}`}>
               {outcomeLabel(rollResult.outcome)} ({rollResult.net} {t('wodSTSuccesses')})
             </span>
           </div>
@@ -421,7 +424,7 @@ function FrenzyReferenceTab() {
 
       <HistoryPanel items={history} label="Frenzy roll history" renderItem={(item) => (
         <div style={{ fontSize: '0.85rem' }}>
-          <strong>{item.trigger}</strong> [{item.dice.join(', ')}] — <span style={{ color: outcomeColor(item.outcome) }}>{outcomeLabel(item.outcome)}</span>
+          <strong>{item.trigger}</strong> [{item.dice.join(', ')}] — <span style={{ color: outcomeColor(item.outcome) }} aria-label={`Outcome: ${outcomeLabel(item.outcome)}`}>{outcomeLabel(item.outcome)}</span>
         </div>
       )} />
     </div>

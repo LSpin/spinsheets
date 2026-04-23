@@ -310,8 +310,8 @@ function DungeonTab() {
         <ResultCard>
           <div style={{ display: 'grid', gap: 'var(--space-sm)' }}>
             <div><strong>{t('dndSTRoomType')}:</strong> {result.room}</div>
-            <div><strong>{t('dndSTHazard')}:</strong> <span style={{ color: '#fa5252' }}>{result.hazard}</span></div>
-            <div><strong>{t('dndSTDiscovery')}:</strong> <span style={{ color: '#51cf66' }}>{result.discovery}</span></div>
+            <div><strong>{t('dndSTHazard')}:</strong> <span style={{ color: '#fa5252' }} aria-label={`Hazard: ${result.hazard}`}>{result.hazard}</span></div>
+            <div><strong>{t('dndSTDiscovery')}:</strong> <span style={{ color: '#51cf66' }} aria-label={`Discovery: ${result.discovery}`}>{result.discovery}</span></div>
           </div>
         </ResultCard>
       )}
