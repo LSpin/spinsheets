@@ -29,13 +29,15 @@ export default function STToolsPage() {
   useEffect(() => { switchTheme('wod') }, [])
 
   return (
-    <div className="homepage">
-      <section className="homepage-hero" style={{ paddingBottom: '1rem' }}>
-        <h2>{t('stToolsTitle')}</h2>
-        <p style={{ opacity: 0.85, maxWidth: '40rem', margin: '0.5rem auto 0' }}>{t('stToolsSubtitle')}</p>
-      </section>
+    <section aria-labelledby="st-tools-heading">
+      <div className="character-list-header">
+        <h2 id="st-tools-heading">{t('stToolsTitle')}</h2>
+      </div>
+      <p className="muted-hint" style={{ marginBottom: 'var(--space-lg)', maxWidth: '40rem' }}>
+        {t('stToolsSubtitle')}
+      </p>
 
-      <div className="system-grid system-grid--desktop" style={{ paddingBottom: '2rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 'var(--space-md)' }}>
         {ST_TOOLS.map(tool => (
           <Link
             key={tool.path}
@@ -43,18 +45,19 @@ export default function STToolsPage() {
             className={`system-card ${tool.cls}`}
             onClick={() => switchTheme(tool.theme)}
             aria-label={`${t(tool.nameKey)} — ${t('stToolsOpenTools')}`}
+            style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', padding: 'var(--space-lg)', borderRadius: 'var(--radius)', minHeight: '160px' }}
           >
-            <h4>{t(tool.nameKey)}</h4>
-            <p style={{ fontSize: '0.85rem', opacity: 0.9 }}>
-              {tool.tabs} {t('stToolsTabs')}
+            <h3 style={{ margin: '0 0 var(--space-xs) 0', fontSize: '1.1rem' }}>{t(tool.nameKey)}</h3>
+            <p style={{ fontSize: '0.85rem', opacity: 0.9, margin: '0 0 var(--space-sm) 0' }}>
+              <strong>{tool.tabs}</strong> {t('stToolsTabs')}
             </p>
-            <p style={{ fontSize: '0.8rem', opacity: 0.75, lineHeight: 1.4 }}>
+            <p style={{ fontSize: '0.78rem', opacity: 0.75, lineHeight: 1.5, margin: '0 0 auto 0' }}>
               {tool.tools}
             </p>
-            <span className="system-card-cta">{t('stToolsOpenTools')}</span>
+            <span className="system-card-cta" style={{ marginTop: 'var(--space-sm)' }}>{t('stToolsOpenTools')}</span>
           </Link>
         ))}
       </div>
-    </div>
+    </section>
   )
 }
