@@ -324,14 +324,14 @@ function AppShell() {
       <header role="banner" ref={menuRef}>
         <div className="header-inner">
           <div className="header-title-row">
-            <h1>{t('appTitle')}</h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-              <LanguageToggle />
               <button className="hamburger-btn" onClick={() => setMenuOpen(!menuOpen)}
                 aria-label={menuOpen ? t('closeMenu') : t('openMenu')} aria-expanded={menuOpen}>
                 <span className={`hamburger-icon${menuOpen ? ' hamburger-icon--open' : ''}`} />
               </button>
+              <h1>{t('appTitle')}</h1>
             </div>
+            <LanguageToggle />
           </div>
           {user && (
             <nav aria-label="Primary navigation" className={`nav-menu${menuOpen ? ' nav-menu--open' : ''}`}>
