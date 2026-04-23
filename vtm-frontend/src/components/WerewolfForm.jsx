@@ -326,7 +326,7 @@ export default function WerewolfForm() {
   const [bgSearch, setBgSearch] = useState('')
   const [showGiftRef, setShowGiftRef] = useState(false)
 
-  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGiftsRites', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
+  const TAB_KEYS = ['tabIdentity', 'tabAttributes', 'tabAbilities', 'tabSecondaryAbilities', 'tabGifts', 'tabRites', 'tabFetishes', 'tabAdvantages', 'tabHealth', 'tabBackgrounds', 'tabMeritsFlaws', 'tabInventory', 'tabBackstory', 'tabXpLog', 'tabDicePools', 'tabDiceRoller']
 
   useEffect(() => {
     if (characterId) loadCharacter()
@@ -743,120 +743,122 @@ export default function WerewolfForm() {
         </div>
       </div>
 
-      {/* ── Gifts & Rites ── */}
+      {/* ── Gifts ── */}
       <div hidden={tab !== 4}>
         <div className="form-section">
-            <>
-              <fieldset>
-                <legend>{t('gifts')} ({gifts.length})</legend>
-                <div style={{ marginBottom: 'var(--space-sm)' }}>
-                  <button type="button" className="btn btn-secondary btn-sm" onClick={() => setShowGiftRef(prev => !prev)}
-                    aria-expanded={showGiftRef} aria-controls="gift-activation-ref">
-                    {showGiftRef ? 'Hide' : 'Show'} Gift Activation Reference
-                  </button>
-                  {showGiftRef && (
-                    <aside id="gift-activation-ref" role="note" aria-live="polite"
-                      style={{ marginTop: 'var(--space-xs)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
-                      <p style={{ margin: 0, fontWeight: 600, fontSize: '0.85rem' }}>Gift Activation Rules</p>
-                      <ul style={{ margin: '0.25rem 0 0', paddingLeft: '1.2rem', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
-                        <li>Most Gifts require a <strong>Gnosis roll</strong> (difficulty varies by Gift).</li>
-                        <li>Standard cost: <strong>1 Gnosis</strong> to activate.</li>
-                        <li>Some Gifts require <strong>Rage</strong> or <strong>Willpower</strong> instead of (or in addition to) Gnosis.</li>
-                        <li>Auspice Gifts cost <strong>1 less Gnosis</strong> to activate (minimum 0).</li>
-                        <li>Higher-level Gifts (4-5) may require multiple Gnosis or have additional costs.</li>
-                      </ul>
-                      {fields.auspice && (
-                        <p style={{ margin: '0.25rem 0 0', fontSize: '0.78rem' }}>
-                          Your auspice is <strong>{fields.auspice}</strong> — {fields.auspice} Gifts cost 1 less Gnosis for you.
-                        </p>
-                      )}
-                    </aside>
+          <fieldset>
+            <legend>{t('gifts')} ({gifts.length})</legend>
+            <div style={{ marginBottom: 'var(--space-sm)' }}>
+              <button type="button" className="btn btn-secondary btn-sm" onClick={() => setShowGiftRef(prev => !prev)}
+                aria-expanded={showGiftRef} aria-controls="gift-activation-ref">
+                {showGiftRef ? 'Hide' : 'Show'} Gift Activation Reference
+              </button>
+              {showGiftRef && (
+                <aside id="gift-activation-ref" role="note" aria-live="polite"
+                  style={{ marginTop: 'var(--space-xs)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
+                  <p style={{ margin: 0, fontWeight: 600, fontSize: '0.85rem' }}>Gift Activation Rules</p>
+                  <ul style={{ margin: '0.25rem 0 0', paddingLeft: '1.2rem', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                    <li>Most Gifts require a <strong>Gnosis roll</strong> (difficulty varies by Gift).</li>
+                    <li>Standard cost: <strong>1 Gnosis</strong> to activate.</li>
+                    <li>Some Gifts require <strong>Rage</strong> or <strong>Willpower</strong> instead of (or in addition to) Gnosis.</li>
+                    <li>Auspice Gifts cost <strong>1 less Gnosis</strong> to activate (minimum 0).</li>
+                    <li>Higher-level Gifts (4-5) may require multiple Gnosis or have additional costs.</li>
+                  </ul>
+                  {fields.auspice && (
+                    <p style={{ margin: '0.25rem 0 0', fontSize: '0.78rem' }}>
+                      Your auspice is <strong>{fields.auspice}</strong> — {fields.auspice} Gifts cost 1 less Gnosis for you.
+                    </p>
                   )}
+                </aside>
+              )}
+            </div>
+            {gifts.length > 0 && (
+              <ul className="tag-list">
+                {gifts.map(g => (
+                  <li key={g.id} className="tag">
+                    <span>{g.name} (Lv{g.level})</span>
+                    <button className="tag-remove" onClick={() => { removeGift(characterId, g.id); setGifts(prev => prev.filter(x => x.id !== g.id)) }}>×</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {(() => {
+              const breed = fields.breed || ''
+              const auspice = fields.auspice || ''
+              const tribe = fields.tribe || ''
+              const filtered = WEREWOLF_GIFTS.filter(g =>
+                g.level === newGift.level && (
+                  g.breeds.includes(breed) ||
+                  g.auspices.includes(auspice) ||
+                  g.tribes.includes(tribe) ||
+                  (g.breeds.length === 0 && g.auspices.length === 0 && g.tribes.length === 0)
+                )
+              )
+              return (
+                <div className="field-row" style={{ alignItems: 'flex-end' }}>
+                  <div className="field">
+                    <label htmlFor="gift-level">{t('level')}</label>
+                    <select id="gift-level" value={newGift.level} onChange={e => setNewGift(p => ({ ...p, level: parseInt(e.target.value), name: '' }))}>
+                      {[1,2,3,4,5,6].map(v => <option key={v} value={v}>{v}</option>)}
+                    </select>
+                  </div>
+                  <div className="field" style={{ flex: 2 }}>
+                    <label htmlFor="gift-name">{t('giftName')}</label>
+                    <input id="gift-name" list="gift-catalog" type="text" value={newGift.name} onChange={e => setNewGift(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder={`${filtered.length} gifts available`} />
+                    <datalist id="gift-catalog">
+                      {filtered.map(g => <option key={g.name} value={g.name} />)}
+                    </datalist>
+                  </div>
+                  <button className="btn btn-secondary" onClick={handleAddGift}>{t('add')}</button>
                 </div>
-                {gifts.length > 0 && (
-                  <ul className="tag-list">
-                    {gifts.map(g => (
-                      <li key={g.id} className="tag">
-                        <span>{g.name} (Lv{g.level})</span>
-                        <button className="tag-remove" onClick={() => { removeGift(characterId, g.id); setGifts(prev => prev.filter(x => x.id !== g.id)) }}>×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {(() => {
-                  const breed = fields.breed || ''
-                  const auspice = fields.auspice || ''
-                  const tribe = fields.tribe || ''
-                  const filtered = WEREWOLF_GIFTS.filter(g =>
-                    g.level === newGift.level && (
-                      g.breeds.includes(breed) ||
-                      g.auspices.includes(auspice) ||
-                      g.tribes.includes(tribe) ||
-                      (g.breeds.length === 0 && g.auspices.length === 0 && g.tribes.length === 0)
-                    )
-                  )
-                  return (
-                    <div className="field-row" style={{ alignItems: 'flex-end' }}>
-                      <div className="field">
-                        <label htmlFor="gift-level">{t('level')}</label>
-                        <select id="gift-level" value={newGift.level} onChange={e => setNewGift(p => ({ ...p, level: parseInt(e.target.value), name: '' }))}>
-                          {[1,2,3,4,5,6].map(v => <option key={v} value={v}>{v}</option>)}
-                        </select>
-                      </div>
-                      <div className="field" style={{ flex: 2 }}>
-                        <label htmlFor="gift-name">{t('giftName')}</label>
-                        <input id="gift-name" list="gift-catalog" type="text" value={newGift.name} onChange={e => setNewGift(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder={`${filtered.length} gifts available`} />
-                        <datalist id="gift-catalog">
-                          {filtered.map(g => <option key={g.name} value={g.name} />)}
-                        </datalist>
-                      </div>
-                      <button className="btn btn-secondary" onClick={handleAddGift}>{t('add')}</button>
-                    </div>
-                  )
-                })()}
-              </fieldset>
+              )
+            })()}
+          </fieldset>
+        </div>
+      </div>
 
-              <fieldset>
-                <legend>{t('rites')} ({rites.length})</legend>
-                {rites.length > 0 && (
-                  <ul className="tag-list">
-                    {rites.map(r => (
-                      <li key={r.id} className="tag">
-                        <span>{r.name} (Lv{r.level})</span>
-                        <button className="tag-remove" onClick={() => { removeRite(characterId, r.id); setRites(prev => prev.filter(x => x.id !== r.id)) }}>×</button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {(() => {
-                  const filtered = WEREWOLF_RITES.filter(r => r.level === newRite.level)
-                  return (
-                    <div className="field-row" style={{ alignItems: 'flex-end' }}>
-                      <div className="field">
-                        <label htmlFor="rite-level">{t('level')}</label>
-                        <select id="rite-level" value={newRite.level} onChange={e => setNewRite(p => ({ ...p, level: parseInt(e.target.value), name: '' }))}>
-                          {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
-                        </select>
-                      </div>
-                      <div className="field" style={{ flex: 2 }}>
-                        <label htmlFor="rite-name">{t('riteName')}</label>
-                        <input id="rite-name" list="rite-catalog" type="text" value={newRite.name} onChange={e => setNewRite(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder={`${filtered.length} rites available`} />
-                        <datalist id="rite-catalog">
-                          {filtered.map(r => <option key={r.name} value={r.name} />)}
-                        </datalist>
-                      </div>
-                      <button className="btn btn-secondary" onClick={handleAddRite}>{t('add')}</button>
-                    </div>
-                  )
-                })()}
-              </fieldset>
-
-            </>
+      {/* ── Rites ── */}
+      <div hidden={tab !== 5}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('rites')} ({rites.length})</legend>
+            {rites.length > 0 && (
+              <ul className="tag-list">
+                {rites.map(r => (
+                  <li key={r.id} className="tag">
+                    <span>{r.name} (Lv{r.level})</span>
+                    <button className="tag-remove" onClick={() => { removeRite(characterId, r.id); setRites(prev => prev.filter(x => x.id !== r.id)) }}>×</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {(() => {
+              const filtered = WEREWOLF_RITES.filter(r => r.level === newRite.level)
+              return (
+                <div className="field-row" style={{ alignItems: 'flex-end' }}>
+                  <div className="field">
+                    <label htmlFor="rite-level">{t('level')}</label>
+                    <select id="rite-level" value={newRite.level} onChange={e => setNewRite(p => ({ ...p, level: parseInt(e.target.value), name: '' }))}>
+                      {[1,2,3,4,5].map(v => <option key={v} value={v}>{v}</option>)}
+                    </select>
+                  </div>
+                  <div className="field" style={{ flex: 2 }}>
+                    <label htmlFor="rite-name">{t('riteName')}</label>
+                    <input id="rite-name" list="rite-catalog" type="text" value={newRite.name} onChange={e => setNewRite(p => ({ ...p, name: e.target.value }))} autoComplete="off" placeholder={`${filtered.length} rites available`} />
+                    <datalist id="rite-catalog">
+                      {filtered.map(r => <option key={r.name} value={r.name} />)}
+                    </datalist>
+                  </div>
+                  <button className="btn btn-secondary" onClick={handleAddRite}>{t('add')}</button>
+                </div>
+              )
+            })()}
+          </fieldset>
         </div>
       </div>
 
       {/* ── Fetishes & Talens ── */}
-      <div hidden={tab !== 5}>
+      <div hidden={tab !== 6}>
         <div className="form-section">
           <fieldset>
             <legend>{t('tabFetishes')} ({fetishes.length})</legend>
@@ -947,7 +949,7 @@ export default function WerewolfForm() {
       </div>
 
       {/* ── Renown & Rage ── */}
-      <div hidden={tab !== 6}>
+      <div hidden={tab !== 7}>
         <div className="form-section">
           <fieldset>
             <legend>{t('rage')}</legend>
@@ -1094,7 +1096,7 @@ export default function WerewolfForm() {
       </div>
 
       {/* ── Health ── */}
-      <div hidden={tab !== 7}>
+      <div hidden={tab !== 8}>
         <div className="form-section">
           <fieldset>
             <legend>{t('healthTrack')}</legend>
@@ -1139,7 +1141,7 @@ export default function WerewolfForm() {
       </div>
 
       {/* ── Backgrounds ── */}
-      <div hidden={tab !== 8}>
+      <div hidden={tab !== 9}>
         <div className="form-section">
           <fieldset>
             <legend>{t('backgrounds')} ({backgrounds.length})</legend>
@@ -1218,17 +1220,17 @@ export default function WerewolfForm() {
       </div>
 
       {/* ── Merits & Flaws ── */}
-      <div hidden={tab !== 9}>
+      <div hidden={tab !== 10}>
         <MeritsFlawsSection characterId={characterId} merits={merits} setMerits={setMerits} flaws={flaws} setFlaws={setFlaws} meritCatalog={meritCatalog} flawCatalog={flawCatalog} />
       </div>
 
       {/* ── Inventory ── */}
-      <div hidden={tab !== 10}>
+      <div hidden={tab !== 11}>
         <InventorySection characterId={characterId} inventory={inventory} setInventory={setInventory} personalItems={fields.personalItems} onPersonalItemsChange={handleText} />
       </div>
 
       {/* ── Backstory ── */}
-      <div hidden={tab !== 11}>
+      <div hidden={tab !== 12}>
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
@@ -1262,7 +1264,7 @@ export default function WerewolfForm() {
       </div>
 
       {/* ── XP Log ── */}
-      <div hidden={tab !== 12}>
+      <div hidden={tab !== 13}>
         <XpLogSection
           splat="werewolf"
           xpLog={xpLog}
@@ -1274,12 +1276,12 @@ export default function WerewolfForm() {
       </div>
 
       {/* ── Dice Pools ── */}
-      <div hidden={tab !== 13}>
+      <div hidden={tab !== 14}>
         <DicePoolsTab fields={fields} splat="WEREWOLF" characterId={characterId} />
       </div>
 
       {/* ── Dice Roller ── */}
-      <div hidden={tab !== 14}>
+      <div hidden={tab !== 15}>
         <StorytellerDiceRoller />
       </div>
 

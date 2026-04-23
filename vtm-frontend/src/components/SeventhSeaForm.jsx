@@ -81,7 +81,7 @@ const HUBRISES = ALL_ARCANA.map(a => `${a.card} \u2014 ${a.hubris.name}: ${a.hub
 const BACKGROUND_CATALOG = SEVEN_SEA_BACKGROUNDS
 
 // ── Secret Societies (from imported data \u2014 all supplements) ──
-const SECRET_SOCIETIES = SEVEN_SEA_SECRET_SOCIETIES.map(s => ({ value: s.name, description: s.description, source: s.source }))
+const SECRET_SOCIETIES = SEVEN_SEA_SECRET_SOCIETIES.map(s => ({ value: s.name, description: s.description, hierarchy: s.hierarchy || null, joining: s.joining || null, source: s.source }))
 
 // ── Dueling Styles (from imported data \u2014 all supplements) ──
 const DUELING_STYLES = SEVEN_SEA_DUELING_STYLES
@@ -137,7 +137,7 @@ const INITIAL = {
   heroStories: '', backstory: '', notes: '', appearanceDesc: '', personalItems: '',
 }
 
-const TAB_KEYS = ['tabIdentity', 'tab7sTraits', 'tab7sSkills', 'tab7sAdvantages', 'tab7sSorcery', 'tab7sDueling', 'tab7sArcana', 'tab7sBackgrounds', 'tab7sStories', 'tab7sBelongings', 'tabBackstory', 'tabXpLog', 'tabRulesRef', 'tabDiceRoller']
+const TAB_KEYS = ['tabIdentity', 'tab7sTraits', 'tab7sSkills', 'tab7sAdvantages', 'tab7sSorcery', 'tab7sDueling', 'tab7sArcana', 'tab7sResources', 'tab7sBackgrounds', 'tab7sSecretSocieties', 'tab7sStories', 'tab7sBelongings', 'tabBackstory', 'tabXpLog', 'tabRulesRef', 'tabDiceRoller']
 
 const TRAIT_KEYS = ['traitBrawn', 'traitFinesse', 'traitResolve', 'traitWits7s', 'traitPanache']
 const TRAIT_LABEL = { traitBrawn: 'Brawn', traitFinesse: 'Finesse', traitResolve: 'Resolve', traitWits7s: 'Wits', traitPanache: 'Panache' }
@@ -538,10 +538,6 @@ export default function SeventhSeaForm() {
               </div>
             )}
             <div className="field-row">
-              <CatalogSelect id="secretSociety" name="demeanor" label={t('7sMembership')} value={fields.demeanor}
-                onChange={handleField} catalog={SECRET_SOCIETIES} placeholder="Search secret societies..." />
-            </div>
-            <div className="field-row">
               <div className="field">
                 <label>{t('type')}</label>
                 <div className="role-toggle" role="radiogroup">
@@ -828,7 +824,7 @@ export default function SeventhSeaForm() {
         </div>
       </div>
 
-      {/* \u2500\u2500 Arcana & Resources \u2500\u2500 */}
+      {/* \u2500\u2500 Arcana \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-6`} aria-labelledby={`tab-6`} hidden={tab !== 6}>
         <div className="form-section">
           <fieldset>
@@ -855,8 +851,14 @@ export default function SeventhSeaForm() {
               </div>
             )}
           </fieldset>
+        </div>
+      </div>
+
+      {/* ── Resources ── */}
+      <div role="tabpanel" id={`tabpanel-7`} aria-labelledby={`tab-7`} hidden={tab !== 7}>
+        <div className="form-section">
           <fieldset>
-            <legend>{t('7sResources')}</legend>
+            <legend>{t('tab7sResources')}</legend>
             <div className="rating-grid">
               <div className="ability-row">
                 {guidedMode ? (
@@ -901,7 +903,7 @@ export default function SeventhSeaForm() {
       </div>
 
       {/* \u2500\u2500 Backgrounds \u2500\u2500 */}
-      <div role="tabpanel" id={`tabpanel-7`} aria-labelledby={`tab-7`} hidden={tab !== 7}>
+      <div role="tabpanel" id={`tabpanel-8`} aria-labelledby={`tab-8`} hidden={tab !== 8}>
         <div className="form-section">
           <fieldset>
             <legend>{t('tab7sBackgrounds')}{guidedMode ? ` -- Backgrounds: ${backgrounds.length}/2` : ''}</legend>
@@ -1004,7 +1006,67 @@ export default function SeventhSeaForm() {
       </div>
 
       {/* \u2500\u2500 Stories (advancement system) \u2500\u2500 */}
-      <div role="tabpanel" id={`tabpanel-8`} aria-labelledby={`tab-8`} hidden={tab !== 8}>
+      {/* ── Secret Societies ── */}
+      <div role="tabpanel" id={`tabpanel-9`} aria-labelledby={`tab-9`} hidden={tab !== 9}>
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('tab7sSecretSocieties')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
+              Your Hero can join one Secret Society. Membership grants access to resources, allies, and missions — but also obligations and enemies.
+            </p>
+            <CatalogSelect id="secretSociety" name="demeanor" label="Select Society"
+              value={fields.demeanor} onChange={handleField}
+              catalog={SECRET_SOCIETIES} placeholder="Search secret societies..." />
+          </fieldset>
+
+          {/* Show selected society details */}
+          {fields.demeanor && (() => {
+            const sel = SECRET_SOCIETIES.find(s => s.value === fields.demeanor)
+            if (!sel) return null
+            return (
+              <fieldset style={{ background: 'var(--color-surface-raised)', borderRadius: 'var(--radius)', padding: 'var(--space-md)' }}>
+                <legend>{sel.value}</legend>
+                <p style={{ fontSize: '0.88rem', lineHeight: 1.6, marginBottom: 'var(--space-md)' }}>{sel.description}</p>
+                {sel.hierarchy && (
+                  <div style={{ marginBottom: 'var(--space-sm)' }}>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 'var(--space-xs)' }}>Hierarchy</div>
+                    <p style={{ fontSize: '0.85rem', lineHeight: 1.5 }}>{sel.hierarchy}</p>
+                  </div>
+                )}
+                {sel.joining && (
+                  <div style={{ marginBottom: 'var(--space-sm)' }}>
+                    <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 'var(--space-xs)' }}>How to Join</div>
+                    <p style={{ fontSize: '0.85rem', lineHeight: 1.5 }}>{sel.joining}</p>
+                  </div>
+                )}
+                {sel.source && (
+                  <p className="muted-hint muted-hint--xs" style={{ fontStyle: 'italic', marginTop: 'var(--space-sm)' }}>Source: {sel.source}</p>
+                )}
+              </fieldset>
+            )
+          })()}
+
+          {/* Reference: All Secret Societies */}
+          <details style={{ marginTop: 'var(--space-md)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>
+              All Secret Societies Reference ({SECRET_SOCIETIES.length})
+            </summary>
+            <div style={{ marginTop: 'var(--space-sm)' }}>
+              {SECRET_SOCIETIES.map(s => (
+                <div key={s.value} style={{ padding: 'var(--space-sm) 0', borderBottom: '1px solid var(--color-border)' }}>
+                  <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '2px' }}>{s.value}</div>
+                  <p className="muted-hint muted-hint--xs" style={{ marginBottom: '4px' }}>{s.description}</p>
+                  {s.hierarchy && <p className="muted-hint muted-hint--xs"><strong>Ranks:</strong> {s.hierarchy}</p>}
+                  {s.source && <p className="muted-hint muted-hint--xs" style={{ fontStyle: 'italic' }}>{s.source}</p>}
+                </div>
+              ))}
+            </div>
+          </details>
+        </div>
+      </div>
+
+      {/* ── Stories (advancement system) ── */}
+      <div role="tabpanel" id={`tabpanel-10`} aria-labelledby={`tab-10`} hidden={tab !== 10}>
         <div className="form-section">
           <fieldset>
             <legend>{t('tab7sStories')} ({parsedStories.length})</legend>
@@ -1090,7 +1152,7 @@ export default function SeventhSeaForm() {
       </div>
 
       {/* \u2500\u2500 Belongings \u2500\u2500 */}
-      <div role="tabpanel" id={`tabpanel-9`} aria-labelledby={`tab-9`} hidden={tab !== 9}>
+      <div role="tabpanel" id={`tabpanel-11`} aria-labelledby={`tab-11`} hidden={tab !== 11}>
         <div className="form-section">
           <fieldset>
             <legend>{t('7sBelongings')}</legend>
@@ -1108,7 +1170,7 @@ Coded journal of trade routes`} />
       </div>
 
       {/* \u2500\u2500 Backstory \u2500\u2500 */}
-      <div role="tabpanel" id={`tabpanel-10`} aria-labelledby={`tab-10`} hidden={tab !== 10}>
+      <div role="tabpanel" id={`tabpanel-12`} aria-labelledby={`tab-12`} hidden={tab !== 12}>
         <div className="form-section">
           <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
           <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
@@ -1117,7 +1179,7 @@ Coded journal of trade routes`} />
       </div>
 
       {/* \u2500\u2500 XP Log \u2500\u2500 */}
-      <div role="tabpanel" id={`tabpanel-11`} aria-labelledby={`tab-11`} hidden={tab !== 11}>
+      <div role="tabpanel" id={`tabpanel-13`} aria-labelledby={`tab-13`} hidden={tab !== 13}>
         <XpLogSection splat="seventh-sea" xpLog={xpLog}
           onAdd={async (entry) => { const res = await addXpLogEntry(characterId, entry); setXpLog(prev => [res.data, ...prev]) }}
           onRemove={async (id) => { await removeXpLogEntry(characterId, id); setXpLog(prev => prev.filter(e => e.id !== id)) }}
@@ -1125,12 +1187,12 @@ Coded journal of trade routes`} />
       </div>
 
       {/* \u2500\u2500 Rules Reference \u2500\u2500 */}
-      <div role="tabpanel" id={`tabpanel-12`} aria-labelledby={`tab-12`} hidden={tab !== 12}>
+      <div role="tabpanel" id={`tabpanel-14`} aria-labelledby={`tab-14`} hidden={tab !== 14}>
         <RulesReferenceTab rules={SEVEN_SEA_RULES} title="7th Sea Rules Reference" />
       </div>
 
       {/* \u2500\u2500 Dice Roller \u2500\u2500 */}
-      <div role="tabpanel" id={`tabpanel-13`} aria-labelledby={`tab-13`} hidden={tab !== 13}>
+      <div role="tabpanel" id={`tabpanel-15`} aria-labelledby={`tab-15`} hidden={tab !== 15}>
         <SeventhSeaDiceRoller />
       </div>
 

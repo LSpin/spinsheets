@@ -18,7 +18,7 @@ import {
   BLADES_PLAYBOOKS, BLADES_PLAYBOOK_CATALOG, BLADES_TRAUMA_CONDITIONS, BLADES_STANDARD_ITEMS,
 } from '../data/bladesPlaybooks'
 
-const ALL_TAB_KEYS = ['tabIdentity', 'tabBladesActions', 'tabBladesAbilities', 'tabBladesStressHarm', 'tabBladesCoinStash', 'tabBladesItems', 'tabBladesContacts', 'tabBladesDicePools', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
+const ALL_TAB_KEYS = ['tabIdentity', 'tabBladesActions', 'tabBladesAbilities', 'tabBladesStressHarm', 'tabBladesLoadout', 'tabBladesProjects', 'tabBladesCoinStash', 'tabBladesContacts', 'tabBladesDicePools', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
 const ST_ONLY_TABS = new Set()
 
 const BLADES_DICE_POOL_RULES = [
@@ -597,9 +597,69 @@ export default function BladesForm() {
               </label>
             </div>
           </fieldset>
-          {/* Long-term Project Clocks */}
+        </div>
+      </div>
+
+      {/* ── Loadout ── */}
+      <div hidden={tab !== 'tabBladesLoadout'} role="tabpanel" aria-labelledby="tabBladesLoadout">
+        <div className="form-section">
           <fieldset>
-            <legend>Long-term Project Clocks</legend>
+            <legend>{t('bladesLoad')}</legend>
+            <div style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
+              {LOAD_OPTIONS.map(opt => (
+                <label key={opt.value} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
+                  <input type="radio" name="bladesLoad" checked={fields.bladesLoad === opt.value}
+                    onChange={() => handleField('bladesLoad', opt.value)} />
+                  {opt.label} ({opt.value})
+                </label>
+              ))}
+            </div>
+            <div role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '6px', background: 'rgba(52,152,219,0.05)' }}>
+              <div style={{ fontSize: '0.9rem', fontWeight: 600 }}>
+                {t('bladesCurrentLoad')}: <strong>{currentLoad}</strong> / {fields.bladesLoad || '?'}
+                {fields.bladesLoad > 0 && (
+                  <span style={{ marginLeft: 'var(--space-sm)', color: currentLoad > fields.bladesLoad ? 'var(--color-danger)' : 'var(--color-text-muted)' }}>
+                    ({fields.bladesLoad - currentLoad >= 0 ? `${fields.bladesLoad - currentLoad} slots remaining` : `${currentLoad - fields.bladesLoad} over capacity`})
+                  </span>
+                )}
+              </div>
+              {fields.bladesLoad > 0 && currentLoad > fields.bladesLoad && (
+                <div style={{ color: 'var(--color-danger)', fontWeight: 600, fontSize: '0.85rem', marginTop: '4px' }}>{t('bladesOverEncumbered')}</div>
+              )}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>{t('bladesStandardItems')}</legend>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+              {filteredStandardItems.map(item => (
+                <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: '0.85rem' }}>
+                  <input type="checkbox" checked={selectedItems.includes(item.name)} onChange={() => toggleItem(item.name)} />
+                  <span><strong>{item.name}</strong> ({item.load || 1} load){item.description ? ` - ${item.description}` : ''}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          {selectedPlaybook?.items?.length > 0 && (
+            <fieldset>
+              <legend>{fields.bladesPlaybook} {t('bladesItemsSuffix')}</legend>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+                {selectedPlaybook?.items?.map(item => (
+                  <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: '0.85rem' }}>
+                    <input type="checkbox" checked={selectedItems.includes(item.name)} onChange={() => toggleItem(item.name)} />
+                    <span><strong>{item.name}</strong> ({item.load || 1} load){item.description ? ` - ${item.description}` : ''}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          )}
+        </div>
+      </div>
+
+      {/* ── Projects ── */}
+      <div hidden={tab !== 'tabBladesProjects'} role="tabpanel" aria-labelledby="tabBladesProjects">
+        <div className="form-section">
+          <fieldset>
+            <legend>{t('tabBladesProjects')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Track long-term projects during downtime. Roll a relevant action to tick segments.
             </p>
@@ -752,61 +812,6 @@ export default function BladesForm() {
                   <label>{t('bladesEdge')}</label>
                   <input type="number" min={0} value={fields.bladesEdge || 0} onChange={e => handleField('bladesEdge', parseInt(e.target.value) || 0)} />
                 </div>
-              </div>
-            </fieldset>
-          )}
-        </div>
-      </div>
-
-      {/* ── Items & Load ── */}
-      <div hidden={tab !== 'tabBladesItems'} role="tabpanel" aria-labelledby="tabBladesItems">
-        <div className="form-section">
-          <fieldset>
-            <legend>{t('bladesLoad')}</legend>
-            <div style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
-              {LOAD_OPTIONS.map(opt => (
-                <label key={opt.value} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
-                  <input type="radio" name="bladesLoad" checked={fields.bladesLoad === opt.value}
-                    onChange={() => handleField('bladesLoad', opt.value)} />
-                  {opt.label} ({opt.value})
-                </label>
-              ))}
-            </div>
-            <div role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '6px', background: 'rgba(52,152,219,0.05)' }}>
-              <div style={{ fontSize: '0.9rem', fontWeight: 600 }}>
-                {t('bladesCurrentLoad')}: <strong>{currentLoad}</strong> / {fields.bladesLoad || '?'}
-                {fields.bladesLoad > 0 && (
-                  <span style={{ marginLeft: 'var(--space-sm)', color: currentLoad > fields.bladesLoad ? 'var(--color-danger)' : 'var(--color-text-muted)' }}>
-                    ({fields.bladesLoad - currentLoad >= 0 ? `${fields.bladesLoad - currentLoad} slots remaining` : `${currentLoad - fields.bladesLoad} over capacity`})
-                  </span>
-                )}
-              </div>
-              {fields.bladesLoad > 0 && currentLoad > fields.bladesLoad && (
-                <div style={{ color: 'var(--color-danger)', fontWeight: 600, fontSize: '0.85rem', marginTop: '4px' }}>{t('bladesOverEncumbered')}</div>
-              )}
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend>{t('bladesStandardItems')}</legend>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-              {filteredStandardItems.map(item => (
-                <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: '0.85rem' }}>
-                  <input type="checkbox" checked={selectedItems.includes(item.name)} onChange={() => toggleItem(item.name)} />
-                  <span><strong>{item.name}</strong> ({item.load || 1} load){item.description ? ` - ${item.description}` : ''}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
-          {selectedPlaybook?.items?.length > 0 && (
-            <fieldset>
-              <legend>{fields.bladesPlaybook} {t('bladesItemsSuffix')}</legend>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-                {selectedPlaybook?.items?.map(item => (
-                  <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: '0.85rem' }}>
-                    <input type="checkbox" checked={selectedItems.includes(item.name)} onChange={() => toggleItem(item.name)} />
-                    <span><strong>{item.name}</strong> ({item.load || 1} load){item.description ? ` - ${item.description}` : ''}</span>
-                  </label>
-                ))}
               </div>
             </fieldset>
           )}
