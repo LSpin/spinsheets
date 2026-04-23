@@ -80,8 +80,8 @@
   /* ── Splat grid: single column ── */
   .splat-grid { grid-template-columns: 1fr !important; }
 
-  /* ── Fieldsets / form sections: no overflow ── */
-  fieldset, .form-section { overflow: hidden; }
+  /* ── Fieldsets / form sections: clip horizontal overflow only ── */
+  fieldset, .form-section { overflow-x: hidden; overflow-y: visible; }
 
   /* ── Tables as stacked cards ── */
   [style*="grid-template-columns: '1fr"] {
