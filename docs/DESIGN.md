@@ -110,7 +110,7 @@ Browser
 | System | Splat Values | Theme | Forms | NPC Templates |
 |--------|-------------|-------|-------|---------------|
 | World of Darkness | VAMPIRE, WEREWOLF, MAGE, HUNTER, WRAITH, CHANGELING, DEMON, BSD, MORTAL, + variants | wod (red) | 20 | 122 |
-| 7th Sea 2e | SEVENTH_SEA, SEVENTH_SEA_SHIP | 7thsea (gold) | 3 | 35 |
+| 7th Sea 2e | SEVENTH_SEA, SEVENTH_SEA_SHIP | 7thsea (gold) | 3 | 74 |
 | L5R 4e | L5R, L5R_ANTAGONIST | l5r (emerald) | 2 | 37 |
 | L5R 5e (FFG) | L5R_5E | l5r (emerald) | 1 | 0 |
 | Blades in the Dark | BLADES, BLADES_CREW, BLADES_ANTAGONIST | blades (crimson) | 3 | 23 |
@@ -122,6 +122,13 @@ Browser
 ### Blades in the Dark
 
 Blades uses a dedicated **Clock Manager** at `/blades/clocks` (clocks are not embedded in character or crew sheets). Character sheets include a **Coin & Stash** tab (4 coin pips for spending money, 40 stash pips with retirement at 40/40). Crew sheets include a **Coin & Vault** tab (liquid coin number + 8-segment vault track). The Rules Reference tab includes an **XP & Advancement** guide.
+
+**Crew sheet additions:**
+- **Faction Tracker** — all 26 Doskvol factions rendered with a -3 to +3 dot scale for reputation tracking
+- **Turf Tracker** — named claimable territories displayed as a district grid; claimed turf highlighted
+- **Vault auto-scaling** — the Vault upgrade in the upgrades list automatically increases vault capacity when purchased
+- **Long-term project clocks** — inline SVG pie-segment clocks on the crew sheet (4, 6, 8, or 12 segments), separate from the Storyteller Clock Manager
+- **Devil's Bargain reminder** — inline note shown alongside action roll mechanics to prompt offers at the table
 
 ### 7th Sea Data and Ship
 
@@ -271,9 +278,11 @@ export default function CharacterForm() {
 #### Hamburger Navigation Menu
 
 - **Breakpoint:** Appears at `max-width: 640px` — below this width the full navigation bar collapses into a hamburger icon
+- **Position:** Icon is left-aligned in the header (previously right-aligned)
 - **Animation:** Three-line icon animates to an X when open (CSS transforms on the spans)
 - **Dismissal:** Closes on Escape key press, click/tap outside the menu, or on navigation (route change)
 - **Accessibility:** Uses `aria-expanded` on the toggle button, `aria-label="Menu"`, focus trapped while open
+- **Dropdown clipping fix:** Menu overlay uses `position: fixed` with a high `z-index` to prevent clipping on sheets with `overflow: hidden` containers
 
 #### System Selector Carousel
 
@@ -429,6 +438,7 @@ Push to main
 ### For Players
 - Create characters across 9 game systems
 - **Auto-calculations and warnings** across all sheets — clan curse warnings (Vampire), sphere cap enforcement and Paradox warnings (Mage), form stat modifiers (Werewolf), race ASI auto-apply and HP/AC suggestions (D&D/UESTRPG), BTM/humanity/cyberpsychosis warnings (Cyberpunk), stress/load tracking (Blades), national trait auto-apply, background auto-apply with guided mode budgets, sorcery auto-add, and wound tracking (7th Sea), insight rank auto-calc (L5R), plus Banality/Corpus/Torment/Conviction/Dharma thresholds for remaining WoD splats
+- **View mode** — template selector dropdowns (NPC load, playbook select, etc.) are hidden when a sheet is in read-only view mode to reduce visual noise
 - Searchable catalogs for powers, equipment, spells, cyberware — with source book filters where applicable
 - Built-in dice rollers matching each system's mechanics
 - XP/IP tracking with proper cost calculations

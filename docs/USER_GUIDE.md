@@ -35,7 +35,7 @@ As a Player you can:
 
 If you run games, ask your group's admin to promote your account to **Storyteller**. This role gives you additional tools:
 
-- **NPC Generators** — Access 400+ premade antagonist templates across all systems
+- **NPC Generators** — Access 460+ premade antagonist templates across all systems
 - **Chronicle Management** — Create and manage game campaigns, invite players, track sessions
 - **Player Sheet Access** — View and edit your players' character sheets
 - **Clock Manager** — A dedicated Storyteller tool for Blades in the Dark clocks (not on character sheets)
@@ -97,8 +97,8 @@ Catalogs are available for:
 Character sheets include built-in auto-calculations that help enforce game rules and alert you to important thresholds:
 
 - **Vampire (all editions):** Clan curse warnings (e.g., Nosferatu Appearance locked to 0, Malkavian derangement reminder), blood pool max and low blood warnings
-- **Mage (M20 + Victorian):** Sphere ratings capped by Arete, Paradox threshold warnings at 5+, 10+, and 15+
-- **Werewolf (all variants):** Form stat modifiers auto-calculated (Crinos, Hispo, etc.), Rage/Gnosis/Willpower starting values locked to breed/auspice/tribe
+- **Mage (M20 + Victorian):** Sphere ratings capped by Arete, Paradox threshold warnings at 5+, 10+, and 15+; Resonance type reference panel, rote catalog filterable by sphere, paradigm casting notes with Arete milestone hints
+- **Werewolf (all variants):** Form stat modifiers auto-calculated (Crinos, Hispo, etc.), Rage/Gnosis/Willpower starting values locked to breed/auspice/tribe; Renown rank thresholds with progress tracking, Gift activation quick-reference panel, Frenzy difficulty chart
 - **D&D + UESTRPG:** Race ability score increases auto-applied, HP suggestion based on class/level, AC baseline calculation
 - **Cyberpunk 2020:** BTM/run/leap/lift derived stats displayed, humanity loss and cyberpsychosis warnings, wound state penalties shown
 - **Blades in the Dark:** Stress warnings at 8 and 9, load capacity with remaining slots displayed
@@ -159,7 +159,7 @@ As a Storyteller, you have access to NPC/Antagonist generators for every system:
 
 **Premade templates include:**
 - **WoD:** 122 NPCs (Mortals, Vampires, Werewolves, Mages, Hunters, Wraiths, Changelings, Demons, Ghouls, Familiars, Totems)
-- **7th Sea:** 35 NPCs (Villains, Heroes, Henchmen, Brute Squads, Monsters)
+- **7th Sea:** 74 NPCs (54 villain-side + 20 hero templates, all supplement regions)
 - **L5R:** 37 NPCs (Samurai by clan, Bandits, Oni, Maho-Tsukai, Political antagonists)
 - **Blades:** 23 NPCs (Street thugs through Lord Scurlock)
 - **D&D:** 120 Monsters (CR 0 through CR 24)
@@ -237,14 +237,20 @@ As a Storyteller:
 
 **Features:** 11 Playbooks, 6 Crew Types, Deep Cuts toggle, dedicated Clock Manager (`/blades/clocks`), Stress/Trauma tracking
 **Character sheets:** Include a **Coin & Stash** tab (4 coin pips for spending money, 40 stash pips — retirement triggers at 40/40)
-**Crew sheets:** Include a **Coin & Vault** tab (liquid coin number + 8-segment vault track)
+**Crew sheets:** Include a **Coin & Vault** tab (liquid coin number + 8-segment vault track). Crew sheets also include:
+- **Faction Tracker** — all 26 Doskvol factions with a -3 to +3 reputation scale
+- **Turf Tracker** — claimable territory map with named districts
+- **Vault upgrades** — purchasing a Vault upgrade automatically increases stash capacity
+- **Long-term project clocks** — rendered as SVG pie segments directly on the crew sheet
+- **Devil's Bargain reminder** — inline prompt visible during action rolls
+
 **Rules Reference:** Includes an **XP & Advancement** guide
 **Dice system:** d6 pool
 **XP tracking:** Playbook XP pips
 
 ### D&D 5th Edition
 
-**Features:** 13 Classes, 9 Races, 233 Spells, 42 Feats, 120 Monster templates, Equipment catalog
+**Features:** 13 Classes, 9 Races, 233 Spells, 42 Feats, 120 Monster templates, Equipment catalog, **Exhaustion tracker** (levels 0-6 with cumulative penalty display)
 **Dice system:** d20
 **XP tracking:** Level-based with optional XP log
 
@@ -256,7 +262,7 @@ As a Storyteller:
 
 ### Cyberpunk 2020
 
-**Features:** 10 Roles, 60+ Skills, 150+ Cyberware, 58 Weapons, 38 Vehicles, Lifepath generator, Humanity tracking
+**Features:** 10 Roles, 60+ Skills, 150+ Cyberware, 58 Weapons, 38 Vehicles, Lifepath generator, Humanity tracking, **Humanity remaining counter** with visual progress bar, **IP cost calculator** for advancement planning
 **Dice system:** d10 (STAT + Skill + d10)
 **XP tracking:** Improvement Points (IP)
 
@@ -363,7 +369,7 @@ On the homepage, the game system cards display as a carousel on mobile. Use the 
 
 ### Using the Hamburger Menu
 
-On screens narrower than 640px, the top navigation bar collapses into a hamburger icon (three horizontal lines). Tap it to open the full navigation menu. The menu closes when you:
+On screens narrower than 640px, the top navigation bar collapses into a hamburger icon (three horizontal lines) positioned on the left side of the header. Tap it to open the full navigation menu. The menu closes when you:
 - Tap outside the menu
 - Press **Escape** on a connected keyboard
 - Select any navigation link

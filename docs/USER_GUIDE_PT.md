@@ -35,7 +35,7 @@ Como Jogador você pode:
 
 Se você conduz jogos, peça ao administrador do seu grupo para promover sua conta para **Narrador**. Essa role oferece ferramentas adicionais:
 
-- **Geradores de NPC** — Acesse mais de 400 templates de antagonistas prontos em todos os sistemas
+- **Geradores de NPC** — Acesse mais de 460 templates de antagonistas prontos em todos os sistemas
 - **Gerenciamento de Crônicas** — Crie e gerencie campanhas de jogo, convide jogadores, registre sessões
 - **Acesso às Fichas dos Jogadores** — Visualize e edite as fichas dos seus jogadores
 - **Gerenciador de Relógios** — Ferramenta dedicada do Narrador para relógios de Blades in the Dark (não nas fichas de personagem)
@@ -97,8 +97,8 @@ Catálogos estão disponíveis para:
 As fichas de personagem incluem auto-calculos integrados que ajudam a aplicar regras do jogo e alertar sobre limites importantes:
 
 - **Vampire (todas as edicoes):** Avisos de maldicao de cla (ex.: Nosferatu com Aparencia travada em 0, lembrete de perturbacao Malkaviana), avisos de pool de sangue maximo e baixo
-- **Mage (M20 + Victoriana):** Esferas limitadas por Arete, avisos de limite de Paradoxo em 5+, 10+ e 15+
-- **Werewolf (todas as variantes):** Modificadores de stat por forma auto-calculados (Crinos, Hispo, etc.), Furia/Gnose/Forca de Vontade iniciais travados em raca/auspcio/tribo
+- **Mage (M20 + Victoriana):** Esferas limitadas por Arete, avisos de limite de Paradoxo em 5+, 10+ e 15+; painel de referência de tipo de Ressonância, catálogo de rotes filtrável por esfera, notas de conjuração por paradigma com dicas de marcos de Arete
+- **Werewolf (todas as variantes):** Modificadores de stat por forma auto-calculados (Crinos, Hispo, etc.), Furia/Gnose/Forca de Vontade iniciais travados em raca/auspcio/tribo; limiares de rank de Renown com rastreamento de progresso, painel de referência rápida de ativação de Dons, tabela de dificuldade de Frenesi
 - **D&D + UESTRPG:** Aumentos de atributo racial auto-aplicados, sugestao de HP baseada em classe/nivel, calculo base de AC
 - **Cyberpunk 2020:** Stats derivados BTM/corrida/salto/carga exibidos, avisos de perda de humanidade e cyberpsicose, penalidades de estado de ferimento mostradas
 - **Blades in the Dark:** Avisos de estresse em 8 e 9, capacidade de carga com slots restantes exibida
@@ -159,7 +159,7 @@ Como Narrador, você tem acesso a geradores de NPC/Antagonista para cada sistema
 
 **Templates prontos incluem:**
 - **WoD:** 122 NPCs (Mortais, Vampiros, Lobisomens, Magos, Caçadores, Wraiths, Changelings, Demônios, Carniçais, Familiares, Totens)
-- **7th Sea:** 35 NPCs (Vilões, Heróis, Capangas, Esquadrões de Brutos, Monstros)
+- **7th Sea:** 74 NPCs (54 do lado dos vilões + 20 templates de heróis, todas as regiões dos suplementos)
 - **L5R:** 37 NPCs (Samurais por clã, Bandidos, Oni, Maho-Tsukai, Antagonistas Políticos)
 - **Blades:** 23 NPCs (Capangas de rua até Lord Scurlock)
 - **D&D:** 120 Monstros (CR 0 até CR 24)
@@ -237,14 +237,20 @@ Como Narrador:
 
 **Funcionalidades:** 11 Playbooks, 6 Tipos de Crew, toggle de Deep Cuts, Gerenciador de Relógios dedicado (`/blades/clocks`), rastreamento de Estresse/Trauma
 **Fichas de personagem:** Incluem uma aba **Coin & Stash** (4 pips de coin para dinheiro disponível, 40 pips de stash — aposentadoria ao atingir 40/40)
-**Fichas de crew:** Incluem uma aba **Coin & Vault** (número de coin líquido + trilha de vault com 8 segmentos)
+**Fichas de crew:** Incluem uma aba **Coin & Vault** (número de coin líquido + trilha de vault com 8 segmentos). As fichas de crew também incluem:
+- **Rastreador de Fações** — todas as 26 facções de Doskvol com escala de reputação de -3 a +3
+- **Rastreador de Territórios** — mapa de territórios disputáveis com distritos nomeados
+- **Upgrades de Vault** — comprar um upgrade de Vault aumenta automaticamente a capacidade de armazenamento
+- **Relógios de projetos de longo prazo** — renderizados como segmentos de pizza SVG diretamente na ficha de crew
+- **Lembrete de Barganho do Diabo** — prompt inline visível durante rolagens de ação
+
 **Referência de Regras:** Inclui um guia de **XP & Avanço**
 **Sistema de dados:** pool de d6
 **Rastreamento de XP:** Pips de XP do Playbook
 
 ### D&D 5a Edição
 
-**Funcionalidades:** 13 Classes, 9 Raças, 233 Magias, 42 Talentos, 120 templates de Monstros, Catálogo de Equipamento
+**Funcionalidades:** 13 Classes, 9 Raças, 233 Magias, 42 Talentos, 120 templates de Monstros, Catálogo de Equipamento, **Rastreador de Exaustão** (níveis 0-6 com exibição cumulativa de penalidades)
 **Sistema de dados:** d20
 **Rastreamento de XP:** Baseado em nível com log de XP opcional
 
@@ -256,7 +262,7 @@ Como Narrador:
 
 ### Cyberpunk 2020
 
-**Funcionalidades:** 10 Roles, 60+ Habilidades, 150+ Cyberware, 58 Armas, 38 Veículos, gerador de Lifepath, rastreamento de Humanidade
+**Funcionalidades:** 10 Roles, 60+ Habilidades, 150+ Cyberware, 58 Armas, 38 Veículos, gerador de Lifepath, rastreamento de Humanidade, **contador de Humanidade restante** com barra de progresso visual, **calculadora de custo de IP** para planejamento de avanço
 **Sistema de dados:** d10 (STAT + Habilidade + d10)
 **Rastreamento de XP:** Pontos de Aprimoramento (IP)
 
@@ -363,7 +369,7 @@ Na página inicial, os cards de sistema de jogo são exibidos como um carrossel 
 
 ### Usando o Menu Hamburger
 
-Em telas com menos de 640px de largura, a barra de navegação superior colapsa em um ícone hamburger (três linhas horizontais). Toque nele para abrir o menu de navegação completo. O menu fecha quando você:
+Em telas com menos de 640px de largura, a barra de navegação superior colapsa em um ícone hamburger (três linhas horizontais) posicionado no lado esquerdo do header. Toque nele para abrir o menu de navegação completo. O menu fecha quando você:
 - Toca fora do menu
 - Pressiona **Escape** em um teclado conectado
 - Seleciona qualquer link de navegação

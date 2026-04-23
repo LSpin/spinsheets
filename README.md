@@ -15,28 +15,29 @@ A web app for creating, managing, and sharing tabletop RPG character sheets. Bui
 | System | Sheets | NPC Templates |
 |--------|--------|---------------|
 | World of Darkness (V20, W20, M20) | 20 | 122 |
-| 7th Sea 2nd Edition | 3 | 35 |
+| 7th Sea 2nd Edition | 3 | 74 |
 | Legend of the Five Rings 4e + 5e | 3 | 37 |
 | Blades in the Dark + Deep Cuts | 3 | 23 |
 | D&D 5th Edition (SRD) | 2 | 120 |
 | UESTRPG (Elder Scrolls) | 2 | 34 |
 | Cyberpunk 2020 | 2 | 25 |
 | ASOIAF RPG | 2 | 27 |
-| **Total** | **37** | **423** |
+| **Total** | **37** | **462** |
 
 ### Features
 
 - **37 character sheets** — each tailored to its system's mechanics
-- **Auto-calculations** — clan curse warnings, blood pool alerts, form stat modifiers, race ASI auto-apply, insight rank detection, 7th Sea background auto-apply with guided mode budgets, and more across all sheets
+- **Auto-calculations** — clan curse warnings, blood pool alerts, form stat modifiers, race ASI auto-apply, insight rank detection, 7th Sea background auto-apply with guided mode budgets, exhaustion tracking (D&D), resonance/rote filtering (Mage), renown rank thresholds (Werewolf), humanity counter with IP cost calculator (Cyberpunk), and more across all sheets
 - **Searchable catalogs** — Disciplines, Gifts, Spells, Cyberware, Feats, Equipment with descriptions and source book filters
 - **Dice rollers** — d10 pools, d6 pools, d20, roll-and-keep, d10 with fumble/critical
 - **Chronicle management** — create campaigns, invite players, track sessions
-- **350+ NPC templates** — premade antagonists loadable in one selection
+- **460+ NPC templates** — premade antagonists loadable in one selection
 - **XP tracking** — per-system cost calculations and advancement logs
 - **Export PDF** — print any sheet with selectable sections
 - **Bilingual** — English and Portuguese (800+ translation keys)
 - **Accessible** — WCAG 2.1 AA compliant (~95%), screen reader support, keyboard navigation, aria-live regions on all dynamic warnings
-- **Mobile-friendly** — hamburger nav, collapsible tab carousel, sticky save bar, PWA installable
+- **Mobile-friendly** — hamburger nav (left-aligned) with fixed dropdown clipping, collapsible tab carousel, sticky save bar, PWA installable
+- **Blades crew sheet** — Faction Tracker (26 Doskvol factions, -3 to +3 scale), Turf Tracker (claimable territories), Vault capacity auto-scales with upgrades, long-term project clocks with SVG pie segments, Devil's Bargain reminder
 
 ---
 

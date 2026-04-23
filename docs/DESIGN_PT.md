@@ -110,7 +110,7 @@ Browser
 | Sistema | Valores de Splat | Tema | Formulários | Templates de NPC |
 |---------|-----------------|------|-------------|------------------|
 | World of Darkness | VAMPIRE, WEREWOLF, MAGE, HUNTER, WRAITH, CHANGELING, DEMON, BSD, MORTAL, + variantes | wod (vermelho) | 20 | 122 |
-| 7th Sea 2e | SEVENTH_SEA, SEVENTH_SEA_SHIP | 7thsea (dourado) | 3 | 35 |
+| 7th Sea 2e | SEVENTH_SEA, SEVENTH_SEA_SHIP | 7thsea (dourado) | 3 | 74 |
 | L5R 4e | L5R, L5R_ANTAGONIST | l5r (esmeralda) | 2 | 37 |
 | L5R 5e (FFG) | L5R_5E | l5r (esmeralda) | 1 | 0 |
 | Blades in the Dark | BLADES, BLADES_CREW, BLADES_ANTAGONIST | blades (carmesim) | 3 | 23 |
@@ -122,6 +122,13 @@ Browser
 ### Blades in the Dark
 
 Blades utiliza um **Gerenciador de Relógios** dedicado em `/blades/clocks` (relógios não estão embutidos nas fichas de personagem ou crew). Fichas de personagem incluem uma aba **Coin & Stash** (4 pips de coin para dinheiro disponível, 40 pips de stash com aposentadoria em 40/40). Fichas de crew incluem uma aba **Coin & Vault** (número de coin líquido + trilha de vault com 8 segmentos). A aba Referência de Regras inclui um guia de **XP & Avanço**.
+
+**Adições à ficha de crew:**
+- **Rastreador de Fações** — todas as 26 facções de Doskvol renderizadas com escala de pontos de -3 a +3 para rastreamento de reputação
+- **Rastreador de Territórios** — territórios disputáveis nomeados exibidos como grade de distritos; territórios conquistados destacados
+- **Auto-escalonamento do Vault** — o upgrade de Vault na lista de upgrades aumenta automaticamente a capacidade do vault quando adquirido
+- **Relógios de projetos de longo prazo** — relógios SVG em formato de pizza na ficha de crew (4, 6, 8 ou 12 segmentos), separados do Gerenciador de Relógios do Narrador
+- **Lembrete de Barganho do Diabo** — nota inline exibida junto às mecânicas de rolagem de ação para sugerir ofertas na mesa
 
 ### Dados e Navio 7th Sea
 
@@ -271,9 +278,11 @@ export default function CharacterForm() {
 #### Menu Hamburger de Navegação
 
 - **Breakpoint:** Aparece em `max-width: 640px` — abaixo desta largura a barra de navegação completa colapsa em um ícone hamburger
+- **Posição:** Ícone alinhado à esquerda no header (anteriormente à direita)
 - **Animação:** Ícone de três linhas anima para um X quando aberto (CSS transforms nos spans)
 - **Fechamento:** Fecha ao pressionar Escape, clicar/tocar fora do menu, ou ao navegar (mudança de rota)
 - **Acessibilidade:** Usa `aria-expanded` no botão de toggle, `aria-label="Menu"`, foco capturado enquanto aberto
+- **Correção de corte do dropdown:** O overlay do menu usa `position: fixed` com `z-index` elevado para evitar corte em fichas com containers `overflow: hidden`
 
 #### Carrossel de Seleção de Sistema
 
@@ -429,6 +438,7 @@ Push to main
 ### Para Jogadores
 - Criar personagens em 9 sistemas de jogo
 - **Auto-calculos e avisos** em todas as fichas — avisos de maldicao de cla (Vampire), limitacao de esferas e avisos de Paradoxo (Mage), modificadores de stat por forma (Werewolf), aumento de atributo racial auto-aplicado e sugestoes de HP/AC (D&D/UESTRPG), avisos de BTM/humanidade/cyberpsicose (Cyberpunk), rastreamento de estresse/carga (Blades), aplicacao automatica de tracos nacionais, auto-aplicacao de antecedentes com orcamentos no modo guiado, adicao rapida de feiticaria e rastreamento de ferimentos (7th Sea), auto-calculo de rank de Insight (L5R), alem de limites de Banalidade/Corpus/Tormento/Conviccao/Dharma para os demais splats WoD
+- **Modo de visualização** — dropdowns de seleção de template (carregamento de NPC, seleção de playbook, etc.) são ocultados quando uma ficha está em modo somente leitura para reduzir ruído visual
 - Catalogos pesquisaveis para poderes, equipamentos, magias, cyberware — com filtros de livro-fonte quando aplicavel
 - Roladores de dados integrados correspondentes a mecanica de cada sistema
 - Rastreamento de XP/IP com calculos de custo adequados
