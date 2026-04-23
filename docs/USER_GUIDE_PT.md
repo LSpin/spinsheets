@@ -98,7 +98,7 @@ As fichas de personagem incluem auto-calculos integrados que ajudam a aplicar re
 
 - **Vampire (todas as edicoes):** Avisos de maldicao de cla (ex.: Nosferatu com Aparencia travada em 0, lembrete de perturbacao Malkaviana), avisos de pool de sangue maximo e baixo
 - **Mage (M20 + Victoriana):** Esferas limitadas por Arete, avisos de limite de Paradoxo em 5+, 10+ e 15+; painel de referência de tipo de Ressonância, catálogo de rotes filtrável por esfera, notas de conjuração por paradigma com dicas de marcos de Arete
-- **Werewolf (todas as variantes):** Modificadores de stat por forma auto-calculados (Crinos, Hispo, etc.), Furia/Gnose/Forca de Vontade iniciais travados em raca/auspcio/tribo; limiares de rank de Renown com rastreamento de progresso, painel de referência rápida de ativação de Dons, tabela de dificuldade de Frenesi
+- **Werewolf (todas as variantes):** Modificadores de stat por forma auto-calculados (Crinos, Hispo, etc.), Furia/Gnose/Forca de Vontade iniciais travados em raca/auspcio/tribo; limiares de rank de Renown com rastreamento de progresso, painel de referência rápida de ativação de Dons, tabela de dificuldade de Frenesi. Dons e Ritos agora estao em abas separadas para facilitar a navegacao
 - **D&D + UESTRPG:** Aumentos de atributo racial auto-aplicados, sugestao de HP baseada em classe/nivel, calculo base de AC
 - **Cyberpunk 2020:** Stats derivados BTM/corrida/salto/carga exibidos, avisos de perda de humanidade e cyberpsicose, penalidades de estado de ferimento mostradas
 - **Blades in the Dark:** Avisos de estresse em 8 e 9, capacidade de carga com slots restantes exibida
@@ -214,7 +214,9 @@ Como Narrador:
 ### 7th Sea (2a Edicao)
 
 **Funcionalidades:** Fichas de Heroi e Vilao, Construtor de Navio (ficha independente), 8 Feiticarias, Estilos de Duelo, aplicacao automatica de tracos nacionais, auto-aplicacao de antecedentes com orcamentos no modo guiado, botao de adicao rapida de feiticaria, rastreador de ferimentos, calculos de recompensa de historia
-**Escopo de dados:** 37 nacoes, 235+ vantagens, 161 antecedentes, 33 estilos de duelo, 26 sociedades secretas, 44 cartas de arcana — provenientes de todos os 12 suplementos. Filtros de livro-fonte em todos os catalogos.
+**Abas (ficha de Heroi, 16 no total):** Identidade, Nacao & Antecedente, Habilidades, Vantagens, Feiticaria, Duelo, Arcana (virtude/hybris), Recursos (PV/riqueza/ferimentos), Sociedades Secretas, Crew, Navio, Backstory, Log de XP, Rolador de Dados, Referencia de Regras, Notas
+**Aba Sociedades Secretas:** Navegue pelas 26 sociedades, registre rank na hierarquia e metodo de entrada — baseado no livro de Sociedades Secretas
+**Escopo de dados:** 37 nacoes, 235+ vantagens, 161 antecedentes, 33 estilos de duelo, 26 sociedades secretas, 44 cartas de arcana — provenientes de todos os 13 suplementos (adicionado livro de Sociedades Secretas). Filtros de livro-fonte em todos os catalogos.
 **Construtor de Navio:** 15 origens de navio, 12 antecedentes de navio
 **Formulario de Vilao:** Vantagens completas, estilos de duelo, rastreamento de esquemas, arcana corretos
 **Sistema de dados:** conjuntos de d10 (Raises)
@@ -236,6 +238,7 @@ Como Narrador:
 ### Blades in the Dark
 
 **Funcionalidades:** 11 Playbooks, 6 Tipos de Crew, toggle de Deep Cuts, Gerenciador de Relógios dedicado (`/blades/clocks`), rastreamento de Estresse/Trauma
+**Reorganizacao de abas:** A aba combinada de estresse/carga/projetos foi dividida em tres abas dedicadas — **Stress & Harm** (pips de estresse, trauma, ferimentos), **Loadout** (selecao de itens e capacidade de carga), e **Projects** (relogios de projetos de longo prazo)
 **Fichas de personagem:** Incluem uma aba **Coin & Stash** (4 pips de coin para dinheiro disponível, 40 pips de stash — aposentadoria ao atingir 40/40)
 **Fichas de crew:** Incluem uma aba **Coin & Vault** (número de coin líquido + trilha de vault com 8 segmentos). As fichas de crew também incluem:
 - **Rastreador de Fações** — todas as 26 facções de Doskvol com escala de reputação de -3 a +3

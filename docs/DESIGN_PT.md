@@ -123,6 +123,8 @@ Browser
 
 Blades utiliza um **Gerenciador de Relógios** dedicado em `/blades/clocks` (relógios não estão embutidos nas fichas de personagem ou crew). Fichas de personagem incluem uma aba **Coin & Stash** (4 pips de coin para dinheiro disponível, 40 pips de stash com aposentadoria em 40/40). Fichas de crew incluem uma aba **Coin & Vault** (número de coin líquido + trilha de vault com 8 segmentos). A aba Referência de Regras inclui um guia de **XP & Avanço**.
 
+**Reorganizacao de abas da ficha de personagem:** A antiga aba combinada de estresse/carga/projetos agora sao tres abas separadas — **Stress & Harm** (pips de estresse, trauma, trilha de ferimentos), **Loadout** (selecao de itens com exibicao de capacidade de carga), e **Projects** (relogios de projetos de longo prazo).
+
 **Adições à ficha de crew:**
 - **Rastreador de Fações** — todas as 26 facções de Doskvol renderizadas com escala de pontos de -3 a +3 para rastreamento de reputação
 - **Rastreador de Territórios** — territórios disputáveis nomeados exibidos como grade de distritos; territórios conquistados destacados
@@ -132,7 +134,11 @@ Blades utiliza um **Gerenciador de Relógios** dedicado em `/blades/clocks` (rel
 
 ### Dados e Navio 7th Sea
 
-Os dados de 7th Sea estao consolidados em `sevenSeaData.js` (111KB), provenientes de todos os 12 suplementos: 37 nacoes (era 13), 235+ vantagens (era ~48 com custos incorretos), 161 antecedentes (era 31), 33 estilos de duelo (era 11), 26 sociedades secretas (era 0), 44 cartas de arcana (era 20 com nomes errados). Todos os catalogos incluem campos `source` para filtragem por livro-fonte. Bonus de tracos nacionais sao auto-aplicados na selecao de nacao. A ficha de Heroi inclui rastreamento de ferimentos, calculos de recompensa de historia e avisos de tracos de duelo. O formulario de Vilao suporta vantagens completas, estilos de duelo, rastreamento de esquemas e arcana corretos.
+Os dados de 7th Sea estao consolidados em `sevenSeaData.js` (111KB), provenientes de todos os 13 suplementos (adicionado livro de Sociedades Secretas): 37 nacoes (era 13), 235+ vantagens (era ~48 com custos incorretos), 161 antecedentes (era 31), 33 estilos de duelo (era 11), 26 sociedades secretas (era 0), 44 cartas de arcana (era 20 com nomes errados). Todos os catalogos incluem campos `source` para filtragem por livro-fonte. Bonus de tracos nacionais sao auto-aplicados na selecao de nacao. A ficha de Heroi inclui rastreamento de ferimentos, calculos de recompensa de historia e avisos de tracos de duelo. O formulario de Vilao suporta vantagens completas, estilos de duelo, rastreamento de esquemas e arcana corretos.
+
+**Reorganizacao de abas da ficha de Heroi (16 abas no total):**
+- Aba Arcana dividida em **Arcana** (cartas de virtude/hybris e efeitos mecanicos) e **Recursos** (PV, riqueza, ferimentos)
+- Nova aba **Sociedades Secretas**: navegue pelas 26 sociedades, registre rank/hierarquia e metodo de entrada, baseado no livro de Sociedades Secretas
 
 A ficha de Heroi tambem suporta 10 funcionalidades de automacao no modo guiado: auto-aplicacao de antecedente (concede automaticamente +1 rank em habilidades e vantagens ao selecionar), botao de adicao rapida de feiticaria (um clique para adicionar a tradicao de feiticaria da nacao), exibicao de efeitos mecanicos de Virtude/Hubris, contador de orcamento de antecedentes (X/2), contagem corrente de custo de vantagens (Gasto: X/5 pts), destaque de pool de dados para sinergias fortes, dicas de sinergia antecedente-vantagem (badges "Recomendado"), auto-sugestao de religiao por nacao (reordena por afinidade cultural), Pontos de Heroi travados em 1 no modo guiado, e exibicao de quirk com estilo de badge de Ponto de Heroi.
 
@@ -151,7 +157,7 @@ A Song of Ice and Fire RPG utiliza 19 habilidades classificadas de 1-7 com espec
 O guarda-chuva World of Darkness cobre 20 formulários através de múltiplas linhas de jogo:
 
 - **Vampire:** V20, Revised, Dark Ages, Victorian Age, Kindred of the East
-- **Werewolf:** W20, Wyld West, Changing Breeds, Kinfolk, Totems, Black Spiral Dancers
+- **Werewolf:** W20, Wyld West, Changing Breeds, Kinfolk, Totems, Black Spiral Dancers — Dons e Ritos agora estao em abas separadas
 - **Mage:** M20, Victorian Mage, Familiars
 - **Outros:** Hunter: The Reckoning, Wraith: The Oblivion, Changeling: The Dreaming, Demon: The Fallen, Mortals
 

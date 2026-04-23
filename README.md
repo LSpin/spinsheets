@@ -106,7 +106,7 @@ vtm-frontend/src/
 ├── api/            # Axios API clients
 ├── components/     # 60+ components (33 character forms + shared UI)
 ├── context/        # Auth, Theme, NewChar contexts
-├── data/           # Game catalogs (skills, spells, cyberware, NPCs, sevenSeaData.js)
+├── data/           # Game catalogs (skills, spells, cyberware, NPCs, sevenSeaData.js — 13 supplements)
 ├── hooks/          # useAutoCreate
 ├── i18n/           # EN + PT translations
 ├── pages/          # Page-level components

@@ -98,7 +98,7 @@ Character sheets include built-in auto-calculations that help enforce game rules
 
 - **Vampire (all editions):** Clan curse warnings (e.g., Nosferatu Appearance locked to 0, Malkavian derangement reminder), blood pool max and low blood warnings
 - **Mage (M20 + Victorian):** Sphere ratings capped by Arete, Paradox threshold warnings at 5+, 10+, and 15+; Resonance type reference panel, rote catalog filterable by sphere, paradigm casting notes with Arete milestone hints
-- **Werewolf (all variants):** Form stat modifiers auto-calculated (Crinos, Hispo, etc.), Rage/Gnosis/Willpower starting values locked to breed/auspice/tribe; Renown rank thresholds with progress tracking, Gift activation quick-reference panel, Frenzy difficulty chart
+- **Werewolf (all variants):** Form stat modifiers auto-calculated (Crinos, Hispo, etc.), Rage/Gnosis/Willpower starting values locked to breed/auspice/tribe; Renown rank thresholds with progress tracking, Gift activation quick-reference panel, Frenzy difficulty chart. Gifts and Rites are now on separate tabs for easier navigation
 - **D&D + UESTRPG:** Race ability score increases auto-applied, HP suggestion based on class/level, AC baseline calculation
 - **Cyberpunk 2020:** BTM/run/leap/lift derived stats displayed, humanity loss and cyberpsychosis warnings, wound state penalties shown
 - **Blades in the Dark:** Stress warnings at 8 and 9, load capacity with remaining slots displayed
@@ -214,7 +214,9 @@ As a Storyteller:
 ### 7th Sea (2nd Edition)
 
 **Features:** Hero and Villain sheets, standalone Ship Builder sheet, 8 Sorceries, Dueling Styles, national trait auto-apply, background auto-apply with guided mode budgets, sorcery auto-add button, wound tracker, story reward calculations
-**Data scope:** 37 nations, 235+ advantages, 161 backgrounds, 33 dueling styles, 26 secret societies, 44 arcana cards — sourced from all 12 supplements. Source book filters on all catalogs.
+**Tabs (Hero sheet, 16 total):** Identity, Nation & Background, Skills, Advantages, Sorcery, Dueling, Arcana (virtue/hubris), Resources (HP/wealth/wounds), Secret Societies, Crew, Ship, Backstory, XP Log, Dice Roller, Rules Reference, Notes
+**Secret Societies tab:** Browse all 26 societies, track membership rank and hierarchy, record joining method — sourced from the Secret Societies sourcebook
+**Data scope:** 37 nations, 235+ advantages, 161 backgrounds, 33 dueling styles, 26 secret societies, 44 arcana cards — sourced from all 13 supplements (added Secret Societies sourcebook). Source book filters on all catalogs.
 **Ship Builder:** 15 ship origins, 12 ship backgrounds
 **Villain form:** Full advantages, dueling styles, scheme tracking, correct arcana
 **Dice system:** d10 sets (Raises)
@@ -236,6 +238,7 @@ As a Storyteller:
 ### Blades in the Dark
 
 **Features:** 11 Playbooks, 6 Crew Types, Deep Cuts toggle, dedicated Clock Manager (`/blades/clocks`), Stress/Trauma tracking
+**Tab reorganization:** The former combined stress/loadout/projects tab is now split into three dedicated tabs — **Stress & Harm** (stress pips, trauma, harm), **Loadout** (item selection and load capacity), and **Projects** (long-term project clocks)
 **Character sheets:** Include a **Coin & Stash** tab (4 coin pips for spending money, 40 stash pips — retirement triggers at 40/40)
 **Crew sheets:** Include a **Coin & Vault** tab (liquid coin number + 8-segment vault track). Crew sheets also include:
 - **Faction Tracker** — all 26 Doskvol factions with a -3 to +3 reputation scale

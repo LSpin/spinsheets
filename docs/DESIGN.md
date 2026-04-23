@@ -123,6 +123,8 @@ Browser
 
 Blades uses a dedicated **Clock Manager** at `/blades/clocks` (clocks are not embedded in character or crew sheets). Character sheets include a **Coin & Stash** tab (4 coin pips for spending money, 40 stash pips with retirement at 40/40). Crew sheets include a **Coin & Vault** tab (liquid coin number + 8-segment vault track). The Rules Reference tab includes an **XP & Advancement** guide.
 
+**Character sheet tab reorganization:** The former combined stress/loadout/projects tab is now three separate tabs — **Stress & Harm** (stress pips, trauma, harm track), **Loadout** (item selection with load capacity display), and **Projects** (long-term project clocks).
+
 **Crew sheet additions:**
 - **Faction Tracker** — all 26 Doskvol factions rendered with a -3 to +3 dot scale for reputation tracking
 - **Turf Tracker** — named claimable territories displayed as a district grid; claimed turf highlighted
@@ -132,7 +134,11 @@ Blades uses a dedicated **Clock Manager** at `/blades/clocks` (clocks are not em
 
 ### 7th Sea Data and Ship
 
-7th Sea data is consolidated in `sevenSeaData.js` (111KB), sourced from all 12 supplements: 37 nations (was 13), 235+ advantages (was ~48 with incorrect costs), 161 backgrounds (was 31), 33 dueling styles (was 11), 26 secret societies (was 0), 44 arcana cards (was 20 with wrong names). All catalogs include `source` fields for source book filtering. Nation trait bonuses are auto-applied on nation selection. The Hero sheet includes wound tracking, story reward calculations, and dueling trait warnings. The Villain form supports full advantages, dueling styles, scheme tracking, and correct arcana.
+7th Sea data is consolidated in `sevenSeaData.js` (111KB), sourced from all 13 supplements (added Secret Societies sourcebook): 37 nations (was 13), 235+ advantages (was ~48 with incorrect costs), 161 backgrounds (was 31), 33 dueling styles (was 11), 26 secret societies (was 0), 44 arcana cards (was 20 with wrong names). All catalogs include `source` fields for source book filtering. Nation trait bonuses are auto-applied on nation selection. The Hero sheet includes wound tracking, story reward calculations, and dueling trait warnings. The Villain form supports full advantages, dueling styles, scheme tracking, and correct arcana.
+
+**Hero sheet tab reorganization (16 tabs total):**
+- Arcana tab split into **Arcana** (virtue/hubris cards and mechanical effects) and **Resources** (HP, wealth, wounds)
+- New **Secret Societies** tab: browse all 26 societies, track membership rank/hierarchy and joining method, sourced from the Secret Societies sourcebook
 
 The Hero sheet also supports 10 guided-mode automation features: background auto-apply (auto-grants skills +1 rank and advantages when selecting a background), sorcery auto-add button (one-click to add nation's sorcery tradition), Virtue/Hubris mechanical effect display, background budget counter (X/2), advantage cost running tally (Spent: X/5 pts), dice pool highlighting for strong synergies, background-to-advantage synergy hints ("Recommended" badges), nation-to-religion auto-suggest (reorders by cultural fit), Hero Points locked to 1 in guided mode, and quirk display with Hero Point badge styling.
 
@@ -151,7 +157,7 @@ A Song of Ice and Fire RPG uses 19 abilities rated 1-7 with specialties and dest
 The World of Darkness umbrella covers 20 forms across multiple game lines:
 
 - **Vampire:** V20, Revised, Dark Ages, Victorian Age, Kindred of the East
-- **Werewolf:** W20, Wyld West, Changing Breeds, Kinfolk, Totems, Black Spiral Dancers
+- **Werewolf:** W20, Wyld West, Changing Breeds, Kinfolk, Totems, Black Spiral Dancers — Gifts and Rites are now on separate tabs
 - **Mage:** M20, Victorian Mage, Familiars
 - **Others:** Hunter: The Reckoning, Wraith: The Oblivion, Changeling: The Dreaming, Demon: The Fallen, Mortals
 
