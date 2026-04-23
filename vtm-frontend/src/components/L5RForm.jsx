@@ -1103,7 +1103,7 @@ export default function L5RForm() {
 
             {/* Auto-computed Insight & Rank */}
             <fieldset style={{ marginBottom: 'var(--space-md)', background: 'var(--color-surface-raised)', borderRadius: 'var(--radius-sm)', padding: 'var(--space-md)' }}>
-              <legend>Insight &amp; School Rank (Auto-Calculated)</legend>
+              <legend>Insight & School Rank (Auto-Calculated)</legend>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-md)' }}>
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Total Insight</div>
@@ -2468,7 +2468,7 @@ Traveling pack, spare kimono, 10 koku`} />
             {heritageResult && (
               <div style={{ background: 'var(--color-surface-raised)', padding: 'var(--space-md)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--space-sm)' }}>
                 <div style={{ fontSize: '0.85rem', marginBottom: 'var(--space-xs)' }}>
-                  <strong>First d10:</strong> {heritageResult.roll1} &mdash; <strong>Second d10:</strong> {heritageResult.roll2}
+                  <strong>First d10:</strong> {heritageResult.roll1} — <strong>Second d10:</strong> {heritageResult.roll2}
                 </div>
                 {heritageResult.entry && (
                   <div>

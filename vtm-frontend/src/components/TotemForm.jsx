@@ -356,7 +356,7 @@ export default function TotemForm() {
                       const charmsPart = next.join(', ')
                       setFields(prev => ({ ...prev, notes: customNotes ? `${charmsPart}||${customNotes}` : charmsPart }))
                     }} />
-                    <span><strong>{charm.name}</strong> &mdash; {charm.description}</span>
+                    <span><strong>{charm.name}</strong> — {charm.description}</span>
                   </label>
                 )
               })}

@@ -282,7 +282,7 @@ export default function FamiliarForm() {
                       const powersPart = next.join(', ')
                       setFields(prev => ({ ...prev, notes: customNotes ? `${powersPart}||${customNotes}` : powersPart }))
                     }} />
-                    <span><strong>{power.name}</strong> &mdash; {power.description}</span>
+                    <span><strong>{power.name}</strong> — {power.description}</span>
                   </label>
                 )
               })}

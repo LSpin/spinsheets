@@ -326,7 +326,7 @@ export default function BsdForm() {
             })}
           </fieldset>
           <fieldset>
-            <legend>Wyrm Taint &amp; Derangements</legend>
+            <legend>Wyrm Taint & Derangements</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Select derangements caused by Wyrm corruption.
             </p>
@@ -352,7 +352,7 @@ export default function BsdForm() {
             </div>
           </fieldset>
           <fieldset>
-            <legend>Rage, Gnosis &amp; Willpower</legend>
+            <legend>Rage, Gnosis & Willpower</legend>
             <div className="field-row">
               <DotRating label={t('rage')} name="rage" value={fields.rage} onChange={handleField} min={fields.sect && AUSPICE_RAGE[fields.sect] ? AUSPICE_RAGE[fields.sect] : 0} max={10} />
               <DotRating label={t('currentRage')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />

@@ -1246,7 +1246,7 @@ export default function MageForm() {
           <fieldset>
             <legend>Paradigm Casting Reference</legend>
             <aside style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--space-sm)' }} role="note">
-              <p style={{ margin: 0, fontSize: '0.82rem', fontWeight: 600 }}>Paradigm &amp; Focus Rules</p>
+              <p style={{ margin: 0, fontSize: '0.82rem', fontWeight: 600 }}>Paradigm & Focus Rules</p>
               <p style={{ margin: '0.25rem 0 0', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
                 Acting outside your paradigm increases difficulty by +1. Each Arete milestone allows discarding one instrument:
               </p>

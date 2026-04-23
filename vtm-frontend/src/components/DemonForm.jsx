@@ -686,7 +686,7 @@ export default function DemonForm() {
           </fieldset>
           {/* Faith / Torment Balance */}
           <fieldset>
-            <legend>Faith &amp; Torment Balance</legend>
+            <legend>Faith & Torment Balance</legend>
             <div role="status" aria-live="polite" style={{ padding: 'var(--space-sm)', background: fields.rage > fields.gnosis ? 'rgba(231,76,60,0.08)' : fields.gnosis > fields.rage ? 'rgba(46,204,113,0.08)' : 'rgba(243,156,18,0.08)', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '0.85rem' }}>
               <p style={{ margin: 0 }}>
                 <strong>Faith {fields.gnosis}</strong> vs <strong>Torment {fields.rage}</strong>
