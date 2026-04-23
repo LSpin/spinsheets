@@ -71,6 +71,10 @@ export default function BladesPage() {
                 style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
                 {t('bladesClockManagerBtn')}
               </button>
+              <button className="btn btn-secondary" onClick={() => navigate('/blades/st-tools')}
+                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+                {t('bladesSTTools')}
+              </button>
             </>
           )}
         </div>

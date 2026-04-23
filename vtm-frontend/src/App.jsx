@@ -77,6 +77,7 @@ const BladesCrewForm = lazyRetry(() => import('./components/BladesCrewForm'))
 const BladesAntagonistForm = lazyRetry(() => import('./components/BladesAntagonistForm'))
 const BladesPage = lazyRetry(() => import('./pages/BladesPage'))
 const BladesClockManager = lazyRetry(() => import('./pages/BladesClockManager'))
+const BladesSTTools = lazyRetry(() => import('./components/BladesSTTools'))
 
 // D&D
 const DndForm = lazyRetry(() => import('./components/DndForm'))
@@ -502,6 +503,9 @@ function AppShell() {
           } />
           <Route path="/blades/clocks" element={
             <ProtectedRoute><BladesClockManager /></ProtectedRoute>
+          } />
+          <Route path="/blades/st-tools" element={
+            <ProtectedRoute><BladesSTTools /></ProtectedRoute>
           } />
           <Route path="/blades/chronicles" element={
             <ProtectedRoute><ChronicleList system="BLADES" basePath="/blades/chronicles" /></ProtectedRoute>
