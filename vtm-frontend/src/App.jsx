@@ -106,6 +106,7 @@ const AsoiafPage = lazyRetry(() => import('./pages/AsoiafPage'))
 const AsoiafSTTools = lazyRetry(() => import('./components/AsoiafSTTools'))
 const AllChroniclesPage = lazyRetry(() => import('./pages/AllChroniclesPage'))
 const AllCharactersPage = lazyRetry(() => import('./pages/AllCharactersPage'))
+const STToolsPage = lazyRetry(() => import('./pages/STToolsPage'))
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -354,6 +355,11 @@ function AppShell() {
               {isST && (
                 <Link to="/players" onClick={navTo}>
                   <button>{t('navPlayers')}</button>
+                </Link>
+              )}
+              {isST && (
+                <Link to="/st-tools" onClick={navTo}>
+                  <button>{t('navSTTools')}</button>
                 </Link>
               )}
               {user?.username === 'spin' && (
@@ -637,6 +643,9 @@ function AppShell() {
           } />
           <Route path="/admin" element={
             <ProtectedRoute><AdminPage /></ProtectedRoute>
+          } />
+          <Route path="/st-tools" element={
+            <ProtectedRoute><STToolsPage /></ProtectedRoute>
           } />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
