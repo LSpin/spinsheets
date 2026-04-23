@@ -167,6 +167,20 @@ As a Storyteller, you have access to NPC/Antagonist generators for every system:
 - **Cyberpunk:** 25 NPCs (Boostergang through Arasaka Operatives)
 - **ASOIAF:** 27 NPCs (various archetypes)
 
+### ST Tools
+
+Each of the 7 main game systems has a dedicated **ST Tools** hub page, accessible from that system's character list page. All tools are Storyteller-only and fully bilingual (EN + PT).
+
+| System | Tabs | What's Inside |
+|--------|------|--------------|
+| **Blades in the Dark** | 7 | Score Gen, Entanglements, NPC, Faction Turn, Downtime, Devil's Bargain, Campaign Clocks |
+| **World of Darkness** | 7 | Feeding Scenes, Spirit Encounters, Paradox Events, Frenzy Reference, NPC Generator, City Events, Scene Complications |
+| **Cyberpunk 2020** | 5 | Night City Encounters, Gig Generator, Contact Generator, Netrunning, Lifepath Events |
+| **D&D 5e** | 5 | Encounters by Environment, Treasure by Tier, NPC Generator, Tavern/Shop, Dungeon Rooms |
+| **7th Sea** | 3 | Adventure Generator, Ship Encounters, NPC Generator |
+| **L5R** | 3 | Court Intrigue, Samurai NPC Generator, Seasonal Events |
+| **ASOIAF** | 3 | House Events, Intrigue Generator, NPC Generator |
+
 ### Clock Mechanics (Blades in the Dark)
 
 Storytellers have access to a dedicated **Clock Manager** for Blades:

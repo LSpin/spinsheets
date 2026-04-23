@@ -460,3 +460,4 @@ Push to main
 - Gerenciador de Relógios dedicado para Blades in the Dark (`/blades/clocks`)
 - Formulários de antagonista para cada sistema
 - Página de gerenciamento de jogadores
+- **Páginas de Ferramentas do Narrador (ST Tools)** — cada um dos 7 sistemas principais (Blades, WoD, Cyberpunk, D&D, 7th Sea, L5R, ASOIAF) possui uma página de ferramentas exclusiva para Narradores, acessível a partir do hub do sistema. Essas páginas oferecem geradores e referências rápidas organizados em abas: geração de scores, geradores de NPC, tabelas de encontro, gerenciamento de facções, auxiliares de tempo livre, entre outros. 37 abas no total. Totalmente bilíngues EN + PT. Cada página de ST Tools é um componente React independente carregado sob demanda a partir da rota do hub do sistema.

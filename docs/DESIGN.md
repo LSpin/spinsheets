@@ -460,3 +460,4 @@ Push to main
 - Dedicated Clock Manager for Blades in the Dark (`/blades/clocks`)
 - Antagonist forms for every system
 - Player management page
+- **ST Tools hub pages** — each of the 7 main systems (Blades, WoD, Cyberpunk, D&D, 7th Sea, L5R, ASOIAF) has a Storyteller-only tools page linked from its hub. These pages provide random/reference generators organized into tabs: score generation, NPC generators, encounter tables, faction management, downtime helpers, and more. 37 tabs total. All bilingual EN + PT. Each ST Tools page is a standalone React component lazy-loaded from the system hub route.

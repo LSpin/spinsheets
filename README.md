@@ -34,6 +34,7 @@ A web app for creating, managing, and sharing tabletop RPG character sheets. Bui
 - **460+ NPC templates** — premade antagonists loadable in one selection
 - **XP tracking** — per-system cost calculations and advancement logs
 - **Export PDF** — print any sheet with selectable sections
+- **ST Tools** — Storyteller-only hub pages for all 7 main systems (Blades, WoD, Cyberpunk, D&D, 7th Sea, L5R, ASOIAF), with random generators for encounters, NPCs, factions, downtime, and more. 37 tabs total across all systems, fully bilingual EN + PT
 - **Bilingual** — English and Portuguese (800+ translation keys)
 - **Accessible** — WCAG 2.1 AA compliant (~95%), screen reader support, keyboard navigation, aria-live regions on all dynamic warnings
 - **Mobile-friendly** — hamburger nav (left-aligned) with fixed dropdown clipping, collapsible tab carousel, sticky save bar, PWA installable

@@ -167,6 +167,20 @@ Como Narrador, você tem acesso a geradores de NPC/Antagonista para cada sistema
 - **Cyberpunk:** 25 NPCs (Boostergang ate Operativos da Arasaka)
 - **ASOIAF:** 27 NPCs (diversos arquetipos)
 
+### Ferramentas do Narrador (ST Tools)
+
+Cada um dos 7 sistemas principais possui uma página de **Ferramentas do Narrador** dedicada, acessível a partir da página de lista de personagens daquele sistema. Todas as ferramentas são exclusivas para Narradores e totalmente bilíngues (EN + PT).
+
+| Sistema | Abas | Conteúdo |
+|---------|------|----------|
+| **Blades in the Dark** | 7 | Score Gen, Entrelaçamentos, NPC, Turno de Facção, Tempo Livre, Barganho do Diabo, Relógios de Campanha |
+| **World of Darkness** | 7 | Cenas de Alimentação, Encontros com Espíritos, Eventos de Paradoxo, Referência de Frenesi, Gerador de NPC, Eventos da Cidade, Complicações de Cena |
+| **Cyberpunk 2020** | 5 | Encontros em Night City, Gerador de Gig, Gerador de Contato, Netrunning, Eventos de Lifepath |
+| **D&D 5e** | 5 | Encontros por Ambiente, Tesouro por Tier, Gerador de NPC, Taverna/Loja, Salas de Dungeon |
+| **7th Sea** | 3 | Gerador de Aventura, Encontros Navais, Gerador de NPC |
+| **L5R** | 3 | Intriga da Corte, Gerador de NPC Samurai, Eventos Sazonais |
+| **ASOIAF** | 3 | Eventos da Casa, Gerador de Intriga, Gerador de NPC |
+
 ### Mecanicas de Relogio (Blades in the Dark)
 
 Narradores têm acesso a um **Gerenciador de Relógios** dedicado para Blades:
