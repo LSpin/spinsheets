@@ -129,8 +129,10 @@ const CHANGELING_SPECIFIC = [
     levels: ['● Fleeting impressions and déjà vu.', '●● Occasional clear memories from past lives.', '●●● Reliable recall of past-life knowledge.', '●●●● Vivid recall; draw on past fae skills.', '●●●●● Past incarnations are vivid lived experience.'] },
   { value: 'Title', description: 'Noble rank in Kithain society.',
     levels: ['● Squire — recognised but minor.', '●● Knight — earned respect and minor authority.', '●●● Baron/Baroness — rules a small domain.', '●●●● Count/Countess — significant political authority.', '●●●●● Duke/Duchess or higher — major noble of the realm.'] },
-  { value: 'Treasure', description: 'Enchanted items that work in both the mortal world and the Dreaming.',
-    levels: ['● A minor enchanted trinket.', '●● A useful magical item.', '●●● A significant treasure with real power.', '●●●● A powerful enchanted artifact.', '●●●●● A legendary treasure of the fae.'] },
+  { value: 'Retinue', description: 'Enchanted mortals under your care who serve loyally.',
+    levels: ['● Your retinue consists of one member.', '●● Your retinue of two members.', '●●● Your retinue of four members.', '●●●● Your retinue of six members.', '●●●●● Your retinue of 10 members.'] },
+  { value: 'Treasure', description: 'A mundane item imbued with Glamour, existing in both the Autumn and chimerical worlds.',
+    levels: ['● Common, rank one of an Art.', '●● Uncommon, rank two of an Art.', '●●● Rare, rank three of an Art.', '●●●● Unique, rank four of an Art.', '●●●●● Legendary, rank five of an Art.'] },
 ]
 
 // ── Demon: The Fallen ──

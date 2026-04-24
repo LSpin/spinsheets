@@ -24,47 +24,115 @@ import { CHANGELING_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 
 // ── Constants ──
 
-const ARCHETYPES = [
-  { value: 'Architect', description: 'Driven to create something of lasting value.' },
-  { value: 'Bon Vivant', description: 'Life is for pleasure. Enjoys every moment.' },
-  { value: 'Caregiver', description: 'Nurtures and protects others.' },
-  { value: 'Celebrant', description: 'Lives for a single passion above all.' },
-  { value: 'Child', description: 'Innocent and dependent. Needs others to protect them.' },
-  { value: 'Conniver', description: 'Manipulates others for personal gain.' },
-  { value: 'Director', description: 'Takes charge. Organizes others and makes things happen.' },
-  { value: 'Gallant', description: 'Seeks attention and admiration.' },
-  { value: 'Guru', description: 'Teaches and enlightens others.' },
-  { value: 'Idealist', description: 'Believes in a better world.' },
-  { value: 'Judge', description: 'Seeks truth and justice.' },
-  { value: 'Loner', description: 'Prefers solitude. Self-reliant.' },
-  { value: 'Rebel', description: 'Fights authority on principle.' },
-  { value: 'Rogue', description: 'Looks out for number one.' },
-  { value: 'Survivor', description: 'Endures at all costs.' },
-  { value: 'Traditionalist', description: 'Values the old ways.' },
-  { value: 'Trickster', description: 'Uses humor and mischief to reveal truth.' },
-  { value: 'Visionary', description: 'Driven by grand ideas and a vision of the future.' },
+const SEELIE_LEGACIES = [
+  { value: 'Bumpkin', description: 'Common sense and plain dealing are your way.' },
+  { value: 'Courtier', description: 'The whirl of politics and intrigue excites you.' },
+  { value: 'Crafter', description: 'Making something you are proud of fires your heart.' },
+  { value: 'Dandy', description: 'You love setting trends and gaining attention.' },
+  { value: 'Hermit', description: 'At your best in solitude; you would rather be left alone.' },
+  { value: 'Orchid', description: 'Purity and delicacy have a beauty all their own.' },
+  { value: 'Paladin', description: 'You live for the challenge of proving your skill.' },
+  { value: 'Panderer', description: 'Making others happy brings you joy.' },
+  { value: 'Regent', description: 'Some are born to rule, and you always take charge.' },
+  { value: 'Saint', description: 'You seek to alleviate the suffering of others, even when it costs you.' },
+  { value: 'Sage', description: 'You are a natural sidekick, the perfect right hand.' },
+  { value: 'Squire', description: 'Waking up is good, but it is even better when it is shared.' },
+  { value: 'Troubadour', description: 'Life is an art form, and love is its purest medium.' },
+  { value: 'Wayfarer', description: 'Why stay in one place when there is so much to see out there?' },
+]
+
+const UNSEELIE_LEGACIES = [
+  { value: 'Beast', description: 'Nobody ever doubts you twice.' },
+  { value: 'Fatalist', description: 'Nothing matters; why can you not see that?' },
+  { value: 'Fool', description: 'To make life less serious, no matter what.' },
+  { value: 'Grotesque', description: 'You love the thrill of shocking and appalling others.' },
+  { value: 'Knave', description: 'A path by the end; you love to see how far others will go.' },
+  { value: 'Outlaw', description: 'Rules only get in the way of getting what you want.' },
+  { value: 'Pandora', description: 'You love to uncover secrets, even if it is a dangerous idea.' },
+  { value: 'Peacock', description: 'As long as everyone realizes you are the best, everything is fine.' },
+  { value: 'Rake', description: 'Your appetites will never be sated, but you love to try.' },
+  { value: 'Riddler', description: 'Wisdom easily comes; it is worth nothing; anything is easy to come by.' },
+  { value: 'Ringleader', description: 'You are the boss, and you make darn sure everyone knows it.' },
+  { value: 'Rogue', description: 'Chance is your favorite tune, and you love to play it.' },
+  { value: 'Savage', description: 'The natural order reveals who is truly worthy.' },
+  { value: 'Wretch', description: 'You find a certain comfort in knowing you are at the bottom.' },
 ]
 
 const KITHS = [
-  { value: 'Boggan', description: 'Helpful household fae. Masters of crafts and hospitality.' },
-  { value: 'Eshu', description: 'Wandering storytellers and travelers.' },
-  { value: 'Nocker', description: 'Cranky inventors and craftsmen. Master tinkerers.' },
-  { value: 'Pooka', description: 'Trickster animal-spirits. Shapeshifters and pranksters.' },
-  { value: 'Redcap', description: 'Terrifying fae with iron teeth. Devour anything.' },
-  { value: 'Satyr', description: 'Passionate fae of revelry, music, and desire.' },
-  { value: 'Sidhe', description: 'Noble fae lords and ladies. Beautiful and commanding.' },
-  { value: 'Sluagh', description: 'Creepy information brokers who whisper secrets.' },
-  { value: 'Troll', description: 'Honorable giants. Strong, loyal, and dutiful.' },
+  { value: 'Boggan', description: 'Industrious, down-to-earth fae who are swift workers and incredible gossips.' },
+  { value: 'Clurichaun', description: 'Leprechaun-kin whose legendary carousing masks fierce Seelie hearts.' },
+  { value: 'Eshu', description: 'Storytellers, explorers, and adventurers who always seem to show up just in time.' },
+  { value: 'Nocker', description: 'Eccentric, foul-mouthed inventors who can make whatever they imagine.' },
+  { value: 'Piskie', description: 'Friendly and likeable, if light-fingered fae, with a soft spot for truth.' },
+  { value: 'Pooka', description: 'Masterful shapeshifters and tricksters who never quite tell the whole truth.' },
+  { value: 'Redcap', description: 'Menacing and ferocious fighters who can devour literally anything.' },
+  { value: 'Satyr', description: 'Hedonistic fae spirits who love a good party as well as a good fight.' },
+  { value: 'Selkie', description: 'Beautiful and charming seal shapeshifters who are closely tied to the sea.' },
+  { value: 'Sidhe (Arcadian)', description: 'Recently arrived from Arcadia, these regal fae bring majesty and authority but struggle with Banality.' },
+  { value: 'Sidhe (Autumn)', description: 'Noble leaders who stayed behind when the others fled, earning their place through hardship.' },
+  { value: 'Sluagh', description: 'Whispering fae who speak with the dead and adore secrets.' },
+  { value: 'Troll', description: 'Stoic warriors and tireless protectors who will suffer anything to defend those they love.' },
 ]
 
 const SEEMINGS = [
-  { value: 'Childling', description: 'Young and innocent. Full of wonder and Glamour.' },
-  { value: 'Wilder', description: 'Adolescent fae. Passionate, rebellious, creative.' },
-  { value: 'Grump', description: 'Adult fae. Experienced but struggling against Banality.' },
+  { value: 'Childling', description: 'Young and innocent. Full of wonder. Temper: +1 Glamour.' },
+  { value: 'Wilder', description: 'Adolescent fae. Passionate, rebellious, creative. Temper: +1 Glamour or +1 Willpower.' },
+  { value: 'Grump', description: 'Adult fae. Experienced but struggling against Banality. Temper: +1 Willpower.' },
 ]
 
-const ARTS = ['Chicanery', 'Legerdemain', 'Primal', 'Pyretics', 'Soothsay', 'Sovereign', 'Wayfare']
-const REALMS = ['Actor', 'Fae', 'Nature', 'Prop', 'Scene', 'Time']
+const COURTS = [
+  { value: 'Seelie', description: 'The Court of tradition, honor, and romance.' },
+  { value: 'Unseelie', description: 'The Court of change, freedom, and passion.' },
+]
+
+const SEELIE_HOUSES = [
+  { value: 'Beaumayn', description: 'Haunted seers and monster hunters plagued by visions.' },
+  { value: 'Dougal', description: 'Stoic inventors and craftsmen whose bodies become infused with their works.' },
+  { value: 'Eiluned', description: 'Talented magicians and investigators whose curiosity often causes trouble.' },
+  { value: 'Fiona', description: 'Fearless adventurers and romantics with a notoriously stormy personal lives.' },
+  { value: 'Gwydion', description: 'Renowned leaders gifted at detecting lies and ferreting out the truth.' },
+  { value: 'Liam', description: 'Tolerant outcasts determined to speak up for commoners and mortals.' },
+  { value: 'Scathach', description: 'Mysterious warriors who avoid politics and associate with commoners.' },
+]
+
+const UNSEELIE_HOUSES = [
+  { value: 'Aesin', description: 'Domineering lords of the wilderness who rule over animals like no others.' },
+  { value: 'Ailil', description: 'Master politicians and manipulators, if sometimes too clever for their own good.' },
+  { value: 'Balor', description: 'Ruthless warriors and implacable foes marked by Fomorian blood.' },
+  { value: 'Daireann', description: 'Consummate hosts and renowned poisoners, prone to ill-timed boasting.' },
+  { value: 'Leanhaun', description: 'Fearless artistes and patrons with a vampiric hunger for mortal Glamour.' },
+  { value: 'Varich', description: 'Cold and calculating strategists who will get everything on the right plan.' },
+]
+
+const ARTS = [
+  { value: 'Autumn', description: 'The Art of fear, shadows, and decay. Commands dread and endings.' },
+  { value: 'Chicanery', description: 'Perception and memory manipulation. Tricks and misdirection.' },
+  { value: 'Chronos', description: 'Manipulation of time, history, and temporal perception.' },
+  { value: 'Contract', description: 'Oaths, deals, and binding agreements enforced by the Dreaming.' },
+  { value: 'Dragon\'s Ire', description: 'Spectral force of physical prowess. Battle magic of the fae.' },
+  { value: 'Legerdemain', description: 'Illusion, sleight of hand, and trickiness. Manipulation of appearances.' },
+  { value: 'Metamorphosis', description: 'Shapeshifting and transformation of self and others.' },
+  { value: 'Naming', description: 'True names, power over identity. Mastery over what things truly are.' },
+  { value: 'Oneiromancy', description: 'Dreams, sleep, and the border between waking and Dreaming.' },
+  { value: 'Primal', description: 'Mastery of the elements and the natural world. Ancient and powerful.' },
+  { value: 'Pyretics', description: 'Fire, heat, and purification. Commands the power of the flame.' },
+  { value: 'Skycraft', description: 'Wind, thunder, and weather. Commands storms and the sky.' },
+  { value: 'Soothsay', description: 'Divination, prophecy, and fate. Seeing past, present, and future.' },
+  { value: 'Sovereign', description: 'Command, authority, and nobility. The Art of rulership.' },
+  { value: 'Spring', description: 'Growth, life, and protection. Channels nature\'s vitality.' },
+  { value: 'Summer', description: 'Energy, passion, and light. The Art of high emotion.' },
+  { value: 'Wayfare', description: 'Movement, travel, and journey. The Art of going places.' },
+  { value: 'Winter', description: 'Cold, ice, and the death of emotion. The Art of endings.' },
+]
+
+const REALMS = [
+  { value: 'Actor', description: 'Affects mortals, Krisalin, and Prodigals.' },
+  { value: 'Fae', description: 'Affects changelings, chimera, and all things of Glamour.' },
+  { value: 'Nature', description: 'Affects animals, plants, and natural phenomena.' },
+  { value: 'Prop', description: 'Affects devices and man-made items of all kinds.' },
+  { value: 'Scene', description: 'Affects large areas or multiple targets at once.' },
+  { value: 'Time', description: 'Affects the duration or triggering of cantrips.' },
+]
 
 const HEALTH_LEVELS = [
   { key: 'healthBruised',    label: 'bruised',       penalty: '' },
@@ -88,6 +156,11 @@ const INITIAL = {
   name: '', altName: '', concept: '', nature: '', demeanor: '',
   clan: '', // Kith
   sect: '', // Seeming
+  // Changeling-specific identity fields (stored in existing text fields)
+  domainHaven: '', // Court (Seelie/Unseelie)
+  pathName: '', // House (for Sidhe)
+  derangement1: '', // Seelie Legacy
+  derangement2: '', // Unseelie Legacy
   // Attributes
   strength: 1, dexterity: 1, stamina: 1,
   charisma: 1, manipulation: 1, appearance: 1,
@@ -358,10 +431,28 @@ export default function ChangelingForm() {
             <div className="field-row">
               <CatalogSelect id="clan" name="clan" label="Kith" value={fields.clan} onChange={handleField} catalog={KITHS} />
               <CatalogSelect id="sect" name="sect" label="Seeming" value={fields.sect} onChange={handleField} catalog={SEEMINGS} />
+              <CatalogSelect id="domainHaven" name="domainHaven" label="Court" value={fields.domainHaven} onChange={handleField} catalog={COURTS} />
+            </div>
+            {(fields.clan === 'Sidhe (Arcadian)' || fields.clan === 'Sidhe (Autumn)') && (
+              <div className="field-row">
+                <CatalogSelect id="pathName" name="pathName" label="House" value={fields.pathName} onChange={handleField}
+                  catalog={[...SEELIE_HOUSES, ...UNSEELIE_HOUSES]} />
+              </div>
+            )}
+          </fieldset>
+
+          <fieldset>
+            <legend>Legacies</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              Legacies guide your character's fae personality. Your dominant Legacy is determined by your current Court.
+            </p>
+            <div className="field-row">
+              <CatalogSelect id="derangement1" name="derangement1" label="Seelie Legacy" value={fields.derangement1} onChange={handleField} catalog={SEELIE_LEGACIES} />
+              <CatalogSelect id="derangement2" name="derangement2" label="Unseelie Legacy" value={fields.derangement2} onChange={handleField} catalog={UNSEELIE_LEGACIES} />
             </div>
             <div className="field-row">
-              <CatalogSelect id="nature" name="nature" label={t('nature')} value={fields.nature} onChange={handleField} catalog={ARCHETYPES} />
-              <CatalogSelect id="demeanor" name="demeanor" label={t('demeanor')} value={fields.demeanor} onChange={handleField} catalog={ARCHETYPES} />
+              <CatalogSelect id="nature" name="nature" label={t('nature')} value={fields.nature} onChange={handleField} catalog={[...SEELIE_LEGACIES, ...UNSEELIE_LEGACIES]} />
+              <CatalogSelect id="demeanor" name="demeanor" label={t('demeanor')} value={fields.demeanor} onChange={handleField} catalog={[...SEELIE_LEGACIES, ...UNSEELIE_LEGACIES]} />
             </div>
           </fieldset>
 
@@ -372,6 +463,16 @@ export default function ChangelingForm() {
                 {fields.sect === 'Childling' && t('childlingEffects')}
                 {fields.sect === 'Wilder' && t('wilderEffects')}
                 {fields.sect === 'Grump' && t('grumpEffects')}
+              </p>
+            </fieldset>
+          )}
+
+          {fields.domainHaven && (
+            <fieldset>
+              <legend>Court</legend>
+              <p className="muted-hint muted-hint--sm">
+                {fields.domainHaven === 'Seelie' && 'Your dominant Legacy is your Seelie Legacy. The Seelie Court values tradition, honor, and the preservation of the Dreaming. Your primary Quest and Ban come from your Seelie Legacy.'}
+                {fields.domainHaven === 'Unseelie' && 'Your dominant Legacy is your Unseelie Legacy. The Unseelie Court values change, freedom, and passion. Your primary Quest and Ban come from your Unseelie Legacy.'}
               </p>
             </fieldset>
           )}
@@ -469,15 +570,18 @@ export default function ChangelingForm() {
       <div hidden={tab !== 4}>
         <div className="form-section">
           <fieldset>
-            <legend>{t('changelingArts')}</legend>
+            <legend>{t('changelingArts')} ({ARTS.filter(a => (artsRealmsMap[a.value] || 0) > 0).length})</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
               Arts are the magical abilities of the Kithain. Each Art allows cantrips that affect the world through the Dreaming.
             </p>
             <div className="rating-grid">
               {ARTS.map(art => (
-                <div key={art} className="ability-row">
-                  <DotRating label={art} name={`art-${art}`} value={artsRealmsMap[art] || 0}
-                    onChange={(_, val) => handleArtRealm(art, val)} max={5} />
+                <div key={art.value} className="ability-row" title={art.description}>
+                  <DotRating label={art.value} name={`art-${art.value}`} value={artsRealmsMap[art.value] || 0}
+                    onChange={(_, val) => handleArtRealm(art.value, val)} max={5} />
+                  {(artsRealmsMap[art.value] || 0) === 0 && (
+                    <span className="muted-hint" style={{ fontSize: '0.75rem', marginLeft: 'var(--space-xs)' }}>{art.description}</span>
+                  )}
                 </div>
               ))}
             </div>
@@ -490,9 +594,12 @@ export default function ChangelingForm() {
             </p>
             <div className="rating-grid">
               {REALMS.map(realm => (
-                <div key={realm} className="ability-row">
-                  <DotRating label={realm} name={`realm-${realm}`} value={artsRealmsMap[realm] || 0}
-                    onChange={(_, val) => handleArtRealm(realm, val)} max={5} />
+                <div key={realm.value} className="ability-row" title={realm.description}>
+                  <DotRating label={realm.value} name={`realm-${realm.value}`} value={artsRealmsMap[realm.value] || 0}
+                    onChange={(_, val) => handleArtRealm(realm.value, val)} max={5} />
+                  {(artsRealmsMap[realm.value] || 0) === 0 && (
+                    <span className="muted-hint" style={{ fontSize: '0.75rem', marginLeft: 'var(--space-xs)' }}>{realm.description}</span>
+                  )}
                 </div>
               ))}
             </div>
