@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { getChronicles, deleteChronicle } from '../api/chronicleApi'
 import { useTheme } from '../context/ThemeContext'
+import ConfirmDialog from '../components/ConfirmDialog'
+import useConfirm from '../hooks/useConfirm'
 
 const SYSTEM_LABEL_KEYS = {
   WOD: 'systemWoD',
@@ -22,6 +24,7 @@ export default function ChronicleList({ system = 'WOD', basePath = '/chronicles'
   const { user, isST } = useAuth()
   const { t } = useLanguage()
   const { switchTheme } = useTheme()
+  const { confirm, confirmDialogProps } = useConfirm()
   const systemLabel = t(SYSTEM_LABEL_KEYS[system] || 'systemWoD')
 
   const SYSTEM_THEME = { WOD: 'wod', SEVENTH_SEA: '7thsea', L5R: 'l5r', BLADES: 'blades', DND: 'dnd', UESTRPG: 'uestrpg' }
@@ -41,7 +44,8 @@ export default function ChronicleList({ system = 'WOD', basePath = '/chronicles'
   }
 
   async function handleDelete(id, name) {
-    if (!confirm(t('confirmDeleteChronicle').replace('{0}', name))) return
+    const ok = await confirm(t('confirmDeleteChronicle').replace('{0}', name), t('deleteBtn'))
+    if (!ok) return
     try {
       await deleteChronicle(id)
       setChronicles(prev => prev.filter(c => c.id !== id))
@@ -113,6 +117,7 @@ export default function ChronicleList({ system = 'WOD', basePath = '/chronicles'
           ))}
         </ul>
       )}
+      <ConfirmDialog {...confirmDialogProps} confirmLabel={t('deleteBtn')} cancelLabel={t('cancel')} />
     </section>
   )
 }

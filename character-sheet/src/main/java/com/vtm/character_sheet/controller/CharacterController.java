@@ -10,11 +10,13 @@ import com.vtm.character_sheet.service.CharacterService;
 import com.vtm.character_sheet.service.ChronicleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/characters")
 @RequiredArgsConstructor
@@ -31,12 +33,10 @@ public class CharacterController {
             @RequestParam(required = false) String clan
     ) {
         AppUser user = access.getCurrentUser();
-        if (user.getRole() == Role.STORYTELLER) {
-            // Storytellers see their own characters + characters in their chronicles
+        if (user.getRole() == Role.STORYTELLER || user.getRole() == Role.ADMIN) {
+            // Storytellers see their own characters + characters in their chronicles (single query)
             LinkedHashSet<Character> result = new LinkedHashSet<>(service.findByOwner(user.getId()));
-            for (Chronicle c : chronicleService.findByStoryteller(user.getId())) {
-                result.addAll(characterRepository.findByChronicle_Id(c.getId()));
-            }
+            result.addAll(characterRepository.findByChronicleStorytellerId(user.getId()));
             return new ArrayList<>(result);
         }
         return service.findByOwner(user.getId());
@@ -52,8 +52,11 @@ public class CharacterController {
 
     @PostMapping
     public Character create(@Valid @RequestBody Character character) {
-        character.setOwner(access.getCurrentUser());
-        return service.save(character);
+        AppUser user = access.getCurrentUser();
+        character.setOwner(user);
+        Character saved = service.save(character);
+        log.info("Character created: {} (id={}) by {}", saved.getName(), saved.getId(), user.getUsername());
+        return saved;
     }
 
     @PutMapping("/{id}")
@@ -573,6 +576,7 @@ public class CharacterController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (!access.canAccess(id)) return ResponseEntity.status(403).build();
         if (service.findById(id).isEmpty()) return ResponseEntity.notFound().build();
+        log.info("Character deleted: id={} by {}", id, access.getCurrentUser().getUsername());
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }

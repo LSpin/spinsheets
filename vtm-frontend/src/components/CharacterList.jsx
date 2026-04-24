@@ -6,6 +6,8 @@ import { useNewChar } from '../context/NewCharContext'
 import { getCharacters, deleteCharacter } from '../api/characterApi'
 import { getChronicles, joinChronicle, leaveChronicle } from '../api/chronicleApi'
 import { useTheme } from '../context/ThemeContext'
+import ConfirmDialog from './ConfirmDialog'
+import useConfirm from '../hooks/useConfirm'
 
 const SPLAT_LABEL_KEYS = {
   VAMPIRE: 'splatVampire',
@@ -184,6 +186,7 @@ export default function CharacterList() {
   const { t } = useLanguage()
   const { openNewChar } = useNewChar()
   const { switchTheme } = useTheme()
+  const { confirm, confirmDialogProps } = useConfirm()
 
   useEffect(() => { switchTheme('wod') }, [])
   useEffect(() => { loadCharacters() }, [isST])
@@ -206,7 +209,8 @@ export default function CharacterList() {
   }
 
   async function handleDelete(id, name) {
-    if (!confirm(t('confirmDelete').replace('{0}', name))) return
+    const ok = await confirm(t('confirmDelete').replace('{0}', name), t('deleteBtn'))
+    if (!ok) return
     try {
       await deleteCharacter(id)
       setCharacters(prev => prev.filter(c => c.id !== id))
@@ -318,6 +322,7 @@ export default function CharacterList() {
           </ul>
         )
       )}
+      <ConfirmDialog {...confirmDialogProps} confirmLabel={t('deleteBtn')} cancelLabel={t('cancel')} />
     </section>
   )
 }

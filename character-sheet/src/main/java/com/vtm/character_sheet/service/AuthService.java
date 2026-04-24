@@ -9,6 +9,7 @@ import com.vtm.character_sheet.repository.ChronicleRepository;
 import com.vtm.character_sheet.repository.PasswordResetTokenRepository;
 import com.vtm.character_sheet.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -44,7 +46,11 @@ public class AuthService {
         user.setUsername(username);
         user.setEmail(email);
         user.setPasswordHash(passwordEncoder.encode(password));
-        user.setRole("STORYTELLER".equalsIgnoreCase(role) ? Role.STORYTELLER : Role.PLAYER);
+        if ("STORYTELLER".equalsIgnoreCase(role)) {
+            user.setRole(Role.STORYTELLER);
+        } else {
+            user.setRole(Role.PLAYER);
+        }
 
         userRepository.save(user);
         notificationService.notifyRegistration(user);
@@ -114,6 +120,7 @@ public class AuthService {
         notificationService.sendAccountDeletedEmail(user);
 
         userRepository.delete(user);
+        log.info("Account deleted: {}", username);
     }
 
     private Map<String, Object> authResponse(String token, AppUser user) {

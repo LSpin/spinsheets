@@ -1,16 +1,5 @@
-import { useState, useEffect, lazy, Suspense } from 'react'
-
-function lazyRetry(fn) {
-  return lazy(() => fn().catch(() => {
-    const reloaded = sessionStorage.getItem('chunk_reload')
-    if (!reloaded) {
-      sessionStorage.setItem('chunk_reload', '1')
-      window.location.reload()
-    }
-    sessionStorage.removeItem('chunk_reload')
-    return fn()
-  }))
-}
+import { useState, useEffect, Suspense } from 'react'
+import lazyRetry from '../utils/lazyRetry'
 import { useParams } from 'react-router-dom'
 import { getCharacter } from '../api/characterApi'
 import { useLanguage } from '../i18n/LanguageContext'

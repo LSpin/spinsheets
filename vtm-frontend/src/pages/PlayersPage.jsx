@@ -1,15 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useAuth } from '../context/AuthContext'
-import axios from 'axios'
 import { getChronicles, addAssistantST, removeAssistantST } from '../api/chronicleApi'
-
-const api = axios.create({ baseURL: '/api' })
-api.interceptors.request.use(config => {
-  const token = localStorage.getItem('vtm_token')
-  if (token) config.headers.Authorization = `Bearer ${token}`
-  return config
-})
+import api from '../api/apiClient'
 
 export default function PlayersPage() {
   const { t } = useLanguage()

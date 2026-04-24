@@ -1,18 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate, Link } from 'react-router-dom'
-import { useState, useRef, useEffect, lazy, Suspense } from 'react'
-
-// Retry failed lazy imports once (handles stale chunk hashes after deploys)
-function lazyRetry(fn) {
-  return lazy(() => fn().catch(() => {
-    const reloaded = sessionStorage.getItem('chunk_reload')
-    if (!reloaded) {
-      sessionStorage.setItem('chunk_reload', '1')
-      window.location.reload()
-    }
-    sessionStorage.removeItem('chunk_reload')
-    return fn()
-  }))
-}
+import { useState, useRef, useEffect, Suspense } from 'react'
+import lazyRetry from './utils/lazyRetry'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { NewCharProvider } from './context/NewCharContext'
 import { LanguageProvider, useLanguage } from './i18n/LanguageContext'
@@ -362,7 +350,7 @@ function AppShell() {
                   <button>{t('navSTTools')}</button>
                 </Link>
               )}
-              {user?.username === 'spin' && (
+              {user?.role === 'ADMIN' && (
                 <Link to="/admin" onClick={navTo}>
                   <button>{t('navAdmin')}</button>
                 </Link>

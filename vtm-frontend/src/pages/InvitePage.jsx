@@ -7,7 +7,16 @@ import { getCharacters } from '../api/characterApi'
 
 import { SPLAT_TO_CATEGORY } from '../data/splatCategories'
 
-const SYSTEM_CHRONICLE_PATH = { SEVENTH_SEA: '/7thsea/chronicles', L5R: '/l5r/chronicles' }
+const SYSTEM_CHRONICLE_PATH = {
+  WOD: '/chronicles',
+  SEVENTH_SEA: '/7thsea/chronicles',
+  L5R: '/l5r/chronicles',
+  BLADES: '/blades/chronicles',
+  DND: '/dnd/chronicles',
+  UESTRPG: '/uestrpg/chronicles',
+  CYBERPUNK: '/cyberpunk/chronicles',
+  ASOIAF: '/asoiaf/chronicles',
+}
 
 export default function InvitePage() {
   const { code } = useParams()

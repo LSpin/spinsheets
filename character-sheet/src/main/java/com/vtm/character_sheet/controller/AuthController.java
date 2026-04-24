@@ -5,12 +5,14 @@ import com.vtm.character_sheet.repository.AppUserRepository;
 import com.vtm.character_sheet.service.AuthService;
 import com.vtm.character_sheet.service.NotificationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -31,13 +33,17 @@ public class AuthController {
         if (username == null || email == null || password == null) {
             return ResponseEntity.badRequest().body(Map.of("error", "All fields are required"));
         }
-        if (password.length() < 6) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Password must be at least 6 characters"));
+        String passwordError = validatePassword(password);
+        if (passwordError != null) {
+            return ResponseEntity.badRequest().body(Map.of("error", passwordError));
         }
 
         try {
-            return ResponseEntity.ok(authService.register(username.trim(), email.trim(), password, role.trim()));
+            var result = authService.register(username.trim(), email.trim(), password, role.trim());
+            log.info("User registered: {}", username.trim());
+            return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
+            log.warn("Registration failed for {}: {}", username, e.getMessage());
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
@@ -132,8 +138,9 @@ public class AuthController {
         if (token == null || newPassword == null) {
             return ResponseEntity.badRequest().body(Map.of("error", "Token and new password are required"));
         }
-        if (newPassword.length() < 6) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Password must be at least 6 characters"));
+        String passwordError = validatePassword(newPassword);
+        if (passwordError != null) {
+            return ResponseEntity.badRequest().body(Map.of("error", passwordError));
         }
 
         try {
@@ -142,6 +149,14 @@ public class AuthController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
+    }
+
+    private String validatePassword(String password) {
+        if (password.length() < 8) return "Password must be at least 8 characters";
+        if (!password.matches(".*[A-Z].*")) return "Password must contain at least one uppercase letter";
+        if (!password.matches(".*[a-z].*")) return "Password must contain at least one lowercase letter";
+        if (!password.matches(".*\\d.*")) return "Password must contain at least one number";
+        return null;
     }
 
 }

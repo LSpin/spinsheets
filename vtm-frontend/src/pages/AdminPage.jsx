@@ -2,14 +2,9 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
-import axios from 'axios'
-
-const api = axios.create({ baseURL: '/api' })
-api.interceptors.request.use(config => {
-  const token = localStorage.getItem('vtm_token')
-  if (token) config.headers.Authorization = `Bearer ${token}`
-  return config
-})
+import api from '../api/apiClient'
+import ConfirmDialog from '../components/ConfirmDialog'
+import useConfirm from '../hooks/useConfirm'
 
 export default function AdminPage() {
   const { user } = useAuth()
@@ -18,9 +13,10 @@ export default function AdminPage() {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const { confirm, confirmDialogProps } = useConfirm()
 
   useEffect(() => {
-    if (user?.username !== 'spin') { navigate('/'); return }
+    if (user?.role !== 'ADMIN') { navigate('/'); return }
     loadUsers()
   }, [user])
 
@@ -36,7 +32,8 @@ export default function AdminPage() {
   }
 
   async function handleDelete(userId, username) {
-    if (!confirm(t('adminConfirmDelete').replace('{0}', username))) return
+    const ok = await confirm(t('adminConfirmDelete').replace('{0}', username), t('deleteBtn'))
+    if (!ok) return
     try {
       await api.delete(`/admin/users/${userId}`)
       setUsers(prev => prev.filter(u => u.id !== userId))
@@ -45,7 +42,7 @@ export default function AdminPage() {
     }
   }
 
-  if (user?.username !== 'spin') return null
+  if (user?.role !== 'ADMIN') return null
 
   return (
     <section>
@@ -70,12 +67,12 @@ export default function AdminPage() {
             {users.map(u => (
               <tr key={u.id} style={{ borderBottom: '1px solid var(--color-border)' }}>
                 <td style={{ padding: '0.5rem' }}>{u.id}</td>
-                <td style={{ padding: '0.5rem', fontWeight: u.username === 'spin' ? 700 : 400 }}>{u.username}</td>
+                <td style={{ padding: '0.5rem', fontWeight: u.role === 'ADMIN' ? 700 : 400 }}>{u.username}</td>
                 <td style={{ padding: '0.5rem' }}>{u.email}</td>
                 <td style={{ padding: '0.5rem' }}>{u.role}</td>
                 <td style={{ padding: '0.5rem', whiteSpace: 'nowrap' }}>{new Date(u.createdAt).toLocaleDateString()}</td>
                 <td style={{ padding: '0.5rem' }}>
-                  {u.username !== 'spin' && (
+                  {u.role !== 'ADMIN' && (
                     <button className="btn btn-danger btn-sm" onClick={() => handleDelete(u.id, u.username)}>
                       {t('deleteBtn')}
                     </button>
@@ -86,6 +83,7 @@ export default function AdminPage() {
           </tbody>
         </table>
       )}
+      <ConfirmDialog {...confirmDialogProps} confirmLabel={t('deleteBtn')} cancelLabel={t('cancel')} />
     </section>
   )
 }

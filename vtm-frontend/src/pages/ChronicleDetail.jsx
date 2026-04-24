@@ -7,6 +7,8 @@ import { getCharacters } from '../api/characterApi'
 import { joinChronicle, leaveChronicle } from '../api/chronicleApi'
 import { useTheme } from '../context/ThemeContext'
 import { SPLAT_TO_CATEGORY } from '../data/splatCategories'
+import ConfirmDialog from '../components/ConfirmDialog'
+import useConfirm from '../hooks/useConfirm'
 
 export default function ChronicleDetail() {
   const { id } = useParams()
@@ -14,6 +16,7 @@ export default function ChronicleDetail() {
   const { user, isST } = useAuth()
   const { t } = useLanguage()
   const { switchTheme } = useTheme()
+  const { confirm, confirmDialogProps } = useConfirm()
 
   const [chronicle, setChronicle] = useState(null)
   const [members, setMembers] = useState([])
@@ -181,7 +184,8 @@ export default function ChronicleDetail() {
   }
 
   async function handleDeleteSession(sessionId) {
-    if (!confirm(t('confirmDeleteSession'))) return
+    const ok = await confirm(t('confirmDeleteSession'), t('deleteBtn'))
+    if (!ok) return
     try {
       await deleteSession(id, sessionId)
       setSessions(prev => prev.filter(s => s.id !== sessionId))
@@ -489,6 +493,7 @@ export default function ChronicleDetail() {
           </div>
         </div>
       )}
+      <ConfirmDialog {...confirmDialogProps} confirmLabel={t('deleteBtn')} cancelLabel={t('cancel')} />
     </section>
   )
 }

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useTheme } from '../context/ThemeContext'
+import ConfirmDialog from '../components/ConfirmDialog'
+import useConfirm from '../hooks/useConfirm'
 
 const STORAGE_KEY = 'blades-clocks'
 const CLOCK_SIZES = [4, 6, 8, 12]
@@ -61,6 +63,7 @@ export default function BladesClockManager() {
   const navigate = useNavigate()
   const { t } = useLanguage()
   const { switchTheme } = useTheme()
+  const { confirm, confirmDialogProps } = useConfirm()
 
   const [clocks, setClocks] = useState(loadClocks)
   const [newName, setNewName] = useState('')
@@ -108,8 +111,9 @@ export default function BladesClockManager() {
     setClocks(prev => prev.filter(c => c.filled < c.segments))
   }
 
-  function clearAll() {
-    if (!confirm(t('bladesClockClearAllConfirm'))) return
+  async function clearAll() {
+    const ok = await confirm(t('bladesClockClearAllConfirm'), t('deleteBtn'))
+    if (!ok) return
     setClocks([])
   }
 
@@ -291,6 +295,7 @@ export default function BladesClockManager() {
           </div>
         </div>
       ))}
+      <ConfirmDialog {...confirmDialogProps} confirmLabel={t('deleteBtn')} cancelLabel={t('cancel')} />
     </section>
   )
 }

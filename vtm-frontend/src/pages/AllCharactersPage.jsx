@@ -6,6 +6,8 @@ import { getCharacters, deleteCharacter } from '../api/characterApi'
 import { getChronicles } from '../api/chronicleApi'
 import { useTheme } from '../context/ThemeContext'
 import NewCharacterModal from '../components/NewCharacterModal'
+import ConfirmDialog from '../components/ConfirmDialog'
+import useConfirm from '../hooks/useConfirm'
 
 const SYSTEMS = [
   { key: 'ALL', labelKey: 'allSystems', badge: null, charPath: null },
@@ -60,6 +62,7 @@ export default function AllCharactersPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [sortMode, setSortMode] = useState('newest')
   const [npcFilter, setNpcFilter] = useState('all')
+  const { confirm, confirmDialogProps } = useConfirm()
   const navigate = useNavigate()
   const { user, isST } = useAuth()
   const { t } = useLanguage()
@@ -81,7 +84,8 @@ export default function AllCharactersPage() {
   }, [])
 
   async function handleDelete(id, name) {
-    if (!confirm(t('confirmDelete').replace('{0}', name))) return
+    const ok = await confirm(t('confirmDelete').replace('{0}', name), t('deleteBtn'))
+    if (!ok) return
     try {
       await deleteCharacter(id)
       setCharacters(prev => prev.filter(c => c.id !== id))
@@ -226,6 +230,7 @@ export default function AllCharactersPage() {
         </ul>
       )}
       <NewCharacterModal open={showNewChar} onClose={() => setShowNewChar(false)} chronicles={chronicles} />
+      <ConfirmDialog {...confirmDialogProps} confirmLabel={t('deleteBtn')} cancelLabel={t('cancel')} />
     </section>
   )
 }

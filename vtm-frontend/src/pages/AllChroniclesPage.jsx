@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { getChronicles, deleteChronicle } from '../api/chronicleApi'
+import ConfirmDialog from '../components/ConfirmDialog'
+import useConfirm from '../hooks/useConfirm'
 
 const SYSTEMS = [
   { key: 'ALL', labelKey: 'allSystems', badge: null },
@@ -31,6 +33,7 @@ export default function AllChroniclesPage() {
   const navigate = useNavigate()
   const { user, isST } = useAuth()
   const { t } = useLanguage()
+  const { confirm, confirmDialogProps } = useConfirm()
 
   useEffect(() => {
     async function load() {
@@ -47,7 +50,8 @@ export default function AllChroniclesPage() {
   }, [])
 
   async function handleDelete(id, name) {
-    if (!confirm(t('confirmDeleteChronicle').replace('{0}', name))) return
+    const ok = await confirm(t('confirmDeleteChronicle').replace('{0}', name), t('deleteBtn'))
+    if (!ok) return
     try {
       await deleteChronicle(id)
       setChronicles(prev => prev.filter(c => c.id !== id))
@@ -172,6 +176,7 @@ export default function AllChroniclesPage() {
           </div>
         </div>
       )}
+      <ConfirmDialog {...confirmDialogProps} confirmLabel={t('deleteBtn')} cancelLabel={t('cancel')} />
     </section>
   )
 }

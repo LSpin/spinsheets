@@ -7,6 +7,8 @@ import { getCharacters, deleteCharacter } from '../api/characterApi'
 import { getChronicles } from '../api/chronicleApi'
 import ChronicleList from './ChronicleList'
 import NewCharacterModal from '../components/NewCharacterModal'
+import ConfirmDialog from '../components/ConfirmDialog'
+import useConfirm from '../hooks/useConfirm'
 
 export default function L5RPage() {
   const [characters, setCharacters] = useState([])
@@ -21,6 +23,7 @@ export default function L5RPage() {
   const { user, isST } = useAuth()
   const { t } = useLanguage()
   const { switchTheme } = useTheme()
+  const { confirm, confirmDialogProps } = useConfirm()
 
   useEffect(() => { switchTheme('l5r') }, [])
 
@@ -40,7 +43,8 @@ export default function L5RPage() {
   }, [])
 
   async function handleDelete(id, name) {
-    if (!confirm(t('confirmDelete').replace('{0}', name))) return
+    const ok = await confirm(t('confirmDelete').replace('{0}', name), t('deleteBtn'))
+    if (!ok) return
     try {
       await deleteCharacter(id)
       setCharacters(prev => prev.filter(c => c.id !== id))
@@ -211,6 +215,7 @@ export default function L5RPage() {
       )}
       <NewCharacterModal open={showNewChar} onClose={() => { setShowNewChar(false); setSelectedEdition(null) }}
         chronicles={chronicles} newCharPath={selectedEdition === '5e' ? '/l5r/5e/new' : '/l5r/new'} />
+      <ConfirmDialog {...confirmDialogProps} confirmLabel={t('deleteBtn')} cancelLabel={t('cancel')} />
     </section>
   )
 }

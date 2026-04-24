@@ -13,12 +13,14 @@ import com.vtm.character_sheet.service.ChronicleService;
 import com.vtm.character_sheet.service.NotificationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/chronicles")
 @RequiredArgsConstructor

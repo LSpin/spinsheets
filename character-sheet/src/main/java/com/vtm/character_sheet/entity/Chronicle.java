@@ -13,7 +13,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "chronicles")
+@Table(name = "chronicles", indexes = {
+    @Index(name = "idx_chronicle_storyteller", columnList = "storyteller_id"),
+    @Index(name = "idx_chronicle_invite_code", columnList = "inviteCode")
+})
 @Getter @Setter @NoArgsConstructor
 public class Chronicle {
 

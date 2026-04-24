@@ -7,6 +7,8 @@ import { getCharacters, deleteCharacter } from '../api/characterApi'
 import { getChronicles } from '../api/chronicleApi'
 import ChronicleList from './ChronicleList'
 import NewCharacterModal from '../components/NewCharacterModal'
+import ConfirmDialog from '../components/ConfirmDialog'
+import useConfirm from '../hooks/useConfirm'
 
 export default function UestrpgPage() {
   const [characters, setCharacters] = useState([])
@@ -19,6 +21,7 @@ export default function UestrpgPage() {
   const { user, isST } = useAuth()
   const { t } = useLanguage()
   const { switchTheme } = useTheme()
+  const { confirm, confirmDialogProps } = useConfirm()
 
   useEffect(() => { switchTheme('uestrpg') }, [])
 
@@ -38,7 +41,8 @@ export default function UestrpgPage() {
   }, [])
 
   async function handleDelete(id, name) {
-    if (!confirm(t('confirmDelete').replace('{0}', name))) return
+    const ok = await confirm(t('confirmDelete').replace('{0}', name), t('deleteBtn'))
+    if (!ok) return
     try {
       await deleteCharacter(id)
       setCharacters(prev => prev.filter(c => c.id !== id))
@@ -145,6 +149,7 @@ export default function UestrpgPage() {
         )
       })()}
       <NewCharacterModal open={showNewChar} onClose={() => setShowNewChar(false)} chronicles={chronicles} newCharPath="/uestrpg/new" />
+      <ConfirmDialog {...confirmDialogProps} confirmLabel={t('deleteBtn')} cancelLabel={t('cancel')} />
     </section>
   )
 }
