@@ -571,6 +571,7 @@ const en = {
   // ── Mage extras ──
   affiliation: 'Affiliation',
   convention: 'Convention',
+  craft: 'Craft',
   sectionCabal: 'Section / Cabal',
   editMage: 'Edit Mage',
   newMage: 'New Mage',
@@ -2912,6 +2913,7 @@ const pt = {
   // ── Mage extras ──
   affiliation: 'Afiliacao',
   convention: 'Convencao',
+  craft: 'Ofício',
   sectionCabal: 'Secao / Cabala',
   editMage: 'Editar Mago',
   newMage: 'Novo Mago',

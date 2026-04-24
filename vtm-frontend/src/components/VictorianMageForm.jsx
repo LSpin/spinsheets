@@ -33,33 +33,54 @@ import StorytellerDiceRoller from './StorytellerDiceRoller'
 // ── Constants ──
 
 const TRADITIONS = [
-  { value: 'Akashic Brotherhood', description: 'Martial artists and monks seeking perfection of mind, body, and spirit through the Do.' },
-  { value: 'Celestial Chorus', description: 'Faithful singers who channel the divine through prayer, song, and religious devotion.' },
-  { value: 'Cult of Ecstasy', description: 'Sensory mystics who expand consciousness through pleasure, pain, and altered states.' },
-  { value: 'Dreamspeakers', description: 'Shamans and spirit-talkers who walk the Umbra and commune with the spirit world.' },
-  { value: 'Euthanatos', description: 'Death mages who maintain the Wheel of Fate, ending lives that have become corrupt.' },
-  { value: 'Hollow Ones', description: 'Gothic orphans who reject tradition and embrace the shadows between factions.' },
-  { value: 'Order of Hermes', description: 'Hermetic scholars and ceremonial magicians with ancient lineages and rigid hierarchy.' },
-  { value: 'Sons of Ether', description: 'Mad scientists who rejected the Technocracy. Inventors of impossible devices.' },
-  { value: 'Verbena', description: 'Blood witches and druids who draw power from life, nature, and primal forces.' },
-  { value: 'Virtual Adepts', description: 'Hackers and digital mages who reshape reality through code and information.' },
+  { value: 'Ahl-i-Batin', description: 'The Subtle Ones — mystic scholars of Unity who weave connections through sacred geometry and Correspondence. Still seated on the Council of Nine in this era.' },
+  { value: 'Akashayana', description: 'Martial artists and contemplatives seeking the Do — perfection of mind, body, and spirit through disciplined practice. Known in the West as the Akashic Brotherhood.' },
+  { value: 'Chakravanti (Euthanatoi)', description: 'Guardians of the Wheel of Fate who study the cycle of death and rebirth. In India, they are overwhelmed by the burden of death they have taken upon themselves.' },
+  { value: 'Chorus Celestial', description: 'Faithful singers of the One Song who channel the divine through prayer, sacred music, and religious devotion across many faiths.' },
+  { value: 'Dream-Speakers', description: 'Shamans and spirit-talkers who walk the Umbra and commune with the spirit world. They rise to challenge colonial imperialism and fight for indigenous peoples.' },
+  { value: 'Order of Hermes', description: 'Hermetic scholars and ceremonial magicians with ancient lineages. The British Empire has brought the Order great power, but internal politics and the Order of Reason threaten them.' },
+  { value: 'Sahajiya (Cultus Ecstasis)', description: 'Sensory mystics who expand consciousness through ecstatic experience. The Scribbling — scrawled graffiti — appears across the growing cities of the Empire.' },
+  { value: 'Verbenae', description: 'Blood witches, druids, and healers who draw power from life, nature, and primal forces. The Industrial Revolution threatens their sacred groves and wild places.' },
 ]
 
-const TECHNOCRACY = [
-  { value: 'Iteration X', description: 'Cyborg engineers who perfect the human body through biomechanics and cybernetics.' },
-  { value: 'New World Order', description: 'Mind-control specialists who shape public perception and maintain the Consensus.' },
-  { value: 'Progenitors', description: 'Bioengineers and geneticists who advance human evolution through biological science.' },
-  { value: 'Syndicate', description: 'Financial manipulators who control reality through economics, media, and commerce.' },
-  { value: 'Void Engineers', description: 'Explorers of Dimensional Science who patrol the borders of reality against threats.' },
+const ORDER_OF_REASON = [
+  { value: 'Exploratory Society', description: 'Adventurers and cartographers who map the unknown corners of the world and catalogue its wonders for the Order.' },
+  { value: 'Grand Faculty', description: 'Scholars and educators who shape the curricula of universities and schools, spreading Enlightened thought through academia.' },
+  { value: 'Ivory Tower', description: 'Political strategists and social engineers who guide governments and institutions toward rational, ordered society.' },
+  { value: 'League of Constructors', description: 'Engineers and architects who build the infrastructure of the modern world — railways, bridges, factories, and cities.' },
+  { value: 'Syndicate', description: 'Financial architects who understand money as the truest form of power. They control the flow of capital across the British Empire and beyond.' },
+  { value: 'Guild of Analytical Reckoners', description: 'Mathematicians and proto-computer scientists who build Analytical Engines and Difference Engines to calculate reality.' },
+  { value: 'Society of Celestial Masters', description: 'Astronomers and cosmologists who chart the heavens and study the fundamental forces governing the universe.' },
+  { value: 'Hippocratic Circle', description: 'Physicians, surgeons, and medical researchers who advance the science of healing through Enlightened biology and chemistry.' },
+  { value: 'Guild of Electrodyne Engineers', description: 'Pioneers of electrical science — Tesla\'s contemporaries who harness lightning, magnetism, and the ether for the Order.' },
+  { value: 'Void Seekers', description: 'Explorers of Dimensional Science who venture beyond the known world into the Umbra, charting spirit realms and alien dimensions.' },
+  { value: 'Golden Guild', description: 'Master alchemists and metallurgists who transmute materials and refine the processes of industry and manufacture.' },
+  { value: 'Invisible Exchequers', description: 'Shadow bankers and economic manipulators who control the flow of currency, debt, and trade across the Empire.' },
+  { value: 'Lightkeepers', description: 'Intelligence operatives and propagandists who shape public perception and suppress dangerous knowledge.' },
+  { value: 'Brotherhood of Mechanicians', description: 'Clockwork engineers and machinists who build automata, mechanical servants, and precision instruments.' },
+  { value: 'Skeleton Keys', description: 'Infiltrators and spies who open locked doors — both literal and metaphorical — for the Order of Reason.' },
+]
+
+const VICTORIAN_CRAFTS = [
+  { value: 'Bata\'a', description: 'Vodou practitioners and servants of the Loa who channel the spirits of the invisible world through drumming, possession, and ancestor worship.' },
+  { value: 'Hollow Ones', description: 'A nascent movement of romantic outcasts and gothic mystics drawing from eclectic magical styles. Just beginning to emerge in the Victorian era.' },
+  { value: 'Wu Lung', description: 'The Dragon Wizards of China — masters of elemental forces and imperial ritual rooted in Confucian propriety and Taoist cosmology.' },
+  { value: 'Kopa Loei', description: 'Hawaiian mystics and guardians of the sacred islands who manipulate mana and commune with elemental forces.' },
+  { value: 'Ngoma', description: 'African mages practicing communal magick rooted in shared experience, oral tradition, and collective empowerment.' },
+  { value: 'Sisters of Hippolyta', description: 'Warrior-women tracing their lineage to the Amazons. Fierce defenders of the sacred feminine combining martial prowess with primal magick.' },
+  { value: 'Taftâni', description: 'Persian elemental sorcerers commanding fire, wind, earth, and water through ancient Zoroastrian and pre-Islamic traditions.' },
+  { value: 'Dalou\'laoshi', description: 'Chinese technomancers who blend Eastern philosophy with Western engineering. Independent of both the Wu Lung and the Order of Reason.' },
+  { value: 'Comanche Puha', description: 'Native American medicine workers of the Comanche Nation who channel the spiritual power of the Great Plains through war, hunt, and ceremony.' },
+  { value: 'Zulu Mechanists', description: 'African technomancers who fuse traditional Zulu spiritual practices with industrial-age mechanical innovation.' },
 ]
 
 const AFFILIATIONS = [
-  { value: 'Traditions', description: 'The Council of Nine — mystical willworkers united against the Technocracy.' },
-  { value: 'Technocracy', description: 'The Technocratic Union — enforcers of scientific Consensus and static reality.' },
-  { value: 'Disparates', description: 'Independent crafts and practices outside the main factions. Fiercely autonomous.' },
+  { value: 'Traditions', description: 'The Council of Nine — mystical willworkers united against the Order of Reason. Eight Traditions hold seats in this era.' },
+  { value: 'Order of Reason', description: 'The proto-Technocratic Union — Enlightened scientists and engineers reshaping reality through rational Consensus.' },
+  { value: 'Crafts', description: 'Independent magical traditions outside the Council and Order. Fiercely autonomous practitioners of diverse cultural practices.' },
   { value: 'Orphans', description: 'Mages who Awakened without guidance. Self-taught and unaffiliated with any faction.' },
-  { value: 'Nephandi', description: 'Fallen mages who serve the forces of entropy and cosmic corruption.' },
-  { value: 'Marauders', description: 'Insane mages whose madness warps reality around them uncontrollably.' },
+  { value: 'Nephandi', description: 'Fallen mages who serve the forces of entropy and cosmic corruption. They lurk in the shadows of the Empire.' },
+  { value: 'Marauders', description: 'Insane mages whose madness warps reality around them uncontrollably. A growing madness in the Victorian age.' },
 ]
 
 const ESSENCES = [
@@ -537,11 +558,14 @@ export default function VictorianMageForm() {
     } catch {}
   }
 
-  // Determine Tradition/Convention list based on affiliation
+  // Determine Tradition/Convention/Craft list based on affiliation
   const factionList = fields.affiliation === 'Traditions' ? TRADITIONS
-    : fields.affiliation === 'Technocracy' ? TECHNOCRACY
+    : fields.affiliation === 'Order of Reason' ? ORDER_OF_REASON
+    : fields.affiliation === 'Crafts' ? VICTORIAN_CRAFTS
     : []
-  const factionLabel = fields.affiliation === 'Technocracy' ? t('convention') : t('tradition')
+  const factionLabel = fields.affiliation === 'Order of Reason' ? t('convention')
+    : fields.affiliation === 'Crafts' ? t('craft')
+    : t('tradition')
 
   async function handleAddRote() {
     if (!newRote.name.trim()) return
