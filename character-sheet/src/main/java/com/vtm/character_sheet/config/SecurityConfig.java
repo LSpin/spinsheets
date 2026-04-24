@@ -44,6 +44,13 @@ public class SecurityConfig {
                 .requestMatchers("/login", "/register", "/reset-password", "/characters/**", "/chronicles/**", "/all-chronicles", "/all-characters", "/7thsea/**", "/l5r/**", "/blades/**", "/dnd/**", "/uestrpg/**", "/cyberpunk/**", "/asoiaf/**", "/players", "/admin", "/invite/**").permitAll()
                 .anyRequest().authenticated()
             )
+            .exceptionHandling(ex -> ex
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.setStatus(401);
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"error\":\"Authentication required\"}");
+                })
+            )
             .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
