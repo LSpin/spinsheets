@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -36,10 +38,32 @@ public class ChronicleController {
 
     @GetMapping
     public List<Chronicle> findAll() {
-        // All users see all chronicles — STs can manage their own, players can browse and join
-        return service.findAll();
+        AppUser user = access.getCurrentUser();
+        // Storytellers see all chronicles; players see only chronicles they belong to
+        if (user.getRole() == Role.STORYTELLER) return service.findAll();
+        // For players: return chronicles where they have characters or are assistant STs
+        List<Chronicle> owned = chronicleRepository.findByStoryteller_Id(user.getId());
+        List<Chronicle> assisting = chronicleRepository.findByAssistantStorytellers_Id(user.getId());
+        List<Long> playerChronicleIds = characterRepository.findByOwner_Id(user.getId()).stream()
+                .filter(c -> c.getChronicle() != null)
+                .map(c -> c.getChronicle().getId())
+                .distinct().toList();
+        List<Chronicle> playerChronicles = playerChronicleIds.isEmpty()
+                ? List.of()
+                : playerChronicleIds.stream()
+                    .map(cid -> service.findById(cid).orElse(null))
+                    .filter(java.util.Objects::nonNull)
+                    .toList();
+        // Merge and deduplicate
+        java.util.Set<Long> seen = new java.util.HashSet<>();
+        List<Chronicle> result = new java.util.ArrayList<>();
+        for (Chronicle c : owned) if (seen.add(c.getId())) result.add(c);
+        for (Chronicle c : assisting) if (seen.add(c.getId())) result.add(c);
+        for (Chronicle c : playerChronicles) if (seen.add(c.getId())) result.add(c);
+        return result;
     }
 
+    @Transactional(readOnly = true)
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         return service.findById(id).map(chronicle -> {

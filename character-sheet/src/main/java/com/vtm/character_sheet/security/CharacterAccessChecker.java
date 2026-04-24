@@ -30,7 +30,8 @@ public class CharacterAccessChecker {
         AppUser user = getCurrentUser();
         // Storytellers can access all characters
         if (user.getRole() == Role.STORYTELLER) return characterRepository.existsById(characterId);
-        return characterRepository.findById(characterId)
+        // Single query with JOIN FETCH avoids N+1 lazy loading
+        return characterRepository.findByIdWithAccessData(characterId)
                 .map(c -> {
                     // Owner can always access their own characters
                     if (c.getOwner() != null && c.getOwner().getId().equals(user.getId())) return true;

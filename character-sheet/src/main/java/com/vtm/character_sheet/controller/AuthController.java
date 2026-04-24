@@ -22,6 +22,7 @@ public class AuthController {
     private final CharacterAccessChecker access;
     private final AppUserRepository userRepository;
     private final NotificationService notificationService;
+    private final com.vtm.character_sheet.security.JwtUtil jwtUtil;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> body) {
@@ -62,6 +63,31 @@ public class AuthController {
         } catch (Exception e) {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid username or password"));
         }
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestBody Map<String, String> body) {
+        String refreshToken = body.get("refreshToken");
+        if (refreshToken == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Refresh token is required"));
+        }
+        if (!jwtUtil.isValid(refreshToken) || !jwtUtil.isRefreshToken(refreshToken)) {
+            return ResponseEntity.status(401).body(Map.of("error", "Invalid or expired refresh token"));
+        }
+        String username = jwtUtil.getUsername(refreshToken);
+        return userRepository.findByUsername(username)
+                .<ResponseEntity<?>>map(user -> {
+                    String newToken = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
+                    String newRefresh = jwtUtil.generateRefreshToken(user.getUsername());
+                    return ResponseEntity.ok(Map.of(
+                            "token", newToken,
+                            "refreshToken", newRefresh,
+                            "userId", user.getId(),
+                            "username", user.getUsername(),
+                            "role", user.getRole().name()
+                    ));
+                })
+                .orElse(ResponseEntity.status(401).body(Map.of("error", "User not found")));
     }
 
     @GetMapping("/users")

@@ -63,10 +63,12 @@ class AuthServiceTest {
             return u;
         });
         when(jwtUtil.generateToken("newuser", "PLAYER")).thenReturn("jwt-token");
+        when(jwtUtil.generateRefreshToken("newuser")).thenReturn("refresh-token");
 
         Map<String, Object> result = authService.register("newuser", "new@test.com", "Password1", "PLAYER");
 
         assertEquals("jwt-token", result.get("token"));
+        assertEquals("refresh-token", result.get("refreshToken"));
         assertEquals("newuser", result.get("username"));
         assertEquals("PLAYER", result.get("role"));
         verify(notificationService).notifyRegistration(any());
@@ -84,6 +86,7 @@ class AuthServiceTest {
             return u;
         });
         when(jwtUtil.generateToken("st", "STORYTELLER")).thenReturn("st-token");
+        when(jwtUtil.generateRefreshToken("st")).thenReturn("st-refresh");
 
         Map<String, Object> result = authService.register("st", "st@test.com", "Password1", "STORYTELLER");
 
@@ -113,6 +116,7 @@ class AuthServiceTest {
     void loginReturnsTokenAndUserInfo() {
         when(userRepository.findByUsername("alice")).thenReturn(Optional.of(testUser));
         when(jwtUtil.generateToken("alice", "PLAYER")).thenReturn("login-token");
+        when(jwtUtil.generateRefreshToken("alice")).thenReturn("login-refresh");
 
         Map<String, Object> result = authService.login("alice", "Password1");
 

@@ -124,8 +124,10 @@ public class AuthService {
     }
 
     private Map<String, Object> authResponse(String token, AppUser user) {
+        String refreshToken = jwtUtil.generateRefreshToken(user.getUsername());
         return Map.of(
                 "token", token,
+                "refreshToken", refreshToken,
                 "userId", user.getId(),
                 "username", user.getUsername(),
                 "role", user.getRole().name()

@@ -14,7 +14,8 @@ import java.util.List;
 @Table(name = "characters", indexes = {
     @Index(name = "idx_character_owner", columnList = "owner_id"),
     @Index(name = "idx_character_chronicle", columnList = "chronicle_id"),
-    @Index(name = "idx_character_splat", columnList = "splat")
+    @Index(name = "idx_character_splat", columnList = "splat"),
+    @Index(name = "idx_character_npc", columnList = "npc")
 })
 @Getter @Setter @NoArgsConstructor
 public class Character {

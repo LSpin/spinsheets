@@ -60,7 +60,7 @@ class CharacterAccessCheckerTest {
         Character c = new Character();
         c.setId(10L);
         c.setOwner(player);
-        when(characterRepository.findById(10L)).thenReturn(Optional.of(c));
+        when(characterRepository.findByIdWithAccessData(10L)).thenReturn(Optional.of(c));
 
         assertTrue(checker.canAccess(10L));
     }
@@ -76,7 +76,7 @@ class CharacterAccessCheckerTest {
         Character c = new Character();
         c.setId(10L);
         c.setOwner(otherPlayer);
-        when(characterRepository.findById(10L)).thenReturn(Optional.of(c));
+        when(characterRepository.findByIdWithAccessData(10L)).thenReturn(Optional.of(c));
 
         assertFalse(checker.canAccess(10L));
     }
@@ -115,7 +115,7 @@ class CharacterAccessCheckerTest {
         c.setId(20L);
         c.setOwner(otherPlayer);
         c.setChronicle(chronicle);
-        when(characterRepository.findById(20L)).thenReturn(Optional.of(c));
+        when(characterRepository.findByIdWithAccessData(20L)).thenReturn(Optional.of(c));
 
         assertTrue(checker.canAccess(20L));
     }
@@ -135,7 +135,7 @@ class CharacterAccessCheckerTest {
     void nonexistentCharacterReturnsFalse() {
         setCurrentUser("player1");
         when(userRepository.findByUsername("player1")).thenReturn(Optional.of(player));
-        when(characterRepository.findById(999L)).thenReturn(Optional.empty());
+        when(characterRepository.findByIdWithAccessData(999L)).thenReturn(Optional.empty());
 
         assertFalse(checker.canAccess(999L));
     }

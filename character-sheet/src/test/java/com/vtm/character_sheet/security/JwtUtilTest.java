@@ -13,7 +13,7 @@ class JwtUtilTest {
     void setUp() {
         // 64-byte secret for HMAC-SHA (minimum for HS512)
         String secret = "test-secret-key-that-is-long-enough-for-hmac-sha-algorithm-ok!";
-        jwtUtil = new JwtUtil(secret, 86400000L);
+        jwtUtil = new JwtUtil(secret, 86400000L, 604800000L);
     }
 
     @Test
@@ -50,7 +50,7 @@ class JwtUtilTest {
     @Test
     void expiredTokenIsInvalid() {
         JwtUtil shortLived = new JwtUtil(
-                "test-secret-key-that-is-long-enough-for-hmac-sha-algorithm-ok!", 0L);
+                "test-secret-key-that-is-long-enough-for-hmac-sha-algorithm-ok!", 0L, 0L);
         String token = shortLived.generateToken("expired", "PLAYER");
         assertFalse(shortLived.isValid(token));
     }
@@ -59,7 +59,7 @@ class JwtUtilTest {
     void differentSecretCannotParse() {
         String token = jwtUtil.generateToken("alice", "PLAYER");
         JwtUtil otherUtil = new JwtUtil(
-                "different-secret-key-long-enough-for-hmac-sha-algorithm-ok!!", 86400000L);
+                "different-secret-key-long-enough-for-hmac-sha-algorithm-ok!!", 86400000L, 604800000L);
         assertFalse(otherUtil.isValid(token));
     }
 }

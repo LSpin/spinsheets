@@ -44,9 +44,9 @@ jobs:
         run: |
           echo "$SSH_KEY" > key.pem
           chmod 600 key.pem
-          scp -o StrictHostKeyChecking=no -i key.pem \
+          scp -o StrictHostKeyChecking=accept-new -i key.pem \
             character-sheet/target/*.jar ubuntu@$EC2_HOST:/opt/spinsheets/app.jar
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_HOST << 'ENDSSH'
+          ssh -o StrictHostKeyChecking=accept-new -i key.pem ubuntu@$EC2_HOST << 'ENDSSH'
             sudo tee /etc/caddy/Caddyfile > /dev/null <<'EOF'
           spinsheets.com {
               reverse_proxy localhost:8080

@@ -19,6 +19,7 @@ export function AuthProvider({ children }) {
   function persist(data) {
     const u = { userId: data.userId, username: data.username, role: data.role }
     localStorage.setItem('vtm_token', data.token)
+    if (data.refreshToken) localStorage.setItem('vtm_refresh', data.refreshToken)
     localStorage.setItem('vtm_user', JSON.stringify(u))
     setUser(u)
   }
@@ -35,6 +36,7 @@ export function AuthProvider({ children }) {
 
   function logout() {
     localStorage.removeItem('vtm_token')
+    localStorage.removeItem('vtm_refresh')
     localStorage.removeItem('vtm_user')
     setUser(null)
   }
