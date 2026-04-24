@@ -274,6 +274,8 @@ export default function MageForm() {
   const [bgSearch, setBgSearch] = useState('')
   const [newWonder, setNewWonder] = useState({ name: '', level: 1, notes: '' })
   const [roteFilterSphere, setRoteFilterSphere] = useState('')
+  const [catalogFilterSphere, setCatalogFilterSphere] = useState('')
+  const [catalogFilterCategory, setCatalogFilterCategory] = useState('')
   const [showGiftRef, setShowGiftRef] = useState(false)
 
   // Guided creation state
@@ -914,8 +916,55 @@ export default function MageForm() {
               <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>
                 Browse {MAGE_ROTES.length} rotes...
               </summary>
-              <ul className="catalog-list" style={{ marginTop: 'var(--space-sm)' }}>
-                {MAGE_ROTES.map(r => {
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)', marginTop: 'var(--space-sm)', marginBottom: 'var(--space-sm)', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                  <label htmlFor="catalog-filter-sphere" style={{ fontSize: '0.82rem', fontWeight: 600, whiteSpace: 'nowrap' }}>Sphere:</label>
+                  <select id="catalog-filter-sphere" value={catalogFilterSphere} onChange={e => setCatalogFilterSphere(e.target.value)}
+                    style={{ minWidth: 130 }} aria-label="Filter catalogue by sphere">
+                    <option value="">All Spheres</option>
+                    {['Correspondence', 'Entropy', 'Forces', 'Life', 'Matter', 'Mind', 'Prime', 'Spirit', 'Time'].map(s => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                  <label htmlFor="catalog-filter-category" style={{ fontSize: '0.82rem', fontWeight: 600, whiteSpace: 'nowrap' }}>Category:</label>
+                  <select id="catalog-filter-category" value={catalogFilterCategory} onChange={e => setCatalogFilterCategory(e.target.value)}
+                    style={{ minWidth: 180 }} aria-label="Filter catalogue by category">
+                    <option value="">All Categories</option>
+                    <optgroup label="By Sphere">
+                      {['Correspondence', 'Entropy', 'Forces', 'Life', 'Matter', 'Mind', 'Prime', 'Spirit', 'Time'].map(s => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </optgroup>
+                    <optgroup label="Multi-Sphere">
+                      <option value="Multi-Sphere Classics">Multi-Sphere Classics</option>
+                    </optgroup>
+                    <optgroup label="How Do You DO That?">
+                      {[...new Set(MAGE_ROTES.filter(r => (r.category || '').startsWith('HDYDT')).map(r => r.category))].sort().map(c => (
+                        <option key={c} value={c}>{c.replace('HDYDT: ', '')}</option>
+                      ))}
+                    </optgroup>
+                  </select>
+                </div>
+                {(catalogFilterSphere || catalogFilterCategory) && (
+                  <>
+                    <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }} aria-live="polite" role="status">
+                      {MAGE_ROTES.filter(r =>
+                        (!catalogFilterSphere || (r.spheres || '').includes(catalogFilterSphere)) &&
+                        (!catalogFilterCategory || r.category === catalogFilterCategory)
+                      ).length} results
+                    </span>
+                    <button className="btn btn-sm" style={{ fontSize: '0.75rem', padding: '2px 8px' }}
+                      onClick={() => { setCatalogFilterSphere(''); setCatalogFilterCategory('') }}>Clear</button>
+                  </>
+                )}
+              </div>
+              <ul className="catalog-list">
+                {MAGE_ROTES.filter(r =>
+                  (!catalogFilterSphere || (r.spheres || '').includes(catalogFilterSphere)) &&
+                  (!catalogFilterCategory || r.category === catalogFilterCategory)
+                ).map(r => {
                   const already = rotes.some(x => x.name.toLowerCase() === r.name.toLowerCase())
                   return (
                     <li key={r.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`}>
