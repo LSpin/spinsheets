@@ -19,6 +19,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class AuthFlowTest {
 
+    private static final String VALID_PASSWORD = "Secret123";
+
     @Autowired private MockMvc mvc;
     @Autowired private ObjectMapper mapper;
 
@@ -31,24 +33,23 @@ class AuthFlowTest {
         String username = "testuser_" + System.currentTimeMillis();
 
         // Register
-        MvcResult result = mvc.perform(post("/api/auth/register")
+        mvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json(Map.of(
                                 "username", username,
                                 "email", username + "@test.com",
-                                "password", "secret123",
+                                "password", VALID_PASSWORD,
                                 "role", "PLAYER"
                         ))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").isNotEmpty())
                 .andExpect(jsonPath("$.username").value(username))
-                .andExpect(jsonPath("$.role").value("PLAYER"))
-                .andReturn();
+                .andExpect(jsonPath("$.role").value("PLAYER"));
 
         // Login with same credentials
         mvc.perform(post("/api/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(json(Map.of("username", username, "password", "secret123"))))
+                        .content(json(Map.of("username", username, "password", VALID_PASSWORD))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").isNotEmpty())
                 .andExpect(jsonPath("$.username").value(username));
@@ -67,14 +68,14 @@ class AuthFlowTest {
     void registerDuplicateUsername() throws Exception {
         String username = "dupuser_" + System.currentTimeMillis();
         String body = json(Map.of(
-                "username", username, "email", username + "@test.com", "password", "secret123"));
+                "username", username, "email", username + "@test.com", "password", VALID_PASSWORD));
 
         mvc.perform(post("/api/auth/register").contentType(MediaType.APPLICATION_JSON).content(body))
                 .andExpect(status().isOk());
 
         // Same username, different email
         String body2 = json(Map.of(
-                "username", username, "email", "other_" + username + "@test.com", "password", "secret123"));
+                "username", username, "email", "other_" + username + "@test.com", "password", VALID_PASSWORD));
 
         mvc.perform(post("/api/auth/register").contentType(MediaType.APPLICATION_JSON).content(body2))
                 .andExpect(status().isBadRequest())
@@ -88,10 +89,49 @@ class AuthFlowTest {
                         .content(json(Map.of(
                                 "username", "short_" + System.currentTimeMillis(),
                                 "email", "short@test.com",
-                                "password", "abc"
+                                "password", "Ab1"
                         ))))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("Password must be at least 6 characters"));
+                .andExpect(jsonPath("$.error").value("Password must be at least 8 characters"));
+    }
+
+    @Test
+    void passwordWithoutUppercaseRejected() throws Exception {
+        mvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json(Map.of(
+                                "username", "noup_" + System.currentTimeMillis(),
+                                "email", "noup@test.com",
+                                "password", "secret123"
+                        ))))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Password must contain at least one uppercase letter"));
+    }
+
+    @Test
+    void passwordWithoutLowercaseRejected() throws Exception {
+        mvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json(Map.of(
+                                "username", "nolow_" + System.currentTimeMillis(),
+                                "email", "nolow@test.com",
+                                "password", "SECRET123"
+                        ))))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Password must contain at least one lowercase letter"));
+    }
+
+    @Test
+    void passwordWithoutDigitRejected() throws Exception {
+        mvc.perform(post("/api/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json(Map.of(
+                                "username", "nodig_" + System.currentTimeMillis(),
+                                "email", "nodig@test.com",
+                                "password", "SecretPass"
+                        ))))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.error").value("Password must contain at least one number"));
     }
 
     @Test
@@ -109,7 +149,7 @@ class AuthFlowTest {
                         .content(json(Map.of(
                                 "username", username,
                                 "email", username + "@test.com",
-                                "password", "secret123"
+                                "password", VALID_PASSWORD
                         ))))
                 .andExpect(status().isOk())
                 .andReturn();
