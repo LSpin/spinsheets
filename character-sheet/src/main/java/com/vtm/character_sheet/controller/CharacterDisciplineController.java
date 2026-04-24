@@ -55,6 +55,14 @@ public class CharacterDisciplineController {
         return ResponseEntity.ok(service.addBackground(id, name, level, description));
     }
 
+    @PutMapping("/{id}/backgrounds/{backgroundId}")
+    public ResponseEntity<CharacterBackground> updateBackground(@PathVariable Long id, @PathVariable Long backgroundId, @RequestBody Map<String, Object> body) {
+        if (!access.canAccess(id)) return ResponseEntity.status(403).build();
+        Integer level = body.get("level") instanceof Number n ? n.intValue() : null;
+        String description = (String) body.get("description");
+        return ResponseEntity.ok(service.updateBackground(backgroundId, level, description));
+    }
+
     @DeleteMapping("/{id}/backgrounds/{backgroundId}")
     public ResponseEntity<Void> removeBackground(@PathVariable Long id, @PathVariable Long backgroundId) {
         if (!access.canAccess(id)) return ResponseEntity.status(403).build();

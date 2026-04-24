@@ -51,6 +51,14 @@ public class CharacterDisciplineService {
         return backgroundRepository.findByCharacterId(characterId);
     }
 
+    public CharacterBackground updateBackground(Long backgroundId, Integer level, String description) {
+        CharacterBackground bg = backgroundRepository.findById(backgroundId)
+                .orElseThrow(() -> new RuntimeException("Background not found"));
+        if (level != null) bg.setLevel(level);
+        if (description != null) bg.setDescription(description);
+        return backgroundRepository.save(bg);
+    }
+
     public void removeBackground(Long backgroundId) {
         backgroundRepository.deleteById(backgroundId);
     }

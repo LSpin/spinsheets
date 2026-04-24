@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   getCharacter, updateCharacter,
-  getBackgrounds, addBackground, removeBackground,
+  getBackgrounds, addBackground, updateBackground, removeBackground,
   getMeritCatalog, getFlawCatalog,
   getMerits, getFlaws,
   getInventory,
@@ -52,10 +52,24 @@ const TECHNOCRACY = [
   { value: 'Void Engineers', description: 'Explorers of Dimensional Science who patrol the borders of reality against threats.' },
 ]
 
+const DISPARATES = [
+  { value: 'Ahl-i-Batin', description: 'Seers of Unity through Divine connection and subtle influence. Affinity Sphere: Correspondence or Mind.' },
+  { value: 'Bata\'a', description: 'Inheritors of voodoo, dedicated to restoring a broken world. Affinity Sphere: Spirit or Life.' },
+  { value: 'Children of Knowledge', description: 'Crowned Solificati devoted to alchemical perfection. Affinity Sphere: Forces, Matter, Prime, or Entropy.' },
+  { value: 'Hollow Ones', description: 'Dark romantics laughing in the face of ruin. Affinity Sphere: Any.' },
+  { value: 'Kopa Loei', description: 'Guardians of Nature, the Old Gods, and their culture. Affinity Sphere: Any.' },
+  { value: 'Ngoma', description: 'African High Magi, sworn to restore what has been taken. Affinity Sphere: Life, Mind, Prime, or Spirit.' },
+  { value: 'Orphans', description: 'Self-Awakened mages surviving in the shadows of other sects. Affinity Sphere: Any.' },
+  { value: 'Sisters of Hippolyta', description: 'Guardians of the Sacred Feminine. Affinity Sphere: Life or Mind.' },
+  { value: 'Taftâni', description: 'Middle Eastern mystics shaping the gifts of Allah and the Arts of man. Affinity Sphere: Forces, Matter, Prime, or Spirit.' },
+  { value: 'Templar Knights', description: 'Bastions of chivalry in a corrupt age. Affinity Sphere: Forces, Life, Mind, or Prime.' },
+  { value: 'Wu Lung', description: 'Preservers of heavenly wisdom, order, and nobility. Affinity Sphere: Spirit, Forces, Matter, or Life.' },
+]
+
 const AFFILIATIONS = [
   { value: 'Traditions', description: 'The Council of Nine — mystical willworkers united against the Technocracy.' },
   { value: 'Technocracy', description: 'The Technocratic Union — enforcers of scientific Consensus and static reality.' },
-  { value: 'Disparates', description: 'Independent crafts and practices outside the main factions. Fiercely autonomous.' },
+  { value: 'Disparates', description: 'The Disparate Alliance — independent crafts banding together for mutual protection.' },
   { value: 'Orphans', description: 'Mages who Awakened without guidance. Self-taught and unaffiliated with any faction.' },
   { value: 'Nephandi', description: 'Fallen mages who serve the forces of entropy and cosmic corruption.' },
   { value: 'Marauders', description: 'Insane mages whose madness warps reality around them uncontrollably.' },
@@ -429,8 +443,11 @@ export default function MageForm() {
   // Determine Tradition/Convention list based on affiliation
   const factionList = fields.affiliation === 'Traditions' ? TRADITIONS
     : fields.affiliation === 'Technocracy' ? TECHNOCRACY
+    : fields.affiliation === 'Disparates' ? DISPARATES
     : []
-  const factionLabel = fields.affiliation === 'Technocracy' ? t('convention') : t('tradition')
+  const factionLabel = fields.affiliation === 'Technocracy' ? t('convention')
+    : fields.affiliation === 'Disparates' ? 'Craft'
+    : t('tradition')
 
   async function handleAddRote() {
     if (!newRote.name.trim()) return
@@ -1116,7 +1133,17 @@ export default function MageForm() {
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' }) } }}
                     role="button"
                     tabIndex={0}>
-                    <span>{bg.name} ({bg.level}){bg.description ? ` — ${bg.description}` : ''}</span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                      <strong>{bg.name}</strong>
+                      <span onClick={e => e.stopPropagation()} style={{ display: 'inline-flex' }}>
+                        <DotRating label="" name={`bg-${bg.id}`} value={bg.level} min={1} max={5}
+                          onChange={(_, val) => {
+                            updateBackground(characterId, bg.id, { level: val }).then(() =>
+                              setBackgrounds(prev => prev.map(b => b.id === bg.id ? { ...b, level: val } : b))
+                            ).catch(() => {})
+                          }} />
+                      </span>
+                    </span>
                     <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, bg.id); setBackgrounds(prev => prev.filter(x => x.id !== bg.id)); if (tagInfo?.id === bg.id) setTagInfo(null) }}>×</button>
                   </li>
                 ))}

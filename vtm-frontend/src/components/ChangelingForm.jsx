@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   getCharacter, updateCharacter,
-  getBackgrounds, addBackground, removeBackground,
+  getBackgrounds, addBackground, updateBackground, removeBackground,
   getMeritCatalog, getFlawCatalog,
   getMerits, getFlaws,
   getInventory,
@@ -703,7 +703,17 @@ export default function ChangelingForm() {
                     onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' }) } }}
                     role="button" tabIndex={0}>
-                    <span>{b.name} ({b.level}){b.description ? ` \u2014 ${b.description}` : ''}</span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                      <strong>{b.name}</strong>
+                      <span onClick={e => e.stopPropagation()} style={{ display: 'inline-flex' }}>
+                        <DotRating label="" name={`bg-${b.id}`} value={b.level} min={1} max={5}
+                          onChange={(_, val) => {
+                            updateBackground(characterId, b.id, { level: val }).then(() =>
+                              setBackgrounds(prev => prev.map(x => x.id === b.id ? { ...x, level: val } : x))
+                            ).catch(() => {})
+                          }} />
+                      </span>
+                    </span>
                     <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, b.id); setBackgrounds(prev => prev.filter(x => x.id !== b.id)); if (tagInfo?.id === b.id) setTagInfo(null) }}>\u00d7</button>
                   </li>
                 ))}

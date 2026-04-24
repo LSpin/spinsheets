@@ -3,7 +3,7 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   getCharacter, updateCharacter,
   getDisciplines, addDiscipline, removeDiscipline,
-  getBackgrounds, addBackground, removeBackground,
+  getBackgrounds, addBackground, updateBackground, removeBackground,
   getMeritCatalog, getFlawCatalog,
   getMerits, getFlaws,
   getInventory,
@@ -1432,15 +1432,30 @@ export default function CharacterForm() {
         <div className="form-section">
               <fieldset>
                 <legend>{t('backgrounds')}</legend>
-                <TagList
-                  items={backgrounds}
-                  getLabel={b => `${b.name} ${b.level}`}
-                  getTooltip={b => getLevelHint(BACKGROUNDS, b.name, b.level)}
-                  onSelect={b => setTagInfo(ti => ti?.id === b.id ? null : { ...b, catalog: BACKGROUNDS })}
-                  activeId={tagInfo?.id}
-                  onRemove={id => { handleRemoveBackground(id); if (tagInfo?.id === id) setTagInfo(null) }}
-                  ariaLabel="Current backgrounds"
-                />
+                {backgrounds.length > 0 && (
+                  <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+                    {backgrounds.map(bg => (
+                      <li key={bg.id} className={`tag tag--clickable${bg.id === tagInfo?.id ? ' tag--active' : ''}`}
+                        onClick={() => setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, catalog: BACKGROUNDS })}
+                        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, catalog: BACKGROUNDS }) } }}
+                        role="button"
+                        tabIndex={0}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                          <strong>{bg.name}</strong>
+                          <span onClick={e => e.stopPropagation()} style={{ display: 'inline-flex' }}>
+                            <DotRating label="" name={`bg-${bg.id}`} value={bg.level} min={1} max={5}
+                              onChange={(_, val) => {
+                                updateBackground(characterId, bg.id, { level: val }).then(() =>
+                                  setBackgrounds(prev => prev.map(b => b.id === bg.id ? { ...b, level: val } : b))
+                                ).catch(() => {})
+                              }} />
+                          </span>
+                        </span>
+                        <button className="tag-remove" onClick={e => { e.stopPropagation(); handleRemoveBackground(bg.id); if (tagInfo?.id === bg.id) setTagInfo(null) }}>×</button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <div className="field-row">
                   <SearchableInput
                     id="bg-name"

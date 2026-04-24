@@ -23,6 +23,7 @@ export const removeDiscipline = (characterId, disciplineId) => api.delete(`/char
 
 export const getBackgrounds = (id) => api.get(`/characters/${id}/backgrounds`)
 export const addBackground = (id, data) => api.post(`/characters/${id}/backgrounds`, data)
+export const updateBackground = (characterId, backgroundId, data) => api.put(`/characters/${characterId}/backgrounds/${backgroundId}`, data)
 export const removeBackground = (characterId, backgroundId) => api.delete(`/characters/${characterId}/backgrounds/${backgroundId}`)
 
 export const getInventory = (id) => api.get(`/characters/${id}/inventory`)

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   getCharacter, updateCharacter,
-  getBackgrounds, addBackground, removeBackground,
+  getBackgrounds, addBackground, updateBackground, removeBackground,
   getMeritCatalog, getFlawCatalog,
   getMerits, getFlaws,
   getInventory,
@@ -1138,7 +1138,17 @@ export default function VictorianMageForm() {
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' }) } }}
                     role="button"
                     tabIndex={0}>
-                    <span>{bg.name} ({bg.level}){bg.description ? ` — ${bg.description}` : ''}</span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                      <strong>{bg.name}</strong>
+                      <span onClick={e => e.stopPropagation()} style={{ display: 'inline-flex' }}>
+                        <DotRating label="" name={`bg-${bg.id}`} value={bg.level} min={1} max={5}
+                          onChange={(_, val) => {
+                            updateBackground(characterId, bg.id, { level: val }).then(() =>
+                              setBackgrounds(prev => prev.map(b => b.id === bg.id ? { ...b, level: val } : b))
+                            ).catch(() => {})
+                          }} />
+                      </span>
+                    </span>
                     <button className="tag-remove" onClick={e => { e.stopPropagation(); removeBackground(characterId, bg.id); setBackgrounds(prev => prev.filter(x => x.id !== bg.id)); if (tagInfo?.id === bg.id) setTagInfo(null) }}>×</button>
                   </li>
                 ))}
