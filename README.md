@@ -164,11 +164,13 @@ The WoD umbrella includes 20 forms:
 
 **Werewolf** — W20, Wyld West, Changing Breeds, Kinfolk, Totems, Black Spiral Dancers
 
-**Mage** — M20, Victorian Mage, Familiars
+**Mage** — M20, Victorian Mage, Familiars — 217 rotes, 41 wonders, 25 traditions/conventions/crafts. Victorian Mage uses era-accurate Order of Reason factions (15 Conventions, 10 Crafts)
 
-**Others** — Hunter: The Reckoning, Wraith: The Oblivion, Changeling: The Dreaming, Demon: The Fallen, Mortals
+**Changeling** — C20-accurate with Kenning, Enigmas, Gremayre as primary abilities, 22 Kiths, 18 Arts, 6 Realms
 
-Each with structured catalogs (Disciplines, Gifts, Rotes, Arcanoi, Edges, Lores, Arts), merits/flaws from the database (338 merits, 197 flaws), and system-specific dice rollers.
+**Others** — Hunter: The Reckoning, Wraith: The Oblivion, Demon: The Fallen, Mortals
+
+Each with structured catalogs (Disciplines, Gifts, Rotes, Arcanoi, Edges, Lores, Arts), merits/flaws from the database (417 merits, 285 flaws), and system-specific dice rollers.
 
 ---
 

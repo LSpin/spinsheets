@@ -97,14 +97,14 @@ Catalogs are available for:
 Character sheets include built-in auto-calculations that help enforce game rules and alert you to important thresholds:
 
 - **Vampire (all editions):** Clan curse warnings (e.g., Nosferatu Appearance locked to 0, Malkavian derangement reminder), blood pool max and low blood warnings
-- **Mage (M20 + Victorian):** Sphere ratings capped by Arete, Paradox threshold warnings at 5+, 10+, and 15+; Resonance type reference panel, rote catalog filterable by sphere, paradigm casting notes with Arete milestone hints
+- **Mage (M20 + Victorian):** Sphere ratings capped by Arete, Paradox threshold warnings at 5+, 10+, and 15+; Resonance type reference panel, 217 rotes filterable by sphere, 41 wonders, 25 traditions/conventions/crafts (including M20 Disparate Crafts), 26 paradigms, 22 practices, 64 instruments. Victorian Mage uses era-accurate factions: Order of Reason (15 Conventions), Victorian Tradition names, and 10 period Crafts
 - **Werewolf (all variants):** Form stat modifiers auto-calculated (Crinos, Hispo, etc.), Rage/Gnosis/Willpower starting values locked to breed/auspice/tribe; Renown rank thresholds with progress tracking, Gift activation quick-reference panel, Frenzy difficulty chart. Gifts and Rites are now on separate tabs for easier navigation
 - **D&D + UESTRPG:** Race ability score increases auto-applied, HP suggestion based on class/level, AC baseline calculation
 - **Cyberpunk 2020:** BTM/run/leap/lift derived stats displayed, humanity loss and cyberpsychosis warnings, wound state penalties shown
 - **Blades in the Dark:** Stress warnings at 8 and 9, load capacity with remaining slots displayed
 - **7th Sea:** National trait bonuses auto-applied when you select a nation, wound tracker, story reward calculations, dueling trait warnings. In guided mode: background auto-apply (auto-grants skills +1 rank and advantages on selection), background budget counter (X/2), advantage cost running tally (Spent: X/5 pts), Hero Points locked to 1, sorcery one-click add button for your nation's tradition, Virtue/Hubris mechanical effect display, dice pool highlighting for strong synergies, background-to-advantage "Recommended" badges, nation-to-religion auto-suggest, and quirk display with Hero Point badge styling
 - **L5R 4e:** Insight rank auto-calculated, school rank detection, skill +/- buttons for quick adjustments, heritage roller
-- **Changeling:** Banality threshold warnings
+- **Changeling (C20):** Banality threshold warnings, C20-accurate primary abilities (Kenning, Enigmas, Gremayre), 22 Kiths with Birthright/Frailty descriptions, 18 Arts, 6 Realms, Seelie/Unseelie Legacies and Houses, Grounding background
 - **Wraith:** Corpus/Pathos/Angst caps enforced, Shadow Thorns validation
 - **Demon:** Torment warnings, Faith/Torment balance tracking, House Lore hints
 - **Hunter:** Conviction cap enforced, Edge availability filtered by Virtue

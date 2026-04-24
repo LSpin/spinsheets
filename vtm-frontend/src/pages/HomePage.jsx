@@ -191,7 +191,8 @@ export default function HomePage() {
             <span className="splat-badge splat-badge--mage" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Mage</span>
             <ul className="homepage-list">
               <li>M: The Ascension (M20)</li>
-              <li>Victorian Age Mage</li>
+              <li>Victorian Age Mage (Order of Reason)</li>
+              <li>217 Rotes · 41 Wonders · 25 Traditions</li>
               <li>Familiars</li>
             </ul>
           </div>
@@ -214,9 +215,9 @@ export default function HomePage() {
           <div className="homepage-card">
             <span className="splat-badge splat-badge--changeling" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Changeling</span>
             <ul className="homepage-list">
-              <li>Changeling: The Dreaming</li>
-              <li>9 Kiths · 3 Seemings</li>
-              <li>Arts, Realms & Glamour</li>
+              <li>Changeling: The Dreaming (C20)</li>
+              <li>22 Kiths · 3 Seemings · 18 Arts</li>
+              <li>Kenning, Enigmas & Gremayre</li>
             </ul>
           </div>
           <div className="homepage-card">

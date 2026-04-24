@@ -162,8 +162,9 @@ The World of Darkness umbrella covers 20 forms across multiple game lines:
 
 - **Vampire:** V20, Revised, Dark Ages, Victorian Age, Kindred of the East
 - **Werewolf:** W20, Wyld West, Changing Breeds, Kinfolk, Totems, Black Spiral Dancers — Gifts and Rites are now on separate tabs
-- **Mage:** M20, Victorian Mage, Familiars
-- **Others:** Hunter: The Reckoning, Wraith: The Oblivion, Changeling: The Dreaming, Demon: The Fallen, Mortals
+- **Mage:** M20, Victorian Mage, Familiars — 217 rotes, 41 wonders, 25 traditions/conventions/crafts, 26 paradigms, 22 practices, 64 instruments. Victorian Mage uses era-accurate factions (Order of Reason instead of Technocracy, Victorian Tradition names, 15 Conventions, 10 Crafts)
+- **Changeling:** C20-accurate abilities (Kenning, Enigmas, Gremayre as primary abilities), 22 Kiths with Birthright/Frailty, 18 Arts, 6 Realms, Seelie/Unseelie Legacies and Houses
+- **Others:** Hunter: The Reckoning, Wraith: The Oblivion, Demon: The Fallen, Mortals
 
 ---
 
@@ -199,7 +200,7 @@ vtm-frontend/src/
 │   ├── dnd5eSpells.js      # D&D: 233 spells
 │   ├── dnd5eMonsters.js    # D&D: 120 monster templates
 │   ├── dnd5eFeats.js       # D&D: 42 SRD feats
-│   ├── mageRotes.js        # Mage: 168 rotes
+│   ├── mageRotes.js        # Mage: 217 rotes (M20, HDYDT, Book of Secrets)
 │   ├── werewolfGifts.js    # Werewolf: gifts catalog
 │   ├── wodNpcs.js          # WoD: 122 NPC templates
 │   └── ...                 # 20+ more data files
@@ -379,7 +380,7 @@ export default function CharacterForm() {
 ### Data Seeding
 
 `DataLoader` runs on startup:
-1. If merits table is empty, loads from `vampiro_merits_flaws_en.json` (338 merits, 197 flaws)
+1. If merits table is empty, loads from `vampiro_merits_flaws_en.json` (338 merits, 197 flaws) plus `merits_flaws_patch.json` (79 merits, 88 flaws including M20 Book of Secrets)
 2. Always applies `merits_flaws_patch.json` (adds missing entries by name)
 3. One-time migration: fixes TBD merit names and Portuguese flaw names
 

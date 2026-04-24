@@ -162,8 +162,9 @@ O guarda-chuva World of Darkness cobre 20 formulários através de múltiplas li
 
 - **Vampire:** V20, Revised, Dark Ages, Victorian Age, Kindred of the East
 - **Werewolf:** W20, Wyld West, Changing Breeds, Kinfolk, Totems, Black Spiral Dancers — Dons e Ritos agora estao em abas separadas
-- **Mage:** M20, Victorian Mage, Familiars
-- **Outros:** Hunter: The Reckoning, Wraith: The Oblivion, Changeling: The Dreaming, Demon: The Fallen, Mortals
+- **Mage:** M20, Victorian Mage, Familiars — 217 rotes, 41 wonders, 25 tradições/convenções/ofícios, 26 paradigmas, 22 práticas, 64 instrumentos. Victorian Mage usa facções historicamente precisas (Ordem da Razão em vez da Tecnocracia, nomes Vitorianos das Tradições, 15 Convenções, 10 Ofícios)
+- **Changeling:** C20-preciso com Kenning, Enigmas, Gremayre como habilidades primárias, 22 Kiths com Birthright/Frailty, 18 Artes, 6 Reinos
+- **Outros:** Hunter: The Reckoning, Wraith: The Oblivion, Demon: The Fallen, Mortals
 
 ---
 
@@ -199,7 +200,7 @@ vtm-frontend/src/
 │   ├── dnd5eSpells.js      # D&D: 233 magias
 │   ├── dnd5eMonsters.js    # D&D: 120 templates de monstros
 │   ├── dnd5eFeats.js       # D&D: 42 talentos SRD
-│   ├── mageRotes.js        # Mage: 168 rotes
+│   ├── mageRotes.js        # Mage: 217 rotes (M20, HDYDT, Book of Secrets)
 │   ├── werewolfGifts.js    # Werewolf: catálogo de dons
 │   ├── wodNpcs.js          # WoD: 122 templates de NPC
 │   └── ...                 # Mais de 20 arquivos de dados

@@ -97,14 +97,14 @@ Catálogos estão disponíveis para:
 As fichas de personagem incluem auto-calculos integrados que ajudam a aplicar regras do jogo e alertar sobre limites importantes:
 
 - **Vampire (todas as edicoes):** Avisos de maldicao de cla (ex.: Nosferatu com Aparencia travada em 0, lembrete de perturbacao Malkaviana), avisos de pool de sangue maximo e baixo
-- **Mage (M20 + Victoriana):** Esferas limitadas por Arete, avisos de limite de Paradoxo em 5+, 10+ e 15+; painel de referência de tipo de Ressonância, catálogo de rotes filtrável por esfera, notas de conjuração por paradigma com dicas de marcos de Arete
+- **Mage (M20 + Victoriana):** Esferas limitadas por Arete, avisos de limite de Paradoxo em 5+, 10+ e 15+; painel de referência de tipo de Ressonância, 217 rotes filtráveis por esfera, 41 wonders, 25 tradições/convenções/ofícios (incluindo Ofícios Disparados do M20), 26 paradigmas, 22 práticas, 64 instrumentos. Mago Vitoriano usa facções historicamente precisas: Ordem da Razão (15 Convenções), nomes Vitorianos das Tradições, e 10 Ofícios da época
 - **Werewolf (todas as variantes):** Modificadores de stat por forma auto-calculados (Crinos, Hispo, etc.), Furia/Gnose/Forca de Vontade iniciais travados em raca/auspcio/tribo; limiares de rank de Renown com rastreamento de progresso, painel de referência rápida de ativação de Dons, tabela de dificuldade de Frenesi. Dons e Ritos agora estao em abas separadas para facilitar a navegacao
 - **D&D + UESTRPG:** Aumentos de atributo racial auto-aplicados, sugestao de HP baseada em classe/nivel, calculo base de AC
 - **Cyberpunk 2020:** Stats derivados BTM/corrida/salto/carga exibidos, avisos de perda de humanidade e cyberpsicose, penalidades de estado de ferimento mostradas
 - **Blades in the Dark:** Avisos de estresse em 8 e 9, capacidade de carga com slots restantes exibida
 - **7th Sea:** Bonus de traco nacional auto-aplicados ao selecionar uma nacao, rastreador de ferimentos, calculos de recompensa de historia, avisos de tracos de duelo. No modo guiado: auto-aplicacao de antecedente (concede automaticamente +1 rank em habilidades e vantagens ao selecionar), contador de orcamento de antecedentes (X/2), contagem corrente de custo de vantagens (Gasto: X/5 pts), Pontos de Heroi travados em 1, botao de adicao rapida de feiticaria da tradicao da nacao, exibicao de efeitos mecanicos de Virtude/Hubris, destaque de pool de dados para sinergias fortes, badges "Recomendado" de sinergia antecedente-vantagem, auto-sugestao de religiao por nacao, e exibicao de quirk com estilo de badge de Ponto de Heroi
 - **L5R 4e:** Rank de Insight auto-calculado, deteccao de rank de escola, botoes +/- de habilidade para ajustes rapidos, rolador de heranca
-- **Changeling:** Avisos de limite de Banalidade
+- **Changeling (C20):** Avisos de limite de Banalidade, habilidades primárias C20-precisas (Kenning, Enigmas, Gremayre), 22 Kiths com Birthright/Frailty, 18 Artes, 6 Reinos, Legados Seelie/Unseelie e Casas, background Grounding
 - **Wraith:** Limites de Corpus/Pathos/Angst aplicados, validacao de Shadow Thorns
 - **Demon:** Avisos de Tormento, balanco Fe/Tormento, dicas de Lore da Casa
 - **Hunter:** Limite de Conviccao aplicado, disponibilidade de Edge filtrada por Virtude
