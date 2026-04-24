@@ -59,19 +59,30 @@ const UNSEELIE_LEGACIES = [
 ]
 
 const KITHS = [
-  { value: 'Boggan', description: 'Industrious, down-to-earth fae who are swift workers and incredible gossips.' },
-  { value: 'Clurichaun', description: 'Leprechaun-kin whose legendary carousing masks fierce Seelie hearts.' },
-  { value: 'Eshu', description: 'Storytellers, explorers, and adventurers who always seem to show up just in time.' },
-  { value: 'Nocker', description: 'Eccentric, foul-mouthed inventors who can make whatever they imagine.' },
-  { value: 'Piskie', description: 'Friendly and likeable, if light-fingered fae, with a soft spot for truth.' },
-  { value: 'Pooka', description: 'Masterful shapeshifters and tricksters who never quite tell the whole truth.' },
-  { value: 'Redcap', description: 'Menacing and ferocious fighters who can devour literally anything.' },
-  { value: 'Satyr', description: 'Hedonistic fae spirits who love a good party as well as a good fight.' },
-  { value: 'Selkie', description: 'Beautiful and charming seal shapeshifters who are closely tied to the sea.' },
-  { value: 'Sidhe (Arcadian)', description: 'Recently arrived from Arcadia, these regal fae bring majesty and authority but struggle with Banality.' },
-  { value: 'Sidhe (Autumn)', description: 'Noble leaders who stayed behind when the others fled, earning their place through hardship.' },
-  { value: 'Sluagh', description: 'Whispering fae who speak with the dead and adore secrets.' },
-  { value: 'Troll', description: 'Stoic warriors and tireless protectors who will suffer anything to defend those they love.' },
+  // ── Common Kiths ──
+  { value: 'Boggan', description: 'Industrious, down-to-earth fae who are swift workers and incredible gossips. Birthright: Craftwork. Frailty: Call of the Needy.' },
+  { value: 'Clurichaun', description: 'Leprechaun-kin whose legendary carousing masks fierce Seelie hearts. Birthright: Fighting Finesse. Frailty: Hoard.' },
+  { value: 'Eshu', description: 'Storytellers, explorers, and adventurers who always seem to show up just in time. Birthright: Spirit Pathways. Frailty: Recklessness.' },
+  { value: 'Nocker', description: 'Eccentric, foul-mouthed inventors who can make whatever they imagine. Birthright: Make It Work. Frailty: Perfect Is the Enemy.' },
+  { value: 'Piskie', description: 'Friendly and likeable, if light-fingered fae, with a soft spot for truth. Birthright: Nimble. Frailty: Light Fingers.' },
+  { value: 'Pooka', description: 'Masterful shapeshifters and tricksters who never quite tell the whole truth. Birthright: Shapechanging. Frailty: Lies.' },
+  { value: 'Redcap', description: 'Menacing and ferocious fighters who can devour literally anything. Birthright: Dark Appetite. Frailty: Bad Attitude.' },
+  { value: 'Satyr', description: 'Hedonistic fae spirits who love a good party as well as a good fight. Birthright: Gift of Pan. Frailty: Curse of Pan.' },
+  { value: 'Selkie', description: 'Beautiful and charming seal shapeshifters who are closely tied to the sea. Birthright: Seal Form. Frailty: Seal Coat.' },
+  { value: 'Sidhe (Arcadian)', description: 'Recently arrived from Arcadia, these regal fae bring majesty and authority but struggle with Banality. Birthright: Awe and Beauty. Frailty: Banality\'s Curse.' },
+  { value: 'Sidhe (Autumn)', description: 'Noble leaders who stayed behind when the others fled, earning their place through hardship. Birthright: Awe and Beauty. Frailty: Banality\'s Curse.' },
+  { value: 'Sluagh', description: 'Whispering fae who speak with the dead and adore secrets. Birthright: Squirm. Frailty: Whispers.' },
+  { value: 'Troll', description: 'Stoic warriors and tireless protectors who will suffer anything to defend those they love. Birthright: Titan\'s Power. Frailty: Bond of Duty.' },
+  // ── Rare / Gallain Kiths ──
+  { value: 'Ghille Dhu', description: 'Shy forest guardians deeply connected to plant life and the wild places. Reclusive and gentle, they protect nature with fierce devotion. Birthright: Nature\'s Bounty. Frailty: Shyness.' },
+  { value: 'Korred', description: 'Stone-skinned fae connected to ancient standing stones and earth magick. Powerful dancers whose stomping shakes the ground. Birthright: Stoneform. Frailty: Stone Curse.' },
+  { value: 'Morganed', description: 'Aquatic fae descended from the merfolk of Breton legend. Beautiful and alluring, but bound to the sea. Birthright: Sea\'s Grace. Frailty: Landlocked.' },
+  { value: 'Oba', description: 'African fae of regal bearing and spiritual authority. They serve as judges, leaders, and intermediaries with the spirit world. Birthright: Royal Bearing. Frailty: Hubris.' },
+  { value: 'Piskies', description: 'Cornish cousins of the Piskies — tiny, mischievous, and irrepressibly curious troublemakers. Birthright: Nimble. Frailty: Light Fingers.' },
+  { value: 'River Hag', description: 'Terrifying water fae who haunt rivers and streams. Ancient and fearsome, they guard waterways and drown the unwary. Birthright: River\'s Might. Frailty: Hideousness.' },
+  { value: 'Nunnehi', description: 'Native American fae spirits tied to the land itself. They embody the spiritual traditions of many First Nations peoples. Birthright: Spirit Bond. Frailty: Rootbound.' },
+  { value: 'Menehune', description: 'Hawaiian nature spirits — tiny, industrious builders who work incredible feats overnight. Masters of craft and construction. Birthright: Night Work. Frailty: Sunlight.' },
+  { value: 'Inanimae', description: 'Elemental fae — spirits of stone, water, fire, air, and wood given humanoid form. Ancient and alien in thought. Birthright: Elemental Form. Frailty: Anchor.' },
 ]
 
 const SEEMINGS = [
@@ -168,21 +179,21 @@ const INITIAL = {
   strengthSpec: '', dexteritySpec: '', staminaSpec: '',
   charismaSpec: '', manipulationSpec: '', appearanceSpec: '',
   perceptionSpec: '', intelligenceSpec: '', witsSpec: '',
-  // Talents
-  alertness: 0, athletics: 0, awareness: 0, brawl: 0, empathy: 0,
+  // Talents (C20: Kenning replaces Awareness)
+  alertness: 0, athletics: 0, kenning: 0, brawl: 0, empathy: 0,
   expression: 0, intimidation: 0, leadership: 0, streetwise: 0, subterfuge: 0,
-  alertnessSpec: '', athleticsSpec: '', awarenessSpec: '', brawlSpec: '', empathySpec: '',
+  alertnessSpec: '', athleticsSpec: '', kenningSpec: '', brawlSpec: '', empathySpec: '',
   expressionSpec: '', intimidationSpec: '', leadershipSpec: '', streetwiseSpec: '', subterfugeSpec: '',
   // Skills
   animalKen: 0, crafts: 0, drive: 0, etiquette: 0, firearms: 0,
   larceny: 0, melee: 0, performance: 0, stealth: 0, survival: 0,
   animalKenSpec: '', craftsSpec: '', driveSpec: '', etiquetteSpec: '', firearmsSpec: '',
   larcenySpec: '', meleeSpec: '', performanceSpec: '', stealthSpec: '', survivalSpec: '',
-  // Knowledges
-  academics: 0, computer: 0, finance: 0, investigation: 0, law: 0,
-  linguistics: 0, medicine: 0, occult: 0, politics: 0, science: 0, technology: 0,
-  academicsSpec: '', computerSpec: '', financeSpec: '', investigationSpec: '', lawSpec: '',
-  linguisticsSpec: '', medicineSpec: '', occultSpec: '', politicsSpec: '', scienceSpec: '', technologySpec: '',
+  // Knowledges (C20: Enigmas and Gremayre replace Finance and Linguistics)
+  academics: 0, computer: 0, enigmas: 0, gremayre: 0, investigation: 0, law: 0,
+  medicine: 0, occult: 0, politics: 0, science: 0, technology: 0,
+  academicsSpec: '', computerSpec: '', enigmasSpec: '', gremayreSpec: '', investigationSpec: '', lawSpec: '',
+  medicineSpec: '', occultSpec: '', politicsSpec: '', scienceSpec: '', technologySpec: '',
   // Glamour, Banality, Willpower
   gnosis: 5, currentGnosis: 5, // Glamour
   quintessence: 0, // Banality
@@ -516,7 +527,7 @@ export default function ChangelingForm() {
           <fieldset>
             <legend>{t('talents')}</legend>
             <div className="rating-grid">
-              {['alertness', 'athletics', 'awareness', 'brawl', 'empathy', 'expression', 'intimidation', 'leadership', 'streetwise', 'subterfuge'].map(a =>
+              {['alertness', 'athletics', 'brawl', 'empathy', 'expression', 'intimidation', 'kenning', 'leadership', 'streetwise', 'subterfuge'].map(a =>
                 <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>
@@ -532,7 +543,7 @@ export default function ChangelingForm() {
           <fieldset>
             <legend>{t('knowledges')}</legend>
             <div className="rating-grid">
-              {['academics', 'computer', 'finance', 'investigation', 'law', 'linguistics', 'medicine', 'occult', 'politics', 'science', 'technology'].map(a =>
+              {['academics', 'computer', 'enigmas', 'gremayre', 'investigation', 'law', 'medicine', 'occult', 'politics', 'science', 'technology'].map(a =>
                 <RatingRow key={a} abilityKey={a} specKey={a + 'Spec'} fields={fields} onField={handleField} onText={handleText} t={t} />
               )}
             </div>

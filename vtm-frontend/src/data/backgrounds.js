@@ -71,6 +71,8 @@ const WEREWOLF_SPECIFIC = [
 
 // ── Mage (M20) ──
 const MAGE_SPECIFIC = [
+  { value: 'Alternate Identity', description: 'A secondary persona with documentation and history — useful for mages who need to disappear.',
+    levels: ['● Basic false name.', '●● Solid identity with documentation.', '●●● Thoroughly documented cover identity.', '●●●● Deep-cover identity that withstands investigation.', '●●●●● Multiple airtight identities.'] },
   { value: 'Arcane', description: 'Supernatural anonymity — people forget you, records lose your name.',
     levels: ['● Slightly hard to remember.', '●● People forget meeting you.', '●●● Records mysteriously vanish.', '●●●● Cameras glitch, witnesses forget.', '●●●●● You barely exist in any record.'] },
   { value: 'Avatar', description: 'The strength of your Avatar — the spark of Awakened magic.',
@@ -143,6 +145,8 @@ const CHANGELING_SPECIFIC = [
     levels: ['● Your retinue consists of one member.', '●● Your retinue of two members.', '●●● Your retinue of four members.', '●●●● Your retinue of six members.', '●●●●● Your retinue of 10 members.'] },
   { value: 'Treasure', description: 'A mundane item imbued with Glamour, existing in both the Autumn and chimerical worlds.',
     levels: ['● Common, rank one of an Art.', '●● Uncommon, rank two of an Art.', '●●● Rare, rank three of an Art.', '●●●● Unique, rank four of an Art.', '●●●●● Legendary, rank five of an Art.'] },
+  { value: 'Grounding', description: 'A mortal anchor that keeps you connected to the mundane world. Helps resist Bedlam and the pull of the Dreaming.',
+    levels: ['● A tenuous connection — a job, a hobby, a mortal acquaintance.', '●● A solid anchor — a close mortal friend, a regular routine.', '●●● A strong tie — a mortal family, a career, deep community roots.', '●●●● A powerful bond — a mortal spouse, children, or lifelong obligations.', '●●●●● An unshakeable foundation — deeply interwoven with the mortal world.'] },
 ]
 
 // ── Demon: The Fallen ──

@@ -153,4 +153,32 @@ export const MAGE_TRADITIONS = [
     focus:
       "Elemental command, Persian mysticism, djinn-binding, and Zoroastrian ritual.",
   },
+  {
+    name: "Sisters of Hippolyta",
+    description:
+      "The Hippolytoi are warrior-women who trace their lineage to the legendary Amazons. Fierce defenders of women, nature, and the sacred feminine, they combine martial prowess with primal magick. Though historically matriarchal, many modern Sisters have expanded their mission to protect all who suffer under oppression while maintaining their connection to ancient warrior traditions.",
+    focus:
+      "Martial arts, blood rites, nature communion, sacred combat, and feminist mysticism.",
+  },
+  {
+    name: "Templar Knights",
+    description:
+      "Inheritors of the crusading knight-monks of medieval Europe, the modern Templars pursue a sacred mission combining martial discipline with Christian mysticism. These warrior-mages see themselves as holy soldiers defending humanity against supernatural threats, though their zealotry and rigid hierarchy can make them dangerous allies.",
+    focus:
+      "Holy warfare, prayer, sacred oaths, blessed weapons, and Christian ceremonial magick.",
+  },
+  {
+    name: "Wu Lung",
+    description:
+      "The Dragon Wizards of China practice an ancient and rigidly hierarchical form of magick rooted in Confucian propriety, Taoist cosmology, and Chinese imperial tradition. Masters of elemental forces and spirit commerce, the Wu Lung see themselves as the rightful rulers of the supernatural world, bound by duty and celestial mandate.",
+    focus:
+      "Chinese elemental sorcery, feng shui, ancestor veneration, imperial ritual, and dragon-line manipulation.",
+  },
+  {
+    name: "Children of Knowledge",
+    description:
+      "Also known as the Solificati or the True Solificati, these alchemists seek the transformation of base matter — and base humanity — into spiritual gold. Practitioners of the Great Work, they blend classical Western alchemy with modern chemistry and metaphysical philosophy to pursue personal and universal perfection.",
+    focus:
+      "Alchemy, laboratory work, transmutation, philosophical contemplation, and the Great Work of spiritual refinement.",
+  },
 ];

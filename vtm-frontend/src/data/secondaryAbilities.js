@@ -26,6 +26,8 @@ export const SECONDARY_TALENTS = [
   { value: 'Swimming', description: 'Swim well enough to keep afloat and move through water. Vampires sink if they don\'t swim.' },
   { value: 'Throwing', description: 'Throw objects and weapons accurately — spears, hatchets, knives, baseballs.' },
   { value: 'Ventriloquism', description: 'Throw your voice, making it appear to come from somewhere else.' },
+  { value: 'Persuasion', description: 'Convince others through reasoned argument, emotional appeal, or sheer charm without resorting to deception.' },
+  { value: 'Intimidation (Chimerical)', description: 'Project menace in the chimerical world — frightening chimera and fae entities through sheer presence.' },
 ]
 
 export const SECONDARY_SKILLS = [
@@ -107,7 +109,11 @@ export const SECONDARY_KNOWLEDGES = [
   { value: 'Economics', description: 'Understand how economies work; trace the flow of money through a city or country.' },
   { value: 'Electronics', description: 'Identify, diagnose, and repair electronic devices.' },
   { value: 'Engineering', description: 'Design and diagnose faults in mechanical systems; create plans for complex devices.' },
+  { value: 'Changeling Lore', description: 'Know the history and customs of the Kithain — the Shattering, the Accordance War, the political factions, and the deep secrets of changeling society.' },
+  { value: 'Chimerical Lore', description: 'Understand the nature and behavior of chimera — chimerical creatures, objects, and environments born of the Dreaming.' },
+  { value: 'Dreaming Lore', description: 'Know the geography, hazards, and nature of the Dreaming — the Near Dreaming, Far Dreaming, and Deep Dreaming realms.' },
   { value: 'Faerie Lore', description: 'Know about the Seelie and Unseelie fae, their customs, and their kingdom of Arcadia.' },
+  { value: 'Gremayre Lore', description: 'Advanced theoretical knowledge of fae magick beyond the primary Gremayre ability — obscure cantrips, lost Arts, and Dreaming metaphysics.' },
   { value: 'Forensics', description: 'Recognize and interpret physical clues at a crime scene.' },
   { value: 'Geology', description: 'Understand rock composition, landscape formation, and earth sciences.' },
   { value: 'Heraldry', description: 'Interpret heraldic devices like coats of arms; design acceptable new ones.' },

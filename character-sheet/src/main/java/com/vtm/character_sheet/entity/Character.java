@@ -280,6 +280,12 @@ public class Character {
     private Integer culture = 0;
     private String cultureSpec;
 
+    // C20 Abilities (unique to Changeling)
+    private Integer kenning = 0;
+    private String kenningSpec;
+    private Integer gremayre = 0;
+    private String gremayreSpec;
+
     // W20 Rage / Gnosis
     private Integer rage = 1;
     private Integer currentRage = 1;

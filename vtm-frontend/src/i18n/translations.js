@@ -304,6 +304,8 @@ const en = {
   cosmology: 'Cosmology',
   culture: 'Culture',
   esoterica: 'Esoterica',
+  kenning: 'Kenning',
+  gremayre: 'Gremayre',
 
   // ── Virtues & Pools ──
   conscience: 'Conscience',
@@ -2644,6 +2646,8 @@ const pt = {
   cosmology: 'Cosmologia',
   culture: 'Cultura',
   esoterica: 'Esotérica',
+  kenning: 'Kenning',
+  gremayre: 'Gremayre',
 
   // ── Virtues & Pools ──
   conscience: 'Consciência',

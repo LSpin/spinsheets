@@ -239,6 +239,240 @@
       "cost": 1, "cost_obs": null,
       "source": "V20 Core", "page": null,
       "description": "You adapt quickly to unfamiliar tasks. Once per scene you may attempt an action in a skill you lack at a reduced penalty, as your natural versatility partially compensates for the gap in training."
+    },
+    {
+      "name": "Burning Aura",
+      "cost": 1, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 68,
+      "description": "Your aura burns with amazing brilliance and clarity. Even folks who can't actually perceive auras feel that bright corona of energy radiating from you. Resonance and Synergy each get a vital, one-dot boost from this Merit."
+    },
+    {
+      "name": "Green Thumb",
+      "cost": 1, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 69,
+      "description": "Plants flourish from your touch. Although they don't grow on contact with purely paranormal effect, you reduce the difficulty of all Arete rolls by 1 when you work with plants, trees, and other forms of vegetation."
+    },
+    {
+      "name": "Bardic Gift",
+      "cost": 2, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 69,
+      "description": "Blessed with uncanny inspiration, your crafts produce extraordinary artwork. Truth echoes through your words, blazes through your artistic skill, and this gift rises deeper than mere technique. Art is your passion, your spirit, your Truth. When making a roll with the Art Talent, reduce the difficulty by 2."
+    },
+    {
+      "name": "Circumspect Avatar",
+      "cost": 2, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 69,
+      "description": "You've never seen your Avatar, and probably doubt that such a thing exists. Story-wise, you have a shadow, and yet it reflects a different person from the one in the mirror. In practical terms, your Avatar rarely manifests itself, and when it does, no one but you can perceive it."
+    },
+    {
+      "name": "Faerie Affinity",
+      "cost": 2, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 69,
+      "description": "You have a connection to the fae. Drawn by an otherwise unearthly appeal, you seek out and share secrets with your few mortal even companions. Storytelling-wise, you lower the difficulty of social rolls by 2 when dealing with changelings and related entities."
+    },
+    {
+      "name": "Medium",
+      "cost": 2, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 69,
+      "description": "You possess a natural affinity for the Restless Dead. Although not all spirits choose to interact with you, ghosts can talk to you, and you can talk to them. A successful Perception + Awareness roll will allow you to sense their presence even if you can't see or hear them nearby."
+    },
+    {
+      "name": "Unaging",
+      "cost": 2, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 69,
+      "description": "Time stopped your aging process. Maybe you discovered the Fountain of Youth, applied powerful Awakened magick, and assumed an old relationship with the time stream. And so, although you continue to accumulate the scars, experiences, and perspective of age, your body maintains a consistent state of chronological development."
+    },
+    {
+      "name": "Celestial Affinity",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 70,
+      "description": "You get along especially well with a certain type of spirit entity. Depending upon your practice, you might relate well with nature spirits, High Umbral Courtiers, Digital Web entities, the Restless Dead, the Los, angelic or demonic beings, and so on."
+    },
+    {
+      "name": "Cloak of the Seasons",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 70,
+      "description": "Cyclic Magick's partner, this Trait is both a Merit and a Flaw, granting bonuses at one point in the cycle and penalties at its opposite point. At the highest point, you reduce your casting difficulties by 3 for one hour; at the lowest point you increase them by 3 for one hour."
+    },
+    {
+      "name": "Cyclic Magick",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 70,
+      "description": "Your Avatar's greatest weakness/greatest strength follows some periodic cycle: the phases of the moon, night or day, your menstrual period, the rise and fall of the stock market, and so forth. At the peak of your cycle, your magick flows with increased potency, and is challenging to work with your magick at all."
+    },
+    {
+      "name": "Danger Sense",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 70,
+      "description": "A heightened sense of awareness allows you to perceive oncoming danger and incoming aggression at levels far above normal. The Storyteller may roll two dice whenever a threat presents itself; if she achieves any successes, you get a flash of prescient warning. The earlier the danger, the more detailed the flash."
+    },
+    {
+      "name": "Hands of Daedalus",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 71,
+      "description": "You've got an innate gift for crafting machines and technology. Small devices seem to come to life in your hands, fitting easily into place and functioning with incredible precision once you've worked with them. You reduce all difficulties involving mechanical work and crafting by 2."
+    },
+    {
+      "name": "Lucky",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 71,
+      "description": "Lady Fortune has a thing for you. As a result, you may reroll a failed die roll (unless included) up to three times per story (never the same roll). Each use may be refilled only once, so don't push your luck too far."
+    },
+    {
+      "name": "Manifest Avatar",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 71,
+      "description": "For most mages, the Avatar remains a mysterious and haunting presence: guiding them from the sideline and appearing primarily within a Seeking or during other moments of intense stress. For you, however, the Avatar is a vibrant presence in your life. It manifests as a translucent figure that interacts with you on an almost daily basis."
+    },
+    {
+      "name": "Mark of Favor",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 71,
+      "description": "A potific entity has claimed you as its own, and has granted your character with evidence of that claim. You might have the feathery bird hair and elf eyes of Reynard the Fox, the potential to heal wounds as Asclepius or Brigid can."
+    },
+    {
+      "name": "Natural Channel",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 72,
+      "description": "You've got an innate affinity with the Otherworlds. Sliding through from the material realm to the Three Worlds is easier for you than it is for other Awakened folk. Systemwise, you subtract 2 from the difficulty of your rolls to penetrate the Gauntlet."
+    },
+    {
+      "name": "Natural Shapeshifter",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 72,
+      "description": "Guided by an innate affinity for metamorphosis, you can change your shape more easily than most mages do. Such changes still demand the usual Life Sphere Ranks and Effects, but your difficulty for such rolls is reduced by 2."
+    },
+    {
+      "name": "Oracular Ability",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 72,
+      "description": "Everything, even trivial events, has an archetypal significance to you. You can make a Perception + Awareness roll (difficulty 7) whenever the Storyteller feels you're in a position to perceive a hidden message in apparently random phenomena."
+    },
+    {
+      "name": "Parlor Trick",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 73,
+      "description": "You've honed a special trick — a simple, specific, non-obvious application of your Arts — which you can perform without making a casting roll. Such tricks include things like conjuring a business card, setting a pot without touching the spoon for the pot, igniting your cigarette without lighter or a match."
+    },
+    {
+      "name": "Spirit Magnet",
+      "cost": 3, "cost_obs": "3 to 7",
+      "source": "M20 Book of Secrets", "page": 73,
+      "description": "Ephemeral entities flock to your presence. The essence of who you are — benign or malignant — draws spirits to you, and they, in turn, affect the essence of who you are. For the most part, these entities cluster around you in the Penumbra, unable to mortal perceptions."
+    },
+    {
+      "name": "Spirit Mentor",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 73,
+      "description": "A ghost, Loa, or other ephemeral entity has taken a special interest in you. As an expression of force, this entity teaches you things you need to know, helps you navigate obstacles."
+    },
+    {
+      "name": "Supernatural Companion",
+      "cost": 3, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 74,
+      "description": "You've got a friend among the Night-Folk: a vampire, a changeling, a wraith, a ghost, or some other entity who exists outside the Sleeping Masses. This friend can't quite be called an Ally or a Background character, but can and will grant occasional help."
+    },
+    {
+      "name": "Deathwalker",
+      "cost": 4, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 74,
+      "description": "The Underworld welcomes you. While most Umbral marauders are more or less barred from the Shadowlands and the Low Umbra, you can step beyond the Lands with a simple application of Spirit. When you do so, your aura assumes the pale color of death, and you become essentially indistinguishable from a ghost."
+    },
+    {
+      "name": "Fae Blood",
+      "cost": 4, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 74,
+      "description": "Your pulse runs with the enigmatic blood of the fae. Although not a full changeling, you possess a distance to the fae. The Dreaming reaches you in your sleep, touching your mind."
+    },
+    {
+      "name": "Shapechanger Kin",
+      "cost": 4, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 74,
+      "description": "You're related to one of the were-beasts: werewolves, werecats, were-bears, and so forth. This gift does not grant you their powers, but gives you a few secrets to gain their backing."
+    },
+    {
+      "name": "Twin Souls",
+      "cost": 4, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 75,
+      "description": "To you, the term soulmate is literally true. Your Avatar has a twin that has been embodied within another mortal body. That other person (typically a human being, but potentially an animal) shares your Nature and Demeanor and possibly your Traditions as well."
+    },
+    {
+      "name": "Ghoul",
+      "cost": 5, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 75,
+      "description": "The blood of Kindred has made you something more than human. Willingly or otherwise, you have supped on a vampire's blood, and although its power can be used to fuel your service, it also grants abilities: enhanced strength, reduced aging."
+    },
+    {
+      "name": "Clear Sighted",
+      "cost": 5, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 75,
+      "description": "Your mage has a preternatural gift for seeing things as they are, not as they appear to be. Illusions, disguises, cloaking spells, and other forms of trickery rarely deceive your eyes."
+    },
+    {
+      "name": "Inner Knight",
+      "cost": 5, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 77,
+      "description": "In your heart of hearts, you're a hero. While your companions work toward their own selfish ends, you embody a higher purpose. This purpose guides you in uncanny ways that protect you from harm, as if you're being moved by a force greater than yourself."
+    },
+    {
+      "name": "Legendary Attributes",
+      "cost": 5, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 77,
+      "description": "Gifted with the strength of Shango or the beauty of Lucifer, you may exceed the human capacity for one Attribute Trait."
+    },
+    {
+      "name": "Powerful Ally",
+      "cost": 5, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 77,
+      "description": "You've got surprisingly badass friends — a vampire lord, a faerie noble, a werewolf pack, Umbral courtiers, or other similarly magnificent entities. In most respects, this is like the Background: Companion Merit but with a much higher power-level."
+    },
+    {
+      "name": "Shattered Avatar",
+      "cost": 5, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 78,
+      "description": "Your Avatar has been broken into pieces by some past-life trauma. As a result, the part within you is incomplete. But that situation can be rectified. If and when you locate the missing pieces of your Avatar, you could make that inner spirit complete."
+    },
+    {
+      "name": "Spark of Life",
+      "cost": 5, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 78,
+      "description": "Blessed with great vitality, your heal injuries with heroic speed and ease. Your scars recover from lethal damage heal as if they were bashing damage."
+    },
+    {
+      "name": "Guardian Angel",
+      "cost": 6, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 78,
+      "description": "A powerful entity is watching over you, providing advice, assistance, and occasional protection with divine-agent gifts. Such aid is beyond your control (perhaps even beyond your comprehension) and while this guardian angel has certainly surprised you before, there could be a terrible price for this help."
+    },
+    {
+      "name": "Nine Lives",
+      "cost": 6, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 79,
+      "description": "Fate has granted you the protection of the cat. Essentially, your character can dodge death nine times before it sticks. When you reach the point of actual death, the Nine Lives clock kicks in and you survive — badly hurt but alive."
+    },
+    {
+      "name": "Sphere Natural",
+      "cost": 6, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 79,
+      "description": "For a single element of magick — the Sphere of your choice — you run into many fewer obstacles. The powers of that Sphere come to you more easily than usual, and you advance faster in knowledge of it than you do in other Spheres."
+    },
+    {
+      "name": "Avatar Companion",
+      "cost": 7, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 79,
+      "description": "From occasional blessings to intimate partnership, your mage has a conscious relationship with a companion who follows you through incarnations, revealing more about their details than you do."
+    },
+    {
+      "name": "Dual Affiliation",
+      "cost": 7, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 79,
+      "description": "You've been initiated and trained in two different Awakened groups. Perhaps you were a Verbena who gravitated toward the Virtual Adepts, or a Man in Black who sought refuge among the Templars."
+    },
+    {
+      "name": "Nephilim/Laham",
+      "cost": 7, "cost_obs": null,
+      "source": "M20 Book of Secrets", "page": 80,
+      "description": "Long ago, it's been said, immortal beings walked the earth, siring offspring whose descendants still live among us now. The Hebrew Bible refers to them as nephilim, an ambiguous word that seems to be related to words for fallen, princesses, and overseers."
     }
   ],
   "flaws": [
@@ -559,6 +793,216 @@
       "bonus": 5, "bonus_obs": null,
       "source": "V20 Core", "page": null,
       "description": "Your generation is permanently fixed and cannot be reduced through diablerie. Even if you consume the soul of an elder vampire, you gain none of the generational benefits. Your blood simply cannot grow more potent."
+    },
+    {
+      "name": "Anachronism",
+      "bonus": 1, "bonus_obs": "1 to 3",
+      "source": "M20 Book of Secrets", "page": 81,
+      "description": "Time has passed you by, or maybe it simply hasn't caught up with you yet. Your beliefs, personality, mannerisms, fashion, and expectations are radically out of step with your surroundings."
+    },
+    {
+      "name": "Apprentice",
+      "bonus": 1, "bonus_obs": "1 to 5",
+      "source": "M20 Book of Secrets", "page": 81,
+      "description": "An Awakened character has decided to become your student. You must invest time, effort, and patience, and risk derailing other priorities."
+    },
+    {
+      "name": "Bard's Tongue",
+      "bonus": 1, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 82,
+      "description": "You speak the truth even when you try not to. It may come out as a prophecy, or a curse, or an uncomfortable insight. Whatever form it takes, you cannot unsay it."
+    },
+    {
+      "name": "Cast No Shadow or Reflection",
+      "bonus": 1, "bonus_obs": "1 to 2",
+      "source": "M20 Book of Secrets", "page": 82,
+      "description": "Some aspect of your physical presence is fundamentally wrong. Maybe you cast no shadow, or your reflection is absent or distorted. Either way, observant mortals will eventually notice."
+    },
+    {
+      "name": "Devil's Mark",
+      "bonus": 1, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 83,
+      "description": "A minor but noticeable deformation that remains insensitive to pain and yet allows a certain flaw to Quintessence: out through your body in physical form."
+    },
+    {
+      "name": "Paranormal Prohibition or Imperative",
+      "bonus": 2, "bonus_obs": "2 to 8",
+      "source": "M20 Book of Secrets", "page": 83,
+      "description": "A Prohibition/Imperative can represent vows, obligations, and/or legacies associated with the beneficial Trait."
+    },
+    {
+      "name": "Gremlin",
+      "bonus": 1, "bonus_obs": "1 to 5",
+      "source": "M20 Book of Secrets", "page": 84,
+      "description": "There's a perverse imp running around your home. The creature's form is unimportant — it could be a malfunctioning robot companion, a vain and selfish bioconstruct, a troublesome spirit."
+    },
+    {
+      "name": "Locked Vidare",
+      "bonus": 3, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 85,
+      "description": "Your metaphysical perspective is frozen in place. This is literally the way you view the world around you, and that view never really changes."
+    },
+    {
+      "name": "Strangeness",
+      "bonus": 1, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 85,
+      "description": "Your metaphysical prowess occasionally wreaks reality your surroundings: clocks spin backward, temperature fluctuations, and those quirks of strangeness seem to be rooted in the sort of magick you pursue."
+    },
+    {
+      "name": "Throwback",
+      "bonus": 1, "bonus_obs": "1 to 5",
+      "source": "M20 Book of Secrets", "page": 85,
+      "description": "Some of your practices, your Resonance, and your general weirdness hearkens back centuries. You'd rather forget the things you did, and endured, back during the Conquest of the Americas, but you never could."
+    },
+    {
+      "name": "Uncanny",
+      "bonus": 1, "bonus_obs": "1 to 5",
+      "source": "M20 Book of Secrets", "page": 86,
+      "description": "No matter how unobtrusive you try to be, you remain remarkably memorable to anyone who encounters you. You're the very opposite of Arcane."
+    },
+    {
+      "name": "Vulnerability",
+      "bonus": 1, "bonus_obs": "1 to 7",
+      "source": "M20 Book of Secrets", "page": 86,
+      "description": "Some perilous substance may spell your doom. Thanks to a paranormal weakness — a curse, a Paradox Flaw, a quirk of belief or cultural legends — you suffer certain harm when you contact that malignant material."
+    },
+    {
+      "name": "Bizarre Hunger",
+      "bonus": 2, "bonus_obs": "2 to 5",
+      "source": "M20 Book of Secrets", "page": 87,
+      "description": "Your metaphysical practice demands specialized nourishment. It's not simply that you need fuel for your hypercharged Flexible Will Techne."
+    },
+    {
+      "name": "Blood-Hungry Soul",
+      "bonus": 2, "bonus_obs": "2, 3, or 5",
+      "source": "M20 Book of Secrets", "page": 87,
+      "description": "In a previous incarnation, you had been a ghoul in thrall to an unholy addiction to vampire blood. Now you must resist the call of that ravenous past life and its fixation on intoxicating Kindred Vitae."
+    },
+    {
+      "name": "Crucial Component",
+      "bonus": 2, "bonus_obs": "2 to 5",
+      "source": "M20 Book of Secrets", "page": 87,
+      "description": "Your metaphysical practice demands specialized instruments. It's not simply that you need fuel for your hypercharged body."
+    },
+    {
+      "name": "Faulty Enhancements",
+      "bonus": 2, "bonus_obs": "2 to 5",
+      "source": "M20 Book of Secrets", "page": 88,
+      "description": "Well, crap. The warranty on your cybernetic gear has expired. Assuming, of course, that it even had such assurance in the first place, and now you're stuck with malfunctioning hardware."
+    },
+    {
+      "name": "Jinx/Infernal Contraption",
+      "bonus": 2, "bonus_obs": "2 to 10",
+      "source": "M20 Book of Secrets", "page": 88,
+      "description": "This Flaw is the flipside of the Merit Cyclic Magick. That Flaw's destructive potential is magnified."
+    },
+    {
+      "name": "Permanent Paradox Flaw",
+      "bonus": 2, "bonus_obs": "2, 4, or 6",
+      "source": "M20 Book of Secrets", "page": 89,
+      "description": "Following a nasty brush with Paradox, you've got a Flaw that stays. Systemwise, select a Paradox manifestation, or significant number of points of permanent Paradox."
+    },
+    {
+      "name": "Branded",
+      "bonus": 1, "bonus_obs": "1 to 5",
+      "source": "M20 Book of Secrets", "page": 89,
+      "description": "You've been found guilty by a Traditions Tribunal, who branded your Avatar with a sigil that indicates your crime. Folks who can see that sigil recognize that you're a criminal of some sort."
+    },
+    {
+      "name": "Demented Eidolon",
+      "bonus": 3, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 89,
+      "description": "There's someone in your head, and it isn't you. Despite your commitment to logic and reason, a wild heretic rains through the inside of your skull, insisting that what you do is magick, not science."
+    },
+    {
+      "name": "Haunted",
+      "bonus": 3, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 90,
+      "description": "An angry spirit — perhaps even more than one often — haunts you. This entity or entities seem to have an entire darkness to pick with you."
+    },
+    {
+      "name": "Primal Marks",
+      "bonus": 3, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 90,
+      "description": "Sworn oaths are powerful things, especially when magick is involved. But you have been given your vow — or have been made a party oath; you've been branded. Those Primal Marks are obvious."
+    },
+    {
+      "name": "Oathbreaker",
+      "bonus": 4, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 90,
+      "description": "You have broken a solemn vow. Your Seekings may involve literal guilt-trips in which you're confronted with the potential (or real) consequences of your violated promise."
+    },
+    {
+      "name": "Prone to Quiet",
+      "bonus": 4, "bonus_obs": "4 or 5",
+      "source": "M20 Book of Secrets", "page": 91,
+      "description": "In an effort to avert the inevitable stresses of Awakened life, you tend to drop into metaphysical Quiets more easily than most other mages do."
+    },
+    {
+      "name": "Beast Within",
+      "bonus": 5, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 92,
+      "description": "Like a volcano in your soul, you've got a truly infernal temper: one so violent it feels like a volcano in your soul. Sometimes the Beast surges and consumes, and you're subject to the dreaded frenzy that turns you into a rage-blinded entity."
+    },
+    {
+      "name": "Blood Magick",
+      "bonus": 5, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 92,
+      "description": "Your Arts demand blood — specifically, your own blood. And while many practices employ small amounts of ritual cutting or bloodletting, this degree of sacrifice demands an immense amount of vital fluid each time you cast a spell."
+    },
+    {
+      "name": "Bound",
+      "bonus": 5, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 92,
+      "description": "Maitresse always told you not to make bargains with strange entities. But did you listen? Nope. Now you're trapped in a spiritual obligation."
+    },
+    {
+      "name": "Dark Fate",
+      "bonus": 5, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 92,
+      "description": "You're screwed. No matter what you do, regardless of your heroic deeds (possibly because of them), there's a terrible end in your not-too-distant future."
+    },
+    {
+      "name": "Faithless",
+      "bonus": 5, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 93,
+      "description": "According to your beliefs, magick does not come from you — it comes from your god, and you've broken faith with him. Until you can shake this crisis of faith, continuing to employ your Avatar as a power source means your Spheres remain stuck at Rank 1."
+    },
+    {
+      "name": "Immortal Enemy",
+      "bonus": 5, "bonus_obs": "5 to 8",
+      "source": "M20 Book of Secrets", "page": 93,
+      "description": "You've got an Enemy Flaw with a powerful and more or less immortal enemy. You've crossed either a demon, a bodiless spirit, or even a Lord Dragon."
+    },
+    {
+      "name": "Psychic Vampire",
+      "bonus": 5, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 93,
+      "description": "Also known as the Reaper's Touch, this dreadful Trait makes you a lifeforce siphon. Your mere presence consumes vitality from your surroundings and the living things who happen to get too close to you."
+    },
+    {
+      "name": "Bedeviled",
+      "bonus": 6, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 94,
+      "description": "Oh, you poor bastard! A mysterious power has decided to torment you with extraordinary, well, crap. Misery and setbacks are your bread and butter."
+    },
+    {
+      "name": "Sphere Inept",
+      "bonus": 6, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 94,
+      "description": "A particular element of Reality eludes you. No matter how devoted you might be to mastering its complexities, this field of magick remains a challenge. That one Sphere costs 130% more (rounded up) to learn than the other Spheres cost."
+    },
+    {
+      "name": "Phylactery",
+      "bonus": 7, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 94,
+      "description": "Your magick, perhaps your very soul, resides outside of your physical self. Maybe you've placed your soul within a ring, a jar, or a wooden doll in order to protect yourself from possession and control."
+    },
+    {
+      "name": "Taint of Corruption",
+      "bonus": 7, "bonus_obs": null,
+      "source": "M20 Book of Secrets", "page": 96,
+      "description": "Evil has an intimate hold on you. Your spirit has been corrupted — possibly since birth, as with the reborn Nephandi known as widderslainte — and you are, as the werewolves say, of the Wyrm."
     }
   ]
 }
