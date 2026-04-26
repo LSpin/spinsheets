@@ -417,11 +417,18 @@ Some character sheets — especially those with wide tables (Cyberpunk cyberware
 - **Clear your browser cache** — especially on mobile, stale cached JavaScript can cause errors
 - **Check your internet connection** — the site requires a connection to load data
 - **Try logging out and back in** — your session token may have expired
+- Note: the character list loads independently from chronicles, so even if chronicle data has an issue, your character list will still appear
 
 ### Character sheet won't load
 
 - **Try refreshing the page** — the `lazyRetry` system will automatically reload if chunk files are stale
 - **Clear browser cache** if refreshing doesn't help — a service worker update (cache version bump and SPA navigation route handling fix) resolved earlier mobile load failures; clearing the cache ensures you pick up the latest version
+
+### "Access Denied" when opening a character
+
+- You can only view characters that you own or that are in a chronicle where you are an assistant Storyteller
+- If you received a shared link to someone else's character, only Storytellers can view other players' sheets
+- If you believe you should have access, ask your Storyteller to check your permissions
 
 ### Mobile layout issues
 

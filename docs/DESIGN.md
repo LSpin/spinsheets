@@ -373,7 +373,8 @@ export default function CharacterForm() {
 
 - `JwtAuthenticationFilter` — Extracts and validates JWT from Authorization header
 - `RateLimitFilter` — Rate limiting on auth endpoints
-- `SanitizationFilter` — XSS prevention on request bodies
+- `SanitizationFilter` — XSS prevention on request parameters (strips HTML tags via Jsoup, unescapes entities to avoid double-encoding)
+- `JacksonConfig` (HtmlSanitization module) — XSS prevention on JSON request bodies (strips HTML tags on deserialization, unescapes entities to store plain text)
 - `CharacterAccessChecker` — Ensures users can only access their own characters (STs can access all)
 - `SecurityConfig` — Permit public routes (static assets, auth, merits/flaws), authenticate everything else
 
@@ -449,7 +450,7 @@ Push to main
 ### For Players
 - Create characters across 9 game systems
 - **Auto-calculations and warnings** across all sheets — clan curse warnings (Vampire), sphere cap enforcement and Paradox warnings (Mage), form stat modifiers (Werewolf), race ASI auto-apply and HP/AC suggestions (D&D/UESTRPG), BTM/humanity/cyberpsychosis warnings (Cyberpunk), stress/load tracking (Blades), national trait auto-apply, background auto-apply with guided mode budgets, sorcery auto-add, and wound tracking (7th Sea), insight rank auto-calc (L5R), plus Banality/Corpus/Torment/Conviction/Dharma thresholds for remaining WoD splats
-- **View mode** — template selector dropdowns (NPC load, playbook select, etc.) are hidden when a sheet is in read-only view mode to reduce visual noise
+- **View mode** — read-only display of character sheets via `?mode=view` query param. Form inputs show `color: var(--color-text)` on `var(--color-surface)` background. Template selector dropdowns (NPC load, playbook select, etc.) and action buttons are hidden to reduce visual noise. Access errors (403) show a distinct "Access Denied" message rather than "Not Found"
 - Searchable catalogs for powers, equipment, spells, cyberware — with source book filters where applicable
 - Built-in dice rollers matching each system's mechanics
 - XP/IP tracking with proper cost calculations

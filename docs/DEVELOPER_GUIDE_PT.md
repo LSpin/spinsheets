@@ -489,6 +489,23 @@ const { isAutoCreating } = useAutoCreate(characterId, INITIAL)
 if (isAutoCreating) return <p>Loading...</p>
 ```
 
+### Sanitização de Input
+
+Duas camadas previnem XSS — ambas removem tags HTML mas preservam texto puro:
+
+1. **`SanitizationFilter`** — Sanitiza parâmetros de URL (filtro servlet `@Order(1)`)
+2. **`JacksonConfig` (módulo HtmlSanitization)** — Sanitiza todos os campos string em corpos de requisição JSON durante a desserialização
+
+Ambos usam `Jsoup.clean()` para remover tags, depois `Parser.unescapeEntities()` para converter entidades HTML de volta para caracteres planos. Isso evita dupla codificação em salvamentos repetidos (`&` → `&amp;` → `&amp;amp;`…). O texto armazenado é sempre texto puro — React faz escape automático na renderização.
+
+### Modo de Visualização
+
+Fichas de personagem suportam visualização somente leitura via parâmetro `?mode=view`. A classe CSS `form-view-mode` desabilita eventos de ponteiro nos inputs e oculta botões de ação. Regras principais em `view-mode.css`:
+
+- Inputs recebem `background: var(--color-surface)` e `color: var(--color-text)` — ambos devem ser definidos explicitamente para evitar texto preto padrão do navegador em fundos escuros
+- Botões de navegação de abas permanecem visíveis via regra de override
+- O `CharacterRouter` distingue erros 403 (Acesso Negado) de 404 (Não Encontrado)
+
 ### Padrão de Salvamento de Formulário
 
 ```jsx

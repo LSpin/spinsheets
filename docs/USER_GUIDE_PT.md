@@ -417,11 +417,18 @@ Algumas fichas de personagem — especialmente aquelas com tabelas largas (cyber
 - **Limpe o cache do navegador** — especialmente no mobile, JavaScript em cache desatualizado pode causar erros
 - **Verifique sua conexão com a internet** — o site requer conexão para carregar dados
 - **Tente fazer logout e login novamente** — seu token de sessão pode ter expirado
+- Nota: a lista de personagens carrega independentemente das crônicas, então mesmo que os dados de crônica tenham algum problema, sua lista de personagens ainda aparecerá
 
 ### Ficha de personagem não carrega
 
 - **Tente atualizar a página** — o sistema `lazyRetry` vai automaticamente recarregar se os arquivos de chunk estiverem desatualizados
 - **Limpe o cache do navegador** se atualizar nao ajudar — uma atualizacao do service worker (bump de versao de cache e correcao de rotas de navegacao SPA) resolveu falhas anteriores de carregamento no mobile; limpar o cache garante que voce receba a versao mais recente
+
+### "Acesso Negado" ao abrir um personagem
+
+- Você só pode visualizar personagens que são seus ou que estão em uma crônica onde você é Narrador assistente
+- Se você recebeu um link compartilhado para o personagem de outra pessoa, apenas Narradores podem visualizar fichas de outros jogadores
+- Se você acredita que deveria ter acesso, peça ao seu Narrador para verificar suas permissões
 
 ### Problemas de layout no mobile
 

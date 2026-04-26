@@ -489,6 +489,23 @@ const { isAutoCreating } = useAutoCreate(characterId, INITIAL)
 if (isAutoCreating) return <p>Loading...</p>
 ```
 
+### Input Sanitization
+
+Two layers prevent XSS — both strip HTML tags but preserve plain text:
+
+1. **`SanitizationFilter`** — Sanitizes URL query parameters (`@Order(1)` servlet filter)
+2. **`JacksonConfig` (HtmlSanitization module)** — Sanitizes all string fields in JSON request bodies during deserialization
+
+Both use `Jsoup.clean()` to strip tags, then `Parser.unescapeEntities()` to convert HTML entities back to plain characters. This avoids double-encoding on repeated saves (`&` → `&amp;` → `&amp;amp;`…). The stored text is always plain — React auto-escapes on render.
+
+### View Mode
+
+Character sheets support a read-only view via `?mode=view` query param. The `form-view-mode` CSS class disables pointer events on inputs and hides action buttons. Key rules in `view-mode.css`:
+
+- Inputs get `background: var(--color-surface)` and `color: var(--color-text)` — both must be set explicitly to avoid browser-default black text on dark backgrounds
+- Tab navigation buttons remain visible via an override rule
+- The `CharacterRouter` distinguishes 403 (Access Denied) from 404 (Not Found) errors
+
 ### Form Save Pattern
 
 ```jsx

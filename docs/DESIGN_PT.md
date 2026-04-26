@@ -373,7 +373,8 @@ export default function CharacterForm() {
 
 - `JwtAuthenticationFilter` — Extrai e valida JWT do header Authorization
 - `RateLimitFilter` — Rate limiting nos endpoints de autenticação
-- `SanitizationFilter` — Prevenção de XSS nos corpos de requisição
+- `SanitizationFilter` — Prevenção de XSS nos parâmetros de requisição (remove tags HTML via Jsoup, desescapa entidades para evitar dupla codificação)
+- `JacksonConfig` (módulo HtmlSanitization) — Prevenção de XSS nos corpos de requisição JSON (remove tags HTML na desserialização, desescapa entidades para armazenar texto puro)
 - `CharacterAccessChecker` — Garante que usuários só acessem seus próprios personagens (Narradores podem acessar todos)
 - `SecurityConfig` — Permite rotas públicas (assets estáticos, auth, qualidades/defeitos), autentica todo o resto
 
@@ -449,7 +450,7 @@ Push to main
 ### Para Jogadores
 - Criar personagens em 9 sistemas de jogo
 - **Auto-calculos e avisos** em todas as fichas — avisos de maldicao de cla (Vampire), limitacao de esferas e avisos de Paradoxo (Mage), modificadores de stat por forma (Werewolf), aumento de atributo racial auto-aplicado e sugestoes de HP/AC (D&D/UESTRPG), avisos de BTM/humanidade/cyberpsicose (Cyberpunk), rastreamento de estresse/carga (Blades), aplicacao automatica de tracos nacionais, auto-aplicacao de antecedentes com orcamentos no modo guiado, adicao rapida de feiticaria e rastreamento de ferimentos (7th Sea), auto-calculo de rank de Insight (L5R), alem de limites de Banalidade/Corpus/Tormento/Conviccao/Dharma para os demais splats WoD
-- **Modo de visualização** — dropdowns de seleção de template (carregamento de NPC, seleção de playbook, etc.) são ocultados quando uma ficha está em modo somente leitura para reduzir ruído visual
+- **Modo de visualização** — exibição somente leitura de fichas de personagem via parâmetro `?mode=view`. Inputs de formulário mostram `color: var(--color-text)` sobre fundo `var(--color-surface)`. Dropdowns de seleção de template (carregamento de NPC, seleção de playbook, etc.) e botões de ação são ocultados para reduzir ruído visual. Erros de acesso (403) exibem mensagem distinta de "Acesso Negado" em vez de "Não Encontrado"
 - Catalogos pesquisaveis para poderes, equipamentos, magias, cyberware — com filtros de livro-fonte quando aplicavel
 - Roladores de dados integrados correspondentes a mecanica de cada sistema
 - Rastreamento de XP/IP com calculos de custo adequados
