@@ -21,86 +21,64 @@ import {
 const ALL_TAB_KEYS = ['tabIdentity', 'tabBladesActions', 'tabBladesAbilities', 'tabBladesStressHarm', 'tabBladesLoadout', 'tabBladesProjects', 'tabBladesCoinStash', 'tabBladesContacts', 'tabBladesDicePools', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
 const ST_ONLY_TABS = new Set()
 
-const BLADES_DICE_POOL_RULES = [
-  {
-    title: 'Action Rolls',
-    sections: [
-      { heading: 'Dice Pool', text: 'Roll a pool of d6s equal to your action rating.' },
-      { heading: 'Zero Dice', text: 'Zero dice? Roll 2d6 and take the lowest.' },
-      { heading: 'Full Success (6)', text: '6 = Full Success. You accomplish your goal.' },
-      { heading: 'Partial Success (4-5)', text: '4-5 = Partial Success. You succeed but with a consequence.' },
-      { heading: 'Bad Outcome (1-3)', text: '1-3 = Bad Outcome. Things go wrong.' },
-      { heading: 'Critical Success', text: 'Two or more 6s = Critical Success (enhanced effect).' },
-    ],
-  },
-  {
-    title: 'Position & Effect',
-    sections: [
-      { heading: 'Controlled', text: 'You act on your terms. Failure = reduced effect, not disaster.' },
-      { heading: 'Risky', text: 'The standard position. Failure = trouble.' },
-      { heading: 'Desperate', text: 'You\'re in serious danger. Failure = worst outcome. But desperate actions give bonus XP.' },
-      { heading: 'Great Effect', text: 'Exceptional impact. More than you\'d expect.' },
-      { heading: 'Standard Effect', text: 'Normal impact. The pointed result.' },
-      { heading: 'Limited Effect', text: 'Reduced impact. Less than you\'d hope.' },
-      { heading: 'Zero Effect', text: 'No effect. Your action has no meaningful impact.' },
-    ],
-  },
-  {
-    title: 'Resistance Rolls',
-    sections: [
-      { heading: 'How to Roll', text: 'Roll d6s equal to the relevant attribute rating (Insight, Prowess, or Resolve).' },
-      { heading: 'Stress Cost', text: 'The highest die determines stress cost: 6 = no stress, 4-5 = 1 stress, 1-3 = 2 stress.' },
-      { heading: 'Critical', text: 'Critical = clear 1 stress instead of taking any.' },
-    ],
-  },
-  {
-    title: 'Fortune Rolls',
-    sections: [
-      { heading: 'When to Use', text: 'Used when no PC is directly acting (e.g., NPC actions, random events).' },
-      { heading: 'Results', text: 'Same d6 pool mechanic: 1-3 bad, 4-5 mixed, 6 good, crit = exceptional.' },
-    ],
-  },
-  {
-    title: 'Engagement Roll',
-    sections: [
-      { heading: 'When to Roll', text: 'Made at the start of a score to determine the opening position.' },
-      { heading: 'Advantages (+1d)', text: '+1d for each advantage: detailed plan, good intel, friends, surprise, etc.' },
-      { heading: 'Disadvantages (-1d)', text: '-1d for each disadvantage: enemies aware, bad weather, rival interference, etc.' },
-      { heading: 'Result', text: 'The result determines the starting position of the score.' },
-    ],
-  },
-  {
-    title: 'Downtime Activities (Deep Cuts)',
-    sections: [
-      { heading: 'Acquire Asset', text: 'Roll tier. 1-3 = tier-1 quality, 4-5 = tier quality, 6 = tier+1, crit = tier+2.' },
-      { heading: 'Long-term Project', text: 'Roll relevant action. Tick a progress clock based on the result.' },
-      { heading: 'Recover', text: 'Roll tier. Clear 1 harm level per segment filled.' },
-      { heading: 'Reduce Heat', text: 'Roll relevant action. 1-3 = clear 1 heat, 4-5 = clear 2, 6 = clear 3, crit = clear 5.' },
-      { heading: 'Train', text: 'Mark XP in an attribute or playbook track.' },
-      { heading: 'Indulge Vice', text: 'Roll lowest attribute. Clear stress equal to the result. Over max = overindulgence.' },
-    ],
-  },
-  {
-    title: 'Flashbacks',
-    sections: [
-      { heading: '0 Stress', text: 'Normal action with easy opportunity.' },
-      { heading: '1 Stress', text: 'Complex action or unlikely opportunity.' },
-      { heading: '2+ Stress', text: 'Elaborate action with special contingencies.' },
-    ],
-  },
-  {
-    title: 'XP & Advancement',
-    sections: [
-      { heading: 'Playbook XP (end of session)', text: 'Mark 1 XP for each: You addressed a challenge using your playbook\'s XP trigger. You expressed your beliefs, drives, heritage, or background. You struggled with issues from your vice or traumas.' },
-      { heading: 'Attribute XP (during play)', text: 'When you make a desperate action roll using an Insight action, mark Insight XP. Same for Prowess and Resolve. The riskier you play, the faster you advance.' },
-      { heading: 'Spending Playbook XP', text: 'At 8 XP, clear the track and gain a new playbook advance: a special ability, +1 action dot, or a veteran advance from another playbook.' },
-      { heading: 'Spending Attribute XP', text: 'At 6 XP on Insight/Prowess/Resolve, clear the track and gain +1 action dot in that attribute\'s category.' },
-      { heading: 'Training (Downtime)', text: 'During downtime, you can mark XP in one attribute or playbook track by spending a downtime activity on training.' },
-      { heading: 'Crew XP (end of session)', text: 'Mark 1 crew XP for each: The crew successfully completed a score. The crew contended with challenges related to its nature. The crew bolstered its reputation or developed assets.' },
-      { heading: 'Coin & Stash', text: 'Each coin earned can be spent on downtime activities or stashed for retirement. Stash fills a 40-segment track — when full, your character retires in safety. Each coin stashed fills 1 segment; larger stashes fill proportionally.' },
-    ],
-  },
-]
+function getBladesRules(t) {
+  return [
+    { title: t('bladesRulesActionRolls'), sections: [
+      { heading: t('bladesRulesPool'), text: t('bladesRulesPoolDesc') },
+      { heading: t('bladesRulesZero'), text: t('bladesRulesZeroDesc') },
+      { heading: t('bladesRulesFull'), text: t('bladesRulesFullDesc') },
+      { heading: t('bladesRulesPartial'), text: t('bladesRulesPartialDesc') },
+      { heading: t('bladesRulesBad'), text: t('bladesRulesBadDesc') },
+      { heading: t('bladesRulesCrit'), text: t('bladesRulesCritDesc') },
+    ]},
+    { title: t('bladesRulesPositionEffect'), sections: [
+      { heading: t('bladesRulesControlled'), text: t('bladesRulesControlledDesc') },
+      { heading: t('bladesRulesRisky'), text: t('bladesRulesRiskyDesc') },
+      { heading: t('bladesRulesDesperate'), text: t('bladesRulesDesperateDesc') },
+      { heading: t('bladesRulesGreatEffect'), text: t('bladesRulesGreatEffectDesc') },
+      { heading: t('bladesRulesStdEffect'), text: t('bladesRulesStdEffectDesc') },
+      { heading: t('bladesRulesLtdEffect'), text: t('bladesRulesLtdEffectDesc') },
+      { heading: t('bladesRulesZeroEffect'), text: t('bladesRulesZeroEffectDesc') },
+    ]},
+    { title: t('bladesRulesResistance'), sections: [
+      { heading: t('bladesRulesHowToRoll'), text: t('bladesRulesHowToRollDesc') },
+      { heading: t('bladesRulesStressCost'), text: t('bladesRulesStressCostDesc') },
+      { heading: t('bladesRulesResCrit'), text: t('bladesRulesResCritDesc') },
+    ]},
+    { title: t('bladesRulesFortune'), sections: [
+      { heading: t('bladesRulesWhenToUse'), text: t('bladesRulesWhenToUseDesc') },
+      { heading: t('bladesRulesFortuneResults'), text: t('bladesRulesFortuneResultsDesc') },
+    ]},
+    { title: t('bladesRulesEngagement'), sections: [
+      { heading: t('bladesRulesEngWhen'), text: t('bladesRulesEngWhenDesc') },
+      { heading: t('bladesRulesEngAdv'), text: t('bladesRulesEngAdvDesc') },
+      { heading: t('bladesRulesEngDis'), text: t('bladesRulesEngDisDesc') },
+      { heading: t('bladesRulesEngResult'), text: t('bladesRulesEngResultDesc') },
+    ]},
+    { title: t('bladesRulesDowntime'), sections: [
+      { heading: t('bladesRulesAcquire'), text: t('bladesRulesAcquireDesc') },
+      { heading: t('bladesRulesLongterm'), text: t('bladesRulesLongtermDesc') },
+      { heading: t('bladesRulesRecover'), text: t('bladesRulesRecoverDesc') },
+      { heading: t('bladesRulesReduceHeat'), text: t('bladesRulesReduceHeatDesc') },
+      { heading: t('bladesRulesTrain'), text: t('bladesRulesTrainDesc') },
+      { heading: t('bladesRulesIndulge'), text: t('bladesRulesIndulgeDesc') },
+    ]},
+    { title: t('bladesRulesFlashbacks'), sections: [
+      { heading: t('bladesRulesFB0'), text: t('bladesRulesFB0Desc') },
+      { heading: t('bladesRulesFB1'), text: t('bladesRulesFB1Desc') },
+      { heading: t('bladesRulesFB2'), text: t('bladesRulesFB2Desc') },
+    ]},
+    { title: t('bladesRulesXP'), sections: [
+      { heading: t('bladesRulesPlaybookXP'), text: t('bladesRulesPlaybookXPDesc') },
+      { heading: t('bladesRulesAttrXP'), text: t('bladesRulesAttrXPDesc') },
+      { heading: t('bladesRulesSpendPB'), text: t('bladesRulesSpendPBDesc') },
+      { heading: t('bladesRulesSpendAttr'), text: t('bladesRulesSpendAttrDesc') },
+      { heading: t('bladesRulesTraining'), text: t('bladesRulesTrainingDesc') },
+      { heading: t('bladesRulesCrewXP'), text: t('bladesRulesCrewXPDesc') },
+      { heading: t('bladesRulesCoinStash'), text: t('bladesRulesCoinStashDesc') },
+    ]},
+  ]
+}
 
 const INITIAL = {
   splat: 'BLADES',
@@ -136,29 +114,29 @@ const INITIAL = {
 
 
 const INSIGHT_ACTIONS = [
-  { key: 'bladesHunt', label: 'Hunt' },
-  { key: 'bladesStudy', label: 'Study' },
-  { key: 'bladesSurvey', label: 'Survey' },
-  { key: 'bladesTinker', label: 'Tinker' },
+  { key: 'bladesHunt', labelKey: 'bladesHunt' },
+  { key: 'bladesStudy', labelKey: 'bladesStudy' },
+  { key: 'bladesSurvey', labelKey: 'bladesSurvey' },
+  { key: 'bladesTinker', labelKey: 'bladesTinker' },
 ]
 const PROWESS_ACTIONS = [
-  { key: 'bladesFinesse', label: 'Finesse' },
-  { key: 'bladesProwl', label: 'Prowl' },
-  { key: 'bladesSkirmish', label: 'Skirmish' },
-  { key: 'bladesWreck', label: 'Wreck' },
+  { key: 'bladesFinesse', labelKey: 'bladesFinesse' },
+  { key: 'bladesProwl', labelKey: 'bladesProwl' },
+  { key: 'bladesSkirmish', labelKey: 'bladesSkirmish' },
+  { key: 'bladesWreck', labelKey: 'bladesWreck' },
 ]
 const RESOLVE_ACTIONS = [
-  { key: 'bladesAttune', label: 'Attune' },
-  { key: 'bladesCommand', label: 'Command' },
-  { key: 'bladesConsort', label: 'Consort' },
-  { key: 'bladesSway', label: 'Sway' },
+  { key: 'bladesAttune', labelKey: 'bladesAttune' },
+  { key: 'bladesCommand', labelKey: 'bladesCommand' },
+  { key: 'bladesConsort', labelKey: 'bladesConsort' },
+  { key: 'bladesSway', labelKey: 'bladesSway' },
 ]
 
 const LOAD_OPTIONS = [
-  { label: 'Light', value: 3 },
-  { label: 'Normal', value: 5 },
-  { label: 'Heavy', value: 6 },
-  { label: 'Encumbered', value: 9 },
+  { labelKey: 'bladesLoadLight', value: 3 },
+  { labelKey: 'bladesLoadNormal', value: 5 },
+  { labelKey: 'bladesLoadHeavy', value: 6 },
+  { labelKey: 'bladesLoadEncumbered', value: 9 },
 ]
 
 /* ── Small dot-rating for 0-4 action dots ── */
@@ -345,7 +323,7 @@ export default function BladesForm() {
         <h4 style={{ marginBottom: 'var(--space-sm)', color: 'var(--color-accent-fg)' }}>{title}</h4>
         {actions.map(a => (
           <div key={a.key} className="blades-action-row">
-            <span className="blades-action-label">{a.label}</span>
+            <span className="blades-action-label">{t(a.labelKey)}</span>
             <BladesDots value={fields[a.key]} onChange={v => handleField(a.key, v)} />
           </div>
         ))}
@@ -533,12 +511,12 @@ export default function BladesForm() {
             </div>
             {fields.bladesStress >= 9 && (
               <div role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c', textAlign: 'center' }}>
-                Trauma! Take a trauma condition and clear your stress.
+                {t('bladesTraumaAlert')}
               </div>
             )}
             {fields.bladesStress >= 8 && fields.bladesStress < 9 && (
               <div role="alert" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(243,156,18,0.15)', border: '2px solid #f39c12', borderRadius: '6px', fontWeight: 600, color: '#f39c12' }}>
-                Warning: One more stress and you take trauma!
+                {t('bladesStressWarning')}
               </div>
             )}
           </fieldset>
@@ -610,7 +588,7 @@ export default function BladesForm() {
                 <label key={opt.value} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
                   <input type="radio" name="bladesLoad" checked={fields.bladesLoad === opt.value}
                     onChange={() => handleField('bladesLoad', opt.value)} />
-                  {opt.label} ({opt.value})
+                  {t(opt.labelKey)} ({opt.value})
                 </label>
               ))}
             </div>
@@ -661,17 +639,17 @@ export default function BladesForm() {
           <fieldset>
             <legend>{t('tabBladesProjects')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              Track long-term projects during downtime. Roll a relevant action to tick segments.
+              {t('bladesProjectsHint')}
             </p>
             <div className="field-row" style={{ marginBottom: 'var(--space-md)', alignItems: 'flex-end' }}>
               <div className="field" style={{ flex: 1 }}>
-                <label htmlFor="new-clock-name">Clock Name</label>
+                <label htmlFor="new-clock-name">{t('bladesClockName')}</label>
                 <input id="new-clock-name" type="text" value={newClockName} onChange={e => setNewClockName(e.target.value)}
                   placeholder="e.g. Research arcane artifact..."
                   onKeyDown={e => { if (e.key === 'Enter' && newClockName.trim()) { e.preventDefault(); setClocks([...clocks, { name: newClockName.trim(), total: newClockSegments, filled: 0 }]); setNewClockName('') } }} />
               </div>
               <div className="field">
-                <label htmlFor="new-clock-segs">Segments</label>
+                <label htmlFor="new-clock-segs">{t('bladesSegments')}</label>
                 <select id="new-clock-segs" value={newClockSegments} onChange={e => setNewClockSegments(Number(e.target.value))}>
                   <option value={4}>4</option>
                   <option value={6}>6</option>
@@ -682,9 +660,9 @@ export default function BladesForm() {
                 if (!newClockName.trim()) return
                 setClocks([...clocks, { name: newClockName.trim(), total: newClockSegments, filled: 0 }])
                 setNewClockName('')
-              }}>Add Clock</button>
+              }}>{t('bladesAddClock')}</button>
             </div>
-            {clocks.length === 0 && <p className="muted-hint">No project clocks yet.</p>}
+            {clocks.length === 0 && <p className="muted-hint">{t('bladesNoClocksYet')}</p>}
             <div role="list" aria-live="polite" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
               {clocks.map((clock, ci) => (
                 <div key={ci} role="listitem" style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', background: 'rgba(52,152,219,0.04)' }}>
@@ -734,12 +712,12 @@ export default function BladesForm() {
                     <div style={{ flex: 1 }}>
                       {clock.filled >= clock.total && (
                         <div role="alert" aria-live="assertive" style={{ fontWeight: 700, color: '#2ecc71', fontSize: '0.9rem' }}>
-                          Project Complete!
+                          {t('bladesClockComplete')}
                         </div>
                       )}
                     </div>
                     <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
-                      onClick={() => setClocks(clocks.filter((_, j) => j !== ci))} aria-label={`Remove ${clock.name}`}>Remove</button>
+                      onClick={() => setClocks(clocks.filter((_, j) => j !== ci))} aria-label={`${t('remove')} ${clock.name}`}>{t('remove')}</button>
                   </div>
                 </div>
               ))}
@@ -891,7 +869,7 @@ export default function BladesForm() {
 
       {/* ── Dice Pools Reference ── */}
       <div hidden={tab !== 'tabBladesDicePools'} role="tabpanel" aria-labelledby="tabBladesDicePools">
-        <RulesReferenceTab rules={BLADES_DICE_POOL_RULES} title={t('tabBladesDicePools')} />
+        <RulesReferenceTab rules={getBladesRules(t)} title={t('tabBladesDicePools')} />
       </div>
 
       {/* ── Backstory ── */}
@@ -914,13 +892,10 @@ export default function BladesForm() {
       <div hidden={tab !== 'tabDiceRoller'} role="tabpanel" aria-labelledby="tabDiceRoller">
         <details style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', background: 'rgba(243,156,18,0.06)' }}>
           <summary style={{ cursor: 'pointer', fontWeight: 700, fontSize: '0.9rem', color: '#f39c12' }}>
-            Devil's Bargain
+            {t('bladesDevilsBargain')}
           </summary>
           <div role="note" aria-live="polite" style={{ padding: 'var(--space-sm) 0', fontSize: '0.85rem', lineHeight: 1.6, color: 'var(--color-text-muted)' }}>
-            <strong>Devil's Bargain:</strong> The GM offers you <strong>+1d</strong> to your roll, but with a complication.
-            You can always refuse. The complication occurs regardless of the roll's outcome.
-            Common complications include: collateral damage, betraying a friend, attracting unwanted attention,
-            or creating a problematic obligation.
+            {t('bladesDevilsBargainDesc')}
           </div>
         </details>
         <BladesDiceRoller />

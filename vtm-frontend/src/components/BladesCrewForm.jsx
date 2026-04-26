@@ -55,14 +55,14 @@ const STANDARD_CREW_UPGRADES = [
   'Vault', 'Boat House', 'Carriage House', 'Hidden Lair', 'Mastery', 'Quality', 'Secure Lair', 'Workshop',
 ]
 
-const FACTION_STATUS_LABELS = {
-  '-3': 'War',
-  '-2': 'Hostile',
-  '-1': 'Unfriendly',
-  '0': 'Neutral',
-  '1': 'Friendly',
-  '2': 'Allied',
-  '3': 'Allied',
+const FACTION_STATUS_KEYS = {
+  '-3': 'bladesFactionWar',
+  '-2': 'bladesFactionHostile',
+  '-1': 'bladesFactionUnfriendly',
+  '0': 'bladesFactionNeutral',
+  '1': 'bladesFactionFriendly',
+  '2': 'bladesFactionAllied',
+  '3': 'bladesFactionAllied',
 }
 
 function getFactionStatusColor(status) {
@@ -125,15 +125,15 @@ function FactionTracker({ factionData, onChange }) {
                       background: status === v ? color : 'var(--color-surface-elevated, rgba(255,255,255,0.06))',
                       color: status === v ? '#fff' : 'var(--color-text-secondary, #aaa)',
                     }}
-                    title={`${FACTION_STATUS_LABELS[String(v)]} (${v > 0 ? '+' : ''}${v})`}
-                    aria-label={`${displayName} ${FACTION_STATUS_LABELS[String(v)]}`}
+                    title={`${t(FACTION_STATUS_KEYS[String(v)])} (${v > 0 ? '+' : ''}${v})`}
+                    aria-label={`${displayName} ${t(FACTION_STATUS_KEYS[String(v)])}`}
                   >
                     {v > 0 ? `+${v}` : v}
                   </button>
                 ))}
               </div>
               <span style={{ fontSize: '0.7rem', color, fontWeight: 600, width: 65, textAlign: 'center', flexShrink: 0 }}>
-                {FACTION_STATUS_LABELS[String(status)]}
+                {t(FACTION_STATUS_KEYS[String(status)])}
               </span>
             </div>
           )
@@ -141,14 +141,14 @@ function FactionTracker({ factionData, onChange }) {
       </div>
       <div style={{ marginTop: 'var(--space-md)', display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-end', flexWrap: 'wrap' }}>
         <div className="field" style={{ flex: 1, minWidth: 150 }}>
-          <label>Custom Faction Name</label>
+          <label>{t('bladesCustomFaction')}</label>
           <input value={customName} onChange={e => setCustomName(e.target.value)} placeholder="Faction name..." />
         </div>
         <div className="field" style={{ width: 80 }}>
-          <label>Tier</label>
+          <label>{t('bladesTier')}</label>
           <input type="number" value={customTier} min={0} max={6} onChange={e => setCustomTier(parseInt(e.target.value) || 0)} />
         </div>
-        <button type="button" className="btn btn-secondary" onClick={addCustomFaction} style={{ marginBottom: 2 }}>Add Faction</button>
+        <button type="button" className="btn btn-secondary" onClick={addCustomFaction} style={{ marginBottom: 2 }}>{t('bladesAddFaction')}</button>
       </div>
     </div>
   )
