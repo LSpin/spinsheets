@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/reset-request").authenticated()
                 .requestMatchers("/api/merits", "/api/flaws").permitAll()
                 .requestMatchers("/", "/index.html", "/assets/**", "/favicon.svg", "/icons.svg", "/manifest.json", "/sw.js").permitAll()
-                .requestMatchers("/login", "/register", "/reset-password", "/characters/**", "/chronicles/**", "/all-chronicles", "/all-characters", "/7thsea/**", "/l5r/**", "/blades/**", "/dnd/**", "/uestrpg/**", "/cyberpunk/**", "/asoiaf/**", "/players", "/admin", "/invite/**").permitAll()
+                .requestMatchers("/login", "/register", "/reset-password", "/characters/**", "/chronicles/**", "/all-chronicles", "/all-characters", "/7thsea/**", "/l5r/**", "/blades/**", "/dnd/**", "/uestrpg/**", "/cyberpunk/**", "/asoiaf/**", "/sav/**", "/players", "/admin", "/invite/**").permitAll()
                 .anyRequest().authenticated()
             )
             .exceptionHandling(ex -> ex

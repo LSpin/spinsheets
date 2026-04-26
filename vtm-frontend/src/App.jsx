@@ -68,6 +68,10 @@ const BladesAntagonistForm = lazyRetry(() => import('./components/BladesAntagoni
 const BladesPage = lazyRetry(() => import('./pages/BladesPage'))
 const BladesClockManager = lazyRetry(() => import('./pages/BladesClockManager'))
 const BladesSTTools = lazyRetry(() => import('./components/BladesSTTools'))
+// Scum and Villainy
+const SavForm = lazyRetry(() => import('./components/SavForm'))
+const SavShipForm = lazyRetry(() => import('./components/SavShipForm'))
+const SavPage = lazyRetry(() => import('./pages/SavPage'))
 const WoDSTTools = lazyRetry(() => import('./components/WoDSTTools'))
 
 // D&D
@@ -177,7 +181,7 @@ function UserMenu() {
   )
 }
 
-const THEME_TO_CHARACTERS_PATH = { wod: '/characters', '7thsea': '/7thsea', l5r: '/l5r', blades: '/blades', dnd: '/dnd', uestrpg: '/uestrpg', cyberpunk: '/cyberpunk', asoiaf: '/asoiaf' }
+const THEME_TO_CHARACTERS_PATH = { wod: '/characters', '7thsea': '/7thsea', l5r: '/l5r', blades: '/blades', sav: '/sav', dnd: '/dnd', uestrpg: '/uestrpg', cyberpunk: '/cyberpunk', asoiaf: '/asoiaf' }
 
 function AppShell() {
   const { user, isST } = useAuth()
@@ -523,6 +527,24 @@ function AppShell() {
             <ProtectedRoute><ChronicleForm system="BLADES" basePath="/blades/chronicles" /></ProtectedRoute>
           } />
           <Route path="/blades/chronicles/:id" element={
+            <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
+          } />
+          <Route path="/sav" element={
+            <ProtectedRoute><SavPage /></ProtectedRoute>
+          } />
+          <Route path="/sav/new" element={
+            <ProtectedRoute><SavForm /></ProtectedRoute>
+          } />
+          <Route path="/sav/ship/new" element={
+            <ProtectedRoute><SavShipForm /></ProtectedRoute>
+          } />
+          <Route path="/sav/chronicles" element={
+            <ProtectedRoute><ChronicleList system="SAV" basePath="/sav/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/sav/chronicles/new" element={
+            <ProtectedRoute><ChronicleForm system="SAV" basePath="/sav/chronicles" /></ProtectedRoute>
+          } />
+          <Route path="/sav/chronicles/:id" element={
             <ProtectedRoute><ChronicleDetail /></ProtectedRoute>
           } />
           <Route path="/dnd" element={

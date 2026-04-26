@@ -8,6 +8,7 @@ const GAME_SYSTEMS = [
   { key: 'SEVENTH_SEA', labelKey: 'system7thSea', badge: 'splat-badge--seventh-sea', newPath: '/7thsea/new', gameSystem: 'SEVENTH_SEA' },
   { key: 'L5R', labelKey: 'systemL5R', badge: 'splat-badge--l5r', newPath: '/l5r/new', gameSystem: 'L5R' },
   { key: 'BLADES', labelKey: 'systemBlades', badge: 'splat-badge--blades', newPath: '/blades/new', gameSystem: 'BLADES' },
+  { key: 'SAV', labelKey: 'systemSav', badge: 'splat-badge--sav', newPath: '/sav/new', gameSystem: 'SAV' },
   { key: 'DND', labelKey: 'systemDnd', badge: 'splat-badge--dnd', newPath: '/dnd/new', gameSystem: 'DND' },
   { key: 'UESTRPG', labelKey: 'systemUestrpg', badge: 'splat-badge--uestrpg', newPath: '/uestrpg/new', gameSystem: 'UESTRPG' },
   { key: 'CYBERPUNK', labelKey: 'systemCyberpunk', badge: 'splat-badge--cyberpunk', newPath: '/cyberpunk/new', gameSystem: 'CYBERPUNK' },

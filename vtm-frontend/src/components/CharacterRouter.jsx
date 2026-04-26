@@ -42,6 +42,8 @@ const CyberpunkForm = lazyRetry(() => import('./CyberpunkForm'))
 const CyberpunkAntagonistForm = lazyRetry(() => import('./CyberpunkAntagonistForm'))
 const AsoiafForm = lazyRetry(() => import('./AsoiafForm'))
 const AsoiafAntagonistForm = lazyRetry(() => import('./AsoiafAntagonistForm'))
+const SavForm = lazyRetry(() => import('./SavForm'))
+const SavShipForm = lazyRetry(() => import('./SavShipForm'))
 
 export default function CharacterRouter() {
   const { id } = useParams()
@@ -60,7 +62,7 @@ export default function CharacterRouter() {
         setSplat(s)
         setIsNpc(!!res.data.npc)
         setErrorStatus(null)
-        switchTheme(s === 'SEVENTH_SEA' || s === 'SEVENTH_SEA_SHIP' ? '7thsea' : s === 'L5R' || s === 'L5R_ANTAGONIST' || s === 'L5R_5E' ? 'l5r' : s === 'BLADES' || s === 'BLADES_CREW' || s === 'BLADES_ANTAGONIST' ? 'blades' : s === 'DND' || s === 'DND_MONSTER' ? 'dnd' : s === 'UESTRPG' || s === 'UESTRPG_ANTAGONIST' ? 'uestrpg' : s === 'CYBERPUNK' || s === 'CYBERPUNK_ANTAGONIST' ? 'cyberpunk' : s === 'ASOIAF' || s === 'ASOIAF_ANTAGONIST' ? 'asoiaf' : 'wod')
+        switchTheme(s === 'SEVENTH_SEA' || s === 'SEVENTH_SEA_SHIP' ? '7thsea' : s === 'L5R' || s === 'L5R_ANTAGONIST' || s === 'L5R_5E' ? 'l5r' : s === 'BLADES' || s === 'BLADES_CREW' || s === 'BLADES_ANTAGONIST' ? 'blades' : s === 'SAV' || s === 'SAV_SHIP' ? 'sav' : s === 'DND' || s === 'DND_MONSTER' ? 'dnd' : s === 'UESTRPG' || s === 'UESTRPG_ANTAGONIST' ? 'uestrpg' : s === 'CYBERPUNK' || s === 'CYBERPUNK_ANTAGONIST' ? 'cyberpunk' : s === 'ASOIAF' || s === 'ASOIAF_ANTAGONIST' ? 'asoiaf' : 'wod')
       } catch (err) {
         setErrorStatus(err.response?.status || 0)
       } finally {
@@ -121,6 +123,8 @@ export default function CharacterRouter() {
   else if (splat === 'CYBERPUNK_ANTAGONIST') FormComponent = CyberpunkAntagonistForm
   else if (splat === 'ASOIAF') FormComponent = AsoiafForm
   else if (splat === 'ASOIAF_ANTAGONIST') FormComponent = AsoiafAntagonistForm
+  else if (splat === 'SAV') FormComponent = SavForm
+  else if (splat === 'SAV_SHIP') FormComponent = SavShipForm
 
   return (
     <Suspense fallback={<p className="status-loading">{t('loading')}</p>}>
