@@ -385,6 +385,25 @@ function FactionTurnTab() {
                 {outcomeLabel(rollResult.outcome)}
               </span>
             </div>
+            <p style={{ marginTop: 'var(--space-xs)', fontSize: '0.82rem', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
+              {t(`bladesFortuneOut_${rollResult.outcome}`)}
+            </p>
+          </div>
+        )}
+
+        {/* Roll History */}
+        {history.length > 0 && (
+          <div style={{ marginTop: 'var(--space-md)', fontSize: '0.8rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xs)' }}>
+              <strong>{t('diceHistory')}</strong>
+              <button className="dice-roller-clear" onClick={() => setHistory([])}>{t('diceClear')}</button>
+            </div>
+            {history.map(h => (
+              <div key={h.id} style={{ padding: '0.2rem 0', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between' }}>
+                <span>{h.pool}d6 [{h.dice.join(', ')}]</span>
+                <span style={{ fontWeight: 600, color: outcomeColor(h.outcome) }}>{outcomeLabel(h.outcome)}</span>
+              </div>
+            ))}
           </div>
         )}
       </fieldset>
