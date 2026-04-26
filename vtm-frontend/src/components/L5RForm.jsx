@@ -642,16 +642,36 @@ export default function L5RForm() {
   const selectedFamilyData = familyCatalog.find(f => f.value === fields.l5rFamily)
   const selectedSchoolData = fields.l5rSchool ? L5R_SCHOOLS[fields.l5rSchool] : null
 
-  // Schools filtered by selected clan (catalog format for CatalogSelect)
-  const schoolCatalog = ((fields.l5rClan && CLANS[fields.l5rClan]?.schools) || []).map(s => {
-    const schoolData = L5R_SCHOOLS[s]
-    return {
-      value: s,
-      description: schoolData
-        ? `${schoolData.type} — ${schoolData.traits}. Skills: ${schoolData.skills}`
-        : s,
+  // Schools filtered by selected clan — or ALL schools if "Different School" advantage is taken
+  const hasDifferentSchool = disciplines.some(d => d.name === 'Different School')
+  const schoolCatalog = (() => {
+    if (hasDifferentSchool) {
+      // Show all schools from all clans, grouped by clan
+      const entries = []
+      for (const [clanName, clanData] of Object.entries(CLANS)) {
+        for (const s of clanData.schools) {
+          const schoolData = L5R_SCHOOLS[s]
+          const tag = clanName === fields.l5rClan ? '' : ` [${clanName}]`
+          entries.push({
+            value: s,
+            description: schoolData
+              ? `${schoolData.type} — ${schoolData.traits}. Skills: ${schoolData.skills}${tag}`
+              : `${s}${tag}`,
+          })
+        }
+      }
+      return entries
     }
-  })
+    return ((fields.l5rClan && CLANS[fields.l5rClan]?.schools) || []).map(s => {
+      const schoolData = L5R_SCHOOLS[s]
+      return {
+        value: s,
+        description: schoolData
+          ? `${schoolData.type} — ${schoolData.traits}. Skills: ${schoolData.skills}`
+          : s,
+      }
+    })
+  })()
 
   // ── Combat computations ──
   const armorData = L5R_EQUIPMENT.armor.find(a => a.name === equippedArmor)
