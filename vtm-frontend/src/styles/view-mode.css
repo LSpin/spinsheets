@@ -5,6 +5,7 @@
   pointer-events: none;
   opacity: 0.85;
   background: var(--color-surface);
+  color: var(--color-text);
 }
 .form-view-mode .btn-secondary,
 .form-view-mode .btn-primary,
