@@ -1240,21 +1240,37 @@ export default function L5RForm() {
               </div>
               <button className="btn btn-secondary" onClick={handleAddSkill}>{t('add')}</button>
             </div>
-            {newSkillName && L5R_SKILL_MASTERIES[newSkillName]?.emphases?.length > 0 && (
+            {newSkillName && (
               <div style={{ marginTop: 'var(--space-sm)' }}>
                 <label style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>Emphases (click to add):</label>
-                <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap', marginTop: 'var(--space-xs)' }}>
-                  {L5R_SKILL_MASTERIES[newSkillName].emphases.map(emp => {
-                    const active = newSkillEmphases.includes(emp)
-                    return (
-                      <button key={emp} type="button"
-                        className={`tag${active ? ' tag--active' : ''}`}
-                        style={{ cursor: 'pointer', fontSize: '0.78rem', padding: '0.2rem 0.5rem' }}
-                        onClick={() => setNewSkillEmphases(prev => active ? prev.filter(e => e !== emp) : [...prev, emp])}>
-                        {emp}{active ? ' \u2713' : ''}
-                      </button>
-                    )
-                  })}
+                {L5R_SKILL_MASTERIES[newSkillName]?.emphases?.length > 0 && (
+                  <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap', marginTop: 'var(--space-xs)' }}>
+                    {L5R_SKILL_MASTERIES[newSkillName].emphases.map(emp => {
+                      const active = newSkillEmphases.includes(emp)
+                      return (
+                        <button key={emp} type="button"
+                          className={`tag${active ? ' tag--active' : ''}`}
+                          style={{ cursor: 'pointer', fontSize: '0.78rem', padding: '0.2rem 0.5rem' }}
+                          onClick={() => setNewSkillEmphases(prev => active ? prev.filter(e => e !== emp) : [...prev, emp])}>
+                          {emp}{active ? ' \u2713' : ''}
+                        </button>
+                      )
+                    })}
+                  </div>
+                )}
+                <div style={{ display: 'flex', gap: 'var(--space-xs)', alignItems: 'center', marginTop: 'var(--space-xs)' }}>
+                  <input type="text" placeholder="Custom emphasis..." style={{ fontSize: '0.78rem', width: '160px' }}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter' && e.target.value.trim()) {
+                        setNewSkillEmphases(prev => [...prev, e.target.value.trim()])
+                        e.target.value = ''
+                      }
+                    }} />
+                  {newSkillEmphases.length > 0 && (
+                    <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+                      Selected: {newSkillEmphases.join(', ')}
+                    </span>
+                  )}
                 </div>
               </div>
             )}
