@@ -49,7 +49,7 @@ Se você conduz jogos, peça ao administrador do seu grupo para promover sua con
 
 1. Abra a página de **Personagens** no menu de navegação
 2. Selecione **Novo Personagem**
-3. Escolha seu sistema de jogo (World of Darkness, 7th Sea, L5R, Blades, D&D, UESTRPG, Cyberpunk ou ASOIAF)
+3. Escolha seu sistema de jogo (World of Darkness, 7th Sea, L5R, Blades, Scum & Villainy, D&D, UESTRPG, Cyberpunk ou ASOIAF)
 4. Escolha **Para Mim** (livre) ou **Para uma Crônica** (vinculado ao jogo de um Narrador)
 5. Para World of Darkness, você escolherá uma linha de jogo específica (Vampire, Werewolf, Mage, etc.)
 6. Sua ficha de personagem abre com abas para todas as seções relevantes
@@ -86,7 +86,8 @@ Catálogos estão disponíveis para:
 - **7th Sea:** Vantagens (235+), Antecedentes (161), Estilos de Duelo (33), Sociedades Secretas (26), Feiticarias, Arcana (44) — com filtros de livro-fonte
 - **L5R 4e:** Escolas, Magias, Kata, Vantagens, Desvantagens, Equipamento (com filtros de categoria)
 - **L5R 5e:** Escolas (filtradas por cla), Tecnicas (com filtros de categoria), Vantagens, Desvantagens, Armas (com filtros de categoria), Familias
-- **Blades:** Playbooks, Habilidades, Itens, Contatos, Tipos de Crew
+- **Blades:** Cartilhas, Habilidades, Itens, Contatos, Tipos de Bando
+- **Scum & Villainy:** Cartilhas (7), Habilidades, Itens, Contatos, Tipos de Nave (3)
 - **D&D:** Classes, Raças, Magias (233), Talentos (42), Equipamento (com filtros de categoria), Monstros (120)
 - **UESTRPG:** Raças, Classes, Constelações, Equipamento (temática TES)
 - **Cyberpunk:** Roles, Cyberware (150+, com filtros de categoria), Armas (58), Armaduras (24), Equipamento (52), Veiculos (38)
@@ -173,7 +174,8 @@ Uma página de **Ferramentas do Narrador** no `/st-tools` exibe todos os 7 siste
 
 | Sistema | Abas | Conteúdo |
 |---------|------|----------|
-| **Blades in the Dark** | 7 | Score Gen, Entrelaçamentos, NPC, Turno de Facção, Tempo Livre, Barganho do Diabo, Relógios de Campanha |
+| **Blades in the Dark** | 7 | Gerador de Golpes, Desavenças, NPC, Turno de Facção, Folga, Acordo com o Diabo, Relógios de Campanha |
+| **Scum & Villainy** | 7 | Gerador de Trabalhos, Desavenças, NPC (sci-fi), Turno de Facção, Folga, Acordo com o Diabo, Relógios de Campanha |
 | **World of Darkness** | 7 | Cenas de Alimentação, Encontros com Espíritos, Eventos de Paradoxo, Referência de Frenesi, Gerador de NPC, Eventos da Cidade, Complicações de Cena |
 | **Cyberpunk 2020** | 5 | Encontros em Night City, Gerador de Gig, Gerador de Contato, Netrunning, Eventos de Lifepath |
 | **D&D 5e** | 5 | Encontros por Ambiente, Tesouro por Tier, Gerador de NPC, Taverna/Loja, Salas de Dungeon |
@@ -278,6 +280,16 @@ Como Narrador:
 **Sistema de dados:** pool de d6 (3 modos)
 **Rastreamento de XP:** Pips de XP da Cartilha
 
+### Scum & Villainy
+
+**Funcionalidades:** 7 Cartilhas (Mecânico, Músculo, Místico, Piloto, Canalha, Orador, Médico), 3 Tipos de Nave (Stardancer, Cerberus, Firedrake), motor Forged in the Dark
+**Fichas de personagem:** Reutiliza mecânicas centrais do Blades (estresse/trauma, dano, relógio de cura, armadura, carga, XP) com nomes de ações específicos do S&V (Medicar/Hackear/Gambiarrar/Estudar, Pilotar/Escalar/Brigar/Esgueirar, Sintonizar/Comandar/Socializar/Convencer). Rastreador de pool de gambitos na aba Ações, Cred & Reserva (não Moeda), rótulo dinâmico de Indicativo para cartilha de Piloto. Todas as funcionalidades do Blades incluídas: modos de resistência/sorte, lembrete de gatilho de XP, referência de folga, referência de regras traduzida
+**Fichas de nave:** Seleção de tipo de nave, rastreador de sistemas (Motores/Casco/Comunicações/Armas com qualidade e dano), pool de gambitos (persistente), rastreador de facções (15 facções do setor), botões +/- para Moral/Atenção/Procurado, rastreamento estruturado de capangas, consequências de nível de procurado
+**Ferramentas do Narrador:** 7 abas — Gerador de Trabalhos (clientes/alvos/complicações espaciais), Desavenças (3 níveis), Gerador de NPCs (nomes/profissões/peculiaridades sci-fi), Turno de Facção, Eventos de Folga, Acordo com o Diabo, Relógios de Campanha
+**Tradução PT:** Atributos usam termos da edição Redbox do Blades (Esperteza/Valentia/Convicção). Ações únicas do S&V extrapoladas como verbos (Medicar, Hackear, Gambiarrar, Pilotar, Escalar)
+**Sistema de dados:** Compartilha rolador de pool de d6 do Blades (3 modos: ação/resistência/sorte)
+**Rastreamento de XP:** Pips de XP da Cartilha
+
 ### D&D 5a Edição
 
 **Funcionalidades:** 13 Classes, 9 Raças, 233 Magias, 42 Talentos, 120 templates de Monstros, Catálogo de Equipamento, **Rastreador de Exaustão** (níveis 0-6 com exibição cumulativa de penalidades)
@@ -315,6 +327,7 @@ Cada sistema possui um rolador de dados dedicado acessível pela aba Rolador de 
 | L5R 4e | Roll-and-Keep | Role X d10s, mantenha os Y maiores, 10s explodem, modificador fixo, calculadora de aumentos |
 | L5R 5e | Dados Narrativos | Role d6s de anel + d12s de habilidade, leia simbolos de Sucesso/Explosivo/Oportunidade/Conflito |
 | Blades | Pool de d6 | 3 modos: Ação (posição/efeito + texto de resultado), Resistência (custo de estresse), Sorte |
+| S&V | Pool de d6 | Compartilha rolador do Blades (mesmo motor FitD — 3 modos) |
 | D&D / UESTRPG | d20 | d20 + modificador vs. CD, vantagem/desvantagem |
 | Cyberpunk | d10 | STAT + Habilidade + d10, falha critica no 1, critico no 10 (explode) |
 | ASOIAF | Pool de d6 | Role X d6s, some os dados mantidos vs. dificuldade |

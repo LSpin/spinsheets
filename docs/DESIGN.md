@@ -2,7 +2,7 @@
 
 ## Overview
 
-Spin's Sheets is a web-based tabletop RPG character sheet manager supporting 9 game systems with 37 character forms, 400+ NPC templates, chronicle management, and built-in dice rollers. The application is fully bilingual (English / Portuguese) and designed for both desktop and mobile use.
+Spin's Sheets is a web-based tabletop RPG character sheet manager supporting 10 game systems with 39 character forms, 400+ NPC templates, chronicle management, and built-in dice rollers. The application is fully bilingual (English / Portuguese) and designed for both desktop and mobile use.
 
 **Live URL:** https://spinsheets.com
 
@@ -114,6 +114,7 @@ Browser
 | L5R 4e | L5R, L5R_ANTAGONIST | l5r (emerald) | 2 | 37 |
 | L5R 5e (FFG) | L5R_5E | l5r (emerald) | 1 | 0 |
 | Blades in the Dark | BLADES, BLADES_CREW, BLADES_ANTAGONIST | blades (crimson) | 3 | 23 |
+| Scum & Villainy | SAV, SAV_SHIP | sav (cyan/teal) | 2 | 0 |
 | D&D 5e | DND, DND_MONSTER | dnd (warm red) | 2 | 120 |
 | UESTRPG | UESTRPG, UESTRPG_ANTAGONIST | uestrpg (steel blue) | 2 | 34 |
 | Cyberpunk 2020 | CYBERPUNK, CYBERPUNK_ANTAGONIST | cyberpunk (neon cyan) | 2 | 25 |
@@ -145,6 +146,30 @@ Blades uses a dedicated **Clock Manager** at `/blades/clocks` (clocks are not em
 - **Vault auto-scaling** — Vault upgrade increases capacity automatically
 - **Long-term project clocks** — inline SVG pie-segment clocks (4, 6, 8, or 12 segments)
 - **Devil's Bargain reminder** (Acordo com o Diabo) — inline prompt during action rolls
+
+### Scum and Villainy
+
+S&V is a Forged in the Dark sci-fi game that shares Blades' core engine. It reuses the same `blades*` entity fields (stress, trauma, harm, XP, actions) with different action names and space-themed content.
+
+**Action mapping:** Insight = Doctor/Hack/Rig/Study, Prowess = Helm/Scramble/Scrap/Skulk, Resolve = Attune/Command/Consort/Sway (identical to Blades).
+
+**Data:** 7 playbooks (Mechanic, Muscle, Mystic, Pilot, Scoundrel, Speaker, Stitch) each with starting ability, 8-9 special abilities, unique items, contacts, and XP trigger. 3 ship types (Stardancer, Cerberus, Firedrake) with abilities, upgrades, and hunting grounds. 15 sector factions. Sci-fi heritage/background/vice options. Space-themed standard items (blaster pistol, hacking tools, spacesuit).
+
+**S&V-specific features:**
+- **Gambit pool** — shared crew resource tracker on both character (session-local) and ship (persistent) forms, with +/- buttons and reset
+- **Ship systems** — Engines, Hull, Comms, Weapons with quality ratings and damage tracking, stored as JSON
+- **Cred** instead of Coin — S&V-specific terminology throughout
+- **Call Sign** — dynamic label for Pilot playbook (Alias for others)
+
+**Ship form:** Based on BladesCrewForm with S&V ship types, sector factions, structured cohort tracking, Rep/Heat/Wanted +/- buttons, gambit pool, and ship systems tracker.
+
+**ST Tools (7 tabs):** Job Generator (20 entries per field, space-themed), Entanglements (3 tiers), NPC Generator (sci-fi names/professions/quirks), Faction Turn (fortune roll with outcome descriptions), Downtime Events, Devil's Bargain, Campaign Clocks (separate localStorage from Blades).
+
+**Dice roller:** Shares `BladesDiceRoller` component (same FitD engine — 3 modes: action/resistance/fortune).
+
+**PT translation:** Attributes use Blades Redbox terms (Esperteza/Valentia/Convicção). S&V-unique actions extrapolated as verbs (Medicar, Hackear, Gambiarrar, Pilotar, Escalar, Brigar, Esgueirar).
+
+**Theme:** `sav` — cyan/teal (`#00bcd4` accent).
 
 ### 7th Sea Data and Ship
 

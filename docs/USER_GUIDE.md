@@ -49,7 +49,7 @@ If you run games, ask your group's admin to promote your account to **Storytelle
 
 1. Open the **Characters** page from the navigation menu
 2. Select **New Character**
-3. Choose your game system (World of Darkness, 7th Sea, L5R, Blades, D&D, UESTRPG, Cyberpunk, or ASOIAF)
+3. Choose your game system (World of Darkness, 7th Sea, L5R, Blades, Scum & Villainy, D&D, UESTRPG, Cyberpunk, or ASOIAF)
 4. Choose **For Myself** (freeform) or **For a Chronicle** (links to a Storyteller's game)
 5. For World of Darkness, you'll pick a specific game line (Vampire, Werewolf, Mage, etc.)
 6. Your character sheet opens with tabs for all relevant sections
@@ -87,6 +87,7 @@ Catalogs are available for:
 - **L5R 4e:** Schools, Spells, Kata, Advantages, Disadvantages, Equipment (with category filters)
 - **L5R 5e:** Schools (filtered by clan), Techniques (with category filters), Advantages, Disadvantages, Weapons (with category filters), Families
 - **Blades:** Playbooks, Abilities, Items, Contacts, Crew Types
+- **Scum & Villainy:** Playbooks (7), Abilities, Items, Contacts, Ship Types (3)
 - **D&D:** Classes, Races, Spells (233), Feats (42), Equipment (with category filters), Monsters (120)
 - **UESTRPG:** Races, Classes, Constellations, Equipment (TES-flavored)
 - **Cyberpunk:** Roles, Cyberware (150+, with category filters), Weapons (58), Armor (24), Gear (52), Vehicles (38)
@@ -174,6 +175,7 @@ A central **ST Tools** landing page at `/st-tools` displays all 7 main game syst
 | System | Tabs | What's Inside |
 |--------|------|--------------|
 | **Blades in the Dark** | 7 | Score Gen, Entanglements, NPC, Faction Turn, Downtime, Devil's Bargain, Campaign Clocks |
+| **Scum & Villainy** | 7 | Job Gen, Entanglements, NPC (sci-fi), Faction Turn, Downtime, Devil's Bargain, Campaign Clocks |
 | **World of Darkness** | 7 | Feeding Scenes, Spirit Encounters, Paradox Events, Frenzy Reference, NPC Generator, City Events, Scene Complications |
 | **Cyberpunk 2020** | 5 | Night City Encounters, Gig Generator, Contact Generator, Netrunning, Lifepath Events |
 | **D&D 5e** | 5 | Encounters by Environment, Treasure by Tier, NPC Generator, Tavern/Shop, Dungeon Rooms |
@@ -278,6 +280,16 @@ As a Storyteller:
 **Dice system:** d6 pool (3 modes)
 **XP tracking:** Playbook XP pips
 
+### Scum & Villainy
+
+**Features:** 7 Playbooks (Mechanic, Muscle, Mystic, Pilot, Scoundrel, Speaker, Stitch), 3 Ship types (Stardancer, Cerberus, Firedrake), Forged in the Dark engine
+**Character sheets:** Reuses Blades core mechanics (stress/trauma, harm, healing clock, armor, load, XP) with S&V-specific action names (Doctor/Hack/Rig/Study, Helm/Scramble/Scrap/Skulk, Attune/Command/Consort/Sway). Gambit pool tracker on Actions tab, Cred & Stash (not Coin), dynamic Call Sign label for Pilot playbook. All Blades gameplay features carry over: resistance/fortune roll modes, XP trigger reminder, downtime helpers, translated rules reference
+**Ship sheets:** Ship type selection (Stardancer/Cerberus/Firedrake), ship systems tracker (Engines/Hull/Comms/Weapons with quality and damage), gambit pool (persistent), faction tracker (15 sector factions), Rep/Heat/Wanted +/- buttons, structured cohort tracking, wanted level consequences
+**ST Tools:** 7 tabs — Job Generator (space-themed clients, targets, complications), Entanglements (3 tiers), NPC Generator (sci-fi names/professions/quirks), Faction Turn, Downtime Events, Devil's Bargain, Campaign Clocks
+**PT translation:** Attributes use Blades Redbox terms (Esperteza/Valentia/Convicção). S&V-unique actions extrapolated as verbs (Medicar, Hackear, Gambiarrar, Pilotar, Escalar)
+**Dice system:** Shares Blades d6 pool roller (3 modes: action/resistance/fortune)
+**XP tracking:** Playbook XP pips
+
 ### D&D 5th Edition
 
 **Features:** 13 Classes, 9 Races, 233 Spells, 42 Feats, 120 Monster templates, Equipment catalog, **Exhaustion tracker** (levels 0-6 with cumulative penalty display)
@@ -315,6 +327,7 @@ Each system has a dedicated dice roller accessible from the Dice Roller tab:
 | L5R 4e | Roll-and-Keep | Roll X d10s, keep Y highest, exploding 10s, flat modifier, raise calculator |
 | L5R 5e | Narrative Dice | Roll ring d6s + skill d12s, read Success/Explosive/Opportunity/Strife symbols |
 | Blades | d6 Pool | 3 modes: Action (position/effect + outcome text), Resistance (stress cost), Fortune |
+| S&V | d6 Pool | Shares Blades roller (same FitD engine — 3 modes) |
 | D&D / UESTRPG | d20 | d20 + modifier vs. DC, advantage/disadvantage |
 | Cyberpunk | d10 | STAT + Skill + d10, fumble on 1, critical on 10 (exploding) |
 | ASOIAF | d6 Pool | Roll X d6s, sum kept dice vs. difficulty |

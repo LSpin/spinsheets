@@ -2,7 +2,7 @@
 
 ## Visão Geral
 
-Spin's Sheets é um gerenciador de fichas de personagem para RPG de mesa baseado na web, suportando 9 sistemas de jogo com 37 formulários de personagem, mais de 400 templates de NPCs, gerenciamento de crônicas e roladores de dados integrados. A aplicação é totalmente bilíngue (Inglês / Português) e projetada para uso em desktop e dispositivos móveis.
+Spin's Sheets é um gerenciador de fichas de personagem para RPG de mesa baseado na web, suportando 10 sistemas de jogo com 39 formulários de personagem, mais de 400 templates de NPCs, gerenciamento de crônicas e roladores de dados integrados. A aplicação é totalmente bilíngue (Inglês / Português) e projetada para uso em desktop e dispositivos móveis.
 
 **URL ao vivo:** https://spinsheets.com
 
@@ -54,7 +54,7 @@ Browser
 
 ### Decisões de Design
 
-1. **Entidade Única de Personagem** — Uma tabela `Character` com ~250 colunas anuláveis cobre todos os 9 sistemas de jogo. Cada sistema utiliza um subconjunto de campos prefixados pelo sistema (`dnd*`, `cp*`, `blades*`, etc.) além de campos compartilhados (`name`, `concept`, `backstory`, `notes`). Isso evita joins complexos e mantém o CRUD simples.
+1. **Entidade Única de Personagem** — Uma tabela `Character` com ~250 colunas anuláveis cobre todos os 10 sistemas de jogo. Cada sistema utiliza um subconjunto de campos prefixados pelo sistema (`dnd*`, `cp*`, `blades*`, etc.) além de campos compartilhados (`name`, `concept`, `backstory`, `notes`). Isso evita joins complexos e mantém o CRUD simples.
 
 2. **Enum Splat** — O campo `splat` (ex.: `VAMPIRE`, `BLADES`, `DND`, `CYBERPUNK`) determina qual componente de formulário é renderizado e quais campos são relevantes. O Splat também direciona a segregação de crônicas (mapa `SPLAT_TO_CATEGORY`).
 
@@ -114,6 +114,7 @@ Browser
 | L5R 4e | L5R, L5R_ANTAGONIST | l5r (esmeralda) | 2 | 37 |
 | L5R 5e (FFG) | L5R_5E | l5r (esmeralda) | 1 | 0 |
 | Blades in the Dark | BLADES, BLADES_CREW, BLADES_ANTAGONIST | blades (carmesim) | 3 | 23 |
+| Scum & Villainy | SAV, SAV_SHIP | sav (ciano/azul-petróleo) | 2 | 0 |
 | D&D 5e | DND, DND_MONSTER | dnd (vermelho quente) | 2 | 120 |
 | UESTRPG | UESTRPG, UESTRPG_ANTAGONIST | uestrpg (azul aço) | 2 | 34 |
 | Cyberpunk 2020 | CYBERPUNK, CYBERPUNK_ANTAGONIST | cyberpunk (ciano neon) | 2 | 25 |
@@ -145,6 +146,26 @@ Blades utiliza um **Gerenciador de Relógios** dedicado em `/blades/clocks`. Fic
 - **Auto-escalonamento do Cofre** — upgrade aumenta capacidade automaticamente
 - **Relógios de projetos** — relógios SVG em formato de pizza (4, 6, 8 ou 12 segmentos)
 - **Acordo com o Diabo** — prompt inline durante rolagens de ação
+
+### Scum and Villainy
+
+S&V é um jogo sci-fi Forged in the Dark que compartilha o motor central do Blades. Reutiliza os mesmos campos `blades*` da entidade (estresse, trauma, dano, XP, ações) com nomes de ações e conteúdo espacial diferentes.
+
+**Mapeamento de ações:** Esperteza = Medicar/Hackear/Gambiarrar/Estudar, Valentia = Pilotar/Escalar/Brigar/Esgueirar, Convicção = Sintonizar/Comandar/Socializar/Convencer (idêntico ao Blades).
+
+**Dados:** 7 cartilhas (Mecânico, Músculo, Místico, Piloto, Canalha, Orador, Médico) com habilidade inicial, 8-9 habilidades especiais, itens, contatos e gatilho de XP. 3 tipos de nave (Stardancer, Cerberus, Firedrake). 15 facções do setor. Opções de herança/origem/vício sci-fi. Itens padrão espaciais.
+
+**Funcionalidades específicas:**
+- **Pool de gambitos** — rastreador de recurso compartilhado em fichas de personagem e nave
+- **Sistemas da nave** — Motores, Casco, Comunicações, Armas com qualidade e rastreamento de dano
+- **Cred** em vez de Moeda — terminologia específica do S&V
+- **Indicativo** — rótulo dinâmico para cartilha de Piloto
+
+**Ferramentas do Narrador (7 abas):** Gerador de Trabalhos, Desavenças, Gerador de NPCs (sci-fi), Turno de Facção, Eventos de Folga, Acordo com o Diabo, Relógios de Campanha.
+
+**Tradução PT:** Atributos usam termos da edição Redbox do Blades (Esperteza/Valentia/Convicção). Ações únicas do S&V extrapoladas como verbos.
+
+**Tema:** `sav` — ciano/azul-petróleo (`#00bcd4`).
 
 ### Dados e Navio 7th Sea
 
@@ -474,7 +495,7 @@ Push to main
 - **PWA instalável** — Adicione à Tela Inicial no iOS ou Android para uma experiência semelhante a app nativo com suporte offline e tempos de carregamento instantâneos
 
 ### Para Jogadores
-- Criar personagens em 9 sistemas de jogo
+- Criar personagens em 10 sistemas de jogo
 - **Auto-calculos e avisos** em todas as fichas — avisos de maldicao de cla (Vampire), limitacao de esferas e avisos de Paradoxo (Mage), modificadores de stat por forma (Werewolf), aumento de atributo racial auto-aplicado e sugestoes de HP/AC (D&D/UESTRPG), avisos de BTM/humanidade/cyberpsicose (Cyberpunk), rastreamento de estresse/carga (Blades), aplicacao automatica de tracos nacionais, auto-aplicacao de antecedentes com orcamentos no modo guiado, adicao rapida de feiticaria e rastreamento de ferimentos (7th Sea), auto-calculo de rank de Insight (L5R), alem de limites de Banalidade/Corpus/Tormento/Conviccao/Dharma para os demais splats WoD
 - **Modo de visualização** — exibição somente leitura de fichas de personagem via parâmetro `?mode=view`. Inputs de formulário mostram `color: var(--color-text)` sobre fundo `var(--color-surface)`. Dropdowns de seleção de template (carregamento de NPC, seleção de playbook, etc.) e botões de ação são ocultados para reduzir ruído visual. Erros de acesso (403) exibem mensagem distinta de "Acesso Negado" em vez de "Não Encontrado"
 - Catalogos pesquisaveis para poderes, equipamentos, magias, cyberware — com filtros de livro-fonte quando aplicavel
