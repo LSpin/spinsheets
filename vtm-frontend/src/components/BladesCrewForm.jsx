@@ -232,22 +232,32 @@ const INITIAL = {
   havens: '',
 }
 
-function ClickTrack({ label, value, max, onChange }) {
+function ClickTrack({ label, value, max, onChange, showButtons }) {
   return (
     <div className="field">
       <label>{label} ({value}/{max})</label>
-      <div className="blades-dots" role="group" aria-label={label}>
-        {Array.from({ length: max }, (_, i) => (
-          <span key={i}
-            className={`blades-pip${i < value ? ' blades-pip--filled' : ''}`}
-            onClick={() => onChange(i < value ? i : i + 1)}
-            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onChange(i < value ? i : i + 1) } }}
-            role="button"
-            tabIndex={0}
-            aria-label={`${label} ${i + 1}`}
-            aria-pressed={i < value}
-          />
-        ))}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+        {showButtons && (
+          <button type="button" style={{ padding: '0 6px', fontSize: '0.85rem', fontWeight: 700, border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'transparent', color: 'var(--color-text-muted)', cursor: 'pointer', opacity: value <= 0 ? 0.3 : 1 }}
+            onClick={() => onChange(Math.max(0, value - 1))} disabled={value <= 0}>-</button>
+        )}
+        <div className="blades-dots" role="group" aria-label={label}>
+          {Array.from({ length: max }, (_, i) => (
+            <span key={i}
+              className={`blades-pip${i < value ? ' blades-pip--filled' : ''}`}
+              onClick={() => onChange(i < value ? i : i + 1)}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onChange(i < value ? i : i + 1) } }}
+              role="button"
+              tabIndex={0}
+              aria-label={`${label} ${i + 1}`}
+              aria-pressed={i < value}
+            />
+          ))}
+        </div>
+        {showButtons && (
+          <button type="button" style={{ padding: '0 6px', fontSize: '0.85rem', fontWeight: 700, border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'transparent', color: 'var(--color-text-muted)', cursor: 'pointer', opacity: value >= max ? 0.3 : 1 }}
+            onClick={() => onChange(Math.min(max, value + 1))} disabled={value >= max}>+</button>
+        )}
       </div>
     </div>
   )
@@ -377,7 +387,7 @@ export default function BladesCrewForm() {
 
           <fieldset>
             <legend>{t('bladesCrewStatus')}</legend>
-            <ClickTrack label={t('bladesReputation')} value={fields.bladesReputation} max={12} onChange={v => handleField('bladesReputation', v)} />
+            <ClickTrack label={t('bladesReputation')} value={fields.bladesReputation} max={12} onChange={v => handleField('bladesReputation', v)} showButtons />
             <div className="field-row" style={{ marginTop: 'var(--space-sm)' }}>
               <div className="field">
                 <label>{t('bladesTier')} (0-4)</label>
@@ -396,9 +406,14 @@ export default function BladesCrewForm() {
               </div>
             </div>
             <div className="field-row" style={{ marginTop: 'var(--space-sm)' }}>
-              <ClickTrack label={t('bladesHeat')} value={fields.bladesHeat} max={9} onChange={v => handleField('bladesHeat', v)} />
-              <ClickTrack label={t('bladesWanted')} value={fields.bladesWanted} max={4} onChange={v => handleField('bladesWanted', v)} />
+              <ClickTrack label={t('bladesHeat')} value={fields.bladesHeat} max={9} onChange={v => handleField('bladesHeat', v)} showButtons />
+              <ClickTrack label={t('bladesWanted')} value={fields.bladesWanted} max={4} onChange={v => handleField('bladesWanted', v)} showButtons />
             </div>
+            {fields.bladesWanted > 0 && (
+              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: fields.bladesWanted >= 3 ? '#e74c3c' : '#f39c12' }}>
+                {t(`bladesWanted${fields.bladesWanted}`)}
+              </p>
+            )}
             <div style={{ marginTop: 'var(--space-sm)' }}>
               <ClickTrack label={t('bladesCrewXp')} value={fields.bladesCrewXp} max={8} onChange={v => handleField('bladesCrewXp', v)} />
             </div>
@@ -442,7 +457,75 @@ export default function BladesCrewForm() {
           </fieldset>
           <fieldset>
             <legend>{t('bladesCohorts')}</legend>
-            <textarea name="bladesCohorts" value={fields.bladesCohorts} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder={t('bladesCohortsPh')} />
+            {(() => {
+              let cohorts = []
+              try { cohorts = JSON.parse(fields.bladesCohorts) || [] } catch { /* not JSON, show legacy textarea below */ }
+              if (!Array.isArray(cohorts)) cohorts = []
+
+              function setCohorts(next) { handleField('bladesCohorts', JSON.stringify(next)) }
+              function addCohort() {
+                setCohorts([...cohorts, { name: '', type: 'Gang', quality: fields.bladesTier || 0, edges: '', flaws: '', harm: 0 }])
+              }
+              function updateCohort(i, key, val) {
+                const next = [...cohorts]
+                next[i] = { ...next[i], [key]: val }
+                setCohorts(next)
+              }
+              function removeCohort(i) { setCohorts(cohorts.filter((_, j) => j !== i)) }
+
+              // If legacy text data, show textarea with migrate hint
+              if (fields.bladesCohorts && cohorts.length === 0 && fields.bladesCohorts.trim()) {
+                return (
+                  <>
+                    <textarea name="bladesCohorts" value={fields.bladesCohorts} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder={t('bladesCohortsPh')} />
+                    <button type="button" className="btn btn-secondary" style={{ marginTop: 'var(--space-xs)', fontSize: '0.75rem' }}
+                      onClick={() => {
+                        const lines = fields.bladesCohorts.split('\n').filter(l => l.trim())
+                        const migrated = lines.map(l => ({ name: l.trim(), type: 'Gang', quality: fields.bladesTier || 0, edges: '', flaws: '', harm: 0 }))
+                        setCohorts(migrated)
+                      }}>{t('bladesCohortMigrate')}</button>
+                  </>
+                )
+              }
+
+              return (
+                <>
+                  {cohorts.map((c, i) => (
+                    <div key={i} style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', marginBottom: 'var(--space-sm)', background: 'var(--color-surface)' }}>
+                      <div className="field-row" style={{ marginBottom: 'var(--space-xs)' }}>
+                        <div className="field" style={{ flex: 2 }}>
+                          <label>{t('charName')}</label>
+                          <input value={c.name} onChange={e => updateCohort(i, 'name', e.target.value)} placeholder={t('bladesCohortNamePh')} />
+                        </div>
+                        <div className="field">
+                          <label>{t('bladesCohortType')}</label>
+                          <select value={c.type} onChange={e => updateCohort(i, 'type', e.target.value)}>
+                            <option value="Gang">{t('bladesCohortGang')}</option>
+                            <option value="Expert">{t('bladesCohortExpert')}</option>
+                          </select>
+                        </div>
+                        <div className="field" style={{ maxWidth: 80 }}>
+                          <label>{t('bladesCohortQuality')}</label>
+                          <input type="number" min={0} max={6} value={c.quality} onChange={e => updateCohort(i, 'quality', parseInt(e.target.value) || 0)} />
+                        </div>
+                        <button type="button" className="tag-remove" style={{ alignSelf: 'flex-end', marginBottom: 6 }}
+                          onClick={() => removeCohort(i)}>{'\u00d7'}</button>
+                      </div>
+                      <div className="field-row">
+                        <div className="field"><label>{t('bladesCohortEdges')}</label><input value={c.edges || ''} onChange={e => updateCohort(i, 'edges', e.target.value)} placeholder="Fearsome, Loyal..." /></div>
+                        <div className="field"><label>{t('bladesCohortFlaws')}</label><input value={c.flaws || ''} onChange={e => updateCohort(i, 'flaws', e.target.value)} placeholder="Principled, Savage..." /></div>
+                      </div>
+                      {c.type === 'Gang' && (
+                        <div style={{ marginTop: 'var(--space-xs)', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                          {t('bladesCohortScale')}: {c.quality === 0 ? '1-2' : c.quality === 1 ? '3-6' : c.quality === 2 ? '12' : c.quality === 3 ? '20' : '40+'} {t('bladesCohortMembers')}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  <button type="button" className="btn btn-secondary" onClick={addCohort}>{t('bladesCohortAdd')}</button>
+                </>
+              )
+            })()}
           </fieldset>
         </div>
       </div>

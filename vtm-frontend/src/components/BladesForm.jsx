@@ -427,11 +427,20 @@ export default function BladesForm() {
               {t('bladesActionRatingsHint')}
             </p>
             <div className="blades-actions-grid">
-              <ActionColumn title="Insight" actions={INSIGHT_ACTIONS} xpKey="bladesInsightXp" />
-              <ActionColumn title="Prowess" actions={PROWESS_ACTIONS} xpKey="bladesProwessXp" />
-              <ActionColumn title="Resolve" actions={RESOLVE_ACTIONS} xpKey="bladesResolveXp" />
+              <ActionColumn title={t('bladesInsight')} actions={INSIGHT_ACTIONS} xpKey="bladesInsightXp" />
+              <ActionColumn title={t('bladesProwess')} actions={PROWESS_ACTIONS} xpKey="bladesProwessXp" />
+              <ActionColumn title={t('bladesResolve')} actions={RESOLVE_ACTIONS} xpKey="bladesResolveXp" />
             </div>
           </fieldset>
+
+          {/* XP Trigger Reminder */}
+          {selectedPlaybook?.xpTrigger && (
+            <div style={{ padding: 'var(--space-sm) var(--space-md)', marginBottom: 'var(--space-md)', background: 'rgba(243,156,18,0.08)', border: '1px solid rgba(243,156,18,0.25)', borderRadius: 'var(--radius)', fontSize: '0.82rem' }}>
+              <strong style={{ color: '#f39c12' }}>{t('bladesXpTrigger')}:</strong>{' '}
+              <span style={{ color: 'var(--color-text-muted)' }}>{selectedPlaybook.xpTrigger}</span>
+            </div>
+          )}
+
           <fieldset>
             <legend>{t('bladesPlaybookXp')}</legend>
             <div className="blades-xp-row">
@@ -530,7 +539,7 @@ export default function BladesForm() {
               {BLADES_TRAUMA_CONDITIONS.map(tc => (
                 <label key={tc} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
                   <input type="checkbox" checked={selectedTrauma.includes(tc)} onChange={() => toggleTrauma(tc)} />
-                  {tc}
+                  {t(`bladesTrauma${tc}`)}
                 </label>
               ))}
             </div>
@@ -723,6 +732,28 @@ export default function BladesForm() {
               ))}
             </div>
           </fieldset>
+
+          {/* ── Downtime Activity Helpers ── */}
+          <details style={{ marginTop: 'var(--space-sm)' }}>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>
+              {t('bladesDowntimeHelpers')}
+            </summary>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-sm)', marginTop: 'var(--space-sm)' }}>
+              {[
+                { key: 'acquire', labelKey: 'bladesRulesAcquire', descKey: 'bladesRulesAcquireDesc' },
+                { key: 'longterm', labelKey: 'bladesRulesLongterm', descKey: 'bladesRulesLongtermDesc' },
+                { key: 'recover', labelKey: 'bladesRulesRecover', descKey: 'bladesRulesRecoverDesc' },
+                { key: 'reduceHeat', labelKey: 'bladesRulesReduceHeat', descKey: 'bladesRulesReduceHeatDesc' },
+                { key: 'train', labelKey: 'bladesRulesTrain', descKey: 'bladesRulesTrainDesc' },
+                { key: 'indulge', labelKey: 'bladesRulesIndulge', descKey: 'bladesRulesIndulgeDesc' },
+              ].map(act => (
+                <div key={act.key} style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)' }}>
+                  <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '0.2rem' }}>{t(act.labelKey)}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', lineHeight: 1.4 }}>{t(act.descKey)}</div>
+                </div>
+              ))}
+            </div>
+          </details>
         </div>
       </div>
 
