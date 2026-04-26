@@ -211,6 +211,7 @@ export default function SavForm() {
   const [showExport, setShowExport] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [actionError, setActionError] = useState(null)
+  const [gambits, setGambits] = useState(2)
   const [deepCuts, setDeepCuts] = useState(() => localStorage.getItem('sav-deep-cuts') !== 'false')
   function toggleDeepCuts() {
     const next = !deepCuts
@@ -380,7 +381,7 @@ export default function SavForm() {
             <legend>{t('tabIdentity')}</legend>
             <div className="field-row">
               <div className="field"><label>{t('charName')} *</label><input name="name" value={fields.name} onChange={handleText} /></div>
-              <div className="field"><label>{t('bladesAlias')}</label><input name="bladesAlias" value={fields.bladesAlias} onChange={handleText} /></div>
+              <div className="field"><label>{fields.bladesPlaybook === 'Pilot' ? t('savCallSign') : t('bladesAlias')}</label><input name="bladesAlias" value={fields.bladesAlias} onChange={handleText} /></div>
             </div>
             <div className="field">
               <label>{t('appearanceLabel')}</label>
@@ -431,6 +432,17 @@ export default function SavForm() {
       {/* ── Actions ── */}
       <div hidden={tab !== 'tabSavActions'} role="tabpanel" aria-labelledby="tabBladesActions">
         <div className="form-section">
+          {/* Gambit Pool */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-md)', marginBottom: 'var(--space-md)', padding: 'var(--space-md)', background: 'var(--color-surface)', borderRadius: 'var(--radius)', border: '1px solid var(--color-border)' }}>
+            <span style={{ fontWeight: 700, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-accent-fg)' }}>{t('savGambits')}</span>
+            <button type="button" className="btn btn-secondary" style={{ minWidth: 36, fontWeight: 700, padding: '0.2rem 0.5rem' }}
+              onClick={() => setGambits(Math.max(0, gambits - 1))} disabled={gambits <= 0}>-</button>
+            <span style={{ fontSize: '1.8rem', fontWeight: 700, minWidth: 40, textAlign: 'center' }}>{gambits}</span>
+            <button type="button" className="btn btn-secondary" style={{ minWidth: 36, fontWeight: 700, padding: '0.2rem 0.5rem' }}
+              onClick={() => setGambits(gambits + 1)}>+</button>
+            <button type="button" className="dice-roller-clear" onClick={() => setGambits(2)}>{t('savGambitReset')}</button>
+          </div>
+
           <fieldset>
             <legend>{t('bladesActionRatings')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
@@ -767,17 +779,17 @@ export default function SavForm() {
         </div>
       </div>
 
-      {/* ── Coin & Stash ── */}
-      <div hidden={tab !== 'tabSavCredStash'} role="tabpanel" aria-labelledby="tabBladesCoinStash">
+      {/* ── Cred & Stash ── */}
+      <div hidden={tab !== 'tabSavCredStash'} role="tabpanel" aria-labelledby="tabSavCredStash">
         <div className="form-section">
           <fieldset>
-            <legend>{t('bladesCoinStash')}</legend>
+            <legend>{t('savCredStash')}</legend>
             <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
-              {t('bladesCoinStashHint')}
+              {t('savCredStashHint')}
             </p>
             <div className="field-row" style={{ alignItems: 'flex-end' }}>
               <div className="field" style={{ width: 100 }}>
-                <label>{t('bladesCoin')} (0-4)</label>
+                <label>{t('savCred')} (0-4)</label>
                 <div style={{ display: 'flex', gap: '4px' }}>
                   {[1, 2, 3, 4].map(i => (
                     <span key={i} role="button" tabIndex={0}
@@ -785,7 +797,7 @@ export default function SavForm() {
                       style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', borderRadius: '4px', border: '2px solid var(--color-border)', fontSize: '0.75rem', fontWeight: 700 }}
                       onClick={() => handleField('bladesCoin', (fields.bladesCoin || 0) === i ? i - 1 : i)}
                       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleField('bladesCoin', (fields.bladesCoin || 0) === i ? i - 1 : i) } }}
-                      aria-label={`Coin ${i}`} aria-pressed={i <= (fields.bladesCoin || 0)}>
+                      aria-label={`Cred ${i}`} aria-pressed={i <= (fields.bladesCoin || 0)}>
                       {i <= (fields.bladesCoin || 0) ? '\u25CF' : ''}
                     </span>
                   ))}

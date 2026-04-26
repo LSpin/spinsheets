@@ -391,6 +391,18 @@ export default function SavShipForm() {
             <div style={{ marginTop: 'var(--space-sm)' }}>
               <ClickTrack label={t('bladesCrewXp')} value={fields.bladesCrewXp} max={8} onChange={v => handleField('bladesCrewXp', v)} />
             </div>
+
+            {/* Gambit Pool */}
+            <div style={{ marginTop: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-md)', background: 'var(--color-surface)', borderRadius: 'var(--radius)', border: '2px solid var(--color-accent)' }}>
+              <span style={{ fontWeight: 700, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-accent-fg)' }}>{t('savGambits')}</span>
+              <button type="button" className="btn btn-secondary" style={{ minWidth: 36, fontWeight: 700, padding: '0.2rem 0.5rem' }}
+                onClick={() => handleField('bladesEdge', Math.max(0, (fields.bladesEdge || 0) - 1))} disabled={(fields.bladesEdge || 0) <= 0}>-</button>
+              <span style={{ fontSize: '1.8rem', fontWeight: 700, minWidth: 40, textAlign: 'center' }}>{fields.bladesEdge || 0}</span>
+              <button type="button" className="btn btn-secondary" style={{ minWidth: 36, fontWeight: 700, padding: '0.2rem 0.5rem' }}
+                onClick={() => handleField('bladesEdge', (fields.bladesEdge || 0) + 1)}>+</button>
+              <button type="button" className="dice-roller-clear" onClick={() => handleField('bladesEdge', 2)}>{t('savGambitReset')}</button>
+              <span className="muted-hint" style={{ fontSize: '0.75rem' }}>{t('savGambitHint')}</span>
+            </div>
           </fieldset>
         </div>
       </div>
@@ -417,6 +429,55 @@ export default function SavShipForm() {
             <CheckboxList items={allUpgrades} selected={fields.bladesCrewUpgrades} onChange={v => handleField('bladesCrewUpgrades', v)} />
             {!crewType && <p className="muted-hint" style={{ marginTop: 'var(--space-xs)' }}>{t('bladesSelectCrewForUpgrades')}</p>}
           </fieldset>
+
+          {/* Ship Systems */}
+          <fieldset>
+            <legend>{t('savShipSystems')}</legend>
+            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('savShipSystemsHint')}</p>
+            {(() => {
+              let systems = { engines: { quality: fields.bladesTier || 0, damaged: false }, hull: { quality: fields.bladesTier || 0, damaged: false }, comms: { quality: fields.bladesTier || 0, damaged: false }, weapons: { quality: fields.bladesTier || 0, damaged: false } }
+              try { const parsed = JSON.parse(fields.havens); if (parsed?.systems) systems = { ...systems, ...parsed.systems } } catch {}
+              function setSystems(next) {
+                let current = {}
+                try { current = JSON.parse(fields.havens) || {} } catch {}
+                handleField('havens', JSON.stringify({ ...current, systems: next }))
+              }
+              function updateSystem(key, prop, val) {
+                const next = { ...systems, [key]: { ...systems[key], [prop]: val } }
+                setSystems(next)
+              }
+              return (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 'var(--space-sm)' }}>
+                  {[
+                    { key: 'engines', labelKey: 'savSystemEngines' },
+                    { key: 'hull', labelKey: 'savSystemHull' },
+                    { key: 'comms', labelKey: 'savSystemComms' },
+                    { key: 'weapons', labelKey: 'savSystemWeapons' },
+                  ].map(sys => (
+                    <div key={sys.key} style={{
+                      padding: 'var(--space-sm)', borderRadius: 'var(--radius)',
+                      border: `1px solid ${systems[sys.key].damaged ? 'rgba(231,76,60,0.5)' : 'var(--color-border)'}`,
+                      background: systems[sys.key].damaged ? 'rgba(231,76,60,0.06)' : 'var(--color-surface)',
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xs)' }}>
+                        <span style={{ fontWeight: 700, fontSize: '0.85rem' }}>{t(sys.labelKey)}</span>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.75rem', color: '#e74c3c', cursor: 'pointer' }}>
+                          <input type="checkbox" checked={systems[sys.key].damaged} onChange={e => updateSystem(sys.key, 'damaged', e.target.checked)} />
+                          {t('savDamaged')}
+                        </label>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{t('savQuality')}:</span>
+                        <input type="number" min={0} max={6} value={systems[sys.key].quality} style={{ width: 50 }}
+                          onChange={e => updateSystem(sys.key, 'quality', parseInt(e.target.value) || 0)} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )
+            })()}
+          </fieldset>
+
           <fieldset>
             <legend>{t('bladesHuntingGrounds')}</legend>
             {crewType && (
