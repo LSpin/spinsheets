@@ -23,11 +23,13 @@ public class JacksonConfig {
             public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
                 String value = p.getValueAsString();
                 if (value == null) return null;
-                // Strip all HTML tags, preserve text. prettyPrint(false) keeps
-                // original whitespace/newlines. The default OutputSettings escape
-                // mode re-encodes <, >, &, " so stored data stays safe.
-                return Jsoup.clean(value, "", Safelist.none(),
+                // Strip all HTML tags but do NOT entity-encode the result.
+                // Jsoup.clean() encodes &, <, >, " as HTML entities, which causes
+                // double-encoding on each save cycle (& → &amp; → &amp;amp; …).
+                // Fix: clean first, then unescape entities back to plain text.
+                String cleaned = Jsoup.clean(value, "", Safelist.none(),
                         new Document.OutputSettings().prettyPrint(false));
+                return org.jsoup.parser.Parser.unescapeEntities(cleaned, false);
             }
         });
         return module;

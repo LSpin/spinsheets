@@ -71,14 +71,18 @@ export default function AllCharactersPage() {
   useEffect(() => {
     async function load() {
       try {
-        const [charRes, chronRes] = await Promise.all([getCharacters(), getChronicles()])
+        const charRes = await getCharacters()
         setCharacters(charRes.data)
-        setChronicles(chronRes.data)
       } catch {
         setError(t('failedLoadChars'))
-      } finally {
-        setLoading(false)
       }
+      try {
+        const chronRes = await getChronicles()
+        setChronicles(chronRes.data)
+      } catch {
+        // Chronicles failing shouldn't block the character list
+      }
+      setLoading(false)
     }
     load()
   }, [])

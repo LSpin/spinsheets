@@ -63,6 +63,7 @@ public class SanitizationFilter extends OncePerRequestFilter {
 
     static String sanitize(String input) {
         if (input == null) return null;
-        return Jsoup.clean(input, Safelist.none());
+        String cleaned = Jsoup.clean(input, Safelist.none());
+        return org.jsoup.parser.Parser.unescapeEntities(cleaned, false);
     }
 }

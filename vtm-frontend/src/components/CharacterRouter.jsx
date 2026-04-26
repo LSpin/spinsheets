@@ -50,7 +50,7 @@ export default function CharacterRouter() {
   const [splat, setSplat] = useState(null)
   const [isNpc, setIsNpc] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [notFound, setNotFound] = useState(false)
+  const [errorStatus, setErrorStatus] = useState(null)
 
   useEffect(() => {
     async function load() {
@@ -59,10 +59,10 @@ export default function CharacterRouter() {
         const s = res.data.splat || 'VAMPIRE'
         setSplat(s)
         setIsNpc(!!res.data.npc)
-        setNotFound(false)
+        setErrorStatus(null)
         switchTheme(s === 'SEVENTH_SEA' || s === 'SEVENTH_SEA_SHIP' ? '7thsea' : s === 'L5R' || s === 'L5R_ANTAGONIST' || s === 'L5R_5E' ? 'l5r' : s === 'BLADES' || s === 'BLADES_CREW' || s === 'BLADES_ANTAGONIST' ? 'blades' : s === 'DND' || s === 'DND_MONSTER' ? 'dnd' : s === 'UESTRPG' || s === 'UESTRPG_ANTAGONIST' ? 'uestrpg' : s === 'CYBERPUNK' || s === 'CYBERPUNK_ANTAGONIST' ? 'cyberpunk' : s === 'ASOIAF' || s === 'ASOIAF_ANTAGONIST' ? 'asoiaf' : 'wod')
-      } catch {
-        setNotFound(true)
+      } catch (err) {
+        setErrorStatus(err.response?.status || 0)
       } finally {
         setLoading(false)
       }
@@ -71,7 +71,13 @@ export default function CharacterRouter() {
   }, [id])
 
   if (loading) return <p className="status-loading">{t('loading')}</p>
-  if (notFound) return (
+  if (errorStatus === 403) return (
+    <div className="empty-state" style={{ textAlign: 'center', padding: 'var(--space-2xl)' }}>
+      <h2>{t('accessDenied')}</h2>
+      <p className="muted-hint">{t('accessDeniedDesc')}</p>
+    </div>
+  )
+  if (errorStatus) return (
     <div className="empty-state" style={{ textAlign: 'center', padding: 'var(--space-2xl)' }}>
       <h2>{t('characterNotFound')}</h2>
       <p className="muted-hint">{t('characterNotFoundDesc')}</p>
