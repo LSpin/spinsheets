@@ -17,6 +17,15 @@ Thumbs.db
 # Backups
 backups/
 
+# Reference PDFs (copyrighted sourcebooks)
+*.pdf
+
 # Build
 *.class
 *.jar
+
+# Frontend build output copied to Spring Boot (CI regenerates on deploy)
+character-sheet/src/main/resources/static/assets/
+character-sheet/src/main/resources/static/index.html
+character-sheet/src/main/resources/static/favicon.svg
+character-sheet/src/main/resources/static/icons.svg
