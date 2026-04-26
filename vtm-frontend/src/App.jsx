@@ -72,6 +72,7 @@ const BladesSTTools = lazyRetry(() => import('./components/BladesSTTools'))
 const SavForm = lazyRetry(() => import('./components/SavForm'))
 const SavShipForm = lazyRetry(() => import('./components/SavShipForm'))
 const SavPage = lazyRetry(() => import('./pages/SavPage'))
+const SavSTTools = lazyRetry(() => import('./components/SavSTTools'))
 const WoDSTTools = lazyRetry(() => import('./components/WoDSTTools'))
 
 // D&D
@@ -537,6 +538,9 @@ function AppShell() {
           } />
           <Route path="/sav/ship/new" element={
             <ProtectedRoute><SavShipForm /></ProtectedRoute>
+          } />
+          <Route path="/sav/st-tools" element={
+            <ProtectedRoute><SavSTTools /></ProtectedRoute>
           } />
           <Route path="/sav/chronicles" element={
             <ProtectedRoute><ChronicleList system="SAV" basePath="/sav/chronicles" /></ProtectedRoute>

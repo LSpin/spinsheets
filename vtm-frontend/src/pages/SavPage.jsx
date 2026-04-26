@@ -67,6 +67,12 @@ export default function SavPage() {
           <button className="btn btn-secondary" onClick={() => navigate('/sav/ship/new')}>
             {t('savNewShip')}
           </button>
+          {isST && (
+            <button className="btn btn-secondary" onClick={() => navigate('/sav/st-tools')}
+              style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+              {t('savSTTools')}
+            </button>
+          )}
         </div>
       </div>
 
