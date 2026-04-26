@@ -125,16 +125,26 @@ The app uses React Router v7 for client-side routing with SPA forwarding via `Sp
 
 ### Blades in the Dark
 
-Blades uses a dedicated **Clock Manager** at `/blades/clocks` (clocks are not embedded in character or crew sheets). Character sheets include a **Coin & Stash** tab (4 coin pips for spending money, 40 stash pips with retirement at 40/40). Crew sheets include a **Coin & Vault** tab (liquid coin number + 8-segment vault track). The Rules Reference tab includes an **XP & Advancement** guide.
+Blades uses a dedicated **Clock Manager** at `/blades/clocks` (clocks are not embedded in character or crew sheets). Character sheets include a **Coin & Stash** tab (4 coin pips for spending money, 40 stash pips with retirement at 40/40). Crew sheets include a **Coin & Vault** tab (liquid coin number + 8-segment vault track). The Rules Reference tab includes an **XP & Advancement** guide — fully translated EN/PT using official Redbox Brazilian edition terminology.
 
-**Character sheet tab reorganization:** The former combined stress/loadout/projects tab is now three separate tabs — **Stress & Harm** (stress pips, trauma, harm track), **Loadout** (item selection with load capacity display), and **Projects** (long-term project clocks).
+**Dice roller:** Three roll modes — Action Roll (with position/effect selectors and position-specific outcome descriptions), Resistance Roll (shows stress cost: 6=0, 4-5=1, 1-3=2, crit=clear 1), Fortune Roll (simple pool). Mode selector tabs switch between the three.
 
-**Crew sheet additions:**
-- **Faction Tracker** — all 26 Doskvol factions rendered with a -3 to +3 dot scale for reputation tracking
-- **Turf Tracker** — named claimable territories displayed as a district grid; claimed turf highlighted
-- **Vault auto-scaling** — the Vault upgrade in the upgrades list automatically increases vault capacity when purchased
-- **Long-term project clocks** — inline SVG pie-segment clocks on the crew sheet (4, 6, 8, or 12 segments), separate from the Storyteller Clock Manager
-- **Devil's Bargain reminder** — inline note shown alongside action roll mechanics to prompt offers at the table
+**Character sheet features:**
+- **Stress & Harm** tab — stress pips, translated trauma conditions (Frio, Assombrado, Obcecado, etc.), harm track, healing clock, armor
+- **Loadout** tab — item selection with load capacity display
+- **Projects** tab — long-term project clocks + collapsible downtime activity reference (Acquire Asset, Reduce Heat, Indulge Vice, etc.)
+- **XP trigger reminder** — persistent banner on Actions tab showing the playbook's XP trigger during play
+- **Translated rules reference** — 8 sections with ~50 heading/text pairs using official PT-BR terms (Rolagem de Ação, Posição e Efeito, Controlada/Arriscada/Desesperada, Efeito Sensacional/Padrão/Limitado, etc.)
+
+**Crew sheet features:**
+- **Faction Tracker** — 26 Doskvol factions with -3 to +3 dot scale, translated status labels (Guerra/Hostil/Adversários/Neutros/Colegas/Aliados)
+- **Rep/Heat/Wanted +/- buttons** — quick increment/decrement alongside pip tracks
+- **Wanted level consequences** — text hints at levels 1-4 explaining mechanical impact
+- **Structured cohort tracking** — name, type (Gang/Expert), quality, edges, flaws with scale display. Stored as JSON, with legacy textarea migration
+- **Turf Tracker** — named claimable territories as a district grid
+- **Vault auto-scaling** — Vault upgrade increases capacity automatically
+- **Long-term project clocks** — inline SVG pie-segment clocks (4, 6, 8, or 12 segments)
+- **Devil's Bargain reminder** (Acordo com o Diabo) — inline prompt during action rolls
 
 ### 7th Sea Data and Ship
 
@@ -147,6 +157,22 @@ Blades uses a dedicated **Clock Manager** at `/blades/clocks` (clocks are not em
 The Hero sheet also supports 10 guided-mode automation features: background auto-apply (auto-grants skills +1 rank and advantages when selecting a background), sorcery auto-add button (one-click to add nation's sorcery tradition), Virtue/Hubris mechanical effect display, background budget counter (X/2), advantage cost running tally (Spent: X/5 pts), dice pool highlighting for strong synergies, background-to-advantage synergy hints ("Recommended" badges), nation-to-religion auto-suggest (reorders by cultural fit), Hero Points locked to 1 in guided mode, and quirk display with Hero Point badge styling.
 
 The 7th Sea Ship Builder is decoupled as a standalone sheet (`SEVENTH_SEA_SHIP` splat), with 15 ship origins (was 9) and 12 ship backgrounds (was 8).
+
+### L5R 4th Edition
+
+L5R 4e uses the roll-and-keep dice system (XkY) with 9 Great Clans, 55 schools, 197 spells, 26 kata, and a full equipment catalog. The sheet features auto-computed Insight (Rings × 10 + skill ranks) and School Rank progression (thresholds at 175/200/225/250).
+
+**Dice roller:** Roll-and-keep with flat modifier (-50 to +50), exploding 10s, emphasis (reroll 1s), cap rule (excess dice → +2 bonus each). Raise calculator shows TN through +5 raises with free raise count on success.
+
+**Wound tracker:** Interactive wound penalty banner with color coding, +1/+5/-1/-5 buttons, progress bars per wound rank (Earth Ring × 2 per rank), recovery rate calculator (Stamina × 2 + Insight Rank wounds/day).
+
+**Spell system:** Spell slot tracker per element (Ring + School Rank ± affinity/deficiency), +/- usage tracking per session, casting roll display per element.
+
+**Combat:** Stance selector (5 stances with ATN/attack modifiers), condition toggles (Prone, Stunned, Fatigued, Dazed, Grappled, Entangled, Blinded, Mounted), Quick Roll Reference card, weapon quick-swap loadouts (3 slots).
+
+**Advantage automation:** 10 advantages/disadvantages auto-modify stats: Different School (unlocks all clan schools), Strength of the Earth/Low Pain Threshold (wound penalty ±), Bad Health (Earth -1 for wounds), Quick (+1k0 Initiative), Large/Small (±1k0 damage), Fame/Infamous (±1 Glory), Perceived Honor (+1 Honor), Hands of Stone (unarmed 0k2).
+
+**Validation:** Warns on traits below minimum, skills above cap, school without clan, cross-clan school without Different School.
 
 ### L5R 5th Edition (FFG)
 
@@ -348,7 +374,7 @@ export default function CharacterForm() {
 | `ExportModal` | PDF export with per-section toggles |
 | `MeritsFlawsSection` | WoD merits/flaws with catalog search |
 | `TagInfoPanel` | Sticky sidebar showing selected item details |
-| `BladesDiceRoller` | d6 pool roller for Blades |
+| `BladesDiceRoller` | d6 pool roller for Blades (3 modes: action/resistance/fortune) |
 | `StorytellerDiceRoller` | d10 pool roller for WoD |
 | `DndDiceRoller` | d20 roller for D&D/UESTRPG |
 | `L5r5eDiceRoller` | Custom narrative dice roller for L5R 5e (FFG symbols) |

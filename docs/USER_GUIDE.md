@@ -238,9 +238,14 @@ As a Storyteller:
 
 ### Legend of the Five Rings (4th Edition)
 
-**Features:** 55 Schools across 9 Clans, 197 Spells, 26 Kata, Skill Masteries
-**Dice system:** Roll-and-keep (k-dice)
-**XP tracking:** Experience points with insight rank calculation
+**Features:** 55 Schools across 9 Clans, 197 Spells, 26 Kata, Skill Masteries, full Equipment catalog
+**Dice system:** Roll-and-keep (XkY) with flat modifier, exploding 10s, emphasis (reroll 1s), raise calculator (shows free raises achieved), cap rule for pools exceeding 10
+**Wound tracker:** Interactive wound penalty banner, +1/+5/-1/-5 buttons, progress bars per wound rank, recovery rate calculator (Stamina × 2 + Insight Rank per day). Advantages like Strength of the Earth (-3 penalty), Low Pain Threshold (+5 penalty), and Bad Health (Earth -1 for wound thresholds) auto-modify the wound table
+**Spell management:** Spell slot tracker per element (Ring + School Rank ± affinity/deficiency), +/- buttons to track slots used per session, reset button
+**Combat features:** Stance selector (Attack/Full Attack/Defense/Full Defense/Center) with ATN/attack modifiers, condition toggles (Prone, Stunned, Fatigued, Dazed, Grappled, Entangled, Blinded, Mounted), Quick Roll Reference card showing attack/damage/initiative with wound penalty, weapon quick-swap loadouts (3 slots)
+**Advantage effects:** 10 advantages/disadvantages auto-modify sheet stats (Quick → +1k0 Initiative, Large/Small → ±1k0 damage, Fame/Infamous → ±1 Glory, Perceived Honor → +1 Honor, Hands of Stone → unarmed 0k2, Different School → unlocks all clan schools)
+**Validation:** Warns on traits below 2, skills above 10, school without clan, cross-clan school without Different School advantage
+**XP tracking:** Experience points with insight rank calculation, XP costs shown in spell and kata catalogs
 
 ### Legend of the Five Rings (5th Edition / FFG)
 
@@ -252,17 +257,25 @@ As a Storyteller:
 ### Blades in the Dark
 
 **Features:** 11 Playbooks, 6 Crew Types, Deep Cuts toggle, dedicated Clock Manager (`/blades/clocks`), Stress/Trauma tracking
-**Tab reorganization:** The former combined stress/loadout/projects tab is now split into three dedicated tabs — **Stress & Harm** (stress pips, trauma, harm), **Loadout** (item selection and load capacity), and **Projects** (long-term project clocks)
-**Character sheets:** Include a **Coin & Stash** tab (4 coin pips for spending money, 40 stash pips — retirement triggers at 40/40)
-**Crew sheets:** Include a **Coin & Vault** tab (liquid coin number + 8-segment vault track). Crew sheets also include:
-- **Faction Tracker** — all 26 Doskvol factions with a -3 to +3 reputation scale
+**Tab reorganization:** The former combined stress/loadout/projects tab is now split into three dedicated tabs — **Stress & Harm** (stress pips, trauma, harm), **Loadout** (item selection and load capacity), and **Projects** (long-term project clocks with downtime activity reference)
+**Dice roller:** Three roll modes — **Action Roll** (pool + position/effect with outcome descriptions per position), **Resistance Roll** (roll attribute, shows stress cost: 6=0, 4-5=1, 1-3=2, crit=clear 1), **Fortune Roll** (simple pool roll). All modes show contextual outcome descriptions explaining what the result means in play
+**Character sheets:**
+- **Coin & Stash** tab (4 coin pips, 40 stash pips — retirement at 40/40)
+- **XP trigger reminder** — persistent banner on Actions tab showing your playbook's XP trigger
+- **Trauma conditions** — fully translated (EN: Cold, Haunted, Obsessed... / PT: Frio, Assombrado, Obcecado...)
+- **Downtime activity reference** — collapsible guide on Projects tab covering Acquire Asset, Long-term Project, Recover, Reduce Heat, Train, Indulge Vice
+**Crew sheets:**
+- **Faction Tracker** — all 26 Doskvol factions with -3 to +3 reputation scale, translated status labels (War/Hostile/Neutral/Friendly/Allied)
+- **Rep/Heat/Wanted +/- buttons** — quick increment/decrement buttons on all pip tracks
+- **Wanted level consequences** — text hints at each level (1-4) explaining what it means in play
+- **Structured cohort tracking** — name, type (Gang/Expert), quality, edges, flaws, scale display (replaces plain textarea)
 - **Turf Tracker** — claimable territory map with named districts
-- **Vault upgrades** — purchasing a Vault upgrade automatically increases stash capacity
-- **Long-term project clocks** — rendered as SVG pie segments directly on the crew sheet
-- **Devil's Bargain reminder** — inline prompt visible during action rolls
-
-**Rules Reference:** Includes an **XP & Advancement** guide
-**Dice system:** d6 pool
+- **Vault upgrades** — auto-increases stash capacity
+- **Long-term project clocks** — SVG pie segments on the crew sheet
+- **Devil's Bargain** — inline prompt visible during action rolls
+**PT translation:** All UI labels, rules reference (8 sections), trauma conditions, faction status labels, dice roller modes, and outcome descriptions use official Redbox Brazilian edition terminology
+**Rules Reference:** Fully translated reference covering Action Rolls, Position & Effect, Resistance, Fortune, Engagement, Downtime, Flashbacks, XP & Advancement
+**Dice system:** d6 pool (3 modes)
 **XP tracking:** Playbook XP pips
 
 ### D&D 5th Edition
@@ -299,9 +312,9 @@ Each system has a dedicated dice roller accessible from the Dice Roller tab:
 |--------|--------|-----------|
 | WoD | d10 Pool | Roll X d10s, count successes (8+), 1s subtract |
 | 7th Sea | d10 Sets | Roll X d10s, form sets of 10 for Raises |
-| L5R 4e | Roll-and-Keep | Roll X d10s, keep Y highest, exploding 10s |
+| L5R 4e | Roll-and-Keep | Roll X d10s, keep Y highest, exploding 10s, flat modifier, raise calculator |
 | L5R 5e | Narrative Dice | Roll ring d6s + skill d12s, read Success/Explosive/Opportunity/Strife symbols |
-| Blades | d6 Pool | Roll X d6s, take highest (6=full, 4-5=partial, 1-3=bad) |
+| Blades | d6 Pool | 3 modes: Action (position/effect + outcome text), Resistance (stress cost), Fortune |
 | D&D / UESTRPG | d20 | d20 + modifier vs. DC, advantage/disadvantage |
 | Cyberpunk | d10 | STAT + Skill + d10, fumble on 1, critical on 10 (exploding) |
 | ASOIAF | d6 Pool | Roll X d6s, sum kept dice vs. difficulty |

@@ -125,16 +125,26 @@ O app usa React Router v7 para roteamento no cliente com encaminhamento de SPA v
 
 ### Blades in the Dark
 
-Blades utiliza um **Gerenciador de Relógios** dedicado em `/blades/clocks` (relógios não estão embutidos nas fichas de personagem ou crew). Fichas de personagem incluem uma aba **Coin & Stash** (4 pips de coin para dinheiro disponível, 40 pips de stash com aposentadoria em 40/40). Fichas de crew incluem uma aba **Coin & Vault** (número de coin líquido + trilha de vault com 8 segmentos). A aba Referência de Regras inclui um guia de **XP & Avanço**.
+Blades utiliza um **Gerenciador de Relógios** dedicado em `/blades/clocks`. Fichas de personagem incluem uma aba **Moeda & Reserva** (4 pips de moeda, 40 pips de reserva com aposentadoria em 40/40). Fichas de bando incluem uma aba **Moeda & Cofre** (moeda líquida + trilha de cofre com 8 segmentos). A aba Referência de Regras inclui um guia de **XP & Desenvolvimento** — totalmente traduzido usando a terminologia oficial da edição brasileira da Redbox Editora.
 
-**Reorganizacao de abas da ficha de personagem:** A antiga aba combinada de estresse/carga/projetos agora sao tres abas separadas — **Stress & Harm** (pips de estresse, trauma, trilha de ferimentos), **Loadout** (selecao de itens com exibicao de capacidade de carga), e **Projects** (relogios de projetos de longo prazo).
+**Rolador de dados:** Três modos — Rolagem de Ação (com seletores de posição/efeito e descrições de resultado por posição), Rolagem de Resistência (mostra custo de estresse: 6=0, 4-5=1, 1-3=2, crítico=limpar 1), Rolagem de Sorte (pool simples).
 
-**Adições à ficha de crew:**
-- **Rastreador de Fações** — todas as 26 facções de Doskvol renderizadas com escala de pontos de -3 a +3 para rastreamento de reputação
-- **Rastreador de Territórios** — territórios disputáveis nomeados exibidos como grade de distritos; territórios conquistados destacados
-- **Auto-escalonamento do Vault** — o upgrade de Vault na lista de upgrades aumenta automaticamente a capacidade do vault quando adquirido
-- **Relógios de projetos de longo prazo** — relógios SVG em formato de pizza na ficha de crew (4, 6, 8 ou 12 segmentos), separados do Gerenciador de Relógios do Narrador
-- **Lembrete de Barganho do Diabo** — nota inline exibida junto às mecânicas de rolagem de ação para sugerir ofertas na mesa
+**Funcionalidades da ficha de personagem:**
+- **Estresse & Dano** — pips de estresse, condições de trauma traduzidas (Frio, Assombrado, Obcecado, etc.), trilha de dano, relógio de cura, armadura
+- **Equipamento** — seleção de itens com exibição de capacidade de carga
+- **Projetos** — relógios de projetos de longo prazo + referência de atividades de folga (Adquirir Recurso, Reduzir Atenção, Satisfazer Vício, etc.)
+- **Lembrete de gatilho de XP** — banner persistente na aba Ações mostrando o gatilho de XP da cartilha
+- **Referência de regras traduzida** — 8 seções com ~50 pares título/texto usando termos oficiais PT-BR
+
+**Funcionalidades da ficha de bando:**
+- **Rastreador de Fações** — 26 facções de Doskvol com escala de -3 a +3, rótulos traduzidos (Guerra/Hostil/Adversários/Neutros/Colegas/Aliados)
+- **Botões +/- para Moral/Atenção/Procurado** — incremento/decremento rápido nas trilhas de pips
+- **Consequências de Nível de Procurado** — dicas textuais nos níveis 1-4 explicando o impacto mecânico
+- **Rastreamento estruturado de capangas** — nome, tipo (Gangue/Especialista), qualidade, vantagens, defeitos com exibição de escala
+- **Rastreador de Territórios** — territórios disputáveis como grade de distritos
+- **Auto-escalonamento do Cofre** — upgrade aumenta capacidade automaticamente
+- **Relógios de projetos** — relógios SVG em formato de pizza (4, 6, 8 ou 12 segmentos)
+- **Acordo com o Diabo** — prompt inline durante rolagens de ação
 
 ### Dados e Navio 7th Sea
 
@@ -147,6 +157,22 @@ Os dados de 7th Sea estao consolidados em `sevenSeaData.js` (111KB), proveniente
 A ficha de Heroi tambem suporta 10 funcionalidades de automacao no modo guiado: auto-aplicacao de antecedente (concede automaticamente +1 rank em habilidades e vantagens ao selecionar), botao de adicao rapida de feiticaria (um clique para adicionar a tradicao de feiticaria da nacao), exibicao de efeitos mecanicos de Virtude/Hubris, contador de orcamento de antecedentes (X/2), contagem corrente de custo de vantagens (Gasto: X/5 pts), destaque de pool de dados para sinergias fortes, dicas de sinergia antecedente-vantagem (badges "Recomendado"), auto-sugestao de religiao por nacao (reordena por afinidade cultural), Pontos de Heroi travados em 1 no modo guiado, e exibicao de quirk com estilo de badge de Ponto de Heroi.
 
 O Construtor de Navios de 7th Sea e desacoplado como uma ficha independente (splat `SEVENTH_SEA_SHIP`), com 15 origens de navio (era 9) e 12 antecedentes de navio (era 8).
+
+### L5R 4a Edição
+
+L5R 4e usa o sistema de dados roll-and-keep (XkY) com 9 Grandes Clãs, 55 escolas, 197 magias, 26 kata e catálogo completo de equipamentos. A ficha calcula automaticamente Perspicácia (Anéis × 10 + ranks de habilidade) e progressão de Rank da Escola (limites em 175/200/225/250).
+
+**Rolador de dados:** Roll-and-keep com modificador fixo (-50 a +50), 10s explosivos, ênfase (rerolar 1s), regra de teto (dados excedentes → +2 bônus cada). Calculadora de aumentos mostra ND até +5 aumentos com contagem de aumentos grátis.
+
+**Rastreador de ferimentos:** Banner de penalidade com código de cores, botões +1/+5/-1/-5, barras de progresso por rank de ferimento (Anel de Terra × 2 por rank), calculadora de recuperação (Vigor × 2 + Rank de Perspicácia ferimentos/dia).
+
+**Sistema de magias:** Rastreador de slots por elemento (Anel + Rank da Escola ± afinidade/deficiência), rastreamento de uso +/- por sessão, exibição de rolagem por elemento.
+
+**Combate:** Seletor de postura (5 posturas com modificadores de NDA/ataque), condições ativáveis (Derrubado, Atordoado, Fatigado, Atordoado, Agarrado, Enredado, Cegado, Montado), cartão de Referência Rápida, troca rápida de armas (3 slots).
+
+**Automação de vantagens:** 10 vantagens/desvantagens modificam automaticamente as estatísticas: Escola Diferente (desbloqueia todas as escolas), Força da Terra/Baixa Tolerância à Dor (penalidade de ferimento ±), Saúde Frágil (Terra -1 para ferimentos), Rápido (+1k0 Iniciativa), Grande/Pequeno (±1k0 dano), Fama/Infâmia (±1 Glória), Honra Aparente (+1 Honra), Mãos de Pedra (desarmado 0k2).
+
+**Validação:** Avisa sobre atributos abaixo do mínimo, habilidades acima do limite, escola sem clã, escola de outro clã sem Escola Diferente.
 
 ### L5R 5a Edicao (FFG)
 
@@ -348,7 +374,7 @@ export default function CharacterForm() {
 | `ExportModal` | Exportação PDF com toggles por seção |
 | `MeritsFlawsSection` | Qualidades/defeitos WoD com busca em catálogo |
 | `TagInfoPanel` | Barra lateral fixa mostrando detalhes do item selecionado |
-| `BladesDiceRoller` | Rolador de pool de d6 para Blades |
+| `BladesDiceRoller` | Rolador de pool de d6 para Blades (3 modos: ação/resistência/sorte) |
 | `StorytellerDiceRoller` | Rolador de pool de d10 para WoD |
 | `DndDiceRoller` | Rolador de d20 para D&D/UESTRPG |
 | `L5r5eDiceRoller` | Rolador de dados narrativos customizado para L5R 5e (simbolos FFG) |

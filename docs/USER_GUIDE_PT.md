@@ -238,9 +238,14 @@ Como Narrador:
 
 ### Legend of the Five Rings (4a Edição)
 
-**Funcionalidades:** 55 Escolas em 9 Clãs, 197 Magias, 26 Kata, Maestrias de Habilidade
-**Sistema de dados:** Roll-and-keep (k-dice)
-**Rastreamento de XP:** Pontos de experiência com cálculo de rank de insight
+**Funcionalidades:** 55 Escolas em 9 Clãs, 197 Magias, 26 Kata, Maestrias de Habilidade, catálogo completo de equipamentos
+**Sistema de dados:** Roll-and-keep (XkY) com modificador fixo, 10s explosivos, ênfase (rerolar 1s), calculadora de aumentos (mostra aumentos grátis alcançados), regra de teto para pools acima de 10
+**Rastreador de ferimentos:** Banner de penalidade interativo, botões +1/+5/-1/-5, barras de progresso por rank de ferimento, calculadora de recuperação (Vigor × 2 + Rank de Perspicácia por dia). Vantagens como Força da Terra (-3 penalidade), Baixa Tolerância à Dor (+5 penalidade) e Saúde Frágil (Terra -1 para ferimentos) modificam automaticamente a tabela
+**Gerenciamento de magias:** Rastreador de slots por elemento (Anel + Rank da Escola ± afinidade/deficiência), botões +/- para rastrear slots usados por sessão, botão de reset
+**Combate:** Seletor de postura (Ataque/Ataque Total/Defesa/Defesa Total/Centrar) com modificadores de NDA/ataque, condições ativáveis (Derrubado, Atordoado, Fatigado, Aturdido, Agarrado, Enredado, Cegado, Montado), cartão de Referência Rápida com ataque/dano/iniciativa e penalidade de ferimento, troca rápida de armas (3 slots)
+**Efeitos de vantagens:** 10 vantagens/desvantagens modificam automaticamente as estatísticas (Rápido → +1k0 Iniciativa, Grande/Pequeno → ±1k0 dano, Fama/Infâmia → ±1 Glória, Honra Aparente → +1 Honra, Mãos de Pedra → desarmado 0k2, Escola Diferente → desbloqueia todas as escolas)
+**Validação:** Avisa sobre atributos abaixo de 2, habilidades acima de 10, escola sem clã, escola de outro clã sem vantagem Escola Diferente
+**Rastreamento de XP:** Pontos de experiência com cálculo de rank de insight, custos de XP exibidos nos catálogos de magias e kata
 
 ### Legend of the Five Rings (5a Edicao / FFG)
 
@@ -251,19 +256,27 @@ Como Narrador:
 
 ### Blades in the Dark
 
-**Funcionalidades:** 11 Playbooks, 6 Tipos de Crew, toggle de Deep Cuts, Gerenciador de Relógios dedicado (`/blades/clocks`), rastreamento de Estresse/Trauma
-**Reorganizacao de abas:** A aba combinada de estresse/carga/projetos foi dividida em tres abas dedicadas — **Stress & Harm** (pips de estresse, trauma, ferimentos), **Loadout** (selecao de itens e capacidade de carga), e **Projects** (relogios de projetos de longo prazo)
-**Fichas de personagem:** Incluem uma aba **Coin & Stash** (4 pips de coin para dinheiro disponível, 40 pips de stash — aposentadoria ao atingir 40/40)
-**Fichas de crew:** Incluem uma aba **Coin & Vault** (número de coin líquido + trilha de vault com 8 segmentos). As fichas de crew também incluem:
-- **Rastreador de Fações** — todas as 26 facções de Doskvol com escala de reputação de -3 a +3
+**Funcionalidades:** 11 Cartilhas, 6 Tipos de Bando, toggle de Deep Cuts, Gerenciador de Relógios dedicado (`/blades/clocks`), rastreamento de Estresse/Trauma
+**Reorganização de abas:** A aba combinada de estresse/carga/projetos foi dividida em três abas dedicadas — **Estresse & Dano** (pips de estresse, trauma, dano), **Equipamento** (seleção de itens e capacidade de carga), e **Projetos** (relógios de projetos de longo prazo com referência de atividades de folga)
+**Rolador de dados:** Três modos — **Rolagem de Ação** (pool + posição/efeito com descrições de resultado por posição), **Rolagem de Resistência** (rola atributo, mostra custo de estresse: 6=0, 4-5=1, 1-3=2, crítico=limpar 1), **Rolagem de Sorte** (pool simples). Todos os modos mostram descrições contextuais do resultado
+**Fichas de personagem:**
+- **Moeda & Reserva** (4 pips de moeda, 40 pips de reserva — aposentadoria ao atingir 40/40)
+- **Lembrete de gatilho de XP** — banner persistente na aba Ações mostrando o gatilho de XP da cartilha
+- **Condições de trauma** — totalmente traduzidas (Frio, Assombrado, Obcecado, Paranoico, Imprudente, Coração Mole, Instável, Cruel)
+- **Referência de atividades de folga** — guia expansível na aba Projetos cobrindo Adquirir Recurso, Projeto de Longo Prazo, Recuperar, Reduzir Atenção, Treinar, Satisfazer Vício
+**Fichas de bando:**
+- **Rastreador de Fações** — 26 facções de Doskvol com escala de -3 a +3, rótulos traduzidos (Guerra/Hostil/Adversários/Neutros/Colegas/Aliados)
+- **Botões +/- para Moral/Atenção/Procurado** — incremento/decremento rápido em todas as trilhas
+- **Consequências de Nível de Procurado** — dicas textuais nos níveis 1-4 explicando o impacto mecânico
+- **Rastreamento estruturado de capangas** — nome, tipo (Gangue/Especialista), qualidade, vantagens, defeitos com exibição de escala
 - **Rastreador de Territórios** — mapa de territórios disputáveis com distritos nomeados
-- **Upgrades de Vault** — comprar um upgrade de Vault aumenta automaticamente a capacidade de armazenamento
-- **Relógios de projetos de longo prazo** — renderizados como segmentos de pizza SVG diretamente na ficha de crew
-- **Lembrete de Barganho do Diabo** — prompt inline visível durante rolagens de ação
-
-**Referência de Regras:** Inclui um guia de **XP & Avanço**
-**Sistema de dados:** pool de d6
-**Rastreamento de XP:** Pips de XP do Playbook
+- **Upgrades de Cofre** — comprar upgrade aumenta capacidade automaticamente
+- **Relógios de projetos** — segmentos SVG em formato de pizza diretamente na ficha
+- **Acordo com o Diabo** — prompt inline visível durante rolagens de ação
+**Tradução PT:** Todos os rótulos de UI, referência de regras (8 seções), condições de trauma, rótulos de status de facção, modos do rolador e descrições de resultado usam a terminologia oficial da edição brasileira da Redbox Editora
+**Referência de Regras:** Referência totalmente traduzida cobrindo Rolagem de Ação, Posição e Efeito, Resistência, Sorte, Abertura, Folga, Flashbacks, XP e Desenvolvimento
+**Sistema de dados:** pool de d6 (3 modos)
+**Rastreamento de XP:** Pips de XP da Cartilha
 
 ### D&D 5a Edição
 
@@ -299,9 +312,9 @@ Cada sistema possui um rolador de dados dedicado acessível pela aba Rolador de 
 |---------|---------|----------|
 | WoD | Pool de d10 | Role X d10s, conte sucessos (8+), 1s subtraem |
 | 7th Sea | Conjuntos de d10 | Role X d10s, forme conjuntos de 10 para Raises |
-| L5R 4e | Roll-and-Keep | Role X d10s, mantenha os Y maiores, 10s explodem |
+| L5R 4e | Roll-and-Keep | Role X d10s, mantenha os Y maiores, 10s explodem, modificador fixo, calculadora de aumentos |
 | L5R 5e | Dados Narrativos | Role d6s de anel + d12s de habilidade, leia simbolos de Sucesso/Explosivo/Oportunidade/Conflito |
-| Blades | Pool de d6 | Role X d6s, pegue o maior (6=sucesso total, 4-5=parcial, 1-3=ruim) |
+| Blades | Pool de d6 | 3 modos: Ação (posição/efeito + texto de resultado), Resistência (custo de estresse), Sorte |
 | D&D / UESTRPG | d20 | d20 + modificador vs. CD, vantagem/desvantagem |
 | Cyberpunk | d10 | STAT + Habilidade + d10, falha critica no 1, critico no 10 (explode) |
 | ASOIAF | Pool de d6 | Role X d6s, some os dados mantidos vs. dificuldade |
