@@ -36,7 +36,7 @@ function applyCapRule(rolled, kept) {
   return { effectiveRoll, effectiveKeep, bonus }
 }
 
-function performRoll(rolled, kept, tn, exploding, emphasis) {
+function performRoll(rolled, kept, tn, exploding, emphasis, modifier) {
   const { effectiveRoll, effectiveKeep, bonus } = applyCapRule(rolled, kept)
 
   let dice = Array.from({ length: effectiveRoll }, () => rollExplodingDie(exploding))
@@ -56,7 +56,7 @@ function performRoll(rolled, kept, tn, exploding, emphasis) {
   const sorted = [...indexed].sort((a, b) => b.total - a.total)
   const keptIndices = new Set(sorted.slice(0, effectiveKeep).map(d => d.originalIndex))
 
-  const keptTotal = sorted.slice(0, effectiveKeep).reduce((sum, d) => sum + d.total, 0) + bonus
+  const keptTotal = sorted.slice(0, effectiveKeep).reduce((sum, d) => sum + d.total, 0) + bonus + modifier
   const success = keptTotal >= tn
 
   return {
@@ -65,6 +65,7 @@ function performRoll(rolled, kept, tn, exploding, emphasis) {
     effectiveRoll,
     effectiveKeep,
     bonus,
+    modifier,
     total: keptTotal,
     tn,
     success,
@@ -81,6 +82,7 @@ export default function L5RDiceRoller() {
   const [exploding, setExploding] = useState(true)
   const [emphasis, setEmphasis] = useState(false)
   const [result, setResult] = useState(null)
+  const [modifier, setModifier] = useState(0)
   const [rolling, setRolling] = useState(false)
   const [history, setHistory] = useState([])
 
@@ -89,14 +91,14 @@ export default function L5RDiceRoller() {
     setTimeout(() => {
       const entry = {
         id: Date.now(),
-        ...performRoll(rolled, kept, tn, exploding, emphasis),
+        ...performRoll(rolled, kept, tn, exploding, emphasis, modifier),
         timestamp: new Date().toLocaleTimeString()
       }
       setResult(entry)
       setHistory(prev => [entry, ...prev].slice(0, 20))
       setRolling(false)
     }, 300)
-  }, [rolled, kept, tn, exploding, emphasis])
+  }, [rolled, kept, tn, exploding, emphasis, modifier])
 
   const clearHistory = useCallback(() => {
     setHistory([])
@@ -159,6 +161,18 @@ export default function L5RDiceRoller() {
           />
         </label>
 
+        <label className="dice-roller-label">
+          {t('diceL5rModifier')}
+          <input
+            className="dice-roller-input"
+            type="number"
+            min={-50}
+            max={50}
+            value={modifier}
+            onChange={e => setModifier(Math.min(50, Math.max(-50, Number(e.target.value) || 0)))}
+          />
+        </label>
+
         <label className="dice-roller-checkbox">
           <input
             type="checkbox"
@@ -195,6 +209,11 @@ export default function L5RDiceRoller() {
                 {' '}(+{result.bonus} {t('diceL5rBonus')})
               </span>
             )}
+            {result.modifier !== 0 && (
+              <span className="dice-roller-bonus">
+                {' '}{result.modifier >= 0 ? `+${result.modifier}` : result.modifier}
+              </span>
+            )}
           </div>
 
           <div className={`dice-roller-dice ${rolling ? 'dice-roller-dice--rolling' : ''}`}>
@@ -219,6 +238,29 @@ export default function L5RDiceRoller() {
 
           <div className={`dice-roller-outcome dice-roller-outcome--${result.success ? 'success' : 'failure'}`}>
             {result.success ? t('diceL5rSuccess') : t('diceL5rFailure')}
+            {result.success && result.total >= result.tn + 5 && (
+              <span className="dice-roller-bonus"> — {Math.floor((result.total - result.tn) / 5)} {t('diceL5rFreeRaises')}</span>
+            )}
+          </div>
+
+          {/* Raise thresholds */}
+          <div style={{ marginTop: 'var(--space-sm)', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+            {[0, 1, 2, 3, 4, 5].map(r => {
+              const threshold = result.tn + r * 5
+              const met = result.total >= threshold
+              return (
+                <span key={r} style={{
+                  display: 'inline-block', marginRight: 'var(--space-sm)', padding: '0.15rem 0.4rem',
+                  borderRadius: 'var(--radius)', fontSize: '0.75rem',
+                  background: met ? 'rgba(42,140,58,0.15)' : 'transparent',
+                  color: met ? '#2a8c3a' : 'var(--color-text-muted)',
+                  fontWeight: met ? 600 : 400,
+                  border: `1px solid ${met ? 'rgba(42,140,58,0.3)' : 'var(--color-border)'}`
+                }}>
+                  {r === 0 ? `TN ${threshold}` : `+${r}R: ${threshold}`}
+                </span>
+              )
+            })}
           </div>
         </div>
       )}
@@ -241,6 +283,7 @@ export default function L5RDiceRoller() {
                 <span className="dice-roller-history-detail">
                   {entry.notation}
                   {entry.bonus > 0 && ` (+${entry.bonus})`}
+                  {entry.modifier !== 0 && (entry.modifier > 0 ? ` +${entry.modifier}` : ` ${entry.modifier}`)}
                   {' → '}{entry.total}
                 </span>
                 <span className={`dice-roller-history-result dice-roller-outcome--${entry.success ? 'success' : 'failure'}`}>

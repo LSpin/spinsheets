@@ -183,6 +183,17 @@ const MANEUVERS = [
   { name: 'Knockdown', raises: '2', description: 'If attack succeeds, target is knocked Prone.' },
 ]
 
+const L5R_CONDITIONS = [
+  { name: 'Prone', effect: '-10 to melee attacks, +10 ATN vs ranged. Stand up = Simple Action.' },
+  { name: 'Stunned', effect: 'Cannot take Actions this Turn. ATN reduced by 10.' },
+  { name: 'Fatigued', effect: '-2k0 to all physical rolls. Rest 4 hours to recover.' },
+  { name: 'Dazed', effect: 'May only take Free Actions this Turn.' },
+  { name: 'Grappled', effect: 'Cannot move. Contested Jiujutsu to escape. -10 ATN.' },
+  { name: 'Entangled', effect: 'Cannot move or use weapons. Contested Strength or cut free.' },
+  { name: 'Blinded', effect: '-3k3 ranged, -1k1 melee. ATN = Reflexes × 5 + 5 only.' },
+  { name: 'Mounted', effect: 'Uses Horsemanship for movement. +1k0 melee damage vs unmounted.' },
+]
+
 // ── Advantages catalogue ──
 const L5R_ADVANTAGES = [
   { name: 'Absolute Direction', cost: 1, description: 'You always know which direction is north.' },
@@ -515,11 +526,14 @@ export default function L5RForm() {
   const [spellAffinity, setSpellAffinity] = useState('')
   const [spellDeficiency, setSpellDeficiency] = useState('')
   const [activeKata, setActiveKata] = useState('')
+  const [weaponLoadouts, setWeaponLoadouts] = useState([])
   const [equipFilter, setEquipFilter] = useState('all')
   const [advSearch, setAdvSearch] = useState('')
   const [disadvSearch, setDisadvSearch] = useState('')
+  const [spellSlotsUsed, setSpellSlotsUsed] = useState({ Air: 0, Earth: 0, Fire: 0, Water: 0, Void: 0 })
   const [spellSearch, setSpellSearch] = useState('')
   const [kataSearch, setKataSearch] = useState('')
+  const [conditions, setConditions] = useState(new Set())
   const [newSkillName, setNewSkillName] = useState('')
   const [newSkillRank, setNewSkillRank] = useState(1)
   const [newSkillEmphases, setNewSkillEmphases] = useState([])
@@ -714,20 +728,43 @@ export default function L5RForm() {
   const selectedBow = L5R_EQUIPMENT.bows.find(b => b.name === equippedWeapon)
   const selectedArrow = L5R_EQUIPMENT.arrows.find(a => a.name === equippedArrow)
 
+  // ── Advantage/Disadvantage mechanical effects ──
+  const hasAdvantage = name => disciplines.some(d => d.name === name)
+  const hasBadHealth = hasAdvantage('Bad Health')
+  const hasStrengthOfEarth = hasAdvantage('Strength of the Earth')
+  const hasLowPainThreshold = hasAdvantage('Low Pain Threshold')
+  const hasQuick = hasAdvantage('Quick')
+  const hasLarge = hasAdvantage('Large')
+  const hasSmall = hasAdvantage('Small')
+  const hasFame = hasAdvantage('Fame')
+  const hasInfamous = hasAdvantage('Infamous')
+  const hasPerceivedHonor = hasAdvantage('Perceived Honor')
+  const hasHandsOfStone = hasAdvantage('Hands of Stone')
+
   // Wound rank from current wounds
-  const woundsPerRank = earthRing * 2
-  const healthyThreshold = earthRing * 5
+  // Bad Health: Earth Ring treated as 1 lower for wound thresholds
+  const woundEarth = hasBadHealth ? Math.max(1, earthRing - 1) : earthRing
+  const woundsPerRank = woundEarth * 2
+  const healthyThreshold = woundEarth * 5
+  const totalWoundCapacity = healthyThreshold + 6 * woundsPerRank
   let currentWoundRank = 'Healthy'
   let currentPenalty = 0
   const w = fields.l5rWounds || 0
+  // Strength of the Earth: reduce wound penalties by 3; Low Pain Threshold: increase by 5
+  const penaltyMod = (hasStrengthOfEarth ? -3 : 0) + (hasLowPainThreshold ? 5 : 0)
   if (w <= healthyThreshold) { currentWoundRank = 'Healthy'; currentPenalty = 0 }
   else {
     const pastHealthy = w - healthyThreshold
     const rankIndex = Math.min(Math.floor((pastHealthy - 1) / woundsPerRank), 6)
-    const penalties = [3, 5, 10, 15, 20, 40, 999]
+    const basePenalties = [3, 5, 10, 15, 20, 40, 999]
     const names = ['Nicked', 'Grazed', 'Hurt', 'Injured', 'Crippled', 'Down', 'Out']
     currentWoundRank = names[rankIndex] || 'Out'
-    currentPenalty = penalties[rankIndex] || 999
+    const base = basePenalties[rankIndex] || 999
+    currentPenalty = base === 999 ? 999 : Math.max(0, base + penaltyMod)
+  }
+
+  function adjustWounds(delta) {
+    setFields(prev => ({ ...prev, l5rWounds: Math.max(0, (prev.l5rWounds || 0) + delta) }))
   }
 
   // ── Skill parsing & computations ──
@@ -842,11 +879,28 @@ export default function L5RForm() {
   const totalXpAvailable = XP_BUDGET + disadvXpGained
   const xpRemaining = totalXpAvailable - totalXpSpent
 
+  // ── Validation warnings ──
+  const warnings = []
+  const traitFields = ['l5rReflexes', 'l5rAwareness', 'l5rStamina7', 'l5rWillpower7', 'l5rAgility', 'l5rIntelligence7', 'l5rStrength7', 'l5rPerception7']
+  for (const f of traitFields) {
+    if ((fields[f] || 0) < 2) warnings.push(`${f.replace('l5r', '').replace('7', '')} is below minimum (2)`)
+  }
+  if ((fields.l5rVoid || 0) < 2) warnings.push('Void is below minimum (2)')
+  if (fields.l5rSchool && !fields.l5rClan) warnings.push('School selected without a clan')
+  if (fields.l5rClan && !hasDifferentSchool && fields.l5rSchool && CLANS[fields.l5rClan] && !CLANS[fields.l5rClan].schools.includes(fields.l5rSchool)) {
+    warnings.push(`${fields.l5rSchool} is not a ${fields.l5rClan} school (need Different School advantage)`)
+  }
+  for (const s of parsedSkills) {
+    if (s.rank > 10) warnings.push(`${s.name} exceeds max skill rank (10)`)
+  }
+
   // ── Auto-computed Insight & School Rank ──
   const computedInsight = (airRing + earthRing + fireRing + waterRing + voidRing) * 10 + totalSkillRanks
   const computedSchoolRank = computedInsight >= 250 ? 5 : computedInsight >= 225 ? 4 : computedInsight >= 200 ? 3 : computedInsight >= 175 ? 2 : 1
   const nextRankInsight = computedSchoolRank === 1 ? 175 : computedSchoolRank === 2 ? 200 : computedSchoolRank === 3 ? 225 : computedSchoolRank === 4 ? 250 : null
-  const initRoll = `${computedSchoolRank}k${fields.l5rReflexes}`
+  const initRoll = hasQuick
+    ? `${computedSchoolRank + 1}k${fields.l5rReflexes}`
+    : `${computedSchoolRank}k${fields.l5rReflexes}`
 
   // ── Skill rank-up/down ──
   function changeSkillRank(skillIndex, delta) {
@@ -1659,7 +1713,7 @@ export default function L5RForm() {
             </div>
             <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
               <thead>
-                <tr><th>Element</th><th>Ring</th><th>Casting Roll</th><th>Status</th></tr>
+                <tr><th>Element</th><th>Ring</th><th>Casting</th><th>Slots</th><th>Used</th><th></th></tr>
               </thead>
               <tbody>
                 {[
@@ -1671,19 +1725,41 @@ export default function L5RForm() {
                 ].map(el => {
                   const isAff = spellAffinity === el.name
                   const isDef = spellDeficiency === el.name
+                  const totalSlots = el.ring + computedSchoolRank + (isAff ? 1 : 0) + (isDef ? -1 : 0)
+                  const used = spellSlotsUsed[el.name] || 0
+                  const remaining = Math.max(0, totalSlots - used)
                   return (
                     <tr key={el.name} style={{ background: isAff ? 'rgba(136,204,136,0.08)' : isDef ? 'rgba(224,85,85,0.08)' : 'transparent' }}>
-                      <td style={{ fontWeight: 600 }}>{el.name}</td>
-                      <td>{el.ring}</td>
-                      <td style={{ fontWeight: 600 }}>{el.ring + (computedSchoolRank)}k{el.ring}</td>
-                      <td style={{ color: isAff ? '#8c8' : isDef ? '#e55' : 'var(--color-text-muted)' }}>
-                        {isAff ? 'Affinity (−1 slot)' : isDef ? 'Deficiency (+1 slot)' : '—'}
+                      <td style={{ fontWeight: 600 }}>
+                        {el.name}
+                        {isAff && <span style={{ color: '#8c8', fontSize: '0.7rem' }}> ★</span>}
+                        {isDef && <span style={{ color: '#e55', fontSize: '0.7rem' }}> ✗</span>}
                       </td>
+                      <td>{el.ring}</td>
+                      <td style={{ fontWeight: 600 }}>{el.ring + computedSchoolRank}k{el.ring}</td>
+                      <td style={{ fontWeight: 600, color: remaining === 0 && used > 0 ? '#e55' : 'var(--color-text)' }}>
+                        {remaining}/{totalSlots}
+                      </td>
+                      <td style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
+                        <button type="button" className="tag-remove" style={{ opacity: used <= 0 ? 0.3 : 1 }}
+                          onClick={() => setSpellSlotsUsed(prev => ({ ...prev, [el.name]: Math.max(0, prev[el.name] - 1) }))}
+                          disabled={used <= 0}>-</button>
+                        <span style={{ minWidth: 20, textAlign: 'center', fontSize: '0.85rem', fontWeight: 600 }}>{used}</span>
+                        <button type="button" className="tag-remove" style={{ opacity: remaining <= 0 ? 0.3 : 1 }}
+                          onClick={() => setSpellSlotsUsed(prev => ({ ...prev, [el.name]: prev[el.name] + 1 }))}
+                          disabled={remaining <= 0}>+</button>
+                      </td>
+                      <td></td>
                     </tr>
                   )
                 })}
               </tbody>
             </table>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'var(--space-xs)' }}>
+              <button type="button" className="dice-roller-clear" onClick={() => setSpellSlotsUsed({ Air: 0, Earth: 0, Fire: 0, Water: 0, Void: 0 })}>
+                Reset Slots
+              </button>
+            </div>
           </fieldset>
 
           {/* ── Known Spells ── */}
@@ -1755,7 +1831,7 @@ export default function L5RForm() {
                           </div>
                           <div className="catalog-item-meta">
                             <span className="catalog-item-cost" style={{ color: isAff ? '#8c8' : isDef ? '#e55' : undefined }}>
-                              {s.element} {s.mastery}
+                              {s.element} {s.mastery} — {s.mastery} XP
                             </span>
                             {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
                           </div>
@@ -1790,7 +1866,7 @@ export default function L5RForm() {
                                 <span className="catalog-item-desc">{s.description}</span>
                               </div>
                               <div className="catalog-item-meta">
-                                <span className="catalog-item-cost">ML {s.mastery}</span>
+                                <span className="catalog-item-cost">ML {s.mastery} — {s.mastery} XP</span>
                                 {already ? <span className="catalog-item-check">{'\u2713'}</span> : canCast ? <span className="catalog-item-add">+</span> : <span style={{ color: '#e55', fontSize: '0.7rem' }}>{'\u2717'}</span>}
                               </div>
                             </button>
@@ -1929,7 +2005,7 @@ export default function L5RForm() {
                             <span className="catalog-item-desc">{k.effect}</span>
                           </div>
                           <div className="catalog-item-meta">
-                            <span className="catalog-item-cost">{k.ring} {k.mastery}</span>
+                            <span className="catalog-item-cost">{k.ring} {k.mastery} — {k.mastery} XP</span>
                             {already ? <span className="catalog-item-check">{'\u2713'}</span> : qualified ? <span className="catalog-item-add">+</span> : <span style={{ color: '#e55', fontSize: '0.7rem' }}>{'\u2717'}</span>}
                           </div>
                         </button>
@@ -1959,7 +2035,7 @@ export default function L5RForm() {
                                 <span className="catalog-item-desc">{k.effect}</span>
                               </div>
                               <div className="catalog-item-meta">
-                                <span className="catalog-item-cost">ML {k.mastery}</span>
+                                <span className="catalog-item-cost">ML {k.mastery} — {k.mastery} XP</span>
                                 {already ? <span className="catalog-item-check">{'\u2713'}</span> : qualified ? <span className="catalog-item-add">+</span> : <span style={{ color: '#e55', fontSize: '0.7rem' }}>{'\u2717'}</span>}
                               </div>
                             </button>
@@ -2029,19 +2105,62 @@ export default function L5RForm() {
               )}
             </div>
 
+            {/* Quick-Swap Loadouts */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)', alignItems: 'center', marginTop: 'var(--space-sm)' }}>
+              <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>Loadouts:</span>
+              {[0, 1, 2].map(i => {
+                const loadout = weaponLoadouts[i]
+                const isCurrent = loadout && loadout.weapon === equippedWeapon && loadout.armor === equippedArmor
+                return (
+                  <button key={i} type="button"
+                    style={{
+                      padding: '0.25rem 0.6rem', fontSize: '0.75rem', borderRadius: 'var(--radius)',
+                      cursor: 'pointer', border: '1px solid',
+                      borderColor: isCurrent ? 'var(--color-accent)' : 'var(--color-border)',
+                      background: isCurrent ? 'rgba(194,145,56,0.12)' : 'transparent',
+                      color: loadout ? 'var(--color-text)' : 'var(--color-text-muted)',
+                      fontWeight: isCurrent ? 600 : 400,
+                    }}
+                    onClick={() => {
+                      if (loadout) {
+                        setEquippedWeapon(loadout.weapon)
+                        setEquippedArmor(loadout.armor)
+                        if (loadout.arrow) setEquippedArrow(loadout.arrow)
+                      }
+                    }}
+                    title={loadout ? `${loadout.weapon || 'Unarmed'} / ${loadout.armor}` : 'Empty slot — save current loadout'}>
+                    {loadout ? (loadout.weapon ? loadout.weapon.split(' ')[0] : 'Unarmed') : `Slot ${i + 1}`}
+                  </button>
+                )
+              })}
+              <button type="button" className="dice-roller-clear"
+                onClick={() => {
+                  const empty = weaponLoadouts.findIndex((l, i) => i < 3 && !l)
+                  const idx = empty >= 0 ? empty : weaponLoadouts.length < 3 ? weaponLoadouts.length : 2
+                  setWeaponLoadouts(prev => {
+                    const next = [...prev]
+                    next[idx] = { weapon: equippedWeapon, armor: equippedArmor, arrow: equippedArrow }
+                    return next.slice(0, 3)
+                  })
+                }}>
+                Save Current
+              </button>
+            </div>
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-md)', marginTop: 'var(--space-sm)' }}>
               {/* Damage card */}
               <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
                 <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Damage</div>
                 <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>
                   {(() => {
+                    const sizeMod = (hasLarge ? 1 : 0) + (hasSmall ? -1 : 0)
                     if (isBow && selectedBow && selectedArrow) {
                       const bowStr = parseInt((selectedBow.dr.match(/Str\s*(\d+)/) || [])[1]) || 0
                       const arrowMatch = selectedArrow.dr.match(/(\d+)k(\d+)/)
                       if (arrowMatch) {
                         const arrowRolled = parseInt(arrowMatch[1])
                         const arrowKept = parseInt(arrowMatch[2])
-                        return `${bowStr + arrowRolled}k${arrowKept}`
+                        return `${Math.max(0, bowStr + arrowRolled + sizeMod)}k${arrowKept}`
                       }
                       return selectedArrow.dr
                     }
@@ -2051,23 +2170,26 @@ export default function L5RForm() {
                         const rolled = parseInt(drMatch[1])
                         const kept = parseInt(drMatch[2])
                         const str = fields.l5rStrength7 || 2
-                        return `${rolled + str}k${kept}`
+                        return `${Math.max(0, rolled + str + sizeMod)}k${kept}`
                       }
                       return selectedWeapon.dr
                     }
-                    return '\u2014'
+                    // Unarmed damage
+                    const unarmedKeep = hasHandsOfStone ? 2 : 1
+                    return `${fields.l5rStrength7 || 2}k${unarmedKeep}`
                   })()}
                 </div>
                 <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
                   {(() => {
+                    const mods = [hasLarge && '+1k0 Large', hasSmall && '-1k0 Small'].filter(Boolean).join(', ')
                     if (isBow && selectedBow && selectedArrow) {
                       const bowStr = parseInt((selectedBow.dr.match(/Str\s*(\d+)/) || [])[1]) || 0
-                      return `${selectedBow.name} (Str ${bowStr}) + ${selectedArrow.name} (${selectedArrow.dr})`
+                      return `${selectedBow.name} (Str ${bowStr}) + ${selectedArrow.name} (${selectedArrow.dr})${mods ? ` ${mods}` : ''}`
                     }
                     if (selectedWeapon) {
-                      return `${selectedWeapon.dr} + Str ${fields.l5rStrength7 || 2}`
+                      return `${selectedWeapon.dr} + Str ${fields.l5rStrength7 || 2}${mods ? ` ${mods}` : ''}`
                     }
-                    return 'No weapon equipped'
+                    return `Unarmed${hasHandsOfStone ? ' (Hands of Stone: 0k2)' : ' (0k1)'}${mods ? ` ${mods}` : ''}`
                   })()}
                 </div>
               </div>
@@ -2298,6 +2420,40 @@ Traveling pack, spare kimono, 10 koku`} />
               </p>
             )}
 
+            {/* Active Conditions */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginBottom: 'var(--space-md)' }}>
+              {L5R_CONDITIONS.map(c => {
+                const active = conditions.has(c.name)
+                return (
+                  <button key={c.name} type="button"
+                    onClick={() => setConditions(prev => {
+                      const next = new Set(prev)
+                      if (next.has(c.name)) next.delete(c.name); else next.add(c.name)
+                      return next
+                    })}
+                    title={c.effect}
+                    style={{
+                      padding: '0.2rem 0.5rem', fontSize: '0.75rem', fontWeight: active ? 700 : 400,
+                      borderRadius: 'var(--radius)', cursor: 'pointer', border: '1px solid',
+                      borderColor: active ? 'rgba(224,85,85,0.5)' : 'var(--color-border)',
+                      background: active ? 'rgba(224,85,85,0.12)' : 'transparent',
+                      color: active ? '#e55' : 'var(--color-text-muted)',
+                    }}>
+                    {c.name}
+                  </button>
+                )
+              })}
+            </div>
+            {conditions.size > 0 && (
+              <div style={{ marginBottom: 'var(--space-md)', fontSize: '0.78rem' }}>
+                {L5R_CONDITIONS.filter(c => conditions.has(c.name)).map(c => (
+                  <p key={c.name} style={{ margin: '0.15rem 0', color: '#e55' }}>
+                    <strong>{c.name}:</strong> <span style={{ color: 'var(--color-text-muted)' }}>{c.effect}</span>
+                  </p>
+                ))}
+              </div>
+            )}
+
             {/* Live stats grid */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-md)', marginTop: 'var(--space-sm)' }}>
               <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
@@ -2310,7 +2466,7 @@ Traveling pack, spare kimono, 10 koku`} />
               <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
                 <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Initiative</div>
                 <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{initRoll}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Insight Rank {computedSchoolRank} / Reflexes {fields.l5rReflexes}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Insight Rank {computedSchoolRank} / Reflexes {fields.l5rReflexes}{hasQuick ? ' (+1k0 Quick)' : ''}</div>
               </div>
               <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
                 <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Reduction</div>
@@ -2337,6 +2493,63 @@ Traveling pack, spare kimono, 10 koku`} />
                 <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Free / {moveSimple}' Simple / {moveMax}' Max</div>
               </div>
             </div>
+
+            {/* Quick Roll Reference */}
+            {(equippedWeapon || true) && (
+              <div style={{ marginTop: 'var(--space-md)', padding: 'var(--space-md)', background: 'var(--color-surface)', borderRadius: 'var(--radius)', border: '1px solid var(--color-border)' }}>
+                <div style={{ fontSize: '0.78rem', fontWeight: 600, marginBottom: 'var(--space-sm)', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-text-muted)' }}>Quick Roll Reference</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 'var(--space-sm)', fontSize: '0.82rem' }}>
+                  <div>
+                    <span style={{ color: 'var(--color-text-muted)' }}>Attack: </span>
+                    <strong>{(() => {
+                      if (isBow) {
+                        const ref = fields.l5rReflexes || 2
+                        const kyujutsu = parsedSkills.find(s => s.name.toLowerCase().includes('kyujutsu'))?.rank || 0
+                        return `${ref + kyujutsu}k${ref}`
+                      }
+                      if (selectedWeapon) {
+                        const agi = fields.l5rAgility || 2
+                        const keywords = (selectedWeapon.keywords || '').toLowerCase()
+                        let skillName = 'kenjutsu'
+                        if (keywords.includes('large') && !keywords.includes('samurai')) skillName = 'heavy weapons'
+                        else if (keywords.includes('chain')) skillName = 'chain weapons'
+                        else if (keywords.includes('small') && !keywords.includes('samurai')) skillName = 'knives'
+                        const skill = parsedSkills.find(s => s.name.toLowerCase().includes(skillName))?.rank || 0
+                        return `${agi + skill}k${agi}`
+                      }
+                      const agi = fields.l5rAgility || 2
+                      const jiujutsu = parsedSkills.find(s => s.name.toLowerCase().includes('jiujutsu'))?.rank || 0
+                      return `${agi + jiujutsu}k${agi}`
+                    })()}</strong>
+                    {currentPenalty > 0 && currentPenalty !== 999 && <span style={{ color: '#e55' }}> (+{currentPenalty} TN)</span>}
+                  </div>
+                  <div>
+                    <span style={{ color: 'var(--color-text-muted)' }}>Damage: </span>
+                    <strong>{(() => {
+                      const sizeMod = (hasLarge ? 1 : 0) + (hasSmall ? -1 : 0)
+                      if (isBow && selectedBow && selectedArrow) {
+                        const bowStr = parseInt((selectedBow.dr.match(/Str\s*(\d+)/) || [])[1]) || 0
+                        const arrowMatch = selectedArrow.dr.match(/(\d+)k(\d+)/)
+                        if (arrowMatch) return `${Math.max(0, bowStr + parseInt(arrowMatch[1]) + sizeMod)}k${arrowMatch[2]}`
+                      }
+                      if (selectedWeapon) {
+                        const drMatch = selectedWeapon.dr.match(/(\d+)k(\d+)/)
+                        if (drMatch) return `${Math.max(0, parseInt(drMatch[1]) + (fields.l5rStrength7 || 2) + sizeMod)}k${drMatch[2]}`
+                      }
+                      return `${(fields.l5rStrength7 || 2) + sizeMod}k${hasHandsOfStone ? 2 : 1}`
+                    })()}</strong>
+                  </div>
+                  <div>
+                    <span style={{ color: 'var(--color-text-muted)' }}>Weapon: </span>
+                    <span>{equippedWeapon || 'Unarmed'}</span>
+                  </div>
+                  <div>
+                    <span style={{ color: 'var(--color-text-muted)' }}>Initiative: </span>
+                    <strong>{initRoll}</strong>
+                  </div>
+                </div>
+              </div>
+            )}
           </fieldset>
 
           {/* ── Derived Stats (inline) ── */}
@@ -2344,11 +2557,11 @@ Traveling pack, spare kimono, 10 koku`} />
             <legend>{t('l5rHonorGloryStatus')}</legend>
             <div className="field-row">
               <div className="field">
-                <label>{t('l5rHonor')} ({(fields.l5rHonor / 10).toFixed(1)})</label>
+                <label>{t('l5rHonor')} ({(fields.l5rHonor / 10).toFixed(1)}{hasPerceivedHonor ? `, ${t('l5rEffective')}: ${((fields.l5rHonor / 10) + 1).toFixed(1)}` : ''})</label>
                 <input type="number" name="l5rHonor" value={fields.l5rHonor} onChange={handleText} min={0} max={100} />
               </div>
               <div className="field">
-                <label>{t('l5rGlory')} ({(fields.l5rGlory / 10).toFixed(1)})</label>
+                <label>{t('l5rGlory')} ({(fields.l5rGlory / 10).toFixed(1)}{(hasFame || hasInfamous) ? `, ${t('l5rEffective')}: ${((fields.l5rGlory / 10) + (hasFame ? 1 : 0) + (hasInfamous ? -1 : 0)).toFixed(1)}` : ''})</label>
                 <input type="number" name="l5rGlory" value={fields.l5rGlory} onChange={handleText} min={0} max={100} />
               </div>
               <div className="field">
@@ -2384,44 +2597,98 @@ Traveling pack, spare kimono, 10 koku`} />
 
           {/* ── Wounds Tracker ── */}
           <fieldset>
-            <legend>{t('l5rWounds')} ({fields.l5rWounds || 0})</legend>
-            <div className="field-row">
-              <div className="field" style={{ maxWidth: 120 }}>
-                <label>{t('l5rWounds')}</label>
-                <input type="number" name="l5rWounds" value={fields.l5rWounds} onChange={handleText} min={0} />
+            <legend>{t('l5rWounds')} ({w} / {totalWoundCapacity})</legend>
+
+            {/* Wound Penalty Banner */}
+            <div style={{
+              textAlign: 'center', padding: 'var(--space-md)', marginBottom: 'var(--space-md)',
+              borderRadius: 'var(--radius)',
+              background: currentPenalty === 0 ? 'rgba(136,204,136,0.08)' : currentPenalty >= 40 ? 'rgba(224,85,85,0.15)' : 'rgba(233,149,85,0.1)',
+              border: `2px solid ${currentPenalty === 0 ? 'rgba(136,204,136,0.4)' : currentPenalty >= 40 ? 'rgba(224,85,85,0.5)' : 'rgba(233,149,85,0.4)'}`
+            }}>
+              <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--color-text-muted)' }}>
+                {t('l5rCurrentPenalty')}
               </div>
-              <div className="field" style={{ maxWidth: 120 }}>
+              <div style={{ fontSize: '2rem', fontWeight: 700, color: currentPenalty === 0 ? '#88cc88' : currentPenalty >= 40 ? '#ee5555' : '#e9954c' }}>
+                {currentPenalty === 999 ? t('l5rIncapacitated') : currentPenalty > 0 ? `+${currentPenalty}` : t('l5rNoPenalty')}
+              </div>
+              <div style={{ fontSize: '0.85rem', fontWeight: 600 }}>{currentWoundRank}</div>
+            </div>
+
+            {/* +/- Buttons */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)', flexWrap: 'wrap' }}>
+              <button type="button" className="btn btn-secondary" style={{ minWidth: 44, fontWeight: 700 }} onClick={() => adjustWounds(-5)} disabled={w <= 0}>-5</button>
+              <button type="button" className="btn btn-secondary" style={{ minWidth: 44, fontWeight: 700, fontSize: '1.1rem' }} onClick={() => adjustWounds(-1)} disabled={w <= 0}>-1</button>
+              <input type="number" name="l5rWounds" value={fields.l5rWounds} onChange={handleText} min={0}
+                style={{ width: 70, textAlign: 'center', fontSize: '1.1rem', fontWeight: 700 }} />
+              <button type="button" className="btn btn-secondary" style={{ minWidth: 44, fontWeight: 700, fontSize: '1.1rem' }} onClick={() => adjustWounds(1)}>+1</button>
+              <button type="button" className="btn btn-secondary" style={{ minWidth: 44, fontWeight: 700 }} onClick={() => adjustWounds(5)}>+5</button>
+            </div>
+
+            {/* Void Points */}
+            <div className="field-row" style={{ justifyContent: 'center', marginBottom: 'var(--space-md)' }}>
+              <div className="field" style={{ maxWidth: 200 }}>
                 <label>{t('l5rCurrentVoid')}</label>
                 <DotRating label="" name="l5rCurrentVoid" value={fields.l5rCurrentVoid} onChange={handleField} min={0} max={fields.l5rVoid} />
               </div>
             </div>
+
+            {/* Wound Table with Progress Bars */}
             <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
               <thead>
-                <tr><th>Rank</th><th>TN Penalty</th><th>Threshold</th><th></th></tr>
+                <tr><th>Rank</th><th>Penalty</th><th>Range</th><th style={{ width: '30%' }}>Filled</th></tr>
               </thead>
               <tbody>
-                <tr style={{ background: w <= healthyThreshold ? 'rgba(136,204,136,0.08)' : 'transparent' }}>
+                <tr style={{ background: w > 0 && w <= healthyThreshold ? 'rgba(136,204,136,0.08)' : 'transparent' }}>
                   <td style={{ fontWeight: 600 }}>Healthy</td><td>+0</td><td>0 – {healthyThreshold}</td>
-                  <td>{w <= healthyThreshold && w > 0 ? `${w}/${healthyThreshold}` : ''}</td>
+                  <td>{healthyThreshold > 0 && (
+                    <div className="l5r-wound-bar">
+                      <div className="l5r-wound-bar__fill l5r-wound-bar__fill--healthy"
+                        style={{ width: `${Math.min(100, (Math.min(w, healthyThreshold) / healthyThreshold) * 100)}%` }} />
+                    </div>
+                  )}</td>
                 </tr>
                 {WOUND_RANKS.slice(1, -1).map((wr, i) => {
                   const lo = healthyThreshold + i * woundsPerRank + 1
                   const hi = healthyThreshold + (i + 1) * woundsPerRank
                   const inRank = w >= lo && w <= hi
+                  const filled = w >= hi ? woundsPerRank : (w >= lo ? w - lo + 1 : 0)
+                  const pct = woundsPerRank > 0 ? (filled / woundsPerRank) * 100 : 0
+                  const severity = i < 2 ? 'light' : i < 4 ? 'medium' : 'severe'
+                  const basePen = [3, 5, 10, 15, 20, 40][i]
+                  const modPen = Math.max(0, basePen + penaltyMod)
                   return (
                     <tr key={wr.name} style={{ background: inRank ? 'rgba(224,85,85,0.08)' : 'transparent' }}>
                       <td style={{ fontWeight: 600 }}>{wr.name}</td>
-                      <td>{wr.penalty}</td>
+                      <td>{penaltyMod !== 0 ? `+${modPen}` : wr.penalty}</td>
                       <td>{lo} – {hi}</td>
-                      <td>{inRank ? `${w - lo + 1}/${woundsPerRank}` : ''}</td>
+                      <td>
+                        <div className="l5r-wound-bar">
+                          <div className={`l5r-wound-bar__fill l5r-wound-bar__fill--${severity}`}
+                            style={{ width: `${pct}%` }} />
+                        </div>
+                      </td>
                     </tr>
                   )
                 })}
-                <tr style={{ background: w > healthyThreshold + 6 * woundsPerRank ? 'rgba(224,85,85,0.15)' : 'transparent' }}>
-                  <td style={{ fontWeight: 600 }}>Out</td><td>Cannot act</td><td>{healthyThreshold + 6 * woundsPerRank + 1}+</td><td></td>
+                <tr style={{ background: w > totalWoundCapacity ? 'rgba(224,85,85,0.15)' : 'transparent' }}>
+                  <td style={{ fontWeight: 600 }}>Out</td><td>Cannot act</td><td>{totalWoundCapacity + 1}+</td><td></td>
                 </tr>
               </tbody>
             </table>
+
+            {/* Recovery Rate */}
+            {w > 0 && (
+              <div style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm) var(--space-md)', background: 'var(--color-surface)', borderRadius: 'var(--radius)', border: '1px solid var(--color-border)', fontSize: '0.78rem' }}>
+                <strong style={{ color: 'var(--color-accent-fg)' }}>Recovery:</strong>{' '}
+                <span style={{ color: 'var(--color-text-muted)' }}>
+                  {(fields.l5rStamina7 || 2) * 2 + computedSchoolRank} wounds/day at rest
+                  {' '}({Math.ceil(((fields.l5rStamina7 || 2) * 2 + computedSchoolRank) / 2)} if active).
+                  {' '}Medicine TN 15: +{'{'}successes{'}'} wounds.
+                  {hasAdvantage('Quick Healer') && <span style={{ color: '#8c8' }}> Quick Healer: doubled.</span>}
+                </span>
+              </div>
+            )}
           </fieldset>
 
           {/* ── Reference Tables (collapsed) ── */}
@@ -2535,6 +2802,12 @@ Traveling pack, spare kimono, 10 koku`} />
         <L5RDiceRoller />
       </div>
 
+      {warnings.length > 0 && (
+        <div style={{ margin: 'var(--space-md) 0', padding: 'var(--space-sm) var(--space-md)', background: 'rgba(233,149,85,0.1)', border: '1px solid rgba(233,149,85,0.3)', borderRadius: 'var(--radius)', fontSize: '0.78rem' }}>
+          <strong style={{ color: '#e95' }}>Warnings:</strong>
+          {warnings.map((w, i) => <span key={i} style={{ color: 'var(--color-text-muted)', marginLeft: 'var(--space-sm)' }}>{w}{i < warnings.length - 1 ? ',' : ''}</span>)}
+        </div>
+      )}
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/l5r')}>{t('cancel')}</button>
