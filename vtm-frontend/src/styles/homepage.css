@@ -245,6 +245,11 @@
   color: #8a9bae;
 }
 
+.system-card--sav { border-color: rgba(0, 188, 212, 0.3); }
+.system-card--sav:hover { border-color: #00bcd4; }
+.system-card--sav h4 { color: #00bcd4; }
+.system-card--sav .system-card-cta { color: #00bcd4; }
+
 .system-card--uestrpg { border-color: rgba(122, 153, 181, 0.3); }
 .system-card--uestrpg:hover { border-color: #7a99b5; }
 .system-card--uestrpg h4 { color: #7a99b5; }

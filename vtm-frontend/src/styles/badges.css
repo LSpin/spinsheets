@@ -55,6 +55,8 @@
   color: #8a9bae;
 }
 
+.splat-badge--sav { background: rgba(0, 188, 212, 0.15); color: #00bcd4; }
+
 .splat-badge--uestrpg { background: rgba(122, 153, 181, 0.15); color: #7a99b5; }
 .splat-badge--cyberpunk { background: rgba(0, 212, 255, 0.15); color: #00d4ff; }
 .splat-badge--cyberpunk-antagonist { background: rgba(0, 212, 255, 0.15); color: #00d4ff; }

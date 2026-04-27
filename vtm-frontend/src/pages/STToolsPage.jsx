@@ -13,6 +13,8 @@ const ST_TOOLS = [
     tools: 'Court Intrigue, Samurai NPC Generator, Seasonal Events' },
   { path: '/blades/st-tools', theme: 'blades', cls: 'system-card--blades', nameKey: 'systemBlades', tabs: 7,
     tools: 'Score Generator, Entanglements, NPC Generator, Faction Turn, Downtime Events, Devil\'s Bargain, Campaign Clocks' },
+  { path: '/sav/st-tools', theme: 'sav', cls: 'system-card--sav', nameKey: 'systemSav', tabs: 7,
+    tools: 'Job Generator, Entanglements, NPC Generator (Sci-Fi), Faction Turn, Downtime Events, Devil\'s Bargain, Campaign Clocks' },
   { path: '/dnd/st-tools', theme: 'dnd', cls: 'system-card--dnd', nameKey: 'systemDnd', tabs: 5,
     tools: 'Encounters, Treasure, NPC Generator, Tavern/Shop, Dungeon Rooms' },
   { path: '/cyberpunk/st-tools', theme: 'cyberpunk', cls: 'system-card--cyberpunk', nameKey: 'systemCyberpunk', tabs: 5,

@@ -9,6 +9,7 @@ const SYSTEMS = [
   { path: '/7thsea', theme: '7thsea', cls: 'system-card--7thsea', nameKey: 'system7thSea', descKey: 'system7thSeaDesc' },
   { path: '/l5r', theme: 'l5r', cls: 'system-card--l5r', nameKey: 'systemL5R', descKey: 'systemL5RDesc' },
   { path: '/blades', theme: 'blades', cls: 'system-card--blades', nameKey: 'systemBlades', descKey: 'systemBladesDesc' },
+  { path: '/sav', theme: 'sav', cls: 'system-card--sav', nameKey: 'systemSav', descKey: 'systemSavDesc' },
   { path: '/dnd', theme: 'dnd', cls: 'system-card--dnd', nameKey: 'systemDnd', descKey: 'systemDndDesc' },
   { path: '/uestrpg', theme: 'uestrpg', cls: 'system-card--uestrpg', nameKey: 'systemUestrpg', descKey: 'systemUestrpgDesc' },
   { path: '/cyberpunk', theme: 'cyberpunk', cls: 'system-card--cyberpunk', nameKey: 'systemCyberpunk', descKey: 'systemCyberpunkDesc' },
@@ -253,6 +254,15 @@ export default function HomePage() {
               <li>11 Playbooks · 6 Crew Types</li>
               <li>Faction & Turf Trackers</li>
               <li>Project Clocks · d6 Roller</li>
+            </ul>
+          </div>
+          <div className="homepage-card">
+            <span className="splat-badge splat-badge--sav" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Scum & Villainy</span>
+            <ul className="homepage-list">
+              <li>Forged in the Dark · Sci-Fi</li>
+              <li>7 Playbooks · 3 Ship Types</li>
+              <li>Gambits · Ship Systems</li>
+              <li>Sector Factions · d6 Roller</li>
             </ul>
           </div>
           <div className="homepage-card">
