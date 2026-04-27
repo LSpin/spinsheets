@@ -24,6 +24,7 @@ jobs:
 
       - name: Copy frontend to Spring Boot static
         run: |
+          mkdir -p character-sheet/src/main/resources/static
           rm -rf character-sheet/src/main/resources/static/assets
           cp -r vtm-frontend/dist/* character-sheet/src/main/resources/static/
 
