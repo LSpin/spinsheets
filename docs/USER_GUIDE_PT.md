@@ -275,7 +275,7 @@ Como Narrador:
 - **Upgrades de Cofre** — comprar upgrade aumenta capacidade automaticamente
 - **Relógios de projetos** — segmentos SVG em formato de pizza diretamente na ficha
 - **Acordo com o Diabo** — prompt inline visível durante rolagens de ação
-**Tradução PT:** Todos os rótulos de UI, referência de regras (8 seções), condições de trauma, rótulos de status de facção, modos do rolador e descrições de resultado usam a terminologia oficial da edição brasileira da Redbox Editora
+**Tradução PT:** Todos os rótulos de UI, referência de regras (8 seções), condições de trauma, rótulos de status de facção, modos do rolador, descrições de resultado, nomes e descrições de herança/origem/vício, nomes de itens padrão e gatilhos de XP usam a terminologia oficial da edição brasileira Redbox (2018). Dropdowns de catálogo (herança, origem, vício, cartilha) exibem nomes e descrições traduzidos no modo PT
 **Referência de Regras:** Referência totalmente traduzida cobrindo Rolagem de Ação, Posição e Efeito, Resistência, Sorte, Abertura, Folga, Flashbacks, XP e Desenvolvimento
 **Sistema de dados:** pool de d6 (3 modos)
 **Rastreamento de XP:** Pips de XP da Cartilha

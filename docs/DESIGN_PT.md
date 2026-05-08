@@ -482,10 +482,12 @@ Push to main
 ## Internacionalização
 
 - Dois idiomas: Inglês (padrão) e Português
-- ~800 chaves de tradução em `translations.js`
+- ~900 chaves de tradução em `translations.js`
 - Hook `useLanguage()` fornece função `t(key)` e `lang`/`toggle`
 - Toggle de idioma sempre visível no header
 - Termos mecânicos de jogo (nomes de Disciplinas, nomes de Dons, etc.) permanecem em inglês pois são nomes próprios
+- Arquivos de dados (ex: `bladesPlaybooks.js`) suportam propriedades `nameKey`/`descKey` para entradas de catálogo traduzíveis; `CatalogSelect` resolve automaticamente
+- Blades in the Dark usa terminologia oficial da edição brasileira Redbox (2018) para todas as traduções PT
 
 ---
 

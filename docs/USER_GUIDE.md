@@ -275,7 +275,7 @@ As a Storyteller:
 - **Vault upgrades** — auto-increases stash capacity
 - **Long-term project clocks** — SVG pie segments on the crew sheet
 - **Devil's Bargain** — inline prompt visible during action rolls
-**PT translation:** All UI labels, rules reference (8 sections), trauma conditions, faction status labels, dice roller modes, and outcome descriptions use official Redbox Brazilian edition terminology
+**PT translation:** All UI labels, rules reference (8 sections), trauma conditions, faction status labels, dice roller modes, outcome descriptions, heritage/background/vice names and descriptions, standard item names, and XP triggers use official Redbox Brazilian edition (2018) terminology. Catalog dropdowns (heritage, background, vice, playbook) display translated names and descriptions in PT mode
 **Rules Reference:** Fully translated reference covering Action Rolls, Position & Effect, Resistance, Fortune, Engagement, Downtime, Flashbacks, XP & Advancement
 **Dice system:** d6 pool (3 modes)
 **XP tracking:** Playbook XP pips

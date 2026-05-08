@@ -259,7 +259,7 @@ vtm-frontend/src/
 │   └── useAutoCreate.js    # Auto-create character from URL params
 ├── i18n/
 │   ├── LanguageContext.jsx  # Language switching
-│   └── translations.js     # ~800 EN + PT translation keys
+│   └── translations.js     # ~900 EN + PT translation keys
 ├── pages/                  # Page-level components
 │   ├── HomePage.jsx         # Landing page with tutorial
 │   ├── AllCharactersPage.jsx # Unified character browser
@@ -486,10 +486,12 @@ Push to main
 ## Internationalization
 
 - Two languages: English (default) and Portuguese
-- ~800 translation keys in `translations.js`
+- ~900 translation keys in `translations.js`
 - `useLanguage()` hook provides `t(key)` function and `lang`/`toggle`
 - Language toggle always visible in header
 - Game-mechanical terms (Discipline names, Gift names, etc.) remain in English as they are proper nouns
+- Data files (e.g. `bladesPlaybooks.js`) support `nameKey`/`descKey` properties for translatable catalog entries; `CatalogSelect` resolves these automatically
+- Blades in the Dark uses official Redbox Brazilian edition (2018) terminology for all PT translations
 
 ---
 

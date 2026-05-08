@@ -317,6 +317,8 @@ const translations = {
 - Sempre adicione entradas em EN e PT
 - Termos mecânicos de jogo (nomes de Disciplinas, nomes de Dons) permanecem em inglês — são nomes próprios
 - Rótulos de UI, dicas, placeholders e legends devem ser traduzidos
+- Arquivos de dados podem usar propriedades `nameKey`/`descKey` para entradas de catálogo traduzíveis (veja CatalogSelect abaixo)
+- Traduções PT de Blades in the Dark usam a terminologia oficial da edição brasileira Redbox (2018)
 
 ### Encontrando Onde Inserir
 
@@ -331,7 +333,7 @@ grep -n 'cpRole:' src/i18n/translations.js  # Encontrar seção Cyberpunk
 
 ### CatalogSelect
 
-Dropdown pesquisável com descrições e navegação por teclado.
+Dropdown pesquisável com descrições e navegação por teclado. Suporta `nameKey`/`descKey` para i18n — quando presentes, `t(nameKey)` e `t(descKey)` são usados ao invés de `value`/`description`.
 
 ```jsx
 <CatalogSelect
@@ -340,7 +342,10 @@ Dropdown pesquisável com descrições e navegação por teclado.
   label="Label Text"
   value={currentValue}
   onChange={handleField}           // (name, value) => void
-  catalog={[{ value: 'Option', description: 'Desc' }]}
+  catalog={[
+    { value: 'Option', description: 'Desc' },                          // sem tradução
+    { value: 'Option2', nameKey: 'myKey', descKey: 'myDescKey' },      // traduzido via t()
+  ]}
   placeholder="Search..."
   showDescOnSelect={true}         // Mostra descrição após seleção
   directOnChange={false}          // Se true, onChange recebe apenas o valor
@@ -410,9 +415,11 @@ Exportação PDF com toggles por seção.
 ### Segregação de Crônicas
 
 Crônicas são segregadas por sistema de jogo via:
-- Mapa `SPLAT_CATEGORY` — Mapeia valores de splat para categorias de sistema
-- Mapa `SYSTEM_FOR_CATEGORY` — Mapeia categorias para sistemas de jogo
-- `isSplatAllowed()` — Verifica se o splat de um personagem é permitido em uma crônica
+- Mapa `SPLAT_CATEGORY` — Mapeia valores de splat para categorias de sistema (em `CharacterController` e `ChronicleController`)
+- Mapa `SYSTEM_FOR_CATEGORY` — Mapeia categorias para sistemas de jogo (em ambos controllers — devem ser mantidos sincronizados)
+- `isSplatAllowed()` — Ambos controllers possuem este método; `ChronicleController` valida sistema de jogo + splats permitidos, `CharacterController` faz o mesmo
+
+Ao adicionar um novo sistema de jogo, garanta que os mapas `SPLAT_CATEGORY` e `SYSTEM_FOR_CATEGORY` de ambos controllers incluam as entradas do novo sistema, e atualize o `SYSTEM_SPLAT_CATEGORIES` do frontend em `ChronicleDetail.jsx` e os mapas de sistema em `ChronicleList.jsx`.
 
 ---
 
@@ -485,8 +492,9 @@ useEffect(() => { switchTheme('cyberpunk') }, [])
 Lida com parâmetros de query `?npc=true` e `?chronicle=X`:
 
 ```jsx
-const { isAutoCreating } = useAutoCreate(characterId, INITIAL)
+const { isAutoCreating, joinError } = useAutoCreate(characterId, INITIAL)
 if (isAutoCreating) return <p>Loading...</p>
+// Exiba joinError no formulário se presente
 ```
 
 ### Sanitização de Input
