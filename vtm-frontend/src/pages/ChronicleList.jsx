@@ -12,8 +12,11 @@ const SYSTEM_LABEL_KEYS = {
   SEVENTH_SEA: 'system7thSea',
   L5R: 'systemL5R',
   BLADES: 'systemBlades',
+  SAV: 'systemSav',
   DND: 'systemDnd',
   UESTRPG: 'systemUestrpg',
+  CYBERPUNK: 'systemCyberpunk',
+  ASOIAF: 'systemAsoiaf',
 }
 
 export default function ChronicleList({ system = 'WOD', basePath = '/chronicles' }) {
@@ -27,7 +30,7 @@ export default function ChronicleList({ system = 'WOD', basePath = '/chronicles'
   const { confirm, confirmDialogProps } = useConfirm()
   const systemLabel = t(SYSTEM_LABEL_KEYS[system] || 'systemWoD')
 
-  const SYSTEM_THEME = { WOD: 'wod', SEVENTH_SEA: '7thsea', L5R: 'l5r', BLADES: 'blades', DND: 'dnd', UESTRPG: 'uestrpg' }
+  const SYSTEM_THEME = { WOD: 'wod', SEVENTH_SEA: '7thsea', L5R: 'l5r', BLADES: 'blades', SAV: 'sav', DND: 'dnd', UESTRPG: 'uestrpg', CYBERPUNK: 'cyberpunk', ASOIAF: 'asoiaf' }
   useEffect(() => { switchTheme(SYSTEM_THEME[system] || 'wod') }, [])
   useEffect(() => { load() }, [])
 

@@ -341,8 +341,8 @@ export default function BladesForm() {
     <div className={viewMode ? 'form-view-mode' : ''}>
       <div className="form-header">
         <button className="btn btn-secondary" onClick={() => navigate('/blades')}>{t('back')}</button>
-        <h2>{fields.name || 'Blades Character'}</h2>
-        <span className="splat-badge">Blades in the Dark</span>
+        <h2>{fields.name || t('bladesCharacter')}</h2>
+        <span className="splat-badge">{t('splatBlades')}</span>
       </div>
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
@@ -384,7 +384,7 @@ export default function BladesForm() {
               <div className="field">
                 <label>{t('bladesHeritage')} — {t('details')}</label>
                 <input name="concept" value={fields.concept} onChange={handleText}
-                  placeholder="Family, homeland, cultural details..." aria-label="Heritage details" />
+                  placeholder={t('bladesHeritageDetailsPh')} aria-label={t('bladesHeritageDetails')} />
               </div>
             )}
             <div className="field-row">
@@ -397,8 +397,8 @@ export default function BladesForm() {
             </div>
             {fields.bladesVice && (
               <div className="field-row">
-                <div className="field"><label>{t('bladesVicePurveyor')}</label><input name="bladesVicePurveyor" value={fields.bladesVicePurveyor} onChange={handleText} placeholder="Name, location..." /></div>
-                <div className="field"><label>{t('bladesVice')} — {t('details')}</label><input name="sire" value={fields.sire || ''} onChange={handleText} placeholder="What does your vice look like?" aria-label="Vice details" /></div>
+                <div className="field"><label>{t('bladesVicePurveyor')}</label><input name="bladesVicePurveyor" value={fields.bladesVicePurveyor} onChange={handleText} placeholder={t('bladesVicePurveyorPh')} /></div>
+                <div className="field"><label>{t('bladesVice')} — {t('details')}</label><input name="sire" value={fields.sire || ''} onChange={handleText} placeholder={t('bladesViceDetailsPh')} aria-label={t('bladesViceDetails')} /></div>
               </div>
             )}
             <div className="field-row">
@@ -409,9 +409,9 @@ export default function BladesForm() {
             {selectedPlaybook && (
               <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
                 <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{t(fields.bladesPlaybook)}</div>
-                {selectedPlaybook.supernatural && <span className="splat-badge splat-badge--blades" style={{ fontSize: '0.75rem', marginBottom: 'var(--space-xs)', display: 'inline-block' }}>Deep Cuts — Supernatural</span>}
+                {selectedPlaybook.supernatural && <span className="splat-badge splat-badge--blades" style={{ fontSize: '0.75rem', marginBottom: 'var(--space-xs)', display: 'inline-block' }}>{t('bladesDeepCutsSupernatural')}</span>}
                 {selectedPlaybook.description && <p style={{ fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 'var(--space-xs)' }}>{selectedPlaybook.description}</p>}
-                {selectedPlaybook.xpTrigger && <p className="muted-hint muted-hint--xs"><strong>XP Trigger:</strong> {selectedPlaybook.xpTrigger}</p>}
+                {selectedPlaybook.xpTrigger && <p className="muted-hint muted-hint--xs"><strong>{t('bladesXpTrigger')}:</strong> {t(selectedPlaybook.xpTriggerKey) || selectedPlaybook.xpTrigger}</p>}
               </div>
             )}
           </fieldset>
@@ -464,8 +464,8 @@ export default function BladesForm() {
                 <input type="checkbox" checked={selectedAbilities.includes(ability.name)}
                   onChange={() => toggleAbility(ability.name)} />
                 <div>
-                  <strong>{ability.name}</strong>
-                  {ability.description && <span className="muted-hint muted-hint--xs" style={{ display: 'block' }}>{ability.description}</span>}
+                  <strong>{ability.nameKey ? t(ability.nameKey) : ability.name}</strong>
+                  {ability.description && <span className="muted-hint muted-hint--xs" style={{ display: 'block' }}>{ability.descKey ? t(ability.descKey) : ability.description}</span>}
                 </div>
               </label>
             ))}
@@ -483,8 +483,8 @@ export default function BladesForm() {
                       <input type="checkbox" checked={selectedAbilities.includes(ability.name)}
                         onChange={() => toggleAbility(ability.name)} />
                       <div>
-                        <strong style={{ fontSize: '0.85rem' }}>{ability.name}</strong>
-                        {ability.description && <span className="muted-hint muted-hint--xs" style={{ display: 'block' }}>{ability.description}</span>}
+                        <strong style={{ fontSize: '0.85rem' }}>{ability.nameKey ? t(ability.nameKey) : ability.name}</strong>
+                        {ability.description && <span className="muted-hint muted-hint--xs" style={{ display: 'block' }}>{ability.descKey ? t(ability.descKey) : ability.description}</span>}
                       </div>
                     </label>
                   ))}
@@ -549,17 +549,17 @@ export default function BladesForm() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
               <div className="field-row">
                 <span style={{ minWidth: '80px', fontWeight: 600, fontSize: '0.85rem' }}>{t('bladesHarmLevel3')}</span>
-                <div className="field" style={{ flex: 1 }}><input name="bladesHarm3" value={fields.bladesHarm3} onChange={handleText} placeholder="Need fatal" /></div>
+                <div className="field" style={{ flex: 1 }}><input name="bladesHarm3" value={fields.bladesHarm3} onChange={handleText} placeholder={t('bladesHarm3Ph')} /></div>
               </div>
               <div className="field-row">
                 <span style={{ minWidth: '80px', fontWeight: 600, fontSize: '0.85rem' }}>{t('bladesHarmLevel2')}</span>
-                <div className="field" style={{ flex: 1 }}><input name="bladesHarm2a" value={fields.bladesHarm2a} onChange={handleText} placeholder="-1d" /></div>
-                <div className="field" style={{ flex: 1 }}><input name="bladesHarm2b" value={fields.bladesHarm2b} onChange={handleText} placeholder="-1d" /></div>
+                <div className="field" style={{ flex: 1 }}><input name="bladesHarm2a" value={fields.bladesHarm2a} onChange={handleText} placeholder={t('bladesHarm2Ph')} /></div>
+                <div className="field" style={{ flex: 1 }}><input name="bladesHarm2b" value={fields.bladesHarm2b} onChange={handleText} placeholder={t('bladesHarm2Ph')} /></div>
               </div>
               <div className="field-row">
                 <span style={{ minWidth: '80px', fontWeight: 600, fontSize: '0.85rem' }}>{t('bladesHarmLevel1')}</span>
-                <div className="field" style={{ flex: 1 }}><input name="bladesHarm1a" value={fields.bladesHarm1a} onChange={handleText} placeholder="Less effect" /></div>
-                <div className="field" style={{ flex: 1 }}><input name="bladesHarm1b" value={fields.bladesHarm1b} onChange={handleText} placeholder="Less effect" /></div>
+                <div className="field" style={{ flex: 1 }}><input name="bladesHarm1a" value={fields.bladesHarm1a} onChange={handleText} placeholder={t('bladesHarm1Ph')} /></div>
+                <div className="field" style={{ flex: 1 }}><input name="bladesHarm1b" value={fields.bladesHarm1b} onChange={handleText} placeholder={t('bladesHarm1Ph')} /></div>
               </div>
             </div>
           </fieldset>
@@ -606,7 +606,7 @@ export default function BladesForm() {
                 {t('bladesCurrentLoad')}: <strong>{currentLoad}</strong> / {fields.bladesLoad || '?'}
                 {fields.bladesLoad > 0 && (
                   <span style={{ marginLeft: 'var(--space-sm)', color: currentLoad > fields.bladesLoad ? 'var(--color-danger)' : 'var(--color-text-muted)' }}>
-                    ({fields.bladesLoad - currentLoad >= 0 ? `${fields.bladesLoad - currentLoad} slots remaining` : `${currentLoad - fields.bladesLoad} over capacity`})
+                    ({fields.bladesLoad - currentLoad >= 0 ? `${fields.bladesLoad - currentLoad} ${t('bladesSlotsRemaining')}` : `${currentLoad - fields.bladesLoad} ${t('bladesOverCapacity')}`})
                   </span>
                 )}
               </div>
@@ -621,19 +621,19 @@ export default function BladesForm() {
               {filteredStandardItems.map(item => (
                 <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: '0.85rem' }}>
                   <input type="checkbox" checked={selectedItems.includes(item.name)} onChange={() => toggleItem(item.name)} />
-                  <span><strong>{item.name}</strong> ({item.load || 1} load){item.description ? ` - ${item.description}` : ''}</span>
+                  <span><strong>{item.nameKey ? t(item.nameKey) : item.name}</strong> ({item.load || 1} {t('bladesLoadUnit')}){item.descKey ? ` - ${t(item.descKey)}` : item.description ? ` - ${item.description}` : ''}</span>
                 </label>
               ))}
             </div>
           </fieldset>
           {selectedPlaybook?.items?.length > 0 && (
             <fieldset>
-              <legend>{fields.bladesPlaybook} {t('bladesItemsSuffix')}</legend>
+              <legend>{t(fields.bladesPlaybook)} {t('bladesItemsSuffix')}</legend>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
                 {selectedPlaybook?.items?.map(item => (
                   <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: '0.85rem' }}>
                     <input type="checkbox" checked={selectedItems.includes(item.name)} onChange={() => toggleItem(item.name)} />
-                    <span><strong>{item.name}</strong> ({item.load || 1} load){item.description ? ` - ${item.description}` : ''}</span>
+                    <span><strong>{item.nameKey ? t(item.nameKey) : item.name}</strong> ({item.load || 1} {t('bladesLoadUnit')}){item.descKey ? ` - ${t(item.descKey)}` : item.description ? ` - ${item.description}` : ''}</span>
                   </label>
                 ))}
               </div>
@@ -654,7 +654,7 @@ export default function BladesForm() {
               <div className="field" style={{ flex: 1 }}>
                 <label htmlFor="new-clock-name">{t('bladesClockName')}</label>
                 <input id="new-clock-name" type="text" value={newClockName} onChange={e => setNewClockName(e.target.value)}
-                  placeholder="e.g. Research arcane artifact..."
+                  placeholder={t('bladesClockNamePh')}
                   onKeyDown={e => { if (e.key === 'Enter' && newClockName.trim()) { e.preventDefault(); setClocks([...clocks, { name: newClockName.trim(), total: newClockSegments, filled: 0 }]); setNewClockName('') } }} />
               </div>
               <div className="field">
@@ -858,7 +858,7 @@ export default function BladesForm() {
             </p>
             <div className="field-row" style={{ marginBottom: 'var(--space-sm)' }}>
               <div className="field" style={{ flex: 2 }}>
-                <input id="new-contact-name" type="text" placeholder="Name, title, description..."
+                <input id="new-contact-name" type="text" placeholder={t('bladesContactPh')}
                   onKeyDown={e => {
                     if (e.key === 'Enter' && e.target.value.trim()) {
                       const name = e.target.value.trim()

@@ -11,6 +11,7 @@ export default function useAutoCreate(characterId, defaults) {
   const isNpc = searchParams.get('npc') === 'true'
   const creating = useRef(false)
   const [error, setError] = useState(null)
+  const [joinError, setJoinError] = useState(null)
 
   useEffect(() => {
     if (characterId) return
@@ -22,12 +23,18 @@ export default function useAutoCreate(characterId, defaults) {
         const charData = isNpc ? { ...defaults, npc: true } : defaults
         const res = await createCharacter(charData)
         const newId = res.data.id
+        let joinFailed = false
         if (guidedMode && chronicleId) {
-          try { await joinChronicle(newId, chronicleId) } catch {}
+          try {
+            await joinChronicle(newId, chronicleId)
+          } catch (err) {
+            joinFailed = true
+            setJoinError(err.response?.data?.error || 'Failed to join chronicle')
+          }
         }
         const params = new URLSearchParams()
         if (guidedMode) params.set('mode', 'guided')
-        if (chronicleId) params.set('chronicle', chronicleId)
+        if (chronicleId && !joinFailed) params.set('chronicle', chronicleId)
         const qs = params.toString()
         navigate(`/characters/${newId}${qs ? '?' + qs : ''}`, { replace: true })
       } catch (err) {
@@ -39,5 +46,5 @@ export default function useAutoCreate(characterId, defaults) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return { isAutoCreating: !characterId, autoCreateError: error }
+  return { isAutoCreating: !characterId, autoCreateError: error, joinError }
 }

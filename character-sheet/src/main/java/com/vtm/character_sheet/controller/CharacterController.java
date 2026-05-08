@@ -603,10 +603,23 @@ public class CharacterController {
         Map.entry("BSD", "WEREWOLF"), Map.entry("MORTAL", "VAMPIRE")
     );
 
+    private static final Map<String, String> SYSTEM_FOR_CATEGORY = Map.ofEntries(
+        Map.entry("VAMPIRE", "WOD"), Map.entry("WEREWOLF", "WOD"), Map.entry("MAGE", "WOD"),
+        Map.entry("SEVENTH_SEA", "SEVENTH_SEA"), Map.entry("L5R", "L5R"),
+        Map.entry("BLADES", "BLADES"), Map.entry("SAV", "SAV"), Map.entry("DND", "DND"),
+        Map.entry("UESTRPG", "UESTRPG"), Map.entry("CYBERPUNK", "CYBERPUNK"),
+        Map.entry("ASOIAF", "ASOIAF")
+    );
+
     private boolean isSplatAllowed(Chronicle chronicle, String splat) {
+        String category = SPLAT_CATEGORY.getOrDefault(splat, splat);
+        // Enforce game system match
+        String chronicleSystem = chronicle.getGameSystem() != null ? chronicle.getGameSystem() : "WOD";
+        String charSystem = SYSTEM_FOR_CATEGORY.getOrDefault(category, category);
+        if (!chronicleSystem.equals(charSystem)) return false;
+        // Then check allowed sub-categories
         String allowed = chronicle.getAllowedSplats();
         if (allowed == null || allowed.isBlank()) return true;
-        String category = SPLAT_CATEGORY.getOrDefault(splat, splat);
         return Arrays.asList(allowed.split(",")).contains(category);
     }
 

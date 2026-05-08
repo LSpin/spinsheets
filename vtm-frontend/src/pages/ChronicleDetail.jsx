@@ -108,21 +108,24 @@ export default function ChronicleDetail() {
   }
 
   const gameSystem = chronicle?.gameSystem || 'WOD'
-  const SYSTEM_THEMES = { WOD: 'wod', SEVENTH_SEA: '7thsea', L5R: 'l5r', BLADES: 'blades', DND: 'dnd', UESTRPG: 'uestrpg' }
-  const SYSTEM_PATHS = { WOD: '/chronicles', SEVENTH_SEA: '/7thsea/chronicles', L5R: '/l5r/chronicles', BLADES: '/blades/chronicles', DND: '/dnd/chronicles', UESTRPG: '/uestrpg/chronicles' }
-  const SYSTEM_NEW_CHAR = { WOD: '/characters/new', SEVENTH_SEA: '/7thsea/new', L5R: '/l5r/new', BLADES: '/blades/new', DND: '/dnd/new', UESTRPG: '/uestrpg/new' }
+  const SYSTEM_THEMES = { WOD: 'wod', SEVENTH_SEA: '7thsea', L5R: 'l5r', BLADES: 'blades', SAV: 'sav', DND: 'dnd', UESTRPG: 'uestrpg', CYBERPUNK: 'cyberpunk', ASOIAF: 'asoiaf' }
+  const SYSTEM_PATHS = { WOD: '/chronicles', SEVENTH_SEA: '/7thsea/chronicles', L5R: '/l5r/chronicles', BLADES: '/blades/chronicles', SAV: '/sav/chronicles', DND: '/dnd/chronicles', UESTRPG: '/uestrpg/chronicles', CYBERPUNK: '/cyberpunk/chronicles', ASOIAF: '/asoiaf/chronicles' }
+  const SYSTEM_NEW_CHAR = { WOD: '/characters/new', SEVENTH_SEA: '/7thsea/new', L5R: '/l5r/new', BLADES: '/blades/new', SAV: '/sav/new', DND: '/dnd/new', UESTRPG: '/uestrpg/new', CYBERPUNK: '/cyberpunk/new', ASOIAF: '/asoiaf/new' }
   const SYSTEM_SPLAT_CATEGORIES = {
     WOD: ['VAMPIRE', 'WEREWOLF', 'MAGE', 'HUNTER', 'WRAITH', 'CHANGELING', 'DEMON'],
     SEVENTH_SEA: ['SEVENTH_SEA'],
     L5R: ['L5R'],
     BLADES: ['BLADES'],
+    SAV: ['SAV'],
     DND: ['DND'],
     UESTRPG: ['UESTRPG'],
+    CYBERPUNK: ['CYBERPUNK'],
+    ASOIAF: ['ASOIAF'],
   }
   const SPLAT_LABEL_MAP = {
     VAMPIRE: 'splatVampire', WEREWOLF: 'splatWerewolf', MAGE: 'splatMage',
     HUNTER: 'splatHunter', WRAITH: 'splatWraith', CHANGELING: 'splatChangeling', DEMON: 'splatDemon',
-    SEVENTH_SEA: 'splat7thSea', L5R: 'splatL5R', BLADES: 'splatBlades', DND: 'splatDnd', UESTRPG: 'splatUestrpg',
+    SEVENTH_SEA: 'splat7thSea', L5R: 'splatL5R', BLADES: 'splatBlades', SAV: 'splatSav', DND: 'splatDnd', UESTRPG: 'splatUestrpg', CYBERPUNK: 'splatCyberpunk', ASOIAF: 'splatAsoiaf',
   }
   useEffect(() => { if (chronicle) switchTheme(SYSTEM_THEMES[gameSystem] || 'wod') }, [chronicle])
   const chronicleBasePath = SYSTEM_PATHS[gameSystem] || '/chronicles'

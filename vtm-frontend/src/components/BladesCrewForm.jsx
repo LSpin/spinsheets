@@ -142,7 +142,7 @@ function FactionTracker({ factionData, onChange }) {
       <div style={{ marginTop: 'var(--space-md)', display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-end', flexWrap: 'wrap' }}>
         <div className="field" style={{ flex: 1, minWidth: 150 }}>
           <label>{t('bladesCustomFaction')}</label>
-          <input value={customName} onChange={e => setCustomName(e.target.value)} placeholder="Faction name..." />
+          <input value={customName} onChange={e => setCustomName(e.target.value)} placeholder={t('bladesFactionNamePh')} />
         </div>
         <div className="field" style={{ width: 80 }}>
           <label>{t('bladesTier')}</label>
@@ -512,8 +512,8 @@ export default function BladesCrewForm() {
                           onClick={() => removeCohort(i)}>{'\u00d7'}</button>
                       </div>
                       <div className="field-row">
-                        <div className="field"><label>{t('bladesCohortEdges')}</label><input value={c.edges || ''} onChange={e => updateCohort(i, 'edges', e.target.value)} placeholder="Fearsome, Loyal..." /></div>
-                        <div className="field"><label>{t('bladesCohortFlaws')}</label><input value={c.flaws || ''} onChange={e => updateCohort(i, 'flaws', e.target.value)} placeholder="Principled, Savage..." /></div>
+                        <div className="field"><label>{t('bladesCohortEdges')}</label><input value={c.edges || ''} onChange={e => updateCohort(i, 'edges', e.target.value)} placeholder={t('bladesCohortEdgesPh')} /></div>
+                        <div className="field"><label>{t('bladesCohortFlaws')}</label><input value={c.flaws || ''} onChange={e => updateCohort(i, 'flaws', e.target.value)} placeholder={t('bladesCohortFlawsPh')} /></div>
                       </div>
                       {c.type === 'Gang' && (
                         <div style={{ marginTop: 'var(--space-xs)', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>

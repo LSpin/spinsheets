@@ -70,8 +70,8 @@ export default function CatalogSelect({
           id={id}
           type="text"
           autoComplete="off"
-          placeholder={value ? t(value) : (placeholder || t('select'))}
-          value={open ? search : (value ? t(value) : '')}
+          placeholder={value ? (selected?.nameKey ? t(selected.nameKey) : t(value)) : (placeholder || t('select'))}
+          value={open ? search : (value ? (selected?.nameKey ? t(selected.nameKey) : t(value)) : '')}
           onFocus={() => { setOpen(true); setSearch('') }}
           onChange={e => setSearch(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -103,17 +103,17 @@ export default function CatalogSelect({
               onMouseDown={() => select(c.value)}
               onMouseEnter={() => setHighlight(idx)}
             >
-              <span className="archetype-option-name">{t(c.value)}</span>
-              {c.description && (
-                <span className="archetype-option-desc">{c.description}</span>
+              <span className="archetype-option-name">{c.nameKey ? t(c.nameKey) : t(c.value)}</span>
+              {(c.descKey || c.description) && (
+                <span className="archetype-option-desc">{c.descKey ? t(c.descKey) : c.description}</span>
               )}
             </li>
           ))}
         </ul>
       )}
 
-      {showDescOnSelect && selected?.description && !open && (
-        <p className="archetype-desc">{selected.description}</p>
+      {showDescOnSelect && (selected?.descKey || selected?.description) && !open && (
+        <p className="archetype-desc">{selected.descKey ? t(selected.descKey) : selected.description}</p>
       )}
     </div>
   )

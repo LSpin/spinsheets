@@ -604,7 +604,7 @@ export default function CharacterForm() {
   const [searchParams] = useSearchParams()
   const guidedMode = searchParams.get('mode') === 'guided'
   const viewMode = searchParams.get('mode') === 'view'
-  const { isAutoCreating } = useAutoCreate(characterId, INITIAL)
+  const { isAutoCreating, joinError } = useAutoCreate(characterId, INITIAL)
 
   // Guided creation state
   const [attrPriority, setAttrPriority] = useState({ physical: null, social: null, mental: null })
@@ -854,6 +854,7 @@ export default function CharacterForm() {
 
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
       {actionError && <p className="status-error" role="alert">{actionError}</p>}
+      {joinError && <p className="status-error" role="alert">{joinError}</p>}
 
       {validationWarnings.length > 0 && (
         <ul className="status-warning" role="note">

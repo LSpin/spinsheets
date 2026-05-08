@@ -1,30 +1,30 @@
 export const BLADES_HERITAGES = [
-  { value: 'Akrosian', description: 'From the imperial city of Akros. Cosmopolitan and well-connected.' },
-  { value: 'Skovlander', description: 'From the conquered nation of Skovlan. Proud and resentful of Imperial rule.' },
-  { value: 'Iruvian', description: 'From the desert nation of Iruvia. Sophisticated, with ancient traditions.' },
-  { value: 'Severosi', description: 'From the horse plains of Severos. Hardy and independent.' },
-  { value: 'Tycherosi', description: 'From the distant isle of Tycheros. Alien heritage with demonic features.' },
-  { value: 'Dagger Islander', description: 'From the Dagger Isles. Seafaring and fiercely independent.' },
+  { value: 'Akrosian', nameKey: 'bladesHeritageAkrosian', descKey: 'bladesHeritageAkrosianDesc', description: 'From the imperial city of Akros. Cosmopolitan and well-connected.' },
+  { value: 'Skovlander', nameKey: 'bladesHeritageSkovlander', descKey: 'bladesHeritageSkovlanderDesc', description: 'From the conquered nation of Skovlan. Proud and resentful of Imperial rule.' },
+  { value: 'Iruvian', nameKey: 'bladesHeritageIruvian', descKey: 'bladesHeritageIruvianDesc', description: 'From the desert nation of Iruvia. Sophisticated, with ancient traditions.' },
+  { value: 'Severosi', nameKey: 'bladesHeritageSeverosi', descKey: 'bladesHeritageSeverosiDesc', description: 'From the horse plains of Severos. Hardy and independent.' },
+  { value: 'Tycherosi', nameKey: 'bladesHeritageTycherosi', descKey: 'bladesHeritageTycherosiDesc', description: 'From the distant isle of Tycheros. Alien heritage with demonic features.' },
+  { value: 'Dagger Islander', nameKey: 'bladesHeritageDaggerIslander', descKey: 'bladesHeritageDaggerIslanderDesc', description: 'From the Dagger Isles. Seafaring and fiercely independent.' },
 ]
 
 export const BLADES_BACKGROUNDS = [
-  { value: 'Academic', description: 'A scholar, student, or professor from a university or private tutor.' },
-  { value: 'Labor', description: 'A worker, apprentice, or manual laborer from the docks or factories.' },
-  { value: 'Law', description: 'A former Bluecoat, inspector, or legal professional.' },
-  { value: 'Trade', description: 'A merchant, shopkeeper, or skilled tradesperson.' },
-  { value: 'Military', description: 'A soldier, mercenary, or officer from the Imperial Military.' },
-  { value: 'Noble', description: 'Born into privilege and high society. Accustomed to wealth and power.' },
-  { value: 'Underworld', description: 'Grew up in the criminal world. Familiar with gangs and illegal trade.' },
+  { value: 'Academic', nameKey: 'bladesBgAcademic', descKey: 'bladesBgAcademicDesc', description: 'A scholar, student, or professor from a university or private tutor.' },
+  { value: 'Labor', nameKey: 'bladesBgLabor', descKey: 'bladesBgLaborDesc', description: 'A worker, apprentice, or manual laborer from the docks or factories.' },
+  { value: 'Law', nameKey: 'bladesBgLaw', descKey: 'bladesBgLawDesc', description: 'A former Bluecoat, inspector, or legal professional.' },
+  { value: 'Trade', nameKey: 'bladesBgTrade', descKey: 'bladesBgTradeDesc', description: 'A merchant, shopkeeper, or skilled tradesperson.' },
+  { value: 'Military', nameKey: 'bladesBgMilitary', descKey: 'bladesBgMilitaryDesc', description: 'A soldier, mercenary, or officer from the Imperial Military.' },
+  { value: 'Noble', nameKey: 'bladesBgNoble', descKey: 'bladesBgNobleDesc', description: 'Born into privilege and high society. Accustomed to wealth and power.' },
+  { value: 'Underworld', nameKey: 'bladesBgUnderworld', descKey: 'bladesBgUnderworldDesc', description: 'Grew up in the criminal world. Familiar with gangs and illegal trade.' },
 ]
 
 export const BLADES_VICES = [
-  { value: 'Faith', description: 'Worship of a forgotten god or spirit. Devotion and spiritual obligation.' },
-  { value: 'Gambling', description: 'Wagering on games of chance, sporting events, or risky ventures.' },
-  { value: 'Luxury', description: 'Expensive or exotic indulgences — fine food, drink, art, or fashion.' },
-  { value: 'Obligation', description: 'A person or cause you feel compelled to support or protect.' },
-  { value: 'Pleasure', description: 'Hedonistic gratification — drugs, companionship, or sensory experiences.' },
-  { value: 'Stupor', description: 'Losing yourself in drink, drugs, or other mind-numbing substances.' },
-  { value: 'Weird', description: 'Bizarre or occult practices — ghost rituals, electroplasmic experimentation.' },
+  { value: 'Faith', nameKey: 'bladesViceFaith', descKey: 'bladesViceFaithDesc', description: 'Worship of a forgotten god or spirit. Devotion and spiritual obligation.' },
+  { value: 'Gambling', nameKey: 'bladesViceGambling', descKey: 'bladesViceGamblingDesc', description: 'Wagering on games of chance, sporting events, or risky ventures.' },
+  { value: 'Luxury', nameKey: 'bladesViceLuxury', descKey: 'bladesViceLuxuryDesc', description: 'Expensive or exotic indulgences — fine food, drink, art, or fashion.' },
+  { value: 'Obligation', nameKey: 'bladesViceObligation', descKey: 'bladesViceObligationDesc', description: 'A person or cause you feel compelled to support or protect.' },
+  { value: 'Pleasure', nameKey: 'bladesVicePleasure', descKey: 'bladesVicePleasureDesc', description: 'Hedonistic gratification — drugs, companionship, or sensory experiences.' },
+  { value: 'Stupor', nameKey: 'bladesViceStupor', descKey: 'bladesViceStuporDesc', description: 'Losing yourself in drink, drugs, or other mind-numbing substances.' },
+  { value: 'Weird', nameKey: 'bladesViceWeird', descKey: 'bladesViceWeirdDesc', description: 'Bizarre or occult practices — ghost rituals, electroplasmic experimentation.' },
 ]
 
 export const BLADES_TRAUMA_CONDITIONS = ['Cold', 'Haunted', 'Obsessed', 'Paranoid', 'Reckless', 'Soft', 'Unstable', 'Vicious']
@@ -36,26 +36,27 @@ export const BLADES_ACTIONS = {
 }
 
 export const BLADES_STANDARD_ITEMS = [
-  { name: 'A Blade or Two', load: 1, description: 'Knives, daggers, or a small sword.' },
-  { name: 'Thrown Weapon', load: 1, description: 'A balanced weapon designed for throwing.' },
-  { name: 'Pistol', load: 1, description: 'A single-shot black powder pistol.' },
-  { name: '2nd Pistol', load: 1, description: 'A backup firearm for when the first runs dry.' },
-  { name: 'Slugger Pistol', load: 1, description: 'A percussion slug pistol. Deep Cuts.', deepCuts: true },
-  { name: 'An Unusual Weapon', load: 1, description: 'A strange or exotic weapon — whip, chains, etc.' },
-  { name: 'Spiritbane Charm', load: 1, description: 'A charm that wards against spirits.', deepCuts: true },
-  { name: 'Arclighter & Glimmer', load: 1, description: 'Electroplasmic devices.', deepCuts: true },
-  { name: 'Arcane Implements', load: 1, description: 'Spirit mask, electroplasmic vials, ghost key.' },
-  { name: 'Burglary Gear', load: 1, description: 'Lockpicks, crowbar, grappling hook, small tools.' },
-  { name: 'Documents', load: 1, description: 'Forged papers, coded messages, blank certificates.' },
-  { name: 'Subterfuge Supplies', load: 1, description: 'Disguise materials, cosmetics, perfume, dyes.' },
-  { name: 'Tinkering Tools', load: 1, description: 'Wrenches, pliers, screwdrivers, spare parts.' },
-  { name: 'Prichard Camera', load: 1, description: 'A portable plasmographic camera.', deepCuts: true },
+  { name: 'A Blade or Two', load: 1, nameKey: 'bladesItemBlade', descKey: 'bladesItemBladeDesc', description: 'Knives, daggers, or a small sword.' },
+  { name: 'Thrown Weapon', load: 1, nameKey: 'bladesItemThrown', descKey: 'bladesItemThrownDesc', description: 'A balanced weapon designed for throwing.' },
+  { name: 'Pistol', load: 1, nameKey: 'bladesItemPistol', descKey: 'bladesItemPistolDesc', description: 'A single-shot black powder pistol.' },
+  { name: '2nd Pistol', load: 1, nameKey: 'bladesItem2ndPistol', descKey: 'bladesItem2ndPistolDesc', description: 'A backup firearm for when the first runs dry.' },
+  { name: 'Slugger Pistol', load: 1, nameKey: 'bladesItemSluggerPistol', description: 'A percussion slug pistol. Deep Cuts.', deepCuts: true },
+  { name: 'An Unusual Weapon', load: 1, nameKey: 'bladesItemUnusual', descKey: 'bladesItemUnusualDesc', description: 'A strange or exotic weapon — whip, chains, etc.' },
+  { name: 'Spiritbane Charm', load: 0, nameKey: 'bladesItemSpiritbane', descKey: 'bladesItemSpiritbaneDesc', description: 'A charm that wards against spirits.' },
+  { name: 'Arclighter & Glimmer', load: 1, nameKey: 'bladesItemArclighter', description: 'Electroplasmic devices.', deepCuts: true },
+  { name: 'Arcane Implements', load: 1, nameKey: 'bladesItemArcane', descKey: 'bladesItemArcaneDesc', description: 'Spirit mask, electroplasmic vials, ghost key.' },
+  { name: 'Burglary Gear', load: 1, nameKey: 'bladesItemBurglary', descKey: 'bladesItemBurglaryDesc', description: 'Lockpicks, crowbar, grappling hook, small tools.' },
+  { name: 'Documents', load: 1, nameKey: 'bladesItemDocuments', descKey: 'bladesItemDocumentsDesc', description: 'Forged papers, coded messages, blank certificates.' },
+  { name: 'Subterfuge Supplies', load: 1, nameKey: 'bladesItemSubterfuge', descKey: 'bladesItemSubterfugeDesc', description: 'Disguise materials, cosmetics, perfume, dyes.' },
+  { name: 'Tinkering Tools', load: 1, nameKey: 'bladesItemTinkering', descKey: 'bladesItemTinkeringDesc', description: 'Wrenches, pliers, screwdrivers, spare parts.' },
+  { name: 'Prichard Camera', load: 1, nameKey: 'bladesItemCamera', description: 'A portable plasmographic camera.', deepCuts: true },
   // Heavy items
-  { name: 'Armor (+Heavy)', load: 2, description: 'Thick leather or chain mail. Reduces harm by one level.', heavy: true },
-  { name: 'Climbing Gear', load: 2, description: 'Rope, pitons, hooks, harness, and gloves.', heavy: true },
-  { name: 'Demolition Tools', load: 2, description: 'Explosives, fuses, detonators, incendiaries.', heavy: true },
-  { name: 'Large Weapon', load: 2, description: 'A rifle, bow, sword, or other hefty weapon.', heavy: true },
-  { name: 'Slugger Rifle', load: 2, description: 'A percussion slug rifle.', heavy: true, deepCuts: true },
+  { name: 'Armor (+Heavy)', load: 2, nameKey: 'bladesItemArmorHeavy', descKey: 'bladesItemArmorHeavyDesc', description: 'Thick leather or chain mail. Reduces harm by one level.', heavy: true },
+  { name: 'Climbing Gear', load: 2, nameKey: 'bladesItemClimbing', descKey: 'bladesItemClimbingDesc', description: 'Rope, pitons, hooks, harness, and gloves.', heavy: true },
+  { name: 'Demolition Tools', load: 2, nameKey: 'bladesItemDemolition', descKey: 'bladesItemDemolitionDesc', description: 'Explosives, fuses, detonators, incendiaries.', heavy: true },
+  { name: 'Large Weapon', load: 2, nameKey: 'bladesItemLargeWeapon', descKey: 'bladesItemLargeWeaponDesc', description: 'A rifle, bow, sword, or other hefty weapon.', heavy: true },
+  { name: 'Slugger Rifle', load: 2, nameKey: 'bladesItemSluggerRifle', description: 'A percussion slug rifle.', heavy: true, deepCuts: true },
+  { name: 'Lantern', load: 1, nameKey: 'bladesItemLantern', descKey: 'bladesItemLanternDesc', description: 'A simple oil lantern, electroplasmic lamp, or other light source.' },
 ]
 
 export const BLADES_PLAYBOOKS = {
@@ -81,6 +82,7 @@ export const BLADES_PLAYBOOKS = {
     ],
     contacts: ['Marlane, a pugilist', 'Chael, a vicious thug', 'Mercy, a cold killer', 'Grace, an extortionist', 'Sawtooth, a physicker'],
     xpTrigger: 'You addressed a challenge with violence or coercion.',
+    xpTriggerKey: 'bladesTriggerCutter',
   },
   Hound: {
     description: 'A deadly sharpshooter and tracker.',
@@ -103,6 +105,7 @@ export const BLADES_PLAYBOOKS = {
     ],
     contacts: ['Steiner, an assassin', 'Celene, a sentinel', 'Melvir, a physicker', 'Veleris, a spy', 'Casta, a bounty hunter'],
     xpTrigger: 'You addressed a challenge with tracking or violence.',
+    xpTriggerKey: 'bladesTriggerHound',
   },
   Leech: {
     description: 'A saboteur and technician.',
@@ -126,6 +129,7 @@ export const BLADES_PLAYBOOKS = {
     ],
     contacts: ['Stazia, an apothecary', 'Veldren, a psychonaut', 'Eckerd, a corpse thief', 'Jul, a blood dealer', 'Malista, a priestess'],
     xpTrigger: 'You addressed a challenge with technical skill or mayhem.',
+    xpTriggerKey: 'bladesTriggerLeech',
   },
   Lurk: {
     description: 'A stealthy infiltrator and burglar.',
@@ -149,6 +153,7 @@ export const BLADES_PLAYBOOKS = {
     ],
     contacts: ['Telda, a beggar', 'Darmot, a Bluecoat', 'Frake, a locksmith', 'Roslyn Kellis, a noble', 'Petra, a city clerk'],
     xpTrigger: 'You addressed a challenge with stealth or evasion.',
+    xpTriggerKey: 'bladesTriggerLurk',
   },
   Slide: {
     description: 'A subtle manipulator and spy.',
@@ -172,6 +177,7 @@ export const BLADES_PLAYBOOKS = {
     ],
     contacts: ['Bryl, a drug dealer', 'Bazso Baz, a gang leader', 'Klyra, a tavern owner', 'Nyryx, a prostitute', 'Harker, a jail bird'],
     xpTrigger: 'You addressed a challenge with deception or influence.',
+    xpTriggerKey: 'bladesTriggerSlide',
   },
   Spider: {
     description: 'A devious mastermind.',
@@ -195,6 +201,7 @@ export const BLADES_PLAYBOOKS = {
     ],
     contacts: ['Salia, an information broker', 'Augus, a master architect', 'Jennah, a servant', 'Riven, a chemist', 'Jeren, a Bluecoat arcanist'],
     xpTrigger: 'You addressed a challenge with calculation or conspiracy.',
+    xpTriggerKey: 'bladesTriggerSpider',
   },
   Whisper: {
     description: 'An arcane adept and spirit trafficker.',
@@ -218,6 +225,7 @@ export const BLADES_PLAYBOOKS = {
     ],
     contacts: ['Nyryx, a possessor ghost', 'Scurlock, a vampire', 'Setarra, a demon', 'Quellyn, a witch', 'Flint, a spirit trafficker'],
     xpTrigger: 'You addressed a challenge with knowledge or arcane power.',
+    xpTriggerKey: 'bladesTriggerWhisper',
   },
 
   // ── Deep Cuts: Supernatural Playbooks ──

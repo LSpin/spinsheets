@@ -303,6 +303,7 @@ public class ChronicleController {
         Map.entry("SEVENTH_SEA", "SEVENTH_SEA"), Map.entry("SEVENTH_SEA_SHIP", "SEVENTH_SEA"),
         Map.entry("L5R", "L5R"), Map.entry("L5R_5E", "L5R"),
         Map.entry("BLADES", "BLADES"), Map.entry("BLADES_CREW", "BLADES"),
+        Map.entry("SAV", "SAV"), Map.entry("SAV_SHIP", "SAV"),
         Map.entry("DND", "DND"), Map.entry("DND_MONSTER", "DND"),
         Map.entry("UESTRPG", "UESTRPG"), Map.entry("UESTRPG_ANTAGONIST", "UESTRPG"),
         Map.entry("CYBERPUNK", "CYBERPUNK"), Map.entry("CYBERPUNK_ANTAGONIST", "CYBERPUNK"),
@@ -316,10 +317,9 @@ public class ChronicleController {
     private static final Map<String, String> SYSTEM_FOR_CATEGORY = Map.ofEntries(
         Map.entry("VAMPIRE", "WOD"), Map.entry("WEREWOLF", "WOD"), Map.entry("MAGE", "WOD"),
         Map.entry("SEVENTH_SEA", "SEVENTH_SEA"), Map.entry("L5R", "L5R"),
-        Map.entry("BLADES", "BLADES"), Map.entry("DND", "DND"),
-        Map.entry("UESTRPG", "UESTRPG"),
-        Map.entry("CYBERPUNK", "CYBERPUNK"),
-        Map.entry("ASOIAF", "ASOIAF")
+        Map.entry("BLADES", "BLADES"), Map.entry("SAV", "SAV"),
+        Map.entry("DND", "DND"), Map.entry("UESTRPG", "UESTRPG"),
+        Map.entry("CYBERPUNK", "CYBERPUNK"), Map.entry("ASOIAF", "ASOIAF")
     );
 
     private boolean isSplatAllowed(Chronicle chronicle, String splat) {
