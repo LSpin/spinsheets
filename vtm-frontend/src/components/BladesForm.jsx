@@ -833,19 +833,20 @@ export default function BladesForm() {
           {selectedPlaybook?.contacts?.length > 0 && (
             <fieldset>
               <legend>{t('tabBladesContacts')}{selectedPlaybook ? ` — ${fields.bladesPlaybook}` : ''}</legend>
-              {selectedPlaybook.contacts.map(contact => {
+              {selectedPlaybook.contacts.map((contact, idx) => {
                 const rel = getContactRel(contact)
+                const contactLabel = selectedPlaybook.contactKeys?.[idx] ? t(selectedPlaybook.contactKeys[idx]) : contact
                 return (
                   <div key={contact} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', fontSize: '0.9rem' }}>
                     <button type="button" className={`btn btn-secondary${rel === '+' ? ' tab-btn--active' : ''}`}
                       style={{ minWidth: '32px', padding: '2px 8px', fontSize: '0.85rem' }}
                       onClick={() => setContactRel(contact, '+')} title={t('bladesFriendly')}
-                      aria-label={`${contact} - friend`} aria-pressed={rel === '+'}>+</button>
+                      aria-label={`${contactLabel} - friend`} aria-pressed={rel === '+'}>+</button>
                     <button type="button" className={`btn btn-secondary${rel === '-' ? ' tab-btn--active' : ''}`}
                       style={{ minWidth: '32px', padding: '2px 8px', fontSize: '0.85rem' }}
                       onClick={() => setContactRel(contact, '-')} title={t('bladesRival')}
-                      aria-label={`${contact} - rival`} aria-pressed={rel === '-'}>-</button>
-                    <span style={{ fontWeight: 600 }}>{contact}</span>
+                      aria-label={`${contactLabel} - rival`} aria-pressed={rel === '-'}>-</button>
+                    <span style={{ fontWeight: 600 }}>{contactLabel}</span>
                   </div>
                 )
               })}
