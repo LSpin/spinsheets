@@ -8,7 +8,7 @@ label {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-muted);
-  margin-bottom: var(--space-xs);
+  margin-bottom: 3px;
 }
 
 input[type="text"],
@@ -25,9 +25,10 @@ textarea {
   color: var(--color-text);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  padding: 0.55rem var(--space-sm);
+  padding: 0.6rem 0.75rem;
   font-family: var(--font-ui);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  line-height: 1.4;
   transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
   appearance: none;
   box-shadow: var(--shadow-inset);
@@ -55,7 +56,7 @@ select:focus,
 textarea:focus {
   border-color: var(--color-border-focus);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(224, 85, 85, 0.15), var(--shadow-inset);
+  box-shadow: 0 0 0 3px rgba(224, 85, 85, 0.12), var(--shadow-inset);
   background: #1a1a1f;
 }
 
@@ -63,6 +64,7 @@ input::placeholder,
 textarea::placeholder {
   color: var(--color-text-disabled);
   font-style: italic;
+  font-size: 0.84rem;
 }
 
 select option {
@@ -70,17 +72,25 @@ select option {
   color: var(--color-text);
 }
 
+/* Select arrow indicator */
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239a968e' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  padding-right: 1.8rem;
+}
+
 textarea {
   resize: vertical;
   min-height: 90px;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 /* Checkboxes — custom styling */
 input[type="checkbox"] {
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
   border: 1.5px solid var(--color-border);
   border-radius: 3px;
   background: var(--color-surface-raised);
@@ -92,6 +102,7 @@ input[type="checkbox"] {
 
 input[type="checkbox"]:hover {
   border-color: var(--color-text-muted);
+  background: #222228;
 }
 
 input[type="checkbox"]:checked {
@@ -102,7 +113,7 @@ input[type="checkbox"]:checked {
 input[type="checkbox"]:checked::after {
   content: '';
   position: absolute;
-  left: 4px;
+  left: 4.5px;
   top: 1px;
   width: 5px;
   height: 9px;
@@ -119,8 +130,8 @@ input[type="checkbox"]:focus-visible {
 /* Radio — custom styling */
 input[type="radio"] {
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
   border: 1.5px solid var(--color-border);
   border-radius: 50%;
   background: var(--color-surface-raised);
@@ -132,6 +143,7 @@ input[type="radio"] {
 
 input[type="radio"]:hover {
   border-color: var(--color-text-muted);
+  background: #222228;
 }
 
 input[type="radio"]:checked {
@@ -141,8 +153,8 @@ input[type="radio"]:checked {
 input[type="radio"]:checked::after {
   content: '';
   position: absolute;
-  left: 3px;
-  top: 3px;
+  left: 3.5px;
+  top: 3.5px;
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -154,26 +166,39 @@ input[type="radio"]:focus-visible {
   outline-offset: 2px;
 }
 
+/* ── Field containers ── */
+
 .field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 3px;
+}
+
+/* Only add bottom margin when NOT inside a field-row (field-row uses grid gap) */
+.field:not(.field-row > .field) {
   margin-bottom: var(--space-md);
 }
 
-.field:last-child { margin-bottom: 0; }
+.field:last-child {
+  margin-bottom: 0;
+}
 
 .field-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: var(--space-md);
+  gap: var(--space-md) var(--space-lg);
   align-items: end;
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-lg);
 }
 
 .field-row:last-child { margin-bottom: 0; }
 
-/* ── Fieldsets — Manuscript sections ── */
+/* Fields inside field-row should not have their own bottom margin */
+.field-row > .field {
+  margin-bottom: 0;
+}
+
+/* ── Fieldsets — Section dividers ── */
 
 fieldset {
   border: none;
@@ -182,6 +207,12 @@ fieldset {
 }
 
 fieldset:last-child { margin-bottom: 0; }
+
+/* Add visual separation between consecutive fieldsets */
+fieldset + fieldset {
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border-subtle, rgba(255,255,255,0.04));
+}
 
 legend {
   font-family: var(--font-ui);
@@ -206,7 +237,7 @@ legend::after {
   width: 40px;
   height: 2px;
   background: var(--color-accent-fg);
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 /* ── Tabs — refined underline style ── */
@@ -281,7 +312,7 @@ legend::after {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: var(--space-xl) var(--space-xl);
+  padding: var(--space-xl);
   margin-bottom: var(--space-lg);
   box-shadow: var(--shadow-md);
   position: relative;
@@ -310,12 +341,12 @@ legend::after {
   flex-wrap: wrap;
 }
 
-/* ── Rating selects ── */
+/* ── Rating selects (attribute/ability dropdowns) ── */
 
 .rating-field {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 3px;
 }
 
 .rating-field label {
@@ -328,12 +359,14 @@ legend::after {
 
 .rating-field select {
   width: 80px;
+  padding: 0.45rem 0.5rem;
+  font-size: 0.85rem;
 }
 
 .rating-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: var(--space-lg) var(--space-xl);
+  gap: var(--space-md) var(--space-xl);
   margin-bottom: var(--space-md);
 }
 
@@ -342,7 +375,7 @@ legend::after {
 .ability-row {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 2px;
 }
 
 .spec-input {
@@ -352,9 +385,10 @@ legend::after {
   color: var(--color-text-muted);
   border: 1px dashed var(--color-border);
   border-radius: var(--radius-sm);
-  padding: 0.25rem var(--space-xs);
+  padding: 0.2rem var(--space-xs);
   width: 100%;
   transition: border-color var(--transition), color var(--transition);
+  box-shadow: none;
 }
 
 .spec-input::placeholder { color: var(--color-text-disabled); font-style: italic; }
@@ -365,6 +399,7 @@ legend::after {
   border-color: var(--color-border-focus);
   outline: none;
   color: var(--color-text);
+  box-shadow: none;
 }
 
 /* ── Custom ability rows ── */
