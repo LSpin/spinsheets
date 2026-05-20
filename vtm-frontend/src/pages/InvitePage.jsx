@@ -78,7 +78,7 @@ export default function InvitePage() {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content" style={{ maxWidth: 440, textAlign: 'center' }}>
+      <div className="modal-content text-center" style={{ maxWidth: 440 }}>
         {error ? (
           <>
             <h3>{t('inviteErrorTitle')}</h3>
@@ -90,13 +90,13 @@ export default function InvitePage() {
         ) : invite && (
           <>
             <h3 style={{ marginBottom: '0.5rem' }}>{t('inviteTitle')}</h3>
-            <p style={{ fontSize: '1.1rem', margin: '1rem 0', lineHeight: 1.6 }}>
+            <p className="text-xl" style={{ margin: '1rem 0', lineHeight: 1.6 }}>
               <strong>{invite.storyteller}</strong> {t('invitedYouTo')} <strong>{invite.chronicleName}</strong>
             </p>
 
             {myCharacters.length > 0 ? (
               <>
-                <div className="field" style={{ textAlign: 'left', marginBottom: '1rem' }}>
+                <div className="field text-left" style={{ marginBottom: '1rem' }}>
                   <label>{t('selectCharacter')}</label>
                   <select value={selectedCharId} onChange={e => setSelectedCharId(Number(e.target.value))}>
                     {myCharacters.map(c => (
@@ -104,7 +104,7 @@ export default function InvitePage() {
                     ))}
                   </select>
                 </div>
-                <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+                <div className="flex justify-center" style={{ gap: '0.5rem' }}>
                   <button className="btn btn-secondary" onClick={() => navigate('/chronicles')}>
                     {t('decline')}
                   </button>
@@ -115,10 +115,10 @@ export default function InvitePage() {
               </>
             ) : (
               <>
-                <p style={{ color: 'var(--color-text-muted)', margin: '1rem 0' }}>
+                <p className="text-muted" style={{ margin: '1rem 0' }}>
                   {t('noCharactersToJoin')}
                 </p>
-                <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+                <div className="flex justify-center" style={{ gap: '0.5rem' }}>
                   <button className="btn btn-secondary" onClick={() => navigate('/chronicles')}>
                     {t('decline')}
                   </button>

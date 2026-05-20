@@ -936,7 +936,7 @@ export default function CharacterForm() {
               </div>
             </div>
             {isElder && (
-              <p className="role-hint" style={{ marginTop: 'var(--space-sm)' }}>
+              <p className="role-hint mt-sm">
                 {t('elderHint').replace('{0}', elderMax)}
               </p>
             )}
@@ -953,21 +953,21 @@ export default function CharacterForm() {
               <fieldset>
                 <legend>{t('clan')} — {fields.clan}</legend>
                 {isNosferatu && (
-                  <p className="status-error" role="alert" aria-live="assertive" style={{ fontWeight: 700, marginBottom: 'var(--space-sm)' }}>
+                  <p className="status-error font-bold mb-sm" role="alert" aria-live="assertive">
                     Appearance is 0 — {fields.clan} cannot raise Appearance
                   </p>
                 )}
                 {isMalkavian && (
-                  <p className="status-warning" role="status" aria-live="polite" style={{ fontWeight: 700, marginBottom: 'var(--space-sm)' }}>
+                  <p className="status-warning font-bold mb-sm" role="status" aria-live="polite">
                     Must select a permanent Derangement — this can never be fully cured
                   </p>
                 )}
                 {isVentrue && (
-                  <p className="role-hint" role="status" aria-live="polite" style={{ marginBottom: 'var(--space-sm)' }}>
+                  <p className="role-hint mb-sm" role="status" aria-live="polite">
                     Restricted feeding — specify prey exclusion in notes (e.g. only feeds on the wealthy, redheads, soldiers, etc.)
                   </p>
                 )}
-                <p className="muted-hint muted-hint--xs" style={{ fontStyle: 'italic' }}>{clanEntry.curse}</p>
+                <p className="muted-hint muted-hint--xs font-italic">{clanEntry.curse}</p>
               </fieldset>
             )
           })()}
@@ -1168,21 +1168,21 @@ export default function CharacterForm() {
 
           <fieldset>
             <legend>{t('bloodPool')} — {ordinal(fields.generation)} Gen</legend>
-            <div style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center', flexWrap: 'wrap', marginBottom: 'var(--space-sm)' }}>
-              <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Max Blood Pool: {maxBlood}</span>
-              <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Blood per Turn: {perTurn}</span>
-              <span style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)' }}>
+            <div className="flex gap-md items-center flex-wrap mb-sm">
+              <span className="text-base font-semibold">Max Blood Pool: {maxBlood}</span>
+              <span className="text-base font-semibold">Blood per Turn: {perTurn}</span>
+              <span className="text-sm text-muted">
                 ({fields.currentBlood}/{maxBlood} current)
               </span>
             </div>
             <DotRating label={t('currentBlood')} name="currentBlood" value={fields.currentBlood} onChange={handleField} min={0} max={maxBlood} />
             {fields.currentBlood <= 2 && fields.currentBlood > 0 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs" role="status" aria-live="polite" style={{ fontSize: '0.8rem' }}>
                 Blood pool critically low — risk of hunger frenzy
               </p>
             )}
             {fields.currentBlood === 0 && (
-              <p className="status-error" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-error mt-xs" role="alert" aria-live="assertive" style={{ fontSize: '0.8rem' }}>
                 Blood pool empty — torpor is imminent
               </p>
             )}
@@ -1243,7 +1243,7 @@ export default function CharacterForm() {
                         handleField(h.key, cycle[val] || '')
                       }}>
                       <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
-                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '—'}</td>
+                      <td className="text-muted">{h.penalty || '—'}</td>
                       <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
                     </tr>
                   )
@@ -1294,7 +1294,7 @@ export default function CharacterForm() {
               {isElder && (
                 <fieldset>
                   <legend>{t('elderPowers')}</legend>
-                  <p className="muted-hint" style={{ marginBottom: 'var(--space-sm)', fontSize: '0.78rem' }}>
+                  <p className="muted-hint muted-hint--xs mb-sm">
                     {t('elderPowersHint')}
                   </p>
                   {(() => {
@@ -1308,7 +1308,7 @@ export default function CharacterForm() {
                     })).filter(g => g.powers.length > 0)
                     return (
                       <>
-                        <div className="field" style={{ marginBottom: 'var(--space-sm)' }}>
+                        <div className="field mb-sm">
                           <label htmlFor="elder-filter">{t('filterByDiscipline')}</label>
                           <input id="elder-filter" list="elder-disc-filter" type="text"
                             value={newDiscipline.name}
@@ -1326,24 +1326,24 @@ export default function CharacterForm() {
                           const baseEntry = DISCIPLINES.find(d => d.value.toLowerCase() === filterDisc.toLowerCase())
                           if (!baseEntry?.levels) return null
                           return (
-                            <div style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', background: 'var(--color-bg)', borderRadius: 'var(--radius)', border: '1px solid var(--color-border)' }}>
-                              <strong style={{ fontSize: '0.82rem' }}>{baseEntry.value} — Levels 1–5</strong>
+                            <div className="mb-md p-sm border rounded" style={{ background: 'var(--color-bg)' }}>
+                              <strong className="text-sm">{baseEntry.value} — Levels 1–5</strong>
                               <ul style={{ listStyle: 'none', padding: 0, margin: 'var(--space-xs) 0' }}>
                                 {baseEntry.levels.map((lvl, i) => (
-                                  <li key={i} style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: '2px' }}>{lvl}</li>
+                                  <li key={i} className="text-sm text-muted" style={{ marginBottom: '2px' }}>{lvl}</li>
                                 ))}
                               </ul>
                             </div>
                           )
                         })()}
                         {byLevel.map(({ level, powers }) => (
-                          <div key={level} style={{ marginBottom: 'var(--space-sm)' }}>
-                            <strong style={{ fontSize: '0.82rem' }}>Level {level}</strong>
+                          <div key={level} className="mb-sm">
+                            <strong className="text-sm">Level {level}</strong>
                             <ul style={{ listStyle: 'none', padding: 0, margin: 'var(--space-xs) 0' }}>
                               {powers.map(p => (
-                                <li key={p.name} style={{ marginBottom: 'var(--space-xs)', fontSize: '0.78rem' }}>
-                                  <strong>{p.name}</strong> <span style={{ color: 'var(--color-text-muted)' }}>({p.discipline})</span>
-                                  <br /><span style={{ color: 'var(--color-text-muted)' }}>{p.description}</span>
+                                <li key={p.name} className="mb-xs text-sm">
+                                  <strong>{p.name}</strong> <span className="text-muted">({p.discipline})</span>
+                                  <br /><span className="text-muted">{p.description}</span>
                                 </li>
                               ))}
                             </ul>
@@ -1382,12 +1382,12 @@ export default function CharacterForm() {
               <legend>{t('comboDisciplines')} ({comboDisciplines.length})</legend>
               {comboDisciplines.length === 0 && <p className="muted-hint">{t('noCombosYet')}</p>}
               {comboDisciplines.map(c => (
-                <div key={c.id} className="character-card" style={{ marginBottom: 'var(--space-sm)' }}>
+                <div key={c.id} className="character-card mb-sm">
                   <div className="character-card-info">
-                    <h3 style={{ fontSize: '0.9rem' }}>{c.name}</h3>
-                    {c.prerequisites && <p className="detail-sm" style={{ color: 'var(--color-text-muted)' }}>{t('comboPrereqs')}: {c.prerequisites}</p>}
+                    <h3 className="text-md">{c.name}</h3>
+                    {c.prerequisites && <p className="detail-sm text-muted">{t('comboPrereqs')}: {c.prerequisites}</p>}
                     {c.description && <p className="detail-sm">{c.description}</p>}
-                    {c.xpCost && <p className="detail-xs" style={{ color: 'var(--color-text-muted)' }}>{t('comboXpCost')}: {c.xpCost}</p>}
+                    {c.xpCost && <p className="detail-xs text-muted">{t('comboXpCost')}: {c.xpCost}</p>}
                   </div>
                   <div className="character-card-actions">
                     <button className="btn btn-danger btn-sm" onClick={() => handleRemoveCombo(c.id)}>✕</button>
@@ -1416,7 +1416,7 @@ export default function CharacterForm() {
                 </div>
                 <div className="field field--full">
                   <label>{t('comboDesc')}</label>
-                  <textarea value={newCombo.description} onChange={e => setNewCombo(p => ({ ...p, description: e.target.value }))} rows={3} placeholder={t('phComboDesc')} style={{ width: '100%' }} />
+                  <textarea className="w-full" value={newCombo.description} onChange={e => setNewCombo(p => ({ ...p, description: e.target.value }))} rows={3} placeholder={t('phComboDesc')} />
                 </div>
                 <div className="field field--narrow">
                   <label>{t('comboXpCost')}</label>
@@ -1434,14 +1434,14 @@ export default function CharacterForm() {
               <fieldset>
                 <legend>{t('backgrounds')}</legend>
                 {backgrounds.length > 0 && (
-                  <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+                  <ul className="tag-list mb-md">
                     {backgrounds.map(bg => (
                       <li key={bg.id} className={`tag tag--clickable${bg.id === tagInfo?.id ? ' tag--active' : ''}`}
                         onClick={() => setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, catalog: BACKGROUNDS })}
                         onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, catalog: BACKGROUNDS }) } }}
                         role="button"
                         tabIndex={0}>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                        <span className="flex items-center gap-xs flex-wrap">
                           <strong>{bg.name}</strong>
                           <span onClick={e => e.stopPropagation()} style={{ display: 'inline-flex' }}>
                             <DotRating label="" name={`bg-${bg.id}`} value={bg.level} min={1} max={5}
@@ -1528,31 +1528,31 @@ export default function CharacterForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
-            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} placeholder={t('backstoryPh')} style={{ width: '100%' }} />
+            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} placeholder={t('backstoryPh')} className="w-full" />
           </fieldset>
           <fieldset>
             <legend>{t('appearanceLabel')}</legend>
-            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
+            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} placeholder={t('appearancePh')} className="w-full" />
           </fieldset>
           <fieldset>
             <legend>{t('goalsLabel')}</legend>
-            <textarea name="goals" value={fields.goals} onChange={handleText} rows={4} placeholder={t('goalsPh')} style={{ width: '100%' }} />
+            <textarea name="goals" value={fields.goals} onChange={handleText} rows={4} placeholder={t('goalsPh')} className="w-full" />
           </fieldset>
           <fieldset>
             <legend>{t('alliesLabel')}</legend>
-            <textarea name="allies" value={fields.allies} onChange={handleText} rows={4} placeholder={t('alliesPh')} style={{ width: '100%' }} />
+            <textarea name="allies" value={fields.allies} onChange={handleText} rows={4} placeholder={t('alliesPh')} className="w-full" />
           </fieldset>
           <fieldset>
             <legend>{t('enemiesLabel')}</legend>
-            <textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} placeholder={t('enemiesPh')} style={{ width: '100%' }} />
+            <textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} placeholder={t('enemiesPh')} className="w-full" />
           </fieldset>
           <fieldset>
             <legend>{t('havensLabel')}</legend>
-            <textarea name="havens" value={fields.havens} onChange={handleText} rows={4} placeholder={t('havensPh')} style={{ width: '100%' }} />
+            <textarea name="havens" value={fields.havens} onChange={handleText} rows={4} placeholder={t('havensPh')} className="w-full" />
           </fieldset>
           <fieldset>
             <legend>{t('territoriesLabel')}</legend>
-            <textarea name="territories" value={fields.territories} onChange={handleText} rows={4} placeholder={t('territoriesPh')} style={{ width: '100%' }} />
+            <textarea name="territories" value={fields.territories} onChange={handleText} rows={4} placeholder={t('territoriesPh')} className="w-full" />
           </fieldset>
         </div>
       </div>

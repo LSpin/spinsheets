@@ -518,7 +518,7 @@ export default function DemonForm() {
             <>
               <fieldset>
                 <legend>{t('primaryLore')}</legend>
-                <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+                <p className="muted-hint muted-hint--xs mb-sm" >
                   Your House determines your primary Lore. This is the Lore you learn most easily.
                 </p>
                 <div className="rating-grid">
@@ -534,7 +534,7 @@ export default function DemonForm() {
 
               <fieldset>
                 <legend>{t('secondaryLores')}</legend>
-                <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+                <p className="muted-hint muted-hint--xs mb-sm" >
                   Each House has access to two secondary Lores in addition to their primary Lore.
                 </p>
                 <div className="rating-grid">
@@ -554,14 +554,14 @@ export default function DemonForm() {
           )}
 
           {houseLoreInfo && (
-            <div role="status" aria-live="polite" style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '0.85rem' }}>
+            <div role="status" aria-live="polite" className="mb-md p-sm border text-base" style={{ background: 'rgba(52,152,219,0.08)', borderRadius: '6px' }}>
               <p style={{ margin: 0 }}><strong>{fields.clan}</strong> House Lores: Primary is <strong>{houseLoreInfo.primary}</strong>. Secondary: <strong>{houseLoreInfo.secondary.join(', ')}</strong>. Other Lores cost double XP.</p>
             </div>
           )}
           {!houseLoreInfo && (
             <fieldset>
               <legend>{t('demonLores')}</legend>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              <p className="muted-hint muted-hint--xs mb-sm" >
                 Select a House on the Identity tab to see your primary and secondary Lores.
               </p>
             </fieldset>
@@ -573,7 +573,7 @@ export default function DemonForm() {
               <fieldset key={house}>
                 <legend>{house === 'Common' ? t('commonLores') : `${house} Lores`}</legend>
                 {house === 'Common' && (
-                  <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+                  <p className="muted-hint muted-hint--xs mb-sm" >
                     Common Lores available to all Fallen, regardless of House.
                   </p>
                 )}
@@ -601,7 +601,7 @@ export default function DemonForm() {
             return (
               <fieldset key={tormentType}>
                 <legend>{tormentType} Abilities</legend>
-                <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+                <p className="muted-hint muted-hint--xs mb-sm" >
                   {tormentType === 'Low-Torment'
                     ? 'Visage abilities that manifest when the demon maintains low Torment.'
                     : 'Visage abilities that manifest when the demon succumbs to high Torment.'}
@@ -610,7 +610,7 @@ export default function DemonForm() {
                   {abilities.map(ability => {
                     const checked = selected.includes(ability.name)
                     return (
-                      <label key={ability.name} className="catalog-item" style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', cursor: 'pointer' }}>
+                      <label key={ability.name} className="catalog-item flex items-start gap-sm cursor-pointer" style={{ padding: 'var(--space-xs) 0' }}>
                         <input type="checkbox" checked={checked} onChange={() => {
                           const next = checked
                             ? selected.filter(n => n !== ability.name)
@@ -631,22 +631,22 @@ export default function DemonForm() {
 
           <fieldset>
             <legend>{t('visageDescription')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Describe the demon's true, terrifying visage when it reveals its celestial nature.
             </p>
-            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={6} style={{ width: '100%' }}
+            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={6} className="w-full" 
               aria-label="Visage description" placeholder={t('visageDescPh')} />
           </fieldset>
 
           <fieldset>
             <legend>{t('lowTormentForm')}</legend>
-            <textarea name="derangement1" value={fields.derangement1} onChange={handleText} rows={4} style={{ width: '100%' }}
+            <textarea name="derangement1" value={fields.derangement1} onChange={handleText} rows={4} className="w-full" 
               aria-label="Low-Torment form" placeholder={t('lowTormentFormPh')} />
           </fieldset>
 
           <fieldset>
             <legend>{t('highTormentForm')}</legend>
-            <textarea name="derangement2" value={fields.derangement2} onChange={handleText} rows={4} style={{ width: '100%' }}
+            <textarea name="derangement2" value={fields.derangement2} onChange={handleText} rows={4} className="w-full" 
               aria-label="High-Torment form" placeholder={t('highTormentFormPh')} />
           </fieldset>
         </div>
@@ -662,7 +662,7 @@ export default function DemonForm() {
               <DotRating label={t('currentFaith')} name="currentGnosis" value={fields.currentGnosis} onChange={handleField} min={0} max={fields.gnosis} />
             </div>
             {fields.currentGnosis === 0 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite" >
                 No Faith remaining. The demon cannot fuel Lore evocations.
               </p>
             )}
@@ -674,12 +674,12 @@ export default function DemonForm() {
               <DotRating label={t('currentTorment')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
             </div>
             {fields.rage >= 7 && fields.rage < 10 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite" >
                 High Torment ({fields.rage}). Risk of losing control -- Lore evocations default to high-Torment effects.
               </p>
             )}
             {fields.rage >= 10 && (
-              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+              <p className="status-warning mt-xs text-sm font-bold" role="alert" aria-live="assertive" >
                 Torment at 10: Earthbound. The demon has fully succumbed to its monstrous nature.
               </p>
             )}
@@ -687,7 +687,7 @@ export default function DemonForm() {
           {/* Faith / Torment Balance */}
           <fieldset>
             <legend>Faith & Torment Balance</legend>
-            <div role="status" aria-live="polite" style={{ padding: 'var(--space-sm)', background: fields.rage > fields.gnosis ? 'rgba(231,76,60,0.08)' : fields.gnosis > fields.rage ? 'rgba(46,204,113,0.08)' : 'rgba(243,156,18,0.08)', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '0.85rem' }}>
+            <div role="status" aria-live="polite" className="p-sm border text-base" style={{ background: fields.rage > fields.gnosis ? 'rgba(231,76,60,0.08)' : fields.gnosis > fields.rage ? 'rgba(46,204,113,0.08)' : 'rgba(243,156,18,0.08)', borderRadius: '6px' }}>
               <p style={{ margin: 0 }}>
                 <strong>Faith {fields.gnosis}</strong> vs <strong>Torment {fields.rage}</strong>
                 {fields.gnosis > fields.rage && ' -- The angel endures. Low-Torment evocations are more likely.'}
@@ -732,8 +732,8 @@ export default function DemonForm() {
                         handleField(h.key, cycle[val] || '')
                       }}>
                       <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
-                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '\u2014'}</td>
-                      <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                      <td className="text-muted" >{h.penalty || '\u2014'}</td>
+                      <td className="font-semibold" style={{ color: dmgColor }}>{dmgLabel}</td>
                     </tr>
                   )
                 })}
@@ -749,13 +749,13 @@ export default function DemonForm() {
           <fieldset>
             <legend>{t('backgrounds')} ({backgrounds.length})</legend>
             {backgrounds.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md" >
                 {backgrounds.map(b => (
                   <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' }) } }}
                     role="button" tabIndex={0}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                    <span className="flex items-center gap-xs flex-wrap" >
                       <strong>{b.name}</strong>
                       <span onClick={e => e.stopPropagation()} style={{ display: 'inline-flex' }}>
                         <DotRating label="" name={`bg-${b.id}`} value={b.level} min={1} max={5}
@@ -774,11 +774,11 @@ export default function DemonForm() {
             {tagInfo?.kind === 'background' && (() => {
               const entry = BACKGROUNDS.find(bg => bg.value.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md" >
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">Background \u00b7 Level {tagInfo.level}</p>
-                  {entry?.description && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.description && <p className="text-sm" style={{ lineHeight: 1.55 }}>{entry.description}</p>}
                   {entry?.levels && (
                     <ul className="tag-info-levels">
                       {entry.levels.map((lvl, i) => (
@@ -846,27 +846,27 @@ export default function DemonForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
-            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} placeholder={t('backstoryPh')} style={{ width: '100%' }} />
+            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} placeholder={t('backstoryPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('goalsLabel')}</legend>
-            <textarea name="goals" value={fields.goals} onChange={handleText} rows={4} placeholder={t('goalsPh')} style={{ width: '100%' }} />
+            <textarea name="goals" value={fields.goals} onChange={handleText} rows={4} placeholder={t('goalsPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('alliesLabel')}</legend>
-            <textarea name="allies" value={fields.allies} onChange={handleText} rows={4} placeholder={t('alliesPh')} style={{ width: '100%' }} />
+            <textarea name="allies" value={fields.allies} onChange={handleText} rows={4} placeholder={t('alliesPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('enemiesLabel')}</legend>
-            <textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} placeholder={t('enemiesPh')} style={{ width: '100%' }} />
+            <textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} placeholder={t('enemiesPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('havensLabel')}</legend>
-            <textarea name="havens" value={fields.havens} onChange={handleText} rows={4} placeholder={t('havensPh')} style={{ width: '100%' }} />
+            <textarea name="havens" value={fields.havens} onChange={handleText} rows={4} placeholder={t('havensPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('territoriesLabel')}</legend>
-            <textarea name="territories" value={fields.territories} onChange={handleText} rows={4} placeholder={t('territoriesPh')} style={{ width: '100%' }} />
+            <textarea name="territories" value={fields.territories} onChange={handleText} rows={4} placeholder={t('territoriesPh')} className="w-full"  />
           </fieldset>
         </div>
       </div>

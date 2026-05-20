@@ -110,7 +110,7 @@ function CharacterCard({ c, user, isST, t, navigate, onDelete, chronicles, onAss
           {isST && c.chronicle && (
             <>
               <dt className="sr-only">{t('chronicle')}</dt>
-              <dd style={{ fontStyle: 'italic' }}>{c.chronicle.name}</dd>
+              <dd className="font-italic">{c.chronicle.name}</dd>
             </>
           )}
         </dl>
@@ -120,7 +120,8 @@ function CharacterCard({ c, user, isST, t, navigate, onDelete, chronicles, onAss
           <select
             value={c.chronicle?.id || ''}
             onChange={e => onAssignChronicle(c.id, e.target.value ? Number(e.target.value) : null)}
-            style={{ fontSize: '0.78rem', maxWidth: 140 }}
+            className="text-sm"
+            style={{ maxWidth: 140 }}
             title={t('assignChronicle')}
             aria-label={t('assignChronicle')}
           >
@@ -248,7 +249,7 @@ export default function CharacterList() {
         <h2 id="list-heading">
           {isST ? `${t('systemWoD')} — ${t('allCharactersST')}` : `${t('systemWoD')} — ${t('myCharacters')}`}
         </h2>
-        <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+        <div className="flex flex-wrap gap-sm">
           <button className="btn btn-primary" onClick={openNewChar}>
             {t('newCharBtn')}
           </button>
@@ -257,8 +258,7 @@ export default function CharacterList() {
               <button className="btn btn-secondary" onClick={() => navigate('/characters/new?npc=true')}>
                 {t('newNpc')}
               </button>
-              <button className="btn btn-secondary" onClick={() => navigate('/characters/st-tools')}
-                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+              <button className="btn btn-secondary btn-outline-accent" onClick={() => navigate('/characters/st-tools')}>
                 {t('wodSTTools')}
               </button>
             </>
@@ -289,10 +289,10 @@ export default function CharacterList() {
           {subTab === 1 && (
             <>
               {chronicles.length > 0 && (
-                <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <label htmlFor="chronicle-filter" style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('filterByChronicle')}:</label>
+                <div className="flex items-center gap-sm mb-md">
+                  <label htmlFor="chronicle-filter" className="text-base font-semibold">{t('filterByChronicle')}:</label>
                   <select id="chronicle-filter" value={chronicleFilter} onChange={e => setChronicleFilter(e.target.value)}
-                    style={{ fontSize: '0.85rem' }}>
+                    className="text-base">
                     <option value="all">{t('allChronicles')}</option>
                     <option value="unassigned">{t('unassigned')}</option>
                     {chronicles.map(ch => (

@@ -87,15 +87,15 @@ function HistoryPanel({ items, renderItem, label }) {
   const { t } = useLanguage()
   if (items.length === 0) return null
   return (
-    <div style={{ marginTop: 'var(--space-md)' }}>
+    <div className="mt-md">
       <button className="btn btn-secondary" onClick={() => setOpen(!open)}
         aria-expanded={open} style={{ fontSize: '0.82rem' }}>
         {open ? t('bladesSTHideHistory') : t('bladesSTShowHistory')} ({items.length})
       </button>
       {open && (
-        <ul aria-label={label} style={{ listStyle: 'none', padding: 0, marginTop: 'var(--space-sm)' }}>
+        <ul aria-label={label} style={{ listStyle: 'none', padding: 0 }} className="mt-sm">
           {items.map((item, i) => (
-            <li key={item.id || i} className="character-card" style={{ padding: 'var(--space-sm) var(--space-md)', marginBottom: 'var(--space-xs)' }}>
+            <li key={item.id || i} className="character-card mb-xs" style={{ padding: 'var(--space-sm) var(--space-md)' }}>
               {renderItem(item)}
             </li>
           ))}
@@ -109,9 +109,8 @@ function HistoryPanel({ items, renderItem, label }) {
 
 function ResultCard({ children, style }) {
   return (
-    <div className="character-card" role="status" aria-live="polite" style={{
+    <div className="character-card mt-md" role="status" aria-live="polite" style={{
       padding: 'var(--space-lg)',
-      marginTop: 'var(--space-md)',
       border: '1px solid var(--accent)',
       ...style,
     }}>
@@ -152,10 +151,10 @@ function ScoreGeneratorTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('bladesSTScoreHint')}
       </p>
-      <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+      <div className="flex gap-sm flex-wrap">
         <button className="btn btn-primary" onClick={rollAll}>{t('bladesSTRollAll')}</button>
         {result && (
           <>
@@ -170,7 +169,7 @@ function ScoreGeneratorTab() {
 
       {result && (
         <ResultCard>
-          <div style={{ display: 'grid', gap: 'var(--space-sm)' }}>
+          <div className="grid gap-sm">
             <div><strong>{t('bladesSTClient')}:</strong> {result.client}</div>
             <div><strong>{t('bladesSTTarget')}:</strong> {result.target}</div>
             <div><strong>{t('bladesSTWorkType')}:</strong> {result.workType}</div>
@@ -181,7 +180,7 @@ function ScoreGeneratorTab() {
       )}
 
       <HistoryPanel items={history} label="Score history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
+        <div className="text-base">
           <strong>{item.workType}</strong> — {item.client} vs {item.target}
         </div>
       )} />
@@ -222,10 +221,10 @@ function EntanglementTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('bladesSTEntanglementHint')}
       </p>
-      <div style={{ display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 'var(--space-md)' }}>
+      <div className="flex gap-md flex-wrap items-end mb-md">
         <div className="field" style={{ flex: '0 0 120px' }}>
           <label htmlFor="ent-heat">{t('bladesHeat')}</label>
           <input id="ent-heat" type="number" min={0} max={9} value={heat}
@@ -239,13 +238,13 @@ function EntanglementTab() {
         <button className="btn btn-primary" onClick={rollEntanglement}>{t('bladesSTRollEntanglement')}</button>
       </div>
 
-      <div style={{ fontSize: '0.82rem', marginBottom: 'var(--space-sm)', color: 'var(--text-muted)' }}>
+      <div className="mb-sm" style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
         {t('bladesSTTableUsed')}: {wantedLevel >= 4 ? t('bladesSTWantedTable') : heat >= 4 ? t('bladesSTHighHeat') : t('bladesSTLowHeat')}
       </div>
 
       {result && (
         <ResultCard>
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: 'var(--space-xs)' }}>
+          <div className="text-base text-muted mb-xs">
             {t('bladesRoll')}: {result.roll} | {t('bladesHeat')}: {result.heat} | {t('bladesWanted')}: {result.wantedLevel}
           </div>
           <h3 style={{ margin: '0 0 var(--space-xs) 0', color: 'var(--accent)' }}>{result.name}</h3>
@@ -254,7 +253,7 @@ function EntanglementTab() {
       )}
 
       <HistoryPanel items={history} label="Entanglement history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
+        <div className="text-base">
           <strong>{item.name}</strong> (roll {item.roll}, heat {item.heat})
         </div>
       )} />
@@ -284,7 +283,7 @@ function NPCGeneratorTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('bladesSTNPCHint')}
       </p>
       <button className="btn btn-primary" onClick={generateNPC}>
@@ -296,7 +295,7 @@ function NPCGeneratorTab() {
           <h3 style={{ margin: '0 0 var(--space-sm) 0', color: 'var(--accent)' }}>
             {result.firstName} {result.lastName}
           </h3>
-          <div style={{ display: 'grid', gap: 'var(--space-xs)' }}>
+          <div className="grid gap-xs">
             <div><strong>{t('bladesSTTrait')}:</strong> {result.trait}</div>
             <div><strong>{t('bladeSTProfession')}:</strong> {result.profession}</div>
             <div><strong>{t('bladesSTQuirk')}:</strong> {result.quirk}</div>
@@ -305,7 +304,7 @@ function NPCGeneratorTab() {
       )}
 
       <HistoryPanel items={history} label="NPC history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
+        <div className="text-base">
           <strong>{item.firstName} {item.lastName}</strong> — {item.trait} {item.profession}
         </div>
       )} />
@@ -350,14 +349,14 @@ function FactionTurnTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('bladesSTFactionHint')}
       </p>
 
       {/* Fortune Roll */}
-      <fieldset className="form-section" style={{ marginBottom: 'var(--space-lg)' }}>
+      <fieldset className="form-section mb-lg">
         <legend>{t('bladesSTFortuneRoll')}</legend>
-        <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-end', flexWrap: 'wrap' }}>
+        <div className="flex gap-sm items-end flex-wrap">
           <div className="field" style={{ flex: '0 0 100px' }}>
             <label htmlFor="faction-pool">{t('bladesDicePool')}</label>
             <input id="faction-pool" type="number" min={0} max={10} value={pool}
@@ -367,9 +366,9 @@ function FactionTurnTab() {
         </div>
 
         {rollResult && (
-          <div aria-live="polite" style={{ marginTop: 'var(--space-md)' }}>
-            <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'center', flexWrap: 'wrap' }}>
-              <span style={{ fontWeight: 600 }}>{t('bladesSTDice')}:</span>
+          <div aria-live="polite" className="mt-md">
+            <div className="flex gap-sm items-center flex-wrap">
+              <span className="font-semibold">{t('bladesSTDice')}:</span>
               {rollResult.dice.map((d, i) => (
                 <span key={i} style={{
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
@@ -380,12 +379,12 @@ function FactionTurnTab() {
                   border: '2px solid var(--text-muted, #555)',
                 }}>{d}</span>
               ))}
-              <span style={{ fontWeight: 700, color: outcomeColor(rollResult.outcome), marginLeft: 'var(--space-sm)', fontSize: '1.1rem' }}
+              <span className="font-bold text-xl ml-sm" style={{ color: outcomeColor(rollResult.outcome) }}
                 aria-label={`Outcome: ${outcomeLabel(rollResult.outcome)}`}>
                 {outcomeLabel(rollResult.outcome)}
               </span>
             </div>
-            <p style={{ marginTop: 'var(--space-xs)', fontSize: '0.82rem', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
+            <p className="mt-xs text-muted font-italic" style={{ fontSize: '0.82rem' }}>
               {t(`bladesFortuneOut_${rollResult.outcome}`)}
             </p>
           </div>
@@ -393,15 +392,15 @@ function FactionTurnTab() {
 
         {/* Roll History */}
         {history.length > 0 && (
-          <div style={{ marginTop: 'var(--space-md)', fontSize: '0.8rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xs)' }}>
+          <div className="mt-md" style={{ fontSize: '0.8rem' }}>
+            <div className="flex justify-between items-center mb-xs">
               <strong>{t('diceHistory')}</strong>
               <button className="dice-roller-clear" onClick={() => setHistory([])}>{t('diceClear')}</button>
             </div>
             {history.map(h => (
-              <div key={h.id} style={{ padding: '0.2rem 0', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between' }}>
+              <div key={h.id} className="flex justify-between border-b" style={{ padding: '0.2rem 0' }}>
                 <span>{h.pool}d6 [{h.dice.join(', ')}]</span>
-                <span style={{ fontWeight: 600, color: outcomeColor(h.outcome) }}>{outcomeLabel(h.outcome)}</span>
+                <span className="font-semibold" style={{ color: outcomeColor(h.outcome) }}>{outcomeLabel(h.outcome)}</span>
               </div>
             ))}
           </div>
@@ -409,19 +408,19 @@ function FactionTurnTab() {
       </fieldset>
 
       {/* Engagement Modifiers Reference */}
-      <fieldset className="form-section" style={{ marginBottom: 'var(--space-lg)' }}>
+      <fieldset className="form-section mb-lg">
         <legend>{t('bladesSTEngagementMods')}</legend>
-        <table style={{ width: '100%', fontSize: '0.85rem', borderCollapse: 'collapse' }}>
+        <table className="w-full text-base" style={{ borderCollapse: 'collapse' }}>
           <thead>
             <tr>
-              <th style={{ textAlign: 'left', padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}>{t('bladesSTModifier')}</th>
-              <th style={{ textAlign: 'left', padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}>{t('bladesSTCondition')}</th>
+              <th className="text-left" style={{ padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}>{t('bladesSTModifier')}</th>
+              <th className="text-left" style={{ padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}>{t('bladesSTCondition')}</th>
             </tr>
           </thead>
           <tbody>
             {ENGAGEMENT_MODIFIERS.map((mod, i) => (
               <tr key={i}>
-                <td style={{ padding: 'var(--space-xs)', fontWeight: 700, color: mod.modifier.startsWith('+') ? '#51cf66' : '#fa5252' }}
+                <td className="font-bold" style={{ padding: 'var(--space-xs)', color: mod.modifier.startsWith('+') ? '#51cf66' : '#fa5252' }}
                   aria-label={`${mod.modifier.startsWith('+') ? 'Bonus' : 'Penalty'}: ${mod.modifier}`}>{mod.modifier}</td>
                 <td style={{ padding: 'var(--space-xs)' }}>{mod.condition}</td>
               </tr>
@@ -433,9 +432,9 @@ function FactionTurnTab() {
       {/* Faction Actions Reference */}
       <fieldset className="form-section">
         <legend>{t('bladesSTFactionActions')}</legend>
-        <div style={{ display: 'grid', gap: 'var(--space-sm)' }}>
+        <div className="grid gap-sm">
           {FACTION_ACTIONS.map((action, i) => (
-            <div key={i} style={{ fontSize: '0.85rem' }}>
+            <div key={i} className="text-base">
               <strong>{action.name}:</strong> {action.description}
             </div>
           ))}
@@ -443,7 +442,7 @@ function FactionTurnTab() {
       </fieldset>
 
       <HistoryPanel items={history} label="Fortune roll history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
+        <div className="text-base">
           <strong>{item.pool}d6</strong> [{item.dice.join(', ')}] — <span style={{ color: outcomeColor(item.outcome) }} aria-label={`Outcome: ${outcomeLabel(item.outcome)}`}>{outcomeLabel(item.outcome)}</span>
         </div>
       )} />
@@ -467,7 +466,7 @@ function DowntimeEventsTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('bladesSTDowntimeHint')}
       </p>
       <button className="btn btn-primary" onClick={rollEvent}>
@@ -481,7 +480,7 @@ function DowntimeEventsTab() {
       )}
 
       <HistoryPanel items={history} label="Downtime event history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>{item.text}</div>
+        <div className="text-base">{item.text}</div>
       )} />
     </div>
   )
@@ -503,7 +502,7 @@ function DevilsBargainTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('bladesSTBargainHint')}
       </p>
       <button className="btn btn-primary" onClick={rollBargain}>
@@ -512,7 +511,7 @@ function DevilsBargainTab() {
 
       {result && (
         <ResultCard style={{ borderColor: '#fa5252' }}>
-          <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 700, color: '#fa5252', letterSpacing: '0.05em', marginBottom: 'var(--space-xs)' }}>
+          <div className="uppercase font-bold mb-xs" style={{ fontSize: '0.75rem', color: '#fa5252', letterSpacing: '0.05em' }}>
             {t('bladesSTDevilsBargain')}
           </div>
           <p style={{ margin: 0, fontSize: '1.05rem', lineHeight: 1.6 }}>{result.text}</p>
@@ -520,7 +519,7 @@ function DevilsBargainTab() {
       )}
 
       <HistoryPanel items={history} label="Devil's Bargain history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>{item.text}</div>
+        <div className="text-base">{item.text}</div>
       )} />
     </div>
   )
@@ -575,14 +574,14 @@ function CampaignClocksTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('bladesSTClocksHint')}
       </p>
 
-      <div className="form-section" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="form-section mb-lg">
         <fieldset>
           <legend>{t('bladesClockNew')}</legend>
-          <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+          <div className="flex gap-sm flex-wrap items-end">
             <div className="field" style={{ flex: '1 1 200px' }}>
               <label htmlFor="stc-name">{t('bladesClockName')}</label>
               <input id="stc-name" value={newName} onChange={e => setNewName(e.target.value)}
@@ -624,32 +623,32 @@ function CampaignClocksTab() {
           const complete = clock.filled >= clock.segments
           const color = CLOCK_COLORS[clock.type] || CLOCK_COLORS.custom
           return (
-            <div key={clock.id} className="character-card" style={{
-              textAlign: 'center', padding: 'var(--space-md)',
+            <div key={clock.id} className="character-card text-center" style={{
+              padding: 'var(--space-md)',
               border: complete ? `2px solid ${color}` : undefined,
               opacity: complete ? 0.7 : 1,
               position: 'relative',
             }}>
               {complete && (
-                <div style={{
+                <div className="font-bold uppercase" style={{
                   position: 'absolute', top: 8, right: 10,
-                  fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase',
+                  fontSize: '0.7rem',
                   color, letterSpacing: '0.05em',
                 }}>{t('bladesClockComplete')}</div>
               )}
               <h4 style={{ margin: '0 0 0.2rem 0', fontSize: '0.95rem' }}>{clock.name}</h4>
               <div style={{ marginBottom: '0.4rem' }}>
-                <span style={{
+                <span className="font-semibold" style={{
                   fontSize: '0.7rem', padding: '1px 6px', borderRadius: '3px',
-                  background: `${color}22`, color, fontWeight: 600,
+                  background: `${color}22`, color,
                 }} aria-label={`Clock type: ${clock.type}`}>{clock.type}</span>
               </div>
               <ClockSVG segments={clock.segments} filled={clock.filled} size={110}
                 color={color} onClick={(i) => tickClock(clock.id, i)} />
-              <div style={{ fontSize: '0.85rem', marginTop: '0.4rem', fontWeight: 600 }}>
+              <div className="text-base font-semibold" style={{ marginTop: '0.4rem' }}>
                 {clock.filled} / {clock.segments}
               </div>
-              <div style={{ display: 'flex', gap: '0.3rem', justifyContent: 'center', marginTop: '0.5rem' }}>
+              <div className="flex justify-center" style={{ gap: '0.3rem', marginTop: '0.5rem' }}>
                 <button type="button" className="btn btn-secondary" style={{ padding: '3px 10px', fontSize: '0.75rem' }}
                   onClick={() => resetClock(clock.id)}>{t('bladesClockReset')}</button>
                 <button type="button" className="btn btn-danger" style={{ padding: '3px 10px', fontSize: '0.75rem' }}
@@ -687,16 +686,16 @@ export default function BladesSTTools() {
     <section aria-labelledby="st-tools-heading">
       <div className="character-list-header">
         <div>
-          <button className="btn btn-secondary" onClick={() => navigate('/blades')} style={{ marginRight: 'var(--space-sm)' }}>
+          <button className="btn btn-secondary mr-sm" onClick={() => navigate('/blades')}>
             {t('back')}
           </button>
           <h2 id="st-tools-heading" style={{ display: 'inline' }}>{t('bladesSTTools')}</h2>
         </div>
       </div>
 
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>{t('bladesSTToolsDesc')}</p>
+      <p className="muted-hint mb-md">{t('bladesSTToolsDesc')}</p>
 
-      <div className="tab-list" role="tablist" aria-label="ST Tools tabs" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="tab-list mb-lg" role="tablist" aria-label="ST Tools tabs">
         {TABS.map(tab => (
           <button key={tab.key} role="tab"
             className={`btn btn-secondary${activeTab === tab.key ? ' tab-btn--active' : ''}`}

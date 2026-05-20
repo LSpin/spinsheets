@@ -21,8 +21,8 @@ const L5R_CLANS = [
 
 function ResultCard({ children, style }) {
   return (
-    <div className="character-card" role="status" aria-live="polite" style={{
-      padding: 'var(--space-lg)', marginTop: 'var(--space-md)',
+    <div className="character-card mt-md" role="status" aria-live="polite" style={{
+      padding: 'var(--space-lg)',
       border: '1px solid var(--accent)', ...style,
     }}>
       {children}
@@ -35,15 +35,15 @@ function HistoryPanel({ items, renderItem, label }) {
   const { t } = useLanguage()
   if (items.length === 0) return null
   return (
-    <div style={{ marginTop: 'var(--space-md)' }}>
+    <div className="mt-md">
       <button className="btn btn-secondary" onClick={() => setOpen(!open)}
         aria-expanded={open} style={{ fontSize: '0.82rem' }}>
         {open ? t('bladesSTHideHistory') : t('bladesSTShowHistory')} ({items.length})
       </button>
       {open && (
-        <ul aria-label={label} style={{ listStyle: 'none', padding: 0, marginTop: 'var(--space-sm)' }}>
+        <ul aria-label={label} style={{ listStyle: 'none', padding: 0 }} className="mt-sm">
           {items.map((item, i) => (
-            <li key={item.id || i} className="character-card" style={{ padding: 'var(--space-sm) var(--space-md)', marginBottom: 'var(--space-xs)' }}>
+            <li key={item.id || i} className="character-card mb-xs" style={{ padding: 'var(--space-sm) var(--space-md)' }}>
               {renderItem(item)}
             </li>
           ))}
@@ -81,8 +81,8 @@ function CourtIntrigueTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>{t('l5rSTCourtHint')}</p>
-      <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+      <p className="muted-hint mb-md">{t('l5rSTCourtHint')}</p>
+      <div className="flex gap-sm flex-wrap">
         <button className="btn btn-primary" onClick={rollAll}>{t('l5rSTRollIntrigue')}</button>
         {result && (
           <>
@@ -95,7 +95,7 @@ function CourtIntrigueTab() {
       </div>
       {result && (
         <ResultCard>
-          <div style={{ display: 'grid', gap: 'var(--space-sm)' }}>
+          <div className="grid gap-sm">
             <div><strong>{t('l5rSTPetitioner')}:</strong> {result.petitioner}</div>
             <div><strong>{t('l5rSTRequest')}:</strong> {result.request}</div>
             <div><strong>{t('l5rSTHiddenMotive')}:</strong> {result.hiddenMotive}</div>
@@ -104,7 +104,7 @@ function CourtIntrigueTab() {
         </ResultCard>
       )}
       <HistoryPanel items={history} label="Court intrigue history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}><strong>{item.petitioner.slice(0, 50)}...</strong></div>
+        <div className="text-base"><strong>{item.petitioner.slice(0, 50)}...</strong></div>
       )} />
     </div>
   )
@@ -132,14 +132,14 @@ function NPCGeneratorTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>{t('l5rSTNPCHint')}</p>
+      <p className="muted-hint mb-md">{t('l5rSTNPCHint')}</p>
       <button className="btn btn-primary" onClick={generateNPC}>
         {result ? t('bladesSTGenerateAnother') : t('bladesSTGenerateNPC')}
       </button>
       {result && (
         <ResultCard>
           <h3 style={{ margin: '0 0 var(--space-sm) 0', color: 'var(--accent)' }}>{result.familyName}</h3>
-          <div style={{ display: 'grid', gap: 'var(--space-xs)' }}>
+          <div className="grid gap-xs">
             <div><strong>{t('l5rClan')}:</strong> {result.clan}</div>
             <div><strong>{t('l5rSTPersonality')}:</strong> {result.personality}</div>
             <div><strong>{t('l5rSTDuty')}:</strong> {result.duty}</div>
@@ -148,7 +148,7 @@ function NPCGeneratorTab() {
         </ResultCard>
       )}
       <HistoryPanel items={history} label="NPC history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}><strong>{item.familyName}</strong> — {item.clan} Clan</div>
+        <div className="text-base"><strong>{item.familyName}</strong> — {item.clan} Clan</div>
       )} />
     </div>
   )
@@ -171,8 +171,8 @@ function SeasonalEventsTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>{t('l5rSTSeasonalHint')}</p>
-      <div style={{ display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">{t('l5rSTSeasonalHint')}</p>
+      <div className="flex gap-md flex-wrap items-end mb-md">
         <div className="field" style={{ flex: '0 0 160px' }}>
           <label htmlFor="season-select">{t('l5rSTSeason')}</label>
           <select id="season-select" value={season} onChange={e => setSeason(e.target.value)}>
@@ -186,14 +186,14 @@ function SeasonalEventsTab() {
       </div>
       {result && (
         <ResultCard>
-          <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 700, color: 'var(--accent)', letterSpacing: '0.05em', marginBottom: 'var(--space-xs)' }}>
+          <div className="uppercase font-bold mb-xs" style={{ fontSize: '0.75rem', color: 'var(--accent)', letterSpacing: '0.05em' }}>
             {t(`l5rST${result.season.charAt(0).toUpperCase() + result.season.slice(1)}`)}
           </div>
           <p style={{ margin: 0, fontSize: '1.05rem', lineHeight: 1.6 }}>{result.text}</p>
         </ResultCard>
       )}
       <HistoryPanel items={history} label="Seasonal event history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
+        <div className="text-base">
           <strong>{item.season.charAt(0).toUpperCase() + item.season.slice(1)}:</strong> {item.text.slice(0, 60)}...
         </div>
       )} />
@@ -221,16 +221,16 @@ export default function L5RSTTools() {
     <section aria-labelledby="l5r-st-tools-heading">
       <div className="character-list-header">
         <div>
-          <button className="btn btn-secondary" onClick={() => navigate('/l5r')} style={{ marginRight: 'var(--space-sm)' }}>
+          <button className="btn btn-secondary mr-sm" onClick={() => navigate('/l5r')}>
             {t('back')}
           </button>
           <h2 id="l5r-st-tools-heading" style={{ display: 'inline' }}>{t('l5rSTTools')}</h2>
         </div>
       </div>
 
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>{t('l5rSTToolsDesc')}</p>
+      <p className="muted-hint mb-md">{t('l5rSTToolsDesc')}</p>
 
-      <div className="tab-list" role="tablist" aria-label="ST Tools tabs" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="tab-list mb-lg" role="tablist" aria-label="ST Tools tabs">
         {TABS.map(tab => (
           <button key={tab.key} role="tab"
             className={`btn btn-secondary${activeTab === tab.key ? ' tab-btn--active' : ''}`}

@@ -147,7 +147,7 @@ export default function DndMonsterForm() {
               showDescOnSelect={false}
             />
             {templateName && (
-              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
+              <p className="muted-hint muted-hint--xs mt-xs text-accent">
                 Loaded from template: <strong>{templateName}</strong> — customize freely below.
               </p>
             )}
@@ -201,21 +201,21 @@ export default function DndMonsterForm() {
         <div className="form-section">
           <fieldset>
             <legend>Ability Scores</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 'var(--space-md)' }}>
+            <div className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))' }}>
               {ABILITIES.map(a => {
                 const score = fields[a.key]
                 const mod = abilityMod(score)
                 return (
-                  <div key={a.key} className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                    <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 600 }}>{a.full}</div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--color-accent-fg)', fontWeight: 700 }}>{formatMod(mod)}</div>
+                  <div key={a.key} className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                    <div className="text-xs text-muted uppercase font-semibold">{a.full}</div>
+                    <div className="text-sm text-accent font-bold" >{formatMod(mod)}</div>
                     <input
                       type="number" name={a.key} value={score}
                       onChange={e => handleField(a.key, parseInt(e.target.value) || 0)}
-                      style={{ width: '60px', textAlign: 'center', fontSize: '1.2rem', fontWeight: 700, margin: '0.3rem auto', display: 'block' }}
+                      className="text-center font-bold" style={{ width: '60px', fontSize: '1.2rem', margin: '0.3rem auto', display: 'block' }}
                       min={1} max={30}
                     />
-                    <div style={{ fontSize: '0.65rem', color: 'var(--color-text-muted)' }}>{a.label}</div>
+                    <div className="text-xs text-muted">{a.label}</div>
                   </div>
                 )
               })}
@@ -243,11 +243,11 @@ export default function DndMonsterForm() {
           <fieldset>
             <legend>Proficiencies</legend>
             <div className="field-row">
-              <div className="field" style={{ flex: 1 }}>
+              <div className="field flex-1" >
                 <label>Saving Throws</label>
                 <input name="dndSavingThrows" value={fields.dndSavingThrows} onChange={handleText} placeholder="DEX +6, CON +13, WIS +7" />
               </div>
-              <div className="field" style={{ flex: 1 }}>
+              <div className="field flex-1" >
                 <label>Skills</label>
                 <input name="dndSkillProficiencies" value={fields.dndSkillProficiencies} onChange={handleText} placeholder="Perception +13, Stealth +6" />
               </div>
@@ -293,36 +293,36 @@ export default function DndMonsterForm() {
         <div className="form-section">
           <fieldset>
             <legend>Actions</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               One action per line. Format: <em>Name: Description with attack bonus, damage, save DC, etc.</em>
             </p>
             <textarea
               name="dndMonsterActions" value={fields.dndMonsterActions} onChange={handleText}
-              rows={10} style={{ width: '100%' }}
+              rows={10} className="w-full"
               placeholder={'Multiattack: The dragon makes three attacks: one with its bite and two with its claws.\nBite: +14 to hit, reach 10 ft., 2d10+8 piercing plus 2d6 fire.\nClaw: +14 to hit, reach 5 ft., 2d6+8 slashing.\nFire Breath (Recharge 5-6): 60-ft. cone, DEX DC 21, 18d6 fire (half on save).'}
             />
           </fieldset>
 
           <fieldset>
             <legend>Legendary Actions</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Legendary actions are taken at the end of another creature's turn. Most legendary creatures get 3 per round.
             </p>
             <textarea
               name="dndMonsterLegendary" value={fields.dndMonsterLegendary} onChange={handleText}
-              rows={6} style={{ width: '100%' }}
+              rows={6} className="w-full"
               placeholder={'The dragon can take 3 legendary actions.\nDetect: Perception check.\nTail Attack: +14 to hit, reach 15 ft., 2d8+8 bludgeoning.\nWing Attack (2 actions): DEX DC 22, 2d6+8 bludgeoning and knocked prone.'}
             />
           </fieldset>
 
           <fieldset>
             <legend>Lair Actions</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Lair actions occur on initiative count 20 (losing ties) when the creature is in its lair.
             </p>
             <textarea
               name="dndLairActions" value={fields.dndLairActions} onChange={handleText}
-              rows={4} style={{ width: '100%' }}
+              rows={4} className="w-full"
               placeholder="Describe lair actions available on initiative count 20..."
             />
           </fieldset>
@@ -334,12 +334,12 @@ export default function DndMonsterForm() {
         <div className="form-section">
           <fieldset>
             <legend>Special Traits & Abilities</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               One trait per line. Format: <em>Trait Name: Description.</em> Include passive abilities, spellcasting, resistances, and other special features.
             </p>
             <textarea
               name="dndMonsterTraits" value={fields.dndMonsterTraits} onChange={handleText}
-              rows={10} style={{ width: '100%' }}
+              rows={10} className="w-full"
               placeholder={'Legendary Resistance (3/Day): If the creature fails a saving throw, it can choose to succeed instead.\nMagic Resistance: Advantage on saving throws against spells and magical effects.\nSpellcasting: 18th-level spellcaster...'}
             />
           </fieldset>
@@ -351,11 +351,11 @@ export default function DndMonsterForm() {
         <div className="form-section">
           <fieldset>
             <legend>Backstory & Motivation</legend>
-            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} placeholder="Who is this creature? What drives it? What is its history?" />
+            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full" placeholder="Who is this creature? What drives it? What is its history?" />
           </fieldset>
           <fieldset>
             <legend>DM Notes & Tactics</legend>
-            <textarea name="notes" value={fields.notes} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder="Combat tactics, weaknesses, encounter notes, treasure..." />
+            <textarea name="notes" value={fields.notes} onChange={handleText} rows={6} className="w-full" placeholder="Combat tactics, weaknesses, encounter notes, treasure..." />
           </fieldset>
         </div>
       </div>

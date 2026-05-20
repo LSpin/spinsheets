@@ -55,7 +55,7 @@ export default function UestrpgPage() {
     <section aria-labelledby="uestrpg-heading">
       <div className="character-list-header">
         <h2 id="uestrpg-heading">{t('systemUestrpg')} — {t('uestrpgMyChars')}</h2>
-        <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+        <div className="flex flex-wrap gap-sm">
           <button className="btn btn-primary" onClick={() => setShowNewChar(true)}>
             {t('systemUestrpg')} — {t('uestrpgNewChar')}
           </button>
@@ -67,7 +67,7 @@ export default function UestrpgPage() {
         </div>
       </div>
 
-      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="tab-list mb-lg" role="tablist">
         <button role="tab" className={`btn btn-secondary${pageTab === 0 ? ' tab-btn--active' : ''}`}
           onClick={() => setPageTab(0)}>{t('navCharacters')}</button>
         <button role="tab" className={`btn btn-secondary${pageTab === 1 ? ' tab-btn--active' : ''}`}
@@ -124,7 +124,7 @@ export default function UestrpgPage() {
 
             {isST && antagonists.length > 0 && (
               <>
-                <h3 style={{ marginTop: 'var(--space-xl)', marginBottom: 'var(--space-sm)' }}>{t('splatUestrpgAntagonist')}s ({antagonists.length})</h3>
+                <h3 className="mt-xl mb-sm">{t('splatUestrpgAntagonist')}s ({antagonists.length})</h3>
                 <ul className="character-list" aria-label="Antagonists">
                   {antagonists.map(c => (
                     <li key={c.id} className="character-card">

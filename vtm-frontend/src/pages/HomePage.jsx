@@ -168,7 +168,7 @@ export default function HomePage() {
         <h3>{t('supportedGames')}</h3>
         <div className="homepage-grid">
           <div className="homepage-card">
-            <span className="splat-badge splat-badge--vampire" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Vampire</span>
+            <span className="splat-badge splat-badge--vampire text-md mb-xs">Vampire</span>
             <ul className="homepage-list">
               <li>V: The Masquerade (V20)</li>
               <li>V: The Masquerade (Revised)</li>
@@ -179,7 +179,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="homepage-card">
-            <span className="splat-badge splat-badge--werewolf" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Werewolf</span>
+            <span className="splat-badge splat-badge--werewolf text-md mb-xs">Werewolf</span>
             <ul className="homepage-list">
               <li>W: The Apocalypse (W20)</li>
               <li>W: The Wyld West (W20)</li>
@@ -189,7 +189,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="homepage-card">
-            <span className="splat-badge splat-badge--mage" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Mage</span>
+            <span className="splat-badge splat-badge--mage text-md mb-xs">Mage</span>
             <ul className="homepage-list">
               <li>M: The Ascension (M20)</li>
               <li>Victorian Age Mage (Order of Reason)</li>
@@ -198,7 +198,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="homepage-card">
-            <span className="splat-badge splat-badge--hunter" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Hunter</span>
+            <span className="splat-badge splat-badge--hunter text-md mb-xs">Hunter</span>
             <ul className="homepage-list">
               <li>Hunter: The Reckoning</li>
               <li>8 Creeds · 3 Virtues</li>
@@ -206,7 +206,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="homepage-card">
-            <span className="splat-badge splat-badge--wraith" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Wraith</span>
+            <span className="splat-badge splat-badge--wraith text-md mb-xs">Wraith</span>
             <ul className="homepage-list">
               <li>Wraith: The Oblivion</li>
               <li>7 Legions · Shadow System</li>
@@ -214,7 +214,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="homepage-card">
-            <span className="splat-badge splat-badge--changeling" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Changeling</span>
+            <span className="splat-badge splat-badge--changeling text-md mb-xs">Changeling</span>
             <ul className="homepage-list">
               <li>Changeling: The Dreaming (C20)</li>
               <li>22 Kiths · 3 Seemings · 18 Arts</li>
@@ -222,7 +222,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="homepage-card">
-            <span className="splat-badge splat-badge--demon" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Demon</span>
+            <span className="splat-badge splat-badge--demon text-md mb-xs">Demon</span>
             <ul className="homepage-list">
               <li>Demon: The Fallen</li>
               <li>7 Houses · 5 Factions</li>
@@ -230,7 +230,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="homepage-card">
-            <span className="splat-badge splat-badge--seventh-sea" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>7th Sea</span>
+            <span className="splat-badge splat-badge--seventh-sea text-md mb-xs">7th Sea</span>
             <ul className="homepage-list">
               <li>7th Sea 2nd Edition (12 books)</li>
               <li>37 Nations · 33 Dueling Styles</li>
@@ -239,7 +239,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="homepage-card">
-            <span className="splat-badge splat-badge--l5r" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>L5R</span>
+            <span className="splat-badge splat-badge--l5r text-md mb-xs">L5R</span>
             <ul className="homepage-list">
               <li>L5R 4th & 5th Edition</li>
               <li>144 Schools · 34 Clans</li>
@@ -248,7 +248,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="homepage-card">
-            <span className="splat-badge splat-badge--blades" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Blades in the Dark</span>
+            <span className="splat-badge splat-badge--blades text-md mb-xs">Blades in the Dark</span>
             <ul className="homepage-list">
               <li>Blades + Deep Cuts</li>
               <li>11 Playbooks · 6 Crew Types</li>
@@ -257,7 +257,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="homepage-card">
-            <span className="splat-badge splat-badge--sav" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>Scum & Villainy</span>
+            <span className="splat-badge splat-badge--sav text-md mb-xs">Scum & Villainy</span>
             <ul className="homepage-list">
               <li>Forged in the Dark · Sci-Fi</li>
               <li>7 Playbooks · 3 Ship Types</li>
@@ -266,7 +266,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="homepage-card">
-            <span className="splat-badge splat-badge--dnd" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>D&D 5e</span>
+            <span className="splat-badge splat-badge--dnd text-md mb-xs">D&D 5e</span>
             <ul className="homepage-list">
               <li>D&D 5th Edition (SRD)</li>
               <li>13 Classes · 9 Races</li>
@@ -275,7 +275,7 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="homepage-card">
-            <span className="splat-badge splat-badge--uestrpg" style={{ fontSize: '0.9rem', marginBottom: 'var(--space-xs)' }}>UESTRPG</span>
+            <span className="splat-badge splat-badge--uestrpg text-md mb-xs">UESTRPG</span>
             <ul className="homepage-list">
               <li>Elder Scrolls RPG (D&D 5e)</li>
               <li>10 Races · 13 Classes</li>

@@ -151,9 +151,9 @@ export default function BloodSorcerySection({ characterId, elderMax = 5 }) {
     <div className="disc-bg-layout">
       <div className="form-section">
         {actionError && <p className="status-error" role="alert">{actionError}</p>}
-        <div style={{ marginBottom: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-          <label htmlFor="tradition-filter" style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('sorceryFilterTradition')}</label>
-          <select id="tradition-filter" value={traditionFilter} onChange={e => setTraditionFilter(e.target.value)} style={{ fontSize: '0.85rem' }}>
+        <div className="mb-md flex items-center gap-sm">
+          <label htmlFor="tradition-filter" className="text-base font-semibold">{t('sorceryFilterTradition')}</label>
+          <select id="tradition-filter" value={traditionFilter} onChange={e => setTraditionFilter(e.target.value)} className="text-base">
             <option value="all">{t('filterAll')}</option>
             {traditions.map(tr => <option key={tr} value={tr}>{tr}</option>)}
           </select>
@@ -206,8 +206,8 @@ export default function BloodSorcerySection({ characterId, elderMax = 5 }) {
         <fieldset>
           <legend>{t('rituals')}</legend>
           {[1,2,3,4,5,6,7,8].filter(lvl => rituals.some(r => r.level === lvl)).map(lvl => (
-            <div key={lvl} style={{ marginBottom: 'var(--space-md)' }}>
-              <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)', fontWeight: 600 }}>
+            <div key={lvl} className="mb-md">
+              <p className="text-sm text-muted mb-xs font-semibold">
                 {t('level')} {lvl}
               </p>
               <ul className="tag-list" aria-label={`Level ${lvl} rituals`}>
@@ -228,7 +228,7 @@ export default function BloodSorcerySection({ characterId, elderMax = 5 }) {
               </ul>
             </div>
           ))}
-          {rituals.length === 0 && <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>{t('noRitualsYet')}</p>}
+          {rituals.length === 0 && <p className="muted-hint mb-md">{t('noRitualsYet')}</p>}
           <div className="field-row">
             <SearchableInput
               id="ritual-name"
@@ -284,12 +284,12 @@ export default function BloodSorcerySection({ characterId, elderMax = 5 }) {
             <p className="tag-info-panel-name">{sorcInfo.name}</p>
             <p className="tag-info-panel-desc">{t('level')} {sorcInfo.level}</p>
             {entry?.description && (
-              <p style={{ fontSize: '0.82rem', lineHeight: 1.55, color: 'var(--color-text)' }}>
+              <p className="text-sm" style={{ lineHeight: 1.55 }}>
                 {entry.description}
               </p>
             )}
             {sorcInfo.notes && (
-              <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', fontStyle: 'italic', marginTop: 'var(--space-sm)' }}>
+              <p className="text-sm text-muted font-italic mt-sm">
                 {sorcInfo.notes}
               </p>
             )}

@@ -78,7 +78,7 @@ export default function AllChroniclesPage() {
       {error && <p className="status-error" role="alert">{error}</p>}
 
       {/* System filter tabs */}
-      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)', flexWrap: 'wrap' }}>
+      <div className="tab-list flex-wrap mb-lg" role="tablist">
         {SYSTEMS.map(sys => {
           const count = sys.key === 'ALL'
             ? chronicles.length
@@ -113,14 +113,14 @@ export default function AllChroniclesPage() {
             return (
               <li key={c.id} className="character-card">
                 <div className="character-card-info">
-                  <h3 style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                  <h3 className="flex items-center gap-sm">
                     {c.name}
-                    <span className={`splat-badge ${cInfo.badge || ''}`} style={{ fontSize: '0.78rem' }}>
+                    <span className={`splat-badge ${cInfo.badge || ''} text-sm`}>
                       {t(cInfo.labelKey)}
                     </span>
                   </h3>
                   {c.description && (
-                    <p className="character-card-meta" style={{ marginTop: '0.25rem' }}>{c.description}</p>
+                    <p className="character-card-meta mt-xs">{c.description}</p>
                   )}
                   <dl className="character-card-meta">
                     {c.storyteller && (
@@ -158,15 +158,14 @@ export default function AllChroniclesPage() {
           onKeyDown={e => { if (e.key === 'Escape') setShowCreateModal(false) }}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <h3 id="create-chronicle-title">{t('selectSystemForChronicle')}</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
+            <div className="flex-col gap-sm mt-md">
               {CREATABLE_SYSTEMS.map(sys => (
                 <button
                   key={sys.key}
-                  className="modal-option-btn"
+                  className="modal-option-btn flex items-center gap-md p-md text-left"
                   onClick={() => { setShowCreateModal(false); navigate(`${sys.basePath}/new`) }}
-                  style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-md)', textAlign: 'left' }}
                 >
-                  <span className={`splat-badge ${sys.badge || ''}`} style={{ fontSize: '0.85rem', minWidth: '120px' }}>
+                  <span className={`splat-badge ${sys.badge || ''} text-base`} style={{ minWidth: '120px' }}>
                     {t(sys.labelKey)}
                   </span>
                 </button>

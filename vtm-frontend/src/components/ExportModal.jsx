@@ -64,33 +64,29 @@ export default function ExportModal({ open, onClose, tabKeys, t }) {
       <div className="modal-content" onClick={e => e.stopPropagation()}
         style={{ maxWidth: '500px' }}>
         <h3 id="export-modal-title">{t('exportTitle')}</h3>
-        <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+        <p className="muted-hint mb-md">
           {t('exportDesc')}
         </p>
 
-        <div style={{ display: 'flex', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)' }}>
+        <div className="flex gap-sm mb-md">
           <button className="btn btn-secondary" onClick={selectAll}
             style={{ fontSize: '0.8rem', padding: '4px 10px' }}>{t('exportSelectAll')}</button>
           <button className="btn btn-secondary" onClick={selectNone}
             style={{ fontSize: '0.8rem', padding: '4px 10px' }}>{t('exportSelectNone')}</button>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)',
-          maxHeight: '400px', overflowY: 'auto', marginBottom: 'var(--space-md)',
-          padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '6px' }}>
+        <div className="flex-col gap-xs mb-md p-sm border" style={{ maxHeight: '400px', overflowY: 'auto', borderRadius: '6px' }}>
           {tabKeys.map(tk => (
-            <label key={tk} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)',
-              padding: 'var(--space-xs)', cursor: 'pointer', fontSize: '0.9rem',
-              borderRadius: '4px',
-              background: selected.has(tk) ? 'rgba(var(--accent-rgb, 100,100,255), 0.08)' : 'transparent' }}>
+            <label key={tk} className="flex items-center gap-sm py-xs cursor-pointer text-md rounded"
+              style={{ background: selected.has(tk) ? 'rgba(var(--accent-rgb, 100,100,255), 0.08)' : 'transparent' }}>
               <input type="checkbox" checked={selected.has(tk)}
                 onChange={() => toggle(tk)} />
-              <span style={{ fontWeight: selected.has(tk) ? 600 : 400 }}>{t(tk)}</span>
+              <span className={selected.has(tk) ? 'font-semibold' : 'font-normal'}>{t(tk)}</span>
             </label>
           ))}
         </div>
 
-        <div style={{ display: 'flex', gap: 'var(--space-sm)', justifyContent: 'flex-end' }}>
+        <div className="flex gap-sm justify-end">
           <button className="btn btn-secondary" onClick={onClose}>{t('cancel')}</button>
           <button className="btn btn-primary" onClick={handleExport}
             disabled={selected.size === 0}>

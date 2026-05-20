@@ -25,14 +25,4 @@ p {
   margin-bottom: var(--space-sm);
 }
 
-/* Muted hint text — used throughout for descriptions */
-.muted-hint {
-  color: var(--color-text-muted);
-  font-family: var(--font-ui);
-  font-size: 0.85rem;
-  line-height: 1.5;
-}
-
-.muted-hint--xs {
-  font-size: 0.78rem;
-}
+/* muted-hint classes defined in helpers.css */

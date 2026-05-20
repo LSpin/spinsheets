@@ -60,7 +60,7 @@ export default function SavPage() {
     <section aria-labelledby="sav-heading">
       <div className="character-list-header">
         <h2 id="sav-heading">{t('systemSav')} — {t('savMyCrew')}</h2>
-        <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+        <div className="flex flex-wrap gap-sm">
           <button className="btn btn-primary" onClick={() => setShowNewChar(true)}>
             {t('savNewScoundrel')}
           </button>
@@ -68,15 +68,14 @@ export default function SavPage() {
             {t('savNewShip')}
           </button>
           {isST && (
-            <button className="btn btn-secondary" onClick={() => navigate('/sav/st-tools')}
-              style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+            <button className="btn btn-secondary btn-outline-accent" onClick={() => navigate('/sav/st-tools')}>
               {t('savSTTools')}
             </button>
           )}
         </div>
       </div>
 
-      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="tab-list mb-lg" role="tablist">
         <button role="tab" className={`btn btn-secondary${pageTab === 0 ? ' tab-btn--active' : ''}`}
           onClick={() => setPageTab(0)}>{t('navCharacters')}</button>
         <button role="tab" className={`btn btn-secondary${pageTab === 1 ? ' tab-btn--active' : ''}`}
@@ -122,7 +121,7 @@ export default function SavPage() {
 
       {/* Ships */}
       {pageTab === 0 && !loading && (
-        <div style={{ marginTop: 'var(--space-xl)' }}>
+        <div className="mt-xl">
           <div className="character-list-header">
             <h2>{t('savShips')}</h2>
           </div>

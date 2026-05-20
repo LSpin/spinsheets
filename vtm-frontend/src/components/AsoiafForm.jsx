@@ -272,7 +272,7 @@ export default function AsoiafForm() {
             </div>
             <div className="field">
               <label>{t('appearanceLabel')}</label>
-              <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }}
+              <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full" 
                 placeholder="Describe your character's appearance..." />
             </div>
           </fieldset>
@@ -284,17 +284,17 @@ export default function AsoiafForm() {
         <div className="form-section">
           <fieldset>
             <legend>Derived Stats</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 'var(--space-sm)' }}>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+            <div className="grid gap-sm" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>Combat Defense:</strong> {combatDefense}
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>Health:</strong> {health}
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>Composure:</strong> {composure}
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>Intrigue Defense:</strong> {intrigueDefense}
               </div>
             </div>
@@ -304,20 +304,20 @@ export default function AsoiafForm() {
               <legend>{ability.label}</legend>
               <DotRating label={ability.label} name={ability.key} value={fields[ability.key]} onChange={handleField} min={1} max={7} />
               {ability.specialties && ability.specialties.length > 0 && (
-                <div style={{ marginTop: 'var(--space-xs)', paddingLeft: 'var(--space-md)' }}>
+                <div className="mt-xs" style={{ paddingLeft: 'var(--space-md)' }}>
                   {ability.specialties.map(spec => {
                     const bonus = getSpecialtyBonus(ability.key, spec)
                     return (
-                      <div key={spec} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: '2px 0' }}>
+                      <div key={spec} className="flex items-center gap-sm" style={{ padding: '2px 0' }}>
                         <input type="checkbox" checked={bonus > 0}
                           onChange={e => setSpecialtyBonus(ability.key, spec, e.target.checked ? 1 : 0)} />
-                        <span style={{ flex: 1, fontSize: '0.85rem' }}>{spec}</span>
+                        <span className="flex-1 text-base" >{spec}</span>
                         {bonus > 0 && (
                           <input type="number" min={1} max={5} value={bonus}
                             onChange={e => setSpecialtyBonus(ability.key, spec, Number(e.target.value) || 0)}
-                            style={{ width: '50px', textAlign: 'center', fontSize: '0.8rem' }} />
+                            className="text-center text-sm" style={{ width: '50px' }} />
                         )}
-                        {bonus > 0 && <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>B</span>}
+                        {bonus > 0 && <span className="text-sm text-muted" >B</span>}
                       </div>
                     )
                   })}
@@ -336,7 +336,7 @@ export default function AsoiafForm() {
             <div className="field" style={{ maxWidth: '200px' }}>
               <label htmlFor="asoiaf-destiny">Current Destiny Points</label>
               <input id="asoiaf-destiny" type="number" name="asoiafDestinyPoints" min={0} max={10}
-                value={fields.asoiafDestinyPoints} onChange={handleNumber} style={{ textAlign: 'center' }} />
+                value={fields.asoiafDestinyPoints} onChange={handleNumber} className="text-center"  />
             </div>
           </fieldset>
           <fieldset>
@@ -350,14 +350,14 @@ export default function AsoiafForm() {
                 }
               }} catalog={ASOIAF_BENEFIT_CATALOG} showDescOnSelect={false} />
             {benefits.length > 0 && (
-              <div style={{ marginTop: 'var(--space-md)' }}>
+              <div className="mt-md" >
                 {benefits.map((b, i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
-                    <span style={{ fontSize: '0.85rem' }}>
+                  <div key={i} className="flex justify-between items-center border-b" style={{ padding: '4px 0' }}>
+                    <span className="text-base" >
                       <strong>{b.name}</strong>
                       <span className="muted-hint muted-hint--xs"> {b.description}</span>
                     </span>
-                    <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                    <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                       onClick={() => setBenefits(benefits.filter((_, j) => j !== i))}>Remove</button>
                   </div>
                 ))}
@@ -381,14 +381,14 @@ export default function AsoiafForm() {
                 }
               }} catalog={ASOIAF_DRAWBACK_CATALOG} showDescOnSelect={false} />
             {drawbacks.length > 0 && (
-              <div style={{ marginTop: 'var(--space-md)' }}>
+              <div className="mt-md" >
                 {drawbacks.map((d, i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
-                    <span style={{ fontSize: '0.85rem' }}>
+                  <div key={i} className="flex justify-between items-center border-b" style={{ padding: '4px 0' }}>
+                    <span className="text-base" >
                       <strong>{d.name}</strong>
                       <span className="muted-hint muted-hint--xs"> {d.description}</span>
                     </span>
-                    <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                    <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                       onClick={() => setDrawbacks(drawbacks.filter((_, j) => j !== i))}>Remove</button>
                   </div>
                 ))}
@@ -404,19 +404,19 @@ export default function AsoiafForm() {
           <fieldset>
             <legend>Health Tracker</legend>
             <div className="field-row">
-              <div className="field" style={{ textAlign: 'center' }}>
+              <div className="field text-center" >
                 <label>Maximum Health</label>
-                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{health}</div>
+                <div className="font-bold text-accent" style={{ fontSize: '1.5rem' }}>{health}</div>
                 <span className="muted-hint muted-hint--xs">Endurance ({fields.asoiafEndurance}) x 3</span>
               </div>
-              <div className="field" style={{ textAlign: 'center' }}>
+              <div className="field text-center" >
                 <label htmlFor="asoiaf-health-current">Current Health</label>
                 <input id="asoiaf-health-current" type="number" name="asoiafHealthCurrent" min={0} max={health}
-                  value={fields.asoiafHealthCurrent} onChange={handleNumber} style={{ width: '80px', textAlign: 'center' }} />
+                  value={fields.asoiafHealthCurrent} onChange={handleNumber} className="text-center" style={{ width: '80px' }} />
               </div>
-              <div className="field" style={{ textAlign: 'center' }}>
+              <div className="field text-center" >
                 <label>Combat Defense</label>
-                <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>{combatDefense}</div>
+                <div className="font-bold" style={{ fontSize: '1.5rem' }}>{combatDefense}</div>
               </div>
             </div>
           </fieldset>
@@ -430,10 +430,10 @@ export default function AsoiafForm() {
                 if (item) setWeapons([...weapons, { name: item.name, training: item.training, damage: item.damage, qualities: item.qualities }])
               }} catalog={ASOIAF_WEAPON_CATALOG} showDescOnSelect={false} />
             {weapons.length > 0 && (
-              <div style={{ marginTop: 'var(--space-md)', overflowX: 'auto' }}>
-                <table style={{ width: '100%', fontSize: '0.82rem', borderCollapse: 'collapse' }}>
+              <div className="mt-md" style={{ overflowX: 'auto' }}>
+                <table className="w-full text-sm" style={{ borderCollapse: 'collapse' }}>
                   <thead>
-                    <tr style={{ borderBottom: '1px solid var(--color-border)', textAlign: 'left' }}>
+                    <tr className="border-b text-left" >
                       <th style={{ padding: '0.4rem' }}>Weapon</th>
                       <th style={{ padding: '0.4rem' }}>Training</th>
                       <th style={{ padding: '0.4rem' }}>Damage</th>
@@ -443,13 +443,13 @@ export default function AsoiafForm() {
                   </thead>
                   <tbody>
                     {weapons.map((w, i) => (
-                      <tr key={i} style={{ borderBottom: '1px solid var(--color-border)' }}>
-                        <td style={{ padding: '0.4rem', fontWeight: 600 }}>{w.name}</td>
+                      <tr key={i} className="border-b" >
+                        <td className="font-semibold" style={{ padding: '0.4rem' }}>{w.name}</td>
                         <td style={{ padding: '0.4rem' }}>{w.training}</td>
-                        <td style={{ padding: '0.4rem', color: 'var(--color-accent-fg)' }}>{w.damage}</td>
+                        <td className="text-accent" style={{ padding: '0.4rem' }}>{w.damage}</td>
                         <td style={{ padding: '0.4rem' }}>{Array.isArray(w.qualities) ? w.qualities.join(', ') : (w.qualities || '-')}</td>
                         <td style={{ padding: '0.4rem' }}>
-                          <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                          <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                             onClick={() => setWeapons(weapons.filter((_, j) => j !== i))}>Remove</button>
                         </td>
                       </tr>
@@ -469,14 +469,14 @@ export default function AsoiafForm() {
                 if (item) setArmorList([...armorList, { name: item.name, ar: item.ar, ap: item.ap, bulk: item.bulk }])
               }} catalog={ASOIAF_ARMOR_CATALOG} showDescOnSelect={false} />
             {armorList.length > 0 && (
-              <div style={{ marginTop: 'var(--space-sm)' }}>
+              <div className="mt-sm" >
                 {armorList.map((a, i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
-                    <span style={{ fontSize: '0.85rem' }}>
+                  <div key={i} className="flex justify-between items-center border-b" style={{ padding: '4px 0' }}>
+                    <span className="text-base" >
                       <strong>{a.name}</strong>
                       <span className="muted-hint muted-hint--xs"> AR {a.ar} | AP {a.ap} | Bulk {a.bulk}</span>
                     </span>
-                    <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                    <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                       onClick={() => setArmorList(armorList.filter((_, j) => j !== i))}>Remove</button>
                   </div>
                 ))}
@@ -487,14 +487,14 @@ export default function AsoiafForm() {
           <fieldset>
             <legend>Injuries</legend>
             {injuries.map((inj, i) => (
-              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
-                <span style={{ fontSize: '0.85rem' }}>{inj}</span>
-                <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+              <div key={i} className="flex justify-between items-center border-b" style={{ padding: '4px 0' }}>
+                <span className="text-base" >{inj}</span>
+                <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                   onClick={() => setInjuries(injuries.filter((_, j) => j !== i))}>Remove</button>
               </div>
             ))}
-            <div className="field-row" style={{ marginTop: 'var(--space-sm)' }}>
-              <div className="field" style={{ flex: 1 }}>
+            <div className="field-row mt-sm" >
+              <div className="field flex-1" >
                 <input type="text" value={newInjury} onChange={e => setNewInjury(e.target.value)}
                   placeholder="Describe injury..." onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); if (newInjury.trim()) { setInjuries([...injuries, newInjury.trim()]); setNewInjury('') } } }} />
               </div>
@@ -510,19 +510,19 @@ export default function AsoiafForm() {
           <fieldset>
             <legend>Composure Tracker</legend>
             <div className="field-row">
-              <div className="field" style={{ textAlign: 'center' }}>
+              <div className="field text-center" >
                 <label>Maximum Composure</label>
-                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{composure}</div>
+                <div className="font-bold text-accent" style={{ fontSize: '1.5rem' }}>{composure}</div>
                 <span className="muted-hint muted-hint--xs">Will ({fields.asoiafWill}) x 3</span>
               </div>
-              <div className="field" style={{ textAlign: 'center' }}>
+              <div className="field text-center" >
                 <label htmlFor="asoiaf-composure-current">Current Composure</label>
                 <input id="asoiaf-composure-current" type="number" name="asoiafComposureCurrent" min={0} max={composure}
-                  value={fields.asoiafComposureCurrent} onChange={handleNumber} style={{ width: '80px', textAlign: 'center' }} />
+                  value={fields.asoiafComposureCurrent} onChange={handleNumber} className="text-center" style={{ width: '80px' }} />
               </div>
-              <div className="field" style={{ textAlign: 'center' }}>
+              <div className="field text-center" >
                 <label>Intrigue Defense</label>
-                <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>{intrigueDefense}</div>
+                <div className="font-bold" style={{ fontSize: '1.5rem' }}>{intrigueDefense}</div>
                 <span className="muted-hint muted-hint--xs">Awareness + Cunning + Status</span>
               </div>
             </div>
@@ -530,16 +530,16 @@ export default function AsoiafForm() {
 
           <fieldset>
             <legend>Disposition</legend>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-xs)' }}>
+            <div className="flex flex-wrap gap-xs" >
               {DISPOSITIONS.map(d => (
-                <label key={d} style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '4px 8px', border: '1px solid var(--color-border)', borderRadius: '4px', cursor: 'pointer', background: disposition === d ? 'var(--color-accent-fg)' : undefined, color: disposition === d ? '#fff' : undefined }}>
+                <label key={d} className="flex items-center border cursor-pointer" style={{ gap: '4px', padding: '4px 8px', borderRadius: '4px', background: disposition === d ? 'var(--color-accent-fg)' : undefined, color: disposition === d ? '#fff' : undefined }}>
                   <input type="radio" name="disposition" value={d} checked={disposition === d}
                     onChange={() => setDisposition(d)} style={{ display: 'none' }} />
                   {d}
                 </label>
               ))}
             </div>
-            <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mt-sm" >
               Disposition modifier to Intrigue Defense: Affectionate (-3), Friendly (-2), Amiable (-1), Indifferent (0), Dislike (+1), Unfriendly (+2), Malicious (+3)
             </p>
           </fieldset>
@@ -552,20 +552,20 @@ export default function AsoiafForm() {
           <fieldset>
             <legend>Wealth</legend>
             <div className="field-row">
-              <div className="field" style={{ textAlign: 'center' }}>
+              <div className="field text-center" >
                 <label htmlFor="asoiaf-gold">Gold Dragons</label>
                 <input id="asoiaf-gold" type="number" name="asoiafGoldDragons" min={0}
-                  value={fields.asoiafGoldDragons} onChange={handleNumber} style={{ width: '100px', textAlign: 'center' }} />
+                  value={fields.asoiafGoldDragons} onChange={handleNumber} className="text-center" style={{ width: '100px' }} />
               </div>
-              <div className="field" style={{ textAlign: 'center' }}>
+              <div className="field text-center" >
                 <label htmlFor="asoiaf-silver">Silver Stags</label>
                 <input id="asoiaf-silver" type="number" name="asoiafSilverStags" min={0}
-                  value={fields.asoiafSilverStags} onChange={handleNumber} style={{ width: '100px', textAlign: 'center' }} />
+                  value={fields.asoiafSilverStags} onChange={handleNumber} className="text-center" style={{ width: '100px' }} />
               </div>
-              <div className="field" style={{ textAlign: 'center' }}>
+              <div className="field text-center" >
                 <label htmlFor="asoiaf-copper">Copper Pennies</label>
                 <input id="asoiaf-copper" type="number" name="asoiafCopperPennies" min={0}
-                  value={fields.asoiafCopperPennies} onChange={handleNumber} style={{ width: '100px', textAlign: 'center' }} />
+                  value={fields.asoiafCopperPennies} onChange={handleNumber} className="text-center" style={{ width: '100px' }} />
               </div>
             </div>
           </fieldset>
@@ -573,14 +573,14 @@ export default function AsoiafForm() {
           <fieldset>
             <legend>Inventory</legend>
             {inventory.map((item, i) => (
-              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
-                <span style={{ fontSize: '0.85rem' }}>{item}</span>
-                <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+              <div key={i} className="flex justify-between items-center border-b" style={{ padding: '4px 0' }}>
+                <span className="text-base" >{item}</span>
+                <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                   onClick={() => setInventory(inventory.filter((_, j) => j !== i))}>Remove</button>
               </div>
             ))}
-            <div className="field-row" style={{ marginTop: 'var(--space-sm)' }}>
-              <div className="field" style={{ flex: 1 }}>
+            <div className="field-row mt-sm" >
+              <div className="field flex-1" >
                 <input type="text" value={newItem} onChange={e => setNewItem(e.target.value)}
                   placeholder="Add item..." onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); if (newItem.trim()) { setInventory([...inventory, newItem.trim()]); setNewItem('') } } }} />
               </div>
@@ -596,12 +596,12 @@ export default function AsoiafForm() {
           <fieldset>
             <legend>House Information</legend>
             <div className="field-row">
-              <div className="field" style={{ flex: 1 }}>
+              <div className="field flex-1" >
                 <label htmlFor="house-name">House Name</label>
                 <input id="house-name" type="text" value={houseData.name || ''}
                   onChange={e => setHouseData({ ...houseData, name: e.target.value })} placeholder="e.g. House Stark" />
               </div>
-              <div className="field" style={{ flex: 1 }}>
+              <div className="field flex-1" >
                 <label htmlFor="house-motto">Motto / Words</label>
                 <input id="house-motto" type="text" value={houseData.motto || ''}
                   onChange={e => setHouseData({ ...houseData, motto: e.target.value })} placeholder="e.g. Winter Is Coming" />
@@ -611,14 +611,14 @@ export default function AsoiafForm() {
 
           <fieldset>
             <legend>House Resources (0-70)</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 'var(--space-sm)' }}>
+            <div className="grid gap-sm" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))' }}>
               {ASOIAF_HOUSE_RESOURCES.map(res => (
-                <div key={res.key} className="field" style={{ textAlign: 'center' }}>
+                <div key={res.key} className="field text-center" >
                   <label>{res.label}</label>
                   <input type="number" min={0} max={70}
                     value={(houseData.resources && houseData.resources[res.key]) || 0}
                     onChange={e => setHouseData({ ...houseData, resources: { ...houseData.resources, [res.key]: Number(e.target.value) || 0 } })}
-                    style={{ width: '80px', textAlign: 'center' }} />
+                    className="text-center" style={{ width: '80px' }} />
                   <span className="muted-hint muted-hint--xs">{res.description}</span>
                 </div>
               ))}
@@ -628,7 +628,7 @@ export default function AsoiafForm() {
           <fieldset>
             <legend>Holdings</legend>
             <textarea value={houseData.holdings || ''} onChange={e => setHouseData({ ...houseData, holdings: e.target.value })}
-              rows={4} style={{ width: '100%' }} placeholder="Describe your house's castles, lands, and holdings..." />
+              rows={4} className="w-full"  placeholder="Describe your house's castles, lands, and holdings..." />
           </fieldset>
         </div>
       </div>
@@ -638,12 +638,12 @@ export default function AsoiafForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
-            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }}
+            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full" 
               placeholder="Your character's backstory..." />
           </fieldset>
           <fieldset>
             <legend>{t('notes')}</legend>
-            <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }}
+            <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full" 
               placeholder="Session notes, house politics, etc..." />
           </fieldset>
         </div>
@@ -662,19 +662,19 @@ export default function AsoiafForm() {
         <div className="form-section">
           <fieldset>
             <legend>ASOIAF d6 Pool Roller</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Roll (Test Dice + Bonus Dice) d6, sort descending, keep Test Dice count, sum kept dice vs. Difficulty.
             </p>
             <div className="field-row">
               <div className="field">
                 <label htmlFor="dice-test">Test Dice (Ability Rank)</label>
                 <input id="dice-test" type="number" min={1} max={10} value={diceTestDice}
-                  onChange={e => setDiceTestDice(Number(e.target.value) || 1)} style={{ width: '70px', textAlign: 'center' }} />
+                  onChange={e => setDiceTestDice(Number(e.target.value) || 1)} className="text-center" style={{ width: '70px' }} />
               </div>
               <div className="field">
                 <label htmlFor="dice-bonus">Bonus Dice (Specialty)</label>
                 <input id="dice-bonus" type="number" min={0} max={10} value={diceBonusDice}
-                  onChange={e => setDiceBonusDice(Number(e.target.value) || 0)} style={{ width: '70px', textAlign: 'center' }} />
+                  onChange={e => setDiceBonusDice(Number(e.target.value) || 0)} className="text-center" style={{ width: '70px' }} />
               </div>
               <div className="field">
                 <label htmlFor="dice-diff">Difficulty</label>
@@ -687,14 +687,14 @@ export default function AsoiafForm() {
               <button className="btn btn-primary" style={{ alignSelf: 'flex-end' }} onClick={rollD6Pool}>Roll</button>
             </div>
             {diceResult && (
-              <div style={{ marginTop: 'var(--space-md)', padding: 'var(--space-md)', border: '2px solid var(--color-accent-fg)', borderRadius: '8px', background: 'rgba(52,152,219,0.08)' }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: diceResult.success ? '#2ecc71' : '#e55' }}>
+              <div className="mt-md p-md" style={{ border: '2px solid var(--color-accent-fg)', borderRadius: '8px', background: 'rgba(52,152,219,0.08)' }}>
+                <div className="font-bold" style={{ fontSize: '1.5rem', color: diceResult.success ? '#2ecc71' : '#e55' }}>
                   {diceResult.sum} vs {diceResult.difficulty} — {diceResult.success ? 'SUCCESS' : 'FAILURE'}
                 </div>
-                <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
+                <div className="text-base" style={{ marginTop: '4px' }}>
                   All dice: [{diceResult.rolls.join(', ')}] | Kept: [{diceResult.kept.join(', ')}] = {diceResult.sum}
                 </div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                <div className="text-sm text-muted" style={{ marginTop: '2px' }}>
                   {diceResult.testDice}D + {diceResult.bonusDice}B, keep {diceResult.testDice}
                 </div>
               </div>
@@ -705,9 +705,9 @@ export default function AsoiafForm() {
             <legend>Roll History</legend>
             {diceHistory.length === 0 && <p className="muted-hint">No rolls yet.</p>}
             {diceHistory.map((h, i) => (
-              <div key={i} style={{ padding: '4px 0', borderBottom: '1px solid var(--color-border)', fontSize: '0.82rem' }}>
-                <span style={{ color: 'var(--color-text-muted)' }}>{h.time}</span>{' '}
-                <span style={{ color: h.success ? '#2ecc71' : '#e55', fontWeight: 600 }}>{h.success ? 'SUCCESS' : 'FAIL'}</span>{' '}
+              <div key={i} className="border-b text-sm" style={{ padding: '4px 0' }}>
+                <span className="text-muted" >{h.time}</span>{' '}
+                <span className="font-semibold" style={{ color: h.success ? '#2ecc71' : '#e55' }}>{h.success ? 'SUCCESS' : 'FAIL'}</span>{' '}
                 {h.sum} vs {h.difficulty} ({h.testDice}D+{h.bonusDice}B kept [{h.kept.join(',')}])
               </div>
             ))}

@@ -143,7 +143,7 @@ export default function DicePoolsTab({ fields, splat, characterId }) {
         <td className="dice-pool-name">
           {pool.name}
           {pool.custom && onRemove && (
-            <button className="btn btn-danger btn-sm" style={{ marginLeft: '0.4rem', padding: '0 0.3rem', fontSize: '0.7rem' }}
+            <button className="btn btn-danger btn-sm ml-sm" style={{ padding: '0 0.3rem', fontSize: '0.7rem' }}
               onClick={onRemove}>×</button>
           )}
         </td>
@@ -205,10 +205,10 @@ export default function DicePoolsTab({ fields, splat, characterId }) {
     <div className="form-section">
       <fieldset>
         <legend>{t('tabDicePools')}</legend>
-        <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+        <p className="muted-hint muted-hint--xs mb-sm">
           {t('dpHint')}
         </p>
-        <div className="catalog-search-wrap" style={{ marginBottom: 'var(--space-md)' }}>
+        <div className="catalog-search-wrap mb-md">
           <input type="search" value={filter} onChange={e => setFilter(e.target.value)}
             placeholder={t('dpSearch')} aria-label={t('dpSearch')} />
         </div>
@@ -232,7 +232,7 @@ export default function DicePoolsTab({ fields, splat, characterId }) {
       {/* Add custom pool */}
       <fieldset>
         <legend>{t('dpAddCustom')}</legend>
-        <div className="field-row" style={{ alignItems: 'flex-end', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+        <div className="field-row items-end gap-sm flex-wrap">
           <div className="field" style={{ flex: 2, minWidth: 140 }}>
             <label>{t('name')}</label>
             <input type="text" value={newPool.name} onChange={e => setNewPool(p => ({ ...p, name: e.target.value }))}

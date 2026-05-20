@@ -57,7 +57,7 @@ export default function L5RPage() {
     <section aria-labelledby="l5r-heading">
       <div className="character-list-header">
         <h2 id="l5r-heading">{t('systemL5R')} — {t('l5rMySamurai')}</h2>
-        <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+        <div className="flex flex-wrap gap-sm">
           <button className="btn btn-primary" onClick={() => setShowEditionPicker(true)}>
             {t('l5rNewSamurai')}
           </button>
@@ -66,8 +66,7 @@ export default function L5RPage() {
               <button className="btn btn-secondary" onClick={() => navigate('/l5r/antagonist/new')}>
                 {t('l5rNewAntagonist')}
               </button>
-              <button className="btn btn-secondary" onClick={() => navigate('/l5r/st-tools')}
-                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+              <button className="btn btn-secondary btn-outline-accent" onClick={() => navigate('/l5r/st-tools')}>
                 {t('l5rSTTools')}
               </button>
             </>
@@ -75,7 +74,7 @@ export default function L5RPage() {
         </div>
       </div>
 
-      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="tab-list mb-lg" role="tablist">
         <button role="tab" className={`btn btn-secondary${pageTab === 0 ? ' tab-btn--active' : ''}`}
           onClick={() => setPageTab(0)}>{t('navCharacters')}</button>
         <button role="tab" className={`btn btn-secondary${pageTab === 1 ? ' tab-btn--active' : ''}`}
@@ -129,7 +128,7 @@ export default function L5RPage() {
 
             {fiveE.length > 0 && (
               <>
-                <h3 style={{ marginTop: 'var(--space-xl)', marginBottom: 'var(--space-sm)' }}>{t('splatL5R5e')} ({fiveE.length})</h3>
+                <h3 className="mt-xl mb-sm">{t('splatL5R5e')} ({fiveE.length})</h3>
                 <ul className="character-list" aria-label={t('splatL5R5e')}>
                   {fiveE.map(c => (
                     <li key={c.id} className="character-card">
@@ -157,7 +156,7 @@ export default function L5RPage() {
 
             {isST && antagonists.length > 0 && (
               <>
-                <h3 style={{ marginTop: 'var(--space-xl)', marginBottom: 'var(--space-sm)' }}>{t('splatL5RAntagonist')}s ({antagonists.length})</h3>
+                <h3 className="mt-xl mb-sm">{t('splatL5RAntagonist')}s ({antagonists.length})</h3>
                 <ul className="character-list" aria-label="Antagonists">
                   {antagonists.map(c => (
                     <li key={c.id} className="character-card">
@@ -188,23 +187,21 @@ export default function L5RPage() {
           onKeyDown={e => { if (e.key === 'Escape') setShowEditionPicker(false) }}>
           <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: '500px' }}>
             <h3 id="edition-picker-title">{t('l5rChooseEdition')}</h3>
-            <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+            <p className="muted-hint mb-md">
               {t('l5rChooseEditionDesc')}
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
-              <button className="modal-option-btn" autoFocus
-                onClick={() => { setShowEditionPicker(false); setSelectedEdition('4e'); setShowNewChar(true) }}
-                style={{ padding: 'var(--space-lg)', textAlign: 'left' }}>
-                <strong style={{ fontSize: '1.1rem' }}>L5R 4th Edition</strong>
-                <span className="muted-hint" style={{ display: 'block', marginTop: 'var(--space-xs)' }}>
+            <div className="flex-col gap-md">
+              <button className="modal-option-btn p-lg text-left" autoFocus
+                onClick={() => { setShowEditionPicker(false); setSelectedEdition('4e'); setShowNewChar(true) }}>
+                <strong className="text-xl">L5R 4th Edition</strong>
+                <span className="muted-hint d-block mt-xs">
                   {t('l5r4eDesc')}
                 </span>
               </button>
-              <button className="modal-option-btn"
-                onClick={() => { setShowEditionPicker(false); setSelectedEdition('5e'); setShowNewChar(true) }}
-                style={{ padding: 'var(--space-lg)', textAlign: 'left' }}>
-                <strong style={{ fontSize: '1.1rem' }}>L5R 5th Edition (FFG)</strong>
-                <span className="muted-hint" style={{ display: 'block', marginTop: 'var(--space-xs)' }}>
+              <button className="modal-option-btn p-lg text-left"
+                onClick={() => { setShowEditionPicker(false); setSelectedEdition('5e'); setShowNewChar(true) }}>
+                <strong className="text-xl">L5R 5th Edition (FFG)</strong>
+                <span className="muted-hint d-block mt-xs">
                   {t('l5r5eDesc')}
                 </span>
               </button>

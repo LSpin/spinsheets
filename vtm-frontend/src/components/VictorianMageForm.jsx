@@ -351,7 +351,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
         {catalog?.map(c => <option key={c.value} value={c.value} />)}
       </datalist>
       <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={onField} max={max} />
-      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1', margin: 0 }}>{match.description}</p>}
+      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1' }}>{match.description}</p>}
     </div>
   )
 }
@@ -661,9 +661,9 @@ export default function VictorianMageForm() {
             {(() => {
               const tradEntry = MAGE_TRADITIONS.find(mt => mt.name === fields.clan)
               return tradEntry ? (
-                <div style={{ marginBottom: 'var(--space-sm)' }}>
+                <div className="mb-sm">
                   <p className="archetype-desc">{tradEntry.description}</p>
-                  {tradEntry.focus && <p className="archetype-desc" style={{ marginTop: '0.25rem' }}><strong>{t('focus')}:</strong> {tradEntry.focus}</p>}
+                  {tradEntry.focus && <p className="archetype-desc mt-xs"><strong>{t('focus')}:</strong> {tradEntry.focus}</p>}
                 </div>
               ) : null
             })()}
@@ -783,7 +783,7 @@ export default function VictorianMageForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('secondaryTalents')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('secondaryAbilitiesHint')}
             </p>
             <div className="rating-grid">
@@ -853,7 +853,7 @@ export default function VictorianMageForm() {
 
           <fieldset>
             <legend>{t('spheres')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('sphereMaxHint').replace('{0}', fields.arete)}
             </p>
             <div className="rating-grid">
@@ -863,16 +863,16 @@ export default function VictorianMageForm() {
                 const val = fields[field] || 0
                 const isArchsphere = val >= 6
                 return (
-                  <div key={key} className="ability-row" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '0.25rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div key={key} className="ability-row flex-col" style={{ alignItems: 'stretch', gap: '0.25rem' }}>
+                    <div className="flex items-center gap-sm">
                       <DotRating label={info.name} name={field} value={val} onChange={handleField} min={0} max={Math.min(fields.arete || 1, 9)} />
-                      {isArchsphere && <span style={{ fontSize: '0.7rem', color: '#c4a35a', fontWeight: 600 }}>ARCH</span>}
+                      {isArchsphere && <span className="text-xs font-semibold" style={{ color: '#c4a35a' }}>ARCH</span>}
                     </div>
-                    <p style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', margin: 0, paddingLeft: 4 }}>
+                    <p className="text-xs text-muted" style={{ margin: 0, paddingLeft: 4 }}>
                       {info.description}
                     </p>
                     {val > 0 && info.levels[val] && (
-                      <p style={{ fontSize: '0.72rem', color: val >= 6 ? '#c4a35a' : 'var(--color-text)', margin: 0, paddingLeft: 4, fontStyle: 'italic' }}>
+                      <p className="text-xs font-italic" style={{ color: val >= 6 ? '#c4a35a' : 'var(--color-text)', margin: 0, paddingLeft: 4 }}>
                         {val >= 6 ? `[${val}] ` : `[${val}] `}{info.levels[val]}
                       </p>
                     )}
@@ -888,21 +888,21 @@ export default function VictorianMageForm() {
               <DotRating label={t('quintessence')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={20} />
               <DotRating label={t('paradox')} name="paradox" value={fields.paradox} onChange={handleField} min={0} max={20} />
             </div>
-            <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>
+            <p className="muted-hint muted-hint--xs mt-xs">
               Quintessence fuels Effects and is stored in your Avatar or a Node. Paradox accumulates from vulgar magic (especially when witnessed by Sleepers).
             </p>
             {fields.paradox >= 5 && fields.paradox < 10 && (
-              <p className="status-warning" role="status" aria-live="polite" aria-atomic="true" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs" role="status" aria-live="polite" aria-atomic="true">
                 Paradox is building up ({fields.paradox}) — risk of Paradox backlash. Quiet may manifest soon.
               </p>
             )}
             {fields.paradox >= 10 && fields.paradox < 15 && (
-              <p className="status-error" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-error mt-xs" role="alert" aria-live="assertive">
                 Dangerous Paradox levels ({fields.paradox}) — severe backlash imminent. Paradox spirits may be drawn to you.
               </p>
             )}
             {fields.paradox >= 15 && (
-              <p className="status-error" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+              <p className="status-error mt-xs font-bold" role="alert" aria-live="assertive">
                 Critical Paradox ({fields.paradox}) — Paradox Realm or catastrophic backlash likely. Reality is rejecting you.
               </p>
             )}
@@ -915,34 +915,34 @@ export default function VictorianMageForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('rotes')} ({rotes.length})</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('rotesHint')}
             </p>
             {rotes.length > 0 && (
-              <table className="rote-table" style={{ width: '100%', marginBottom: 'var(--space-md)', fontSize: '0.85rem' }}>
+              <table className="rote-table w-full mb-md text-base">
                 <thead>
                   <tr>
-                    <th style={{ textAlign: 'left' }}>{t('name')}</th>
-                    <th style={{ textAlign: 'left' }}>{t('spheres')}</th>
+                    <th className="text-left" >{t('name')}</th>
+                    <th className="text-left" >{t('spheres')}</th>
                     <th>{t('levelAbbr')}</th>
-                    <th style={{ textAlign: 'left' }}>{t('description')}</th>
+                    <th className="text-left" >{t('description')}</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   {rotes.map(r => (
                     <tr key={r.id}>
-                      <td style={{ fontWeight: 600 }}>{r.name}</td>
-                      <td style={{ color: 'var(--color-text-muted)' }}>{r.spheres}</td>
-                      <td style={{ textAlign: 'center' }}>{r.level}</td>
-                      <td style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>{r.description}</td>
+                      <td className="font-semibold">{r.name}</td>
+                      <td className="text-muted">{r.spheres}</td>
+                      <td className="text-center">{r.level}</td>
+                      <td className="text-muted text-sm">{r.description}</td>
                       <td><button className="btn btn-danger btn-sm" onClick={() => handleRemoveRote(r.id)}>×</button></td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             )}
-            <div className="field-row" style={{ alignItems: 'flex-end', gap: 'var(--space-sm)' }}>
+            <div className="field-row items-end gap-sm">
               <div className="field" style={{ flex: 2 }}>
                 <label>{t('name')}</label>
                 <input type="text" value={newRote.name} onChange={e => setNewRote(prev => ({ ...prev, name: e.target.value }))}
@@ -951,7 +951,7 @@ export default function VictorianMageForm() {
                   {MAGE_ROTES.map(r => <option key={r.name} value={r.name} />)}
                 </datalist>
               </div>
-              <div className="field" style={{ flex: 1 }}>
+              <div className="field flex-1" >
                 <label>{t('spheres')}</label>
                 <input type="text" value={newRote.spheres} onChange={e => setNewRote(prev => ({ ...prev, spheres: e.target.value }))}
                   placeholder={t('spheresExamplePh')} />
@@ -963,10 +963,10 @@ export default function VictorianMageForm() {
                 </select>
               </div>
             </div>
-            <div className="field" style={{ marginBottom: 'var(--space-sm)' }}>
+            <div className="field" className="mb-sm">
               <label>{t('description')}</label>
               <textarea value={newRote.description} onChange={e => setNewRote(prev => ({ ...prev, description: e.target.value }))}
-                rows={2} style={{ width: '100%' }} placeholder={t('roteDescPh')} />
+                rows={2} className="w-full" placeholder={t('roteDescPh')} />
             </div>
             <button className="btn btn-primary btn-sm" onClick={handleAddRote}>{t('add')}</button>
           </fieldset>
@@ -974,12 +974,12 @@ export default function VictorianMageForm() {
           <fieldset>
             <legend>{t('roteCatalogue')}</legend>
             <details>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>
+              <summary className="cursor-pointer font-semibold text-md text-accent">
                 {t('roteBrowse').replace('{0}', MAGE_ROTES.length)}
               </summary>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)', marginTop: 'var(--space-sm)', marginBottom: 'var(--space-sm)', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
-                  <label htmlFor="vic-catalog-filter-sphere" style={{ fontSize: '0.82rem', fontWeight: 600, whiteSpace: 'nowrap' }}>Sphere:</label>
+              <div className="flex flex-wrap gap-sm mt-sm mb-sm items-center">
+                <div className="flex items-center gap-xs">
+                  <label htmlFor="vic-catalog-filter-sphere" className="text-sm font-semibold" style={{ whiteSpace: 'nowrap' }}>Sphere:</label>
                   <select id="vic-catalog-filter-sphere" value={catalogFilterSphere} onChange={e => setCatalogFilterSphere(e.target.value)}
                     style={{ minWidth: 130 }} aria-label="Filter catalogue by sphere">
                     <option value="">All Spheres</option>
@@ -988,8 +988,8 @@ export default function VictorianMageForm() {
                     ))}
                   </select>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
-                  <label htmlFor="vic-catalog-filter-category" style={{ fontSize: '0.82rem', fontWeight: 600, whiteSpace: 'nowrap' }}>Category:</label>
+                <div className="flex items-center gap-xs">
+                  <label htmlFor="vic-catalog-filter-category" className="text-sm font-semibold" style={{ whiteSpace: 'nowrap' }}>Category:</label>
                   <select id="vic-catalog-filter-category" value={catalogFilterCategory} onChange={e => setCatalogFilterCategory(e.target.value)}
                     style={{ minWidth: 180 }} aria-label="Filter catalogue by category">
                     <option value="">All Categories</option>
@@ -1010,13 +1010,13 @@ export default function VictorianMageForm() {
                 </div>
                 {(catalogFilterSphere || catalogFilterCategory) && (
                   <>
-                    <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }} aria-live="polite" role="status">
+                    <span className="text-sm text-muted" aria-live="polite" role="status">
                       {MAGE_ROTES.filter(r =>
                         (!catalogFilterSphere || (r.spheres || '').includes(catalogFilterSphere)) &&
                         (!catalogFilterCategory || r.category === catalogFilterCategory)
                       ).length} results
                     </span>
-                    <button className="btn btn-sm" style={{ fontSize: '0.75rem', padding: '2px 8px' }}
+                    <button className="btn btn-sm" className="text-xs" style={{ padding: '2px 8px' }}
                       onClick={() => { setCatalogFilterSphere(''); setCatalogFilterCategory('') }}>Clear</button>
                   </>
                 )}
@@ -1036,7 +1036,7 @@ export default function VictorianMageForm() {
                         }
                       }}>
                         <div className="catalog-item-main">
-                          <span className="catalog-item-name">{r.name} {r.spheres && <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>— {r.spheres}</span>}</span>
+                          <span className="catalog-item-name">{r.name} {r.spheres && <span className="text-xs text-muted">— {r.spheres}</span>}</span>
                           <span className="catalog-item-desc">{r.description}</span>
                         </div>
                         <div className="catalog-item-meta">
@@ -1058,11 +1058,11 @@ export default function VictorianMageForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('wondersLegend')} ({disciplines.length})</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('wondersHint')}
             </p>
             {disciplines.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md">
                 {disciplines.map(d => {
                   const entry = MAGE_WONDERS.find(w => w.name.toLowerCase() === d.name.toLowerCase())
                   return (
@@ -1081,11 +1081,11 @@ export default function VictorianMageForm() {
             {tagInfo?.kind === 'wonder' && (() => {
               const entry = MAGE_WONDERS.find(w => w.name.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md">
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">{t('wondersLegend')} · {t('levelAbbr')} {tagInfo.level}{tagInfo.notes ? ` · ${tagInfo.notes}` : ''}</p>
-                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{t('spheres')}: {entry.spheres}. {entry.description}</p>}
+                  {entry && <p className="text-sm" style={{ lineHeight: 1.55 }}>{t('spheres')}: {entry.spheres}. {entry.description}</p>}
                 </aside>
               )
             })()}
@@ -1095,9 +1095,9 @@ export default function VictorianMageForm() {
           <fieldset>
             <legend>{t('wonderTypes')}</legend>
             {WONDER_TYPES.map(wt => (
-              <details key={wt.key} style={{ marginBottom: 'var(--space-xs)' }}>
-                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{wt.label}</summary>
-                <p className="muted-hint muted-hint--xs" style={{ padding: 'var(--space-xs) 0' }}>{wt.description}</p>
+              <details key={wt.key} className="mb-xs">
+                <summary className="cursor-pointer font-semibold text-md text-accent">{wt.label}</summary>
+                <p className="muted-hint muted-hint--xs py-xs">{wt.description}</p>
               </details>
             ))}
           </fieldset>
@@ -1118,7 +1118,7 @@ export default function VictorianMageForm() {
                       if (!already) addDiscipline(characterId, { name: w.name, level: w.level, notes: w.type }).then(res => setDisciplines(prev => [...prev, res.data])).catch(() => {})
                     }}>
                       <div className="catalog-item-main">
-                        <span className="catalog-item-name">{w.name} <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>— {w.type} · {w.spheres}</span></span>
+                        <span className="catalog-item-name">{w.name} <span className="text-xs text-muted">— {w.type} · {w.spheres}</span></span>
                         <span className="catalog-item-desc">{w.description}</span>
                       </div>
                       <div className="catalog-item-meta">
@@ -1135,7 +1135,7 @@ export default function VictorianMageForm() {
           {/* Custom Wonder Creator */}
           <fieldset>
             <legend>{t('createCustomWonder')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('createCustomWonderHint')}
             </p>
             <div className="field-row">
@@ -1163,7 +1163,7 @@ export default function VictorianMageForm() {
             </div>
             <div className="field">
               <label>{t('wonderDescLabel')}</label>
-              <textarea value={newWonder.description || ''} onChange={e => setNewWonder(p => ({ ...p, description: e.target.value }))} rows={3} style={{ width: '100%' }} placeholder={t('wonderDescPh')} />
+              <textarea value={newWonder.description || ''} onChange={e => setNewWonder(p => ({ ...p, description: e.target.value }))} rows={3} className="w-full" placeholder={t('wonderDescPh')} />
             </div>
             <button className="btn btn-secondary" onClick={() => {
               if (!newWonder.name.trim()) return
@@ -1209,8 +1209,8 @@ export default function VictorianMageForm() {
                         handleField(h.key, cycle[val] || '')
                       }}>
                       <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
-                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '—'}</td>
-                      <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                      <td className="text-muted">{h.penalty || '—'}</td>
+                      <td className="font-semibold" style={{ color: dmgColor }}>{dmgLabel}</td>
                     </tr>
                   )
                 })}
@@ -1236,14 +1236,14 @@ export default function VictorianMageForm() {
           <fieldset>
             <legend>{t('backgrounds')} ({backgrounds.length})</legend>
             {backgrounds.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md">
                 {backgrounds.map(bg => (
                   <li key={bg.id} className={`tag tag--clickable${bg.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' })}
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' }) } }}
                     role="button"
                     tabIndex={0}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                    <span className="flex items-center gap-xs flex-wrap">
                       <strong>{bg.name}</strong>
                       <span onClick={e => e.stopPropagation()} style={{ display: 'inline-flex' }}>
                         <DotRating label="" name={`bg-${bg.id}`} value={bg.level} min={1} max={5}
@@ -1262,11 +1262,11 @@ export default function VictorianMageForm() {
             {tagInfo?.kind === 'background' && (() => {
               const entry = BACKGROUNDS.find(b => b.value.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md">
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">Background · Level {tagInfo.level}</p>
-                  {entry?.description && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.description && <p className="text-sm" style={{ lineHeight: 1.55 }}>{entry.description}</p>}
                   {entry?.levels && (
                     <ul className="tag-info-levels">
                       {entry.levels.map((lvl, i) => (
@@ -1334,23 +1334,20 @@ export default function VictorianMageForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('paradigm')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('paradigmHint')}
             </p>
-            <div className="focus-catalog" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+            <div className="focus-catalog flex flex-col gap-xs">
               {MAGE_PARADIGMS.map(p => {
                 const isSelected = fields.paradigm === p.name
                 return (
-                  <label key={p.name} className={`focus-catalog-item${isSelected ? ' focus-catalog-item--selected' : ''}`}
-                    style={{ display: 'flex', gap: '0.5rem', padding: 'var(--space-xs) var(--space-sm)', borderRadius: 6,
-                      border: isSelected ? '1px solid var(--color-accent-fg)' : '1px solid var(--color-border)',
-                      background: isSelected ? 'var(--color-accent-subtle, rgba(200,160,60,0.08))' : 'transparent',
-                      cursor: 'pointer', alignItems: 'flex-start' }}>
+                  <label key={p.name} className={`focus-catalog-item${isSelected ? ' focus-catalog-item--selected' : ''} flex cursor-pointer items-start`}
+                    style={{ gap: '0.5rem', padding: 'var(--space-xs) var(--space-sm)', borderRadius: 6, border: isSelected ? '1px solid var(--color-accent-fg)' : '1px solid var(--color-border)', background: isSelected ? 'var(--color-accent-subtle, rgba(200,160,60,0.08))' : 'transparent' }}>
                     <input type="radio" name="paradigm" value={p.name} checked={isSelected}
                       onChange={() => handleField('paradigm', p.name)}
-                      style={{ marginTop: '0.25rem', flexShrink: 0 }} />
+                      className="shrink-0" style={{ marginTop: '0.25rem' }} />
                     <div>
-                      <span style={{ fontWeight: 600, fontSize: '0.88rem' }}>{p.name}</span>
+                      <span className="font-semibold" style={{ fontSize: '0.88rem' }}>{p.name}</span>
                       <p className="muted-hint muted-hint--xs" style={{ margin: '0.15rem 0 0' }}>{p.description}</p>
                     </div>
                   </label>
@@ -1358,14 +1355,14 @@ export default function VictorianMageForm() {
               })}
             </div>
             {fields.paradigm && (
-              <button type="button" className="btn btn-secondary btn-sm" style={{ marginTop: 'var(--space-xs)' }}
+              <button type="button" className="btn btn-secondary btn-sm" className="mt-xs"
                 onClick={() => handleField('paradigm', '')}>{t('clearSelection')}</button>
             )}
           </fieldset>
 
           <fieldset>
             <legend>{t('practice')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('practiceHint')}
             </p>
             {(() => {
@@ -1376,26 +1373,23 @@ export default function VictorianMageForm() {
                 handleField('practice', next.join(', '))
               }
               return (
-                <div className="focus-catalog" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+                <div className="focus-catalog flex flex-col gap-xs">
                   {MAGE_PRACTICES.map(p => {
                     const isSelected = selected.includes(p.name)
                     return (
-                      <label key={p.name} className={`focus-catalog-item${isSelected ? ' focus-catalog-item--selected' : ''}`}
-                        style={{ display: 'flex', gap: '0.5rem', padding: 'var(--space-xs) var(--space-sm)', borderRadius: 6,
-                          border: isSelected ? '1px solid var(--color-accent-fg)' : '1px solid var(--color-border)',
-                          background: isSelected ? 'var(--color-accent-subtle, rgba(200,160,60,0.08))' : 'transparent',
-                          cursor: 'pointer', alignItems: 'flex-start' }}>
+                      <label key={p.name} className={`focus-catalog-item${isSelected ? ' focus-catalog-item--selected' : ''} flex cursor-pointer items-start`}
+                        style={{ gap: '0.5rem', padding: 'var(--space-xs) var(--space-sm)', borderRadius: 6, border: isSelected ? '1px solid var(--color-accent-fg)' : '1px solid var(--color-border)', background: isSelected ? 'var(--color-accent-subtle, rgba(200,160,60,0.08))' : 'transparent' }}>
                         <input type="checkbox" checked={isSelected} onChange={() => togglePractice(p.name)}
-                          style={{ marginTop: '0.25rem', flexShrink: 0 }} />
+                          className="shrink-0" style={{ marginTop: '0.25rem' }} />
                         <div>
-                          <span style={{ fontWeight: 600, fontSize: '0.88rem' }}>{p.name}</span>
+                          <span className="font-semibold" style={{ fontSize: '0.88rem' }}>{p.name}</span>
                           <p className="muted-hint muted-hint--xs" style={{ margin: '0.15rem 0 0' }}>{p.description}</p>
                         </div>
                       </label>
                     )
                   })}
                   {selected.length > 0 && (
-                    <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>
+                    <p className="muted-hint muted-hint--xs mt-xs">
                       {t('selectedCount').replace('{0}', selected.length)}: {selected.join(', ')}
                     </p>
                   )}
@@ -1406,7 +1400,7 @@ export default function VictorianMageForm() {
 
           <fieldset>
             <legend>{t('instruments')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('instrumentsHint')}
             </p>
             {(() => {
@@ -1419,23 +1413,20 @@ export default function VictorianMageForm() {
               return (
                 <>
                   {selected.length > 0 && (
-                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)', fontWeight: 600 }}>
+                    <p className="muted-hint muted-hint--xs mb-sm font-semibold">
                       {t('selectedCount').replace('{0}', selected.length)}: {selected.join(', ')}
                     </p>
                   )}
-                  <div className="focus-catalog" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+                  <div className="focus-catalog flex flex-col gap-xs">
                     {MAGE_INSTRUMENTS.map(inst => {
                       const isSelected = selected.includes(inst.name)
                       return (
-                        <label key={inst.name} className={`focus-catalog-item${isSelected ? ' focus-catalog-item--selected' : ''}`}
-                          style={{ display: 'flex', gap: '0.5rem', padding: 'var(--space-xs) var(--space-sm)', borderRadius: 6,
-                            border: isSelected ? '1px solid var(--color-accent-fg)' : '1px solid var(--color-border)',
-                            background: isSelected ? 'var(--color-accent-subtle, rgba(200,160,60,0.08))' : 'transparent',
-                            cursor: 'pointer', alignItems: 'flex-start' }}>
+                        <label key={inst.name} className={`focus-catalog-item${isSelected ? ' focus-catalog-item--selected' : ''} flex cursor-pointer items-start`}
+                          style={{ gap: '0.5rem', padding: 'var(--space-xs) var(--space-sm)', borderRadius: 6, border: isSelected ? '1px solid var(--color-accent-fg)' : '1px solid var(--color-border)', background: isSelected ? 'var(--color-accent-subtle, rgba(200,160,60,0.08))' : 'transparent' }}>
                           <input type="checkbox" checked={isSelected} onChange={() => toggleInstrument(inst.name)}
-                            style={{ marginTop: '0.25rem', flexShrink: 0 }} />
+                            className="shrink-0" style={{ marginTop: '0.25rem' }} />
                           <div>
-                            <span style={{ fontWeight: 600, fontSize: '0.88rem' }}>{inst.name}</span>
+                            <span className="font-semibold" style={{ fontSize: '0.88rem' }}>{inst.name}</span>
                             <p className="muted-hint muted-hint--xs" style={{ margin: '0.15rem 0 0' }}>{inst.description}</p>
                           </div>
                         </label>
@@ -1449,10 +1440,10 @@ export default function VictorianMageForm() {
 
           <fieldset>
             <legend>{t('focusNotesLabel')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('focusNotesHint')}
             </p>
-            <textarea name="focusNotes" value={fields.focusNotes} onChange={handleText} rows={4} style={{ width: '100%' }}
+            <textarea name="focusNotes" value={fields.focusNotes} onChange={handleText} rows={4} className="w-full"
               placeholder={t('focusNotesPh')} />
           </fieldset>
 
@@ -1463,7 +1454,7 @@ export default function VictorianMageForm() {
             </div>
             <div className="field">
               <label>{t('chantryDescLabel')}</label>
-              <textarea name="chantryDescription" value={fields.chantryDescription} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder={t('chantryDescPh')} />
+              <textarea name="chantryDescription" value={fields.chantryDescription} onChange={handleText} rows={4} className="w-full" placeholder={t('chantryDescPh')} />
             </div>
           </fieldset>
         </div>
@@ -1472,9 +1463,9 @@ export default function VictorianMageForm() {
       {/* ── Backstory ── */}
       <div role="tabpanel" id={`tabpanel-12`} aria-labelledby={`tab-12`} hidden={tab !== 12}>
         <div className="form-section">
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full" /></fieldset>
+          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full" /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full" /></fieldset>
         </div>
       </div>
 

@@ -971,7 +971,7 @@ export default function L5RForm() {
                 showDescOnSelect={false}
               />
               {templateName && (
-                <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
+                <p className="muted-hint muted-hint--xs mt-xs text-accent" >
                   Loaded from template: <strong>{templateName}</strong> — customize freely below.
                 </p>
               )}
@@ -1064,7 +1064,7 @@ export default function L5RForm() {
                 </div>
               )}
             </div>
-            <div className="field-row" style={{ marginTop: 'var(--space-md)' }}>
+            <div className="field-row mt-md" >
               <CatalogSelect id="l5rAdvancedSchool" name="l5rAdvancedSchool"
                 label={t('l5rAdvancedSchool')} value={fields.l5rAdvancedSchool}
                 onChange={handleField} catalog={L5R_ADVANCED_CATALOG}
@@ -1076,8 +1076,8 @@ export default function L5RForm() {
                 onChange={handleField} catalog={L5R_ALTERNATIVE_CATALOG}
                 placeholder={t('l5rAlternativePathPh')} />
             </div>
-            <details style={{ marginTop: 'var(--space-md)' }}>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Heritage Tables (Optional)</summary>
+            <details className="mt-md" >
+              <summary className="cursor-pointer font-semibold text-md text-accent" >Heritage Tables (Optional)</summary>
               <p className="muted-hint muted-hint--xs" style={{ padding: 'var(--space-sm) 0' }}>
                 Heritage Tables are an optional mechanic. Roll on your clan's Heritage Table during character creation to discover connections to your family's past. Results may grant bonus skills, items, or plot hooks. Consult your GM and the core rulebook for your clan's specific table.
               </p>
@@ -1087,7 +1087,7 @@ export default function L5RForm() {
           {(selectedFamilyData?.trait || selectedSchoolData) && (
             <fieldset>
               <legend>{t('l5rCreationSummary')}</legend>
-              <div style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>
+              <div className="text-base lh-normal" >
                 {selectedFamilyData?.trait && (
                   <p><strong>{fields.l5rFamily}:</strong> {selectedFamilyData.trait}</p>
                 )}
@@ -1110,28 +1110,28 @@ export default function L5RForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('l5rRingsTraits')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Each Ring equals the lower of its two Traits. Starting characters begin with all Traits at 2.
             </p>
             {guidedMode && (
-              <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-md)', flexWrap: 'wrap', fontSize: '0.85rem', padding: 'var(--space-sm)', background: 'var(--color-surface-raised)', borderRadius: 'var(--radius-sm)' }}>
+              <div className="flex mb-md flex-wrap text-base p-sm bg-raised" style={{ gap: '1.5rem', borderRadius: 'var(--radius-sm)' }}>
                 <div><strong>XP Budget:</strong> {totalXpAvailable}</div>
                 <div><strong>Traits:</strong> <span style={{ color: '#e95' }}>-{traitXpSpent}</span></div>
                 <div><strong>Void:</strong> <span style={{ color: '#e95' }}>-{voidXpSpent}</span></div>
                 <div><strong>Skills:</strong> <span style={{ color: '#e95' }}>-{totalSkillRanks}</span></div>
                 <div><strong>Advantages:</strong> <span style={{ color: '#e95' }}>-{advXpSpent}</span></div>
                 <div><strong>Disadvantages:</strong> <span style={{ color: '#8c8' }}>+{disadvXpGained}</span></div>
-                <div><strong>Remaining:</strong> <span style={{ color: xpRemaining >= 0 ? '#8c8' : '#e55', fontWeight: 700 }}>{xpRemaining} XP</span></div>
+                <div><strong>Remaining:</strong> <span className="font-bold" style={{ color: xpRemaining >= 0 ? '#8c8' : '#e55' }}>{xpRemaining} XP</span></div>
               </div>
             )}
             {guidedMode && (
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              <p className="muted-hint muted-hint--xs mb-sm" >
                 Trait cost: new rank {'\u00d7'} 4 XP (e.g. 2{'\u2192'}3 = 12 XP). Void cost: new rank {'\u00d7'} 6 XP.
               </p>
             )}
 
             {/* Air */}
-            <fieldset style={{ marginBottom: 'var(--space-md)' }}>
+            <fieldset className="mb-md" >
               <legend>{t('l5rAir')}: {airRing}</legend>
               <div className="rating-grid">
                 <div className="ability-row"><DotRating label={t('l5rReflexes')} name="l5rReflexes" value={fields.l5rReflexes} onChange={handleField} min={2} max={10} /></div>
@@ -1140,7 +1140,7 @@ export default function L5RForm() {
             </fieldset>
 
             {/* Earth */}
-            <fieldset style={{ marginBottom: 'var(--space-md)' }}>
+            <fieldset className="mb-md" >
               <legend>{t('l5rEarth')}: {earthRing}</legend>
               <div className="rating-grid">
                 <div className="ability-row"><DotRating label={t('l5rStamina')} name="l5rStamina7" value={fields.l5rStamina7} onChange={handleField} min={2} max={10} /></div>
@@ -1149,7 +1149,7 @@ export default function L5RForm() {
             </fieldset>
 
             {/* Fire */}
-            <fieldset style={{ marginBottom: 'var(--space-md)' }}>
+            <fieldset className="mb-md" >
               <legend>{t('l5rFire')}: {fireRing}</legend>
               <div className="rating-grid">
                 <div className="ability-row"><DotRating label={t('l5rAgility')} name="l5rAgility" value={fields.l5rAgility} onChange={handleField} min={2} max={10} /></div>
@@ -1158,7 +1158,7 @@ export default function L5RForm() {
             </fieldset>
 
             {/* Water */}
-            <fieldset style={{ marginBottom: 'var(--space-md)' }}>
+            <fieldset className="mb-md" >
               <legend>{t('l5rWater')}: {waterRing}</legend>
               <div className="rating-grid">
                 <div className="ability-row"><DotRating label={t('l5rStrength')} name="l5rStrength7" value={fields.l5rStrength7} onChange={handleField} min={2} max={10} /></div>
@@ -1167,7 +1167,7 @@ export default function L5RForm() {
             </fieldset>
 
             {/* Void */}
-            <fieldset style={{ marginBottom: 'var(--space-md)' }}>
+            <fieldset className="mb-md" >
               <legend>{t('l5rVoidRing')}: {voidRing}</legend>
               <div className="rating-grid">
                 <div className="ability-row"><DotRating label={t('l5rVoidRing')} name="l5rVoid" value={fields.l5rVoid} onChange={handleField} min={2} max={10} /></div>
@@ -1176,25 +1176,25 @@ export default function L5RForm() {
             </fieldset>
 
             {/* Auto-computed Insight & Rank */}
-            <fieldset style={{ marginBottom: 'var(--space-md)', background: 'var(--color-surface-raised)', borderRadius: 'var(--radius-sm)', padding: 'var(--space-md)' }}>
+            <fieldset className="mb-md bg-raised p-md" style={{ borderRadius: 'var(--radius-sm)' }}>
               <legend>Insight & School Rank (Auto-Calculated)</legend>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-md)' }}>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Total Insight</div>
-                  <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{computedInsight}</div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Rings {(airRing + earthRing + fireRing + waterRing + voidRing) * 10} + Skills {totalSkillRanks}</div>
+              <div className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
+                <div className="text-center" >
+                  <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Total Insight</div>
+                  <div className="font-bold text-accent" style={{ fontSize: '2rem' }}>{computedInsight}</div>
+                  <div className="text-muted" style={{ fontSize: '0.7rem' }}>Rings {(airRing + earthRing + fireRing + waterRing + voidRing) * 10} + Skills {totalSkillRanks}</div>
                 </div>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>School Rank</div>
-                  <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{computedSchoolRank}</div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                <div className="text-center" >
+                  <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>School Rank</div>
+                  <div className="font-bold text-accent" style={{ fontSize: '2rem' }}>{computedSchoolRank}</div>
+                  <div className="text-muted" style={{ fontSize: '0.7rem' }}>
                     {nextRankInsight ? `Next rank at ${nextRankInsight} insight (need ${nextRankInsight - computedInsight} more)` : 'Maximum rank reached'}
                   </div>
                 </div>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Base ATN</div>
-                  <div style={{ fontSize: '2rem', fontWeight: 700 }}>{baseATN}</div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Reflexes {fields.l5rReflexes} x5 + 5{armorATN > 0 ? ` (+${armorATN} armor) = ${baseATN + armorATN}` : ''}</div>
+                <div className="text-center" >
+                  <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Base ATN</div>
+                  <div className="font-bold" style={{ fontSize: '2rem' }}>{baseATN}</div>
+                  <div className="text-muted" style={{ fontSize: '0.7rem' }}>Reflexes {fields.l5rReflexes} x5 + 5{armorATN > 0 ? ` (+${armorATN} armor) = ${baseATN + armorATN}` : ''}</div>
                 </div>
               </div>
             </fieldset>
@@ -1208,21 +1208,21 @@ export default function L5RForm() {
           {/* Skill Summary */}
           <fieldset>
             <legend>{t('l5rSkillSummary')}</legend>
-            <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-sm)', flexWrap: 'wrap' }}>
+            <div className="flex mb-sm flex-wrap" style={{ gap: '1.5rem' }}>
               <div><strong>Total Skill Ranks:</strong> {totalSkillRanks}</div>
               <div><strong>Insight from Skills:</strong> {totalSkillRanks}</div>
               <div><strong>Insight from Rings:</strong> {(airRing + earthRing + fireRing + waterRing + voidRing) * 10}</div>
-              <div><strong>Total Insight:</strong> <span style={{ color: 'var(--color-accent-fg)', fontWeight: 700 }}>{computedInsight}</span></div>
-              <div><strong>School Rank:</strong> <span style={{ color: 'var(--color-accent-fg)', fontWeight: 700 }}>{computedSchoolRank}</span></div>
-              {nextRankInsight && <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Next rank at {nextRankInsight} (need {nextRankInsight - computedInsight} more)</div>}
-              {guidedMode && <div><strong>Skill XP:</strong> <span style={{ color: '#e95' }}>-{totalSkillRanks}</span> · <strong>Remaining:</strong> <span style={{ color: xpRemaining >= 0 ? '#8c8' : '#e55', fontWeight: 700 }}>{xpRemaining} XP</span></div>}
+              <div><strong>Total Insight:</strong> <span className="text-accent font-bold" >{computedInsight}</span></div>
+              <div><strong>School Rank:</strong> <span className="text-accent font-bold" >{computedSchoolRank}</span></div>
+              {nextRankInsight && <div className="text-sm text-muted" >Next rank at {nextRankInsight} (need {nextRankInsight - computedInsight} more)</div>}
+              {guidedMode && <div><strong>Skill XP:</strong> <span style={{ color: '#e95' }}>-{totalSkillRanks}</span> · <strong>Remaining:</strong> <span className="font-bold" style={{ color: xpRemaining >= 0 ? '#8c8' : '#e55' }}>{xpRemaining} XP</span></div>}
             </div>
           </fieldset>
 
           {/* Add Skill Form */}
           <fieldset>
             <legend>{t('l5rAddSkill')}</legend>
-            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+            <div className="field-row items-end" >
               <div className="field" style={{ flex: 2 }}>
                 <label>{t('skills')}</label>
                 <select value={newSkillName} onChange={e => { setNewSkillName(e.target.value); setNewSkillEmphases([]) }} aria-label={t('skills')}>
@@ -1241,16 +1241,16 @@ export default function L5RForm() {
               <button className="btn btn-secondary" onClick={handleAddSkill}>{t('add')}</button>
             </div>
             {newSkillName && (
-              <div style={{ marginTop: 'var(--space-sm)' }}>
-                <label style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>Emphases (click to add):</label>
+              <div className="mt-sm" >
+                <label className="text-sm text-muted" >Emphases (click to add):</label>
                 {L5R_SKILL_MASTERIES[newSkillName]?.emphases?.length > 0 && (
-                  <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap', marginTop: 'var(--space-xs)' }}>
+                  <div className="flex gap-xs flex-wrap mt-xs" >
                     {L5R_SKILL_MASTERIES[newSkillName].emphases.map(emp => {
                       const active = newSkillEmphases.includes(emp)
                       return (
                         <button key={emp} type="button"
-                          className={`tag${active ? ' tag--active' : ''}`}
-                          style={{ cursor: 'pointer', fontSize: '0.78rem', padding: '0.2rem 0.5rem' }}
+                          className={`tag${active ? ' tag--active' : ''} cursor-pointer text-sm`}
+                          style={{ padding: '0.2rem 0.5rem' }}
                           onClick={() => setNewSkillEmphases(prev => active ? prev.filter(e => e !== emp) : [...prev, emp])}>
                           {emp}{active ? ' \u2713' : ''}
                         </button>
@@ -1258,8 +1258,8 @@ export default function L5RForm() {
                     })}
                   </div>
                 )}
-                <div style={{ display: 'flex', gap: 'var(--space-xs)', alignItems: 'center', marginTop: 'var(--space-xs)' }}>
-                  <input type="text" placeholder="Custom emphasis..." style={{ fontSize: '0.78rem', width: '160px' }}
+                <div className="flex gap-xs items-center mt-xs" >
+                  <input type="text" placeholder="Custom emphasis..." className="text-sm" style={{ width: '160px' }}
                     onKeyDown={e => {
                       if (e.key === 'Enter' && e.target.value.trim()) {
                         setNewSkillEmphases(prev => [...prev, e.target.value.trim()])
@@ -1267,7 +1267,7 @@ export default function L5RForm() {
                       }
                     }} />
                   {newSkillEmphases.length > 0 && (
-                    <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>
+                    <span className="text-sm text-muted" >
                       Selected: {newSkillEmphases.join(', ')}
                     </span>
                   )}
@@ -1300,32 +1300,32 @@ export default function L5RForm() {
                     return (
                       <Fragment key={i}>
                       <tr>
-                        <td style={{ fontWeight: 600 }}><span style={{ color: typeColor, fontSize: '0.7rem', marginRight: '0.3rem' }}>{'\u25CF'}</span>{s.name}</td>
-                        <td style={{ textAlign: 'center', whiteSpace: 'nowrap' }}>
-                          <button onClick={() => changeSkillRank(i, -1)} style={{ padding: '0 4px', fontSize: '0.8rem', cursor: 'pointer', border: 'none', background: 'transparent', color: 'var(--color-text-muted)' }} title="Decrease rank">{'\u2212'}</button>
-                          <span style={{ fontWeight: 700, margin: '0 4px' }}>{s.rank}</span>
-                          <button onClick={() => changeSkillRank(i, 1)} style={{ padding: '0 4px', fontSize: '0.8rem', cursor: 'pointer', border: 'none', background: 'transparent', color: 'var(--color-text-muted)' }} title="Increase rank">+</button>
+                        <td className="font-semibold" ><span style={{ color: typeColor, fontSize: '0.7rem', marginRight: '0.3rem' }}>{'\u25CF'}</span>{s.name}</td>
+                        <td className="text-center" style={{ whiteSpace: 'nowrap' }}>
+                          <button onClick={() => changeSkillRank(i, -1)} className="text-sm cursor-pointer text-muted" style={{ padding: '0 4px', border: 'none', background: 'transparent' }} title="Decrease rank">{'\u2212'}</button>
+                          <span className="font-bold" style={{ margin: '0 4px' }}>{s.rank}</span>
+                          <button onClick={() => changeSkillRank(i, 1)} className="text-sm cursor-pointer text-muted" style={{ padding: '0 4px', border: 'none', background: 'transparent' }} title="Increase rank">+</button>
                         </td>
-                        <td style={{ fontWeight: 600, color: 'var(--color-accent-fg)' }}>{s.rank > 0 ? roll : '\u2014'}</td>
-                        <td style={{ fontSize: '0.78rem', cursor: 'pointer' }}
+                        <td className="font-semibold text-accent" >{s.rank > 0 ? roll : '\u2014'}</td>
+                        <td className="text-sm cursor-pointer" 
                           onClick={() => setEditingSkillEmphasis(editingSkillEmphasis === i ? null : i)}>
                           {s.emphases || <span className="muted-hint">+ Add emphasis</span>}
                         </td>
-                        <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{activeMasteries.length > 0 ? activeMasteries.join(' | ') : '\u2014'}</td>
+                        <td className="inv-notes text-xs" >{activeMasteries.length > 0 ? activeMasteries.join(' | ') : '\u2014'}</td>
                         <td><button className="tag-remove" onClick={() => handleRemoveSkill(i)} aria-label={`Remove ${s.name}`}>{'\u00d7'}</button></td>
                       </tr>
                       {editingSkillEmphasis === i && (
                         <tr>
-                          <td colSpan={6} style={{ background: 'var(--color-surface-raised)', padding: 'var(--space-sm)' }}>
+                          <td colSpan={6} className="bg-raised p-sm" >
                             {data?.emphases?.length > 0 && (
-                              <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                              <div className="flex gap-xs flex-wrap" >
                                 {data.emphases.map(emp => {
                                   const currentEmphases = s.emphases ? s.emphases.split(', ').map(e => e.trim()) : []
                                   const active = currentEmphases.includes(emp)
                                   return (
                                     <button key={emp} type="button"
-                                      className={`tag${active ? ' tag--active' : ''}`}
-                                      style={{ cursor: 'pointer', fontSize: '0.78rem', padding: '0.2rem 0.5rem' }}
+                                      className={`tag${active ? ' tag--active' : ''} cursor-pointer text-sm`}
+                                      style={{ padding: '0.2rem 0.5rem' }}
                                       onClick={() => {
                                         const updated = active
                                           ? currentEmphases.filter(e => e !== emp)
@@ -1338,8 +1338,8 @@ export default function L5RForm() {
                                 })}
                               </div>
                             )}
-                            <div style={{ display: 'flex', gap: 'var(--space-xs)', alignItems: 'center', marginTop: 'var(--space-xs)' }}>
-                              <input type="text" placeholder="Custom emphasis..." style={{ fontSize: '0.78rem', width: '140px' }}
+                            <div className="flex gap-xs items-center mt-xs" >
+                              <input type="text" placeholder="Custom emphasis..." className="text-sm" style={{ width: '140px' }}
                                 onKeyDown={e => {
                                   if (e.key === 'Enter' && e.target.value.trim()) {
                                     const currentEmphases = s.emphases ? s.emphases.split(', ').map(em => em.trim()) : []
@@ -1347,7 +1347,7 @@ export default function L5RForm() {
                                     e.target.value = ''
                                   }
                                 }} />
-                              <button className="btn btn-secondary" style={{ fontSize: '0.75rem', padding: '2px 8px' }}
+                              <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                                 onClick={() => setEditingSkillEmphasis(null)}>Done</button>
                             </div>
                           </td>
@@ -1364,19 +1364,19 @@ export default function L5RForm() {
           {/* Raw Textarea */}
           <fieldset>
             <legend>{t('l5rRawSkillData')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>
+            <p className="muted-hint muted-hint--xs mb-xs" >
               Format: &quot;SkillName (Emphasis1, Emphasis2) Rank&quot;. One per line. Use the Add Skill form above or edit directly.
             </p>
-            <textarea name="l5rSkillsText" value={fields.l5rSkillsText} onChange={handleText} rows={8} style={{ width: '100%' }} placeholder={`Kenjutsu (Katana) 3\nEtiquette 2\nInvestigation (Notice) 3\nLore: Bushido 2\nIaijutsu (Focus) 3`} />
+            <textarea name="l5rSkillsText" value={fields.l5rSkillsText} onChange={handleText} rows={8} className="w-full"  placeholder={`Kenjutsu (Katana) 3\nEtiquette 2\nInvestigation (Notice) 3\nLore: Bushido 2\nIaijutsu (Focus) 3`} />
           </fieldset>
 
           {/* Reference (collapsed) */}
           <details>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Skill Reference & Mastery Abilities</summary>
+            <summary className="cursor-pointer font-semibold text-md text-accent" >Skill Reference & Mastery Abilities</summary>
             {Object.entries(SKILL_CATEGORIES).map(([category, skills]) => (
-              <details key={category} style={{ marginBottom: 'var(--space-sm)', marginLeft: 'var(--space-md)' }}>
-                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{t(category)}</summary>
-                <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
+              <details key={category} className="mb-sm" style={{ marginLeft: 'var(--space-md)' }}>
+                <summary className="cursor-pointer font-semibold text-base text-muted" >{t(category)}</summary>
+                <table className="inv-table mt-xs" >
                   <thead><tr><th>Skill</th><th>Emphases</th><th>R3</th><th>R5</th><th>R7</th></tr></thead>
                   <tbody>
                     {skills.map(skillLine => {
@@ -1384,11 +1384,11 @@ export default function L5RForm() {
                       const data = L5R_SKILL_MASTERIES[skillName]
                       return (
                         <tr key={skillLine}>
-                          <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{skillLine}</td>
-                          <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{data?.emphases?.join(', ') || '\u2014'}</td>
-                          <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{data?.masteries?.[3] || '\u2014'}</td>
-                          <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{data?.masteries?.[5] || '\u2014'}</td>
-                          <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{data?.masteries?.[7] || '\u2014'}</td>
+                          <td className="font-semibold" style={{ whiteSpace: 'nowrap' }}>{skillLine}</td>
+                          <td className="inv-notes text-xs" >{data?.emphases?.join(', ') || '\u2014'}</td>
+                          <td className="inv-notes text-xs" >{data?.masteries?.[3] || '\u2014'}</td>
+                          <td className="inv-notes text-xs" >{data?.masteries?.[5] || '\u2014'}</td>
+                          <td className="inv-notes text-xs" >{data?.masteries?.[7] || '\u2014'}</td>
                         </tr>
                       )
                     })}
@@ -1407,14 +1407,14 @@ export default function L5RForm() {
           <fieldset>
             <legend>{t('l5rAdvantages')} ({disciplines.length})</legend>
             {guidedMode && (
-              <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-md)', fontSize: '0.85rem', padding: 'var(--space-sm)', background: 'var(--color-surface-raised)', borderRadius: 'var(--radius-sm)' }}>
+              <div className="flex mb-md text-base p-sm bg-raised" style={{ gap: '1.5rem', borderRadius: 'var(--radius-sm)' }}>
                 <div><strong>Advantage XP:</strong> <span style={{ color: '#e95' }}>-{advXpSpent}</span></div>
                 <div><strong>Disadvantage XP:</strong> <span style={{ color: '#8c8' }}>+{disadvXpGained}</span></div>
-                <div><strong>Total Remaining:</strong> <span style={{ color: xpRemaining >= 0 ? '#8c8' : '#e55', fontWeight: 700 }}>{xpRemaining} XP</span></div>
+                <div><strong>Total Remaining:</strong> <span className="font-bold" style={{ color: xpRemaining >= 0 ? '#8c8' : '#e55' }}>{xpRemaining} XP</span></div>
               </div>
             )}
             {disciplines.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md" >
                 {disciplines.map(d => {
                   const entry = L5R_ADVANTAGES.find(a => a.name.toLowerCase() === d.name.toLowerCase())
                   return (
@@ -1432,11 +1432,11 @@ export default function L5RForm() {
             {tagInfo?.kind === 'advantage' && (() => {
               const entry = L5R_ADVANTAGES.find(a => a.name.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md" >
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">Advantage · {tagInfo.level} XP</p>
-                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55, color: 'var(--color-text)' }}>{entry.description}</p>}
+                  {entry && <p className="text-sm" style={{ lineHeight: 1.55, color: 'var(--color-text)' }}>{entry.description}</p>}
                 </aside>
               )
             })()}
@@ -1485,7 +1485,7 @@ export default function L5RForm() {
           <fieldset>
             <legend>{t('l5rDisadvantages')} ({backgrounds.length})</legend>
             {backgrounds.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md" >
                 {backgrounds.map(b => (
                   <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'disadvantage' })}
@@ -1500,11 +1500,11 @@ export default function L5RForm() {
             {tagInfo?.kind === 'disadvantage' && (() => {
               const entry = L5R_DISADVANTAGES.find(d => d.name.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md" >
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">Disadvantage · {tagInfo.level} XP{tagInfo.description ? ` · ${tagInfo.description}` : ''}</p>
-                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55, color: 'var(--color-text)' }}>{entry.description}</p>}
+                  {entry && <p className="text-sm" style={{ lineHeight: 1.55, color: 'var(--color-text)' }}>{entry.description}</p>}
                 </aside>
               )
             })()}
@@ -1560,15 +1560,15 @@ export default function L5RForm() {
                 {schoolData ? (
                   <fieldset>
                     <legend>{fields.l5rSchool} — Rank {schoolRank}</legend>
-                    <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-md)', flexWrap: 'wrap', fontSize: '0.82rem' }}>
+                    <div className="flex mb-md flex-wrap text-sm" style={{ gap: '1.5rem' }}>
                       <div><strong>Clan:</strong> {schoolData.clan}</div>
                       <div><strong>Type:</strong> {schoolData.type}</div>
                       <div><strong>Trait:</strong> {schoolData.traits}</div>
                       <div><strong>Honor:</strong> {schoolData.honor}</div>
-                      <div><strong>Insight:</strong> <span style={{ color: 'var(--color-accent-fg)', fontWeight: 700 }}>{computedInsight}</span></div>
-                      {nextRankInsight && <div style={{ color: 'var(--color-text-muted)', fontStyle: 'italic' }}>Next rank at {nextRankInsight} insight ({nextRankInsight - computedInsight} more needed)</div>}
+                      <div><strong>Insight:</strong> <span className="text-accent font-bold" >{computedInsight}</span></div>
+                      {nextRankInsight && <div className="text-muted font-italic" >Next rank at {nextRankInsight} insight ({nextRankInsight - computedInsight} more needed)</div>}
                     </div>
-                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
+                    <p className="muted-hint muted-hint--xs mb-md" >
                       <strong>Skills:</strong> {schoolData.skills}
                     </p>
                     <table className="inv-table">
@@ -1582,14 +1582,14 @@ export default function L5RForm() {
                           const insightNeeded = tech.rank === 2 ? 175 : tech.rank === 3 ? 200 : tech.rank === 4 ? 225 : tech.rank === 5 ? 250 : null
                           return (
                             <tr key={tech.rank} style={{ opacity: unlocked ? 1 : isNext ? 0.6 : 0.3, background: unlocked ? 'rgba(194,145,56,0.05)' : isNext ? 'rgba(194,145,56,0.02)' : 'transparent' }}>
-                              <td style={{ fontWeight: 700, color: unlocked ? 'var(--color-accent-fg)' : 'var(--color-text-muted)', textAlign: 'center', whiteSpace: 'nowrap' }}>
+                              <td className="font-bold text-center" style={{ color: unlocked ? 'var(--color-accent-fg)' : 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
                                 {tech.rank} {unlocked ? '\u2713' : ''}
                               </td>
-                              <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>
+                              <td className="font-semibold" style={{ whiteSpace: 'nowrap' }}>
                                 {tech.name}
-                                {isNext && insightNeeded && <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', fontWeight: 400, marginLeft: '0.5rem' }}>Unlocks at Insight {insightNeeded}</span>}
+                                {isNext && insightNeeded && <span className="text-muted" style={{ fontSize: '0.7rem', fontWeight: 400, marginLeft: '0.5rem' }}>Unlocks at Insight {insightNeeded}</span>}
                               </td>
-                              <td className="inv-notes">{unlocked || isNext ? tech.effect : <span style={{ fontStyle: 'italic' }}>Locked</span>}</td>
+                              <td className="inv-notes">{unlocked || isNext ? tech.effect : <span className="font-italic" >Locked</span>}</td>
                             </tr>
                           )
                         })}
@@ -1610,7 +1610,7 @@ export default function L5RForm() {
                   return (
                     <fieldset>
                       <legend>{fields.l5rAdvancedSchool} (Advanced School)</legend>
-                      <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-md)', flexWrap: 'wrap', fontSize: '0.82rem' }}>
+                      <div className="flex mb-md flex-wrap text-sm" style={{ gap: '1.5rem' }}>
                         <div><strong>Clan:</strong> {adv.clan}</div>
                         <div><strong>Type:</strong> {adv.type}</div>
                         <div><strong>Requirements:</strong> {adv.requirements}</div>
@@ -1621,8 +1621,8 @@ export default function L5RForm() {
                         <tbody>
                           {adv.techniques.map(tech => (
                             <tr key={tech.rank} style={{ background: 'rgba(194,145,56,0.05)' }}>
-                              <td style={{ fontWeight: 700, color: 'var(--color-accent-fg)', textAlign: 'center' }}>{tech.rank}</td>
-                              <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{tech.name}</td>
+                              <td className="font-bold text-accent text-center" >{tech.rank}</td>
+                              <td className="font-semibold" style={{ whiteSpace: 'nowrap' }}>{tech.name}</td>
                               <td className="inv-notes">{tech.effect}</td>
                             </tr>
                           ))}
@@ -1637,7 +1637,7 @@ export default function L5RForm() {
                   return (
                     <fieldset>
                       <legend>{fields.l5rAlternativePath} (Alternative Path)</legend>
-                      <div style={{ display: 'flex', gap: '1.5rem', marginBottom: 'var(--space-md)', flexWrap: 'wrap', fontSize: '0.82rem' }}>
+                      <div className="flex mb-md flex-wrap text-sm" style={{ gap: '1.5rem' }}>
                         <div><strong>Clan:</strong> {alt.clan}</div>
                         <div><strong>Type:</strong> {alt.type}</div>
                         <div><strong>Requirements:</strong> {alt.requirements}</div>
@@ -1650,8 +1650,8 @@ export default function L5RForm() {
                         <tbody>
                           {alt.techniques.map(tech => (
                             <tr key={tech.rank} style={{ background: 'rgba(194,145,56,0.05)' }}>
-                              <td style={{ fontWeight: 700, color: 'var(--color-accent-fg)', textAlign: 'center' }}>{tech.rank}</td>
-                              <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{tech.name}</td>
+                              <td className="font-bold text-accent text-center" >{tech.rank}</td>
+                              <td className="font-semibold" style={{ whiteSpace: 'nowrap' }}>{tech.name}</td>
                               <td className="inv-notes">{tech.effect}</td>
                             </tr>
                           ))}
@@ -1663,31 +1663,31 @@ export default function L5RForm() {
 
                 <fieldset>
                   <legend>{t('l5rTechNotes')}</legend>
-                  <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>
+                  <p className="muted-hint muted-hint--xs mb-xs" >
                     Record additional details, house-ruled modifications, or techniques from alternate/advanced schools.
                   </p>
-                  <textarea name="l5rTechniques" value={fields.l5rTechniques} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder="Additional technique notes..." />
+                  <textarea name="l5rTechniques" value={fields.l5rTechniques} onChange={handleText} rows={6} className="w-full"  placeholder="Additional technique notes..." />
                 </fieldset>
 
                 {!schoolData && (
                   <details>
-                    <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Browse All Schools</summary>
+                    <summary className="cursor-pointer font-semibold text-md text-accent" >Browse All Schools</summary>
                     {CLAN_NAMES.filter(c => CLANS[c].schools.length > 0).map(clan => (
-                      <details key={clan} style={{ marginLeft: 'var(--space-md)', marginBottom: 'var(--space-xs)' }}>
-                        <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{clan} ({CLANS[clan].schools.length})</summary>
+                      <details key={clan} className="mb-xs" style={{ marginLeft: 'var(--space-md)' }}>
+                        <summary className="cursor-pointer font-semibold text-base text-muted" >{clan} ({CLANS[clan].schools.length})</summary>
                         {CLANS[clan].schools.map(s => {
                           const sd = L5R_SCHOOLS[s]
                           if (!sd) return null
                           return (
-                            <details key={s} style={{ marginLeft: 'var(--space-md)', marginBottom: 'var(--space-xs)' }}>
-                              <summary style={{ cursor: 'pointer', fontSize: '0.82rem' }}>{s} — {sd.type} ({sd.traits}, Honor {sd.honor})</summary>
-                              <table className="inv-table" style={{ marginTop: 'var(--space-xs)', marginBottom: 'var(--space-sm)' }}>
+                            <details key={s} className="mb-xs" style={{ marginLeft: 'var(--space-md)' }}>
+                              <summary className="cursor-pointer text-sm" >{s} — {sd.type} ({sd.traits}, Honor {sd.honor})</summary>
+                              <table className="inv-table mt-xs mb-sm" >
                                 <tbody>
                                   {sd.techniques.map(t => (
                                     <tr key={t.rank}>
-                                      <td style={{ fontWeight: 700, color: 'var(--color-accent-fg)', width: 30 }}>{t.rank}</td>
-                                      <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{t.name}</td>
-                                      <td className="inv-notes" style={{ fontSize: '0.72rem' }}>{t.effect}</td>
+                                      <td className="font-bold text-accent" style={{ width: 30 }}>{t.rank}</td>
+                                      <td className="font-semibold" style={{ whiteSpace: 'nowrap' }}>{t.name}</td>
+                                      <td className="inv-notes text-xs" >{t.effect}</td>
                                     </tr>
                                   ))}
                                 </tbody>
@@ -1727,7 +1727,7 @@ export default function L5RForm() {
                 </select>
               </div>
             </div>
-            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+            <table className="inv-table mt-sm" >
               <thead>
                 <tr><th>Element</th><th>Ring</th><th>Casting</th><th>Slots</th><th>Used</th><th></th></tr>
               </thead>
@@ -1746,21 +1746,21 @@ export default function L5RForm() {
                   const remaining = Math.max(0, totalSlots - used)
                   return (
                     <tr key={el.name} style={{ background: isAff ? 'rgba(136,204,136,0.08)' : isDef ? 'rgba(224,85,85,0.08)' : 'transparent' }}>
-                      <td style={{ fontWeight: 600 }}>
+                      <td className="font-semibold" >
                         {el.name}
                         {isAff && <span style={{ color: '#8c8', fontSize: '0.7rem' }}> ★</span>}
                         {isDef && <span style={{ color: '#e55', fontSize: '0.7rem' }}> ✗</span>}
                       </td>
                       <td>{el.ring}</td>
-                      <td style={{ fontWeight: 600 }}>{el.ring + computedSchoolRank}k{el.ring}</td>
-                      <td style={{ fontWeight: 600, color: remaining === 0 && used > 0 ? '#e55' : 'var(--color-text)' }}>
+                      <td className="font-semibold" >{el.ring + computedSchoolRank}k{el.ring}</td>
+                      <td className="font-semibold" style={{ color: remaining === 0 && used > 0 ? '#e55' : 'var(--color-text)' }}>
                         {remaining}/{totalSlots}
                       </td>
-                      <td style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
+                      <td className="flex items-center" style={{ gap: '0.25rem' }}>
                         <button type="button" className="tag-remove" style={{ opacity: used <= 0 ? 0.3 : 1 }}
                           onClick={() => setSpellSlotsUsed(prev => ({ ...prev, [el.name]: Math.max(0, prev[el.name] - 1) }))}
                           disabled={used <= 0}>-</button>
-                        <span style={{ minWidth: 20, textAlign: 'center', fontSize: '0.85rem', fontWeight: 600 }}>{used}</span>
+                        <span className="text-center text-base font-semibold" style={{ minWidth: 20 }}>{used}</span>
                         <button type="button" className="tag-remove" style={{ opacity: remaining <= 0 ? 0.3 : 1 }}
                           onClick={() => setSpellSlotsUsed(prev => ({ ...prev, [el.name]: prev[el.name] + 1 }))}
                           disabled={remaining <= 0}>+</button>
@@ -1771,7 +1771,7 @@ export default function L5RForm() {
                 })}
               </tbody>
             </table>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 'var(--space-xs)' }}>
+            <div className="flex justify-end mt-xs" >
               <button type="button" className="dice-roller-clear" onClick={() => setSpellSlotsUsed({ Air: 0, Earth: 0, Fire: 0, Water: 0, Void: 0 })}>
                 Reset Slots
               </button>
@@ -1789,11 +1789,11 @@ export default function L5RForm() {
                     const catalogMatch = L5R_SPELLS.find(sp => s.name.toLowerCase().includes(sp.name.toLowerCase()))
                     return (
                       <tr key={i}>
-                        <td style={{ fontWeight: 600 }}>
-                          {catalogMatch && <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.7rem', marginRight: '0.3rem' }}>{'\u25CF'}</span>}
+                        <td className="font-semibold" >
+                          {catalogMatch && <span className="text-accent" style={{ fontSize: '0.7rem', marginRight: '0.3rem' }}>{'\u25CF'}</span>}
                           {s.name}
                         </td>
-                        <td className="inv-notes" style={{ fontSize: '0.78rem' }}>
+                        <td className="inv-notes text-sm" >
                           {s.details || (catalogMatch ? `ML ${catalogMatch.mastery}, ${catalogMatch.element} — ${catalogMatch.description}` : '')}
                         </td>
                         <td><button className="tag-remove" onClick={() => handleRemoveSpell(i)} aria-label={`Remove ${s.name}`}>{'\u00d7'}</button></td>
@@ -1841,7 +1841,7 @@ export default function L5RForm() {
                           <div className="catalog-item-main">
                             <span className="catalog-item-name">
                               {s.name}
-                              {!canCast && <span style={{ color: '#e55', fontSize: '0.72rem', marginLeft: '0.3rem' }}>(too high)</span>}
+                              {!canCast && <span className="text-xs" style={{ color: '#e55', marginLeft: '0.3rem' }}>(too high)</span>}
                             </span>
                             <span className="catalog-item-desc">{s.description}</span>
                           </div>
@@ -1865,8 +1865,8 @@ export default function L5RForm() {
                 const isAff = spellAffinity === elem
                 const isDef = spellDeficiency === elem
                 return (
-                  <details key={elem} style={{ marginBottom: 'var(--space-sm)' }}>
-                    <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: isAff ? '#8c8' : isDef ? '#e55' : 'var(--color-accent-fg)' }}>
+                  <details key={elem} className="mb-sm" >
+                    <summary className="cursor-pointer font-semibold text-md" style={{ color: isAff ? '#8c8' : isDef ? '#e55' : 'var(--color-accent-fg)' }}>
                       {elem} ({elemSpells.length}) — Cast {ring + (computedSchoolRank)}k{ring}
                       {isAff && ' ★ Affinity'}{isDef && ' ✗ Deficiency'}
                     </summary>
@@ -1898,26 +1898,26 @@ export default function L5RForm() {
 
           {/* ── Raw Data ── */}
           <details>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Raw Spell Data</summary>
-            <textarea name="l5rSpells" value={fields.l5rSpells} onChange={handleText} rows={8} style={{ width: '100%', marginTop: 'var(--space-sm)' }} placeholder="Spells are added from the catalogue above. You can also edit directly here." />
+            <summary className="cursor-pointer font-semibold text-md text-accent" >Raw Spell Data</summary>
+            <textarea name="l5rSpells" value={fields.l5rSpells} onChange={handleText} rows={8} className="w-full mt-sm"  placeholder="Spells are added from the catalogue above. You can also edit directly here." />
           </details>
 
           {/* ── References (collapsed) ── */}
-          <details style={{ marginTop: 'var(--space-md)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Kiho Reference (Monks)</summary>
+          <details className="mt-md" >
+            <summary className="cursor-pointer font-semibold text-md text-accent" >Kiho Reference (Monks)</summary>
             <div style={{ padding: 'var(--space-sm) 0' }}>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Cost:</strong> Mastery Level in XP. Requires Ring + School Rank {'\u2265'} Mastery Level.</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Types:</strong> Internal (self-buff), Kharmic (non-offensive), Martial (via unarmed strike), Mystical (supernatural).</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Limits:</strong> One each of Internal/Kharmic/Mystical active. Multiple Martial allowed but one per strike.</p>
+              <p className="muted-hint muted-hint--xs mb-xs" ><strong>Cost:</strong> Mastery Level in XP. Requires Ring + School Rank {'\u2265'} Mastery Level.</p>
+              <p className="muted-hint muted-hint--xs mb-xs" ><strong>Types:</strong> Internal (self-buff), Kharmic (non-offensive), Martial (via unarmed strike), Mystical (supernatural).</p>
+              <p className="muted-hint muted-hint--xs mb-xs" ><strong>Limits:</strong> One each of Internal/Kharmic/Mystical active. Multiple Martial allowed but one per strike.</p>
               <p className="muted-hint muted-hint--xs"><strong>Non-Brotherhood:</strong> Tattoo orders pay 1.5x. Shugenja pay 2x, use Ring only.</p>
             </div>
           </details>
 
           <details>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: '#e55' }}>Maho — Blood Magic (Forbidden)</summary>
+            <summary className="cursor-pointer font-semibold text-md" style={{ color: '#e55' }}>Maho — Blood Magic (Forbidden)</summary>
             <div style={{ padding: 'var(--space-sm) 0' }}>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Casting:</strong> Inflict Wounds = ML {'\u00d7'} 5 on self or target. No spell slots needed.</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>Taint:</strong> +1 Shadowlands Taint per casting. Cumulative, cannot be removed.</p>
+              <p className="muted-hint muted-hint--xs mb-xs" ><strong>Casting:</strong> Inflict Wounds = ML {'\u00d7'} 5 on self or target. No spell slots needed.</p>
+              <p className="muted-hint muted-hint--xs mb-xs" ><strong>Taint:</strong> +1 Shadowlands Taint per casting. Cumulative, cannot be removed.</p>
               <p className="muted-hint muted-hint--xs"><strong>Consequences:</strong> Capital offense. Immediate execution on discovery.</p>
             </div>
           </details>
@@ -1930,7 +1930,7 @@ export default function L5RForm() {
           {/* ── Active Kata ── */}
           <fieldset>
             <legend>{t('l5rActiveKata')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Executing a Kata is a Simple Action. Only one may be active at a time. Select from your known kata.
             </p>
             <div className="field-row">
@@ -1949,10 +1949,10 @@ export default function L5RForm() {
               const kata = L5R_KATA.find(k => k.name === activeKata)
               if (!kata) return null
               return (
-                <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', marginBottom: 0, background: 'rgba(194,145,56,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
-                  <div style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{kata.name}</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)' }}>{kata.ring} {kata.mastery} | {kata.schools}</div>
-                  <div style={{ fontSize: '0.9rem' }}>{kata.effect}</div>
+                <div className="form-section p-md mt-sm" style={{ marginBottom: 0, background: 'rgba(194,145,56,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                  <div className="text-xl font-bold mb-xs" >{kata.name}</div>
+                  <div className="text-sm text-muted mb-xs" >{kata.ring} {kata.mastery} | {kata.schools}</div>
+                  <div className="text-md" >{kata.effect}</div>
                 </div>
               )
             })()}
@@ -1969,11 +1969,11 @@ export default function L5RForm() {
                     const match = L5R_KATA.find(k => line.toLowerCase().includes(k.name.toLowerCase()))
                     return (
                       <tr key={i} style={{ background: activeKata === match?.name ? 'rgba(194,145,56,0.08)' : 'transparent' }}>
-                        <td style={{ fontWeight: 600 }}>
-                          {match && <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.7rem', marginRight: '0.3rem' }}>{'\u25CF'}</span>}
+                        <td className="font-semibold" >
+                          {match && <span className="text-accent" style={{ fontSize: '0.7rem', marginRight: '0.3rem' }}>{'\u25CF'}</span>}
                           {match?.name || line}
                         </td>
-                        <td className="inv-notes" style={{ fontSize: '0.78rem' }}>
+                        <td className="inv-notes text-sm" >
                           {match ? `${match.ring} ${match.mastery} — ${match.effect}` : ''}
                         </td>
                         <td><button className="tag-remove" onClick={() => handleRemoveKata(i)}>{'\u00d7'}</button></td>
@@ -2017,7 +2017,7 @@ export default function L5RForm() {
                       <li key={k.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`} style={{ opacity: qualified ? 1 : 0.5 }}>
                         <button className="catalog-item-btn" onClick={() => { if (!already && qualified) handleAddKata(k) }}>
                           <div className="catalog-item-main">
-                            <span className="catalog-item-name">{k.name} <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>— {k.schools}</span></span>
+                            <span className="catalog-item-name">{k.name} <span className="text-xs text-muted" >— {k.schools}</span></span>
                             <span className="catalog-item-desc">{k.effect}</span>
                           </div>
                           <div className="catalog-item-meta">
@@ -2035,8 +2035,8 @@ export default function L5RForm() {
                 if (katas.length === 0) return null
                 const ringVal = ringName === 'Air' ? airRing : ringName === 'Earth' ? earthRing : ringName === 'Fire' ? fireRing : ringName === 'Water' ? waterRing : voidRing
                 return (
-                  <details key={ringName} style={{ marginBottom: 'var(--space-sm)' }}>
-                    <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>
+                  <details key={ringName} className="mb-sm" >
+                    <summary className="cursor-pointer font-semibold text-md text-accent" >
                       {ringName} Kata ({katas.length}) — Ring: {ringVal}
                     </summary>
                     <ul className="catalog-list" aria-label={`${ringName} kata`}>
@@ -2047,7 +2047,7 @@ export default function L5RForm() {
                           <li key={k.name} className={`catalog-item${already ? ' catalog-item--added' : ''}`} style={{ opacity: qualified ? 1 : 0.5 }}>
                             <button className="catalog-item-btn" onClick={() => { if (!already && qualified) handleAddKata(k) }}>
                               <div className="catalog-item-main">
-                                <span className="catalog-item-name">{k.name} <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>— {k.schools}</span></span>
+                                <span className="catalog-item-name">{k.name} <span className="text-xs text-muted" >— {k.schools}</span></span>
                                 <span className="catalog-item-desc">{k.effect}</span>
                               </div>
                               <div className="catalog-item-meta">
@@ -2067,8 +2067,8 @@ export default function L5RForm() {
 
           {/* ── Raw Data ── */}
           <details>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Raw Kata Data</summary>
-            <textarea name="l5rKata" value={fields.l5rKata} onChange={handleText} rows={5} style={{ width: '100%', marginTop: 'var(--space-sm)' }} placeholder="Kata are added from the catalogue above. Edit directly here if needed." />
+            <summary className="cursor-pointer font-semibold text-md text-accent" >Raw Kata Data</summary>
+            <textarea name="l5rKata" value={fields.l5rKata} onChange={handleText} rows={5} className="w-full mt-sm"  placeholder="Kata are added from the catalogue above. Edit directly here if needed." />
           </details>
         </div>
       </div>
@@ -2122,21 +2122,14 @@ export default function L5RForm() {
             </div>
 
             {/* Quick-Swap Loadouts */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)', alignItems: 'center', marginTop: 'var(--space-sm)' }}>
-              <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>Loadouts:</span>
+            <div className="flex flex-wrap gap-sm items-center mt-sm" >
+              <span className="text-sm font-semibold text-muted" >Loadouts:</span>
               {[0, 1, 2].map(i => {
                 const loadout = weaponLoadouts[i]
                 const isCurrent = loadout && loadout.weapon === equippedWeapon && loadout.armor === equippedArmor
                 return (
                   <button key={i} type="button"
-                    style={{
-                      padding: '0.25rem 0.6rem', fontSize: '0.75rem', borderRadius: 'var(--radius)',
-                      cursor: 'pointer', border: '1px solid',
-                      borderColor: isCurrent ? 'var(--color-accent)' : 'var(--color-border)',
-                      background: isCurrent ? 'rgba(194,145,56,0.12)' : 'transparent',
-                      color: loadout ? 'var(--color-text)' : 'var(--color-text-muted)',
-                      fontWeight: isCurrent ? 600 : 400,
-                    }}
+                    className="text-sm rounded cursor-pointer" style={{ padding: '0.25rem 0.6rem', border: '1px solid', borderColor: isCurrent ? 'var(--color-accent)' : 'var(--color-border)', background: isCurrent ? 'rgba(194,145,56,0.12)' : 'transparent', color: loadout ? 'var(--color-text)' : 'var(--color-text-muted)', fontWeight: isCurrent ? 600 : 400 }}
                     onClick={() => {
                       if (loadout) {
                         setEquippedWeapon(loadout.weapon)
@@ -2163,11 +2156,11 @@ export default function L5RForm() {
               </button>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-md)', marginTop: 'var(--space-sm)' }}>
+            <div className="grid gap-md mt-sm" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
               {/* Damage card */}
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Damage</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>
+              <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Damage</div>
+                <div className="font-bold" style={{ fontSize: '1.8rem' }}>
                   {(() => {
                     const sizeMod = (hasLarge ? 1 : 0) + (hasSmall ? -1 : 0)
                     if (isBow && selectedBow && selectedArrow) {
@@ -2195,7 +2188,7 @@ export default function L5RForm() {
                     return `${fields.l5rStrength7 || 2}k${unarmedKeep}`
                   })()}
                 </div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                <div className="text-muted" style={{ fontSize: '0.7rem' }}>
                   {(() => {
                     const mods = [hasLarge && '+1k0 Large', hasSmall && '-1k0 Small'].filter(Boolean).join(', ')
                     if (isBow && selectedBow && selectedArrow) {
@@ -2211,9 +2204,9 @@ export default function L5RForm() {
               </div>
 
               {/* Attack Roll card */}
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Attack Roll</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>
+              <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Attack Roll</div>
+                <div className="font-bold" style={{ fontSize: '1.8rem' }}>
                   {(() => {
                     if (isBow) {
                       const ref = fields.l5rReflexes || 2
@@ -2236,7 +2229,7 @@ export default function L5RForm() {
                     return '\u2014'
                   })()}
                 </div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                <div className="text-muted" style={{ fontSize: '0.7rem' }}>
                   {(() => {
                     if (isBow) {
                       const kyujutsu = parsedSkills.find(s => s.name.toLowerCase().includes('kyujutsu'))?.rank || 0
@@ -2257,24 +2250,24 @@ export default function L5RForm() {
               </div>
 
               {/* Armor card (display only) */}
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Armor</div>
-                <div style={{ fontSize: '1.4rem', fontWeight: 700 }}>
+              <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Armor</div>
+                <div className="font-bold" style={{ fontSize: '1.4rem' }}>
                   {armorData ? `+${armorATN} ATN` : 'None'}
                 </div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+                <div className="text-muted" style={{ fontSize: '0.7rem' }}>
                   {armorData ? `${armorData.name}, Red ${armorReduction}` : 'No armor equipped'}
                 </div>
               </div>
 
               {/* Weapon info card */}
               {(selectedWeapon || isBow) && (
-                <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Keywords</div>
-                  <div style={{ fontSize: '0.9rem', fontWeight: 600, marginTop: 'var(--space-xs)' }}>
+                <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                  <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Keywords</div>
+                  <div className="text-md font-semibold mt-xs" >
                     {selectedWeapon ? selectedWeapon.keywords : selectedBow ? selectedBow.keywords : ''}
                   </div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', marginTop: 'var(--space-xs)' }}>
+                  <div className="text-muted mt-xs" style={{ fontSize: '0.7rem' }}>
                     {selectedWeapon ? selectedWeapon.notes : selectedBow ? selectedBow.notes : ''}
                   </div>
                 </div>
@@ -2286,24 +2279,24 @@ export default function L5RForm() {
           {fields.l5rSchool && SCHOOL_EQUIPMENT[fields.l5rSchool] && (
             <fieldset>
               <legend>Starting Equipment — {fields.l5rSchool}</legend>
-              <ul style={{ listStyle: 'disc', paddingLeft: 'var(--space-lg)', fontSize: '0.85rem' }}>
-                {SCHOOL_EQUIPMENT[fields.l5rSchool].map(item => <li key={item} style={{ marginBottom: 'var(--space-xs)' }}>{item}</li>)}
+              <ul className="text-base" style={{ listStyle: 'disc', paddingLeft: 'var(--space-lg)' }}>
+                {SCHOOL_EQUIPMENT[fields.l5rSchool].map(item => <li key={item} className="mb-xs" >{item}</li>)}
               </ul>
             </fieldset>
           )}
 
           <fieldset>
             <legend>{t('l5rPersonalItems')}</legend>
-            <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={
+            <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={6} className="w-full"  placeholder={
 `Katana (3k2, Samurai)
 Wakizashi (2k2, Samurai)
 Light Armor (+5 ATN, Red 3)
 Traveling pack, spare kimono, 10 koku`} />
           </fieldset>
 
-          <div style={{ marginBottom: 'var(--space-md)' }}>
-            <label htmlFor="equip-filter" style={{ marginRight: 'var(--space-sm)' }}>{t('l5rFilterCategory')}</label>
-            <select id="equip-filter" value={equipFilter} onChange={e => setEquipFilter(e.target.value)} style={{ fontSize: '0.85rem' }}>
+          <div className="mb-md" >
+            <label htmlFor="equip-filter" className="mr-sm" >{t('l5rFilterCategory')}</label>
+            <select id="equip-filter" value={equipFilter} onChange={e => setEquipFilter(e.target.value)} className="text-base" >
               <option value="all">{t('filterAll')}</option>
               <option value="weapons">{t('l5rFilterWeapons')}</option>
               <option value="ranged">{t('l5rFilterRanged')}</option>
@@ -2324,8 +2317,8 @@ Traveling pack, spare kimono, 10 koku`} />
               return EQUIP_FILTER_MAP[equipFilter]?.has(key)
             })
             .map(({ key, label }) => (
-            <details key={key} style={{ marginBottom: 'var(--space-sm)' }}>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{label} Catalogue</summary>
+            <details key={key} className="mb-sm" >
+              <summary className="cursor-pointer font-semibold text-md text-accent" >{label} Catalogue</summary>
               <div style={{ padding: 'var(--space-sm) 0' }}>
                 {key === 'armor' ? (
                   <table className="inv-table">
@@ -2335,7 +2328,7 @@ Traveling pack, spare kimono, 10 koku`} />
                     <tbody>
                       {L5R_EQUIPMENT[key].map(item => (
                         <tr key={item.name}>
-                          <td style={{ fontWeight: 600 }}>{item.name}</td>
+                          <td className="font-semibold" >{item.name}</td>
                           <td>+{item.atn}</td>
                           <td>{item.reduction}</td>
                           <td>{item.cost}</td>
@@ -2354,7 +2347,7 @@ Traveling pack, spare kimono, 10 koku`} />
                     <tbody>
                       {L5R_EQUIPMENT[key].map(item => (
                         <tr key={item.name}>
-                          <td style={{ fontWeight: 600 }}>{item.name}</td>
+                          <td className="font-semibold" >{item.name}</td>
                           <td>{item.dr}</td>
                           <td>{item.cost}</td>
                           <td className="inv-notes">{item.notes}</td>
@@ -2372,7 +2365,7 @@ Traveling pack, spare kimono, 10 koku`} />
                     <tbody>
                       {L5R_EQUIPMENT[key].map(item => (
                         <tr key={item.name}>
-                          <td style={{ fontWeight: 600 }}>{item.name}</td>
+                          <td className="font-semibold" >{item.name}</td>
                           <td>{item.cost}</td>
                           <td className="inv-notes">{item.notes}</td>
                           <td><button type="button" className="btn btn-sm" style={{ padding: '2px 6px' }}
@@ -2389,9 +2382,9 @@ Traveling pack, spare kimono, 10 koku`} />
                     <tbody>
                       {L5R_EQUIPMENT[key].map(item => (
                         <tr key={item.name}>
-                          <td style={{ fontWeight: 600 }}>{item.name}</td>
+                          <td className="font-semibold" >{item.name}</td>
                           <td>{item.dr}</td>
-                          <td style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{item.keywords}</td>
+                          <td className="text-sm text-muted" >{item.keywords}</td>
                           <td>{item.cost}</td>
                           <td className="inv-notes">{item.notes}</td>
                           <td><button type="button" className="btn btn-sm" style={{ padding: '2px 6px' }}
@@ -2431,13 +2424,13 @@ Traveling pack, spare kimono, 10 koku`} />
             </div>
 
             {stanceNotes && (
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)', fontStyle: 'italic' }}>
+              <p className="muted-hint muted-hint--xs mb-sm font-italic" >
                 {combatStance}: {stanceNotes}
               </p>
             )}
 
             {/* Active Conditions */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginBottom: 'var(--space-md)' }}>
+            <div className="flex flex-wrap mb-md" style={{ gap: '0.3rem' }}>
               {L5R_CONDITIONS.map(c => {
                 const active = conditions.has(c.name)
                 return (
@@ -2448,75 +2441,69 @@ Traveling pack, spare kimono, 10 koku`} />
                       return next
                     })}
                     title={c.effect}
-                    style={{
-                      padding: '0.2rem 0.5rem', fontSize: '0.75rem', fontWeight: active ? 700 : 400,
-                      borderRadius: 'var(--radius)', cursor: 'pointer', border: '1px solid',
-                      borderColor: active ? 'rgba(224,85,85,0.5)' : 'var(--color-border)',
-                      background: active ? 'rgba(224,85,85,0.12)' : 'transparent',
-                      color: active ? '#e55' : 'var(--color-text-muted)',
-                    }}>
+                    className="text-sm rounded cursor-pointer" style={{ padding: '0.2rem 0.5rem', fontWeight: active ? 700 : 400, border: '1px solid', borderColor: active ? 'rgba(224,85,85,0.5)' : 'var(--color-border)', background: active ? 'rgba(224,85,85,0.12)' : 'transparent', color: active ? '#e55' : 'var(--color-text-muted)' }}>
                     {c.name}
                   </button>
                 )
               })}
             </div>
             {conditions.size > 0 && (
-              <div style={{ marginBottom: 'var(--space-md)', fontSize: '0.78rem' }}>
+              <div className="mb-md text-sm" >
                 {L5R_CONDITIONS.filter(c => conditions.has(c.name)).map(c => (
                   <p key={c.name} style={{ margin: '0.15rem 0', color: '#e55' }}>
-                    <strong>{c.name}:</strong> <span style={{ color: 'var(--color-text-muted)' }}>{c.effect}</span>
+                    <strong>{c.name}:</strong> <span className="text-muted" >{c.effect}</span>
                   </p>
                 ))}
               </div>
             )}
 
             {/* Live stats grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-md)', marginTop: 'var(--space-sm)' }}>
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Armor TN</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: stanceATNmod < 0 ? '#e55' : stanceATNmod > 0 ? '#8c8' : 'var(--color-text)' }}>{totalATN}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+            <div className="grid gap-md mt-sm" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
+              <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Armor TN</div>
+                <div className="font-bold" style={{ fontSize: '1.8rem', color: stanceATNmod < 0 ? '#e55' : stanceATNmod > 0 ? '#8c8' : 'var(--color-text)' }}>{totalATN}</div>
+                <div className="text-muted" style={{ fontSize: '0.7rem' }}>
                   {baseATN} base{armorATN > 0 ? ` + ${armorATN} armor` : ''}{stanceATNmod !== 0 ? ` ${stanceATNmod > 0 ? '+' : ''}${stanceATNmod} stance` : ''}
                 </div>
               </div>
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Initiative</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{initRoll}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Insight Rank {computedSchoolRank} / Reflexes {fields.l5rReflexes}{hasQuick ? ' (+1k0 Quick)' : ''}</div>
+              <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Initiative</div>
+                <div className="font-bold" style={{ fontSize: '1.8rem' }}>{initRoll}</div>
+                <div className="text-muted" style={{ fontSize: '0.7rem' }}>Insight Rank {computedSchoolRank} / Reflexes {fields.l5rReflexes}{hasQuick ? ' (+1k0 Quick)' : ''}</div>
               </div>
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Reduction</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{armorReduction}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>{armorData ? armorData.name : 'No armor'}</div>
+              <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Reduction</div>
+                <div className="font-bold" style={{ fontSize: '1.8rem' }}>{armorReduction}</div>
+                <div className="text-muted" style={{ fontSize: '0.7rem' }}>{armorData ? armorData.name : 'No armor'}</div>
               </div>
               {stanceAttackMod && (
-                <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Attack Bonus</div>
-                  <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#8c8' }}>{stanceAttackMod}</div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Full Attack stance</div>
+                <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                  <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Attack Bonus</div>
+                  <div className="font-bold" style={{ fontSize: '1.8rem', color: '#8c8' }}>{stanceAttackMod}</div>
+                  <div className="text-muted" style={{ fontSize: '0.7rem' }}>Full Attack stance</div>
                 </div>
               )}
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Wound Status</div>
-                <div style={{ fontSize: '1.4rem', fontWeight: 700, color: currentPenalty === 0 ? '#8c8' : currentPenalty >= 40 ? '#e55' : '#e95' }}>{currentWoundRank}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+              <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Wound Status</div>
+                <div className="font-bold" style={{ fontSize: '1.4rem', color: currentPenalty === 0 ? '#8c8' : currentPenalty >= 40 ? '#e55' : '#e95' }}>{currentWoundRank}</div>
+                <div className="text-muted" style={{ fontSize: '0.7rem' }}>
                   {currentPenalty === 999 ? 'Incapacitated' : currentPenalty > 0 ? `+${currentPenalty} TN penalty` : 'No penalty'}
                 </div>
               </div>
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Movement</div>
-                <div style={{ fontSize: '1.4rem', fontWeight: 700 }}>{moveFree}'{combatStance === 'Full Attack' ? ` +5'` : ''}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Free / {moveSimple}' Simple / {moveMax}' Max</div>
+              <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Movement</div>
+                <div className="font-bold" style={{ fontSize: '1.4rem' }}>{moveFree}'{combatStance === 'Full Attack' ? ` +5'` : ''}</div>
+                <div className="text-muted" style={{ fontSize: '0.7rem' }}>Free / {moveSimple}' Simple / {moveMax}' Max</div>
               </div>
             </div>
 
             {/* Quick Roll Reference */}
             {(equippedWeapon || true) && (
-              <div style={{ marginTop: 'var(--space-md)', padding: 'var(--space-md)', background: 'var(--color-surface)', borderRadius: 'var(--radius)', border: '1px solid var(--color-border)' }}>
-                <div style={{ fontSize: '0.78rem', fontWeight: 600, marginBottom: 'var(--space-sm)', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-text-muted)' }}>Quick Roll Reference</div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 'var(--space-sm)', fontSize: '0.82rem' }}>
+              <div className="mt-md p-md bg-surface rounded border" >
+                <div className="text-sm font-semibold mb-sm uppercase text-muted" style={{ letterSpacing: '0.05em' }}>Quick Roll Reference</div>
+                <div className="grid gap-sm text-sm" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
                   <div>
-                    <span style={{ color: 'var(--color-text-muted)' }}>Attack: </span>
+                    <span className="text-muted" >Attack: </span>
                     <strong>{(() => {
                       if (isBow) {
                         const ref = fields.l5rReflexes || 2
@@ -2540,7 +2527,7 @@ Traveling pack, spare kimono, 10 koku`} />
                     {currentPenalty > 0 && currentPenalty !== 999 && <span style={{ color: '#e55' }}> (+{currentPenalty} TN)</span>}
                   </div>
                   <div>
-                    <span style={{ color: 'var(--color-text-muted)' }}>Damage: </span>
+                    <span className="text-muted" >Damage: </span>
                     <strong>{(() => {
                       const sizeMod = (hasLarge ? 1 : 0) + (hasSmall ? -1 : 0)
                       if (isBow && selectedBow && selectedArrow) {
@@ -2556,11 +2543,11 @@ Traveling pack, spare kimono, 10 koku`} />
                     })()}</strong>
                   </div>
                   <div>
-                    <span style={{ color: 'var(--color-text-muted)' }}>Weapon: </span>
+                    <span className="text-muted" >Weapon: </span>
                     <span>{equippedWeapon || 'Unarmed'}</span>
                   </div>
                   <div>
-                    <span style={{ color: 'var(--color-text-muted)' }}>Initiative: </span>
+                    <span className="text-muted" >Initiative: </span>
                     <strong>{initRoll}</strong>
                   </div>
                 </div>
@@ -2585,28 +2572,28 @@ Traveling pack, spare kimono, 10 koku`} />
                 <input type="number" name="l5rStatus" value={fields.l5rStatus} onChange={handleText} min={0} max={100} />
               </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-md)', marginBottom: 'var(--space-md)' }}>
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Insight</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{computedInsight}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Rings {(airRing + earthRing + fireRing + waterRing + voidRing) * 10} + Skills {totalSkillRanks}</div>
+            <div className="grid gap-md mb-md" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
+              <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Insight</div>
+                <div className="font-bold text-accent" style={{ fontSize: '1.8rem' }}>{computedInsight}</div>
+                <div className="text-muted" style={{ fontSize: '0.7rem' }}>Rings {(airRing + earthRing + fireRing + waterRing + voidRing) * 10} + Skills {totalSkillRanks}</div>
               </div>
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>School Rank</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{computedSchoolRank}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
+              <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>School Rank</div>
+                <div className="font-bold text-accent" style={{ fontSize: '1.8rem' }}>{computedSchoolRank}</div>
+                <div className="text-muted" style={{ fontSize: '0.7rem' }}>
                   {nextRankInsight ? `Next at ${nextRankInsight} (${nextRankInsight - computedInsight} more)` : 'Max rank'}
                 </div>
               </div>
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Base ATN</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{baseATN}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Ref {fields.l5rReflexes} x5 + 5{armorATN > 0 ? ` (+${armorATN} armor) = ${baseATN + armorATN}` : ''}</div>
+              <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Base ATN</div>
+                <div className="font-bold" style={{ fontSize: '1.8rem' }}>{baseATN}</div>
+                <div className="text-muted" style={{ fontSize: '0.7rem' }}>Ref {fields.l5rReflexes} x5 + 5{armorATN > 0 ? ` (+${armorATN} armor) = ${baseATN + armorATN}` : ''}</div>
               </div>
-              <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Initiative</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{initRoll}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Rank {computedSchoolRank}k Ref {fields.l5rReflexes}</div>
+              <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                <div className="text-xs text-muted uppercase" style={{ letterSpacing: '0.08em' }}>Initiative</div>
+                <div className="font-bold" style={{ fontSize: '1.8rem' }}>{initRoll}</div>
+                <div className="text-muted" style={{ fontSize: '0.7rem' }}>Rank {computedSchoolRank}k Ref {fields.l5rReflexes}</div>
               </div>
             </div>
           </fieldset>
@@ -2616,33 +2603,28 @@ Traveling pack, spare kimono, 10 koku`} />
             <legend>{t('l5rWounds')} ({w} / {totalWoundCapacity})</legend>
 
             {/* Wound Penalty Banner */}
-            <div style={{
-              textAlign: 'center', padding: 'var(--space-md)', marginBottom: 'var(--space-md)',
-              borderRadius: 'var(--radius)',
-              background: currentPenalty === 0 ? 'rgba(136,204,136,0.08)' : currentPenalty >= 40 ? 'rgba(224,85,85,0.15)' : 'rgba(233,149,85,0.1)',
-              border: `2px solid ${currentPenalty === 0 ? 'rgba(136,204,136,0.4)' : currentPenalty >= 40 ? 'rgba(224,85,85,0.5)' : 'rgba(233,149,85,0.4)'}`
-            }}>
-              <div style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--color-text-muted)' }}>
+            <div className="text-center p-md mb-md rounded" style={{ background: currentPenalty === 0 ? 'rgba(136,204,136,0.08)' : currentPenalty >= 40 ? 'rgba(224,85,85,0.15)' : 'rgba(233,149,85,0.1)', border: `2px solid ${currentPenalty === 0 ? 'rgba(136,204,136,0.4)' : currentPenalty >= 40 ? 'rgba(224,85,85,0.5)' : 'rgba(233,149,85,0.4)'}` }}>
+              <div className="text-xs uppercase text-muted" style={{ letterSpacing: '0.08em' }}>
                 {t('l5rCurrentPenalty')}
               </div>
-              <div style={{ fontSize: '2rem', fontWeight: 700, color: currentPenalty === 0 ? '#88cc88' : currentPenalty >= 40 ? '#ee5555' : '#e9954c' }}>
+              <div className="font-bold" style={{ fontSize: '2rem', color: currentPenalty === 0 ? '#88cc88' : currentPenalty >= 40 ? '#ee5555' : '#e9954c' }}>
                 {currentPenalty === 999 ? t('l5rIncapacitated') : currentPenalty > 0 ? `+${currentPenalty}` : t('l5rNoPenalty')}
               </div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 600 }}>{currentWoundRank}</div>
+              <div className="text-base font-semibold" >{currentWoundRank}</div>
             </div>
 
             {/* +/- Buttons */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)', flexWrap: 'wrap' }}>
-              <button type="button" className="btn btn-secondary" style={{ minWidth: 44, fontWeight: 700 }} onClick={() => adjustWounds(-5)} disabled={w <= 0}>-5</button>
-              <button type="button" className="btn btn-secondary" style={{ minWidth: 44, fontWeight: 700, fontSize: '1.1rem' }} onClick={() => adjustWounds(-1)} disabled={w <= 0}>-1</button>
+            <div className="flex items-center justify-center gap-sm mb-md flex-wrap" >
+              <button type="button" className="btn btn-secondary font-bold" style={{ minWidth: 44 }} onClick={() => adjustWounds(-5)} disabled={w <= 0}>-5</button>
+              <button type="button" className="btn btn-secondary font-bold text-xl" style={{ minWidth: 44 }} onClick={() => adjustWounds(-1)} disabled={w <= 0}>-1</button>
               <input type="number" name="l5rWounds" value={fields.l5rWounds} onChange={handleText} min={0}
-                style={{ width: 70, textAlign: 'center', fontSize: '1.1rem', fontWeight: 700 }} />
-              <button type="button" className="btn btn-secondary" style={{ minWidth: 44, fontWeight: 700, fontSize: '1.1rem' }} onClick={() => adjustWounds(1)}>+1</button>
-              <button type="button" className="btn btn-secondary" style={{ minWidth: 44, fontWeight: 700 }} onClick={() => adjustWounds(5)}>+5</button>
+                className="text-center text-xl font-bold" style={{ width: 70 }} />
+              <button type="button" className="btn btn-secondary font-bold text-xl" style={{ minWidth: 44 }} onClick={() => adjustWounds(1)}>+1</button>
+              <button type="button" className="btn btn-secondary font-bold" style={{ minWidth: 44 }} onClick={() => adjustWounds(5)}>+5</button>
             </div>
 
             {/* Void Points */}
-            <div className="field-row" style={{ justifyContent: 'center', marginBottom: 'var(--space-md)' }}>
+            <div className="field-row justify-center mb-md" >
               <div className="field" style={{ maxWidth: 200 }}>
                 <label>{t('l5rCurrentVoid')}</label>
                 <DotRating label="" name="l5rCurrentVoid" value={fields.l5rCurrentVoid} onChange={handleField} min={0} max={fields.l5rVoid} />
@@ -2650,13 +2632,13 @@ Traveling pack, spare kimono, 10 koku`} />
             </div>
 
             {/* Wound Table with Progress Bars */}
-            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+            <table className="inv-table mt-sm" >
               <thead>
                 <tr><th>Rank</th><th>Penalty</th><th>Range</th><th style={{ width: '30%' }}>Filled</th></tr>
               </thead>
               <tbody>
                 <tr style={{ background: w > 0 && w <= healthyThreshold ? 'rgba(136,204,136,0.08)' : 'transparent' }}>
-                  <td style={{ fontWeight: 600 }}>Healthy</td><td>+0</td><td>0 – {healthyThreshold}</td>
+                  <td className="font-semibold" >Healthy</td><td>+0</td><td>0 – {healthyThreshold}</td>
                   <td>{healthyThreshold > 0 && (
                     <div className="l5r-wound-bar">
                       <div className="l5r-wound-bar__fill l5r-wound-bar__fill--healthy"
@@ -2675,7 +2657,7 @@ Traveling pack, spare kimono, 10 koku`} />
                   const modPen = Math.max(0, basePen + penaltyMod)
                   return (
                     <tr key={wr.name} style={{ background: inRank ? 'rgba(224,85,85,0.08)' : 'transparent' }}>
-                      <td style={{ fontWeight: 600 }}>{wr.name}</td>
+                      <td className="font-semibold" >{wr.name}</td>
                       <td>{penaltyMod !== 0 ? `+${modPen}` : wr.penalty}</td>
                       <td>{lo} – {hi}</td>
                       <td>
@@ -2688,16 +2670,16 @@ Traveling pack, spare kimono, 10 koku`} />
                   )
                 })}
                 <tr style={{ background: w > totalWoundCapacity ? 'rgba(224,85,85,0.15)' : 'transparent' }}>
-                  <td style={{ fontWeight: 600 }}>Out</td><td>Cannot act</td><td>{totalWoundCapacity + 1}+</td><td></td>
+                  <td className="font-semibold" >Out</td><td>Cannot act</td><td>{totalWoundCapacity + 1}+</td><td></td>
                 </tr>
               </tbody>
             </table>
 
             {/* Recovery Rate */}
             {w > 0 && (
-              <div style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm) var(--space-md)', background: 'var(--color-surface)', borderRadius: 'var(--radius)', border: '1px solid var(--color-border)', fontSize: '0.78rem' }}>
-                <strong style={{ color: 'var(--color-accent-fg)' }}>Recovery:</strong>{' '}
-                <span style={{ color: 'var(--color-text-muted)' }}>
+              <div className="mt-sm bg-surface rounded border text-sm" style={{ padding: 'var(--space-sm) var(--space-md)' }}>
+                <strong className="text-accent" >Recovery:</strong>{' '}
+                <span className="text-muted" >
                   {(fields.l5rStamina7 || 2) * 2 + computedSchoolRank} wounds/day at rest
                   {' '}({Math.ceil(((fields.l5rStamina7 || 2) * 2 + computedSchoolRank) / 2)} if active).
                   {' '}Medicine TN 15: +{'{'}successes{'}'} wounds.
@@ -2708,15 +2690,15 @@ Traveling pack, spare kimono, 10 koku`} />
           </fieldset>
 
           {/* ── Reference Tables (collapsed) ── */}
-          <details style={{ marginBottom: 'var(--space-md)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('l5rStanceRef')}</summary>
-            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+          <details className="mb-md" >
+            <summary className="cursor-pointer font-semibold text-md text-accent" >{t('l5rStanceRef')}</summary>
+            <table className="inv-table mt-sm" >
               <thead><tr><th>Stance</th><th>Ring</th><th>Effect</th></tr></thead>
               <tbody>
                 {STANCES.map(s => (
                   <tr key={s.name} style={{ background: combatStance === s.name ? 'rgba(194,145,56,0.1)' : 'transparent' }}>
-                    <td style={{ fontWeight: 600 }}>{s.name}</td>
-                    <td style={{ color: 'var(--color-accent-fg)' }}>{s.ring}</td>
+                    <td className="font-semibold" >{s.name}</td>
+                    <td className="text-accent" >{s.ring}</td>
                     <td className="inv-notes">{s.description}</td>
                   </tr>
                 ))}
@@ -2724,14 +2706,14 @@ Traveling pack, spare kimono, 10 koku`} />
             </table>
           </details>
 
-          <details style={{ marginBottom: 'var(--space-md)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('l5rManeuverRef')}</summary>
-            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+          <details className="mb-md" >
+            <summary className="cursor-pointer font-semibold text-md text-accent" >{t('l5rManeuverRef')}</summary>
+            <table className="inv-table mt-sm" >
               <thead><tr><th>Maneuver</th><th>Raises</th><th>Effect</th></tr></thead>
               <tbody>
                 {MANEUVERS.map(m => (
                   <tr key={m.name}>
-                    <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{m.name}</td>
+                    <td className="font-semibold" style={{ whiteSpace: 'nowrap' }}>{m.name}</td>
                     <td>{m.raises}</td>
                     <td className="inv-notes">{m.description}</td>
                   </tr>
@@ -2741,13 +2723,13 @@ Traveling pack, spare kimono, 10 koku`} />
           </details>
 
           <details>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('l5rVoidPointUses')}</summary>
+            <summary className="cursor-pointer font-semibold text-md text-accent" >{t('l5rVoidPointUses')}</summary>
             <div style={{ padding: 'var(--space-sm) 0' }}>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>+1k1 to a Skill, Trait, Ring, or Spell Casting roll (not damage)</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Temporarily treat a Skill Rank 0 as Rank 1</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Reduce Wounds from one source by 10</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Increase Armor TN by 10 for one Round</p>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>Increase Initiative Score by 10 for the skirmish</p>
+              <p className="muted-hint muted-hint--xs mb-xs" >+1k1 to a Skill, Trait, Ring, or Spell Casting roll (not damage)</p>
+              <p className="muted-hint muted-hint--xs mb-xs" >Temporarily treat a Skill Rank 0 as Rank 1</p>
+              <p className="muted-hint muted-hint--xs mb-xs" >Reduce Wounds from one source by 10</p>
+              <p className="muted-hint muted-hint--xs mb-xs" >Increase Armor TN by 10 for one Round</p>
+              <p className="muted-hint muted-hint--xs mb-xs" >Increase Initiative Score by 10 for the skirmish</p>
               <p className="muted-hint muted-hint--xs">Exchange Initiative Score with a willing target</p>
             </div>
           </details>
@@ -2757,39 +2739,39 @@ Traveling pack, spare kimono, 10 koku`} />
       {/* ── Backstory ── */}
       <div role="tabpanel" id={`tabpanel-9`} aria-labelledby={`tab-9`} hidden={tab !== 9}>
         <div className="form-section">
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full"  /></fieldset>
 
           {/* Heritage Roll */}
           <fieldset>
             <legend>Heritage Roll Table</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Roll on the Heritage Table from the L5R 4th Edition corebook to determine your family&apos;s history.
             </p>
-            <button className="btn btn-secondary" onClick={rollHeritage} style={{ marginBottom: 'var(--space-sm)' }}>Roll Heritage (2d10)</button>
+            <button className="btn btn-secondary mb-sm" onClick={rollHeritage} >Roll Heritage (2d10)</button>
             {heritageResult && (
-              <div style={{ background: 'var(--color-surface-raised)', padding: 'var(--space-md)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--space-sm)' }}>
-                <div style={{ fontSize: '0.85rem', marginBottom: 'var(--space-xs)' }}>
+              <div className="bg-raised p-md mb-sm" style={{ borderRadius: 'var(--radius-sm)' }}>
+                <div className="text-base mb-xs" >
                   <strong>First d10:</strong> {heritageResult.roll1} — <strong>Second d10:</strong> {heritageResult.roll2}
                 </div>
                 {heritageResult.entry && (
                   <div>
-                    <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{heritageResult.entry.name}</div>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{heritageResult.entry.effect}</div>
+                    <div className="text-xl font-bold text-accent" >{heritageResult.entry.name}</div>
+                    <div className="text-base text-muted" >{heritageResult.entry.effect}</div>
                   </div>
                 )}
               </div>
             )}
             <details>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', color: 'var(--color-accent-fg)' }}>Full Heritage Table</summary>
-              <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
+              <summary className="cursor-pointer font-semibold text-base text-accent" >Full Heritage Table</summary>
+              <table className="inv-table mt-xs" >
                 <thead><tr><th>Roll</th><th>Result</th><th>Effect</th></tr></thead>
                 <tbody>
                   {HERITAGE_TABLE.map(h => (
                     <tr key={h.roll} style={{ background: heritageResult?.roll1 === h.roll ? 'rgba(194,145,56,0.1)' : 'transparent' }}>
-                      <td style={{ fontWeight: 700, textAlign: 'center' }}>{h.roll}</td>
-                      <td style={{ fontWeight: 600 }}>{h.name}</td>
+                      <td className="font-bold text-center" >{h.roll}</td>
+                      <td className="font-semibold" >{h.name}</td>
                       <td className="inv-notes">{h.effect}</td>
                     </tr>
                   ))}
@@ -2819,9 +2801,9 @@ Traveling pack, spare kimono, 10 koku`} />
       </div>
 
       {warnings.length > 0 && (
-        <div style={{ margin: 'var(--space-md) 0', padding: 'var(--space-sm) var(--space-md)', background: 'rgba(233,149,85,0.1)', border: '1px solid rgba(233,149,85,0.3)', borderRadius: 'var(--radius)', fontSize: '0.78rem' }}>
+        <div className="rounded text-sm" style={{ margin: 'var(--space-md) 0', padding: 'var(--space-sm) var(--space-md)', background: 'rgba(233,149,85,0.1)', border: '1px solid rgba(233,149,85,0.3)' }}>
           <strong style={{ color: '#e95' }}>Warnings:</strong>
-          {warnings.map((w, i) => <span key={i} style={{ color: 'var(--color-text-muted)', marginLeft: 'var(--space-sm)' }}>{w}{i < warnings.length - 1 ? ',' : ''}</span>)}
+          {warnings.map((w, i) => <span key={i} className="text-muted ml-sm" >{w}{i < warnings.length - 1 ? ',' : ''}</span>)}
         </div>
       )}
       <div className="form-actions">

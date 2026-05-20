@@ -117,7 +117,7 @@ export default function BladesAntagonistForm() {
                 <input name="name" value={fields.name} onChange={handleText} placeholder="Inspector Raith, The Reconciled..." />
               </div>
             </div>
-            <div className="field" style={{ marginBottom: 'var(--space-md)' }}>
+            <div className="field mb-md">
               <label>{t('dndLoadTemplate')}</label>
               <CatalogSelect
                 id="blades-ant-template"
@@ -153,7 +153,7 @@ export default function BladesAntagonistForm() {
             </div>
             <div className="field">
               <label>Description / Concept</label>
-              <textarea name="concept" value={fields.concept} onChange={handleText} rows={3} style={{ width: '100%' }}
+              <textarea name="concept" value={fields.concept} onChange={handleText} rows={3} className="w-full"
                 placeholder="A brief description of who or what this antagonist is..." />
             </div>
           </fieldset>
@@ -165,28 +165,28 @@ export default function BladesAntagonistForm() {
         <div className="form-section">
           <fieldset>
             <legend>Special Traits</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Notable qualities, abilities, and distinguishing features of this antagonist.
             </p>
-            <textarea name="dndMonsterTraits" value={fields.dndMonsterTraits} onChange={handleText} rows={6} style={{ width: '100%' }}
+            <textarea name="dndMonsterTraits" value={fields.dndMonsterTraits} onChange={handleText} rows={6} className="w-full"
               placeholder="Ruthless, commands a squad of thugs, has a clockwork eye that sees in the dark..." />
           </fieldset>
           <fieldset>
             <legend>Actions & Moves</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               What can this antagonist do in a scene? What are their typical moves and responses?
             </p>
-            <textarea name="dndMonsterActions" value={fields.dndMonsterActions} onChange={handleText} rows={6} style={{ width: '100%' }}
+            <textarea name="dndMonsterActions" value={fields.dndMonsterActions} onChange={handleText} rows={6} className="w-full"
               placeholder="Order thugs to attack. Flee through secret passages. Call for Bluecoat backup..." />
           </fieldset>
           <details>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Threat Level Reference</summary>
-            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+            <summary className="cursor-pointer font-semibold text-md text-accent">Threat Level Reference</summary>
+            <table className="inv-table mt-sm">
               <thead><tr><th>Threat</th><th>Description</th></tr></thead>
               <tbody>
                 {BLADES_THREAT_LEVELS.map(tl => (
                   <tr key={tl.value} style={{ background: fields.dndChallengeRating === tl.value ? 'rgba(52,152,219,0.08)' : 'transparent' }}>
-                    <td style={{ fontWeight: 600 }}>{tl.value}</td>
+                    <td className="font-semibold">{tl.value}</td>
                     <td className="inv-notes">{tl.description}</td>
                   </tr>
                 ))}
@@ -201,12 +201,12 @@ export default function BladesAntagonistForm() {
         <div className="form-section">
           <fieldset>
             <legend>Backstory</legend>
-            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={6} style={{ width: '100%' }}
+            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={6} className="w-full"
               placeholder="Where did this antagonist come from? What shaped them?" />
           </fieldset>
           <fieldset>
             <legend>GM Notes</legend>
-            <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }}
+            <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full"
               placeholder="Faction affiliations, clock tracks, weaknesses, session plans..." />
           </fieldset>
         </div>

@@ -301,12 +301,12 @@ export default function HunterForm() {
               <CatalogSelect id="sect" name="sect" label={t('hunterVirtue')} value={fields.sect} onChange={handleField} catalog={VIRTUES} />
             </div>
             {fields.clan && !fields.sect && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite" >
                 Creed "{fields.clan}" selected but no primary Virtue chosen. Select a Virtue to determine available Edges.
               </p>
             )}
             {fields.sect && (
-              <div role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '0.85rem' }}>
+              <div role="status" aria-live="polite" className="mt-sm p-sm border text-base" style={{ background: 'rgba(52,152,219,0.08)', borderRadius: '6px' }}>
                 <p style={{ margin: 0 }}>
                   <strong>{fields.sect}</strong> Virtue selected. Primary Edges available: {HUNTER_EDGES.filter(e => e.virtue === fields.sect).map(e => e.name).filter((v, i, arr) => arr.indexOf(v) === i).join(', ')}.
                 </p>
@@ -399,7 +399,7 @@ export default function HunterForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('hunterEdges')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('hunterEdgesHint')}</p>
+            <p className="muted-hint muted-hint--xs mb-sm" >{t('hunterEdgesHint')}</p>
             <div className="field-row">
               <DotRating label={t('hunterConviction')} name="rage" value={fields.rage} onChange={handleField} min={0} max={10} />
               <DotRating label={t('hunterCurrentConviction')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
@@ -415,22 +415,22 @@ export default function HunterForm() {
               return (
                 <>
                   {['Mercy', 'Vision', 'Zeal'].map(virtue => (
-                    <div key={virtue} style={{ marginBottom: 'var(--space-md)' }}>
+                    <div key={virtue} className="mb-md" >
                       <h4 style={{ margin: '0 0 var(--space-xs) 0' }}>{virtue} Edges</h4>
                       <ul className="catalog-list" aria-label={`${virtue} edges`}>
                         {HUNTER_EDGES.filter(e => e.virtue === virtue).map(edge => {
                           const isChecked = edgesPart.includes(edge.name)
                           return (
                             <li key={`${edge.virtue}-${edge.name}-${edge.level}`} className={`catalog-item${isChecked ? ' catalog-item--added' : ''}`}>
-                              <label style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-xs)', padding: 'var(--space-xs) var(--space-sm)', cursor: 'pointer', width: '100%' }}>
+                              <label className="flex items-start gap-xs cursor-pointer w-full" style={{ padding: 'var(--space-xs) var(--space-sm)' }}>
                                 <input type="checkbox" checked={isChecked} onChange={() => {
                                   const next = isChecked ? edgesPart.filter(n => n !== edge.name) : [...edgesPart, edge.name]
                                   updateEdges(next, notesPart)
                                 }} style={{ marginTop: '3px' }} />
                                 <div>
-                                  <span className="catalog-item-name" style={{ fontWeight: 600 }}>{edge.name}</span>
-                                  <span style={{ color: 'var(--color-text-muted)', fontSize: '0.82rem' }}> (Level {edge.level})</span>
-                                  <p className="catalog-item-desc" style={{ margin: '2px 0 0', fontSize: '0.82rem' }}>{edge.description}</p>
+                                  <span className="catalog-item-name font-semibold" >{edge.name}</span>
+                                  <span className="text-muted text-sm" > (Level {edge.level})</span>
+                                  <p className="catalog-item-desc text-sm" style={{ margin: '2px 0 0' }}>{edge.description}</p>
                                 </div>
                               </label>
                             </li>
@@ -439,9 +439,9 @@ export default function HunterForm() {
                       </ul>
                     </div>
                   ))}
-                  <div style={{ marginTop: 'var(--space-md)' }}>
-                    <label style={{ fontWeight: 600, display: 'block', marginBottom: 'var(--space-xs)' }}>Edge Notes</label>
-                    <textarea value={notesPart} onChange={e => updateEdges(edgesPart, e.target.value)} rows={4} style={{ width: '100%' }}
+                  <div className="mt-md" >
+                    <label className="font-semibold mb-xs" style={{ display: 'block' }}>Edge Notes</label>
+                    <textarea value={notesPart} onChange={e => updateEdges(edgesPart, e.target.value)} rows={4} className="w-full" 
                       aria-label="Custom edge notes" placeholder="Additional edge notes..." />
                   </div>
                 </>
@@ -461,7 +461,7 @@ export default function HunterForm() {
               <DotRating label={t('temporary')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
             {fields.currentWillpower > fields.willpower && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite" >
                 Temporary Willpower cannot exceed permanent ({fields.willpower}).
               </p>
             )}
@@ -473,12 +473,12 @@ export default function HunterForm() {
               <DotRating label={t('temporary')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={fields.rage} />
             </div>
             {fields.currentRage > fields.rage && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite" >
                 Current Conviction cannot exceed permanent ({fields.rage}).
               </p>
             )}
             {fields.rage === 0 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite" >
                 No Conviction. The hunter has lost their calling and cannot use Edges.
               </p>
             )}
@@ -520,8 +520,8 @@ export default function HunterForm() {
                         handleField(h.key, cycle[val] || '')
                       }}>
                       <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
-                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '\u2014'}</td>
-                      <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                      <td className="text-muted" >{h.penalty || '\u2014'}</td>
+                      <td className="font-semibold" style={{ color: dmgColor }}>{dmgLabel}</td>
                     </tr>
                   )
                 })}
@@ -537,14 +537,14 @@ export default function HunterForm() {
           <fieldset>
             <legend>{t('backgrounds')} ({backgrounds.length})</legend>
             {backgrounds.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md" >
                 {backgrounds.map(b => (
                   <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' }) } }}
                     role="button"
                     tabIndex={0}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                    <span className="flex items-center gap-xs flex-wrap" >
                       <strong>{b.name}</strong>
                       <span onClick={e => e.stopPropagation()} style={{ display: 'inline-flex' }}>
                         <DotRating label="" name={`bg-${b.id}`} value={b.level} min={1} max={5}
@@ -563,11 +563,11 @@ export default function HunterForm() {
             {tagInfo?.kind === 'background' && (() => {
               const entry = HUNTER_BACKGROUNDS.find(bg => bg.value.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md" >
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">Background \u00b7 Level {tagInfo.level}</p>
-                  {entry?.description && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.description && <p className="text-sm" style={{ lineHeight: 1.55 }}>{entry.description}</p>}
                   {entry?.levels && (
                     <ul className="tag-info-levels">
                       {entry.levels.map((lvl, i) => (
@@ -633,12 +633,12 @@ export default function HunterForm() {
       {/* Backstory */}
       <div role="tabpanel" id="tabpanel-10" aria-labelledby="tab-10" hidden={tab !== 10}>
         <div className="form-section">
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('goalsLabel')}</legend><textarea name="goals" value={fields.goals} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('alliesLabel')}</legend><textarea name="allies" value={fields.allies} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('enemiesLabel')}</legend><textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('goalsLabel')}</legend><textarea name="goals" value={fields.goals} onChange={handleText} rows={4} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('alliesLabel')}</legend><textarea name="allies" value={fields.allies} onChange={handleText} rows={4} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('enemiesLabel')}</legend><textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full"  /></fieldset>
         </div>
       </div>
 

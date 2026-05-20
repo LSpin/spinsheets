@@ -556,7 +556,7 @@ export default function UestrpgForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('dndClassFeatures')}</legend>
-            <textarea name="dndClassFeatures" value={fields.dndClassFeatures} onChange={handleText} rows={8} style={{ width: '100%' }}
+            <textarea name="dndClassFeatures" value={fields.dndClassFeatures} onChange={handleText} rows={8} className="w-full"
               placeholder="List your class features here..." />
           </fieldset>
           <fieldset>
@@ -566,7 +566,7 @@ export default function UestrpgForm() {
                 {fields.dndRace} traits: {selectedRace.traits.join(', ')}
               </p>
             )}
-            <textarea name="dndRacialTraits" value={fields.dndRacialTraits} onChange={handleText} rows={5} style={{ width: '100%' }}
+            <textarea name="dndRacialTraits" value={fields.dndRacialTraits} onChange={handleText} rows={5} className="w-full"
               placeholder="Additional racial trait notes..." />
           </fieldset>
           <fieldset>
@@ -576,7 +576,7 @@ export default function UestrpgForm() {
                 {fields.uestrpgBirthsign}: {UESTRPG_CONSTELLATION_CATALOG.find(c => c.value === fields.uestrpgBirthsign)?.description || ''}
               </p>
             )}
-            <textarea name="dndFeats" value={fields.dndFeats} onChange={handleText} rows={5} style={{ width: '100%' }}
+            <textarea name="dndFeats" value={fields.dndFeats} onChange={handleText} rows={5} className="w-full"
               placeholder="List your birthsign abilities and feats here..." />
           </fieldset>
         </div>
@@ -689,7 +689,7 @@ export default function UestrpgForm() {
           <fieldset>
             <legend>{t('dndEquipment')}</legend>
             <div style={{ marginBottom: 'var(--space-sm)' }}>
-              <input type="text" placeholder="Search equipment..." value={equipSearch} onChange={e => setEquipSearch(e.target.value)} style={{ width: '100%' }} />
+              <input type="text" placeholder="Search equipment..." value={equipSearch} onChange={e => setEquipSearch(e.target.value)} className="w-full" />
             </div>
             {equipment.length > 0 && (
               <div style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: '4px' }}>
@@ -732,17 +732,17 @@ export default function UestrpgForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('dndPersonality')}</legend>
-            <div className="field"><label>{t('dndPersonalityTraits')}</label><textarea name="dndPersonalityTraits" value={fields.dndPersonalityTraits} onChange={handleText} rows={3} style={{ width: '100%' }} /></div>
-            <div className="field"><label>{t('dndIdeals')}</label><textarea name="dndIdeals" value={fields.dndIdeals} onChange={handleText} rows={2} style={{ width: '100%' }} /></div>
-            <div className="field"><label>{t('dndBonds')}</label><textarea name="dndBonds" value={fields.dndBonds} onChange={handleText} rows={2} style={{ width: '100%' }} /></div>
-            <div className="field"><label>{t('dndFlaws')}</label><textarea name="dndFlaws" value={fields.dndFlaws} onChange={handleText} rows={2} style={{ width: '100%' }} /></div>
+            <div className="field"><label>{t('dndPersonalityTraits')}</label><textarea name="dndPersonalityTraits" value={fields.dndPersonalityTraits} onChange={handleText} rows={3} className="w-full" /></div>
+            <div className="field"><label>{t('dndIdeals')}</label><textarea name="dndIdeals" value={fields.dndIdeals} onChange={handleText} rows={2} className="w-full" /></div>
+            <div className="field"><label>{t('dndBonds')}</label><textarea name="dndBonds" value={fields.dndBonds} onChange={handleText} rows={2} className="w-full" /></div>
+            <div className="field"><label>{t('dndFlaws')}</label><textarea name="dndFlaws" value={fields.dndFlaws} onChange={handleText} rows={2} className="w-full" /></div>
           </fieldset>
           <fieldset>
             <legend>{t('appearanceLabel')}</legend>
-            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} />
+            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full" />
           </fieldset>
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full" /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full" /></fieldset>
         </div>
       </div>
 

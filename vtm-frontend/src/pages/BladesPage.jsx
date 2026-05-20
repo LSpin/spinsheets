@@ -59,7 +59,7 @@ export default function BladesPage() {
     <section aria-labelledby="blades-heading">
       <div className="character-list-header">
         <h2 id="blades-heading">{t('systemBlades')} — {t('bladesMyScoundrels')}</h2>
-        <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
+        <div className="flex gap-sm">
           <button className="btn btn-primary" onClick={() => setShowNewChar(true)}>
             {t('bladesNewScoundrel')}
           </button>
@@ -84,7 +84,7 @@ export default function BladesPage() {
         </div>
       </div>
 
-      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="tab-list mb-lg" role="tablist">
         <button role="tab" className={`btn btn-secondary${pageTab === 0 ? ' tab-btn--active' : ''}`}
           onClick={() => setPageTab(0)}>{t('navCharacters')}</button>
         <button role="tab" className={`btn btn-secondary${pageTab === 1 ? ' tab-btn--active' : ''}`}
@@ -163,7 +163,7 @@ export default function BladesPage() {
       {/* Antagonists */}
       {pageTab === 0 && !loading && isST && antagonists.length > 0 && (
         <div style={{ marginTop: 'var(--space-xl)' }}>
-          <h3 style={{ marginBottom: 'var(--space-sm)' }}>{t('splatBladesAntagonist')}s ({antagonists.length})</h3>
+          <h3 className="mb-sm">{t('splatBladesAntagonist')}s ({antagonists.length})</h3>
           <ul className="character-list" aria-label="Antagonists">
             {antagonists.map(c => (
               <li key={c.id} className="character-card">

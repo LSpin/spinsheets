@@ -325,13 +325,13 @@ export default function CyberpunkForm() {
             </div>
             <div className="field">
               <label>{t('appearanceLabel')}</label>
-              <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }}
+              <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full" 
                 placeholder="Describe your character's appearance..." />
             </div>
             {selectedRole && (
-              <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
-                <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{fields.cpRole}</div>
-                <p style={{ fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 'var(--space-xs)' }}>{selectedRole.description}</p>
+              <div className="form-section p-md mt-sm" style={{ background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                <div className="text-lg font-bold mb-xs" >{fields.cpRole}</div>
+                <p className="text-base lh-normal mb-xs" >{selectedRole.description}</p>
                 <p className="muted-hint muted-hint--xs"><strong>{t('cpSpecialAbilityLabel')}</strong> {selectedRole.specialAbility}</p>
               </div>
             )}
@@ -344,11 +344,11 @@ export default function CyberpunkForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabCpStats')}</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 'var(--space-md)' }}>
+            <div className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}>
               {CP_STATS.map(stat => (
-                <div key={stat.key} style={{ textAlign: 'center', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px' }}>
-                  <div style={{ fontWeight: 700, fontSize: '0.85rem', marginBottom: '4px' }}>{stat.full}</div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{fields[stat.key]}</div>
+                <div key={stat.key} className="text-center p-sm border" style={{ borderRadius: '8px' }}>
+                  <div className="font-bold text-base" style={{ marginBottom: '4px' }}>{stat.full}</div>
+                  <div className="font-bold text-accent" style={{ fontSize: '1.5rem' }}>{fields[stat.key]}</div>
                   <DotRating label={stat.label} name={stat.key} value={fields[stat.key]} onChange={handleField} min={1} max={10} />
                 </div>
               ))}
@@ -356,27 +356,27 @@ export default function CyberpunkForm() {
           </fieldset>
           <fieldset>
             <legend>{t('cpDerivedValues')}</legend>
-            <div role="status" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 'var(--space-sm)' }}>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+            <div role="status" className="grid gap-sm" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>{t('cpRun')}:</strong> {run} yards/turn
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>{t('cpLeap')}:</strong> {leap} yards
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>{t('cpLift')}:</strong> {lift} lbs
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>{t('cpHumanity')}:</strong> {humanity}
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>{t('cpSaveNumber')}:</strong> {fields.cpBody}
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>{t('cpBtm')}:</strong> {btm}
               </div>
             </div>
-            <div className="field-row" style={{ marginTop: 'var(--space-md)' }}>
+            <div className="field-row mt-md" >
               <div className="field">
                 <label>{t('cpCurrentHumanity')}</label>
                 <input type="number" name="cpCurrentHumanity" min={0} max={humanity}
@@ -385,12 +385,12 @@ export default function CyberpunkForm() {
               </div>
             </div>
             {/* Humanity Remaining Counter */}
-            <div role="status" aria-live="polite" aria-atomic="true" style={{ marginTop: 'var(--space-md)', padding: 'var(--space-md)', border: '2px solid var(--color-accent-fg)', borderRadius: '8px', background: 'rgba(52,152,219,0.06)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
-                <span style={{ fontSize: '1.1rem', fontWeight: 700 }}>Humanity Remaining: {fields.cpCurrentHumanity} / {humanity}</span>
-                <span style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>Empathy {fields.cpEmp} x 10 = {humanity}</span>
+            <div role="status" aria-live="polite" aria-atomic="true" className="mt-md p-md" style={{ border: '2px solid var(--color-accent-fg)', borderRadius: '8px', background: 'rgba(52,152,219,0.06)' }}>
+              <div className="flex justify-between items-center mb-sm" >
+                <span className="text-xl font-bold" >Humanity Remaining: {fields.cpCurrentHumanity} / {humanity}</span>
+                <span className="text-base text-muted" >Empathy {fields.cpEmp} x 10 = {humanity}</span>
               </div>
-              <div style={{ width: '100%', height: '12px', background: 'var(--color-surface-raised)', borderRadius: '6px', overflow: 'hidden', border: '1px solid var(--color-border)' }}>
+              <div className="w-full bg-raised border" style={{ height: '12px', borderRadius: '6px', overflow: 'hidden' }}>
                 <div style={{
                   width: `${humanity > 0 ? Math.max(0, Math.min(100, (fields.cpCurrentHumanity / humanity) * 100)) : 0}%`,
                   height: '100%',
@@ -402,42 +402,42 @@ export default function CyberpunkForm() {
                     : '#2ecc71',
                 }} />
               </div>
-              <div style={{ marginTop: 'var(--space-xs)', fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>
+              <div className="mt-xs text-base text-muted" >
                 {fields.cpCurrentHumanity > 0
                   ? `${fields.cpCurrentHumanity} points of cyberware away from cyberpsychosis threshold.`
                   : 'Cyberpsychosis threshold reached!'}
               </div>
             </div>
             {fields.cpCurrentHumanity <= 0 && fields.cpCurrentHumanity !== undefined && (
-              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c', fontSize: '1rem', textAlign: 'center' }}>
+              <div role="alert" aria-live="assertive" aria-atomic="true" className="mt-sm p-sm font-bold text-lg text-center" style={{ background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', color: '#e74c3c' }}>
                 CYBERPSYCHO — Character lost
               </div>
             )}
             {fields.cpCurrentHumanity > 0 && fields.cpCurrentHumanity < 3 && (
-              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(231,76,60,0.15)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c' }}>
+              <div role="alert" aria-live="assertive" aria-atomic="true" className="mt-sm p-sm font-bold" style={{ background: 'rgba(231,76,60,0.15)', border: '2px solid #e74c3c', borderRadius: '6px', color: '#e74c3c' }}>
                 Critical: Extreme cyberpsychosis risk (Humanity {fields.cpCurrentHumanity})
               </div>
             )}
             {fields.cpCurrentHumanity >= 3 && fields.cpCurrentHumanity < 5 && (
-              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(243,156,18,0.15)', border: '2px solid #f39c12', borderRadius: '6px', fontWeight: 600, color: '#f39c12' }}>
+              <div role="alert" aria-live="assertive" aria-atomic="true" className="mt-sm p-sm font-semibold" style={{ background: 'rgba(243,156,18,0.15)', border: '2px solid #f39c12', borderRadius: '6px', color: '#f39c12' }}>
                 Warning: Cyberpsychosis risk (Humanity {fields.cpCurrentHumanity})
               </div>
             )}
           </fieldset>
           {/* IP Cost Calculator */}
           <details open={ipCalcOpen} onToggle={e => setIpCalcOpen(e.target.open)}>
-            <summary style={{ cursor: 'pointer', fontWeight: 700, fontSize: '0.95rem', color: 'var(--color-accent-fg)', padding: 'var(--space-sm) 0' }}>
+            <summary className="cursor-pointer font-bold text-accent" style={{ fontSize: '0.95rem', padding: 'var(--space-sm) 0' }}>
               IP Cost Calculator
             </summary>
-            <div style={{ padding: 'var(--space-md)', border: '1px solid var(--color-border)', borderRadius: '8px', background: 'rgba(52,152,219,0.04)' }}>
-              <div style={{ marginBottom: 'var(--space-sm)', fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>
+            <div className="p-md border" style={{ borderRadius: '8px', background: 'rgba(52,152,219,0.04)' }}>
+              <div className="mb-sm text-base text-muted" >
                 <strong>IP Cost Formula:</strong><br />
                 Same career skill: New Level x 1 IP<br />
                 Different career skill: New Level x 2 IP
               </div>
-              <div className="field-row" style={{ alignItems: 'flex-end', gap: 'var(--space-md)' }}>
+              <div className="field-row items-end gap-md" >
                 <div className="field">
-                  <label htmlFor="ip-current" style={{ fontSize: '0.85rem' }}>Current Level</label>
+                  <label htmlFor="ip-current" className="text-base" >Current Level</label>
                   <select id="ip-current" value={ipCurrentLevel} onChange={e => { const v = Number(e.target.value); setIpCurrentLevel(v); if (ipTargetLevel <= v) setIpTargetLevel(v + 1) }}>
                     {Array.from({ length: 10 }, (_, i) => (
                       <option key={i} value={i}>{i}</option>
@@ -445,7 +445,7 @@ export default function CyberpunkForm() {
                   </select>
                 </div>
                 <div className="field">
-                  <label htmlFor="ip-target" style={{ fontSize: '0.85rem' }}>Target Level</label>
+                  <label htmlFor="ip-target" className="text-base" >Target Level</label>
                   <select id="ip-target" value={ipTargetLevel} onChange={e => setIpTargetLevel(Number(e.target.value))}>
                     {Array.from({ length: 10 - ipCurrentLevel }, (_, i) => (
                       <option key={i + ipCurrentLevel + 1} value={i + ipCurrentLevel + 1}>{i + ipCurrentLevel + 1}</option>
@@ -453,22 +453,22 @@ export default function CyberpunkForm() {
                   </select>
                 </div>
                 <div className="field">
-                  <label style={{ fontSize: '0.85rem' }}>Skill Type</label>
-                  <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
+                  <label className="text-base" >Skill Type</label>
+                  <div className="flex gap-sm" >
+                    <label className="flex items-center text-base" style={{ gap: '4px' }}>
                       <input type="radio" name="ipCareer" checked={ipIsCareer} onChange={() => setIpIsCareer(true)} /> Career
                     </label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
+                    <label className="flex items-center text-base" style={{ gap: '4px' }}>
                       <input type="radio" name="ipCareer" checked={!ipIsCareer} onChange={() => setIpIsCareer(false)} /> Non-career
                     </label>
                   </div>
                 </div>
               </div>
-              <div role="status" aria-live="polite" aria-atomic="true" style={{ marginTop: 'var(--space-md)', padding: 'var(--space-sm)', border: '2px solid var(--color-accent-fg)', borderRadius: '8px', background: 'rgba(52,152,219,0.08)', textAlign: 'center' }}>
-                <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginBottom: '4px' }}>
+              <div role="status" aria-live="polite" aria-atomic="true" className="mt-md p-sm text-center" style={{ border: '2px solid var(--color-accent-fg)', borderRadius: '8px', background: 'rgba(52,152,219,0.08)' }}>
+                <div className="text-base text-muted" style={{ marginBottom: '4px' }}>
                   Level {ipCurrentLevel} → {ipTargetLevel} ({ipIsCareer ? 'Career' : 'Non-career'})
                 </div>
-                <div style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>
+                <div className="font-bold text-accent" style={{ fontSize: '1.4rem' }}>
                   {(() => {
                     const mult = ipIsCareer ? 1 : 2
                     let total = 0
@@ -476,7 +476,7 @@ export default function CyberpunkForm() {
                     return total
                   })()} IP
                 </div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginTop: '4px' }}>
+                <div className="text-sm text-muted" style={{ marginTop: '4px' }}>
                   {(() => {
                     const mult = ipIsCareer ? 1 : 2
                     const parts = []
@@ -496,10 +496,10 @@ export default function CyberpunkForm() {
           {Object.entries(CP_SKILLS_BY_STAT).map(([statLabel, skillList]) => (
             <fieldset key={statLabel}>
               <legend>{statLabel} {t('cpSkillsLabel')}</legend>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <div className="flex-col" style={{ gap: '2px' }}>
                 {skillList.map(skillName => (
-                  <div key={skillName} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: '2px 0', borderBottom: '1px solid var(--color-border)' }}>
-                    <span style={{ flex: 1, fontSize: '0.85rem' }}>{skillName}</span>
+                  <div key={skillName} className="flex items-center gap-sm border-b" style={{ padding: '2px 0' }}>
+                    <span className="flex-1 text-base" >{skillName}</span>
                     <DotRating label="" name={skillName} value={getSkillLevel(skillName)}
                       onChange={(_, val) => setSkillLevel(skillName, val)} min={0} max={10} />
                   </div>
@@ -510,16 +510,16 @@ export default function CyberpunkForm() {
           <fieldset>
             <legend>{t('cpCustomSkills')}</legend>
             {customSkills.map(s => (
-              <div key={s.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: '2px 0', borderBottom: '1px solid var(--color-border)' }}>
-                <span style={{ flex: 1, fontSize: '0.85rem' }}>{s.name}</span>
+              <div key={s.name} className="flex items-center gap-sm border-b" style={{ padding: '2px 0' }}>
+                <span className="flex-1 text-base" >{s.name}</span>
                 <DotRating label="" name={s.name} value={s.level}
                   onChange={(_, val) => setSkillLevel(s.name, val)} min={0} max={10} />
-                <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                   onClick={() => setSkills(skills.filter(sk => sk.name !== s.name))}>Remove</button>
               </div>
             ))}
-            <div className="field-row" style={{ marginTop: 'var(--space-sm)' }}>
-              <div className="field" style={{ flex: 1 }}>
+            <div className="field-row mt-sm" >
+              <div className="field flex-1" >
                 <input type="text" value={customSkillName} onChange={e => setCustomSkillName(e.target.value)}
                   placeholder="Custom skill name..." onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addCustomSkill() } }} />
               </div>
@@ -534,29 +534,29 @@ export default function CyberpunkForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabCpCyberware')}</legend>
-            <div style={{ padding: 'var(--space-sm)', marginBottom: 'var(--space-md)', background: 'rgba(231,76,60,0.1)', borderRadius: '4px', fontWeight: 600 }}>
+            <div className="p-sm mb-md font-semibold" style={{ background: 'rgba(231,76,60,0.1)', borderRadius: '4px' }}>
               {t('cpTotalHumanityLoss')}: <span style={{ color: totalHumanityLoss > 0 ? '#e55' : '#8c8' }}>{totalHumanityLoss}</span>
               {' '} | {t('cpEffectiveHumanity')}: {Math.max(0, humanity - totalHumanityLoss)}
-              {' '} | {t('cpCurrentHumanity')}: <span style={{ fontWeight: 700, color: fields.cpCurrentHumanity < 5 ? '#e55' : '#8c8' }}>{fields.cpCurrentHumanity}</span>
+              {' '} | {t('cpCurrentHumanity')}: <span className="font-bold" style={{ color: fields.cpCurrentHumanity < 5 ? '#e55' : '#8c8' }}>{fields.cpCurrentHumanity}</span>
             </div>
             {fields.cpCurrentHumanity <= 0 && (
-              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ padding: 'var(--space-sm)', marginBottom: 'var(--space-sm)', background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c', textAlign: 'center' }}>
+              <div role="alert" aria-live="assertive" aria-atomic="true" className="p-sm mb-sm font-bold text-center" style={{ background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', color: '#e74c3c' }}>
                 CYBERPSYCHO — Character lost
               </div>
             )}
             {fields.cpCurrentHumanity > 0 && fields.cpCurrentHumanity < 3 && (
-              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ padding: 'var(--space-sm)', marginBottom: 'var(--space-sm)', background: 'rgba(231,76,60,0.15)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c' }}>
+              <div role="alert" aria-live="assertive" aria-atomic="true" className="p-sm mb-sm font-bold" style={{ background: 'rgba(231,76,60,0.15)', border: '2px solid #e74c3c', borderRadius: '6px', color: '#e74c3c' }}>
                 Critical: Extreme cyberpsychosis risk (Humanity {fields.cpCurrentHumanity})
               </div>
             )}
             {fields.cpCurrentHumanity >= 3 && fields.cpCurrentHumanity < 5 && (
-              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ padding: 'var(--space-sm)', marginBottom: 'var(--space-sm)', background: 'rgba(243,156,18,0.15)', border: '2px solid #f39c12', borderRadius: '6px', fontWeight: 600, color: '#f39c12' }}>
+              <div role="alert" aria-live="assertive" aria-atomic="true" className="p-sm mb-sm font-semibold" style={{ background: 'rgba(243,156,18,0.15)', border: '2px solid #f39c12', borderRadius: '6px', color: '#f39c12' }}>
                 Warning: Cyberpsychosis risk (Humanity {fields.cpCurrentHumanity})
               </div>
             )}
-            <div style={{ marginBottom: 'var(--space-sm)' }}>
-              <label htmlFor="cyber-category" style={{ marginRight: 'var(--space-xs)', fontSize: '0.85rem' }}>{t('cpFilterCategory')}</label>
-              <select id="cyber-category" value={cyberCategory} onChange={e => setCyberCategory(e.target.value)} style={{ fontSize: '0.85rem' }}>
+            <div className="mb-sm" >
+              <label htmlFor="cyber-category" className="text-base" style={{ marginRight: 'var(--space-xs)' }}>{t('cpFilterCategory')}</label>
+              <select id="cyber-category" value={cyberCategory} onChange={e => setCyberCategory(e.target.value)} className="text-base" >
                 <option value="all">{t('filterAll')}</option>
                 {[...new Set(CP_CYBERWARE.map(c => c.category))].map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -570,25 +570,25 @@ export default function CyberpunkForm() {
                 if (item) setCyberware([...cyberware, { name: item.name, category: item.category, humanityCost: item.humanityCost }])
               }} catalog={cyberCategory === 'all' ? CP_CYBERWARE_CATALOG : CP_CYBERWARE_CATALOG.filter((_, i) => CP_CYBERWARE[i].category === cyberCategory)} showDescOnSelect={false} />
             {cyberware.length > 0 && (
-              <div style={{ marginTop: 'var(--space-md)' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 120px 80px 60px', gap: '4px', fontWeight: 700, fontSize: '0.75rem', padding: '0 0 4px 0', borderBottom: '1px solid var(--color-border)' }}>
+              <div className="mt-md" >
+                <div className="grid font-bold text-sm border-b" style={{ gridTemplateColumns: '1fr 120px 80px 60px', gap: '4px', padding: '0 0 4px 0' }}>
                   <span>Name</span><span>Category</span><span>HL Cost</span><span></span>
                 </div>
                 {cyberware.map((cw, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 120px 80px 60px', gap: '4px', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--color-border)', fontSize: '0.85rem' }}>
+                  <div key={i} className="grid items-center border-b text-base" style={{ gridTemplateColumns: '1fr 120px 80px 60px', gap: '4px', padding: '4px 0' }}>
                     <span>{cw.name}</span>
-                    <span style={{ color: 'var(--color-text-muted)' }}>{cw.category}</span>
-                    <span style={{ color: '#e55', fontWeight: 600 }}>{cw.humanityCost}</span>
-                    <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                    <span className="text-muted" >{cw.category}</span>
+                    <span className="font-semibold" style={{ color: '#e55' }}>{cw.humanityCost}</span>
+                    <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                       onClick={() => setCyberware(cyberware.filter((_, j) => j !== i))}>Remove</button>
                   </div>
                 ))}
               </div>
             )}
-            <div className="field" style={{ marginTop: 'var(--space-md)' }}>
+            <div className="field mt-md" >
               <label>{t('cpCyberwareNotes')}</label>
               <textarea name="notes_cyber" value={fields.cpContacts} onChange={e => handleField('cpContacts', e.target.value)}
-                rows={3} style={{ width: '100%' }} placeholder="Options, modifications, notes..." />
+                rows={3} className="w-full"  placeholder="Options, modifications, notes..." />
             </div>
           </fieldset>
         </div>
@@ -599,44 +599,44 @@ export default function CyberpunkForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('cpDerivedValues')} — {t('tabCpCombat')}</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)' }}>
-              <div style={{ padding: 'var(--space-sm)', border: '2px solid var(--color-accent-fg)', borderRadius: '8px', textAlign: 'center', background: 'rgba(52,152,219,0.08)' }}>
-                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>{t('cpBtm')}</div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{btm}</div>
-                <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>BODY {fields.cpBody}</div>
+            <div className="grid gap-sm mb-md" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}>
+              <div className="p-sm text-center" style={{ border: '2px solid var(--color-accent-fg)', borderRadius: '8px', background: 'rgba(52,152,219,0.08)' }}>
+                <div className="text-sm font-semibold text-muted" >{t('cpBtm')}</div>
+                <div className="font-bold text-accent" style={{ fontSize: '1.8rem' }}>{btm}</div>
+                <div className="text-xs text-muted" >BODY {fields.cpBody}</div>
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', textAlign: 'center' }}>
-                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>{t('cpRun')}</div>
-                <div style={{ fontSize: '1.3rem', fontWeight: 700 }}>{run} yds</div>
+              <div className="p-sm border text-center" style={{ borderRadius: '8px' }}>
+                <div className="text-sm font-semibold text-muted" >{t('cpRun')}</div>
+                <div className="font-bold" style={{ fontSize: '1.3rem' }}>{run} yds</div>
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', textAlign: 'center' }}>
-                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>{t('cpLeap')}</div>
-                <div style={{ fontSize: '1.3rem', fontWeight: 700 }}>{leap} yds</div>
+              <div className="p-sm border text-center" style={{ borderRadius: '8px' }}>
+                <div className="text-sm font-semibold text-muted" >{t('cpLeap')}</div>
+                <div className="font-bold" style={{ fontSize: '1.3rem' }}>{leap} yds</div>
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', textAlign: 'center' }}>
-                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>{t('cpLift')}</div>
-                <div style={{ fontSize: '1.3rem', fontWeight: 700 }}>{lift} lbs</div>
+              <div className="p-sm border text-center" style={{ borderRadius: '8px' }}>
+                <div className="text-sm font-semibold text-muted" >{t('cpLift')}</div>
+                <div className="font-bold" style={{ fontSize: '1.3rem' }}>{lift} lbs</div>
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', textAlign: 'center' }}>
-                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-muted)' }}>{t('cpSaveNumber')}</div>
-                <div style={{ fontSize: '1.3rem', fontWeight: 700 }}>{fields.cpBody}</div>
+              <div className="p-sm border text-center" style={{ borderRadius: '8px' }}>
+                <div className="text-sm font-semibold text-muted" >{t('cpSaveNumber')}</div>
+                <div className="font-bold" style={{ fontSize: '1.3rem' }}>{fields.cpBody}</div>
               </div>
             </div>
           </fieldset>
 
           <fieldset>
             <legend>{t('cpArmor')} — {t('cpStoppingPowerByLocation')}</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: 'var(--space-sm)' }}>
+            <div className="grid gap-sm" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))' }}>
               {BODY_LOCATIONS.map(loc => (
-                <div key={loc} className="field" style={{ textAlign: 'center' }}>
-                  <label style={{ fontSize: '0.8rem' }}>{loc}</label>
+                <div key={loc} className="field text-center" >
+                  <label className="text-sm" >{loc}</label>
                   <input type="number" min={0} value={armor[loc] || 0}
                     onChange={e => setArmorSP(loc, e.target.value)}
-                    style={{ width: '60px', textAlign: 'center' }} />
+                    className="text-center" style={{ width: '60px' }} />
                 </div>
               ))}
             </div>
-            <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mt-sm" >
               Reference: Kevlar T-Shirt SP 10, Light Armor Jacket SP 14, MetalGear SP 25
             </p>
           </fieldset>
@@ -650,10 +650,10 @@ export default function CyberpunkForm() {
                 if (item) setWeapons([...weapons, { name: item.name, type: item.type, damage: item.damage, shots: item.shots, rof: item.rof, range: item.range || 0 }])
               }} catalog={CP_WEAPONS_CATALOG} showDescOnSelect={false} />
             {weapons.length > 0 && (
-              <div style={{ marginTop: 'var(--space-md)', overflowX: 'auto' }}>
-                <table style={{ width: '100%', fontSize: '0.82rem', borderCollapse: 'collapse' }}>
+              <div className="mt-md" style={{ overflowX: 'auto' }}>
+                <table className="w-full text-sm" style={{ borderCollapse: 'collapse' }}>
                   <thead>
-                    <tr style={{ borderBottom: '1px solid var(--color-border)', textAlign: 'left' }}>
+                    <tr className="border-b text-left" >
                       <th style={{ padding: '0.4rem' }}>Weapon</th>
                       <th style={{ padding: '0.4rem' }}>Type</th>
                       <th style={{ padding: '0.4rem' }}>Damage</th>
@@ -665,15 +665,15 @@ export default function CyberpunkForm() {
                   </thead>
                   <tbody>
                     {weapons.map((w, i) => (
-                      <tr key={i} style={{ borderBottom: '1px solid var(--color-border)' }}>
-                        <td style={{ padding: '0.4rem', fontWeight: 600 }}>{w.name}</td>
+                      <tr key={i} className="border-b" >
+                        <td className="font-semibold" style={{ padding: '0.4rem' }}>{w.name}</td>
                         <td style={{ padding: '0.4rem' }}>{w.type}</td>
-                        <td style={{ padding: '0.4rem', color: 'var(--color-accent-fg)' }}>{w.damage}</td>
+                        <td className="text-accent" style={{ padding: '0.4rem' }}>{w.damage}</td>
                         <td style={{ padding: '0.4rem' }}>{w.shots || '-'}</td>
                         <td style={{ padding: '0.4rem' }}>{w.rof || '-'}</td>
                         <td style={{ padding: '0.4rem' }}>{w.range}m</td>
                         <td style={{ padding: '0.4rem' }}>
-                          <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                          <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                             onClick={() => setWeapons(weapons.filter((_, j) => j !== i))}>Remove</button>
                         </td>
                       </tr>
@@ -686,19 +686,15 @@ export default function CyberpunkForm() {
 
           <fieldset>
             <legend>{t('cpWoundState')} — {t('cpWoundTrack')}</legend>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-xs)' }}>
+            <div className="flex flex-wrap gap-xs" >
               {WOUND_STATES.map(ws => (
                 <button key={ws.level}
-                  className={`btn ${fields.cpWoundState === ws.level ? 'btn-primary' : 'btn-secondary'}`}
+                  className={`btn ${fields.cpWoundState === ws.level ? 'btn-primary' : 'btn-secondary'} text-sm`}
                   aria-label={`${ws.label}${ws.penalty !== 0 ? ' ' + ws.penalty : ''}`}
                   aria-pressed={fields.cpWoundState === ws.level}
-                  style={{
-                    padding: '6px 12px', fontSize: '0.8rem',
-                    background: fields.cpWoundState === ws.level
+                  style={{ padding: '6px 12px', background: fields.cpWoundState === ws.level
                       ? (ws.level === 0 ? '#2ecc71' : ws.level <= 2 ? '#f39c12' : '#f44336')
-                      : undefined,
-                    color: fields.cpWoundState === ws.level ? '#fff' : undefined,
-                  }}
+                      : undefined, color: fields.cpWoundState === ws.level ? '#fff' : undefined }}
                   onClick={() => handleField('cpWoundState', ws.level)}
                 >
                   {ws.label} {ws.penalty !== 0 ? ws.penalty : ''}
@@ -706,11 +702,11 @@ export default function CyberpunkForm() {
               ))}
             </div>
             {fields.cpWoundState > 0 && (
-              <div role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', border: '2px solid', borderColor: fields.cpWoundState >= 4 ? '#e74c3c' : fields.cpWoundState >= 3 ? '#e67e22' : '#f39c12', borderRadius: '8px', background: fields.cpWoundState >= 4 ? 'rgba(231,76,60,0.1)' : fields.cpWoundState >= 3 ? 'rgba(230,126,34,0.1)' : 'rgba(243,156,18,0.1)' }}>
-                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: fields.cpWoundState >= 4 ? '#e74c3c' : fields.cpWoundState >= 3 ? '#e67e22' : '#f39c12' }}>
+              <div role="status" aria-live="polite" className="mt-sm p-sm" style={{ border: '2px solid', borderColor: fields.cpWoundState >= 4 ? '#e74c3c' : fields.cpWoundState >= 3 ? '#e67e22' : '#f39c12', borderRadius: '8px', background: fields.cpWoundState >= 4 ? 'rgba(231,76,60,0.1)' : fields.cpWoundState >= 3 ? 'rgba(230,126,34,0.1)' : 'rgba(243,156,18,0.1)' }}>
+                <div className="text-xl font-bold" style={{ color: fields.cpWoundState >= 4 ? '#e74c3c' : fields.cpWoundState >= 3 ? '#e67e22' : '#f39c12' }}>
                   {WOUND_STATES[fields.cpWoundState]?.label}: {WOUND_STATES[fields.cpWoundState]?.penalty || 0} REF {t('cpToAllActions')}
                 </div>
-                <div style={{ fontSize: '0.85rem', marginTop: '4px', color: 'var(--color-text-muted)' }}>
+                <div className="text-base text-muted" style={{ marginTop: '4px' }}>
                   {fields.cpWoundState === 1 && 'Light wound. -1 REF penalty to all actions.'}
                   {fields.cpWoundState === 2 && 'Serious wound. -2 REF penalty to all actions. Must make Stun Save (BODY) or be stunned for 1 round.'}
                   {fields.cpWoundState === 3 && 'Critical wound. -3 REF penalty. Must make Stun Save each round at -1 or be stunned.'}
@@ -728,9 +724,9 @@ export default function CyberpunkForm() {
           <fieldset>
             <legend>{t('cpEurodollars')}</legend>
             <div className="field-row">
-              <div className="field" style={{ textAlign: 'center' }}>
+              <div className="field text-center" >
                 <label>{t('cpEurodollars')} (eb)</label>
-                <input type="number" name="cpEurodollars" min={0} value={fields.cpEurodollars} onChange={handleNumber} style={{ width: '120px', textAlign: 'center' }} />
+                <input type="number" name="cpEurodollars" min={0} value={fields.cpEurodollars} onChange={handleNumber} className="text-center" style={{ width: '120px' }} />
               </div>
             </div>
           </fieldset>
@@ -743,14 +739,14 @@ export default function CyberpunkForm() {
                 if (item) setGear([...gear, { name: item.name, description: item.description, cost: item.costEb }])
               }} catalog={CP_GEAR_CATALOG} showDescOnSelect={false} />
             {gear.length > 0 && (
-              <div style={{ marginTop: 'var(--space-md)' }}>
+              <div className="mt-md" >
                 {gear.map((g, i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
-                    <span style={{ fontSize: '0.85rem' }}>
+                  <div key={i} className="flex justify-between items-center border-b" style={{ padding: '4px 0' }}>
+                    <span className="text-base" >
                       <strong>{g.name}</strong>
                       <span className="muted-hint muted-hint--xs"> {g.description} {g.cost ? `(${g.cost} eb)` : ''}</span>
                     </span>
-                    <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                    <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                       onClick={() => setGear(gear.filter((_, j) => j !== i))}>Drop</button>
                   </div>
                 ))}
@@ -771,19 +767,19 @@ export default function CyberpunkForm() {
                 if (veh) setVehicles([...vehicles, { name: veh.name, type: veh.type, topSpeed: veh.topSpeed, maneuver: veh.maneuver, sdp: veh.sdp, sp: veh.sp, seats: veh.seats, costEb: veh.costEb }])
               }}
               catalog={CP_VEHICLES_CATALOG} showDescOnSelect={false} />
-            {vehicles.length === 0 && <p className="muted-hint" style={{ marginTop: 'var(--space-sm)' }}>{t('cpNoVehiclesYet')}</p>}
+            {vehicles.length === 0 && <p className="muted-hint mt-sm" >{t('cpNoVehiclesYet')}</p>}
             {vehicles.length > 0 && (
-              <div style={{ marginTop: 'var(--space-sm)' }}>
+              <div className="mt-sm" >
                 {vehicles.map((v, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', borderBottom: '1px solid var(--color-border, #333)' }}>
-                    <span style={{ flex: 1, fontWeight: 600, fontSize: '0.88rem' }}>{v.name}</span>
+                  <div key={i} className="flex items-center gap-sm" style={{ padding: 'var(--space-xs) 0', borderBottom: '1px solid var(--color-border, #333)' }}>
+                    <span className="flex-1 font-semibold" style={{ fontSize: '0.88rem' }}>{v.name}</span>
                     <span className="muted-hint muted-hint--xs">{v.type}</span>
                     <span className="muted-hint muted-hint--xs">Speed {v.topSpeed}</span>
                     <span className="muted-hint muted-hint--xs">SP{v.sp}</span>
                     <span className="muted-hint muted-hint--xs">SDP {v.sdp}</span>
                     <span className="muted-hint muted-hint--xs">Seats {v.seats}</span>
                     <span className="muted-hint muted-hint--xs">{v.costEb}eb</span>
-                    <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                    <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                       onClick={() => setVehicles(vehicles.filter((_, j) => j !== i))}>{t('deleteBtn')}</button>
                   </div>
                 ))}
@@ -798,18 +794,18 @@ export default function CyberpunkForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('cpLifepath')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
+            <p className="muted-hint muted-hint--xs mb-md" >
               Choose or roll randomly for each lifepath step to flesh out your character's background.
             </p>
             {Object.entries(CP_LIFEPATH_TABLES).map(([key, options]) => (
-              <div key={key} style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xs)' }}>
-                  <label style={{ fontWeight: 700, fontSize: '0.9rem' }}>{key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase()).trim()}</label>
-                  <button className="btn btn-secondary" style={{ padding: '4px 10px', fontSize: '0.75rem' }}
+              <div key={key} className="mb-md p-sm border" style={{ borderRadius: '4px' }}>
+                <div className="flex justify-between items-center mb-xs" >
+                  <label className="font-bold text-md" >{key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase()).trim()}</label>
+                  <button className="btn btn-secondary text-sm" style={{ padding: '4px 10px' }}
                     onClick={() => rollLifepathStep(key)}>{t('cpRollRandom')}</button>
                 </div>
                 <select value={lifepath[key] || ''} onChange={e => setLifepathStep(key, e.target.value)}
-                  style={{ width: '100%' }}>
+                  className="w-full" >
                   <option value="">-- Select --</option>
                   {options.map(opt => (
                     <option key={opt} value={opt}>{opt}</option>
@@ -817,7 +813,7 @@ export default function CyberpunkForm() {
                 </select>
               </div>
             ))}
-            <button className="btn btn-secondary" style={{ marginTop: 'var(--space-sm)' }}
+            <button className="btn btn-secondary mt-sm" 
               onClick={() => {
                 Object.keys(CP_LIFEPATH_TABLES).forEach(key => rollLifepathStep(key))
               }}>{t('cpRollAllRandom')}</button>
@@ -830,12 +826,12 @@ export default function CyberpunkForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
-            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }}
+            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full" 
               placeholder="Your character's backstory..." />
           </fieldset>
           <fieldset>
             <legend>{t('notes')}</legend>
-            <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }}
+            <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full" 
               placeholder="Session notes, contacts, etc..." />
           </fieldset>
         </div>
@@ -854,29 +850,29 @@ export default function CyberpunkForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('cpStatSkillD10')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Standard CP2020 check: STAT + Skill + 1d10 vs. Difficulty. Fumble on 1, Critical on 10 (exploding).
             </p>
             <div className="field-row">
               <div className="field">
                 <label htmlFor="dice-stat-val">{t('cpStatValue')}</label>
-                <input id="dice-stat-val" type="number" min={0} max={10} value={diceStatVal} onChange={e => setDiceStatVal(Number(e.target.value) || 0)} style={{ width: '70px', textAlign: 'center' }} />
+                <input id="dice-stat-val" type="number" min={0} max={10} value={diceStatVal} onChange={e => setDiceStatVal(Number(e.target.value) || 0)} className="text-center" style={{ width: '70px' }} />
               </div>
               <div className="field">
                 <label htmlFor="dice-skill-val">{t('cpSkillValue')}</label>
-                <input id="dice-skill-val" type="number" min={0} max={10} value={diceSkillVal} onChange={e => setDiceSkillVal(Number(e.target.value) || 0)} style={{ width: '70px', textAlign: 'center' }} />
+                <input id="dice-skill-val" type="number" min={0} max={10} value={diceSkillVal} onChange={e => setDiceSkillVal(Number(e.target.value) || 0)} className="text-center" style={{ width: '70px' }} />
               </div>
               <button className="btn btn-primary" style={{ alignSelf: 'flex-end' }} onClick={handleStatSkillRoll}>{t('cpRollD10')}</button>
             </div>
             {diceResult && (
-              <div style={{ marginTop: 'var(--space-md)', padding: 'var(--space-md)', border: '2px solid var(--color-accent-fg)', borderRadius: '8px', background: 'rgba(52,152,219,0.08)' }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>
+              <div className="mt-md p-md" style={{ border: '2px solid var(--color-accent-fg)', borderRadius: '8px', background: 'rgba(52,152,219,0.08)' }}>
+                <div className="font-bold text-accent" style={{ fontSize: '1.5rem' }}>
                   {t('cpTotal')}: {diceResult.total}
                 </div>
-                <div style={{ fontSize: '0.85rem', marginTop: '4px' }}>
+                <div className="text-base" style={{ marginTop: '4px' }}>
                   Stat ({diceResult.stat}) + Skill ({diceResult.skill}) + Roll ({diceResult.roll}) = {diceResult.total}
                 </div>
-                {diceResult.note && <div style={{ color: diceResult.roll < 0 ? '#e55' : '#2ecc71', fontWeight: 600, marginTop: '4px' }}>{diceResult.note}</div>}
+                {diceResult.note && <div className="font-semibold" style={{ color: diceResult.roll < 0 ? '#e55' : '#2ecc71', marginTop: '4px' }}>{diceResult.note}</div>}
               </div>
             )}
           </fieldset>
@@ -893,12 +889,12 @@ export default function CyberpunkForm() {
               <button className="btn btn-primary" style={{ alignSelf: 'flex-end' }} onClick={handleDamageRoll}>{t('cpRollDamage')}</button>
             </div>
             {damageResult && !damageResult.error && (
-              <div style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
-                <strong>{damageResult.expr}:</strong> [{damageResult.rolls.join(', ')}]{damageResult.mod ? (damageResult.mod > 0 ? '+' : '') + damageResult.mod : ''} = <span style={{ fontWeight: 700, color: 'var(--color-accent-fg)' }}>{damageResult.total}</span>
+              <div className="mt-sm p-sm border" style={{ borderRadius: '4px' }}>
+                <strong>{damageResult.expr}:</strong> [{damageResult.rolls.join(', ')}]{damageResult.mod ? (damageResult.mod > 0 ? '+' : '') + damageResult.mod : ''} = <span className="font-bold text-accent" >{damageResult.total}</span>
               </div>
             )}
             {damageResult?.error && (
-              <p className="status-error" style={{ marginTop: 'var(--space-sm)' }}>{damageResult.error}</p>
+              <p className="status-error mt-sm" >{damageResult.error}</p>
             )}
           </fieldset>
 
@@ -906,8 +902,8 @@ export default function CyberpunkForm() {
             <legend>{t('cpRollHistory')}</legend>
             {diceHistory.length === 0 && <p className="muted-hint">{t('cpNoRollsYet')}</p>}
             {diceHistory.map((h, i) => (
-              <div key={i} style={{ padding: '4px 0', borderBottom: '1px solid var(--color-border)', fontSize: '0.82rem' }}>
-                <span style={{ color: 'var(--color-text-muted)' }}>{h.time}</span>{' '}
+              <div key={i} className="border-b text-sm" style={{ padding: '4px 0' }}>
+                <span className="text-muted" >{h.time}</span>{' '}
                 {h.note || `Stat(${h.stat}) + Skill(${h.skill}) + Roll(${h.roll}) = ${h.total}`}
               </div>
             ))}

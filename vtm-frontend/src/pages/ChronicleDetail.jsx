@@ -232,7 +232,7 @@ export default function ChronicleDetail() {
         </div>
       )}
 
-      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="tab-list mb-lg" role="tablist">
         <button role="tab" className={`btn btn-secondary${tab === 0 ? ' tab-btn--active' : ''}`}
           onClick={() => setTab(0)}>{t('tabChronicleMembers')}</button>
         <button role="tab" className={`btn btn-secondary${tab === 1 ? ' tab-btn--active' : ''}`}
@@ -307,13 +307,13 @@ export default function ChronicleDetail() {
         )}
 
         {!isST && joinable.length === 0 && myCharacters.length > 0 && (
-          <p className="muted-hint" style={{ color: 'var(--color-text-muted)' }}>
+          <p className="muted-hint text-muted">
             {t('noMatchingChars')}
           </p>
         )}
 
         {!isST && (
-          <div style={{ marginTop: 'var(--space-md)' }}>
+          <div className="mt-md">
             <button className="btn btn-primary" onClick={() => navigate(`${SYSTEM_NEW_CHAR[gameSystem] || '/characters/new'}?mode=guided&chronicle=${id}`)}>
               {t('createCharForChronicle')}
             </button>
@@ -321,7 +321,7 @@ export default function ChronicleDetail() {
         )}
 
         {canManage && (
-          <div style={{ marginTop: 'var(--space-md)' }}>
+          <div className="mt-md">
             <button className="btn btn-secondary" onClick={() => navigate(`${SYSTEM_NEW_CHAR[gameSystem] || '/characters/new'}?npc=true&mode=guided&chronicle=${id}`)}>
               {t('createNpcForChronicle')}
             </button>
@@ -335,12 +335,12 @@ export default function ChronicleDetail() {
           {canManage && (
             <fieldset>
               <legend>{t('addSession')}</legend>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-sm)' }}>
+              <div className="grid-2">
                 <div className="field">
                   <label>{t('sessionTitle')}</label>
                   <input type="text" value={newSession.title} onChange={e => setNewSession(p => ({ ...p, title: e.target.value }))} placeholder={t('phSessionTitle')} />
                 </div>
-                <div className="field-row" style={{ gap: 'var(--space-sm)' }}>
+                <div className="field-row gap-sm">
                   <div className="field">
                     <label>{t('sessionDate')}</label>
                     <input type="date" value={newSession.sessionDate} onChange={e => setNewSession(p => ({ ...p, sessionDate: e.target.value }))} />
@@ -352,30 +352,30 @@ export default function ChronicleDetail() {
                 </div>
                 <div className="field" style={{ gridColumn: '1 / -1' }}>
                   <label>{t('sessionSummary')}</label>
-                  <textarea value={newSession.summary} onChange={e => setNewSession(p => ({ ...p, summary: e.target.value }))} rows={3} placeholder={t('phSessionSummary')} style={{ width: '100%' }} />
+                  <textarea className="w-full" value={newSession.summary} onChange={e => setNewSession(p => ({ ...p, summary: e.target.value }))} rows={3} placeholder={t('phSessionSummary')} />
                 </div>
                 <div className="field" style={{ gridColumn: '1 / -1' }}>
                   <label>{t('sessionNotes')}</label>
-                  <textarea value={newSession.notes} onChange={e => setNewSession(p => ({ ...p, notes: e.target.value }))} rows={3} placeholder={t('phSessionNotes')} style={{ width: '100%' }} />
+                  <textarea className="w-full" value={newSession.notes} onChange={e => setNewSession(p => ({ ...p, notes: e.target.value }))} rows={3} placeholder={t('phSessionNotes')} />
                 </div>
               </div>
-              <button className="btn btn-secondary" style={{ marginTop: 'var(--space-sm)' }} onClick={handleAddSession}>{t('add')}</button>
+              <button className="btn btn-secondary mt-sm" onClick={handleAddSession}>{t('add')}</button>
             </fieldset>
           )}
 
           {sessions.length === 0 && <p className="muted-hint">{t('noSessionsYet')}</p>}
           {sessions.map(s => (
-            <div key={s.id} className="character-card" style={{ marginBottom: 'var(--space-sm)' }}>
+            <div key={s.id} className="character-card mb-sm">
               {editingSession?.id === s.id ? (
-                <div style={{ flex: 1, padding: 'var(--space-sm)' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 'var(--space-sm)', marginBottom: 'var(--space-sm)' }}>
+                <div className="flex-1 p-sm">
+                  <div className="gap-sm mb-sm" style={{ display: 'grid', gridTemplateColumns: '1fr auto auto' }}>
                     <input type="text" value={editingSession.title} onChange={e => setEditingSession(p => ({ ...p, title: e.target.value }))} />
                     <input type="date" value={editingSession.sessionDate || ''} onChange={e => setEditingSession(p => ({ ...p, sessionDate: e.target.value }))} />
                     <input type="number" min="1" style={{ width: 60 }} value={editingSession.sessionNumber || ''} onChange={e => setEditingSession(p => ({ ...p, sessionNumber: e.target.value }))} placeholder="#" />
                   </div>
-                  <textarea value={editingSession.summary || ''} onChange={e => setEditingSession(p => ({ ...p, summary: e.target.value }))} rows={3} placeholder={t('sessionSummary')} style={{ width: '100%', marginBottom: 'var(--space-xs)' }} />
-                  <textarea value={editingSession.notes || ''} onChange={e => setEditingSession(p => ({ ...p, notes: e.target.value }))} rows={3} placeholder={t('sessionNotes')} style={{ width: '100%', marginBottom: 'var(--space-xs)' }} />
-                  <div style={{ display: 'flex', gap: 'var(--space-xs)' }}>
+                  <textarea className="w-full mb-xs" value={editingSession.summary || ''} onChange={e => setEditingSession(p => ({ ...p, summary: e.target.value }))} rows={3} placeholder={t('sessionSummary')} />
+                  <textarea className="w-full mb-xs" value={editingSession.notes || ''} onChange={e => setEditingSession(p => ({ ...p, notes: e.target.value }))} rows={3} placeholder={t('sessionNotes')} />
+                  <div className="flex gap-xs">
                     <button className="btn btn-primary btn-sm" onClick={() => handleUpdateSession(s.id)}>{t('saveChanges')}</button>
                     <button className="btn btn-secondary btn-sm" onClick={() => setEditingSession(null)}>{t('cancel')}</button>
                   </div>
@@ -383,13 +383,13 @@ export default function ChronicleDetail() {
               ) : (
                 <>
                   <div className="character-card-info">
-                    <h3 style={{ fontSize: '0.9rem' }}>
-                      {s.sessionNumber && <span style={{ color: 'var(--color-text-muted)' }}>#{s.sessionNumber} — </span>}
+                    <h3 className="text-md">
+                      {s.sessionNumber && <span className="text-muted">#{s.sessionNumber} — </span>}
                       {s.title}
                     </h3>
-                    {s.sessionDate && <p style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>{s.sessionDate}</p>}
-                    {s.summary && <p style={{ fontSize: '0.82rem', marginTop: 'var(--space-xs)' }}>{s.summary}</p>}
-                    {s.notes && <p style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', marginTop: 'var(--space-xs)', fontStyle: 'italic' }}>{s.notes}</p>}
+                    {s.sessionDate && <p className="text-xs text-muted">{s.sessionDate}</p>}
+                    {s.summary && <p className="mt-xs" style={{ fontSize: '0.82rem' }}>{s.summary}</p>}
+                    {s.notes && <p className="text-sm text-muted mt-xs font-italic">{s.notes}</p>}
                   </div>
                   {canManage && (
                     <div className="character-card-actions">
@@ -411,14 +411,14 @@ export default function ChronicleDetail() {
             {SPLAT_CATEGORIES.length > 1 && (
               <fieldset>
                 <legend>{t('allowedCharTypes')}</legend>
-                <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>
+                <p className="text-muted mb-sm" style={{ fontSize: '0.82rem' }}>
                   {t('allowedCharTypesHint')}
                 </p>
-                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <div className="flex flex-wrap gap-md">
                   {SPLAT_CATEGORIES.map(cat => {
                     const checked = getAllowedSet().has(cat)
                     return (
-                      <label key={cat} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer' }}>
+                      <label key={cat} className="flex items-center cursor-pointer" style={{ gap: '0.4rem' }}>
                         <input type="checkbox" checked={checked} onChange={() => handleToggleSplat(cat)} />
                         {t(SPLAT_LABEL_MAP[cat] || cat)}
                       </label>
@@ -430,22 +430,23 @@ export default function ChronicleDetail() {
 
             <fieldset>
               <legend>{t('inviteLink')}</legend>
-              <p style={{ fontSize: '0.82rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>
+              <p className="text-muted mb-sm" style={{ fontSize: '0.82rem' }}>
                 {t('inviteLinkHint')}
               </p>
               {chronicle.inviteCode ? (
                 <>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+                  <div className="flex items-center flex-wrap mb-sm" style={{ gap: '0.5rem' }}>
                     <input type="text" readOnly
                       value={`${window.location.origin}/invite/${chronicle.inviteCode}`}
-                      style={{ flex: 1, minWidth: 220, fontSize: '0.9rem', fontFamily: 'monospace' }}
+                      className="flex-1 text-md"
+                      style={{ minWidth: 220, fontFamily: 'monospace' }}
                       onClick={e => e.target.select()}
                     />
                     <button className="btn btn-secondary btn-sm" onClick={() => navigator.clipboard.writeText(`${window.location.origin}/invite/${chronicle.inviteCode}`)}>
                       {t('copyLink')}
                     </button>
                   </div>
-                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <div className="flex" style={{ gap: '0.5rem' }}>
                     <button className="btn btn-secondary btn-sm" onClick={handleGenerateInviteCode}>
                       {t('regenerateLink')}
                     </button>
@@ -482,7 +483,7 @@ export default function ChronicleDetail() {
                   ))}
                 </ul>
               )}
-              <form onSubmit={handleAddAssistant} style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+              <form onSubmit={handleAddAssistant} className="flex mt-sm" style={{ gap: '0.5rem' }}>
                 <input
                   type="text"
                   value={assistantUsername}

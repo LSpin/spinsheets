@@ -79,16 +79,15 @@ export default function NewCharacterModal({ open, onClose, chronicles, newCharPa
         {step === 'system' && (
           <>
             <h3 id="newchar-modal-title">{t('pickSystemTitle')}</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
+            <div className="flex-col gap-sm mt-md">
               {GAME_SYSTEMS.map((sys, idx) => (
                 <button
                   key={sys.key}
-                  className="modal-option-btn"
+                  className="modal-option-btn flex items-center gap-md p-md text-left"
                   autoFocus={idx === 0}
                   onClick={() => handlePickSystem(sys)}
-                  style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-md)', textAlign: 'left' }}
                 >
-                  <span className={`splat-badge ${sys.badge}`} style={{ fontSize: '0.85rem', minWidth: '140px' }}>
+                  <span className={`splat-badge ${sys.badge} text-base`} style={{ minWidth: '140px' }}>
                     {t(sys.labelKey)}
                   </span>
                 </button>
@@ -102,7 +101,7 @@ export default function NewCharacterModal({ open, onClose, chronicles, newCharPa
           <>
             <h3 id="newchar-modal-title">{t('newCharModalTitle')}</h3>
             {!newCharPath && (
-              <p className="muted-hint" style={{ marginBottom: 'var(--space-sm)' }}>
+              <p className="muted-hint mb-sm">
                 {t(chosenSystem?.labelKey || 'systemWoD')}
               </p>
             )}
@@ -139,7 +138,7 @@ export default function NewCharacterModal({ open, onClose, chronicles, newCharPa
               )}
             </div>
             {!newCharPath && (
-              <button className="btn btn-secondary" onClick={handleBack} style={{ marginTop: 'var(--space-sm)' }}>
+              <button className="btn btn-secondary mt-sm" onClick={handleBack}>
                 {t('back')}
               </button>
             )}

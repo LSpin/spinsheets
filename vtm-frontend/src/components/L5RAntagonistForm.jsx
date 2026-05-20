@@ -156,7 +156,7 @@ export default function L5RAntagonistForm() {
               showDescOnSelect={false}
             />
             {templateName && (
-              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
+              <p className="muted-hint muted-hint--xs mt-xs text-accent">
                 Loaded from template: <strong>{templateName}</strong> — customize freely below.
               </p>
             )}
@@ -184,7 +184,7 @@ export default function L5RAntagonistForm() {
             </div>
             <div className="field">
               <label>Description</label>
-              <textarea name="concept" value={fields.concept} onChange={handleText} rows={3} style={{ width: '100%' }}
+              <textarea name="concept" value={fields.concept} onChange={handleText} rows={3} className="w-full"
                 placeholder="A brief description of this antagonist..." />
             </div>
           </fieldset>
@@ -196,17 +196,17 @@ export default function L5RAntagonistForm() {
         <div className="form-section">
           <fieldset>
             <legend>Rings</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 'var(--space-md)' }}>
+            <div className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))' }}>
               {RINGS.map(r => (
-                <div key={r.key} className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-accent-fg)', textTransform: 'uppercase' }}>{r.label}</div>
+                <div key={r.key} className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                  <div className="text-sm font-bold text-accent uppercase">{r.label}</div>
                   <input
                     type="number" name={r.key} value={fields[r.key]}
                     onChange={e => handleField(r.key, parseInt(e.target.value) || 0)}
-                    style={{ width: '60px', textAlign: 'center', fontSize: '1.4rem', fontWeight: 700, margin: '0.3rem auto', display: 'block' }}
+                    className="text-center font-bold" style={{ width: '60px', fontSize: '1.4rem', margin: '0.3rem auto', display: 'block' }}
                     min={1} max={10}
                   />
-                  <div style={{ fontSize: '0.65rem', color: 'var(--color-text-muted)' }}>{r.desc}</div>
+                  <div className="text-xs text-muted">{r.desc}</div>
                 </div>
               ))}
             </div>
@@ -235,12 +235,12 @@ export default function L5RAntagonistForm() {
 
           <fieldset>
             <legend>Skills</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               List skills and their ranks. Format: <em>Skill Name Rank, Skill Name Rank</em>
             </p>
             <textarea
               name="dndMonsterSenses" value={fields.dndMonsterSenses} onChange={handleText}
-              rows={5} style={{ width: '100%' }}
+              rows={5} className="w-full"
               placeholder="Kenjutsu 5, Defense 4, Battle 3, Intimidation 3"
             />
           </fieldset>
@@ -252,24 +252,24 @@ export default function L5RAntagonistForm() {
         <div className="form-section">
           <fieldset>
             <legend>Special Abilities & Techniques</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               One ability per line. Include school techniques, kiho, maho spells, supernatural powers, etc.
             </p>
             <textarea
               name="dndMonsterTraits" value={fields.dndMonsterTraits} onChange={handleText}
-              rows={8} style={{ width: '100%' }}
+              rows={8} className="w-full"
               placeholder={'Invulnerability: Cannot be harmed by non-jade weapons.\nFear Aura: All within 30 ft. must roll Willpower (TN 20) or be Shaken.\nRegeneration: Heals 5 Wounds per round unless dealt jade damage.'}
             />
           </fieldset>
 
           <fieldset>
             <legend>Attacks & Actions</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               One attack per line. Format: <em>Weapon: Roll to hit, DR damage roll</em>
             </p>
             <textarea
               name="dndMonsterActions" value={fields.dndMonsterActions} onChange={handleText}
-              rows={6} style={{ width: '100%' }}
+              rows={6} className="w-full"
               placeholder={'Katana: 8k3, DR 5k2\nBite: 7k4, DR 8k3\nFire Breath: 8k5 damage, 30 ft. cone, Reflexes TN 25 for half'}
             />
           </fieldset>
@@ -281,12 +281,12 @@ export default function L5RAntagonistForm() {
         <div className="form-section">
           <fieldset>
             <legend>Backstory & Motivation</legend>
-            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }}
+            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full"
               placeholder="Who is this antagonist? What drives them? What is their history in Rokugan?" />
           </fieldset>
           <fieldset>
             <legend>GM Notes & Tactics</legend>
-            <textarea name="notes" value={fields.notes} onChange={handleText} rows={6} style={{ width: '100%' }}
+            <textarea name="notes" value={fields.notes} onChange={handleText} rows={6} className="w-full"
               placeholder="Combat tactics, weaknesses, encounter notes, jade vulnerability..." />
           </fieldset>
         </div>

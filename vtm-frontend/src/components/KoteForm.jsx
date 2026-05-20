@@ -172,7 +172,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
         {catalog?.map(c => <option key={c.value} value={c.value} />)}
       </datalist>
       <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={onField} max={max} />
-      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1', margin: 0 }}>{match.description}</p>}
+      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1' }}>{match.description}</p>}
     </div>
   )
 }
@@ -562,7 +562,7 @@ export default function KoteForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('secondaryTalents')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('secondaryAbilitiesHint')}
             </p>
             <div className="rating-grid">
@@ -633,22 +633,22 @@ export default function KoteForm() {
             {fields.dharmaName && (() => {
               const dharmaInfo = KOTE_DHARMAS.find(d => fields.dharmaName.toLowerCase().includes(d.name.toLowerCase()))
               return dharmaInfo ? (
-                <div style={{ marginTop: 'var(--space-sm)' }}>
+                <div className="mt-sm">
                   <p className="archetype-desc">{dharmaInfo.description}</p>
-                  <p className="archetype-desc" style={{ marginTop: '0.25rem' }}><strong>Training:</strong> {dharmaInfo.training}</p>
+                  <p className="archetype-desc mt-xs"><strong>Training:</strong> {dharmaInfo.training}</p>
                   {dharmaInfo.auspice && (
-                    <p className="archetype-desc" style={{ marginTop: '0.25rem' }}><strong>Auspice:</strong> {dharmaInfo.auspice}</p>
+                    <p className="archetype-desc mt-xs"><strong>Auspice:</strong> {dharmaInfo.auspice}</p>
                   )}
                 </div>
               ) : null
             })()}
             {fields.dharmaRating === 0 && fields.dharmaName && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs" role="status" aria-live="polite">
                 Dharma at 0. The Kuei-jin has lost the Way and risks becoming a chih-mei (mindless hungry dead).
               </p>
             )}
             {fields.dharmaRating >= 6 && (
-              <p role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+              <p role="status" aria-live="polite" className="mt-xs text-muted text-sm" >
                 Dharma {fields.dharmaRating}: {fields.dharmaRating >= 9 ? 'Bodhisattva -- nearing transcendence.' : fields.dharmaRating >= 7 ? 'Enlightened -- profound spiritual authority.' : 'Advancing on the path. Respected among the Kuei-jin.'}
               </p>
             )}
@@ -661,22 +661,22 @@ export default function KoteForm() {
               <DotRating label="P'o" name="po" value={fields.po} onChange={handleField} min={0} max={10} />
             </div>
             {fields.po >= 8 && (
-              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+              <p className="status-warning mt-xs font-bold" role="alert" aria-live="assertive">
                 P'o at {fields.po}. The Demon is ascendant -- shadow soul may seize control (Fire Soul or Wave Soul).
               </p>
             )}
             {fields.po >= 5 && fields.po < 8 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs" role="status" aria-live="polite">
                 P'o is high ({fields.po}). The Demon grows restless. Frenzy checks may be required.
               </p>
             )}
             {fields.hun >= 8 && (
-              <p role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+              <p role="status" aria-live="polite" className="mt-xs text-muted text-sm" >
                 Hun at {fields.hun}. The higher soul is strong -- clarity of purpose and spiritual insight.
               </p>
             )}
             {fields.hun === 0 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs" role="status" aria-live="polite">
                 Hun at 0. The higher soul has gone silent. The Kuei-jin acts on pure instinct.
               </p>
             )}
@@ -689,7 +689,7 @@ export default function KoteForm() {
               <DotRating label="Yang Chi" name="yangChi" value={fields.yangChi} onChange={handleField} min={0} max={10} />
               <DotRating label="Demon Chi" name="demonChi" value={fields.demonChi} onChange={handleField} min={0} max={10} />
             </div>
-            <div role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: fields.demonChi > (fields.yinChi + fields.yangChi) ? 'rgba(231,76,60,0.08)' : 'rgba(52,152,219,0.08)', border: '1px solid var(--color-border)', borderRadius: '6px', fontSize: '0.85rem' }}>
+            <div role="status" aria-live="polite" className="mt-sm p-sm border text-base" style={{ background: fields.demonChi > (fields.yinChi + fields.yangChi) ? 'rgba(231,76,60,0.08)' : 'rgba(52,152,219,0.08)', borderRadius: '6px' }}>
               <p style={{ margin: 0 }}>
                 <strong>Yin {fields.yinChi}</strong> / <strong>Yang {fields.yangChi}</strong> / <strong>Demon {fields.demonChi}</strong>
                 {fields.yinChi > fields.yangChi + 3 && ' -- Heavy Yin imbalance. Cold, deathly aura; risk of Yin-tainted madness.'}
@@ -755,8 +755,8 @@ export default function KoteForm() {
                         handleField(h.key, cycle[val] || '')
                       }}>
                       <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
-                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '—'}</td>
-                      <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                      <td className="text-muted">{h.penalty || '—'}</td>
+                      <td className="font-semibold" style={{ color: dmgColor }}>{dmgLabel}</td>
                     </tr>
                   )
                 })}
@@ -771,11 +771,11 @@ export default function KoteForm() {
         <div className="form-section">
           <fieldset>
             <legend>Disciplines & Shintai ({disciplines.length})</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Kuei-jin powers are divided into Demon Arts, Soul Arts, Shintai transformations, and other disciplines.
             </p>
             {disciplines.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md">
                 {disciplines.map(d => (
                   <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'discipline' })}
@@ -791,11 +791,11 @@ export default function KoteForm() {
             {tagInfo?.kind === 'discipline' && (() => {
               const entry = KOTE_SHINTAI.find(s => s.name.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md">
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">Level {tagInfo.level}{entry ? ` · ${entry.category}` : ''}</p>
-                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry && <p className="text-sm" style={{ lineHeight: 1.55 }}>{entry.description}</p>}
                 </aside>
               )
             })()}
@@ -804,7 +804,7 @@ export default function KoteForm() {
           {/* Add custom discipline */}
           <fieldset>
             <legend>Add Discipline</legend>
-            <div className="field-row" style={{ alignItems: 'flex-end', gap: 'var(--space-sm)' }}>
+            <div className="field-row items-end gap-sm">
               <div className="field" style={{ flex: 2 }}>
                 <label>{t('name')}</label>
                 <input type="text" value={newDiscipline.name} onChange={e => setNewDiscipline(prev => ({ ...prev, name: e.target.value }))}
@@ -829,11 +829,11 @@ export default function KoteForm() {
             {['Demon', 'Soul', 'Shintai', 'Other'].map(cat => {
               const items = KOTE_SHINTAI.filter(s => s.category === cat)
               return (
-                <details key={cat} style={{ marginBottom: 'var(--space-xs)' }}>
-                  <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>
+                <details key={cat} className="mb-xs">
+                  <summary className="cursor-pointer font-semibold text-md text-accent">
                     {cat} Arts ({items.length})
                   </summary>
-                  <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
+                  <ul className="catalog-list mt-xs">
                     {items.map(s => {
                       const already = disciplines.some(d => d.name.toLowerCase() === s.name.toLowerCase())
                       return (
@@ -866,14 +866,14 @@ export default function KoteForm() {
           <fieldset>
             <legend>{t('backgrounds')} ({backgrounds.length})</legend>
             {backgrounds.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md">
                 {backgrounds.map(bg => (
                   <li key={bg.id} className={`tag tag--clickable${bg.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' })}
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' }) } }}
                     role="button"
                     tabIndex={0}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                    <span className="flex items-center gap-xs flex-wrap">
                       <strong>{bg.name}</strong>
                       <span onClick={e => e.stopPropagation()} style={{ display: 'inline-flex' }}>
                         <DotRating label="" name={`bg-${bg.id}`} value={bg.level} min={1} max={5}
@@ -892,11 +892,11 @@ export default function KoteForm() {
             {tagInfo?.kind === 'background' && (() => {
               const entry = BACKGROUNDS.find(b => b.value.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md">
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">Background · Level {tagInfo.level}</p>
-                  {entry?.description && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.description && <p className="text-sm" style={{ lineHeight: 1.55 }}>{entry.description}</p>}
                   {entry?.levels && (
                     <ul className="tag-info-levels">
                       {entry.levels.map((lvl, i) => (
@@ -907,7 +907,7 @@ export default function KoteForm() {
                 </aside>
               )
             })()}
-            <div className="field-row" style={{ alignItems: 'flex-end', gap: 'var(--space-sm)' }}>
+            <div className="field-row items-end gap-sm">
               <div className="field" style={{ flex: 2 }}>
                 <label>{t('name')}</label>
                 <input type="text" value={newBackground.name} onChange={e => setNewBackground(prev => ({ ...prev, name: e.target.value }))}
@@ -941,13 +941,13 @@ export default function KoteForm() {
       {/* ── Backstory ── */}
       <div role="tabpanel" id={`tabpanel-10`} aria-labelledby={`tab-10`} hidden={tab !== 10}>
         <div className="form-section">
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('goalsLabel')}</legend><textarea name="goals" value={fields.goals} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('alliesLabel')}</legend><textarea name="allies" value={fields.allies} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('enemiesLabel')}</legend><textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('havensLabel')}</legend><textarea name="havens" value={fields.havens} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('territoriesLabel')}</legend><textarea name="territories" value={fields.territories} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full" /></fieldset>
+          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full" /></fieldset>
+          <fieldset><legend>{t('goalsLabel')}</legend><textarea name="goals" value={fields.goals} onChange={handleText} rows={4} className="w-full" /></fieldset>
+          <fieldset><legend>{t('alliesLabel')}</legend><textarea name="allies" value={fields.allies} onChange={handleText} rows={4} className="w-full" /></fieldset>
+          <fieldset><legend>{t('enemiesLabel')}</legend><textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} className="w-full" /></fieldset>
+          <fieldset><legend>{t('havensLabel')}</legend><textarea name="havens" value={fields.havens} onChange={handleText} rows={4} className="w-full" /></fieldset>
+          <fieldset><legend>{t('territoriesLabel')}</legend><textarea name="territories" value={fields.territories} onChange={handleText} rows={4} className="w-full" /></fieldset>
         </div>
       </div>
 

@@ -247,11 +247,11 @@ export default function TotemForm() {
           <fieldset>
             <legend>{t('totemEssence')}</legend>
             <DotRating label={t('totemEssence')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={50} />
-            <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>{t('totemEssenceHint')}</p>
+            <p className="muted-hint muted-hint--xs mt-xs">{t('totemEssenceHint')}</p>
           </fieldset>
           <fieldset>
             <legend>{t('totemBan')}</legend>
-            <div className="field" style={{ marginBottom: 'var(--space-sm)' }}>
+            <div className="field mb-sm">
               <label>{t('totemSelectSpirit')}</label>
               <select value={(() => { const parts = (fields.backstory || '').split('||'); return parts[0]?.trim() || '' })()} onChange={e => {
                 const spiritName = e.target.value
@@ -277,7 +277,7 @@ export default function TotemForm() {
               const spirit = ALL_TOTEM_SPIRITS.find(s => s.name === selectedName)
               if (!spirit) return null
               return (
-                <div className="muted-hint" style={{ marginBottom: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'var(--bg-inset, #1a1a2e)', borderRadius: '4px' }}>
+                <div className="muted-hint mb-sm p-sm rounded" style={{ background: 'var(--bg-inset, #1a1a2e)' }}>
                   <strong>{t('totemBanLabel')}:</strong> {spirit.ban}
                 </div>
               )
@@ -287,7 +287,7 @@ export default function TotemForm() {
               const spiritName = (fields.backstory || '').split('||')[0]?.trim() || ''
               const custom = e.target.value
               setFields(prev => ({ ...prev, backstory: custom ? `${spiritName}||${custom}` : spiritName }))
-            }} rows={2} style={{ width: '100%' }} placeholder={t('totemBanNotesPh')} />
+            }} rows={2} className="w-full" placeholder={t('totemBanNotesPh')} />
           </fieldset>
           <fieldset>
             <legend>{t('totemPackBenefits')}</legend>
@@ -296,13 +296,13 @@ export default function TotemForm() {
               const spirit = ALL_TOTEM_SPIRITS.find(s => s.name === selectedName)
               if (!spirit) return null
               return (
-                <div className="muted-hint" style={{ marginBottom: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'var(--bg-inset, #1a1a2e)', borderRadius: '4px' }}>
+                <div className="muted-hint mb-sm p-sm rounded" style={{ background: 'var(--bg-inset, #1a1a2e)' }}>
                   <strong>{t('totemBenefitsLabel').replace('{0}', spirit.name)}:</strong> {spirit.benefits}
                 </div>
               )
             })()}
             <label>{t('totemCustomPackBenefits')}</label>
-            <textarea name="concept" value={fields.concept} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder={t('totemBenefitsPh')} />
+            <textarea name="concept" value={fields.concept} onChange={handleText} rows={3} className="w-full" placeholder={t('totemBenefitsPh')} />
           </fieldset>
         </div>
       </div>
@@ -312,7 +312,7 @@ export default function TotemForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('totemCharms')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('totemCharmsHint')}</p>
+            <p className="muted-hint muted-hint--xs mb-sm">{t('totemCharmsHint')}</p>
             {charms.length > 0 && (
               <ul className="tag-list">
                 {charms.map(c => (
@@ -326,7 +326,7 @@ export default function TotemForm() {
                 ))}
               </ul>
             )}
-            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+            <div className="field-row items-end">
               <div className="field" style={{ flex: 2 }}>
                 <label>{t('totemCharmName')}</label>
                 <input type="text" list="spirit-charm-catalog" value={newCharm.name} onChange={e => setNewCharm(p => ({ ...p, name: e.target.value }))} placeholder={t('totemCharmNamePh')} autoComplete="off" />
@@ -343,13 +343,13 @@ export default function TotemForm() {
           })()}
           <fieldset>
             <legend>{t('totemQuickCharms')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('totemQuickCharmsHint')}</p>
+            <p className="muted-hint muted-hint--xs mb-sm">{t('totemQuickCharmsHint')}</p>
             <div className="rating-grid">
               {TOTEM_CHARMS.map(charm => {
                 const selectedCharmNames = (fields.notes || '').split('||')[0]?.split(',').map(s => s.trim()).filter(Boolean) || []
                 const isChecked = selectedCharmNames.includes(charm.name)
                 return (
-                  <label key={charm.name} className="ability-row" style={{ cursor: 'pointer', gap: 'var(--space-xs)' }}>
+                  <label key={charm.name} className="ability-row cursor-pointer gap-xs">
                     <input type="checkbox" checked={isChecked} onChange={() => {
                       const next = isChecked ? selectedCharmNames.filter(n => n !== charm.name) : [...selectedCharmNames, charm.name]
                       const customNotes = (fields.notes || '').split('||')[1]?.trim() || ''
@@ -369,7 +369,7 @@ export default function TotemForm() {
               const charmsPart = selectedCharmNames.join(', ')
               const custom = e.target.value
               setFields(prev => ({ ...prev, notes: custom ? `${charmsPart}||${custom}` : charmsPart }))
-            }} rows={4} style={{ width: '100%' }} placeholder={t('totemCharmNotesPh')} />
+            }} rows={4} className="w-full" placeholder={t('totemCharmNotesPh')} />
           </fieldset>
         </div>
       </div>
@@ -379,7 +379,7 @@ export default function TotemForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('totemDescription')}</legend>
-            <textarea name="appearanceDesc" value={fields.appearanceDesc ?? ''} onChange={handleText} rows={8} style={{ width: '100%' }} placeholder={t('totemDescPh')} />
+            <textarea name="appearanceDesc" value={fields.appearanceDesc ?? ''} onChange={handleText} rows={8} className="w-full" placeholder={t('totemDescPh')} />
           </fieldset>
         </div>
       </div>

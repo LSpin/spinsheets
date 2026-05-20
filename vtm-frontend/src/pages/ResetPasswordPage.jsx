@@ -108,7 +108,7 @@ export default function ResetPasswordPage() {
           <>
             <p>{t('resetEmailSent')}</p>
             <p className="muted-hint">{t('resetEmailSentHint')}</p>
-            <div style={{ marginTop: 'var(--space-md)', display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+            <div className="flex-col gap-sm mt-md">
               <button className="btn btn-secondary" onClick={() => setShowResetForm(true)}>
                 {t('iHaveAToken')}
               </button>
@@ -118,7 +118,7 @@ export default function ResetPasswordPage() {
         ) : (
           <form onSubmit={handleRequestReset}>
             {requestError && <p className="status-error" role="alert">{requestError}</p>}
-            <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+            <p className="muted-hint mb-md">
               {t('forgotPasswordHint')}
             </p>
             <div className="field">
@@ -130,8 +130,8 @@ export default function ResetPasswordPage() {
                 {requesting ? t('sending') : t('sendResetLink')}
               </button>
             </div>
-            <div style={{ marginTop: 'var(--space-sm)', display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-              <button type="button" className="muted-hint" style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0, textDecoration: 'underline', color: 'var(--color-text-muted)' }}
+            <div className="flex-col gap-xs mt-sm">
+              <button type="button" className="muted-hint cursor-pointer text-left text-muted" style={{ background: 'none', border: 'none', padding: 0, textDecoration: 'underline' }}
                 onClick={() => setShowResetForm(true)}>
                 {t('iHaveAToken')}
               </button>

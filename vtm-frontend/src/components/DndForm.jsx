@@ -316,7 +316,7 @@ export default function DndForm() {
               )}
             </div>
             {appliedRaceBonuses && Object.keys(appliedRaceBonuses.bonuses).length > 0 && (
-              <div className="form-section" role="status" aria-live="polite" style={{ padding: 'var(--space-sm) var(--space-md)', marginTop: 'var(--space-xs)', background: 'rgba(46,204,113,0.10)', borderLeft: '3px solid #2ecc71', fontSize: '0.85rem' }}>
+              <div className="form-section mt-xs text-base" role="status" aria-live="polite" style={{ padding: 'var(--space-sm) var(--space-md)', background: 'rgba(46,204,113,0.10)', borderLeft: '3px solid #2ecc71' }}>
                 <strong>Race ASI Applied:</strong>{' '}
                 {Object.entries(appliedRaceBonuses.bonuses).map(([key, val]) => {
                   const ab = ABILITIES.find(a => a.key === key)
@@ -346,9 +346,9 @@ export default function DndForm() {
               </div>
             </div>
             {selectedClass && (
-              <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
-                <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{fields.dndClass}</div>
-                <p style={{ fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 'var(--space-xs)' }}>{selectedClass.description}</p>
+              <div className="form-section p-md mt-sm" style={{ background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                <div className="text-lg font-bold mb-xs" >{fields.dndClass}</div>
+                <p className="text-base lh-normal mb-xs" >{selectedClass.description}</p>
                 <p className="muted-hint muted-hint--xs"><strong>Hit Die:</strong> d{selectedClass.hitDie} | <strong>Primary:</strong> {selectedClass.primaryAbility} | <strong>Proficiency Bonus:</strong> +{pb}</p>
               </div>
             )}
@@ -361,19 +361,19 @@ export default function DndForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('dndAbilityScores')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
+            <p className="muted-hint muted-hint--xs mb-md" >
               Proficiency Bonus: <strong>+{pb}</strong> (Level {fields.dndLevel})
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 'var(--space-md)' }}>
+            <div className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))' }}>
               {ABILITIES.map(ab => {
                 const score = fields[ab.key]
                 const mod = abilityMod(score)
                 return (
-                  <div key={ab.key} style={{ textAlign: 'center', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px' }}>
-                    <div style={{ fontWeight: 700, fontSize: '0.85rem', marginBottom: '4px' }}>{ab.full}</div>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{formatMod(mod)}</div>
+                  <div key={ab.key} className="text-center p-sm border" style={{ borderRadius: '8px' }}>
+                    <div className="font-bold text-base" style={{ marginBottom: '4px' }}>{ab.full}</div>
+                    <div className="font-bold text-accent" style={{ fontSize: '1.5rem' }}>{formatMod(mod)}</div>
                     <input type="number" name={ab.key} min={1} max={30} value={score}
-                      onChange={handleNumber} style={{ width: '60px', textAlign: 'center', marginTop: '4px' }} />
+                      onChange={handleNumber} className="text-center" style={{ width: '60px', marginTop: '4px' }} />
                   </div>
                 )
               })}
@@ -381,12 +381,12 @@ export default function DndForm() {
           </fieldset>
           <fieldset>
             <legend>{t('dndSavingThrows')}</legend>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-md)' }}>
+            <div className="flex flex-wrap gap-md" >
               {ABILITIES.map(ab => {
                 const prof = savingThrowProfs.includes(ab.full)
                 const mod = abilityMod(fields[ab.key]) + (prof ? pb : 0)
                 return (
-                  <label key={ab.key} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
+                  <label key={ab.key} className="flex items-center text-base" style={{ gap: '4px' }}>
                     <input type="checkbox" checked={prof} onChange={() => toggleCsv('dndSavingThrows', ab.full)} />
                     {ab.label} {formatMod(mod)}
                   </label>
@@ -394,7 +394,7 @@ export default function DndForm() {
               })}
             </div>
             {selectedClass && (
-              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-sm)' }}>
+              <p className="muted-hint muted-hint--xs mt-sm" >
                 {fields.dndClass} saving throw proficiencies: {selectedClass.savingThrows.join(', ')}
               </p>
             )}
@@ -407,20 +407,20 @@ export default function DndForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabDndSkills')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Proficiency Bonus: +{pb} | Passive Perception: <strong>{passivePerception}</strong>
             </p>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.9rem', marginBottom: 'var(--space-md)', fontWeight: 600 }}>
+            <label className="flex items-center text-md mb-md font-semibold" style={{ gap: '4px' }}>
               <input type="checkbox" checked={!!fields.dndInspiration} onChange={() => handleCheck('dndInspiration')} />
               {t('dndInspiration')}
             </label>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '28px 28px 1fr 60px 50px', gap: '4px', fontWeight: 700, fontSize: '0.75rem', padding: '0 0 4px 0', borderBottom: '1px solid var(--color-border)' }}>
+            <div className="flex-col" style={{ gap: '2px' }}>
+              <div className="grid font-bold text-sm border-b" style={{ gridTemplateColumns: '28px 28px 1fr 60px 50px', gap: '4px', padding: '0 0 4px 0' }}>
                 <span title="Proficient">Prof</span>
                 <span title="Expertise">Exp</span>
                 <span>Skill</span>
                 <span>Ability</span>
-                <span style={{ textAlign: 'right' }}>Mod</span>
+                <span className="text-right" >Mod</span>
               </div>
               {DND_SKILLS.map(skill => {
                 const prof = skillProfs.includes(skill.value)
@@ -428,12 +428,12 @@ export default function DndForm() {
                 const abMod = abilityMod(getAbilityScore(fields, skill.ability))
                 const total = abMod + (prof ? pb : 0) + (expert ? pb : 0)
                 return (
-                  <div key={skill.value} style={{ display: 'grid', gridTemplateColumns: '28px 28px 1fr 60px 50px', gap: '4px', alignItems: 'center', padding: '2px 0', fontSize: '0.85rem' }}>
+                  <div key={skill.value} className="grid items-center text-base" style={{ gridTemplateColumns: '28px 28px 1fr 60px 50px', gap: '4px', padding: '2px 0' }}>
                     <input type="checkbox" checked={prof} onChange={() => toggleCsv('dndSkillProficiencies', skill.value)} title="Proficient" />
                     <input type="checkbox" checked={expert} onChange={() => toggleCsv('dndSkillExpertise', skill.value)} title="Expertise" disabled={!prof} />
                     <span>{skill.value}</span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{skill.ability.slice(0, 3).toUpperCase()}</span>
-                    <span style={{ textAlign: 'right', fontWeight: 600, color: 'var(--color-accent-fg)' }}>{formatMod(total)}</span>
+                    <span className="text-sm text-muted" >{skill.ability.slice(0, 3).toUpperCase()}</span>
+                    <span className="text-right font-semibold text-accent" >{formatMod(total)}</span>
                   </div>
                 )
               })}
@@ -498,7 +498,7 @@ export default function DndForm() {
             <div className="field-row">
               <div className="field">
                 <label>{t('dndHitDie')}</label>
-                <span style={{ fontSize: '1.1rem', fontWeight: 600 }}>{selectedClass ? `d${selectedClass.hitDie}` : '--'}</span>
+                <span className="text-xl font-semibold" >{selectedClass ? `d${selectedClass.hitDie}` : '--'}</span>
               </div>
               <div className="field">
                 <label>{t('dndRemaining')}</label>
@@ -510,34 +510,34 @@ export default function DndForm() {
           </fieldset>
           <fieldset>
             <legend>{t('dndDeathSaves')}</legend>
-            <div style={{ display: 'flex', gap: 'var(--space-lg)', alignItems: 'center' }}>
+            <div className="flex gap-lg items-center" >
               <div>
-                <span style={{ fontSize: '0.85rem', fontWeight: 600, marginRight: 'var(--space-sm)' }}>{t('dndSuccesses')}</span>
+                <span className="text-base font-semibold mr-sm" >{t('dndSuccesses')}</span>
                 {[1, 2, 3].map(i => (
                   <span
                     key={`s${i}`}
-                    className={`blades-dot${fields.dndDeathSaveSuccesses >= i ? ' blades-dot--filled' : ''}`}
+                    className={`blades-dot${fields.dndDeathSaveSuccesses >= i ? ' blades-dot--filled' : ''} cursor-pointer`}
                     onClick={() => handleField('dndDeathSaveSuccesses', fields.dndDeathSaveSuccesses === i ? i - 1 : i)}
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleField('dndDeathSaveSuccesses', fields.dndDeathSaveSuccesses === i ? i - 1 : i) } }}
                     role="button" tabIndex={0}
                     aria-label={`Death save success ${i}`}
                     aria-pressed={fields.dndDeathSaveSuccesses >= i}
-                    style={{ cursor: 'pointer' }}
+                    
                   />
                 ))}
               </div>
               <div>
-                <span style={{ fontSize: '0.85rem', fontWeight: 600, marginRight: 'var(--space-sm)' }}>{t('dndFailures')}</span>
+                <span className="text-base font-semibold mr-sm" >{t('dndFailures')}</span>
                 {[1, 2, 3].map(i => (
                   <span
                     key={`f${i}`}
-                    className={`blades-dot${fields.dndDeathSaveFailures >= i ? ' blades-dot--filled' : ''}`}
+                    className={`blades-dot${fields.dndDeathSaveFailures >= i ? ' blades-dot--filled' : ''} cursor-pointer`}
                     onClick={() => handleField('dndDeathSaveFailures', fields.dndDeathSaveFailures === i ? i - 1 : i)}
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleField('dndDeathSaveFailures', fields.dndDeathSaveFailures === i ? i - 1 : i) } }}
                     role="button" tabIndex={0}
                     aria-label={`Death save failure ${i}`}
                     aria-pressed={fields.dndDeathSaveFailures >= i}
-                    style={{ cursor: 'pointer' }}
+                    
                   />
                 ))}
               </div>
@@ -546,50 +546,43 @@ export default function DndForm() {
           {/* Exhaustion Tracker */}
           <fieldset>
             <legend>Exhaustion</legend>
-            <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
-              <span style={{ fontSize: '0.85rem', fontWeight: 600, marginRight: 'var(--space-xs)' }}>Level</span>
+            <div className="flex gap-sm items-center mb-sm" >
+              <span className="text-base font-semibold" style={{ marginRight: 'var(--space-xs)' }}>Level</span>
               {[0, 1, 2, 3, 4, 5, 6].map(lvl => (
                 <span
                   key={lvl}
-                  className={`blades-dot${(fields.dndExhaustion || 0) >= lvl && lvl > 0 ? ' blades-dot--filled' : ''}`}
+                  className={`blades-dot${(fields.dndExhaustion || 0) >= lvl && lvl > 0 ? ' blades-dot--filled' : ''} cursor-pointer items-center justify-center text-sm font-bold`}
                   onClick={() => handleField('dndExhaustion', (fields.dndExhaustion || 0) === lvl ? lvl - 1 : lvl)}
                   onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleField('dndExhaustion', (fields.dndExhaustion || 0) === lvl ? lvl - 1 : lvl) } }}
                   role="button"
                   tabIndex={0}
                   aria-label={`Exhaustion level ${lvl}`}
                   aria-pressed={(fields.dndExhaustion || 0) >= lvl && lvl > 0}
-                  style={{
-                    cursor: 'pointer',
-                    width: '28px', height: '28px',
-                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                    borderRadius: '50%', fontSize: '0.75rem', fontWeight: 700,
-                    border: lvl === 0 ? 'none' : undefined,
-                    background: lvl === 0 ? 'transparent' : undefined,
-                  }}
+                  style={{ width: '28px', height: '28px', display: 'inline-flex', borderRadius: '50%', border: lvl === 0 ? 'none' : undefined, background: lvl === 0 ? 'transparent' : undefined }}
                 >
                   {lvl === 0 ? '' : lvl}
                 </span>
               ))}
-              <span style={{ marginLeft: 'var(--space-sm)', fontSize: '0.9rem', fontWeight: 700, color: (fields.dndExhaustion || 0) >= 6 ? '#e74c3c' : (fields.dndExhaustion || 0) >= 4 ? '#e67e22' : (fields.dndExhaustion || 0) >= 1 ? '#f39c12' : 'var(--color-text-muted)' }}>
+              <span className="ml-sm text-md font-bold" style={{ color: (fields.dndExhaustion || 0) >= 6 ? '#e74c3c' : (fields.dndExhaustion || 0) >= 4 ? '#e67e22' : (fields.dndExhaustion || 0) >= 1 ? '#f39c12' : 'var(--color-text-muted)' }}>
                 {(fields.dndExhaustion || 0) === 0 ? 'None' : `Level ${fields.dndExhaustion}`}
               </span>
             </div>
             {(fields.dndExhaustion || 0) > 0 && (
-              <div role="status" aria-live="polite" aria-atomic="true" style={{ padding: 'var(--space-sm)', border: '2px solid', borderColor: (fields.dndExhaustion || 0) >= 6 ? '#e74c3c' : (fields.dndExhaustion || 0) >= 4 ? '#e67e22' : '#f39c12', borderRadius: '8px', background: (fields.dndExhaustion || 0) >= 6 ? 'rgba(231,76,60,0.12)' : (fields.dndExhaustion || 0) >= 4 ? 'rgba(230,126,34,0.1)' : 'rgba(243,156,18,0.08)' }}>
-                <div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: 'var(--space-xs)', color: (fields.dndExhaustion || 0) >= 6 ? '#e74c3c' : (fields.dndExhaustion || 0) >= 4 ? '#e67e22' : '#f39c12' }}>
+              <div role="status" aria-live="polite" aria-atomic="true" className="p-sm" style={{ border: '2px solid', borderColor: (fields.dndExhaustion || 0) >= 6 ? '#e74c3c' : (fields.dndExhaustion || 0) >= 4 ? '#e67e22' : '#f39c12', borderRadius: '8px', background: (fields.dndExhaustion || 0) >= 6 ? 'rgba(231,76,60,0.12)' : (fields.dndExhaustion || 0) >= 4 ? 'rgba(230,126,34,0.1)' : 'rgba(243,156,18,0.08)' }}>
+                <div className="font-bold mb-xs" style={{ fontSize: '0.95rem', color: (fields.dndExhaustion || 0) >= 6 ? '#e74c3c' : (fields.dndExhaustion || 0) >= 4 ? '#e67e22' : '#f39c12' }}>
                   Active Exhaustion Effects:
                 </div>
-                <ul style={{ margin: 0, paddingLeft: 'var(--space-md)', fontSize: '0.85rem', lineHeight: 1.8 }}>
+                <ul className="text-base" style={{ margin: 0, paddingLeft: 'var(--space-md)', lineHeight: 1.8 }}>
                   {(fields.dndExhaustion || 0) >= 1 && <li style={{ fontWeight: (fields.dndExhaustion || 0) === 1 ? 700 : 400 }}>Level 1: Disadvantage on ability checks</li>}
                   {(fields.dndExhaustion || 0) >= 2 && <li style={{ fontWeight: (fields.dndExhaustion || 0) === 2 ? 700 : 400 }}>Level 2: Speed halved</li>}
                   {(fields.dndExhaustion || 0) >= 3 && <li style={{ fontWeight: (fields.dndExhaustion || 0) === 3 ? 700 : 400 }}>Level 3: Disadvantage on attack rolls and saving throws</li>}
                   {(fields.dndExhaustion || 0) >= 4 && <li style={{ fontWeight: (fields.dndExhaustion || 0) === 4 ? 700 : 400 }}>Level 4: HP maximum halved</li>}
                   {(fields.dndExhaustion || 0) >= 5 && <li style={{ fontWeight: (fields.dndExhaustion || 0) === 5 ? 700 : 400 }}>Level 5: Speed reduced to 0</li>}
-                  {(fields.dndExhaustion || 0) >= 6 && <li style={{ fontWeight: 700, color: '#e74c3c' }}>Level 6: Death</li>}
+                  {(fields.dndExhaustion || 0) >= 6 && <li className="font-bold" style={{ color: '#e74c3c' }}>Level 6: Death</li>}
                 </ul>
               </div>
             )}
-            <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mt-sm" >
               Exhaustion effects are cumulative. Finishing a long rest reduces exhaustion by 1 level (with food and drink).
             </p>
           </fieldset>
@@ -601,63 +594,63 @@ export default function DndForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('dndClassFeatures')}</legend>
-            <textarea name="dndClassFeatures" value={fields.dndClassFeatures} onChange={handleText} rows={8} style={{ width: '100%' }}
+            <textarea name="dndClassFeatures" value={fields.dndClassFeatures} onChange={handleText} rows={8} className="w-full" 
               placeholder="List your class features here..." aria-label={t('dndClassFeatures')} />
           </fieldset>
           <fieldset>
             <legend>{t('dndRacialTraits')}</legend>
             {selectedRace?.traits && (
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              <p className="muted-hint muted-hint--xs mb-sm" >
                 {fields.dndRace} traits: {selectedRace.traits.join(', ')}
               </p>
             )}
-            <textarea name="dndRacialTraits" value={fields.dndRacialTraits} onChange={handleText} rows={5} style={{ width: '100%' }}
+            <textarea name="dndRacialTraits" value={fields.dndRacialTraits} onChange={handleText} rows={5} className="w-full" 
               placeholder="Additional racial trait notes..." aria-label={t('dndRacialTraits')} />
           </fieldset>
           <fieldset>
             <legend>{t('dndFeats')} ({selectedFeats.length})</legend>
             {selectedFeats.length > 0 && (
-              <div style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: '4px' }}>
-                <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '4px' }}>{t('dndSelectedFeats')}:</div>
+              <div className="mb-md p-sm" style={{ background: 'rgba(52,152,219,0.08)', borderRadius: '4px' }}>
+                <div className="font-semibold text-base" style={{ marginBottom: '4px' }}>{t('dndSelectedFeats')}:</div>
                 {selectedFeats.map(featName => {
                   const feat = DND_FEATS.find(f => f.name === featName)
                   return (
-                    <div key={featName} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
-                      <span style={{ fontSize: '0.85rem' }}>
+                    <div key={featName} className="flex justify-between items-center border-b" style={{ padding: '4px 0' }}>
+                      <span className="text-base" >
                         <strong>{featName}</strong>
                         {feat?.prerequisite && <span className="muted-hint muted-hint--xs"> (Prereq: {feat.prerequisite})</span>}
                       </span>
-                      <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                      <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                         onClick={() => toggleCsv('dndFeats', featName)}>Remove</button>
                     </div>
                   )
                 })}
               </div>
             )}
-            <div style={{ marginBottom: 'var(--space-sm)' }}>
-              <input type="text" placeholder={t('dndSearchFeats')} value={featSearch} onChange={e => setFeatSearch(e.target.value)} style={{ width: '100%' }} />
+            <div className="mb-sm" >
+              <input type="text" placeholder={t('dndSearchFeats')} value={featSearch} onChange={e => setFeatSearch(e.target.value)} className="w-full"  />
             </div>
             <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
               {filteredFeats.map(feat => {
                 const isSelected = selectedFeats.includes(feat.name)
                 const isExpanded = expandedFeat === feat.name
                 return (
-                  <div key={feat.name} style={{ borderBottom: '1px solid var(--color-border)', padding: '6px 0' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer' }}
+                  <div key={feat.name} className="border-b" style={{ padding: '6px 0' }}>
+                    <div className="flex items-center gap-sm cursor-pointer" 
                       onClick={() => setExpandedFeat(isExpanded ? null : feat.name)}
                       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpandedFeat(isExpanded ? null : feat.name) } }}
                       role="button" tabIndex={0} aria-expanded={isExpanded} aria-label={`${feat.name} details`}>
-                      <span style={{ fontSize: '0.85rem', flex: 1 }}>
+                      <span className="text-base flex-1" >
                         <strong>{feat.name}</strong>
                         {feat.prerequisite && <span className="muted-hint muted-hint--xs"> (Prereq: {feat.prerequisite})</span>}
                       </span>
-                      <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                      <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                         onClick={e => { e.stopPropagation(); toggleCsv('dndFeats', feat.name) }}>
                         {isSelected ? 'Remove' : 'Add'}
                       </button>
                     </div>
                     {isExpanded && (
-                      <div style={{ padding: 'var(--space-sm)', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+                      <div className="p-sm text-sm text-muted" >
                         <p style={{ marginTop: '4px' }}>{feat.description}</p>
                       </div>
                     )}
@@ -679,7 +672,7 @@ export default function DndForm() {
                 value={fields.dndSpellcastingAbility} onChange={handleField} catalog={SPELLCASTING_ABILITIES} />
             </div>
             {fields.dndSpellcastingAbility && (
-              <div style={{ display: 'flex', gap: 'var(--space-lg)', marginTop: 'var(--space-sm)', fontSize: '0.9rem' }}>
+              <div className="flex gap-lg mt-sm text-md" >
                 <span><strong>Spell Save DC:</strong> {spellSaveDC}</span>
                 <span><strong>Spell Attack:</strong> {formatMod(spellAttack)}</span>
                 <span><strong>Ability Mod:</strong> {formatMod(spellAbilityMod)}</span>
@@ -688,12 +681,12 @@ export default function DndForm() {
           </fieldset>
           <fieldset>
             <legend>{t('dndSpellSlots')}</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))', gap: 'var(--space-sm)' }}>
+            <div className="grid gap-sm" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))' }}>
               {getSpellSlots().map((slots, i) => (
-                <div key={i} className="field" style={{ textAlign: 'center' }}>
-                  <label style={{ fontSize: '0.75rem' }}>Level {i + 1}</label>
+                <div key={i} className="field text-center" >
+                  <label className="text-sm" >Level {i + 1}</label>
                   <input type="number" min={0} max={9} value={slots} onChange={e => setSpellSlot(i, e.target.value)}
-                    style={{ width: '50px', textAlign: 'center' }} />
+                    className="text-center" style={{ width: '50px' }} />
                 </div>
               ))}
             </div>
@@ -701,24 +694,24 @@ export default function DndForm() {
           <fieldset>
             <legend>{t('dndSpellsKnown')} ({knownSpells.length})</legend>
             {knownSpells.length > 0 && (
-              <div style={{ marginBottom: 'var(--space-md)' }}>
+              <div className="mb-md" >
                 {knownSpells.map(spellName => {
                   const spell = DND_SPELLS.find(s => s.name === spellName)
                   return (
-                    <div key={spellName} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
-                      <span style={{ fontSize: '0.85rem' }}>
+                    <div key={spellName} className="flex justify-between items-center border-b" style={{ padding: '4px 0' }}>
+                      <span className="text-base" >
                         <strong>{spellName}</strong>
                         {spell && <span className="muted-hint muted-hint--xs"> (Lvl {spell.level}, {spell.school})</span>}
                       </span>
-                      <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                      <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                         onClick={() => toggleCsv('dndSpellsKnown', spellName)}>Remove</button>
                     </div>
                   )
                 })}
               </div>
             )}
-            <div style={{ display: 'flex', gap: 'var(--space-sm)', marginBottom: 'var(--space-sm)' }}>
-              <input type="text" placeholder="Search spells..." value={spellSearch} onChange={e => setSpellSearch(e.target.value)} style={{ flex: 1 }} />
+            <div className="flex gap-sm mb-sm" >
+              <input type="text" placeholder="Search spells..." value={spellSearch} onChange={e => setSpellSearch(e.target.value)} className="flex-1"  />
               <select value={spellLevelFilter} onChange={e => setSpellLevelFilter(e.target.value)}>
                 <option value="all">All Levels</option>
                 {Array.from({ length: 10 }, (_, i) => (
@@ -731,23 +724,23 @@ export default function DndForm() {
                 const isKnown = knownSpells.includes(spell.name)
                 const isExpanded = expandedSpell === spell.name
                 return (
-                  <div key={spell.name} style={{ borderBottom: '1px solid var(--color-border)', padding: '6px 0' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer' }}
+                  <div key={spell.name} className="border-b" style={{ padding: '6px 0' }}>
+                    <div className="flex items-center gap-sm cursor-pointer" 
                       onClick={() => setExpandedSpell(isExpanded ? null : spell.name)}
                       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpandedSpell(isExpanded ? null : spell.name) } }}
                       role="button" tabIndex={0} aria-expanded={isExpanded} aria-label={`${spell.name} details`}>
-                      <span style={{ fontSize: '0.85rem', flex: 1 }}>
+                      <span className="text-base flex-1" >
                         <strong>{spell.name}</strong>
                         <span className="muted-hint muted-hint--xs"> {spell.level === 0 ? 'Cantrip' : `Lvl ${spell.level}`} {spell.school}</span>
                       </span>
                       <span className="muted-hint muted-hint--xs">{spell.castingTime} | {spell.range}</span>
-                      <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                      <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                         onClick={e => { e.stopPropagation(); toggleCsv('dndSpellsKnown', spell.name) }}>
                         {isKnown ? 'Remove' : 'Add'}
                       </button>
                     </div>
                     {isExpanded && (
-                      <div style={{ padding: 'var(--space-sm)', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
+                      <div className="p-sm text-sm text-muted" >
                         <div><strong>Components:</strong> {spell.components} | <strong>Duration:</strong> {spell.duration}</div>
                         <div><strong>Classes:</strong> {spell.classes.join(', ')}</div>
                         <p style={{ marginTop: '4px' }}>{spell.description}</p>
@@ -768,34 +761,34 @@ export default function DndForm() {
             <legend>{t('dndCurrency')}</legend>
             <div className="field-row">
               {['dndCp', 'dndSp', 'dndEp', 'dndGp', 'dndPp'].map(key => (
-                <div className="field" key={key} style={{ textAlign: 'center' }}>
+                <div className="field text-center" key={key} >
                   <label>{t(key)}</label>
-                  <input type="number" name={key} min={0} value={fields[key]} onChange={handleNumber} style={{ width: '70px', textAlign: 'center' }} />
+                  <input type="number" name={key} min={0} value={fields[key]} onChange={handleNumber} className="text-center" style={{ width: '70px' }} />
                 </div>
               ))}
             </div>
           </fieldset>
           <fieldset>
             <legend>{t('dndEquipment')}</legend>
-            <div style={{ marginBottom: 'var(--space-sm)', display: 'flex', gap: 'var(--space-sm)', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div className="flex mb-sm gap-sm items-center flex-wrap" >
               <div>
-                <label htmlFor="dnd-equip-category" style={{ marginRight: 'var(--space-xs)', fontSize: '0.85rem' }}>{t('dndFilterCategory')}</label>
-                <select id="dnd-equip-category" value={equipCategory} onChange={e => setEquipCategory(e.target.value)} style={{ fontSize: '0.85rem' }}>
+                <label htmlFor="dnd-equip-category" className="text-base" style={{ marginRight: 'var(--space-xs)' }}>{t('dndFilterCategory')}</label>
+                <select id="dnd-equip-category" value={equipCategory} onChange={e => setEquipCategory(e.target.value)} className="text-base" >
                   <option value="all">{t('filterAll')}</option>
                   <option value="weapons">{t('dndFilterWeapons')}</option>
                   <option value="armor">{t('dndFilterArmor')}</option>
                   <option value="gear">{t('dndFilterGear')}</option>
                 </select>
               </div>
-              <input type="text" placeholder="Search equipment..." value={equipSearch} onChange={e => setEquipSearch(e.target.value)} style={{ flex: 1, minWidth: '150px' }} />
+              <input type="text" placeholder="Search equipment..." value={equipSearch} onChange={e => setEquipSearch(e.target.value)} className="flex-1" style={{ minWidth: '150px' }} />
             </div>
             {equipment.length > 0 && (
-              <div style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: '4px' }}>
-                <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '4px' }}>Carried Equipment:</div>
+              <div className="mb-md p-sm" style={{ background: 'rgba(52,152,219,0.08)', borderRadius: '4px' }}>
+                <div className="font-semibold text-base" style={{ marginBottom: '4px' }}>Carried Equipment:</div>
                 {equipment.map(item => (
-                  <div key={item} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '2px 0' }}>
-                    <span style={{ fontSize: '0.85rem' }}>{item}</span>
-                    <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                  <div key={item} className="flex justify-between items-center" style={{ padding: '2px 0' }}>
+                    <span className="text-base" >{item}</span>
+                    <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                       onClick={() => {
                         const list = csvList(fields.dndEquipment || '')
                         handleField('dndEquipment', list.filter(i => i !== item).join(', '))
@@ -806,12 +799,12 @@ export default function DndForm() {
             )}
             <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
               {filteredEquip.map(item => (
-                <div key={item.value} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
-                  <span style={{ fontSize: '0.85rem' }}>
+                <div key={item.value} className="flex justify-between items-center border-b" style={{ padding: '4px 0' }}>
+                  <span className="text-base" >
                     <strong>{item.value}</strong>
                     <span className="muted-hint muted-hint--xs"> {item.description}</span>
                   </span>
-                  <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                  <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                     onClick={() => {
                       const list = csvList(fields.dndEquipment || '')
                       if (!list.includes(item.value)) {
@@ -830,17 +823,17 @@ export default function DndForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('dndPersonality')}</legend>
-            <div className="field"><label>{t('dndPersonalityTraits')}</label><textarea name="dndPersonalityTraits" value={fields.dndPersonalityTraits} onChange={handleText} rows={3} style={{ width: '100%' }} aria-label={t('dndPersonalityTraits')} /></div>
-            <div className="field"><label>{t('dndIdeals')}</label><textarea name="dndIdeals" value={fields.dndIdeals} onChange={handleText} rows={2} style={{ width: '100%' }} aria-label={t('dndIdeals')} /></div>
-            <div className="field"><label>{t('dndBonds')}</label><textarea name="dndBonds" value={fields.dndBonds} onChange={handleText} rows={2} style={{ width: '100%' }} aria-label={t('dndBonds')} /></div>
-            <div className="field"><label>{t('dndFlaws')}</label><textarea name="dndFlaws" value={fields.dndFlaws} onChange={handleText} rows={2} style={{ width: '100%' }} aria-label={t('dndFlaws')} /></div>
+            <div className="field"><label>{t('dndPersonalityTraits')}</label><textarea name="dndPersonalityTraits" value={fields.dndPersonalityTraits} onChange={handleText} rows={3} className="w-full"  aria-label={t('dndPersonalityTraits')} /></div>
+            <div className="field"><label>{t('dndIdeals')}</label><textarea name="dndIdeals" value={fields.dndIdeals} onChange={handleText} rows={2} className="w-full"  aria-label={t('dndIdeals')} /></div>
+            <div className="field"><label>{t('dndBonds')}</label><textarea name="dndBonds" value={fields.dndBonds} onChange={handleText} rows={2} className="w-full"  aria-label={t('dndBonds')} /></div>
+            <div className="field"><label>{t('dndFlaws')}</label><textarea name="dndFlaws" value={fields.dndFlaws} onChange={handleText} rows={2} className="w-full"  aria-label={t('dndFlaws')} /></div>
           </fieldset>
           <fieldset>
             <legend>{t('appearanceLabel')}</legend>
-            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} aria-label={t('appearanceLabel')} />
+            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full"  aria-label={t('appearanceLabel')} />
           </fieldset>
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} aria-label={t('backstoryLabel')} /></fieldset>
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} aria-label={t('notes')} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full"  aria-label={t('backstoryLabel')} /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full"  aria-label={t('notes')} /></fieldset>
         </div>
       </div>
 

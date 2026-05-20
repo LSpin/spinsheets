@@ -61,6 +61,15 @@
   box-shadow: 0 0 8px rgba(255, 68, 68, 0.1);
 }
 
+.btn-outline-accent {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-outline-accent:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
 .btn-sm {
   padding: 0.3rem 0.65rem;
   font-size: 0.78rem;

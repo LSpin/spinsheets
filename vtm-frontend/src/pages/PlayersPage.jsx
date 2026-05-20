@@ -76,13 +76,14 @@ export default function PlayersPage() {
 
       {error && <p className="status-error" role="alert">{error}</p>}
 
-      <div style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="mb-lg">
         <input
           type="text"
+          className="w-full"
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder={t('searchPlayers')}
-          style={{ maxWidth: 400, width: '100%' }}
+          style={{ maxWidth: 400 }}
         />
       </div>
 
@@ -111,12 +112,13 @@ export default function PlayersPage() {
                     <dd>{t('memberSince')}: {new Date(u.createdAt).toLocaleDateString()}</dd>
                   </dl>
                   {astChronicles.length > 0 && (
-                    <div style={{ marginTop: 'var(--space-xs)' }}>
+                    <div className="mt-xs">
                       {astChronicles.map(c => (
-                        <span key={c.id} className="splat-badge" style={{ marginRight: '0.3rem', fontSize: '0.72rem' }}>
+                        <span key={c.id} className="splat-badge text-xs" style={{ marginRight: '0.3rem' }}>
                           {t('astIn')}: {c.name}
                           <button
-                            style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', marginLeft: '0.3rem', fontWeight: 700 }}
+                            className="cursor-pointer font-bold"
+                            style={{ background: 'none', border: 'none', color: 'inherit', marginLeft: '0.3rem' }}
                             onClick={() => handleRemoveAST(c.id, u.id)}
                             title={t('removeAST')}
                           >✕</button>
@@ -127,7 +129,7 @@ export default function PlayersPage() {
                 </div>
                 <div className="character-card-actions">
                   {myChronicles.length > 0 && u.id !== user?.userId && (
-                    <div style={{ display: 'flex', gap: '0.3rem', alignItems: 'center' }}>
+                    <div className="flex items-center" style={{ gap: '0.3rem' }}>
                       <select
                         id={`ast-select-${u.id}`}
                         defaultValue=""

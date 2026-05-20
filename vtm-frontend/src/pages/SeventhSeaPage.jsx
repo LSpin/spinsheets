@@ -55,7 +55,7 @@ export default function SeventhSeaPage() {
     <section aria-labelledby="7s-heading">
       <div className="character-list-header">
         <h2 id="7s-heading">{t('system7thSea')} — {t('7sMyHeroes')}</h2>
-        <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
+        <div className="flex gap-sm">
           <button className="btn btn-primary" onClick={() => setShowNewChar(true)}>
             {t('7sNewHero')}
           </button>
@@ -66,15 +66,14 @@ export default function SeventhSeaPage() {
             {t('sevenSeaNewShip')}
           </button>
           {isST && (
-            <button className="btn btn-secondary" onClick={() => navigate('/7thsea/st-tools')}
-              style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+            <button className="btn btn-secondary btn-outline-accent" onClick={() => navigate('/7thsea/st-tools')}>
               {t('sevenSeaSTTools')}
             </button>
           )}
         </div>
       </div>
 
-      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="tab-list mb-lg" role="tablist">
         <button role="tab" className={`btn btn-secondary${pageTab === 0 ? ' tab-btn--active' : ''}`}
           onClick={() => setPageTab(0)}>{t('navCharacters')}</button>
         <button role="tab" className={`btn btn-secondary${pageTab === 1 ? ' tab-btn--active' : ''}`}
@@ -125,7 +124,7 @@ export default function SeventhSeaPage() {
       {pageTab === 0 && !loading && (() => {
         const ships = characters.filter(c => c.splat === 'SEVENTH_SEA_SHIP')
         return (
-          <div style={{ marginTop: 'var(--space-xl)' }}>
+          <div className="mt-xl">
             <div className="character-list-header">
               <h2>{t('sevenSeaShips')}</h2>
             </div>
@@ -160,7 +159,7 @@ export default function SeventhSeaPage() {
       {pageTab === 0 && !loading && isST && (() => {
         const villains = characters.filter(c => c.splat === 'SEVENTH_SEA' && c.npc)
         return (
-          <div style={{ marginTop: 'var(--space-xl)' }}>
+          <div className="mt-xl">
             <div className="character-list-header">
               <h2>Villains & Monsters</h2>
               <button className="btn btn-secondary" onClick={() => navigate('/7thsea/villain/new')}>

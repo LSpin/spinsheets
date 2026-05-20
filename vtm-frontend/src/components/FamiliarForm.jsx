@@ -223,16 +223,16 @@ export default function FamiliarForm() {
               <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
             {fields.currentWillpower > fields.willpower && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite">
                 Temporary Willpower cannot exceed permanent ({fields.willpower}).
               </p>
             )}
             <div className="field-row">
               <DotRating label={t('quintessence')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={20} />
             </div>
-            <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-sm)' }}>{t('familiarPowerHint')}</p>
+            <p className="muted-hint muted-hint--xs mt-sm">{t('familiarPowerHint')}</p>
             {fields.quintessence === 0 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite">
                 No Quintessence stored. The familiar cannot provide magical energy to its master.
               </p>
             )}
@@ -252,7 +252,7 @@ export default function FamiliarForm() {
                 ))}
               </ul>
             )}
-            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+            <div className="field-row items-end">
               <div className="field" style={{ flex: 2 }}>
                 <label>{t('familiarPowerName')}</label>
                 <input type="text" list="familiar-power-catalog" value={newPower.name} onChange={e => setNewPower(p => ({ ...p, name: e.target.value }))} placeholder={t('familiarPowerNamePh')} autoComplete="off" />
@@ -269,13 +269,13 @@ export default function FamiliarForm() {
           })()}
           <fieldset>
             <legend>{t('familiarQuickPowers')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('familiarQuickPowersHint')}</p>
+            <p className="muted-hint muted-hint--xs mb-sm">{t('familiarQuickPowersHint')}</p>
             <div className="rating-grid">
               {FAMILIAR_POWERS_CATALOG.map(power => {
                 const selectedPowerNames = (fields.notes || '').split('||')[0]?.split(',').map(s => s.trim()).filter(Boolean) || []
                 const isChecked = selectedPowerNames.includes(power.name)
                 return (
-                  <label key={power.name} className="ability-row" style={{ cursor: 'pointer', gap: 'var(--space-xs)' }}>
+                  <label key={power.name} className="ability-row cursor-pointer gap-xs">
                     <input type="checkbox" checked={isChecked} onChange={() => {
                       const next = isChecked ? selectedPowerNames.filter(n => n !== power.name) : [...selectedPowerNames, power.name]
                       const customNotes = (fields.notes || '').split('||')[1]?.trim() || ''
@@ -295,7 +295,7 @@ export default function FamiliarForm() {
               const powersPart = selectedPowerNames.join(', ')
               const custom = e.target.value
               setFields(prev => ({ ...prev, notes: custom ? `${powersPart}||${custom}` : powersPart }))
-            }} rows={4} style={{ width: '100%' }} placeholder={t('familiarPowerNotesPh')} />
+            }} rows={4} className="w-full" placeholder={t('familiarPowerNotesPh')} />
           </fieldset>
         </div>
       </div>
@@ -311,12 +311,12 @@ export default function FamiliarForm() {
               <DotRating label={t('aggravated')} name="woundAgg" value={fields.woundAgg} onChange={handleField} min={0} max={7} />
             </div>
             {(fields.woundBashing + fields.woundLethal + fields.woundAgg) >= 7 && (
-              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+              <p className="status-warning mt-xs text-sm font-bold" role="alert" aria-live="assertive">
                 Incapacitated. The familiar is out of action{fields.woundAgg >= 7 ? ' and may be destroyed.' : '.'}
               </p>
             )}
             {(fields.woundBashing + fields.woundLethal + fields.woundAgg) >= 5 && (fields.woundBashing + fields.woundLethal + fields.woundAgg) < 7 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite">
                 Severely wounded ({fields.woundBashing + fields.woundLethal + fields.woundAgg}/7 health levels filled).
               </p>
             )}
@@ -327,7 +327,7 @@ export default function FamiliarForm() {
       {/* ── Backstory ── */}
       <div role="tabpanel" id="tabpanel-5" aria-labelledby="tab-5" hidden={tab !== 5}>
         <div className="form-section">
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full" /></fieldset>
         </div>
       </div>
 

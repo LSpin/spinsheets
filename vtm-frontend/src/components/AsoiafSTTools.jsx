@@ -16,8 +16,8 @@ function pickRandom(arr) {
 
 function ResultCard({ children, style }) {
   return (
-    <div className="character-card" role="status" aria-live="polite" style={{
-      padding: 'var(--space-lg)', marginTop: 'var(--space-md)',
+    <div className="character-card mt-md" role="status" aria-live="polite" style={{
+      padding: 'var(--space-lg)',
       border: '1px solid var(--accent)', ...style,
     }}>
       {children}
@@ -30,15 +30,15 @@ function HistoryPanel({ items, renderItem, label }) {
   const { t } = useLanguage()
   if (items.length === 0) return null
   return (
-    <div style={{ marginTop: 'var(--space-md)' }}>
+    <div className="mt-md">
       <button className="btn btn-secondary" onClick={() => setOpen(!open)}
         aria-expanded={open} style={{ fontSize: '0.82rem' }}>
         {open ? t('bladesSTHideHistory') : t('bladesSTShowHistory')} ({items.length})
       </button>
       {open && (
-        <ul aria-label={label} style={{ listStyle: 'none', padding: 0, marginTop: 'var(--space-sm)' }}>
+        <ul aria-label={label} style={{ listStyle: 'none', padding: 0 }} className="mt-sm">
           {items.map((item, i) => (
-            <li key={item.id || i} className="character-card" style={{ padding: 'var(--space-sm) var(--space-md)', marginBottom: 'var(--space-xs)' }}>
+            <li key={item.id || i} className="character-card mb-xs" style={{ padding: 'var(--space-sm) var(--space-md)' }}>
               {renderItem(item)}
             </li>
           ))}
@@ -75,8 +75,8 @@ function HouseEventsTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>{t('asoiafSTHouseHint')}</p>
-      <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+      <p className="muted-hint mb-md">{t('asoiafSTHouseHint')}</p>
+      <div className="flex gap-sm flex-wrap">
         <button className="btn btn-primary" onClick={rollAll}>{t('asoiafSTRollEvent')}</button>
         {result && (
           <>
@@ -88,11 +88,11 @@ function HouseEventsTab() {
       </div>
       {result && (
         <ResultCard>
-          <div style={{ display: 'grid', gap: 'var(--space-sm)' }}>
+          <div className="grid gap-sm">
             <div><strong>{t('asoiafSTEventType')}:</strong> {result.eventType}</div>
             <div>
               <strong>{t('asoiafSTSeverity')}:</strong>{' '}
-              <span style={{ fontWeight: 700, color: result.severity.level === 'Severe' ? '#fa5252' : result.severity.level === 'Moderate' ? '#fcc419' : '#51cf66' }}
+              <span className="font-bold" style={{ color: result.severity.level === 'Severe' ? '#fa5252' : result.severity.level === 'Moderate' ? '#fcc419' : '#51cf66' }}
                 aria-label={`Severity: ${result.severity.level}`}>
                 {result.severity.level}
               </span>
@@ -103,7 +103,7 @@ function HouseEventsTab() {
         </ResultCard>
       )}
       <HistoryPanel items={history} label="House event history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}><strong>{item.eventType.split(' — ')[0]}</strong> ({item.severity.level})</div>
+        <div className="text-base"><strong>{item.eventType.split(' — ')[0]}</strong> ({item.severity.level})</div>
       )} />
     </div>
   )
@@ -137,8 +137,8 @@ function IntrigueGeneratorTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>{t('asoiafSTIntrigueHint')}</p>
-      <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+      <p className="muted-hint mb-md">{t('asoiafSTIntrigueHint')}</p>
+      <div className="flex gap-sm flex-wrap">
         <button className="btn btn-primary" onClick={rollAll}>{t('asoiafSTRollIntrigue')}</button>
         {result && (
           <>
@@ -151,7 +151,7 @@ function IntrigueGeneratorTab() {
       </div>
       {result && (
         <ResultCard>
-          <div style={{ display: 'grid', gap: 'var(--space-sm)' }}>
+          <div className="grid gap-sm">
             <div><strong>{t('asoiafSTSetting')}:</strong> {result.setting}</div>
             <div><strong>{t('asoiafSTDisposition')}:</strong> {result.disposition}</div>
             <div><strong>{t('asoiafSTStakes')}:</strong> {result.stakes}</div>
@@ -160,7 +160,7 @@ function IntrigueGeneratorTab() {
         </ResultCard>
       )}
       <HistoryPanel items={history} label="Intrigue history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}><strong>{item.stakes.slice(0, 50)}...</strong></div>
+        <div className="text-base"><strong>{item.stakes.slice(0, 50)}...</strong></div>
       )} />
     </div>
   )
@@ -187,14 +187,14 @@ function NPCGeneratorTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>{t('asoiafSTNPCHint')}</p>
+      <p className="muted-hint mb-md">{t('asoiafSTNPCHint')}</p>
       <button className="btn btn-primary" onClick={generateNPC}>
         {result ? t('bladesSTGenerateAnother') : t('bladesSTGenerateNPC')}
       </button>
       {result && (
         <ResultCard>
           <h3 style={{ margin: '0 0 var(--space-sm) 0', color: 'var(--accent)' }}>{result.name}</h3>
-          <div style={{ display: 'grid', gap: 'var(--space-xs)' }}>
+          <div className="grid gap-xs">
             <div><strong>{t('asoiafSTStation')}:</strong> {result.station}</div>
             <div><strong>{t('asoiafSTPersonality')}:</strong> {result.personality}</div>
             <div><strong>{t('asoiafSTDesire')}:</strong> {result.desire}</div>
@@ -202,7 +202,7 @@ function NPCGeneratorTab() {
         </ResultCard>
       )}
       <HistoryPanel items={history} label="NPC history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}><strong>{item.name}</strong> — {item.station.split(' — ')[0]}</div>
+        <div className="text-base"><strong>{item.name}</strong> — {item.station.split(' — ')[0]}</div>
       )} />
     </div>
   )
@@ -228,16 +228,16 @@ export default function AsoiafSTTools() {
     <section aria-labelledby="asoiaf-st-tools-heading">
       <div className="character-list-header">
         <div>
-          <button className="btn btn-secondary" onClick={() => navigate('/asoiaf')} style={{ marginRight: 'var(--space-sm)' }}>
+          <button className="btn btn-secondary mr-sm" onClick={() => navigate('/asoiaf')}>
             {t('back')}
           </button>
           <h2 id="asoiaf-st-tools-heading" style={{ display: 'inline' }}>{t('asoiafSTTools')}</h2>
         </div>
       </div>
 
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>{t('asoiafSTToolsDesc')}</p>
+      <p className="muted-hint mb-md">{t('asoiafSTToolsDesc')}</p>
 
-      <div className="tab-list" role="tablist" aria-label="ST Tools tabs" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="tab-list mb-lg" role="tablist" aria-label="ST Tools tabs">
         {TABS.map(tab => (
           <button key={tab.key} role="tab"
             className={`btn btn-secondary${activeTab === tab.key ? ' tab-btn--active' : ''}`}

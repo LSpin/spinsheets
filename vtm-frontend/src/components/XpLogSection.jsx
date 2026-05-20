@@ -449,27 +449,27 @@ export default function XpLogSection({ splat, xpLog, onAdd, onRemove, onError, t
       </div>
 
       {/* Summary */}
-      <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+      <div className="flex flex-wrap gap-lg mb-md">
         <div><strong>{isXp ? t('totalXP') : t('totalFreebies')}:</strong> {totalEarned}</div>
         <div><strong>{t('spent')}:</strong> {totalSpent}</div>
         <div><strong>{isXp ? t('availableXP') : t('availableFreebies')}:</strong>{' '}
-          <span style={{ color: available >= 0 ? '#8c8' : '#e55', fontWeight: 700 }}>{available}</span>
+          <span className="font-bold" style={{ color: available >= 0 ? '#8c8' : '#e55' }}>{available}</span>
         </div>
       </div>
 
       {/* Cost reference */}
-      <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '0.5rem', lineHeight: 1.8 }}>
+      <div className="text-xs text-muted mb-sm" style={{ lineHeight: 1.8 }}>
         <strong>{isXp ? t('xpCostsHeader') : t('freebieStarting')}</strong><br/>
         {refLines.map((line, i) => (
           <span key={i}>{line.map(k => t(k)).join(' \u00b7 ')}<br/></span>
         ))}
       </div>
-      <p style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', marginBottom: '1rem', fontStyle: 'italic' }}>
+      <p className="text-xs text-muted mb-md font-italic">
         {isXp ? t('xpHelpEarned') : t('freebieHelpEarned')}
       </p>
 
       {/* Add entry form */}
-      <div className="field-row" style={{ marginBottom: '1rem' }}>
+      <div className="field-row mb-md">
         <div className="field">
           <label>{t('xpCategory')}</label>
           <select value={category} onChange={e => handleCategoryChange(e.target.value)}>
@@ -501,7 +501,7 @@ export default function XpLogSection({ splat, xpLog, onAdd, onRemove, onError, t
           <div className="field" style={{ maxWidth: 80 }}>
             <label>{t('xpCost')}</label>
             <input type="number" value={calculatedCost} readOnly tabIndex={-1}
-              style={{ fontWeight: 700, color: '#e55', background: 'transparent', border: '1px solid var(--color-border)' }} />
+              className="font-bold border" style={{ color: '#e55', background: 'transparent' }} />
           </div>
         )}
 
@@ -521,23 +521,23 @@ export default function XpLogSection({ splat, xpLog, onAdd, onRemove, onError, t
       {/* Entries table */}
       {entries.length === 0 && <p className="muted-hint">{isXp ? t('noXpEntries') : t('noFreebieEntries')}</p>}
       {entries.length > 0 && (
-        <table style={{ width: '100%', fontSize: '0.82rem', borderCollapse: 'collapse' }}>
+        <table className="w-full text-sm" style={{ borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ borderBottom: '1px solid var(--color-border)', textAlign: 'left' }}>
+            <tr className="border-b text-left" style={{ padding: '0.4rem' }}>
               <th style={{ padding: '0.4rem' }}>{t('xpDate')}</th>
               <th style={{ padding: '0.4rem' }}>{t('xpCategory')}</th>
               <th style={{ padding: '0.4rem' }}>{t('xpDescription')}</th>
-              <th style={{ padding: '0.4rem', textAlign: 'right' }}>{t('amount')}</th>
+              <th className="text-right" style={{ padding: '0.4rem' }}>{t('amount')}</th>
               <th style={{ padding: '0.4rem' }}></th>
             </tr>
           </thead>
           <tbody>
             {entries.map(e => (
-              <tr key={e.id} style={{ borderBottom: '1px solid var(--color-border)' }}>
+              <tr key={e.id} className="border-b">
                 <td style={{ padding: '0.4rem', whiteSpace: 'nowrap' }}>{new Date(e.createdAt).toLocaleDateString()}</td>
                 <td style={{ padding: '0.4rem' }}>{catLabel(e.category, t)}</td>
                 <td style={{ padding: '0.4rem' }}>{e.description}</td>
-                <td style={{ padding: '0.4rem', textAlign: 'right', fontWeight: 600, color: e.amount > 0 ? '#8c8' : '#e55' }}>
+                <td className="text-right font-semibold" style={{ padding: '0.4rem', color: e.amount > 0 ? '#8c8' : '#e55' }}>
                   {e.amount > 0 ? '+' : ''}{e.amount}
                 </td>
                 <td style={{ padding: '0.4rem' }}>

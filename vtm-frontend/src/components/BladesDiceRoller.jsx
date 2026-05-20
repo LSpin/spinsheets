@@ -144,11 +144,11 @@ export default function BladesDiceRoller() {
       <h3 className="dice-roller-title">{t('bladesDicePool')}</h3>
 
       {/* Roll mode selector */}
-      <div style={{ display: 'flex', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)', flexWrap: 'wrap' }}>
+      <div className="flex gap-sm mb-md flex-wrap">
         {['action', 'resistance', 'fortune'].map(mode => (
           <button key={mode} type="button"
-            className={`btn btn-secondary${rollMode === mode ? ' tab-btn--active' : ''}`}
-            style={{ fontSize: '0.8rem', padding: '0.3rem 0.7rem' }}
+            className={`btn btn-secondary${rollMode === mode ? ' tab-btn--active' : ''} text-sm`}
+            style={{ padding: '0.3rem 0.7rem' }}
             onClick={() => setRollMode(mode)}>
             {modeLabel(mode)}
           </button>
@@ -199,7 +199,7 @@ export default function BladesDiceRoller() {
         )}
 
         {rollMode === 'resistance' && (
-          <span className="muted-hint" style={{ fontSize: '0.78rem', alignSelf: 'flex-end', paddingBottom: '0.4rem' }}>
+          <span className="muted-hint text-sm" style={{ alignSelf: 'flex-end', paddingBottom: '0.4rem' }}>
             {t('bladesResistanceHint')}
           </span>
         )}
@@ -247,21 +247,14 @@ export default function BladesDiceRoller() {
 
           {/* Resistance roll: show stress cost */}
           {result.rollMode === 'resistance' && result.stressCost !== null && (
-            <div style={{
-              marginTop: 'var(--space-sm)', padding: 'var(--space-sm)',
-              borderRadius: 'var(--radius)',
-              background: result.stressCost <= 0 ? 'rgba(42,140,58,0.1)' : 'rgba(231,76,60,0.1)',
-              border: `1px solid ${result.stressCost <= 0 ? 'rgba(42,140,58,0.3)' : 'rgba(231,76,60,0.3)'}`,
-              fontWeight: 600, fontSize: '0.9rem',
-              color: result.stressCost <= 0 ? '#2a8c3a' : '#e74c3c'
-            }}>
+            <div className="mt-sm p-sm rounded font-semibold text-md" style={{ background: result.stressCost <= 0 ? 'rgba(42,140,58,0.1)' : 'rgba(231,76,60,0.1)', border: `1px solid ${result.stressCost <= 0 ? 'rgba(42,140,58,0.3)' : 'rgba(231,76,60,0.3)'}`, color: result.stressCost <= 0 ? '#2a8c3a' : '#e74c3c' }}>
               {result.stressCost === -1 ? t('bladesResCritResult') : t('bladesResStressCost').replace('{0}', result.stressCost)}
             </div>
           )}
 
           {/* Action roll: show outcome description based on position */}
           {result.rollMode === 'action' && OUTCOME_KEYS[result.position] && (
-            <div style={{ marginTop: 'var(--space-sm)', fontSize: '0.82rem', color: 'var(--color-text-muted)', lineHeight: 1.5, fontStyle: 'italic' }}>
+            <div className="mt-sm text-muted font-italic text-sm" style={{ lineHeight: 1.5 }}>
               {t(OUTCOME_KEYS[result.position][result.outcome])}
             </div>
           )}

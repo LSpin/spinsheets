@@ -142,12 +142,12 @@ export default function BladesClockManager() {
     <section aria-labelledby="clock-heading">
       <div className="character-list-header">
         <div>
-          <button className="btn btn-secondary" onClick={() => navigate('/blades')} style={{ marginRight: 'var(--space-sm)' }}>
+          <button className="btn btn-secondary mr-sm" onClick={() => navigate('/blades')}>
             {t('back')}
           </button>
           <h2 id="clock-heading" style={{ display: 'inline' }}>{t('bladesClockManagerTitle')}</h2>
         </div>
-        <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+        <div className="flex flex-wrap gap-sm">
           {completedCount > 0 && (
             <button className="btn btn-secondary" onClick={clearCompleted}>
               {t('bladesClockClearCompleted')} ({completedCount})
@@ -162,10 +162,10 @@ export default function BladesClockManager() {
       </div>
 
       {/* Create clock form */}
-      <div className="form-section" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="form-section mb-lg">
         <fieldset>
           <legend>{t('bladesClockNew')}</legend>
-          <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+          <div className="flex flex-wrap gap-sm items-end">
             <div className="field" style={{ flex: '1 1 200px' }}>
               <label htmlFor="cm-name">{t('bladesClockName')}</label>
               <input id="cm-name" value={newName} onChange={e => setNewName(e.target.value)}
@@ -203,18 +203,18 @@ export default function BladesClockManager() {
 
       {/* Filters */}
       {clocks.length > 0 && (
-        <div style={{ display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap', marginBottom: 'var(--space-md)', alignItems: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <label htmlFor="filter-type" style={{ fontSize: '0.82rem', fontWeight: 600 }}>{t('bladesClockFilterType')}:</label>
-            <select id="filter-type" value={filterType} onChange={e => setFilterType(e.target.value)} style={{ fontSize: '0.82rem' }}>
+        <div className="flex flex-wrap gap-md mb-md items-center">
+          <div className="flex items-center" style={{ gap: '0.4rem' }}>
+            <label htmlFor="filter-type" className="text-sm font-semibold">{t('bladesClockFilterType')}:</label>
+            <select id="filter-type" className="text-sm" value={filterType} onChange={e => setFilterType(e.target.value)}>
               <option value="all">{t('allChronicles')}</option>
               {CLOCK_TYPES.map(ct => <option key={ct.value} value={ct.value}>{ct.label}</option>)}
             </select>
           </div>
           {groups.length > 0 && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <label htmlFor="filter-group" style={{ fontSize: '0.82rem', fontWeight: 600 }}>{t('bladesClockFilterGroup')}:</label>
-              <select id="filter-group" value={filterGroup} onChange={e => setFilterGroup(e.target.value)} style={{ fontSize: '0.82rem' }}>
+            <div className="flex items-center" style={{ gap: '0.4rem' }}>
+              <label htmlFor="filter-group" className="text-sm font-semibold">{t('bladesClockFilterGroup')}:</label>
+              <select id="filter-group" className="text-sm" value={filterGroup} onChange={e => setFilterGroup(e.target.value)}>
                 <option value="all">{t('allChronicles')}</option>
                 {groups.map(g => <option key={g} value={g}>{g}</option>)}
                 <option value="">{t('bladesClockUngrouped')}</option>
@@ -229,7 +229,7 @@ export default function BladesClockManager() {
 
       {/* Empty state */}
       {clocks.length === 0 && (
-        <div className="empty-state" style={{ padding: 'var(--space-2xl)' }}>
+        <div className="empty-state">
           <h3>{t('bladesClockEmptyTitle')}</h3>
           <p className="muted-hint">{t('bladesClockEmptyDesc')}</p>
         </div>
@@ -247,9 +247,7 @@ export default function BladesClockManager() {
             {grouped[groupName].map(clock => {
               const complete = clock.filled >= clock.segments
               return (
-                <div key={clock.id} className="character-card" style={{
-                  textAlign: 'center',
-                  padding: 'var(--space-md)',
+                <div key={clock.id} className="character-card text-center p-md" style={{
                   border: complete ? `2px solid ${TYPE_COLORS[clock.type] || '#868e96'}` : undefined,
                   opacity: complete ? 0.7 : 1,
                   position: 'relative',
@@ -263,7 +261,7 @@ export default function BladesClockManager() {
                     }}>{t('bladesClockComplete')}</div>
                   )}
                   <h4 style={{ margin: '0 0 0.2rem 0', fontSize: '0.95rem' }}>{clock.name}</h4>
-                  <div style={{ display: 'flex', gap: '0.4rem', justifyContent: 'center', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+                  <div className="flex flex-wrap justify-center" style={{ gap: '0.4rem', marginBottom: '0.5rem' }}>
                     <span style={{
                       fontSize: '0.7rem', padding: '1px 6px', borderRadius: '3px',
                       background: `${TYPE_COLORS[clock.type]}22`, color: TYPE_COLORS[clock.type],
@@ -280,10 +278,10 @@ export default function BladesClockManager() {
                     typeColor={TYPE_COLORS[clock.type]}
                     onClick={(i) => tickClock(clock.id, i)}
                   />
-                  <div style={{ fontSize: '0.85rem', marginTop: '0.4rem', fontWeight: 600 }}>
+                  <div className="text-base font-semibold" style={{ marginTop: '0.4rem' }}>
                     {clock.filled} / {clock.segments}
                   </div>
-                  <div style={{ display: 'flex', gap: '0.3rem', justifyContent: 'center', marginTop: '0.5rem' }}>
+                  <div className="flex justify-center" style={{ gap: '0.3rem', marginTop: '0.5rem' }}>
                     <button type="button" className="btn btn-secondary" style={{ padding: '3px 10px', fontSize: '0.75rem' }}
                       onClick={() => resetClock(clock.id)}>{t('bladesClockReset')}</button>
                     <button type="button" className="btn btn-danger" style={{ padding: '3px 10px', fontSize: '0.75rem' }}

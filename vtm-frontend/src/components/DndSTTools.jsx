@@ -20,15 +20,15 @@ function HistoryPanel({ items, renderItem, label }) {
   const { t } = useLanguage()
   if (items.length === 0) return null
   return (
-    <div style={{ marginTop: 'var(--space-md)' }}>
+    <div className="mt-md">
       <button className="btn btn-secondary" onClick={() => setOpen(!open)}
         aria-expanded={open} style={{ fontSize: '0.82rem' }}>
         {open ? t('dndSTHideHistory') : t('dndSTShowHistory')} ({items.length})
       </button>
       {open && (
-        <ul aria-label={label} style={{ listStyle: 'none', padding: 0, marginTop: 'var(--space-sm)' }}>
+        <ul aria-label={label} style={{ listStyle: 'none', padding: 0 }} className="mt-sm">
           {items.map((item, i) => (
-            <li key={item.id || i} className="character-card" style={{ padding: 'var(--space-sm) var(--space-md)', marginBottom: 'var(--space-xs)' }}>
+            <li key={item.id || i} className="character-card mb-xs" style={{ padding: 'var(--space-sm) var(--space-md)' }}>
               {renderItem(item)}
             </li>
           ))}
@@ -40,9 +40,8 @@ function HistoryPanel({ items, renderItem, label }) {
 
 function ResultCard({ children, style }) {
   return (
-    <div className="character-card" role="status" aria-live="polite" style={{
+    <div className="character-card mt-md" role="status" aria-live="polite" style={{
       padding: 'var(--space-lg)',
-      marginTop: 'var(--space-md)',
       border: '1px solid var(--accent)',
       ...style,
     }}>
@@ -70,10 +69,10 @@ function EncounterTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('dndSTEncounterHint')}
       </p>
-      <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 'var(--space-md)' }}>
+      <div className="flex gap-sm flex-wrap items-end mb-md">
         <div className="field" style={{ flex: '0 0 180px' }}>
           <label htmlFor="dnd-env">{t('dndSTEnvironment')}</label>
           <select id="dnd-env" value={env} onChange={e => setEnv(e.target.value)}>
@@ -89,7 +88,7 @@ function EncounterTab() {
 
       {result && (
         <ResultCard>
-          <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 700, color: 'var(--accent)', letterSpacing: '0.05em', marginBottom: 'var(--space-xs)' }}>
+          <div className="uppercase font-bold mb-xs" style={{ fontSize: '0.75rem', color: 'var(--accent)', letterSpacing: '0.05em' }}>
             {t(`dndSTEnv_${result.environment}`)}
           </div>
           <p style={{ margin: 0, fontSize: '1.05rem', lineHeight: 1.6 }}>{result.text}</p>
@@ -97,7 +96,7 @@ function EncounterTab() {
       )}
 
       <HistoryPanel items={history} label="Encounter history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
+        <div className="text-base">
           <strong>{t(`dndSTEnv_${item.environment}`)}</strong> — {item.text.slice(0, 60)}...
         </div>
       )} />
@@ -131,10 +130,10 @@ function TreasureTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('dndSTTreasureHint')}
       </p>
-      <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 'var(--space-md)' }}>
+      <div className="flex gap-sm flex-wrap items-end mb-md">
         <div className="field" style={{ flex: '0 0 200px' }}>
           <label htmlFor="dnd-tier">{t('dndSTTier')}</label>
           <select id="dnd-tier" value={tier} onChange={e => setTier(e.target.value)}>
@@ -150,10 +149,10 @@ function TreasureTab() {
 
       {result && (
         <ResultCard>
-          <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 700, color: '#fcc419', letterSpacing: '0.05em', marginBottom: 'var(--space-sm)' }}>
+          <div className="uppercase font-bold mb-sm" style={{ fontSize: '0.75rem', color: '#fcc419', letterSpacing: '0.05em' }}>
             {result.tier}
           </div>
-          <div style={{ display: 'grid', gap: 'var(--space-xs)' }}>
+          <div className="grid gap-xs">
             <div><strong>{t('dndSTCoins')}:</strong> {result.coins}</div>
             <div><strong>{t('dndSTGem')}:</strong> {result.gem}</div>
             <div><strong>{t('dndSTArtObject')}:</strong> {result.artObject}</div>
@@ -163,7 +162,7 @@ function TreasureTab() {
       )}
 
       <HistoryPanel items={history} label="Treasure history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
+        <div className="text-base">
           <strong>{item.tier}</strong> — {item.magicItem}
         </div>
       )} />
@@ -195,7 +194,7 @@ function NPCTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('dndSTNPCHint')}
       </p>
       <button className="btn btn-primary" onClick={generate}>
@@ -207,10 +206,10 @@ function NPCTab() {
           <h3 style={{ margin: '0 0 var(--space-xs) 0', color: 'var(--accent)' }}>
             {result.name}
           </h3>
-          <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.05em', marginBottom: 'var(--space-sm)' }}>
+          <div className="uppercase font-bold text-muted mb-sm" style={{ fontSize: '0.75rem', letterSpacing: '0.05em' }}>
             {result.race}
           </div>
-          <div style={{ display: 'grid', gap: 'var(--space-xs)' }}>
+          <div className="grid gap-xs">
             <div><strong>{t('dndSTTrait')}:</strong> {result.trait}</div>
             <div><strong>{t('dndSTIdeal')}:</strong> {result.ideal}</div>
             <div><strong>{t('dndSTBond')}:</strong> {result.bond}</div>
@@ -221,7 +220,7 @@ function NPCTab() {
       )}
 
       <HistoryPanel items={history} label="NPC history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
+        <div className="text-base">
           <strong>{item.name}</strong> ({item.race}) — {item.trait.slice(0, 40)}...
         </div>
       )} />
@@ -250,7 +249,7 @@ function TavernShopTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('dndSTTavernHint')}
       </p>
       <button className="btn btn-primary" onClick={generate}>
@@ -262,7 +261,7 @@ function TavernShopTab() {
           <h3 style={{ margin: '0 0 var(--space-sm) 0', color: 'var(--accent)' }}>
             {result.tavernName}
           </h3>
-          <div style={{ display: 'grid', gap: 'var(--space-xs)' }}>
+          <div className="grid gap-xs">
             <div><strong>{t('dndSTNearbyShop')}:</strong> {result.shopType}</div>
             <div><strong>{t('dndSTProprietor')}:</strong> {result.proprietor}</div>
             <div><strong>{t('dndSTRumor')}:</strong> {result.rumor}</div>
@@ -271,7 +270,7 @@ function TavernShopTab() {
       )}
 
       <HistoryPanel items={history} label="Tavern history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
+        <div className="text-base">
           <strong>{item.tavernName}</strong> — {item.rumor.slice(0, 50)}...
         </div>
       )} />
@@ -299,7 +298,7 @@ function DungeonTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('dndSTDungeonHint')}
       </p>
       <button className="btn btn-primary" onClick={generate}>
@@ -308,7 +307,7 @@ function DungeonTab() {
 
       {result && (
         <ResultCard>
-          <div style={{ display: 'grid', gap: 'var(--space-sm)' }}>
+          <div className="grid gap-sm">
             <div><strong>{t('dndSTRoomType')}:</strong> {result.room}</div>
             <div><strong>{t('dndSTHazard')}:</strong> <span style={{ color: '#fa5252' }} aria-label={`Hazard: ${result.hazard}`}>{result.hazard}</span></div>
             <div><strong>{t('dndSTDiscovery')}:</strong> <span style={{ color: '#51cf66' }} aria-label={`Discovery: ${result.discovery}`}>{result.discovery}</span></div>
@@ -317,7 +316,7 @@ function DungeonTab() {
       )}
 
       <HistoryPanel items={history} label="Dungeon room history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
+        <div className="text-base">
           <strong>{item.room.slice(0, 40)}...</strong>
         </div>
       )} />
@@ -347,16 +346,16 @@ export default function DndSTTools() {
     <section aria-labelledby="dnd-st-tools-heading">
       <div className="character-list-header">
         <div>
-          <button className="btn btn-secondary" onClick={() => navigate('/dnd')} style={{ marginRight: 'var(--space-sm)' }}>
+          <button className="btn btn-secondary mr-sm" onClick={() => navigate('/dnd')}>
             {t('back')}
           </button>
           <h2 id="dnd-st-tools-heading" style={{ display: 'inline' }}>{t('dndSTTools')}</h2>
         </div>
       </div>
 
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>{t('dndSTToolsDesc')}</p>
+      <p className="muted-hint mb-md">{t('dndSTToolsDesc')}</p>
 
-      <div className="tab-list" role="tablist" aria-label="ST Tools tabs" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="tab-list mb-lg" role="tablist" aria-label="ST Tools tabs">
         {TABS.map(tab => (
           <button key={tab.key} role="tab"
             className={`btn btn-secondary${activeTab === tab.key ? ' tab-btn--active' : ''}`}

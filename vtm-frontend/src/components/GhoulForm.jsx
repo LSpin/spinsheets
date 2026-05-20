@@ -317,7 +317,7 @@ export default function GhoulForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('ghoulDisciplines')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('ghoulDiscHint')}</p>
+            <p className="muted-hint muted-hint--xs mb-sm">{t('ghoulDiscHint')}</p>
             {(() => {
               const { disciplines: discMap, notes: discNotes } = parseGhoulSorceryDesc(fields.sorceryDesc)
               return (
@@ -334,11 +334,11 @@ export default function GhoulForm() {
                       </div>
                     ))}
                   </div>
-                  <div style={{ marginTop: 'var(--space-sm)' }}>
+                  <div className="mt-sm">
                     <label>{t('notes')}</label>
                     <textarea value={discNotes}
                       onChange={e => setFields(prev => ({ ...prev, sorceryDesc: serializeGhoulSorceryDesc(discMap, e.target.value) }))}
-                      rows={3} style={{ width: '100%' }} placeholder={t('ghoulDiscNotesPh')} />
+                      rows={3} className="w-full" placeholder={t('ghoulDiscNotesPh')} />
                   </div>
                 </>
               )
@@ -351,7 +351,7 @@ export default function GhoulForm() {
               <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
             {fields.currentWillpower > fields.willpower && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite">
                 Temporary Willpower cannot exceed permanent ({fields.willpower}).
               </p>
             )}
@@ -360,16 +360,16 @@ export default function GhoulForm() {
             </div>
             <p className="muted-hint muted-hint--xs">{t('ghoulBloodHint')}</p>
             {fields.currentBlood === 0 && (
-              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+              <p className="status-warning mt-xs text-sm font-bold" role="alert" aria-live="assertive">
                 No vitae remaining. The ghoul cannot use Disciplines and will begin aging if blood is not replenished.
               </p>
             )}
             {fields.currentBlood === 1 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite">
                 Blood pool critically low. The ghoul is desperate for vitae.
               </p>
             )}
-            <div className="field-row" style={{ marginTop: 'var(--space-sm)' }}>
+            <div className="field-row mt-sm">
               <div className="field">
                 <label>{t('pathName')}</label>
                 <input name="pathName" value={fields.pathName} onChange={handleText} />
@@ -391,12 +391,12 @@ export default function GhoulForm() {
               <DotRating label={t('aggravated')} name="woundAgg" value={fields.woundAgg} onChange={handleField} min={0} max={7} />
             </div>
             {(fields.woundBashing + fields.woundLethal + fields.woundAgg) >= 7 && (
-              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+              <p className="status-warning mt-xs text-sm font-bold" role="alert" aria-live="assertive">
                 Incapacitated. The ghoul is out of action{fields.woundAgg >= 7 ? ' and may be dead.' : '.'}
               </p>
             )}
             {(fields.woundBashing + fields.woundLethal + fields.woundAgg) >= 5 && (fields.woundBashing + fields.woundLethal + fields.woundAgg) < 7 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite">
                 Severely wounded ({fields.woundBashing + fields.woundLethal + fields.woundAgg}/7 health levels filled).
               </p>
             )}
@@ -407,9 +407,9 @@ export default function GhoulForm() {
       {/* Backstory */}
       <div role="tabpanel" id="tabpanel-5" aria-labelledby="tab-5" hidden={tab !== 5}>
         <div className="form-section">
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full" /></fieldset>
+          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full" /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full" /></fieldset>
         </div>
       </div>
 

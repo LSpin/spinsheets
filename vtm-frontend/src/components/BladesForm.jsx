@@ -320,14 +320,14 @@ export default function BladesForm() {
   function ActionColumn({ title, actions, xpKey, xpMax = 6 }) {
     return (
       <div className="blades-action-column">
-        <h4 style={{ marginBottom: 'var(--space-sm)', color: 'var(--color-accent-fg)' }}>{title}</h4>
+        <h4 className="mb-sm text-accent">{title}</h4>
         {actions.map(a => (
           <div key={a.key} className="blades-action-row">
             <span className="blades-action-label">{t(a.labelKey)}</span>
             <BladesDots value={fields[a.key]} onChange={v => handleField(a.key, v)} />
           </div>
         ))}
-        <div className="blades-xp-row" style={{ marginTop: 'var(--space-sm)' }}>
+        <div className="blades-xp-row mt-sm">
           <span className="blades-action-label" style={{ fontSize: '0.8rem' }}>{title} XP</span>
           <XpPips value={fields[xpKey]} max={xpMax} onChange={v => handleField(xpKey, v)} />
         </div>
@@ -348,8 +348,8 @@ export default function BladesForm() {
       {saveError && <p className="status-error" role="alert">{saveError}</p>}
       {actionError && <p className="status-error" role="alert">{actionError}</p>}
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-sm)' }}>
-        <label style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', cursor: 'pointer' }}>
+      <div className="flex items-center gap-sm mb-sm">
+        <label className="flex items-center cursor-pointer" style={{ gap: '0.4rem', fontSize: '0.82rem' }}>
           <input type="checkbox" checked={deepCuts} onChange={toggleDeepCuts} />
           <strong>{t('bladesDeepCuts')}</strong>
           <span className="muted-hint muted-hint--xs">{t('bladesDeepCutsHint')}</span>
@@ -374,7 +374,7 @@ export default function BladesForm() {
             </div>
             <div className="field">
               <label>{t('appearanceLabel')}</label>
-              <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={3} style={{ width: '100%' }} aria-label={t('appearanceLabel')} />
+              <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={3} className="w-full" aria-label={t('appearanceLabel')} />
             </div>
             <div className="field-row">
               <CatalogSelect id="bladesHeritage" name="bladesHeritage" label={t('bladesHeritage')} value={fields.bladesHeritage}
@@ -407,10 +407,10 @@ export default function BladesForm() {
                 catalog={filteredPlaybookCatalog} />
             </div>
             {selectedPlaybook && (
-              <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
-                <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{t(fields.bladesPlaybook)}</div>
-                {selectedPlaybook.supernatural && <span className="splat-badge splat-badge--blades" style={{ fontSize: '0.75rem', marginBottom: 'var(--space-xs)', display: 'inline-block' }}>{t('bladesDeepCutsSupernatural')}</span>}
-                {selectedPlaybook.description && <p style={{ fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 'var(--space-xs)' }}>{selectedPlaybook.description}</p>}
+              <div className="form-section p-md mt-sm" style={{ background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                <div className="text-lg font-bold mb-xs">{t(fields.bladesPlaybook)}</div>
+                {selectedPlaybook.supernatural && <span className="splat-badge splat-badge--blades mb-xs" style={{ fontSize: '0.75rem', display: 'inline-block' }}>{t('bladesDeepCutsSupernatural')}</span>}
+                {selectedPlaybook.description && <p className="text-base lh-normal mb-xs">{selectedPlaybook.description}</p>}
                 {selectedPlaybook.xpTrigger && <p className="muted-hint muted-hint--xs"><strong>{t('bladesXpTrigger')}:</strong> {t(selectedPlaybook.xpTriggerKey) || selectedPlaybook.xpTrigger}</p>}
               </div>
             )}
@@ -423,7 +423,7 @@ export default function BladesForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesActionRatings')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
+            <p className="muted-hint muted-hint--xs mb-md">
               {t('bladesActionRatingsHint')}
             </p>
             <div className="blades-actions-grid">
@@ -435,9 +435,9 @@ export default function BladesForm() {
 
           {/* XP Trigger Reminder */}
           {selectedPlaybook?.xpTrigger && (
-            <div style={{ padding: 'var(--space-sm) var(--space-md)', marginBottom: 'var(--space-md)', background: 'rgba(243,156,18,0.08)', border: '1px solid rgba(243,156,18,0.25)', borderRadius: 'var(--radius)', fontSize: '0.82rem' }}>
+            <div className="mb-md rounded" style={{ padding: 'var(--space-sm) var(--space-md)', background: 'rgba(243,156,18,0.08)', border: '1px solid rgba(243,156,18,0.25)', fontSize: '0.82rem' }}>
               <strong style={{ color: '#f39c12' }}>{t('bladesXpTrigger')}:</strong>{' '}
-              <span style={{ color: 'var(--color-text-muted)' }}>{selectedPlaybook.xpTrigger}</span>
+              <span className="text-muted">{selectedPlaybook.xpTrigger}</span>
             </div>
           )}
 
@@ -460,7 +460,7 @@ export default function BladesForm() {
               <p className="muted-hint">{t('bladesSelectPlaybookHint')}</p>
             )}
             {selectedPlaybook?.abilities?.map(ability => (
-              <label key={ability.name} className="blades-ability-row" style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-start', padding: 'var(--space-xs) 0' }}>
+              <label key={ability.name} className="blades-ability-row flex gap-sm items-start py-xs">
                 <input type="checkbox" checked={selectedAbilities.includes(ability.name)}
                   onChange={() => toggleAbility(ability.name)} />
                 <div>
@@ -469,21 +469,21 @@ export default function BladesForm() {
                 </div>
               </label>
             ))}
-            <hr style={{ margin: 'var(--space-md) 0', opacity: 0.3 }} />
+            <hr className="opacity-30" style={{ margin: 'var(--space-md) 0' }} />
             <details>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('bladesVeteranAbilities')}</summary>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              <summary className="cursor-pointer font-semibold text-md text-accent">{t('bladesVeteranAbilities')}</summary>
+              <p className="muted-hint muted-hint--xs mb-sm">
                 {t('bladesVeteranAbilitiesHint')}
               </p>
               {Object.entries(BLADES_PLAYBOOKS).filter(([name]) => name !== fields.bladesPlaybook).map(([name, pb]) => (
-                <details key={name} style={{ marginBottom: 'var(--space-xs)' }}>
-                  <summary style={{ cursor: 'pointer', fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>{t(name)}</summary>
+                <details key={name} className="mb-xs">
+                  <summary className="cursor-pointer text-base text-muted">{t(name)}</summary>
                   {pb.abilities?.map(ability => (
-                    <label key={ability.name} style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-start', padding: 'var(--space-xs) 0 var(--space-xs) var(--space-md)' }}>
+                    <label key={ability.name} className="flex gap-sm items-start" style={{ padding: 'var(--space-xs) 0 var(--space-xs) var(--space-md)' }}>
                       <input type="checkbox" checked={selectedAbilities.includes(ability.name)}
                         onChange={() => toggleAbility(ability.name)} />
                       <div>
-                        <strong style={{ fontSize: '0.85rem' }}>{ability.nameKey ? t(ability.nameKey) : ability.name}</strong>
+                        <strong className="text-base">{ability.nameKey ? t(ability.nameKey) : ability.name}</strong>
                         {ability.description && <span className="muted-hint muted-hint--xs" style={{ display: 'block' }}>{ability.descKey ? t(ability.descKey) : ability.description}</span>}
                       </div>
                     </label>
@@ -500,7 +500,7 @@ export default function BladesForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesStress')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('bladesStressHint')}
             </p>
             <div className="blades-stress-track">
@@ -516,28 +516,28 @@ export default function BladesForm() {
                   aria-pressed={i < fields.bladesStress}
                 />
               ))}
-              <span style={{ marginLeft: 'var(--space-sm)', fontSize: '0.85rem', fontWeight: 600 }}>{fields.bladesStress}/9</span>
+              <span className="ml-sm text-base font-semibold">{fields.bladesStress}/9</span>
             </div>
             {fields.bladesStress >= 9 && (
-              <div role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c', textAlign: 'center' }}>
+              <div role="alert" aria-live="assertive" className="mt-sm p-sm font-bold text-center" style={{ background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', color: '#e74c3c' }}>
                 {t('bladesTraumaAlert')}
               </div>
             )}
             {fields.bladesStress >= 8 && fields.bladesStress < 9 && (
-              <div role="alert" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(243,156,18,0.15)', border: '2px solid #f39c12', borderRadius: '6px', fontWeight: 600, color: '#f39c12' }}>
+              <div role="alert" aria-live="polite" className="mt-sm p-sm font-semibold" style={{ background: 'rgba(243,156,18,0.15)', border: '2px solid #f39c12', borderRadius: '6px', color: '#f39c12' }}>
                 {t('bladesStressWarning')}
               </div>
             )}
           </fieldset>
           <fieldset>
             <legend>{t('bladesTrauma')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('bladesTraumaHint')}
-              {selectedTrauma.length >= 4 && <span role="alert" style={{ color: 'var(--color-danger)', fontWeight: 600 }}> {t('bladesTraumaWarning')}</span>}
+              {selectedTrauma.length >= 4 && <span role="alert" className="text-danger font-semibold"> {t('bladesTraumaWarning')}</span>}
             </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)' }}>
+            <div className="flex flex-wrap gap-sm">
               {BLADES_TRAUMA_CONDITIONS.map(tc => (
-                <label key={tc} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
+                <label key={tc} className="inline-label">
                   <input type="checkbox" checked={selectedTrauma.includes(tc)} onChange={() => toggleTrauma(tc)} />
                   {t(`bladesTrauma${tc}`)}
                 </label>
@@ -587,14 +587,14 @@ export default function BladesForm() {
           </fieldset>
           <fieldset>
             <legend>{t('bladesArmorLabel')}</legend>
-            <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
+            <div className="flex gap-md">
+              <label className="inline-label">
                 <input type="checkbox" checked={!!fields.bladesArmor} onChange={() => handleCheck('bladesArmor')} /> {t('bladesArmorLabel')}
               </label>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
+              <label className="inline-label">
                 <input type="checkbox" checked={!!fields.bladesHeavyArmor} onChange={() => handleCheck('bladesHeavyArmor')} /> {t('bladesHeavyArmorLabel')}
               </label>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
+              <label className="inline-label">
                 <input type="checkbox" checked={!!fields.bladesSpecialArmor} onChange={() => handleCheck('bladesSpecialArmor')} /> {t('bladesSpecialArmorLabel')}
               </label>
             </div>
@@ -607,34 +607,34 @@ export default function BladesForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesLoad')}</legend>
-            <div style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
+            <div className="flex gap-md items-center mb-sm">
               {LOAD_OPTIONS.map(opt => (
-                <label key={opt.value} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.85rem' }}>
+                <label key={opt.value} className="inline-label">
                   <input type="radio" name="bladesLoad" checked={fields.bladesLoad === opt.value}
                     onChange={() => handleField('bladesLoad', opt.value)} />
                   {t(opt.labelKey)} ({opt.value})
                 </label>
               ))}
             </div>
-            <div role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '6px', background: 'rgba(52,152,219,0.05)' }}>
-              <div style={{ fontSize: '0.9rem', fontWeight: 600 }}>
+            <div role="status" aria-live="polite" className="mt-sm p-sm border" style={{ borderRadius: '6px', background: 'rgba(52,152,219,0.05)' }}>
+              <div className="text-md font-semibold">
                 {t('bladesCurrentLoad')}: <strong>{currentLoad}</strong> / {fields.bladesLoad || '?'}
                 {fields.bladesLoad > 0 && (
-                  <span style={{ marginLeft: 'var(--space-sm)', color: currentLoad > fields.bladesLoad ? 'var(--color-danger)' : 'var(--color-text-muted)' }}>
+                  <span className="ml-sm" style={{ color: currentLoad > fields.bladesLoad ? 'var(--color-danger)' : 'var(--color-text-muted)' }}>
                     ({fields.bladesLoad - currentLoad >= 0 ? `${fields.bladesLoad - currentLoad} ${t('bladesSlotsRemaining')}` : `${currentLoad - fields.bladesLoad} ${t('bladesOverCapacity')}`})
                   </span>
                 )}
               </div>
               {fields.bladesLoad > 0 && currentLoad > fields.bladesLoad && (
-                <div style={{ color: 'var(--color-danger)', fontWeight: 600, fontSize: '0.85rem', marginTop: '4px' }}>{t('bladesOverEncumbered')}</div>
+                <div className="text-danger font-semibold text-base" style={{ marginTop: '4px' }}>{t('bladesOverEncumbered')}</div>
               )}
             </div>
           </fieldset>
           <fieldset>
             <legend>{t('bladesStandardItems')}</legend>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+            <div className="flex-col gap-xs">
               {filteredStandardItems.map(item => (
-                <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: '0.85rem' }}>
+                <label key={item.name} className="flex items-center gap-sm text-base">
                   <input type="checkbox" checked={selectedItems.includes(item.name)} onChange={() => toggleItem(item.name)} />
                   <span><strong>{item.nameKey ? t(item.nameKey) : item.name}</strong> ({item.load || 1} {t('bladesLoadUnit')}){item.descKey ? ` - ${t(item.descKey)}` : item.description ? ` - ${item.description}` : ''}</span>
                 </label>
@@ -644,9 +644,9 @@ export default function BladesForm() {
           {selectedPlaybook?.items?.length > 0 && (
             <fieldset>
               <legend>{t(fields.bladesPlaybook)} {t('bladesItemsSuffix')}</legend>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+              <div className="flex-col gap-xs">
                 {selectedPlaybook?.items?.map(item => (
-                  <label key={item.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', fontSize: '0.85rem' }}>
+                  <label key={item.name} className="flex items-center gap-sm text-base">
                     <input type="checkbox" checked={selectedItems.includes(item.name)} onChange={() => toggleItem(item.name)} />
                     <span><strong>{item.nameKey ? t(item.nameKey) : item.name}</strong> ({item.load || 1} {t('bladesLoadUnit')}){item.descKey ? ` - ${t(item.descKey)}` : item.description ? ` - ${item.description}` : ''}</span>
                   </label>
@@ -662,11 +662,11 @@ export default function BladesForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabBladesProjects')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('bladesProjectsHint')}
             </p>
-            <div className="field-row" style={{ marginBottom: 'var(--space-md)', alignItems: 'flex-end' }}>
-              <div className="field" style={{ flex: 1 }}>
+            <div className="field-row mb-md items-end">
+              <div className="field flex-1">
                 <label htmlFor="new-clock-name">{t('bladesClockName')}</label>
                 <input id="new-clock-name" type="text" value={newClockName} onChange={e => setNewClockName(e.target.value)}
                   placeholder={t('bladesClockNamePh')}
@@ -687,15 +687,15 @@ export default function BladesForm() {
               }}>{t('bladesAddClock')}</button>
             </div>
             {clocks.length === 0 && <p className="muted-hint">{t('bladesNoClocksYet')}</p>}
-            <div role="list" aria-live="polite" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+            <div role="list" aria-live="polite" className="flex-col gap-md">
               {clocks.map((clock, ci) => (
-                <div key={ci} role="listitem" style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', background: 'rgba(52,152,219,0.04)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xs)' }}>
-                    <span style={{ fontWeight: 700, fontSize: '0.9rem' }}>{clock.name}</span>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>{clock.filled}/{clock.total}</span>
+                <div key={ci} role="listitem" className="p-sm border" style={{ borderRadius: '8px', background: 'rgba(52,152,219,0.04)' }}>
+                  <div className="flex justify-between items-center mb-xs">
+                    <span className="font-bold text-md">{clock.name}</span>
+                    <span className="text-muted" style={{ fontSize: '0.8rem' }}>{clock.filled}/{clock.total}</span>
                   </div>
                   {/* Pie-chart style clock */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+                  <div className="flex items-center gap-md">
                     <svg width="64" height="64" viewBox="0 0 64 64" role="img" aria-label={`${clock.name}: ${clock.filled} of ${clock.total} segments filled`}>
                       <circle cx="32" cy="32" r="30" fill="none" stroke="var(--color-border)" strokeWidth="2" />
                       {Array.from({ length: clock.total }, (_, si) => {
@@ -733,9 +733,9 @@ export default function BladesForm() {
                         )
                       })}
                     </svg>
-                    <div style={{ flex: 1 }}>
+                    <div className="flex-1">
                       {clock.filled >= clock.total && (
-                        <div role="alert" aria-live="assertive" style={{ fontWeight: 700, color: '#2ecc71', fontSize: '0.9rem' }}>
+                        <div role="alert" aria-live="assertive" className="font-bold text-md" style={{ color: '#2ecc71' }}>
                           {t('bladesClockComplete')}
                         </div>
                       )}
@@ -749,11 +749,11 @@ export default function BladesForm() {
           </fieldset>
 
           {/* ── Downtime Activity Helpers ── */}
-          <details style={{ marginTop: 'var(--space-sm)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>
+          <details className="mt-sm">
+            <summary className="cursor-pointer font-semibold text-md text-accent">
               {t('bladesDowntimeHelpers')}
             </summary>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-sm)', marginTop: 'var(--space-sm)' }}>
+            <div className="grid-auto mt-sm" style={{ gap: 'var(--space-sm)' }}>
               {[
                 { key: 'acquire', labelKey: 'bladesRulesAcquire', descKey: 'bladesRulesAcquireDesc' },
                 { key: 'longterm', labelKey: 'bladesRulesLongterm', descKey: 'bladesRulesLongtermDesc' },
@@ -762,9 +762,9 @@ export default function BladesForm() {
                 { key: 'train', labelKey: 'bladesRulesTrain', descKey: 'bladesRulesTrainDesc' },
                 { key: 'indulge', labelKey: 'bladesRulesIndulge', descKey: 'bladesRulesIndulgeDesc' },
               ].map(act => (
-                <div key={act.key} style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)' }}>
-                  <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '0.2rem' }}>{t(act.labelKey)}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', lineHeight: 1.4 }}>{t(act.descKey)}</div>
+                <div key={act.key} className="p-sm border rounded bg-surface">
+                  <div className="font-semibold text-base" style={{ marginBottom: '0.2rem' }}>{t(act.labelKey)}</div>
+                  <div className="text-muted lh-snug" style={{ fontSize: '0.75rem' }}>{t(act.descKey)}</div>
                 </div>
               ))}
             </div>
@@ -777,17 +777,18 @@ export default function BladesForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('bladesCoinStash')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('bladesCoinStashHint')}
             </p>
-            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+            <div className="field-row items-end">
               <div className="field" style={{ width: 100 }}>
                 <label>{t('bladesCoin')} (0-4)</label>
-                <div style={{ display: 'flex', gap: '4px' }}>
+                <div className="flex" style={{ gap: '4px' }}>
                   {[1, 2, 3, 4].map(i => (
                     <span key={i} role="button" tabIndex={0}
                       className={`blades-stress-box${i <= (fields.bladesCoin || 0) ? ' blades-stress-box--filled' : ''}`}
-                      style={{ width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', borderRadius: '4px', border: '2px solid var(--color-border)', fontSize: '0.75rem', fontWeight: 700 }}
+                      className="flex items-center justify-center cursor-pointer font-bold"
+                      style={{ width: 28, height: 28, borderRadius: '4px', border: '2px solid var(--color-border)', fontSize: '0.75rem' }}
                       onClick={() => handleField('bladesCoin', (fields.bladesCoin || 0) === i ? i - 1 : i)}
                       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleField('bladesCoin', (fields.bladesCoin || 0) === i ? i - 1 : i) } }}
                       aria-label={`Coin ${i}`} aria-pressed={i <= (fields.bladesCoin || 0)}>
@@ -796,9 +797,9 @@ export default function BladesForm() {
                   ))}
                 </div>
               </div>
-              <div className="field" style={{ flex: 1 }}>
+              <div className="field flex-1">
                 <label>{t('bladesStash')} ({fields.bladesStash || 0}/40)</label>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2px' }}>
+                <div className="flex flex-wrap" style={{ gap: '2px' }}>
                   {Array.from({ length: 40 }, (_, i) => (
                     <span key={i} role="button" tabIndex={0}
                       style={{
@@ -813,7 +814,7 @@ export default function BladesForm() {
                   ))}
                 </div>
                 {(fields.bladesStash || 0) >= 40 && (
-                  <p style={{ color: 'var(--color-accent-fg)', fontWeight: 700, fontSize: '0.82rem', marginTop: 'var(--space-xs)' }}>
+                  <p className="text-accent font-bold mt-xs" style={{ fontSize: '0.82rem' }}>
                     {t('bladesStashRetire')}
                   </p>
                 )}
@@ -852,7 +853,7 @@ export default function BladesForm() {
                 const rel = getContactRel(contact)
                 const contactLabel = selectedPlaybook.contactKeys?.[idx] ? t(selectedPlaybook.contactKeys[idx]) : contact
                 return (
-                  <div key={contact} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', fontSize: '0.9rem' }}>
+                  <div key={contact} className="flex items-center gap-sm py-xs text-md">
                     <button type="button" className={`btn btn-secondary${rel === '+' ? ' tab-btn--active' : ''}`}
                       style={{ minWidth: '32px', padding: '2px 8px', fontSize: '0.85rem' }}
                       onClick={() => setContactRel(contact, '+')} title={t('bladesFriendly')}
@@ -861,7 +862,7 @@ export default function BladesForm() {
                       style={{ minWidth: '32px', padding: '2px 8px', fontSize: '0.85rem' }}
                       onClick={() => setContactRel(contact, '-')} title={t('bladesRival')}
                       aria-label={`${contactLabel} - rival`} aria-pressed={rel === '-'}>-</button>
-                    <span style={{ fontWeight: 600 }}>{contactLabel}</span>
+                    <span className="font-semibold">{contactLabel}</span>
                   </div>
                 )
               })}
@@ -869,10 +870,10 @@ export default function BladesForm() {
           )}
           <fieldset>
             <legend>{t('bladesCustomContacts')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('bladesCustomContactsHint')}
             </p>
-            <div className="field-row" style={{ marginBottom: 'var(--space-sm)' }}>
+            <div className="field-row mb-sm">
               <div className="field" style={{ flex: 2 }}>
                 <input id="new-contact-name" type="text" placeholder={t('bladesContactPh')}
                   onKeyDown={e => {
@@ -893,7 +894,7 @@ export default function BladesForm() {
               }}>{t('add')}</button>
             </div>
             {contacts.filter(c => !selectedPlaybook?.contacts?.includes(c.name)).map(c => (
-              <div key={c.name} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', fontSize: '0.9rem' }}>
+              <div key={c.name} className="flex items-center gap-sm py-xs text-md">
                 <button type="button" className={`btn btn-secondary${c.rel === '+' ? ' tab-btn--active' : ''}`}
                   style={{ minWidth: '32px', padding: '2px 8px', fontSize: '0.85rem' }}
                   onClick={() => setContactRel(c.name, '+')} title={t('bladesFriendly')}
@@ -902,7 +903,7 @@ export default function BladesForm() {
                   style={{ minWidth: '32px', padding: '2px 8px', fontSize: '0.85rem' }}
                   onClick={() => setContactRel(c.name, '-')} title={t('bladesRival')}
                   aria-label={`${c.name} - rival`} aria-pressed={c.rel === '-'}>-</button>
-                <span style={{ fontWeight: 600 }}>{c.name}</span>
+                <span className="font-semibold">{c.name}</span>
                 <button type="button" className="btn btn-danger" style={{ padding: '2px 6px', fontSize: '0.75rem', marginLeft: 'auto' }}
                   onClick={() => {
                     const updated = contacts.filter(x => x.name !== c.name)
@@ -922,8 +923,8 @@ export default function BladesForm() {
       {/* ── Backstory ── */}
       <div hidden={tab !== 'tabBackstory'} role="tabpanel" aria-labelledby="tabBackstory">
         <div className="form-section">
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} aria-label={t('backstoryLabel')} /></fieldset>
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} aria-label={t('notes')} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full" aria-label={t('backstoryLabel')} /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full" aria-label={t('notes')} /></fieldset>
         </div>
       </div>
 
@@ -937,11 +938,11 @@ export default function BladesForm() {
 
       {/* ── Dice Roller ── */}
       <div hidden={tab !== 'tabDiceRoller'} role="tabpanel" aria-labelledby="tabDiceRoller">
-        <details style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px', background: 'rgba(243,156,18,0.06)' }}>
-          <summary style={{ cursor: 'pointer', fontWeight: 700, fontSize: '0.9rem', color: '#f39c12' }}>
+        <details className="mb-md p-sm border" style={{ borderRadius: '8px', background: 'rgba(243,156,18,0.06)' }}>
+          <summary className="cursor-pointer font-bold text-md" style={{ color: '#f39c12' }}>
             {t('bladesDevilsBargain')}
           </summary>
-          <div role="note" aria-live="polite" style={{ padding: 'var(--space-sm) 0', fontSize: '0.85rem', lineHeight: 1.6, color: 'var(--color-text-muted)' }}>
+          <div role="note" aria-live="polite" className="text-base lh-normal text-muted py-sm">
             {t('bladesDevilsBargainDesc')}
           </div>
         </details>

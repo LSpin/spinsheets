@@ -143,7 +143,7 @@ export default function AllCharactersPage() {
 
       {error && <p className="status-error" role="alert">{error}</p>}
 
-      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-sm)', flexWrap: 'wrap' }}>
+      <div className="tab-list flex-wrap mb-sm" role="tablist">
         {SYSTEMS.map(sys => {
           const count = sys.key === 'ALL'
             ? characters.length
@@ -162,7 +162,7 @@ export default function AllCharactersPage() {
         })}
       </div>
 
-      <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', alignItems: 'center', marginBottom: 'var(--space-lg)' }}>
+      <div className="flex flex-wrap gap-sm items-center mb-lg">
         <input
           type="text"
           className="input"
@@ -201,7 +201,7 @@ export default function AllCharactersPage() {
             return (
               <li key={c.id} className="character-card">
                 <div className="character-card-info">
-                  <h3 style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+                  <h3 className="flex items-center flex-wrap gap-sm">
                     {c.name || t('unnamedCharacter')}
                     <span className={`splat-badge ${sysInfo.badge || ''}`} style={{ fontSize: '0.75rem' }}>
                       {t(SPLAT_LABELS[c.splat] || c.splat)}
@@ -211,7 +211,7 @@ export default function AllCharactersPage() {
                     {c.concept && <><dt className="sr-only">{t('concept')}</dt><dd>{c.concept}</dd></>}
                     {c.clan && <><dt className="sr-only">{t('clan')}</dt><dd>{c.clan}</dd></>}
                     {isST && c.owner && <><dt className="sr-only">{t('playerLabel')}</dt><dd>{t('playerLabel')}: {c.owner.username}</dd></>}
-                    {c.npc && <dd className="muted-hint" style={{ fontStyle: 'italic' }}>NPC</dd>}
+                    {c.npc && <dd className="muted-hint font-italic">NPC</dd>}
                   </dl>
                 </div>
                 <div className="character-card-actions">

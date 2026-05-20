@@ -251,12 +251,12 @@ export default function SeventhSeaShipForm() {
             return (
               <fieldset>
                 <legend>Crew Strength</legend>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: 'var(--radius)', borderLeft: '3px solid var(--color-accent-fg)' }}>
-                  <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--color-accent-fg)', minWidth: 80, textAlign: 'center' }}>
+                <div className="flex items-center gap-md p-sm rounded" style={{ background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                  <div className="text-accent text-center" style={{ fontSize: '2rem', fontWeight: 800, minWidth: 80 }}>
                     {crewStrength}
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.95rem', fontWeight: 600 }}>
+                    <div className="font-semibold" style={{ fontSize: '0.95rem' }}>
                       {ship.crewQuality} (quality {qualityVal}) x {ship.crewSize} crew = {crewStrength} Crew Strength
                     </div>
                     <p className="muted-hint muted-hint--xs" style={{ marginTop: '2px' }}>
@@ -270,12 +270,12 @@ export default function SeventhSeaShipForm() {
 
           <fieldset>
             <legend>{t('ship7sMods')} ({t('ship7sModCost')}: {totalModCost})</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 'var(--space-sm)' }}>
+            <div className="grid gap-sm" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
               {SHIP_MODIFICATIONS.map(mod => (
-                <label key={mod.name} style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-start', padding: 'var(--space-xs)', cursor: 'pointer', borderRadius: 'var(--radius)', background: (ship.modifications || []).includes(mod.name) ? 'rgba(52,152,219,0.08)' : 'transparent' }}>
+                <label key={mod.name} className="flex gap-sm items-start cursor-pointer rounded" style={{ padding: 'var(--space-xs)', background: (ship.modifications || []).includes(mod.name) ? 'rgba(52,152,219,0.08)' : 'transparent' }}>
                   <input type="checkbox" checked={(ship.modifications || []).includes(mod.name)} onChange={() => toggleMod(mod.name)} />
                   <div>
-                    <strong style={{ fontSize: '0.85rem' }}>{mod.name}</strong>
+                    <strong className="text-base" >{mod.name}</strong>
                     <span className="muted-hint muted-hint--xs" style={{ marginLeft: '0.3rem' }}>({mod.cost} pts)</span>
                     <p className="muted-hint muted-hint--xs" style={{ margin: '2px 0 0' }}>{mod.description}</p>
                   </div>
@@ -286,7 +286,7 @@ export default function SeventhSeaShipForm() {
 
           <fieldset>
             <legend>{t('ship7sNotes')}</legend>
-            <textarea value={ship.notes} onChange={e => updateShip({ notes: e.target.value })} rows={4} style={{ width: '100%' }}
+            <textarea value={ship.notes} onChange={e => updateShip({ notes: e.target.value })} rows={4} className="w-full"
               placeholder="Notable crew members, ship history, battle scars, special cargo..." />
           </fieldset>
         </div>
@@ -295,8 +295,8 @@ export default function SeventhSeaShipForm() {
       {/* Tab 2 - Notes */}
       <div role="tabpanel" id="tabpanel-2" aria-labelledby="tab-2" hidden={tab !== 2}>
         <div className="form-section">
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={6} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={6} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={6} className="w-full" /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={6} className="w-full" /></fieldset>
         </div>
       </div>
 

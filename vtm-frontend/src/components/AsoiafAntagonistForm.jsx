@@ -128,7 +128,7 @@ export default function AsoiafAntagonistForm() {
               showDescOnSelect={false}
             />
             {templateName && (
-              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
+              <p className="muted-hint muted-hint--xs mt-xs text-accent">
                 Loaded from template: <strong>{templateName}</strong> — customize freely below.
               </p>
             )}
@@ -176,7 +176,7 @@ export default function AsoiafAntagonistForm() {
         <div className="form-section">
           <fieldset>
             <legend>Abilities</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 'var(--space-md)' }}>
+            <div className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))' }}>
               {ASOIAF_ABILITIES.map(a => (
                 <DotRating
                   key={a.key}
@@ -215,7 +215,7 @@ export default function AsoiafAntagonistForm() {
             <textarea
               name="asoiafSpecialties" value={fields.asoiafSpecialties} onChange={handleText}
               aria-label="Specialties"
-              rows={4} style={{ width: '100%' }}
+              rows={4} className="w-full"
               placeholder="Long Blades 2B, Shields 1B, Dodge 1B..."
             />
           </fieldset>
@@ -225,7 +225,7 @@ export default function AsoiafAntagonistForm() {
             <textarea
               name="asoiafBenefits" value={fields.asoiafBenefits} onChange={handleText}
               aria-label="Benefits"
-              rows={4} style={{ width: '100%' }}
+              rows={4} className="w-full"
               placeholder="Long Blade Fighter I, Tough, Blood of the Andals..."
             />
           </fieldset>
@@ -235,7 +235,7 @@ export default function AsoiafAntagonistForm() {
             <textarea
               name="asoiafDrawbacks" value={fields.asoiafDrawbacks} onChange={handleText}
               aria-label="Drawbacks"
-              rows={3} style={{ width: '100%' }}
+              rows={3} className="w-full"
               placeholder="Honor Bound, Nemesis, Bastard Born..."
             />
           </fieldset>
@@ -245,7 +245,7 @@ export default function AsoiafAntagonistForm() {
             <textarea
               name="asoiafWeapons" value={fields.asoiafWeapons} onChange={handleText}
               aria-label="Weapons"
-              rows={4} style={{ width: '100%' }}
+              rows={4} className="w-full"
               placeholder="Longsword (4D+1B, Athletics 3), Shield (Defensive +2)..."
             />
           </fieldset>
@@ -255,7 +255,7 @@ export default function AsoiafAntagonistForm() {
             <textarea
               name="asoiafArmor" value={fields.asoiafArmor} onChange={handleText}
               aria-label="Armor"
-              rows={3} style={{ width: '100%' }}
+              rows={3} className="w-full"
               placeholder="Mail (AR 5, AP -3, Bulk 2), Shield..."
             />
           </fieldset>
@@ -267,7 +267,7 @@ export default function AsoiafAntagonistForm() {
         <div className="form-section">
           <fieldset>
             <legend>GM Notes & Tactics</legend>
-            <textarea name="notes" value={fields.notes} onChange={handleText} rows={10} style={{ width: '100%' }} placeholder="Combat tactics, encounter notes, motivations, alliances..." />
+            <textarea name="notes" value={fields.notes} onChange={handleText} rows={10} className="w-full" placeholder="Combat tactics, encounter notes, motivations, alliances..." />
           </fieldset>
         </div>
       </div>

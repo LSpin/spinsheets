@@ -540,8 +540,8 @@ export default function L5R5eForm() {
                 catalog={L5R5E_CLAN_CATALOG} />
             </div>
             {selectedClan && (
-              <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-xs)', marginBottom: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
-                <div style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>
+              <div className="form-section p-md mt-xs mb-sm" style={{ background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                <div className="text-base lh-normal" >
                   <strong>Ring:</strong> +1 {selectedClan.ringIncrease} | <strong>Skill:</strong> +1 {selectedClan.skillIncrease} | <strong>Status:</strong> {selectedClan.status}
                 </div>
               </div>
@@ -576,8 +576,8 @@ export default function L5R5eForm() {
                 catalog={familyCatalog} />
             </div>
             {selectedFamily && (
-              <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-xs)', marginBottom: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
-                <div style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>
+              <div className="form-section p-md mt-xs mb-sm" style={{ background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                <div className="text-base lh-normal" >
                   <strong>Ring (auto):</strong> +1 {selectedFamily.ringOptions[0]} (of {selectedFamily.ringOptions.join('/')}) | <strong>Skills (manual):</strong> {selectedFamily.skills.join(', ')} | <strong>Glory:</strong> {selectedFamily.glory} | <strong>Wealth:</strong> {selectedFamily.wealth} koku
                 </div>
               </div>
@@ -617,8 +617,8 @@ export default function L5R5eForm() {
                 catalog={schoolCatalog} />
             </div>
             {selectedSchool && (
-              <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-xs)', marginBottom: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
-                <div style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>
+              <div className="form-section p-md mt-xs mb-sm" style={{ background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                <div className="text-base lh-normal" >
                   <strong>Type:</strong> {selectedSchool.type} | <strong>Rings:</strong> {selectedSchool.rings} | <strong>Honor:</strong> {selectedSchool.honor}<br/>
                   <strong>Techniques Available:</strong> {selectedSchool.techniques}<br/>
                   <strong>Starting:</strong> {selectedSchool.startingTechniques}<br/>
@@ -629,40 +629,40 @@ export default function L5R5eForm() {
             <div className="field-row">
               <div className="field">
                 <label>School Rank</label>
-                <input type="number" name="l5r5eSchoolRank" min={1} max={5} value={fields.l5r5eSchoolRank} onChange={handleNumber} style={{ width: '60px', textAlign: 'center' }} />
+                <input type="number" name="l5r5eSchoolRank" min={1} max={5} value={fields.l5r5eSchoolRank} onChange={handleNumber} className="text-center" style={{ width: '60px' }} />
               </div>
             </div>
             <div className="field-row">
-              <div className="field" style={{ flex: 1 }}>
+              <div className="field flex-1" >
                 <label>Ninj&#x14d; (Personal Desire)</label>
                 <input name="l5r5eNinjo" value={fields.l5r5eNinjo} onChange={handleText} placeholder="What does your character want?" />
               </div>
-              <div className="field" style={{ flex: 1 }}>
+              <div className="field flex-1" >
                 <label>Giri (Duty)</label>
                 <input name="l5r5eGiri" value={fields.l5r5eGiri} onChange={handleText} placeholder="What is your character obligated to do?" />
               </div>
             </div>
             <div className="field">
               <label>{t('appearanceLabel')}</label>
-              <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }}
+              <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full"
                 placeholder="Describe your character's appearance..." />
             </div>
           </fieldset>
           {(selectedClan || selectedFamily || selectedSchool) && (
             <fieldset>
               <legend>{t('l5r5eCreationSummary')}</legend>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              <p className="muted-hint muted-hint--xs mb-sm">
                 Ring bonuses are auto-applied when you select clan, family, and school. Skill bonuses are listed for reference — apply them on the Skills tab.
               </p>
-              <div style={{ fontSize: '0.85rem', lineHeight: 1.8 }}>
+              <div className="text-base" style={{ lineHeight: 1.8 }}>
                 {selectedClan && (
-                  <p style={{ margin: 0 }}><strong>{selectedClan.value} Clan:</strong> +1 {selectedClan.ringIncrease} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto)</span>, +1 {selectedClan.skillIncrease} <span style={{ color: 'var(--color-muted)', fontSize: '0.75rem' }}>(manual)</span>, Status {selectedClan.status} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto)</span></p>
+                  <p style={{ margin: 0 }}><strong>{selectedClan.value} Clan:</strong> +1 {selectedClan.ringIncrease} <span className="text-accent text-sm" >(auto)</span>, +1 {selectedClan.skillIncrease} <span className="text-sm" style={{ color: 'var(--color-muted)' }}>(manual)</span>, Status {selectedClan.status} <span className="text-accent text-sm" >(auto)</span></p>
                 )}
                 {selectedFamily && (
-                  <p style={{ margin: 0 }}><strong>{selectedFamily.value} Family:</strong> +1 {selectedFamily.ringOptions[0]} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto — first option)</span>, {selectedFamily.skills.join(', ')} <span style={{ color: 'var(--color-muted)', fontSize: '0.75rem' }}>(manual)</span>, Glory {selectedFamily.glory} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto)</span>, {selectedFamily.wealth} koku</p>
+                  <p style={{ margin: 0 }}><strong>{selectedFamily.value} Family:</strong> +1 {selectedFamily.ringOptions[0]} <span className="text-accent text-sm" >(auto — first option)</span>, {selectedFamily.skills.join(', ')} <span className="text-sm" style={{ color: 'var(--color-muted)' }}>(manual)</span>, Glory {selectedFamily.glory} <span className="text-accent text-sm" >(auto)</span>, {selectedFamily.wealth} koku</p>
                 )}
                 {selectedSchool && (
-                  <p style={{ margin: 0 }}><strong>{selectedSchool.value}:</strong> Rings: {selectedSchool.rings} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto)</span>, Starting Skills: {selectedSchool.skills} <span style={{ color: 'var(--color-muted)', fontSize: '0.75rem' }}>(manual)</span>, Honor {selectedSchool.honor} <span style={{ color: 'var(--color-accent-fg)', fontSize: '0.75rem' }}>(auto)</span></p>
+                  <p style={{ margin: 0 }}><strong>{selectedSchool.value}:</strong> Rings: {selectedSchool.rings} <span className="text-accent text-sm" >(auto)</span>, Starting Skills: {selectedSchool.skills} <span className="text-sm" style={{ color: 'var(--color-muted)' }}>(manual)</span>, Honor {selectedSchool.honor} <span className="text-accent text-sm" >(auto)</span></p>
                 )}
               </div>
             </fieldset>
@@ -675,16 +675,16 @@ export default function L5R5eForm() {
         <div className="form-section">
           <fieldset>
             <legend>Game of Twenty Questions</legend>
-            <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+            <p className="muted-hint mb-md">
               Walk through the 20 Questions from the L5R 5e corebook to build your character step by step.
               Answer each question to flesh out your character's identity, abilities, and story.
             </p>
-            <div style={{ marginBottom: 'var(--space-lg)', padding: 'var(--space-sm) var(--space-md)', background: 'rgba(52,152,219,0.08)', borderRadius: '8px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: '4px' }}>
-                <strong style={{ fontSize: '0.9rem' }}>Progress: {answeredCount}/20</strong>
+            <div className="mb-lg" style={{ padding: 'var(--space-sm) var(--space-md)', background: 'rgba(52,152,219,0.08)', borderRadius: '8px' }}>
+              <div className="flex items-center gap-sm" style={{ marginBottom: '4px' }}>
+                <strong className="text-md" >Progress: {answeredCount}/20</strong>
                 <span className="muted-hint muted-hint--xs">questions answered</span>
               </div>
-              <div style={{ width: '100%', height: '8px', background: 'var(--color-border)', borderRadius: '4px', overflow: 'hidden' }}>
+              <div className="w-full" style={{ height: '8px', background: 'var(--color-border)', borderRadius: '4px', overflow: 'hidden' }}>
                 <div style={{ width: `${(answeredCount / 20) * 100}%`, height: '100%', background: 'var(--color-accent-fg)', borderRadius: '4px', transition: 'width 0.3s ease' }} />
               </div>
             </div>
@@ -698,8 +698,8 @@ export default function L5R5eForm() {
               if (q.part !== currentPart) {
                 currentPart = q.part
                 parts.push(
-                  <div key={`part-${q.part}`} style={{ marginTop: parts.length > 0 ? 'var(--space-lg)' : 0, marginBottom: 'var(--space-sm)', padding: 'var(--space-sm) var(--space-md)', background: 'rgba(52,152,219,0.12)', borderLeft: '4px solid var(--color-accent-fg)', borderRadius: '0 4px 4px 0' }}>
-                    <strong style={{ fontSize: '1rem' }}>{q.part}</strong>
+                  <div key={`part-${q.part}`} className="mb-sm" style={{ marginTop: parts.length > 0 ? 'var(--space-lg)' : 0, padding: 'var(--space-sm) var(--space-md)', background: 'rgba(52,152,219,0.12)', borderLeft: '4px solid var(--color-accent-fg)', borderRadius: '0 4px 4px 0' }}>
+                    <strong className="text-lg" >{q.part}</strong>
                   </div>
                 )
               }
@@ -708,12 +708,12 @@ export default function L5R5eForm() {
               if (identityQs.includes(q.num)) {
                 const displayVal = q.num === 1 ? fields.l5r5eClan : q.num === 2 ? fields.l5r5eFamily : fields.l5r5eSchool
                 parts.push(
-                  <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
-                    <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
-                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
-                    <div style={{ padding: 'var(--space-sm) var(--space-md)', background: 'rgba(52,152,219,0.06)', borderRadius: '4px', fontSize: '0.85rem' }}>
+                  <fieldset key={`q-${q.num}`} className="mb-sm" >
+                    <legend className="text-md" >Q{q.num}. {q.question}</legend>
+                    <p className="muted-hint muted-hint--xs mb-xs font-italic">{q.hint}</p>
+                    <div className="text-base" style={{ padding: 'var(--space-sm) var(--space-md)', background: 'rgba(52,152,219,0.06)', borderRadius: '4px' }}>
                       <em>Set on the Identity tab.</em>
-                      {displayVal && <span style={{ marginLeft: 'var(--space-sm)', fontWeight: 600 }}>Current: {displayVal}</span>}
+                      {displayVal && <span className="ml-sm font-semibold" >Current: {displayVal}</span>}
                     </div>
                   </fieldset>
                 )
@@ -721,20 +721,20 @@ export default function L5R5eForm() {
               // Question 4: Ring bonus radio buttons
               else if (q.num === 4) {
                 parts.push(
-                  <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
-                    <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
-                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <fieldset key={`q-${q.num}`} className="mb-sm" >
+                    <legend className="text-md" >Q{q.num}. {q.question}</legend>
+                    <p className="muted-hint muted-hint--xs mb-xs font-italic">{q.hint}</p>
+                    <div className="flex-col" style={{ gap: '6px' }}>
                       {Q4_OPTIONS.map(opt => (
-                        <label key={opt.ringLabel} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px', background: twentyQ.q4 === opt.ringLabel ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
+                        <label key={opt.ringLabel} className="flex items-center gap-sm cursor-pointer" style={{ padding: '4px 8px', borderRadius: '4px', background: twentyQ.q4 === opt.ringLabel ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
                           <input type="radio" name="q4_ring" checked={twentyQ.q4 === opt.ringLabel}
                             onChange={() => handleQ4(opt.ringLabel)} />
-                          <span style={{ fontSize: '0.85rem' }}>{opt.label} <strong>(+1 {opt.ringLabel})</strong></span>
+                          <span className="text-base">{opt.label} <strong>(+1 {opt.ringLabel})</strong></span>
                         </label>
                       ))}
                     </div>
                     {twentyQ.q4 && (
-                      <p style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-accent-fg)', fontWeight: 600 }}>
+                      <p className="mt-xs text-sm text-accent font-semibold" >
                         Applied: +1 {twentyQ.q4} Ring
                       </p>
                     )}
@@ -744,19 +744,19 @@ export default function L5R5eForm() {
               // Question 7: Clan relationship — Orthodox / Divergent
               else if (q.num === 7) {
                 parts.push(
-                  <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
-                    <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
-                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px', background: twentyQ.q7 === 'orthodox' ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
+                  <fieldset key={`q-${q.num}`} className="mb-sm" >
+                    <legend className="text-md" >Q{q.num}. {q.question}</legend>
+                    <p className="muted-hint muted-hint--xs mb-xs font-italic">{q.hint}</p>
+                    <div className="flex-col" style={{ gap: '6px' }}>
+                      <label className="flex items-center gap-sm cursor-pointer" style={{ padding: '4px 8px', borderRadius: '4px', background: twentyQ.q7 === 'orthodox' ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
                         <input type="radio" name="q7_choice" checked={twentyQ.q7 === 'orthodox'}
                           onChange={() => handleQ7('orthodox')} />
-                        <span style={{ fontSize: '0.85rem' }}>Orthodox <strong>(+5 Glory)</strong></span>
+                        <span className="text-base">Orthodox <strong>(+5 Glory)</strong></span>
                       </label>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px', background: twentyQ.q7 === 'divergent' ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
+                      <label className="flex items-center gap-sm cursor-pointer" style={{ padding: '4px 8px', borderRadius: '4px', background: twentyQ.q7 === 'divergent' ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
                         <input type="radio" name="q7_choice" checked={twentyQ.q7 === 'divergent'}
                           onChange={() => handleQ7('divergent', twentyQ.q7_skill || '')} />
-                        <span style={{ fontSize: '0.85rem' }}>Divergent <strong>(+1 rank in a skill you have at 0)</strong></span>
+                        <span className="text-base">Divergent <strong>(+1 rank in a skill you have at 0)</strong></span>
                       </label>
                       {twentyQ.q7 === 'divergent' && (
                         <div style={{ marginLeft: '28px' }}>
@@ -766,17 +766,17 @@ export default function L5R5eForm() {
                               handleField('l5r5eTwentyQuestions', JSON.stringify(qData))
                             }}
                             placeholder="Which skill? (e.g. Commerce)"
-                            style={{ fontSize: '0.85rem', width: '250px' }} />
+                            className="text-base" style={{ width: '250px' }} />
                         </div>
                       )}
                     </div>
                     {twentyQ.q7 === 'orthodox' && (
-                      <p style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-accent-fg)', fontWeight: 600 }}>
+                      <p className="mt-xs text-sm text-accent font-semibold" >
                         Applied: +5 Glory
                       </p>
                     )}
                     {twentyQ.q7 === 'divergent' && twentyQ.q7_skill && (
-                      <p style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-accent-fg)', fontWeight: 600 }}>
+                      <p className="mt-xs text-sm text-accent font-semibold" >
                         Note: +1 rank in {twentyQ.q7_skill} (apply manually on Skills tab)
                       </p>
                     )}
@@ -787,19 +787,19 @@ export default function L5R5eForm() {
               else if (q.num === 8) {
                 const Q8_SKILLS = ['Commerce', 'Labor', 'Medicine', 'Seafaring', 'Skulduggery', 'Survival']
                 parts.push(
-                  <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
-                    <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
-                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px', background: twentyQ.q8 === 'staunch' ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
+                  <fieldset key={`q-${q.num}`} className="mb-sm" >
+                    <legend className="text-md" >Q{q.num}. {q.question}</legend>
+                    <p className="muted-hint muted-hint--xs mb-xs font-italic">{q.hint}</p>
+                    <div className="flex-col" style={{ gap: '6px' }}>
+                      <label className="flex items-center gap-sm cursor-pointer" style={{ padding: '4px 8px', borderRadius: '4px', background: twentyQ.q8 === 'staunch' ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
                         <input type="radio" name="q8_choice" checked={twentyQ.q8 === 'staunch'}
                           onChange={() => handleQ8('staunch')} />
-                        <span style={{ fontSize: '0.85rem' }}>Staunch believer <strong>(+10 Honor)</strong></span>
+                        <span className="text-base">Staunch believer <strong>(+10 Honor)</strong></span>
                       </label>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px', background: twentyQ.q8 === 'divergent' ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
+                      <label className="flex items-center gap-sm cursor-pointer" style={{ padding: '4px 8px', borderRadius: '4px', background: twentyQ.q8 === 'divergent' ? 'rgba(52,152,219,0.12)' : 'transparent' }}>
                         <input type="radio" name="q8_choice" checked={twentyQ.q8 === 'divergent'}
                           onChange={() => handleQ8('divergent', twentyQ.q8_skill || '')} />
-                        <span style={{ fontSize: '0.85rem' }}>Divergent views <strong>(+1 rank in a skill)</strong></span>
+                        <span className="text-base">Divergent views <strong>(+1 rank in a skill)</strong></span>
                       </label>
                       {twentyQ.q8 === 'divergent' && (
                         <div style={{ marginLeft: '28px' }}>
@@ -808,7 +808,7 @@ export default function L5R5eForm() {
                               const qData = { ...twentyQ, q8_skill: e.target.value }
                               handleField('l5r5eTwentyQuestions', JSON.stringify(qData))
                             }}
-                            style={{ fontSize: '0.85rem', width: '250px' }}>
+                            className="text-base" style={{ width: '250px' }}>
                             <option value="">Select a skill...</option>
                             {Q8_SKILLS.map(s => <option key={s} value={s}>{s}</option>)}
                           </select>
@@ -816,12 +816,12 @@ export default function L5R5eForm() {
                       )}
                     </div>
                     {twentyQ.q8 === 'staunch' && (
-                      <p style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-accent-fg)', fontWeight: 600 }}>
+                      <p className="mt-xs text-sm text-accent font-semibold" >
                         Applied: +10 Honor
                       </p>
                     )}
                     {twentyQ.q8 === 'divergent' && twentyQ.q8_skill && (
-                      <p style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--color-accent-fg)', fontWeight: 600 }}>
+                      <p className="mt-xs text-sm text-accent font-semibold" >
                         Note: +1 rank in {twentyQ.q8_skill} (apply manually on Skills tab)
                       </p>
                     )}
@@ -836,13 +836,13 @@ export default function L5R5eForm() {
                 const relevantList = q.num === 9 || q.num === 11 ? advantages : disadvantages
                 const matching = relevantList.filter(a => a.type === advLabel)
                 parts.push(
-                  <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
-                    <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
-                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
-                    <div style={{ padding: 'var(--space-sm) var(--space-md)', background: 'rgba(52,152,219,0.06)', borderRadius: '4px', fontSize: '0.85rem' }}>
+                  <fieldset key={`q-${q.num}`} className="mb-sm" >
+                    <legend className="text-md" >Q{q.num}. {q.question}</legend>
+                    <p className="muted-hint muted-hint--xs mb-xs font-italic">{q.hint}</p>
+                    <div className="text-base" style={{ padding: 'var(--space-sm) var(--space-md)', background: 'rgba(52,152,219,0.06)', borderRadius: '4px' }}>
                       <em>Select on the Advantages tab.</em>
                       {matching.length > 0 && (
-                        <span style={{ marginLeft: 'var(--space-sm)', fontWeight: 600 }}>
+                        <span className="ml-sm font-semibold" >
                           Selected: {matching.map(a => a.value).join(', ')}
                         </span>
                       )}
@@ -853,14 +853,14 @@ export default function L5R5eForm() {
               // All other questions: plain textarea
               else {
                 parts.push(
-                  <fieldset key={`q-${q.num}`} style={{ marginBottom: 'var(--space-sm)' }}>
-                    <legend style={{ fontSize: '0.9rem' }}>Q{q.num}. {q.question}</legend>
-                    <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)', fontStyle: 'italic' }}>{q.hint}</p>
+                  <fieldset key={`q-${q.num}`} className="mb-sm" >
+                    <legend className="text-md" >Q{q.num}. {q.question}</legend>
+                    <p className="muted-hint muted-hint--xs mb-xs font-italic">{q.hint}</p>
                     <textarea
                       value={twentyQ[`q${q.num}`] || ''}
                       onChange={e => handleQAnswer(q.num, e.target.value)}
                       rows={3}
-                      style={{ width: '100%' }}
+                      className="w-full"
                       placeholder="Write your answer here..."
                     />
                   </fieldset>
@@ -877,12 +877,12 @@ export default function L5R5eForm() {
         <div className="form-section">
           <fieldset>
             <legend>Rings</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 'var(--space-md)' }}>
+            <div className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))' }}>
               {L5R5E_RINGS.map(ring => (
-                <div key={ring.key} style={{ textAlign: 'center', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '8px' }}>
-                  <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '2px' }}>{ring.label}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '4px' }}>{ring.description}</div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{fields[ring.key]}</div>
+                <div key={ring.key} className="text-center p-sm border" style={{ borderRadius: '8px' }}>
+                  <div className="font-bold text-lg" style={{ marginBottom: '2px' }}>{ring.label}</div>
+                  <div className="text-sm text-muted" style={{ marginBottom: '4px' }}>{ring.description}</div>
+                  <div className="font-bold text-accent" style={{ fontSize: '1.5rem' }}>{fields[ring.key]}</div>
                   <DotRating label="" name={ring.key} value={fields[ring.key]} onChange={handleField} min={1} max={5} />
                 </div>
               ))}
@@ -890,20 +890,20 @@ export default function L5R5eForm() {
           </fieldset>
           <fieldset>
             <legend>Derived Attributes</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 'var(--space-sm)' }}>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+            <div className="grid gap-sm" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>Endurance:</strong> {endurance} <span className="muted-hint muted-hint--xs">(Earth+Fire) x 2</span>
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>Composure:</strong> {composure} <span className="muted-hint muted-hint--xs">(Earth+Water) x 2</span>
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>Focus:</strong> {focus} <span className="muted-hint muted-hint--xs">Fire + Air</span>
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>Vigilance:</strong> {vigilance} <span className="muted-hint muted-hint--xs">ceil((Air+Water) / 2)</span>
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px' }}>
+              <div className="p-sm border" style={{ borderRadius: '4px' }}>
                 <strong>Void Points Max:</strong> {voidPointsMax} <span className="muted-hint muted-hint--xs">= Void Ring</span>
               </div>
             </div>
@@ -917,10 +917,10 @@ export default function L5R5eForm() {
           {Object.entries(L5R5E_SKILL_GROUPS).map(([group, skillList]) => (
             <fieldset key={group}>
               <legend>{group} Skills</legend>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <div className="flex-col" style={{ gap: '2px' }}>
                 {skillList.map(skillName => (
-                  <div key={skillName} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: '2px 0', borderBottom: '1px solid var(--color-border)' }}>
-                    <span style={{ flex: 1, fontSize: '0.85rem' }}>{skillName}</span>
+                  <div key={skillName} className="flex items-center gap-sm border-b" style={{ padding: '2px 0' }}>
+                    <span className="flex-1 text-base" >{skillName}</span>
                     <DotRating label="" name={skillName} value={getSkillLevel(skillName)}
                       onChange={(_, val) => setSkillLevel(skillName, val)} min={0} max={5} />
                   </div>
@@ -936,9 +936,9 @@ export default function L5R5eForm() {
         <div className="form-section">
           <fieldset>
             <legend>Techniques</legend>
-            <div style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-              <label htmlFor="tech-filter" style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('l5r5eFilterType')}</label>
-              <select id="tech-filter" value={techFilter} onChange={e => setTechFilter(e.target.value)} style={{ fontSize: '0.85rem' }}>
+            <div className="mb-sm flex items-center gap-sm">
+              <label htmlFor="tech-filter" className="text-base font-semibold">{t('l5r5eFilterType')}</label>
+              <select id="tech-filter" value={techFilter} onChange={e => setTechFilter(e.target.value)} className="text-base">
                 <option value="all">{t('filterAll')}</option>
                 {techTypes.map(type => <option key={type} value={type}>{type}</option>)}
               </select>
@@ -951,20 +951,20 @@ export default function L5R5eForm() {
                   setTechniques([...techniques, { value: tech.value, type: tech.type, ring: tech.ring, rank: tech.rank }])
                 }
               }} catalog={filteredTechCatalog} showDescOnSelect={false} />
-            {techniques.length === 0 && <p className="muted-hint" style={{ marginTop: 'var(--space-sm)' }}>No techniques learned yet.</p>}
+            {techniques.length === 0 && <p className="muted-hint mt-sm">No techniques learned yet.</p>}
             {techniques.length > 0 && (
-              <div style={{ marginTop: 'var(--space-md)' }}>
+              <div className="mt-md">
                 {techniques.map((tech, i) => {
                   const full = L5R5E_TECHNIQUES.find(tc => tc.value === tech.value)
                   return (
-                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: '6px 0', borderBottom: '1px solid var(--color-border)' }}>
-                      <span style={{ background: techBadgeColor(tech.type), color: '#fff', padding: '2px 8px', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 700, whiteSpace: 'nowrap' }}>
+                    <div key={i} className="flex items-center gap-sm border-b" style={{ padding: '6px 0' }}>
+                      <span className="font-bold" style={{ background: techBadgeColor(tech.type), color: '#fff', padding: '2px 8px', borderRadius: '4px', fontSize: '0.7rem', whiteSpace: 'nowrap' }}>
                         {tech.type}
                       </span>
-                      <span style={{ flex: 1, fontSize: '0.85rem', fontWeight: 600 }}>{tech.value}</span>
+                      <span className="flex-1 text-base font-semibold" >{tech.value}</span>
                       <span className="muted-hint muted-hint--xs">{tech.ring} R{tech.rank}</span>
                       {full && <span className="muted-hint muted-hint--xs" style={{ maxWidth: '300px' }}>{full.description}</span>}
-                      <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                      <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                         onClick={() => setTechniques(techniques.filter((_, j) => j !== i))}>Remove</button>
                     </div>
                   )
@@ -975,7 +975,7 @@ export default function L5R5eForm() {
           {selectedSchool && (
             <fieldset>
               <legend>Curriculum Notes</legend>
-              <textarea name="l5r5eCurriculum" value={fields.l5r5eCurriculum} onChange={handleText} rows={4} style={{ width: '100%' }}
+              <textarea name="l5r5eCurriculum" value={fields.l5r5eCurriculum} onChange={handleText} rows={4} className="w-full"
                 placeholder="Track your school curriculum progress here..." />
             </fieldset>
           )}
@@ -987,9 +987,9 @@ export default function L5R5eForm() {
         <div className="form-section">
           <fieldset>
             <legend>Advantages (Distinctions & Passions)</legend>
-            <div style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-              <label htmlFor="adv-filter" style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('l5r5eFilterType')}</label>
-              <select id="adv-filter" value={advFilter} onChange={e => setAdvFilter(e.target.value)} style={{ fontSize: '0.85rem' }}>
+            <div className="mb-sm flex items-center gap-sm">
+              <label htmlFor="adv-filter" className="text-base font-semibold">{t('l5r5eFilterType')}</label>
+              <select id="adv-filter" value={advFilter} onChange={e => setAdvFilter(e.target.value)} className="text-base">
                 <option value="all">{t('filterAll')}</option>
                 {advTypes.map(type => <option key={type} value={type}>{type}</option>)}
               </select>
@@ -1002,15 +1002,15 @@ export default function L5R5eForm() {
                   setAdvantages([...advantages, { value: adv.value, type: adv.type, ring: adv.ring }])
                 }
               }} catalog={filteredAdvCatalog} showDescOnSelect={false} />
-            {advantages.length === 0 && <p className="muted-hint" style={{ marginTop: 'var(--space-sm)' }}>No advantages selected.</p>}
+            {advantages.length === 0 && <p className="muted-hint mt-sm">No advantages selected.</p>}
             {advantages.map((adv, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
-                <span style={{ background: adv.type === 'Distinction' ? '#2980b9' : '#e67e22', color: '#fff', padding: '2px 8px', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 700 }}>
+              <div key={i} className="flex items-center gap-sm border-b" style={{ padding: '4px 0' }}>
+                <span className="font-bold" style={{ background: adv.type === 'Distinction' ? '#2980b9' : '#e67e22', color: '#fff', padding: '2px 8px', borderRadius: '4px', fontSize: '0.7rem' }}>
                   {adv.type}
                 </span>
-                <span style={{ flex: 1, fontSize: '0.85rem', fontWeight: 600 }}>{adv.value}</span>
+                <span className="flex-1 text-base font-semibold" >{adv.value}</span>
                 <span className="muted-hint muted-hint--xs">{adv.ring}</span>
-                <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                   onClick={() => setAdvantages(advantages.filter((_, j) => j !== i))}>Remove</button>
               </div>
             ))}
@@ -1018,9 +1018,9 @@ export default function L5R5eForm() {
 
           <fieldset>
             <legend>Disadvantages (Adversities & Anxieties)</legend>
-            <div style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-              <label htmlFor="dis-filter" style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('l5r5eFilterType')}</label>
-              <select id="dis-filter" value={disFilter} onChange={e => setDisFilter(e.target.value)} style={{ fontSize: '0.85rem' }}>
+            <div className="mb-sm flex items-center gap-sm">
+              <label htmlFor="dis-filter" className="text-base font-semibold">{t('l5r5eFilterType')}</label>
+              <select id="dis-filter" value={disFilter} onChange={e => setDisFilter(e.target.value)} className="text-base">
                 <option value="all">{t('filterAll')}</option>
                 {disTypes.map(type => <option key={type} value={type}>{type}</option>)}
               </select>
@@ -1033,15 +1033,15 @@ export default function L5R5eForm() {
                   setDisadvantages([...disadvantages, { value: dis.value, type: dis.type, ring: dis.ring }])
                 }
               }} catalog={filteredDisCatalog} showDescOnSelect={false} />
-            {disadvantages.length === 0 && <p className="muted-hint" style={{ marginTop: 'var(--space-sm)' }}>No disadvantages selected.</p>}
+            {disadvantages.length === 0 && <p className="muted-hint mt-sm">No disadvantages selected.</p>}
             {disadvantages.map((dis, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
-                <span style={{ background: dis.type === 'Adversity' ? '#c0392b' : '#8e44ad', color: '#fff', padding: '2px 8px', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 700 }}>
+              <div key={i} className="flex items-center gap-sm border-b" style={{ padding: '4px 0' }}>
+                <span className="font-bold" style={{ background: dis.type === 'Adversity' ? '#c0392b' : '#8e44ad', color: '#fff', padding: '2px 8px', borderRadius: '4px', fontSize: '0.7rem' }}>
                   {dis.type}
                 </span>
-                <span style={{ flex: 1, fontSize: '0.85rem', fontWeight: 600 }}>{dis.value}</span>
+                <span className="flex-1 text-base font-semibold" >{dis.value}</span>
                 <span className="muted-hint muted-hint--xs">{dis.ring}</span>
-                <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                   onClick={() => setDisadvantages(disadvantages.filter((_, j) => j !== i))}>Remove</button>
               </div>
             ))}
@@ -1054,29 +1054,29 @@ export default function L5R5eForm() {
         <div className="form-section">
           <fieldset>
             <legend>Endurance & Composure</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 'var(--space-md)' }}>
-              <div style={{ padding: 'var(--space-md)', border: '1px solid var(--color-border)', borderRadius: '8px' }}>
-                <div style={{ fontWeight: 700, marginBottom: 'var(--space-xs)' }}>Endurance</div>
-                <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)' }}>Max: {endurance}</div>
+            <div className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}>
+              <div className="p-md border" style={{ borderRadius: '8px' }}>
+                <div className="font-bold mb-xs" >Endurance</div>
+                <div className="text-base text-muted mb-xs" >Max: {endurance}</div>
                 <div className="field">
                   <label>Current</label>
                   <input type="number" name="l5r5eEnduranceCurrent" min={0} max={endurance}
-                    value={fields.l5r5eEnduranceCurrent} onChange={handleNumber} style={{ width: '80px', textAlign: 'center' }} />
+                    value={fields.l5r5eEnduranceCurrent} onChange={handleNumber} className="text-center" style={{ width: '80px' }} />
                 </div>
                 {fields.l5r5eEnduranceCurrent >= endurance && (
-                  <p style={{ color: '#e55', fontWeight: 600, fontSize: '0.85rem', marginTop: '4px' }}>Incapacitated!</p>
+                  <p className="font-semibold text-base" style={{ color: '#e55', marginTop: '4px' }}>Incapacitated!</p>
                 )}
               </div>
-              <div style={{ padding: 'var(--space-md)', border: '1px solid var(--color-border)', borderRadius: '8px' }}>
-                <div style={{ fontWeight: 700, marginBottom: 'var(--space-xs)' }}>Composure</div>
-                <div style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)' }}>Max: {composure}</div>
+              <div className="p-md border" style={{ borderRadius: '8px' }}>
+                <div className="font-bold mb-xs" >Composure</div>
+                <div className="text-base text-muted mb-xs" >Max: {composure}</div>
                 <div className="field">
                   <label>Current</label>
                   <input type="number" name="l5r5eComposureCurrent" min={0} max={composure}
-                    value={fields.l5r5eComposureCurrent} onChange={handleNumber} style={{ width: '80px', textAlign: 'center' }} />
+                    value={fields.l5r5eComposureCurrent} onChange={handleNumber} className="text-center" style={{ width: '80px' }} />
                 </div>
                 {fields.l5r5eComposureCurrent >= composure && (
-                  <p style={{ color: '#e55', fontWeight: 600, fontSize: '0.85rem', marginTop: '4px' }}>Unmasked!</p>
+                  <p className="font-semibold text-base" style={{ color: '#e55', marginTop: '4px' }}>Unmasked!</p>
                 )}
               </div>
             </div>
@@ -1087,27 +1087,27 @@ export default function L5R5eForm() {
             <div className="field-row">
               <div className="field">
                 <label>Strife</label>
-                <input type="number" name="l5r5eStrife" min={0} value={fields.l5r5eStrife} onChange={handleNumber} style={{ width: '80px', textAlign: 'center' }} />
+                <input type="number" name="l5r5eStrife" min={0} value={fields.l5r5eStrife} onChange={handleNumber} className="text-center" style={{ width: '80px' }} />
                 {fields.l5r5eStrife >= composure && (
-                  <span style={{ color: '#e55', fontWeight: 600, fontSize: '0.85rem', marginLeft: '8px' }}>Compromised!</span>
+                  <span className="font-semibold text-base" style={{ color: '#e55', marginLeft: '8px' }}>Compromised!</span>
                 )}
               </div>
               <div className="field">
                 <label>Void Points ({voidPointsMax} max)</label>
                 <input type="number" name="l5r5eVoidPoints" min={0} max={voidPointsMax}
-                  value={fields.l5r5eVoidPoints} onChange={handleNumber} style={{ width: '80px', textAlign: 'center' }} />
+                  value={fields.l5r5eVoidPoints} onChange={handleNumber} className="text-center" style={{ width: '80px' }} />
               </div>
             </div>
           </fieldset>
 
           <fieldset>
             <legend>Combat Reference</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 'var(--space-sm)' }}>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px', textAlign: 'center' }}>
-                <strong>Focus</strong><br/><span style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{focus}</span>
+            <div className="grid gap-sm" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))' }}>
+              <div className="p-sm border text-center" style={{ borderRadius: '4px' }}>
+                <strong>Focus</strong><br/><span className="font-bold text-accent" style={{ fontSize: '1.2rem' }}>{focus}</span>
               </div>
-              <div style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '4px', textAlign: 'center' }}>
-                <strong>Vigilance</strong><br/><span style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>{vigilance}</span>
+              <div className="p-sm border text-center" style={{ borderRadius: '4px' }}>
+                <strong>Vigilance</strong><br/><span className="font-bold text-accent" style={{ fontSize: '1.2rem' }}>{vigilance}</span>
               </div>
             </div>
           </fieldset>
@@ -1116,9 +1116,9 @@ export default function L5R5eForm() {
             <legend>Equipped Weapons</legend>
             {weapons.length === 0 && <p className="muted-hint">No weapons equipped. Add weapons in the Equipment tab.</p>}
             {weapons.length > 0 && (
-              <table style={{ width: '100%', fontSize: '0.82rem', borderCollapse: 'collapse' }}>
+              <table className="w-full text-sm" style={{ borderCollapse: 'collapse' }}>
                 <thead>
-                  <tr style={{ borderBottom: '1px solid var(--color-border)', textAlign: 'left' }}>
+                  <tr className="border-b text-left" >
                     <th style={{ padding: '0.4rem' }}>Weapon</th>
                     <th style={{ padding: '0.4rem' }}>Category</th>
                     <th style={{ padding: '0.4rem' }}>Damage</th>
@@ -1129,10 +1129,10 @@ export default function L5R5eForm() {
                 </thead>
                 <tbody>
                   {weapons.map((w, i) => (
-                    <tr key={i} style={{ borderBottom: '1px solid var(--color-border)' }}>
-                      <td style={{ padding: '0.4rem', fontWeight: 600 }}>{w.name}</td>
+                    <tr key={i} className="border-b" >
+                      <td className="font-semibold" style={{ padding: '0.4rem' }}>{w.name}</td>
                       <td style={{ padding: '0.4rem' }}>{w.category}</td>
-                      <td style={{ padding: '0.4rem', color: 'var(--color-accent-fg)' }}>{w.damage}</td>
+                      <td className="text-accent" style={{ padding: '0.4rem' }}>{w.damage}</td>
                       <td style={{ padding: '0.4rem' }}>{w.deadliness}</td>
                       <td style={{ padding: '0.4rem' }}>{w.range}</td>
                       <td style={{ padding: '0.4rem' }}>{w.grip}</td>
@@ -1147,7 +1147,7 @@ export default function L5R5eForm() {
             <legend>Worn Armor</legend>
             {armorList.length === 0 && <p className="muted-hint">No armor worn. Add armor in the Equipment tab.</p>}
             {armorList.map((a, i) => (
-              <div key={i} style={{ padding: '4px 0', borderBottom: '1px solid var(--color-border)', fontSize: '0.85rem' }}>
+              <div key={i} className="border-b text-base" style={{ padding: '4px 0' }}>
                 <strong>{a.name}</strong> — Physical Resistance {a.resistance} | {a.qualities}
               </div>
             ))}
@@ -1160,24 +1160,24 @@ export default function L5R5eForm() {
         <div className="form-section">
           <fieldset>
             <legend>Honor, Glory & Status</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
+            <p className="muted-hint muted-hint--xs mb-md">
               Values range from 0-100. Your rank equals the tens digit (e.g., Honor 45 = Rank 4).
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 'var(--space-md)' }}>
+            <div className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
               {[
                 { label: 'Honor', name: 'l5r5eHonor', val: fields.l5r5eHonor },
                 { label: 'Glory', name: 'l5r5eGlory', val: fields.l5r5eGlory },
                 { label: 'Status', name: 'l5r5eStatus', val: fields.l5r5eStatus },
               ].map(stat => (
-                <div key={stat.name} style={{ padding: 'var(--space-md)', border: '1px solid var(--color-border)', borderRadius: '8px', textAlign: 'center' }}>
-                  <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '4px' }}>{stat.label}</div>
-                  <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-accent-fg)' }}>
+                <div key={stat.name} className="p-md border text-center" style={{ borderRadius: '8px' }}>
+                  <div className="font-bold text-lg" style={{ marginBottom: '4px' }}>{stat.label}</div>
+                  <div className="font-bold text-accent" style={{ fontSize: '2rem' }}>
                     {Math.floor(stat.val / 10)}
                   </div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginBottom: '4px' }}>Rank {Math.floor(stat.val / 10)}</div>
+                  <div className="text-sm text-muted" style={{ marginBottom: '4px' }}>Rank {Math.floor(stat.val / 10)}</div>
                   <div className="field">
                     <input type="number" name={stat.name} min={0} max={100}
-                      value={stat.val} onChange={handleNumber} style={{ width: '80px', textAlign: 'center' }} />
+                      value={stat.val} onChange={handleNumber} className="text-center" style={{ width: '80px' }} />
                   </div>
                 </div>
               ))}
@@ -1191,9 +1191,9 @@ export default function L5R5eForm() {
         <div className="form-section">
           <fieldset>
             <legend>Weapons</legend>
-            <div style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-              <label htmlFor="weapon-filter" style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('l5r5eFilterCategory')}</label>
-              <select id="weapon-filter" value={weaponFilter} onChange={e => setWeaponFilter(e.target.value)} style={{ fontSize: '0.85rem' }}>
+            <div className="mb-sm flex items-center gap-sm">
+              <label htmlFor="weapon-filter" className="text-base font-semibold">{t('l5r5eFilterCategory')}</label>
+              <select id="weapon-filter" value={weaponFilter} onChange={e => setWeaponFilter(e.target.value)} className="text-base">
                 <option value="all">{t('filterAll')}</option>
                 {weaponCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
               </select>
@@ -1205,10 +1205,10 @@ export default function L5R5eForm() {
                 if (item) setWeapons([...weapons, { name: item.name, category: item.category, grip: item.grip, range: item.range, damage: item.damage, deadliness: item.deadliness, qualities: item.qualities }])
               }} catalog={filteredWeaponCatalog} showDescOnSelect={false} />
             {weapons.length > 0 && (
-              <div style={{ marginTop: 'var(--space-md)', overflowX: 'auto' }}>
-                <table style={{ width: '100%', fontSize: '0.82rem', borderCollapse: 'collapse' }}>
+              <div className="mt-md" style={{ overflowX: 'auto' }}>
+                <table className="w-full text-sm" style={{ borderCollapse: 'collapse' }}>
                   <thead>
-                    <tr style={{ borderBottom: '1px solid var(--color-border)', textAlign: 'left' }}>
+                    <tr className="border-b text-left" >
                       <th style={{ padding: '0.4rem' }}>Weapon</th>
                       <th style={{ padding: '0.4rem' }}>Cat.</th>
                       <th style={{ padding: '0.4rem' }}>Grip</th>
@@ -1221,16 +1221,16 @@ export default function L5R5eForm() {
                   </thead>
                   <tbody>
                     {weapons.map((w, i) => (
-                      <tr key={i} style={{ borderBottom: '1px solid var(--color-border)' }}>
-                        <td style={{ padding: '0.4rem', fontWeight: 600 }}>{w.name}</td>
+                      <tr key={i} className="border-b" >
+                        <td className="font-semibold" style={{ padding: '0.4rem' }}>{w.name}</td>
                         <td style={{ padding: '0.4rem' }}>{w.category}</td>
                         <td style={{ padding: '0.4rem' }}>{w.grip}</td>
                         <td style={{ padding: '0.4rem' }}>{w.range}</td>
-                        <td style={{ padding: '0.4rem', color: 'var(--color-accent-fg)' }}>{w.damage}</td>
+                        <td className="text-accent" style={{ padding: '0.4rem' }}>{w.damage}</td>
                         <td style={{ padding: '0.4rem' }}>{w.deadliness}</td>
-                        <td style={{ padding: '0.4rem', fontSize: '0.75rem' }}>{w.qualities}</td>
+                        <td className="text-sm" style={{ padding: '0.4rem' }}>{w.qualities}</td>
                         <td style={{ padding: '0.4rem' }}>
-                          <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                          <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                             onClick={() => setWeapons(weapons.filter((_, j) => j !== i))}>Remove</button>
                         </td>
                       </tr>
@@ -1250,13 +1250,13 @@ export default function L5R5eForm() {
                 if (item) setArmorList([...armorList, { name: item.name, resistance: item.resistance, qualities: item.qualities }])
               }} catalog={L5R5E_ARMOR_CATALOG} showDescOnSelect={false} />
             {armorList.length > 0 && (
-              <div style={{ marginTop: 'var(--space-md)' }}>
+              <div className="mt-md">
                 {armorList.map((a, i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
-                    <span style={{ fontSize: '0.85rem' }}>
+                  <div key={i} className="flex justify-between items-center border-b" style={{ padding: '4px 0' }}>
+                    <span className="text-base">
                       <strong>{a.name}</strong> — Resistance {a.resistance} | {a.qualities}
                     </span>
-                    <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+                    <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                       onClick={() => setArmorList(armorList.filter((_, j) => j !== i))}>Remove</button>
                   </div>
                 ))}
@@ -1267,23 +1267,23 @@ export default function L5R5eForm() {
           <fieldset>
             <legend>Currency</legend>
             <div className="field-row">
-              <div className="field" style={{ textAlign: 'center' }}>
+              <div className="field text-center" >
                 <label>Koku</label>
                 <input type="number" min={0} value={inventory.koku}
                   onChange={e => setInventory({ ...inventory, koku: Number(e.target.value) || 0 })}
-                  style={{ width: '80px', textAlign: 'center' }} />
+                  className="text-center" style={{ width: '80px' }} />
               </div>
-              <div className="field" style={{ textAlign: 'center' }}>
+              <div className="field text-center" >
                 <label>Bu</label>
                 <input type="number" min={0} value={inventory.bu}
                   onChange={e => setInventory({ ...inventory, bu: Number(e.target.value) || 0 })}
-                  style={{ width: '80px', textAlign: 'center' }} />
+                  className="text-center" style={{ width: '80px' }} />
               </div>
-              <div className="field" style={{ textAlign: 'center' }}>
+              <div className="field text-center" >
                 <label>Zeni</label>
                 <input type="number" min={0} value={inventory.zeni}
                   onChange={e => setInventory({ ...inventory, zeni: Number(e.target.value) || 0 })}
-                  style={{ width: '80px', textAlign: 'center' }} />
+                  className="text-center" style={{ width: '80px' }} />
               </div>
             </div>
             <p className="muted-hint muted-hint--xs">1 koku = 5 bu = 50 zeni</p>
@@ -1291,8 +1291,8 @@ export default function L5R5eForm() {
 
           <fieldset>
             <legend>Inventory</legend>
-            <div className="field-row" style={{ marginBottom: 'var(--space-sm)' }}>
-              <div className="field" style={{ flex: 1 }}>
+            <div className="field-row mb-sm" >
+              <div className="field flex-1" >
                 <input type="text" value={newItem} onChange={e => setNewItem(e.target.value)}
                   placeholder="Add item..." onKeyDown={e => {
                     if (e.key === 'Enter') {
@@ -1313,9 +1313,9 @@ export default function L5R5eForm() {
             </div>
             {inventory.items.length === 0 && <p className="muted-hint">No items in inventory.</p>}
             {inventory.items.map((item, i) => (
-              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', borderBottom: '1px solid var(--color-border)' }}>
-                <span style={{ fontSize: '0.85rem' }}>{item}</span>
-                <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
+              <div key={i} className="flex justify-between items-center border-b" style={{ padding: '4px 0' }}>
+                <span className="text-base">{item}</span>
+                <button className="btn btn-secondary text-sm" style={{ padding: '2px 8px' }}
                   onClick={() => setInventory({ ...inventory, items: inventory.items.filter((_, j) => j !== i) })}>Drop</button>
               </div>
             ))}
@@ -1330,23 +1330,23 @@ export default function L5R5eForm() {
             <legend>Ninj&#x14d; & Giri</legend>
             <div className="field">
               <label>Ninj&#x14d; (Personal Desire)</label>
-              <textarea name="l5r5eNinjo" value={fields.l5r5eNinjo} onChange={handleText} rows={3} style={{ width: '100%' }}
+              <textarea name="l5r5eNinjo" value={fields.l5r5eNinjo} onChange={handleText} rows={3} className="w-full"
                 placeholder="What does your character want most?" />
             </div>
             <div className="field">
               <label>Giri (Duty)</label>
-              <textarea name="l5r5eGiri" value={fields.l5r5eGiri} onChange={handleText} rows={3} style={{ width: '100%' }}
+              <textarea name="l5r5eGiri" value={fields.l5r5eGiri} onChange={handleText} rows={3} className="w-full"
                 placeholder="What obligation must your character fulfill?" />
             </div>
           </fieldset>
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
-            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }}
+            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full"
               placeholder="Your character's backstory..." />
           </fieldset>
           <fieldset>
             <legend>{t('notes')}</legend>
-            <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }}
+            <textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full"
               placeholder="Session notes, contacts, etc..." />
           </fieldset>
         </div>
@@ -1365,24 +1365,24 @@ export default function L5R5eForm() {
         <div className="form-section">
           <fieldset>
             <legend>L5R 5e Narrative Dice Roller</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Roll Ring dice (d6) + Skill dice (d12). Keep up to your Ring value. Explosive successes roll additional dice.
             </p>
             <div className="field-row">
               <div className="field">
                 <label htmlFor="dice-ring-count">Ring Dice (d6)</label>
                 <input id="dice-ring-count" type="number" min={1} max={10} value={diceRingCount}
-                  onChange={e => setDiceRingCount(Number(e.target.value) || 1)} style={{ width: '70px', textAlign: 'center' }} />
+                  onChange={e => setDiceRingCount(Number(e.target.value) || 1)} className="text-center" style={{ width: '70px' }} />
               </div>
               <div className="field">
                 <label htmlFor="dice-skill-count">Skill Dice (d12)</label>
                 <input id="dice-skill-count" type="number" min={0} max={10} value={diceSkillCount}
-                  onChange={e => setDiceSkillCount(Number(e.target.value) || 0)} style={{ width: '70px', textAlign: 'center' }} />
+                  onChange={e => setDiceSkillCount(Number(e.target.value) || 0)} className="text-center" style={{ width: '70px' }} />
               </div>
               <button className="btn btn-primary" style={{ alignSelf: 'flex-end' }} onClick={handleRoll}>Roll</button>
             </div>
 
-            <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>
+            <p className="muted-hint muted-hint--xs mt-xs" >
               Symbols: Success = &#x25cf; | Explosive = &#x25cf;! | Opportunity = &#x2740; | Strife = &#x1f338;
             </p>
           </fieldset>
@@ -1390,30 +1390,25 @@ export default function L5R5eForm() {
           {diceRolled && (
             <fieldset>
               <legend>Roll Results — Keep up to {diceRingCount} dice</legend>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)' }}>
+              <div className="flex flex-wrap gap-sm mb-md" >
                 {diceRolled.map((die, idx) => (
                   <button key={idx}
-                    className={`btn ${diceKept.includes(idx) ? 'btn-primary' : 'btn-secondary'}`}
+                    className={`btn ${diceKept.includes(idx) ? 'btn-primary' : 'btn-secondary'} text-md`}
                     onClick={() => toggleKeep(idx)}
                     aria-pressed={diceKept.includes(idx)}
-                    style={{
-                      padding: '8px 12px', fontSize: '0.9rem', minWidth: '80px',
-                      border: `2px solid ${die.type === 'ring' ? '#2980b9' : '#27ae60'}`,
-                      background: diceKept.includes(idx)
+                    style={{ padding: '8px 12px', minWidth: '80px', border: `2px solid ${die.type === 'ring' ? '#2980b9' : '#27ae60'}`, background: diceKept.includes(idx)
                         ? (die.type === 'ring' ? '#2980b9' : '#27ae60')
-                        : 'transparent',
-                      color: diceKept.includes(idx) ? '#fff' : undefined,
-                    }}
+                        : 'transparent', color: diceKept.includes(idx) ? '#fff' : undefined }}
                     title={`${die.type === 'ring' ? 'Ring' : 'Skill'} die: ${dieFaceLabel(die.face)}`}
                   >
-                    <div style={{ fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase' }}>
+                    <div className="font-bold uppercase" style={{ fontSize: '0.65rem' }}>
                       {die.type === 'ring' ? 'Ring' : 'Skill'}
                     </div>
-                    <div style={{ fontSize: '1.1rem' }}>{dieFaceSymbols(die.face)}</div>
+                    <div className="text-xl" >{dieFaceSymbols(die.face)}</div>
                   </button>
                 ))}
               </div>
-              <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'center' }}>
+              <div className="flex gap-sm items-center" >
                 <span className="muted-hint muted-hint--xs">Kept: {diceKept.length}/{diceRingCount}</span>
                 <button className="btn btn-primary" onClick={resolveRoll} disabled={diceKept.length === 0}>
                   Resolve ({diceKept.length} kept)
@@ -1429,11 +1424,11 @@ export default function L5R5eForm() {
             <legend>Roll History</legend>
             {diceHistory.length === 0 && <p className="muted-hint">No rolls yet.</p>}
             {diceHistory.map((h, i) => (
-              <div key={i} style={{ padding: '4px 0', borderBottom: '1px solid var(--color-border)', fontSize: '0.82rem' }}>
-                <span style={{ color: 'var(--color-text-muted)' }}>{h.time}</span>{' '}
+              <div key={i} className="border-b text-sm" style={{ padding: '4px 0' }}>
+                <span className="text-muted" >{h.time}</span>{' '}
                 <strong>{h.ringCount}r + {h.skillCount}s</strong> (kept {h.kept})
                 {' \u2192 '}
-                <span style={{ color: 'var(--color-accent-fg)', fontWeight: 600 }}>{h.successes} successes</span>,{' '}
+                <span className="text-accent font-semibold" >{h.successes} successes</span>,{' '}
                 <span>{h.opportunities} opportunity</span>,{' '}
                 <span style={{ color: '#e55' }}>{h.strife} strife</span>
               </div>

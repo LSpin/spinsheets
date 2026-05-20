@@ -372,7 +372,7 @@ export default function InventorySection({ characterId, inventory, setInventory,
       {inventory.length === 0 && <p className="muted-hint">{t('noItemsYet')}</p>}
       <fieldset>
         <legend>{t('personalItemsLabel')}</legend>
-        <textarea name="personalItems" value={personalItems ?? ''} onChange={onPersonalItemsChange} rows={6} placeholder={t('personalItemsPh')} style={{ width: '100%' }} />
+        <textarea name="personalItems" value={personalItems ?? ''} onChange={onPersonalItemsChange} rows={6} placeholder={t('personalItemsPh')} className="w-full" />
       </fieldset>
     </div>
   )

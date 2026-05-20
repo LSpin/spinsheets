@@ -160,7 +160,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
         {catalog?.map(c => <option key={c.value} value={c.value} />)}
       </datalist>
       <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={onField} max={max} />
-      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1', margin: 0 }}>{match.description}</p>}
+      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1' }}>{match.description}</p>}
     </div>
   )
 }
@@ -549,7 +549,7 @@ export default function ChangingBreedsForm() {
                 {speciesForms.length > 0 && (
                   <fieldset>
                     <legend>{t('shapeshiftingForms')}</legend>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
+                    <div className="flex items-center flex-wrap" style={{ gap: '0.75rem', marginBottom: '0.5rem' }}>
                       {speciesForms.map((f, i) => (
                         <button key={f.form} type="button"
                           className={`btn btn-secondary btn-sm${selectedForm === i ? ' tab-btn--active' : ''}`}
@@ -567,14 +567,14 @@ export default function ChangingBreedsForm() {
                         { attr: 'appearance', modKey: 'app', label: t('appearance') },
                       ]
                       return (
-                        <div className="form-stat-mods" aria-live="polite" style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem 1rem' }}>
+                        <div className="form-stat-mods flex-col" aria-live="polite" style={{ gap: '0.25rem' }}>
+                          <div className="flex flex-wrap" style={{ gap: '0.5rem 1rem' }}>
                             {FORM_ATTR_MAP.map(({ attr, modKey, label: attrLabel }) => {
                               const modStr = currentFormData[modKey]
                               const base = fields[attr] || 0
                               if (modStr === '0' || modStr === '+0') return null
                               if (modStr === '—') return (
-                                <span key={attr} style={{ fontSize: '0.82rem' }}>
+                                <span key={attr} className="text-sm" >
                                   <strong>{attrLabel}:</strong> <span style={{ color: '#e55' }}>N/A in {currentFormData.form}</span>
                                 </span>
                               )
@@ -582,13 +582,13 @@ export default function ChangingBreedsForm() {
                               if (isNaN(modVal)) return null
                               const effective = Math.max(0, base + modVal)
                               return (
-                                <span key={attr} style={{ fontSize: '0.82rem' }}>
+                                <span key={attr} className="text-sm" >
                                   <strong>{attrLabel}:</strong> {base} {modVal >= 0 ? '+' : ''}{modVal} = <strong style={{ color: modVal > 0 ? '#6c6' : '#e95' }}>{effective}</strong>
                                 </span>
                               )
                             })}
                           </div>
-                          <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                          <span className="text-sm text-muted" >
                             Difficulty: {currentFormData.diff}
                           </span>
                         </div>
@@ -746,7 +746,7 @@ export default function ChangingBreedsForm() {
                     )
                   )
                   return (
-                    <div className="field-row" style={{ alignItems: 'flex-end' }}>
+                    <div className="field-row items-end" >
                       <div className="field">
                         <label htmlFor="gift-level">{t('level')}</label>
                         <select id="gift-level" value={newGift.level} onChange={e => setNewGift(p => ({ ...p, level: parseInt(e.target.value), name: '' }))}>
@@ -781,7 +781,7 @@ export default function ChangingBreedsForm() {
                 {(() => {
                   const filtered = WEREWOLF_RITES.filter(r => r.level === newRite.level)
                   return (
-                    <div className="field-row" style={{ alignItems: 'flex-end' }}>
+                    <div className="field-row items-end" >
                       <div className="field">
                         <label htmlFor="rite-level">{t('level')}</label>
                         <select id="rite-level" value={newRite.level} onChange={e => setNewRite(p => ({ ...p, level: parseInt(e.target.value), name: '' }))}>
@@ -810,16 +810,16 @@ export default function ChangingBreedsForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabFetishes')} ({fetishes.length})</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Fetishes are permanent spirit-bound items. Talens are single-use. Activating a fetish requires a Gnosis roll.
             </p>
             {fetishes.length > 0 && (
-              <table className="inv-table" style={{ marginBottom: 'var(--space-md)' }}>
+              <table className="inv-table mb-md" >
                 <thead><tr><th>Name</th><th>Level</th><th>Gnosis</th><th>Power</th><th></th></tr></thead>
                 <tbody>
                   {fetishes.map(f => (
                     <tr key={f.id}>
-                      <td style={{ fontWeight: 600 }}>{f.name}</td>
+                      <td className="font-semibold" >{f.name}</td>
                       <td>{f.level}</td>
                       <td>{f.gnosisRating}</td>
                       <td className="inv-notes">{f.power}</td>
@@ -829,7 +829,7 @@ export default function ChangingBreedsForm() {
                 </tbody>
               </table>
             )}
-            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+            <div className="field-row items-end" >
               <div className="field" style={{ flex: 2 }}>
                 <label>Name</label>
                 <input type="text" list="fetish-catalog" value={newFetish.name} onChange={e => {
@@ -850,7 +850,7 @@ export default function ChangingBreedsForm() {
               </div>
               <button className="btn btn-secondary" onClick={handleAddFetish}>{t('add')}</button>
             </div>
-            <div className="field" style={{ marginTop: 'var(--space-sm)' }}>
+            <div className="field mt-sm" >
               <label>Power / Description</label>
               <input type="text" value={newFetish.power} onChange={e => setNewFetish(p => ({ ...p, power: e.target.value }))} placeholder="Describe the fetish's power..." />
             </div>
@@ -858,17 +858,17 @@ export default function ChangingBreedsForm() {
 
           {/* Fetish Catalogue */}
           <details>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Fetish Catalogue ({WEREWOLF_FETISHES.length})</summary>
-            <div className="catalog-search-wrap" style={{ marginTop: 'var(--space-sm)' }}>
+            <summary className="cursor-pointer font-semibold text-md text-accent" >Fetish Catalogue ({WEREWOLF_FETISHES.length})</summary>
+            <div className="catalog-search-wrap mt-sm" >
               <input type="search" value={fetishSearch} onChange={e => setFetishSearch(e.target.value)} placeholder="Search fetishes..." />
             </div>
-            <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
+            <table className="inv-table mt-xs" >
               <thead><tr><th>Lv</th><th>Name</th><th>Gnosis</th><th>Effect</th></tr></thead>
               <tbody>
                 {WEREWOLF_FETISHES.filter(f => !fetishSearch || f.name.toLowerCase().includes(fetishSearch.toLowerCase()) || f.description.toLowerCase().includes(fetishSearch.toLowerCase())).map(f => (
                   <tr key={f.name}>
-                    <td style={{ fontWeight: 600, color: 'var(--color-accent-fg)' }}>{f.level}</td>
-                    <td style={{ fontWeight: 600 }}>{f.name}</td>
+                    <td className="font-semibold text-accent" >{f.level}</td>
+                    <td className="font-semibold" >{f.name}</td>
                     <td>{f.gnosis}</td>
                     <td className="inv-notes">{f.description}</td>
                   </tr>
@@ -878,14 +878,14 @@ export default function ChangingBreedsForm() {
           </details>
 
           {/* Talen Catalogue */}
-          <details style={{ marginTop: 'var(--space-md)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Talen Catalogue ({WEREWOLF_TALENS.length})</summary>
-            <table className="inv-table" style={{ marginTop: 'var(--space-xs)' }}>
+          <details className="mt-md" >
+            <summary className="cursor-pointer font-semibold text-md text-accent" >Talen Catalogue ({WEREWOLF_TALENS.length})</summary>
+            <table className="inv-table mt-xs" >
               <thead><tr><th>Name</th><th>Gnosis</th><th>Effect</th></tr></thead>
               <tbody>
                 {WEREWOLF_TALENS.map(tl => (
                   <tr key={tl.name}>
-                    <td style={{ fontWeight: 600 }}>{tl.name}</td>
+                    <td className="font-semibold" >{tl.name}</td>
                     <td>{tl.gnosis}</td>
                     <td className="inv-notes">{tl.description}</td>
                   </tr>
@@ -906,7 +906,7 @@ export default function ChangingBreedsForm() {
               <DotRating label={t('temporaryRage')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
             </div>
             {selectedSpecies && (
-              <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+              <p className="muted-hint muted-hint--xs mt-xs" role="status" aria-live="polite" >
                 Starting Rage {selectedSpecies.rage} — set by species ({selectedSpecies.value}). Cannot be reduced below this value.
               </p>
             )}
@@ -918,7 +918,7 @@ export default function ChangingBreedsForm() {
               <DotRating label={t('temporaryGnosis')} name="currentGnosis" value={fields.currentGnosis} onChange={handleField} min={0} max={10} />
             </div>
             {selectedSpecies && (
-              <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+              <p className="muted-hint muted-hint--xs mt-xs" role="status" aria-live="polite" >
                 Starting Gnosis {selectedSpecies.gnosis} — set by species ({selectedSpecies.value}). Cannot be reduced below this value.
               </p>
             )}
@@ -930,7 +930,7 @@ export default function ChangingBreedsForm() {
               <DotRating label={t('temporary')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
             {selectedSpecies && (
-              <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+              <p className="muted-hint muted-hint--xs mt-xs" role="status" aria-live="polite" >
                 Starting Willpower {selectedSpecies.willpower} — set by species ({selectedSpecies.value}). Cannot be reduced below this value.
               </p>
             )}
@@ -998,8 +998,8 @@ export default function ChangingBreedsForm() {
                         handleField(h.key, cycle[val] || '')
                       }}>
                       <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
-                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '—'}</td>
-                      <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                      <td className="text-muted" >{h.penalty || '—'}</td>
+                      <td className="font-semibold" style={{ color: dmgColor }}>{dmgLabel}</td>
                     </tr>
                   )
                 })}
@@ -1015,14 +1015,14 @@ export default function ChangingBreedsForm() {
           <fieldset>
             <legend>{t('backgrounds')} ({backgrounds.length})</legend>
             {backgrounds.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md" >
                 {backgrounds.map(b => (
                   <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' }) } }}
                     role="button"
                     tabIndex={0}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                    <span className="flex items-center gap-xs flex-wrap" >
                       <strong>{b.name}</strong>
                       <span onClick={e => e.stopPropagation()} style={{ display: 'inline-flex' }}>
                         <DotRating label="" name={`bg-${b.id}`} value={b.level} min={1} max={5}
@@ -1041,11 +1041,11 @@ export default function ChangingBreedsForm() {
             {tagInfo?.kind === 'background' && (() => {
               const entry = BACKGROUNDS.find(bg => bg.value.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md" >
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">Background · Level {tagInfo.level}</p>
-                  {entry?.description && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.description && <p className="text-sm" style={{ lineHeight: 1.55 }}>{entry.description}</p>}
                   {entry?.levels && (
                     <ul className="tag-info-levels">
                       {entry.levels.map((lvl, i) => (
@@ -1103,31 +1103,31 @@ export default function ChangingBreedsForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
-            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} placeholder={t('backstoryPh')} style={{ width: '100%' }} />
+            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} placeholder={t('backstoryPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('appearanceLabel')}</legend>
-            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
+            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} placeholder={t('appearancePh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('goalsLabel')}</legend>
-            <textarea name="goals" value={fields.goals} onChange={handleText} rows={4} placeholder={t('goalsPh')} style={{ width: '100%' }} />
+            <textarea name="goals" value={fields.goals} onChange={handleText} rows={4} placeholder={t('goalsPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('alliesLabel')}</legend>
-            <textarea name="allies" value={fields.allies} onChange={handleText} rows={4} placeholder={t('alliesPh')} style={{ width: '100%' }} />
+            <textarea name="allies" value={fields.allies} onChange={handleText} rows={4} placeholder={t('alliesPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('enemiesLabel')}</legend>
-            <textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} placeholder={t('enemiesPh')} style={{ width: '100%' }} />
+            <textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} placeholder={t('enemiesPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('havensLabel')}</legend>
-            <textarea name="havens" value={fields.havens} onChange={handleText} rows={4} placeholder={t('havensPh')} style={{ width: '100%' }} />
+            <textarea name="havens" value={fields.havens} onChange={handleText} rows={4} placeholder={t('havensPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('territoriesLabel')}</legend>
-            <textarea name="territories" value={fields.territories} onChange={handleText} rows={4} placeholder={t('territoriesPh')} style={{ width: '100%' }} />
+            <textarea name="territories" value={fields.territories} onChange={handleText} rows={4} placeholder={t('territoriesPh')} className="w-full"  />
           </fieldset>
         </div>
       </div>

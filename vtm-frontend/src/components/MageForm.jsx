@@ -231,7 +231,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
         {catalog?.map(c => <option key={c.value} value={c.value} />)}
       </datalist>
       <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={onField} max={max} />
-      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1', margin: 0 }}>{match.description}</p>}
+      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1' }}>{match.description}</p>}
     </div>
   )
 }
@@ -518,9 +518,9 @@ export default function MageForm() {
           </fieldset>
 
           {fields.essence && (
-            <aside className="form-reference-box" role="note" aria-live="polite" style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
-              <p style={{ margin: 0, fontWeight: 600, fontSize: '0.85rem' }}>Avatar Essence: {fields.essence}</p>
-              <p style={{ margin: '0.25rem 0 0', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+            <aside className="form-reference-box mb-md p-sm border rounded" role="note" aria-live="polite">
+              <p className="font-semibold text-base" style={{ margin: 0 }}>Avatar Essence: {fields.essence}</p>
+              <p className="text-sm text-muted" style={{ margin: '0.25rem 0 0' }}>
                 {fields.essence === 'Dynamic' && 'Your Avatar pushes you toward change and action. It rewards bold, transformative deeds and penalizes stagnation.'}
                 {fields.essence === 'Pattern' && 'Your Avatar values structure and stability. It rewards methodical progress and penalizes reckless disruption.'}
                 {fields.essence === 'Primordial' && 'Your Avatar connects you to primal forces. It rewards communion with fundamental reality and penalizes artificiality.'}
@@ -555,9 +555,9 @@ export default function MageForm() {
             {(() => {
               const tradEntry = MAGE_TRADITIONS.find(mt => mt.name === fields.clan)
               return tradEntry ? (
-                <div style={{ marginBottom: 'var(--space-sm)' }}>
+                <div className="mb-sm">
                   <p className="archetype-desc">{tradEntry.description}</p>
-                  {tradEntry.focus && <p className="archetype-desc" style={{ marginTop: '0.25rem' }}><strong>{t('focus')}:</strong> {tradEntry.focus}</p>}
+                  {tradEntry.focus && <p className="archetype-desc mt-xs"><strong>{t('focus')}:</strong> {tradEntry.focus}</p>}
                 </div>
               ) : null
             })()}
@@ -677,7 +677,7 @@ export default function MageForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('secondaryTalents')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('secondaryAbilitiesHint')}
             </p>
             <div className="rating-grid">
@@ -747,7 +747,7 @@ export default function MageForm() {
 
           <fieldset>
             <legend>{t('spheres')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('sphereMaxHint').replace('{0}', fields.arete)}
             </p>
             <div className="rating-grid">
@@ -757,16 +757,16 @@ export default function MageForm() {
                 const val = fields[field] || 0
                 const isArchsphere = val >= 6
                 return (
-                  <div key={key} className="ability-row" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '0.25rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div key={key} className="ability-row flex-col" style={{ alignItems: 'stretch', gap: '0.25rem' }}>
+                    <div className="flex items-center gap-sm">
                       <DotRating label={info.name} name={field} value={val} onChange={handleField} min={0} max={Math.min(fields.arete || 1, 9)} />
-                      {isArchsphere && <span style={{ fontSize: '0.7rem', color: '#c4a35a', fontWeight: 600 }}>ARCH</span>}
+                      {isArchsphere && <span className="text-xs font-semibold" style={{ color: '#c4a35a' }}>ARCH</span>}
                     </div>
-                    <p style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', margin: 0, paddingLeft: 4 }}>
+                    <p className="text-xs text-muted" style={{ margin: 0, paddingLeft: 4 }}>
                       {info.description}
                     </p>
                     {val > 0 && info.levels[val] && (
-                      <p style={{ fontSize: '0.72rem', color: val >= 6 ? '#c4a35a' : 'var(--color-text)', margin: 0, paddingLeft: 4, fontStyle: 'italic' }}>
+                      <p className="text-xs font-italic" style={{ color: val >= 6 ? '#c4a35a' : 'var(--color-text)', margin: 0, paddingLeft: 4 }}>
                         {val >= 6 ? `[${val}] ` : `[${val}] `}{info.levels[val]}
                       </p>
                     )}
@@ -778,23 +778,23 @@ export default function MageForm() {
 
           <fieldset>
             <legend>Resonance</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Resonance reflects how your magic feels and manifests. It colors your Effects and influences how spirits and other mages perceive you.
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+            <div className="flex flex-col gap-xs">
               {[
                 { value: 'Dynamic', desc: 'Energetic, passionate, volatile. Fire, lightning, motion. Magic crackles and surges. Associated with the Wyld.' },
                 { value: 'Entropic', desc: 'Decaying, dissolving, darkening. Shadows, cold, entropy. Magic corrodes and unmakes. Associated with the Wyrm.' },
                 { value: 'Static', desc: 'Stabilizing, solidifying, ordering. Crystal, geometry, silence. Magic reinforces and binds. Associated with the Weaver.' },
               ].map(res => (
-                <div key={res.value} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-xs)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)' }}>
-                  <span style={{ fontWeight: 600, fontSize: '0.85rem', minWidth: 70 }}>{res.value}</span>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{res.desc}</span>
+                <div key={res.value} className="flex items-center gap-sm py-xs px-sm border rounded">
+                  <span className="font-semibold text-base" style={{ minWidth: 70 }}>{res.value}</span>
+                  <span className="text-xs text-muted">{res.desc}</span>
                 </div>
               ))}
             </div>
             {fields.essence && (
-              <p className="muted-hint muted-hint--xs" role="note" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+              <p className="muted-hint muted-hint--xs mt-xs" role="note" aria-live="polite">
                 Your Essence ({fields.essence}) influences your Resonance.
                 {fields.essence === 'Dynamic' && ' Dynamic Essences tend toward Dynamic Resonance.'}
                 {fields.essence === 'Pattern' && ' Pattern Essences tend toward Static Resonance.'}
@@ -810,21 +810,21 @@ export default function MageForm() {
               <DotRating label={t('quintessence')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={20} />
               <DotRating label={t('paradox')} name="paradox" value={fields.paradox} onChange={handleField} min={0} max={20} />
             </div>
-            <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)' }}>
+            <p className="muted-hint muted-hint--xs mt-xs">
               Quintessence fuels Effects and is stored in your Avatar or a Node. Paradox accumulates from vulgar magic (especially when witnessed by Sleepers).
             </p>
             {fields.paradox >= 5 && fields.paradox < 10 && (
-              <p className="status-warning" role="status" aria-live="polite" aria-atomic="true" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs" role="status" aria-live="polite" aria-atomic="true">
                 Paradox is building up ({fields.paradox}) — risk of Paradox backlash. Quiet may manifest soon.
               </p>
             )}
             {fields.paradox >= 10 && fields.paradox < 15 && (
-              <p className="status-error" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-error mt-xs" role="alert" aria-live="assertive">
                 Dangerous Paradox levels ({fields.paradox}) — severe backlash imminent. Paradox spirits may be drawn to you.
               </p>
             )}
             {fields.paradox >= 15 && (
-              <p className="status-error" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+              <p className="status-error mt-xs font-bold" role="alert" aria-live="assertive">
                 Critical Paradox ({fields.paradox}) — Paradox Realm or catastrophic backlash likely. Reality is rejecting you.
               </p>
             )}
@@ -837,13 +837,13 @@ export default function MageForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('rotes')} ({rotes.length})</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Rotes are tried-and-true magical Effects — specific spells you have practiced and perfected.
             </p>
             {rotes.length > 0 && (
               <>
-                <div style={{ marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-                  <label htmlFor="rote-filter-sphere" style={{ fontSize: '0.82rem', fontWeight: 600, whiteSpace: 'nowrap' }}>Filter by Sphere:</label>
+                <div className="mb-sm flex items-center gap-sm">
+                  <label htmlFor="rote-filter-sphere" className="text-sm font-semibold" style={{ whiteSpace: 'nowrap' }}>Filter by Sphere:</label>
                   <select id="rote-filter-sphere" value={roteFilterSphere} onChange={e => setRoteFilterSphere(e.target.value)}
                     style={{ flex: '0 1 auto', minWidth: 140 }} aria-label="Filter rotes by sphere">
                     <option value="">All Spheres</option>
@@ -852,28 +852,28 @@ export default function MageForm() {
                     ))}
                   </select>
                   {roteFilterSphere && (
-                    <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }} aria-live="polite" role="status">
+                    <span className="text-sm text-muted" aria-live="polite" role="status">
                       Showing {rotes.filter(r => (r.spheres || '').toLowerCase().includes(roteFilterSphere.toLowerCase())).length} of {rotes.length} rotes
                     </span>
                   )}
                 </div>
-                <table className="rote-table" style={{ width: '100%', marginBottom: 'var(--space-md)', fontSize: '0.85rem' }}>
+                <table className="rote-table w-full mb-md text-base">
                   <thead>
                     <tr>
-                      <th style={{ textAlign: 'left' }}>{t('name')}</th>
-                      <th style={{ textAlign: 'left' }}>Spheres</th>
+                      <th className="text-left" >{t('name')}</th>
+                      <th className="text-left" >Spheres</th>
                       <th>Lv</th>
-                      <th style={{ textAlign: 'left' }}>{t('description')}</th>
+                      <th className="text-left" >{t('description')}</th>
                       <th></th>
                     </tr>
                   </thead>
                   <tbody>
                     {rotes.filter(r => !roteFilterSphere || (r.spheres || '').toLowerCase().includes(roteFilterSphere.toLowerCase())).map(r => (
                       <tr key={r.id}>
-                        <td style={{ fontWeight: 600 }}>{r.name}</td>
-                        <td style={{ color: 'var(--color-text-muted)' }}>{r.spheres}</td>
-                        <td style={{ textAlign: 'center' }}>{r.level}</td>
-                        <td style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>{r.description}</td>
+                        <td className="font-semibold">{r.name}</td>
+                        <td className="text-muted">{r.spheres}</td>
+                        <td className="text-center">{r.level}</td>
+                        <td className="text-muted text-sm">{r.description}</td>
                         <td><button className="btn btn-danger btn-sm" onClick={() => handleRemoveRote(r.id)}>×</button></td>
                       </tr>
                     ))}
@@ -881,7 +881,7 @@ export default function MageForm() {
                 </table>
               </>
             )}
-            <div className="field-row" style={{ alignItems: 'flex-end', gap: 'var(--space-sm)' }}>
+            <div className="field-row items-end gap-sm">
               <div className="field" style={{ flex: 2 }}>
                 <label>{t('name')}</label>
                 <input type="text" value={newRote.name} onChange={e => setNewRote(prev => ({ ...prev, name: e.target.value }))}
@@ -890,7 +890,7 @@ export default function MageForm() {
                   {MAGE_ROTES.map(r => <option key={r.name} value={r.name} />)}
                 </datalist>
               </div>
-              <div className="field" style={{ flex: 1 }}>
+              <div className="field flex-1" >
                 <label>Spheres</label>
                 <input type="text" value={newRote.spheres} onChange={e => setNewRote(prev => ({ ...prev, spheres: e.target.value }))}
                   placeholder="e.g. Forces 3, Prime 2" />
@@ -902,10 +902,10 @@ export default function MageForm() {
                 </select>
               </div>
             </div>
-            <div className="field" style={{ marginBottom: 'var(--space-sm)' }}>
+            <div className="field mb-sm">
               <label>{t('description')}</label>
               <textarea value={newRote.description} onChange={e => setNewRote(prev => ({ ...prev, description: e.target.value }))}
-                rows={2} style={{ width: '100%' }} placeholder="What does this rote do?" />
+                rows={2} className="w-full" placeholder="What does this rote do?" />
             </div>
             <button className="btn btn-primary btn-sm" onClick={handleAddRote}>{t('add')}</button>
           </fieldset>
@@ -913,12 +913,12 @@ export default function MageForm() {
           <fieldset>
             <legend>Rote Catalogue</legend>
             <details>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>
+              <summary className="cursor-pointer font-semibold text-md text-accent">
                 Browse {MAGE_ROTES.length} rotes...
               </summary>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-sm)', marginTop: 'var(--space-sm)', marginBottom: 'var(--space-sm)', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
-                  <label htmlFor="catalog-filter-sphere" style={{ fontSize: '0.82rem', fontWeight: 600, whiteSpace: 'nowrap' }}>Sphere:</label>
+              <div className="flex flex-wrap gap-sm mt-sm mb-sm items-center">
+                <div className="flex items-center gap-xs">
+                  <label htmlFor="catalog-filter-sphere" className="text-sm font-semibold" style={{ whiteSpace: 'nowrap' }}>Sphere:</label>
                   <select id="catalog-filter-sphere" value={catalogFilterSphere} onChange={e => setCatalogFilterSphere(e.target.value)}
                     style={{ minWidth: 130 }} aria-label="Filter catalogue by sphere">
                     <option value="">All Spheres</option>
@@ -927,8 +927,8 @@ export default function MageForm() {
                     ))}
                   </select>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
-                  <label htmlFor="catalog-filter-category" style={{ fontSize: '0.82rem', fontWeight: 600, whiteSpace: 'nowrap' }}>Category:</label>
+                <div className="flex items-center gap-xs">
+                  <label htmlFor="catalog-filter-category" className="text-sm font-semibold" style={{ whiteSpace: 'nowrap' }}>Category:</label>
                   <select id="catalog-filter-category" value={catalogFilterCategory} onChange={e => setCatalogFilterCategory(e.target.value)}
                     style={{ minWidth: 180 }} aria-label="Filter catalogue by category">
                     <option value="">All Categories</option>
@@ -949,13 +949,13 @@ export default function MageForm() {
                 </div>
                 {(catalogFilterSphere || catalogFilterCategory) && (
                   <>
-                    <span style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)' }} aria-live="polite" role="status">
+                    <span className="text-sm text-muted" aria-live="polite" role="status">
                       {MAGE_ROTES.filter(r =>
                         (!catalogFilterSphere || (r.spheres || '').includes(catalogFilterSphere)) &&
                         (!catalogFilterCategory || r.category === catalogFilterCategory)
                       ).length} results
                     </span>
-                    <button className="btn btn-sm" style={{ fontSize: '0.75rem', padding: '2px 8px' }}
+                    <button className="btn btn-sm text-xs" style={{ padding: '2px 8px' }}
                       onClick={() => { setCatalogFilterSphere(''); setCatalogFilterCategory('') }}>Clear</button>
                   </>
                 )}
@@ -975,7 +975,7 @@ export default function MageForm() {
                         }
                       }}>
                         <div className="catalog-item-main">
-                          <span className="catalog-item-name">{r.name} {r.spheres && <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>— {r.spheres}</span>}</span>
+                          <span className="catalog-item-name">{r.name} {r.spheres && <span className="text-xs text-muted">— {r.spheres}</span>}</span>
                           <span className="catalog-item-desc">{r.description}</span>
                         </div>
                         <div className="catalog-item-meta">
@@ -997,11 +997,11 @@ export default function MageForm() {
         <div className="form-section">
           <fieldset>
             <legend>Wonders ({disciplines.length})</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Wonders are magical items — Talismans, Devices, Artifacts, Periapts, and more. Created with Prime + other Spheres.
             </p>
             {disciplines.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md">
                 {disciplines.map(d => {
                   const entry = MAGE_WONDERS.find(w => w.name.toLowerCase() === d.name.toLowerCase())
                   return (
@@ -1020,11 +1020,11 @@ export default function MageForm() {
             {tagInfo?.kind === 'wonder' && (() => {
               const entry = MAGE_WONDERS.find(w => w.name.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md">
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">Wonder · Level {tagInfo.level}{tagInfo.notes ? ` · ${tagInfo.notes}` : ''}</p>
-                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>Spheres: {entry.spheres}. {entry.description}</p>}
+                  {entry && <p className="text-sm" style={{ lineHeight: 1.55 }}>Spheres: {entry.spheres}. {entry.description}</p>}
                 </aside>
               )
             })()}
@@ -1034,9 +1034,9 @@ export default function MageForm() {
           <fieldset>
             <legend>Wonder Types</legend>
             {WONDER_TYPES.map(wt => (
-              <details key={wt.key} style={{ marginBottom: 'var(--space-xs)' }}>
-                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{wt.label}</summary>
-                <p className="muted-hint muted-hint--xs" style={{ padding: 'var(--space-xs) 0' }}>{wt.description}</p>
+              <details key={wt.key} className="mb-xs">
+                <summary className="cursor-pointer font-semibold text-md text-accent">{wt.label}</summary>
+                <p className="muted-hint muted-hint--xs py-xs">{wt.description}</p>
               </details>
             ))}
           </fieldset>
@@ -1057,7 +1057,7 @@ export default function MageForm() {
                       if (!already) addDiscipline(characterId, { name: w.name, level: w.level, notes: w.type }).then(res => setDisciplines(prev => [...prev, res.data])).catch(() => {})
                     }}>
                       <div className="catalog-item-main">
-                        <span className="catalog-item-name">{w.name} <span style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)' }}>— {w.type} · {w.spheres}</span></span>
+                        <span className="catalog-item-name">{w.name} <span className="text-xs text-muted">— {w.type} · {w.spheres}</span></span>
                         <span className="catalog-item-desc">{w.description}</span>
                       </div>
                       <div className="catalog-item-meta">
@@ -1074,7 +1074,7 @@ export default function MageForm() {
           {/* Custom Wonder Creator */}
           <fieldset>
             <legend>Create Custom Wonder</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Design your own Wonder. Give it a name, level, type, and description.
             </p>
             <div className="field-row">
@@ -1102,7 +1102,7 @@ export default function MageForm() {
             </div>
             <div className="field">
               <label>Description / Powers</label>
-              <textarea value={newWonder.description || ''} onChange={e => setNewWonder(p => ({ ...p, description: e.target.value }))} rows={3} style={{ width: '100%' }} placeholder="What does this Wonder do?" />
+              <textarea value={newWonder.description || ''} onChange={e => setNewWonder(p => ({ ...p, description: e.target.value }))} rows={3} className="w-full" placeholder="What does this Wonder do?" />
             </div>
             <button className="btn btn-secondary" onClick={() => {
               if (!newWonder.name.trim()) return
@@ -1148,8 +1148,8 @@ export default function MageForm() {
                         handleField(h.key, cycle[val] || '')
                       }}>
                       <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
-                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '—'}</td>
-                      <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                      <td className="text-muted">{h.penalty || '—'}</td>
+                      <td className="font-semibold" style={{ color: dmgColor }}>{dmgLabel}</td>
                     </tr>
                   )
                 })}
@@ -1175,14 +1175,14 @@ export default function MageForm() {
           <fieldset>
             <legend>{t('backgrounds')} ({backgrounds.length})</legend>
             {backgrounds.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md">
                 {backgrounds.map(bg => (
                   <li key={bg.id} className={`tag tag--clickable${bg.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' })}
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === bg.id ? null : { ...bg, kind: 'background' }) } }}
                     role="button"
                     tabIndex={0}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                    <span className="flex items-center gap-xs flex-wrap">
                       <strong>{bg.name}</strong>
                       <span onClick={e => e.stopPropagation()} style={{ display: 'inline-flex' }}>
                         <DotRating label="" name={`bg-${bg.id}`} value={bg.level} min={1} max={5}
@@ -1201,11 +1201,11 @@ export default function MageForm() {
             {tagInfo?.kind === 'background' && (() => {
               const entry = BACKGROUNDS.find(b => b.value.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md">
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">Background · Level {tagInfo.level}</p>
-                  {entry?.description && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.description && <p className="text-sm" style={{ lineHeight: 1.55 }}>{entry.description}</p>}
                   {entry?.levels && (
                     <ul className="tag-info-levels">
                       {entry.levels.map((lvl, i) => (
@@ -1273,13 +1273,13 @@ export default function MageForm() {
         <div className="form-section">
           <fieldset>
             <legend>Paradigm</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Your worldview — how you understand reality and magic. Choose from the M20 list or write your own.
             </p>
-            <textarea name="paradigm" value={fields.paradigm} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="Type your paradigm or pick from below..." />
-            <details style={{ marginTop: 'var(--space-sm)' }}>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>M20 Paradigms ({PARADIGMS.length})</summary>
-              <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
+            <textarea name="paradigm" value={fields.paradigm} onChange={handleText} rows={3} className="w-full" placeholder="Type your paradigm or pick from below..." />
+            <details className="mt-sm">
+              <summary className="cursor-pointer font-semibold text-md text-accent">M20 Paradigms ({PARADIGMS.length})</summary>
+              <ul className="catalog-list mt-xs">
                 {PARADIGMS.map(p => (
                   <li key={p.name} className="catalog-item">
                     <button className="catalog-item-btn" onClick={() => setFields(prev => ({ ...prev, paradigm: prev.paradigm ? prev.paradigm + '\n' + p.name : p.name }))}>
@@ -1297,13 +1297,13 @@ export default function MageForm() {
 
           <fieldset>
             <legend>Practice</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               The methods you use to work magic. Most mages have one primary practice and may know secondary ones.
             </p>
-            <textarea name="practice" value={fields.practice} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="Type your practice or pick from below..." />
-            <details style={{ marginTop: 'var(--space-sm)' }}>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>M20 Practices ({PRACTICES.length})</summary>
-              <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
+            <textarea name="practice" value={fields.practice} onChange={handleText} rows={3} className="w-full" placeholder="Type your practice or pick from below..." />
+            <details className="mt-sm">
+              <summary className="cursor-pointer font-semibold text-md text-accent">M20 Practices ({PRACTICES.length})</summary>
+              <ul className="catalog-list mt-xs">
                 {PRACTICES.map(p => (
                   <li key={p.name} className="catalog-item">
                     <button className="catalog-item-btn" onClick={() => setFields(prev => ({ ...prev, practice: prev.practice ? prev.practice + '\n' + p.name : p.name }))}>
@@ -1321,12 +1321,12 @@ export default function MageForm() {
 
           <fieldset>
             <legend>Paradigm Casting Reference</legend>
-            <aside style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--space-sm)' }} role="note">
-              <p style={{ margin: 0, fontSize: '0.82rem', fontWeight: 600 }}>Paradigm & Focus Rules</p>
-              <p style={{ margin: '0.25rem 0 0', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+            <aside className="p-sm border rounded mb-sm" role="note">
+              <p className="font-semibold text-sm" style={{ margin: 0 }}>Paradigm & Focus Rules</p>
+              <p className="text-sm text-muted" style={{ margin: '0.25rem 0 0' }}>
                 Acting outside your paradigm increases difficulty by +1. Each Arete milestone allows discarding one instrument:
               </p>
-              <ul style={{ margin: '0.25rem 0 0', paddingLeft: '1.2rem', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+              <ul className="text-sm text-muted" style={{ margin: '0.25rem 0 0', paddingLeft: '1.2rem' }}>
                 <li style={{ color: fields.arete >= 3 ? 'var(--color-text)' : undefined, fontWeight: fields.arete >= 3 ? 600 : 400 }}>
                   Arete 3: Discard 1 instrument {fields.arete >= 3 ? '(unlocked)' : `(need Arete 3, currently ${fields.arete})`}
                 </li>
@@ -1337,7 +1337,7 @@ export default function MageForm() {
                   Arete 9: Discard another instrument {fields.arete >= 9 ? '(unlocked)' : `(need Arete 9, currently ${fields.arete})`}
                 </li>
               </ul>
-              <p style={{ margin: '0.35rem 0 0', fontSize: '0.78rem', color: 'var(--color-text-muted)' }} aria-live="polite" role="status">
+              <p className="text-sm text-muted" style={{ margin: '0.35rem 0 0' }} aria-live="polite" role="status">
                 At Arete {fields.arete}, you may have discarded up to <strong>{fields.arete >= 9 ? 3 : fields.arete >= 6 ? 2 : fields.arete >= 3 ? 1 : 0}</strong> instrument(s).
                 {fields.instruments && (() => {
                   const instrumentList = fields.instruments.split('\n').filter(i => i.trim())
@@ -1349,13 +1349,13 @@ export default function MageForm() {
 
           <fieldset>
             <legend>Instruments</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               The tools and foci you use. As Arete rises, you may discard instruments. Click to add from the M20 list.
             </p>
-            <textarea name="instruments" value={fields.instruments} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="Type your instruments or pick from below..." />
-            <details style={{ marginTop: 'var(--space-sm)' }}>
-              <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>M20 Instruments ({INSTRUMENTS.length})</summary>
-              <ul className="catalog-list" style={{ marginTop: 'var(--space-xs)' }}>
+            <textarea name="instruments" value={fields.instruments} onChange={handleText} rows={3} className="w-full" placeholder="Type your instruments or pick from below..." />
+            <details className="mt-sm">
+              <summary className="cursor-pointer font-semibold text-md text-accent">M20 Instruments ({INSTRUMENTS.length})</summary>
+              <ul className="catalog-list mt-xs">
                 {INSTRUMENTS.map(inst => (
                   <li key={inst.name} className="catalog-item">
                     <button className="catalog-item-btn" onClick={() => setFields(prev => ({ ...prev, instruments: prev.instruments ? prev.instruments + '\n' + inst.name : inst.name }))}>
@@ -1378,7 +1378,7 @@ export default function MageForm() {
             </div>
             <div className="field">
               <label>Chantry Description</label>
-              <textarea name="chantryDescription" value={fields.chantryDescription} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="Location, defenses, Node rating, library, members..." />
+              <textarea name="chantryDescription" value={fields.chantryDescription} onChange={handleText} rows={4} className="w-full" placeholder="Location, defenses, Node rating, library, members..." />
             </div>
           </fieldset>
         </div>
@@ -1387,9 +1387,9 @@ export default function MageForm() {
       {/* ── Backstory ── */}
       <div role="tabpanel" id={`tabpanel-12`} aria-labelledby={`tab-12`} hidden={tab !== 12}>
         <div className="form-section">
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full" /></fieldset>
+          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full" /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full" /></fieldset>
         </div>
       </div>
 

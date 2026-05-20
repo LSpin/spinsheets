@@ -35,7 +35,7 @@ export default function STToolsPage() {
       <div className="character-list-header">
         <h2 id="st-tools-heading">{t('stToolsTitle')}</h2>
       </div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-lg)', maxWidth: '40rem' }}>
+      <p className="muted-hint mb-lg" style={{ maxWidth: '40rem' }}>
         {t('stToolsSubtitle')}
       </p>
 
@@ -44,19 +44,19 @@ export default function STToolsPage() {
           <Link
             key={tool.path}
             to={tool.path}
-            className={`system-card ${tool.cls}`}
+            className={`system-card ${tool.cls} flex-col`}
             onClick={() => switchTheme(tool.theme)}
             aria-label={`${t(tool.nameKey)} — ${t('stToolsOpenTools')}`}
-            style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', padding: 'var(--space-lg)', borderRadius: 'var(--radius)', minHeight: '160px' }}
+            style={{ textDecoration: 'none', padding: 'var(--space-lg)', borderRadius: 'var(--radius)', minHeight: '160px' }}
           >
-            <h3 style={{ margin: '0 0 var(--space-xs) 0', fontSize: '1.1rem' }}>{t(tool.nameKey)}</h3>
-            <p style={{ fontSize: '0.85rem', opacity: 0.9, margin: '0 0 var(--space-sm) 0' }}>
+            <h3 className="text-xl" style={{ margin: '0 0 var(--space-xs) 0' }}>{t(tool.nameKey)}</h3>
+            <p className="text-base" style={{ opacity: 0.9, margin: '0 0 var(--space-sm) 0' }}>
               <strong>{tool.tabs}</strong> {t('stToolsTabs')}
             </p>
-            <p style={{ fontSize: '0.78rem', opacity: 0.75, lineHeight: 1.5, margin: '0 0 auto 0' }}>
+            <p className="text-sm" style={{ opacity: 0.75, lineHeight: 1.5, margin: '0 0 auto 0' }}>
               {tool.tools}
             </p>
-            <span className="system-card-cta" style={{ marginTop: 'var(--space-sm)' }}>{t('stToolsOpenTools')}</span>
+            <span className="system-card-cta mt-sm">{t('stToolsOpenTools')}</span>
           </Link>
         ))}
       </div>

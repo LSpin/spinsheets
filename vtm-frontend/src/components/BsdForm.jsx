@@ -229,7 +229,7 @@ export default function BsdForm() {
               </div>
               <div className="field">
                 <label>Tribe</label>
-                <input name="clan" value={fields.clan} readOnly className="readonly-input" style={{ width: '100%' }} />
+                <input name="clan" value={fields.clan} readOnly className="readonly-input" className="w-full" />
               </div>
             </div>
           </fieldset>
@@ -293,20 +293,20 @@ export default function BsdForm() {
         <div className="form-section">
           <fieldset>
             <legend>Wyrm-Tainted Gifts</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Black Spiral Dancers use corrupted versions of Garou gifts plus unique Wyrm-tainted gifts.
             </p>
             {BSD_GIFT_LEVELS.map(level => {
               const giftsAtLevel = BSD_GIFTS.filter(g => g.level === level)
               const selectedGifts = parseCommaSeparated(fields.sorceryDesc)
               return (
-                <div key={level} style={{ marginBottom: 'var(--space-md)' }}>
+                <div key={level} className="mb-md">
                   <h4 style={{ margin: '0 0 var(--space-xs)' }}>Level {level}</h4>
                   <div className="catalog-list" style={{ listStyle: 'none', padding: 0 }}>
                     {giftsAtLevel.map(gift => {
                       const checked = selectedGifts.includes(gift.name)
                       return (
-                        <label key={gift.name} className="catalog-item" style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', cursor: 'pointer' }}>
+                        <label key={gift.name} className="catalog-item flex items-start gap-sm cursor-pointer" style={{ padding: 'var(--space-xs) 0' }}>
                           <input type="checkbox" checked={checked} onChange={() => {
                             const next = checked
                               ? selectedGifts.filter(n => n !== gift.name)
@@ -327,7 +327,7 @@ export default function BsdForm() {
           </fieldset>
           <fieldset>
             <legend>Wyrm Taint & Derangements</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Select derangements caused by Wyrm corruption.
             </p>
             <div className="catalog-list" style={{ listStyle: 'none', padding: 0 }}>
@@ -335,7 +335,7 @@ export default function BsdForm() {
                 const selectedDerangements = parseCommaSeparated(fields.clanCurse)
                 const checked = selectedDerangements.includes(d.name)
                 return (
-                  <label key={d.name} className="catalog-item" style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', cursor: 'pointer' }}>
+                  <label key={d.name} className="catalog-item flex items-start gap-sm cursor-pointer" style={{ padding: 'var(--space-xs) 0' }}>
                     <input type="checkbox" checked={checked} onChange={() => {
                       const next = checked
                         ? selectedDerangements.filter(n => n !== d.name)
@@ -358,7 +358,7 @@ export default function BsdForm() {
               <DotRating label={t('currentRage')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={10} />
             </div>
             {fields.sect && AUSPICE_RAGE[fields.sect] !== undefined && (
-              <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+              <p className="muted-hint muted-hint--xs mt-xs" role="status" aria-live="polite">
                 Starting Rage {AUSPICE_RAGE[fields.sect]} — set by Auspice ({fields.sect}). Cannot be reduced below this value.
               </p>
             )}
@@ -367,12 +367,12 @@ export default function BsdForm() {
               <DotRating label={t('currentGnosis')} name="currentGnosis" value={fields.currentGnosis} onChange={handleField} min={0} max={10} />
             </div>
             {fields.sire && BREED_GNOSIS[fields.sire] !== undefined && (
-              <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+              <p className="muted-hint muted-hint--xs mt-xs" role="status" aria-live="polite">
                 Starting Gnosis {BREED_GNOSIS[fields.sire]} — set by Breed ({fields.sire}). Cannot be reduced below this value.
               </p>
             )}
             {fields.sire === 'Metis' && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite">
                 Metis breed: this character bears a deformity (chosen at creation). Record it in the Notes or Derangements section.
               </p>
             )}
@@ -380,7 +380,7 @@ export default function BsdForm() {
               <DotRating label={t('willpower')} name="willpower" value={fields.willpower} onChange={handleField} min={BSD_WP} max={10} />
               <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
-            <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)' }}>
+            <p className="muted-hint muted-hint--xs mt-xs" role="status" aria-live="polite">
               Starting Willpower {BSD_WP} — set by Tribe (Black Spiral Dancers). Cannot be reduced below this value.
             </p>
           </fieldset>
@@ -404,9 +404,9 @@ export default function BsdForm() {
       {/* Backstory */}
       <div role="tabpanel" id="tabpanel-5" aria-labelledby="tab-5" hidden={tab !== 5}>
         <div className="form-section">
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full" /></fieldset>
+          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full" /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full" /></fieldset>
         </div>
       </div>
 

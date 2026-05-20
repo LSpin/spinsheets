@@ -124,7 +124,7 @@ export default function CyberpunkAntagonistForm() {
               showDescOnSelect={false}
             />
             {templateName && (
-              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
+              <p className="muted-hint muted-hint--xs mt-xs text-accent">
                 Loaded from template: <strong>{templateName}</strong> — customize freely below.
               </p>
             )}
@@ -159,7 +159,7 @@ export default function CyberpunkAntagonistForm() {
         <div className="form-section">
           <fieldset>
             <legend>Statistics</legend>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: 'var(--space-md)' }}>
+            <div className="grid gap-md" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))' }}>
               {STATS.map(s => (
                 <DotRating
                   key={s.key}
@@ -176,7 +176,7 @@ export default function CyberpunkAntagonistForm() {
 
           <fieldset>
             <legend>Eurodollars</legend>
-            <div className="field" style={{ maxWidth: '200px' }}>
+            <div className="field" style={{ maxWidth: 200 }}>
               <label>Eurodollars (eb)</label>
               <input type="number" name="cpEurodollars" value={fields.cpEurodollars} onChange={e => handleField('cpEurodollars', parseInt(e.target.value) || 0)} min={0} />
             </div>
@@ -189,13 +189,13 @@ export default function CyberpunkAntagonistForm() {
         <div className="form-section">
           <fieldset>
             <legend>Skills</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Key skills and their levels, e.g. <em>Handgun 6, Melee 5, Awareness/Notice 5</em>
             </p>
             <textarea
               name="cpSkills" value={fields.cpSkills} onChange={handleText}
               aria-label="Skills"
-              rows={6} style={{ width: '100%' }}
+              rows={6} className="w-full"
               placeholder="Handgun 6, Rifle 5, Melee 5, Brawling 4, Awareness/Notice 5, Stealth 4, Athletics 3"
             />
           </fieldset>
@@ -205,7 +205,7 @@ export default function CyberpunkAntagonistForm() {
             <textarea
               name="cpWeapons" value={fields.cpWeapons} onChange={handleText}
               aria-label="Weapons"
-              rows={4} style={{ width: '100%' }}
+              rows={4} className="w-full"
               placeholder="Sternmeyer Type 35 (11mm, 3d6, P), Monokatana (4d6, AP)"
             />
           </fieldset>
@@ -215,7 +215,7 @@ export default function CyberpunkAntagonistForm() {
             <textarea
               name="cpArmor" value={fields.cpArmor} onChange={handleText}
               aria-label="Armor"
-              rows={3} style={{ width: '100%' }}
+              rows={3} className="w-full"
               placeholder="Medium Armor Jacket (SP 18), Skinweave (SP 12)"
             />
           </fieldset>
@@ -225,7 +225,7 @@ export default function CyberpunkAntagonistForm() {
             <textarea
               name="cpCyberware" value={fields.cpCyberware} onChange={handleText}
               aria-label="Cyberware"
-              rows={5} style={{ width: '100%' }}
+              rows={5} className="w-full"
               placeholder="Kerenzikov Boosterware Lvl 2, Smartgun Link, Cyberoptic (Targeting Scope, Low-Light)"
             />
           </fieldset>
@@ -237,7 +237,7 @@ export default function CyberpunkAntagonistForm() {
         <div className="form-section">
           <fieldset>
             <legend>GM Notes & Tactics</legend>
-            <textarea name="notes" value={fields.notes} onChange={handleText} rows={10} style={{ width: '100%' }} placeholder="Combat tactics, encounter notes, loot, motivations, connections..." />
+            <textarea name="notes" value={fields.notes} onChange={handleText} rows={10} className="w-full" placeholder="Combat tactics, encounter notes, loot, motivations, connections..." />
           </fieldset>
         </div>
       </div>

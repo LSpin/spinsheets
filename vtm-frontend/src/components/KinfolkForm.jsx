@@ -320,7 +320,7 @@ export default function KinfolkForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabGifts')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('kinfolkGiftHint')}
             </p>
             {(() => {
@@ -330,7 +330,7 @@ export default function KinfolkForm() {
                   <div className="rating-grid">
                     {KINFOLK_GIFTS.map(gift => (
                       <div key={gift.name} className="ability-row">
-                        <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                        <label className="flex items-center gap-xs">
                           <input type="checkbox" checked={gifts.includes(gift.name)}
                             onChange={e => {
                               const updated = e.target.checked ? [...gifts, gift.name] : gifts.filter(g => g !== gift.name)
@@ -348,7 +348,7 @@ export default function KinfolkForm() {
           </fieldset>
           <fieldset>
             <legend>{t('kinfolkNumina')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('kinfolkNuminaHint')}
             </p>
             {(() => {
@@ -367,11 +367,11 @@ export default function KinfolkForm() {
                       </div>
                     ))}
                   </div>
-                  <div style={{ marginTop: 'var(--space-sm)' }}>
+                  <div className="mt-sm">
                     <label>{t('notes')}</label>
                     <textarea value={kinNotes}
                       onChange={e => setFields(prev => ({ ...prev, sorceryDesc: serializeKinfolkSorceryDesc(gifts, numinaMap, e.target.value) }))}
-                      rows={3} style={{ width: '100%' }} placeholder={t('kinfolkGiftNotesPh')} />
+                      rows={3} className="w-full" placeholder={t('kinfolkGiftNotesPh')} />
                   </div>
                 </>
               )
@@ -384,7 +384,7 @@ export default function KinfolkForm() {
               <DotRating label={t('currentWillpower')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
             {fields.currentWillpower > fields.willpower && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite">
                 Temporary Willpower cannot exceed permanent ({fields.willpower}).
               </p>
             )}
@@ -410,12 +410,12 @@ export default function KinfolkForm() {
               <DotRating label={t('aggravated')} name="woundAgg" value={fields.woundAgg} onChange={handleField} min={0} max={7} />
             </div>
             {(fields.woundBashing + fields.woundLethal + fields.woundAgg) >= 7 && (
-              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+              <p className="status-warning mt-xs text-sm font-bold" role="alert" aria-live="assertive">
                 Incapacitated. The kinfolk is out of action{fields.woundAgg >= 7 ? ' and may be dead.' : '.'}
               </p>
             )}
             {(fields.woundBashing + fields.woundLethal + fields.woundAgg) >= 5 && (fields.woundBashing + fields.woundLethal + fields.woundAgg) < 7 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite">
                 Severely wounded ({fields.woundBashing + fields.woundLethal + fields.woundAgg}/7 health levels filled).
               </p>
             )}
@@ -426,9 +426,9 @@ export default function KinfolkForm() {
       {/* Backstory */}
       <div role="tabpanel" id="tabpanel-5" aria-labelledby="tab-5" hidden={tab !== 5}>
         <div className="form-section">
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full" /></fieldset>
+          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full" /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full" /></fieldset>
         </div>
       </div>
 

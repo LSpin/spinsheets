@@ -55,7 +55,7 @@ export default function AsoiafPage() {
     <section aria-labelledby="asoiaf-heading">
       <div className="character-list-header">
         <h2 id="asoiaf-heading">{t('asoiafPageTitle')}</h2>
-        <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+        <div className="flex flex-wrap gap-sm">
           <button className="btn btn-primary" onClick={() => setShowNewChar(true)}>
             {t('asoiafPageTitle')}
           </button>
@@ -64,8 +64,7 @@ export default function AsoiafPage() {
               <button className="btn btn-secondary" onClick={() => navigate('/asoiaf/antagonist/new')}>
                 {t('asoiafNewAntagonistNpc')}
               </button>
-              <button className="btn btn-secondary" onClick={() => navigate('/asoiaf/st-tools')}
-                style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+              <button className="btn btn-secondary btn-outline-accent" onClick={() => navigate('/asoiaf/st-tools')}>
                 {t('asoiafSTTools')}
               </button>
             </>
@@ -73,7 +72,7 @@ export default function AsoiafPage() {
         </div>
       </div>
 
-      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="tab-list mb-lg" role="tablist">
         <button role="tab" className={`btn btn-secondary${pageTab === 0 ? ' tab-btn--active' : ''}`}
           onClick={() => setPageTab(0)}>{t('navCharacters')}</button>
         <button role="tab" className={`btn btn-secondary${pageTab === 1 ? ' tab-btn--active' : ''}`}
@@ -127,7 +126,7 @@ export default function AsoiafPage() {
 
             {isST && antagonists.length > 0 && (
               <>
-                <h3 style={{ marginTop: 'var(--space-xl)', marginBottom: 'var(--space-sm)' }}>NPCs / Antagonists ({antagonists.length})</h3>
+                <h3 className="mt-xl mb-sm">NPCs / Antagonists ({antagonists.length})</h3>
                 <ul className="character-list" aria-label={t('asoiafAntagonistsList')}>
                   {antagonists.map(c => (
                     <li key={c.id} className="character-card">

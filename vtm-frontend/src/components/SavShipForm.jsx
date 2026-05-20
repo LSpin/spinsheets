@@ -75,30 +75,26 @@ function FactionTracker({ factionData, onChange }) {
 
   return (
     <div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+      <div className="flex flex-col gap-sm">
         {allFactions.map(faction => {
           const key = faction.name
           const displayName = faction.displayName || faction.name
           const status = factionData[key] || 0
           const color = getFactionStatusColor(status)
           return (
-            <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', padding: 'var(--space-xs) 0', borderBottom: '1px solid var(--color-border-subtle, rgba(255,255,255,0.08))' }}>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+            <div key={key} className="flex items-center gap-sm" style={{ padding: 'var(--space-xs) 0', borderBottom: '1px solid var(--color-border-subtle, rgba(255,255,255,0.08))' }}>
+              <div className="flex-1" style={{ minWidth: 0 }}>
+                <div className="flex items-center gap-xs">
                   <strong style={{ fontSize: '0.88rem' }}>{displayName}</strong>
-                  <span className="muted-hint" style={{ fontSize: '0.75rem' }}>T{faction.tier}</span>
+                  <span className="muted-hint text-sm" >T{faction.tier}</span>
                 </div>
                 {faction.description && <span className="muted-hint muted-hint--xs" style={{ display: 'block' }}>{faction.description}</span>}
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0 }}>
+              <div className="flex items-center shrink-0" style={{ gap: 2 }}>
                 {[-3, -2, -1, 0, 1, 2, 3].map(v => (
                   <button key={v} type="button"
                     onClick={() => setStatus(key, v)}
-                    style={{
-                      width: 28, height: 28, borderRadius: 4, border: 'none', cursor: 'pointer', fontSize: '0.75rem', fontWeight: status === v ? 700 : 400,
-                      background: status === v ? color : 'var(--color-surface-elevated, rgba(255,255,255,0.06))',
-                      color: status === v ? '#fff' : 'var(--color-text-secondary, #aaa)',
-                    }}
+                    className="cursor-pointer text-sm" style={{ width: 28, height: 28, borderRadius: 4, border: 'none', fontWeight: status === v ? 700 : 400, background: status === v ? color : 'var(--color-surface-elevated, rgba(255,255,255,0.06))', color: status === v ? '#fff' : 'var(--color-text-secondary, #aaa)' }}
                     title={`${t(FACTION_STATUS_KEYS[String(v)])} (${v > 0 ? '+' : ''}${v})`}
                     aria-label={`${displayName} ${t(FACTION_STATUS_KEYS[String(v)])}`}
                   >
@@ -106,15 +102,15 @@ function FactionTracker({ factionData, onChange }) {
                   </button>
                 ))}
               </div>
-              <span style={{ fontSize: '0.7rem', color, fontWeight: 600, width: 65, textAlign: 'center', flexShrink: 0 }}>
+              <span className="font-semibold text-center shrink-0" style={{ fontSize: '0.7rem', color, width: 65 }}>
                 {t(FACTION_STATUS_KEYS[String(status)])}
               </span>
             </div>
           )
         })}
       </div>
-      <div style={{ marginTop: 'var(--space-md)', display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-end', flexWrap: 'wrap' }}>
-        <div className="field" style={{ flex: 1, minWidth: 150 }}>
+      <div className="flex gap-sm items-end flex-wrap mt-md">
+        <div className="field flex-1" style={{ minWidth: 150 }}>
           <label>{t('bladesCustomFaction')}</label>
           <input value={customName} onChange={e => setCustomName(e.target.value)} placeholder="Faction name..." />
         </div>
@@ -142,18 +138,18 @@ function TurfTracker({ turfData, onChange }) {
 
   return (
     <div>
-      <div style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', borderRadius: 6, background: 'var(--color-surface-elevated, rgba(255,255,255,0.06))' }}>
+      <div className="mb-md p-sm" style={{ borderRadius: 6, background: 'var(--color-surface-elevated, rgba(255,255,255,0.06))' }}>
         <strong>Total Turf Claimed: {totalClaimed}</strong>
-        {turfCount > 0 && <span className="muted-hint" style={{ marginLeft: 'var(--space-sm)' }}>({turfCount} turf = +{turfCount} coin per score)</span>}
+        {turfCount > 0 && <span className="muted-hint ml-sm">({turfCount} turf = +{turfCount} coin per score)</span>}
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+      <div className="flex flex-col gap-xs">
         {TURF_SLOTS.map((slot, idx) => {
           // For repeatable turf, generate multiple slots
           if (slot.repeatable) {
             return Array.from({ length: 6 }, (_, i) => {
               const name = i === 0 ? slot.name : `${slot.name} ${i + 1}`
               return (
-                <label key={name} style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-start', cursor: 'pointer', padding: 'var(--space-xs) 0' }}>
+                <label key={name} className="flex gap-sm items-start cursor-pointer" style={{ padding: 'var(--space-xs) 0' }}>
                   <input type="checkbox" checked={claimed.includes(name)} onChange={() => toggleTurf(name)} style={{ marginTop: '3px' }} />
                   <div>
                     <strong style={{ fontSize: '0.88rem' }}>{name}</strong>
@@ -164,7 +160,7 @@ function TurfTracker({ turfData, onChange }) {
             })
           }
           return (
-            <label key={slot.name} style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-start', cursor: 'pointer', padding: 'var(--space-xs) 0' }}>
+            <label key={slot.name} className="flex gap-sm items-start cursor-pointer" style={{ padding: 'var(--space-xs) 0' }}>
               <input type="checkbox" checked={claimed.includes(slot.name)} onChange={() => toggleTurf(slot.name)} style={{ marginTop: '3px' }} />
               <div>
                 <strong style={{ fontSize: '0.88rem' }}>{slot.name}</strong>
@@ -174,9 +170,9 @@ function TurfTracker({ turfData, onChange }) {
           )
         })}
       </div>
-      <div style={{ marginTop: 'var(--space-md)' }}>
-        <strong style={{ fontSize: '0.85rem' }}>Benefits Summary:</strong>
-        <ul style={{ margin: 'var(--space-xs) 0 0 var(--space-md)', fontSize: '0.82rem' }}>
+      <div className="mt-md">
+        <strong className="text-base" >Benefits Summary:</strong>
+        <ul className="text-sm" style={{ margin: 'var(--space-xs) 0 0 var(--space-md)' }}>
           {claimed.map(c => {
             const slot = TURF_SLOTS.find(s => c === s.name || c.startsWith(s.name))
             return slot ? <li key={c}><strong>{c}:</strong> {slot.benefit}</li> : <li key={c}>{c}</li>
@@ -210,9 +206,9 @@ function ClickTrack({ label, value, max, onChange, showButtons }) {
   return (
     <div className="field">
       <label>{label} ({value}/{max})</label>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+      <div className="flex items-center gap-xs">
         {showButtons && (
-          <button type="button" style={{ padding: '0 6px', fontSize: '0.85rem', fontWeight: 700, border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'transparent', color: 'var(--color-text-muted)', cursor: 'pointer', opacity: value <= 0 ? 0.3 : 1 }}
+          <button type="button" className="text-base font-bold border rounded text-muted cursor-pointer" style={{ padding: '0 6px', background: 'transparent', opacity: value <= 0 ? 0.3 : 1 }}
             onClick={() => onChange(Math.max(0, value - 1))} disabled={value <= 0}>-</button>
         )}
         <div className="blades-dots" role="group" aria-label={label}>
@@ -229,7 +225,7 @@ function ClickTrack({ label, value, max, onChange, showButtons }) {
           ))}
         </div>
         {showButtons && (
-          <button type="button" style={{ padding: '0 6px', fontSize: '0.85rem', fontWeight: 700, border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'transparent', color: 'var(--color-text-muted)', cursor: 'pointer', opacity: value >= max ? 0.3 : 1 }}
+          <button type="button" className="text-base font-bold border rounded text-muted cursor-pointer" style={{ padding: '0 6px', background: 'transparent', opacity: value >= max ? 0.3 : 1 }}
             onClick={() => onChange(Math.min(max, value + 1))} disabled={value >= max}>+</button>
         )}
       </div>
@@ -244,13 +240,13 @@ function CheckboxList({ items, selected, onChange }) {
     onChange(next.join(', '))
   }
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+    <div className="flex flex-col gap-xs">
       {items.map(item => {
         const isObj = typeof item === 'object'
         const name = isObj ? item.name : item
         const desc = isObj ? item.description : null
         return (
-          <label key={name} style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-start', cursor: 'pointer', padding: 'var(--space-xs) 0' }}>
+          <label key={name} className="flex gap-sm items-start cursor-pointer" style={{ padding: 'var(--space-xs) 0' }}>
             <input type="checkbox" checked={sel.includes(name)} onChange={() => toggle(name)} style={{ marginTop: '3px' }} />
             <div>
               <strong style={{ fontSize: '0.88rem' }}>{name}</strong>
@@ -354,7 +350,7 @@ export default function SavShipForm() {
               <div className="field" style={{ flex: 2 }}><label>{t('bladesCrewName')} *</label><input name="name" value={fields.name} onChange={handleText} placeholder={t('bladesCrewNamePh')} /></div>
             </div>
             <CatalogSelect id="bladesCrewType" name="bladesCrewType" label={t('bladesCrewType')} value={fields.bladesCrewType} onChange={handleField} catalog={BLADES_CREW_TYPE_CATALOG} placeholder={t('bladesCrewTypePh')} />
-            <div className="field-row" style={{ marginTop: 'var(--space-md)' }}>
+            <div className="field-row mt-md">
               <div className="field"><label>{t('concept')}</label><input name="concept" value={fields.concept} onChange={handleText} placeholder={t('bladesCrewConceptPh')} /></div>
             </div>
           </fieldset>
@@ -362,46 +358,46 @@ export default function SavShipForm() {
           <fieldset>
             <legend>{t('bladesCrewStatus')}</legend>
             <ClickTrack label={t('bladesReputation')} value={fields.bladesReputation} max={12} onChange={v => handleField('bladesReputation', v)} showButtons />
-            <div className="field-row" style={{ marginTop: 'var(--space-sm)' }}>
+            <div className="field-row mt-sm">
               <div className="field">
                 <label>{t('bladesTier')} (0-4)</label>
                 <input type="number" name="bladesTier" value={fields.bladesTier} min={0} max={4} onChange={e => handleField('bladesTier', parseInt(e.target.value) || 0)} style={{ width: 80 }} />
               </div>
               <div className="field">
                 <label>{t('bladesHold')}</label>
-                <div style={{ display: 'flex', gap: 'var(--space-md)', marginTop: 'var(--space-xs)' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}>
+                <div className="flex gap-md mt-xs">
+                  <label className="flex items-center cursor-pointer" style={{ gap: 4 }}>
                     <input type="radio" name="bladesHold" value="strong" checked={fields.bladesHold === 'strong'} onChange={handleText} /> {t('bladesHoldStrong')}
                   </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}>
+                  <label className="flex items-center cursor-pointer" style={{ gap: 4 }}>
                     <input type="radio" name="bladesHold" value="weak" checked={fields.bladesHold === 'weak'} onChange={handleText} /> {t('bladesHoldWeak')}
                   </label>
                 </div>
               </div>
             </div>
-            <div className="field-row" style={{ marginTop: 'var(--space-sm)' }}>
+            <div className="field-row mt-sm">
               <ClickTrack label={t('bladesHeat')} value={fields.bladesHeat} max={9} onChange={v => handleField('bladesHeat', v)} showButtons />
               <ClickTrack label={t('bladesWanted')} value={fields.bladesWanted} max={4} onChange={v => handleField('bladesWanted', v)} showButtons />
             </div>
             {fields.bladesWanted > 0 && (
-              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: fields.bladesWanted >= 3 ? '#e74c3c' : '#f39c12' }}>
+              <p className="muted-hint muted-hint--xs mt-xs" style={{ color: fields.bladesWanted >= 3 ? '#e74c3c' : '#f39c12' }}>
                 {t(`bladesWanted${fields.bladesWanted}`)}
               </p>
             )}
-            <div style={{ marginTop: 'var(--space-sm)' }}>
+            <div className="mt-sm">
               <ClickTrack label={t('bladesCrewXp')} value={fields.bladesCrewXp} max={8} onChange={v => handleField('bladesCrewXp', v)} />
             </div>
 
             {/* Gambit Pool */}
-            <div style={{ marginTop: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-md)', background: 'var(--color-surface)', borderRadius: 'var(--radius)', border: '2px solid var(--color-accent)' }}>
-              <span style={{ fontWeight: 700, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-accent-fg)' }}>{t('savGambits')}</span>
-              <button type="button" className="btn btn-secondary" style={{ minWidth: 36, fontWeight: 700, padding: '0.2rem 0.5rem' }}
+            <div className="mt-md flex items-center gap-md p-md bg-surface rounded" style={{ border: '2px solid var(--color-accent)' }}>
+              <span className="font-bold text-md uppercase text-accent" style={{ letterSpacing: '0.05em' }}>{t('savGambits')}</span>
+              <button type="button" className="btn btn-secondary font-bold" style={{ minWidth: 36, padding: '0.2rem 0.5rem' }}
                 onClick={() => handleField('bladesEdge', Math.max(0, (fields.bladesEdge || 0) - 1))} disabled={(fields.bladesEdge || 0) <= 0}>-</button>
-              <span style={{ fontSize: '1.8rem', fontWeight: 700, minWidth: 40, textAlign: 'center' }}>{fields.bladesEdge || 0}</span>
-              <button type="button" className="btn btn-secondary" style={{ minWidth: 36, fontWeight: 700, padding: '0.2rem 0.5rem' }}
+              <span className="font-bold text-center" style={{ fontSize: '1.8rem', minWidth: 40 }}>{fields.bladesEdge || 0}</span>
+              <button type="button" className="btn btn-secondary font-bold" style={{ minWidth: 36, padding: '0.2rem 0.5rem' }}
                 onClick={() => handleField('bladesEdge', (fields.bladesEdge || 0) + 1)}>+</button>
               <button type="button" className="dice-roller-clear" onClick={() => handleField('bladesEdge', 2)}>{t('savGambitReset')}</button>
-              <span className="muted-hint" style={{ fontSize: '0.75rem' }}>{t('savGambitHint')}</span>
+              <span className="muted-hint text-sm" >{t('savGambitHint')}</span>
             </div>
           </fieldset>
         </div>
@@ -427,13 +423,13 @@ export default function SavShipForm() {
           <fieldset>
             <legend>{t('bladesCrewUpgradesLegend')}</legend>
             <CheckboxList items={allUpgrades} selected={fields.bladesCrewUpgrades} onChange={v => handleField('bladesCrewUpgrades', v)} />
-            {!crewType && <p className="muted-hint" style={{ marginTop: 'var(--space-xs)' }}>{t('bladesSelectCrewForUpgrades')}</p>}
+            {!crewType && <p className="muted-hint mt-xs" >{t('bladesSelectCrewForUpgrades')}</p>}
           </fieldset>
 
           {/* Ship Systems */}
           <fieldset>
             <legend>{t('savShipSystems')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('savShipSystemsHint')}</p>
+            <p className="muted-hint muted-hint--xs mb-sm">{t('savShipSystemsHint')}</p>
             {(() => {
               let systems = { engines: { quality: fields.bladesTier || 0, damaged: false }, hull: { quality: fields.bladesTier || 0, damaged: false }, comms: { quality: fields.bladesTier || 0, damaged: false }, weapons: { quality: fields.bladesTier || 0, damaged: false } }
               try { const parsed = JSON.parse(fields.havens); if (parsed?.systems) systems = { ...systems, ...parsed.systems } } catch {}
@@ -447,27 +443,23 @@ export default function SavShipForm() {
                 setSystems(next)
               }
               return (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 'var(--space-sm)' }}>
+                <div className="grid gap-sm" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
                   {[
                     { key: 'engines', labelKey: 'savSystemEngines' },
                     { key: 'hull', labelKey: 'savSystemHull' },
                     { key: 'comms', labelKey: 'savSystemComms' },
                     { key: 'weapons', labelKey: 'savSystemWeapons' },
                   ].map(sys => (
-                    <div key={sys.key} style={{
-                      padding: 'var(--space-sm)', borderRadius: 'var(--radius)',
-                      border: `1px solid ${systems[sys.key].damaged ? 'rgba(231,76,60,0.5)' : 'var(--color-border)'}`,
-                      background: systems[sys.key].damaged ? 'rgba(231,76,60,0.06)' : 'var(--color-surface)',
-                    }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xs)' }}>
-                        <span style={{ fontWeight: 700, fontSize: '0.85rem' }}>{t(sys.labelKey)}</span>
-                        <label style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.75rem', color: '#e74c3c', cursor: 'pointer' }}>
+                    <div key={sys.key} className="p-sm rounded" style={{ border: `1px solid ${systems[sys.key].damaged ? 'rgba(231,76,60,0.5)' : 'var(--color-border)'}`, background: systems[sys.key].damaged ? 'rgba(231,76,60,0.06)' : 'var(--color-surface)' }}>
+                      <div className="flex justify-between items-center mb-xs">
+                        <span className="font-bold text-base" >{t(sys.labelKey)}</span>
+                        <label className="flex items-center text-sm cursor-pointer" style={{ gap: 4, color: '#e74c3c' }}>
                           <input type="checkbox" checked={systems[sys.key].damaged} onChange={e => updateSystem(sys.key, 'damaged', e.target.checked)} />
                           {t('savDamaged')}
                         </label>
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>{t('savQuality')}:</span>
+                      <div className="flex items-center gap-xs">
+                        <span className="text-xs text-muted">{t('savQuality')}:</span>
                         <input type="number" min={0} max={6} value={systems[sys.key].quality} style={{ width: 50 }}
                           onChange={e => updateSystem(sys.key, 'quality', parseInt(e.target.value) || 0)} />
                       </div>
@@ -481,8 +473,8 @@ export default function SavShipForm() {
           <fieldset>
             <legend>{t('bladesHuntingGrounds')}</legend>
             {crewType && (
-              <div style={{ marginBottom: 'var(--space-sm)' }}>
-                <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>{t('bladesPreferredType')}: {crewType.huntingGrounds.join(', ')}</p>
+              <div className="mb-sm">
+                <p className="muted-hint muted-hint--xs mb-xs" >{t('bladesPreferredType')}: {crewType.huntingGrounds.join(', ')}</p>
               </div>
             )}
             <div className="field">
@@ -512,8 +504,8 @@ export default function SavShipForm() {
               if (fields.bladesCohorts && cohorts.length === 0 && fields.bladesCohorts.trim()) {
                 return (
                   <>
-                    <textarea name="bladesCohorts" value={fields.bladesCohorts} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder={t('bladesCohortsPh')} />
-                    <button type="button" className="btn btn-secondary" style={{ marginTop: 'var(--space-xs)', fontSize: '0.75rem' }}
+                    <textarea name="bladesCohorts" value={fields.bladesCohorts} onChange={handleText} rows={4} className="w-full" placeholder={t('bladesCohortsPh')} />
+                    <button type="button" className="btn btn-secondary mt-xs text-sm" 
                       onClick={() => {
                         const lines = fields.bladesCohorts.split('\n').filter(l => l.trim())
                         const migrated = lines.map(l => ({ name: l.trim(), type: 'Gang', quality: fields.bladesTier || 0, edges: '', flaws: '', harm: 0 }))
@@ -526,8 +518,8 @@ export default function SavShipForm() {
               return (
                 <>
                   {cohorts.map((c, i) => (
-                    <div key={i} style={{ padding: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', marginBottom: 'var(--space-sm)', background: 'var(--color-surface)' }}>
-                      <div className="field-row" style={{ marginBottom: 'var(--space-xs)' }}>
+                    <div key={i} className="p-sm border rounded mb-sm bg-surface">
+                      <div className="field-row mb-xs">
                         <div className="field" style={{ flex: 2 }}>
                           <label>{t('charName')}</label>
                           <input value={c.name} onChange={e => updateCohort(i, 'name', e.target.value)} placeholder={t('bladesCohortNamePh')} />
@@ -551,7 +543,7 @@ export default function SavShipForm() {
                         <div className="field"><label>{t('bladesCohortFlaws')}</label><input value={c.flaws || ''} onChange={e => updateCohort(i, 'flaws', e.target.value)} placeholder="Principled, Savage..." /></div>
                       </div>
                       {c.type === 'Gang' && (
-                        <div style={{ marginTop: 'var(--space-xs)', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>
+                        <div className="mt-xs text-sm text-muted">
                           {t('bladesCohortScale')}: {c.quality === 0 ? '1-2' : c.quality === 1 ? '3-6' : c.quality === 2 ? '12' : c.quality === 3 ? '20' : '40+'} {t('bladesCohortMembers')}
                         </div>
                       )}
@@ -570,15 +562,15 @@ export default function SavShipForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabBladesCrewCoinVault')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('bladesCrewCoinVaultHint')}
             </p>
-            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+            <div className="field-row items-end">
               <div className="field" style={{ width: 100 }}>
                 <label>{t('bladesCoin')}</label>
                 <input type="number" name="bladesCoin" value={fields.bladesCoin} min={0} onChange={e => handleField('bladesCoin', parseInt(e.target.value) || 0)} style={{ width: 80 }} />
               </div>
-              <div className="field" style={{ flex: 1 }}>
+              <div className="field flex-1" >
                 <ClickTrack label={t('bladesVault')} value={fields.bladesVault} max={vaultMax} onChange={v => handleField('bladesVault', v)} />
                 {hasVaultUpgrade && <span className="muted-hint muted-hint--xs">Vault upgrade: capacity increased to {vaultMax}</span>}
               </div>
@@ -593,11 +585,11 @@ export default function SavShipForm() {
           <fieldset>
             <legend>{t('tabBladesCrewContacts')}</legend>
             {crewType ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+              <div className="flex flex-col gap-xs">
                 {crewType.contacts.map(contact => {
                   const active = contactsList.includes(contact)
                   return (
-                    <div key={contact} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                    <div key={contact} className="flex items-center gap-sm">
                       <button type="button" className={`btn btn-secondary`} style={{ minWidth: 36, padding: '2px 8px', background: active ? 'var(--color-accent-fg)' : undefined, color: active ? '#fff' : undefined }}
                         onClick={() => toggleContact(contact)}>
                         {active ? '+' : '-'}
@@ -619,7 +611,7 @@ export default function SavShipForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabBladesCrewFactions')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('bladesFactionTrackerHint')}
             </p>
             <FactionTracker factionData={factionData} onChange={handleFactionChange} />
@@ -632,7 +624,7 @@ export default function SavShipForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabBladesCrewTurf')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {t('bladesTurfTrackerHint')}
             </p>
             <TurfTracker turfData={fields.bladesTurf} onChange={v => handleField('bladesTurf', v)} />
@@ -643,8 +635,8 @@ export default function SavShipForm() {
       {/* Tab 7 - Notes */}
       <div role="tabpanel" id="tabpanel-7" aria-labelledby="tab-7" hidden={tab !== 7}>
         <div className="form-section">
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={t('bladesCrewNotesPh')} /></fieldset>
-          <fieldset><legend>{t('tabBackstory')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={6} style={{ width: '100%' }} placeholder={t('bladesCrewBackstoryPh')} /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={6} className="w-full" placeholder={t('bladesCrewNotesPh')} /></fieldset>
+          <fieldset><legend>{t('tabBackstory')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={6} className="w-full" placeholder={t('bladesCrewBackstoryPh')} /></fieldset>
         </div>
       </div>
 

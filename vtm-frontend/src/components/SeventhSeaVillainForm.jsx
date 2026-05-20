@@ -190,7 +190,7 @@ export default function SeventhSeaVillainForm() {
               showDescOnSelect={false}
             />
             {templateName && (
-              <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
+              <p className="muted-hint muted-hint--xs mt-xs text-accent">
                 Loaded from template: <strong>{templateName}</strong> — customize freely below.
               </p>
             )}
@@ -207,7 +207,7 @@ export default function SeventhSeaVillainForm() {
                 </select>
               </div>
             </div>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
+            <p className="muted-hint muted-hint--xs mb-md">
               {NPC_TYPES.find(nt => nt.key === npcType)?.description}
             </p>
             <div className="field-row">
@@ -218,7 +218,7 @@ export default function SeventhSeaVillainForm() {
                   {SEVEN_SEA_NATIONS.map(n => <option key={n.value} value={n.value}>{n.value} ({n.source})</option>)}
                 </select>
                 {!SEVEN_SEA_NATIONS.some(n => n.value === fields.nation) && (
-                  <input name="nation" value={fields.nation} onChange={handleText} placeholder="Custom nation..." style={{ marginTop: 'var(--space-xs)' }} />
+                  <input name="nation" value={fields.nation} onChange={handleText} placeholder="Custom nation..." className="mt-xs" />
                 )}
               </div>
               <div className="field"><label>Concept</label><input name="concept" value={fields.concept} onChange={handleText} placeholder="Ruthless pirate queen, cursed knight..." /></div>
@@ -252,10 +252,10 @@ export default function SeventhSeaVillainForm() {
                   {duelingStyle && (() => {
                     const ds = DUELING_STYLES.find(d => d.name === duelingStyle)
                     return ds && (
-                      <div className="archetype-desc" style={{ marginTop: 'var(--space-xs)' }}>
+                      <div className="archetype-desc mt-xs">
                         <strong>{ds.name}</strong> ({ds.nation}) — {ds.trait}
                         <p className="muted-hint muted-hint--xs" style={{ margin: '2px 0' }}>{ds.description}</p>
-                        <p style={{ fontSize: '0.82rem', fontWeight: 600 }}>Style Bonus: {ds.styleBonus}</p>
+                        <p className="text-sm font-semibold" >Style Bonus: {ds.styleBonus}</p>
                         <span className="muted-hint muted-hint--xs">Source: {ds.source}</span>
                       </div>
                     )
@@ -267,8 +267,8 @@ export default function SeventhSeaVillainForm() {
               const nationData = SEVEN_SEA_NATIONS.find(n => n.value === fields.nation)
               if (!nationData || !nationData.sorcery) return null
               return (
-                <div style={{ padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: 'var(--radius)', borderLeft: '3px solid var(--color-accent-fg)', marginTop: 'var(--space-sm)' }}>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 600 }}>Sorcery Tradition: {nationData.sorcery}</div>
+                <div className="p-sm rounded mt-sm" style={{ background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                  <div className="text-base font-semibold" >Sorcery Tradition: {nationData.sorcery}</div>
                   <p className="muted-hint muted-hint--xs" style={{ margin: '2px 0 0' }}>
                     Available to characters from {nationData.value} ({nationData.region}). Source: {nationData.source}
                   </p>
@@ -292,24 +292,24 @@ export default function SeventhSeaVillainForm() {
                     {[1,2,3,4,5,6,7,8,9,10,12,15,20].map(r => <option key={r} value={r}>{t('rank')} {r}</option>)}
                   </select>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 'var(--space-md)', marginTop: 'var(--space-sm)' }}>
-                  <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                    <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>Strength</div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{strength}</div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>dice rolled</div>
+                <div className="grid gap-md mt-sm" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))' }}>
+                  <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                    <div className="text-xs text-muted uppercase">Strength</div>
+                    <div className="font-bold" style={{ fontSize: '1.8rem' }}>{strength}</div>
+                    <div className="text-xs text-muted">dice rolled</div>
                   </div>
-                  <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                    <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>Influence</div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{influence}</div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>social dice</div>
+                  <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                    <div className="text-xs text-muted uppercase">Influence</div>
+                    <div className="font-bold" style={{ fontSize: '1.8rem' }}>{influence}</div>
+                    <div className="text-xs text-muted">social dice</div>
                   </div>
-                  <div className="form-section" style={{ padding: 'var(--space-md)', textAlign: 'center', marginBottom: 0 }}>
-                    <div style={{ fontSize: '0.72rem', color: 'var(--color-text-muted)', textTransform: 'uppercase' }}>Danger Pts</div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 700 }}>{danger}</div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>per scene</div>
+                  <div className="form-section p-md text-center" style={{ marginBottom: 0 }}>
+                    <div className="text-xs text-muted uppercase">Danger Pts</div>
+                    <div className="font-bold" style={{ fontSize: '1.8rem' }}>{danger}</div>
+                    <div className="text-xs text-muted">per scene</div>
                   </div>
                 </div>
-                <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-sm)' }}>{vDesc?.description}</p>
+                <p className="muted-hint muted-hint--xs mt-sm">{vDesc?.description}</p>
               </>
             )}
             {(npcType === 'henchman' || npcType === 'brute' || npcType === 'monster') && (
@@ -332,32 +332,32 @@ export default function SeventhSeaVillainForm() {
           {(npcType === 'monster') && (
             <fieldset>
               <legend>Monster Qualities</legend>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              <p className="muted-hint muted-hint--xs mb-sm">
                 Select qualities that apply. Describe unique abilities in the notes.
               </p>
               {MONSTER_QUALITIES.map(q => (
-                <details key={q.name} style={{ marginBottom: 'var(--space-xs)' }}>
-                  <summary style={{ cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-accent-fg)', padding: '0.2rem 0.5rem', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', display: 'inline-block', marginRight: 'var(--space-xs)' }}>
+                <details key={q.name} className="mb-xs">
+                  <summary className="cursor-pointer text-base font-semibold text-accent border" style={{ padding: '0.2rem 0.5rem', borderRadius: 'var(--radius-sm)', display: 'inline-block', marginRight: 'var(--space-xs)' }}>
                     {q.name}
                   </summary>
                   <p className="muted-hint muted-hint--xs" style={{ padding: 'var(--space-xs)', maxWidth: 400 }}>{q.description}</p>
                 </details>
               ))}
-              <div className="field" style={{ marginTop: 'var(--space-md)' }}>
+              <div className="field mt-md">
                 <label>Active Qualities & Special Abilities</label>
-                <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="List active monster qualities and unique abilities..." />
+                <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={4} className="w-full" placeholder="List active monster qualities and unique abilities..." />
               </div>
             </fieldset>
           )}
 
           <details>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>Villain Rank Reference</summary>
-            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+            <summary className="cursor-pointer font-semibold text-md text-accent">Villain Rank Reference</summary>
+            <table className="inv-table mt-sm">
               <thead><tr><th>Rank</th><th>Str</th><th>Inf</th><th>DP</th><th>Description</th></tr></thead>
               <tbody>
                 {VILLAIN_RANKS.map(v => (
                   <tr key={v.rank} style={{ background: fields.willpower === v.rank ? 'rgba(52,152,219,0.08)' : 'transparent' }}>
-                    <td style={{ fontWeight: 600 }}>{v.rank}</td>
+                    <td className="font-semibold">{v.rank}</td>
                     <td>{v.rank}</td>
                     <td>{v.rank}</td>
                     <td>{Math.ceil(v.rank / 2)}</td>
@@ -375,7 +375,7 @@ export default function SeventhSeaVillainForm() {
         <div className="form-section">
           <fieldset>
             <legend>Traits</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               {npcType === 'villain' ? 'Villains have Traits like Heroes. They can exceed 5.' : 'Henchmen/Brutes use Strength for all rolls. Traits are optional for flavor.'}
             </p>
             <div className="rating-grid">
@@ -395,7 +395,7 @@ export default function SeventhSeaVillainForm() {
           <fieldset>
             <legend>Advantages ({disciplines.length})</legend>
             {disciplines.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md">
                 {disciplines.map(d => (
                   <li key={d.id} className={`tag tag--clickable${d.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === d.id ? null : { ...d, kind: 'advantage' })}
@@ -410,11 +410,11 @@ export default function SeventhSeaVillainForm() {
             {tagInfo?.kind === 'advantage' && (() => {
               const entry = ADVANTAGES.find(a => a.name.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md">
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">Advantage · {tagInfo.level}pt</p>
-                  {entry && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry && <p className="text-sm" style={{ lineHeight: 1.55 }}>{entry.description}</p>}
                 </aside>
               )
             })()}
@@ -454,7 +454,7 @@ export default function SeventhSeaVillainForm() {
         <div className="form-section">
           <fieldset>
             <legend>Active Scheme</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Villains have Schemes — multi-step evil plans. The Villain completes one step per session unless the Heroes intervene. Influence ({influence}) dice for social/political schemes, Strength ({strength}) dice for combat schemes.
             </p>
             <div className="field-row">
@@ -465,7 +465,7 @@ export default function SeventhSeaVillainForm() {
             </div>
             <div className="field">
               <label>Scheme Description</label>
-              <textarea name="schemeDesc" value={fields.schemeDesc} onChange={handleText} rows={3} style={{ width: '100%' }} placeholder="What is this villain trying to accomplish and why?" />
+              <textarea name="schemeDesc" value={fields.schemeDesc} onChange={handleText} rows={3} className="w-full" placeholder="What is this villain trying to accomplish and why?" />
             </div>
             <div className="field-row">
               <div className="field">
@@ -482,16 +482,11 @@ export default function SeventhSeaVillainForm() {
               </div>
             </div>
             {fields.activeScheme && (
-              <div style={{ padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: 'var(--radius)', borderLeft: '3px solid var(--color-accent-fg)', marginTop: 'var(--space-sm)' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '4px' }}>Scheme Progress</div>
-                <div style={{ display: 'flex', gap: '4px', marginBottom: '4px' }}>
+              <div className="p-sm rounded mt-sm" style={{ background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                <div className="text-base font-semibold" style={{ marginBottom: '4px' }}>Scheme Progress</div>
+                <div className="flex" style={{ gap: '4px', marginBottom: '4px' }}>
                   {Array.from({ length: fields.schemeSteps || 3 }, (_, i) => (
-                    <div key={i} style={{
-                      width: 28, height: 28, borderRadius: 'var(--radius-sm)',
-                      background: i < (fields.schemeProgress || 0) ? 'var(--color-accent-fg)' : 'var(--color-border)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '0.75rem', fontWeight: 700, color: i < (fields.schemeProgress || 0) ? '#fff' : 'var(--color-text-muted)',
-                    }}>{i + 1}</div>
+                    <div key={i} className="flex items-center justify-center text-sm font-bold" style={{ width: 28, height: 28, borderRadius: 'var(--radius-sm)', background: i < (fields.schemeProgress || 0) ? 'var(--color-accent-fg)' : 'var(--color-border)', color: i < (fields.schemeProgress || 0) ? '#fff' : 'var(--color-text-muted)' }}>{i + 1}</div>
                   ))}
                 </div>
                 <div className="muted-hint muted-hint--xs">
@@ -504,10 +499,10 @@ export default function SeventhSeaVillainForm() {
           </fieldset>
           <fieldset>
             <legend>All Schemes (Notes)</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm">
               Document all villain schemes here -- past, present, and future plans.
             </p>
-            <textarea name="heroStories" value={fields.heroStories} onChange={handleText} rows={10} style={{ width: '100%' }} placeholder={
+            <textarea name="heroStories" value={fields.heroStories} onChange={handleText} rows={10} className="w-full" placeholder={
 `Scheme 1: Seize the Throne of Castille
 Objective: Crown himself King
 Steps:
@@ -519,7 +514,7 @@ Consequence if unchecked: Civil war engulfs Castille`} />
           </fieldset>
           <fieldset>
             <legend>Sorcery / Special Abilities</legend>
-            <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="Describe sorcerous abilities, supernatural powers, or unique villain mechanics..." />
+            <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={4} className="w-full" placeholder="Describe sorcerous abilities, supernatural powers, or unique villain mechanics..." />
           </fieldset>
         </div>
       </div>
@@ -527,9 +522,9 @@ Consequence if unchecked: Civil war engulfs Castille`} />
       {/* ── Backstory ── */}
       <div role="tabpanel" id={`tabpanel-5`} aria-labelledby={`tab-5`} hidden={tab !== 5}>
         <div className="form-section">
-          <fieldset><legend>Backstory & Motivation</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} placeholder="Why does this villain do what they do?" /></fieldset>
-          <fieldset><legend>Appearance</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>ST Notes</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="Session plans, player interactions, weaknesses..." /></fieldset>
+          <fieldset><legend>Backstory & Motivation</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full" placeholder="Why does this villain do what they do?" /></fieldset>
+          <fieldset><legend>Appearance</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full" /></fieldset>
+          <fieldset><legend>ST Notes</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full" placeholder="Session plans, player interactions, weaknesses..." /></fieldset>
         </div>
       </div>
 

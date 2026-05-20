@@ -454,7 +454,7 @@ export default function ChangelingForm() {
 
           <fieldset>
             <legend>Legacies</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Legacies guide your character's fae personality. Your dominant Legacy is determined by your current Court.
             </p>
             <div className="field-row">
@@ -582,7 +582,7 @@ export default function ChangelingForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('changelingArts')} ({ARTS.filter(a => (artsRealmsMap[a.value] || 0) > 0).length})</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Arts are the magical abilities of the Kithain. Each Art allows cantrips that affect the world through the Dreaming.
             </p>
             <div className="rating-grid">
@@ -591,7 +591,7 @@ export default function ChangelingForm() {
                   <DotRating label={art.value} name={`art-${art.value}`} value={artsRealmsMap[art.value] || 0}
                     onChange={(_, val) => handleArtRealm(art.value, val)} max={5} />
                   {(artsRealmsMap[art.value] || 0) === 0 && (
-                    <span className="muted-hint" style={{ fontSize: '0.75rem', marginLeft: 'var(--space-xs)' }}>{art.description}</span>
+                    <span className="muted-hint text-sm" style={{ marginLeft: 'var(--space-xs)' }}>{art.description}</span>
                   )}
                 </div>
               ))}
@@ -600,7 +600,7 @@ export default function ChangelingForm() {
 
           <fieldset>
             <legend>{t('changelingRealms')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Realms determine who or what your Arts can affect. You must have an appropriate Realm to target a cantrip.
             </p>
             <div className="rating-grid">
@@ -609,7 +609,7 @@ export default function ChangelingForm() {
                   <DotRating label={realm.value} name={`realm-${realm.value}`} value={artsRealmsMap[realm.value] || 0}
                     onChange={(_, val) => handleArtRealm(realm.value, val)} max={5} />
                   {(artsRealmsMap[realm.value] || 0) === 0 && (
-                    <span className="muted-hint" style={{ fontSize: '0.75rem', marginLeft: 'var(--space-xs)' }}>{realm.description}</span>
+                    <span className="muted-hint text-sm" style={{ marginLeft: 'var(--space-xs)' }}>{realm.description}</span>
                   )}
                 </div>
               ))}
@@ -618,7 +618,7 @@ export default function ChangelingForm() {
 
           <fieldset>
             <legend>{t('changelingCustomNotes')}</legend>
-            <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={4} style={{ width: '100%' }}
+            <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={4} className="w-full" 
               aria-label="Arts and Realms raw data" placeholder="Raw data (auto-managed by dot ratings above). You may also add custom notes here." />
           </fieldset>
         </div>
@@ -640,17 +640,17 @@ export default function ChangelingForm() {
               <DotRating label={t('banality')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={10} />
             </div>
             {fields.quintessence >= 10 && (
-              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c', textAlign: 'center' }}>
+              <div role="alert" aria-live="assertive" aria-atomic="true" className="mt-sm p-sm font-bold text-center" style={{ background: 'rgba(231,76,60,0.2)', border: '2px solid #e74c3c', borderRadius: '6px', color: '#e74c3c' }}>
                 Undone — Character becomes fully mortal. The Dreaming is lost forever.
               </div>
             )}
             {fields.quintessence >= 8 && fields.quintessence < 10 && (
-              <div role="alert" aria-live="assertive" aria-atomic="true" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(231,76,60,0.15)', border: '2px solid #e74c3c', borderRadius: '6px', fontWeight: 700, color: '#e74c3c' }}>
+              <div role="alert" aria-live="assertive" aria-atomic="true" className="mt-sm p-sm font-bold" style={{ background: 'rgba(231,76,60,0.15)', border: '2px solid #e74c3c', borderRadius: '6px', color: '#e74c3c' }}>
                 Severe — Glamour recovery greatly reduced (Banality {fields.quintessence})
               </div>
             )}
             {fields.quintessence === 7 && (
-              <div role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-sm)', background: 'rgba(243,156,18,0.15)', border: '2px solid #f39c12', borderRadius: '6px', fontWeight: 600, color: '#f39c12' }}>
+              <div role="status" aria-live="polite" className="mt-sm p-sm font-semibold" style={{ background: 'rgba(243,156,18,0.15)', border: '2px solid #f39c12', borderRadius: '6px', color: '#f39c12' }}>
                 High Banality — Difficulty creating cantrips increased (Banality {fields.quintessence})
               </div>
             )}
@@ -691,8 +691,8 @@ export default function ChangelingForm() {
                         handleField(h.key, cycle[val] || '')
                       }}>
                       <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
-                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '\u2014'}</td>
-                      <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                      <td className="text-muted" >{h.penalty || '\u2014'}</td>
+                      <td className="font-semibold" style={{ color: dmgColor }}>{dmgLabel}</td>
                     </tr>
                   )
                 })}
@@ -708,13 +708,13 @@ export default function ChangelingForm() {
           <fieldset>
             <legend>{t('backgrounds')} ({backgrounds.length})</legend>
             {backgrounds.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md" >
                 {backgrounds.map(b => (
                   <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' }) } }}
                     role="button" tabIndex={0}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                    <span className="flex items-center gap-xs flex-wrap" >
                       <strong>{b.name}</strong>
                       <span onClick={e => e.stopPropagation()} style={{ display: 'inline-flex' }}>
                         <DotRating label="" name={`bg-${b.id}`} value={b.level} min={1} max={5}
@@ -733,11 +733,11 @@ export default function ChangelingForm() {
             {tagInfo?.kind === 'background' && (() => {
               const entry = BACKGROUNDS.find(bg => bg.value.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md" >
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">Background \u00b7 Level {tagInfo.level}</p>
-                  {entry?.description && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.description && <p className="text-sm" style={{ lineHeight: 1.55 }}>{entry.description}</p>}
                   {entry?.levels && (
                     <ul className="tag-info-levels">
                       {entry.levels.map((lvl, i) => (
@@ -805,31 +805,31 @@ export default function ChangelingForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('backstoryLabel')}</legend>
-            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} placeholder={t('backstoryPh')} style={{ width: '100%' }} />
+            <textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} placeholder={t('backstoryPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('appearanceLabel')}</legend>
-            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} placeholder={t('appearancePh')} style={{ width: '100%' }} />
+            <textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} placeholder={t('appearancePh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('goalsLabel')}</legend>
-            <textarea name="goals" value={fields.goals} onChange={handleText} rows={4} placeholder={t('goalsPh')} style={{ width: '100%' }} />
+            <textarea name="goals" value={fields.goals} onChange={handleText} rows={4} placeholder={t('goalsPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('alliesLabel')}</legend>
-            <textarea name="allies" value={fields.allies} onChange={handleText} rows={4} placeholder={t('alliesPh')} style={{ width: '100%' }} />
+            <textarea name="allies" value={fields.allies} onChange={handleText} rows={4} placeholder={t('alliesPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('enemiesLabel')}</legend>
-            <textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} placeholder={t('enemiesPh')} style={{ width: '100%' }} />
+            <textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} placeholder={t('enemiesPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('havensLabel')}</legend>
-            <textarea name="havens" value={fields.havens} onChange={handleText} rows={4} placeholder={t('havensPh')} style={{ width: '100%' }} />
+            <textarea name="havens" value={fields.havens} onChange={handleText} rows={4} placeholder={t('havensPh')} className="w-full"  />
           </fieldset>
           <fieldset>
             <legend>{t('territoriesLabel')}</legend>
-            <textarea name="territories" value={fields.territories} onChange={handleText} rows={4} placeholder={t('territoriesPh')} style={{ width: '100%' }} />
+            <textarea name="territories" value={fields.territories} onChange={handleText} rows={4} placeholder={t('territoriesPh')} className="w-full"  />
           </fieldset>
         </div>
       </div>

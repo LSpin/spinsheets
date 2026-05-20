@@ -476,7 +476,7 @@ export default function SeventhSeaForm() {
                 showDescOnSelect={false}
               />
               {templateName && (
-                <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
+                <p className="muted-hint muted-hint--xs mt-xs text-accent" >
                   Loaded from template: <strong>{templateName}</strong> \u2014 customize freely below.
                 </p>
               )}
@@ -489,12 +489,12 @@ export default function SeventhSeaForm() {
               <div className="field"><label>{t('charName')} *</label><input name="name" value={fields.name} onChange={handleText} /></div>
               <div className="field"><label>{t('concept')}</label><input name="concept" value={fields.concept} onChange={handleText} /></div>
             </div>
-            <div className="field-row" style={{ alignItems: 'flex-end' }}>
+            <div className="field-row items-end" >
               <CatalogSelect id="nation" name="nation" label={t('7sNation')} value={fields.nation}
                 onChange={handleField} catalog={filteredNationCatalog} />
               <div className="field" style={{ maxWidth: 180 }}>
-                <label style={{ fontSize: '0.78rem' }}>Region</label>
-                <select value={nationRegionFilter} onChange={e => setNationRegionFilter(e.target.value)} style={{ fontSize: '0.82rem' }}>
+                <label className="text-sm" >Region</label>
+                <select value={nationRegionFilter} onChange={e => setNationRegionFilter(e.target.value)} className="text-sm" >
                   <option value="">All Regions ({NATION_CATALOG.length})</option>
                   {ALL_NATION_REGIONS.map(r => <option key={r} value={r}>{r} ({NATION_CATALOG.filter(n => n.region === r).length})</option>)}
                 </select>
@@ -507,30 +507,30 @@ export default function SeventhSeaForm() {
                   description: r.recommended ? `[Recommended for ${fields.nation}] ${r.description}` : r.description,
                 }))} />
               {recommendedReligions.length > 0 && !fields.religion && (
-                <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-xs)', color: 'var(--color-accent-fg)' }}>
+                <p className="muted-hint muted-hint--xs mt-xs text-accent" >
                   Recommended for {fields.nation}: {recommendedReligions.join(', ')}
                 </p>
               )}
             </div>
             {nationTraits && (
-              <div style={{ marginBottom: 'var(--space-sm)' }}>
-                <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>
+              <div className="mb-sm" >
+                <p className="muted-hint muted-hint--xs mb-xs" >
                   {fields.nation}: +1 to {nationTraits[0]} or {nationTraits[1]}.
                   {nationSorcery && ` Sorcery: ${nationSorcery}.`}
                 </p>
-                <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'center', flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: '0.82rem', fontWeight: 600 }}>Apply national +1:</span>
+                <div className="flex gap-sm items-center flex-wrap" >
+                  <span className="text-sm font-semibold" >Apply national +1:</span>
                   {nationTraits.map(trait => (
                     <button key={trait} type="button"
-                      className={`btn btn-secondary${nationBonusTrait === trait ? ' tab-btn--active' : ''}`}
-                      style={{ fontSize: '0.78rem', padding: '2px 10px' }}
+                      className={`btn btn-secondary${nationBonusTrait === trait ? ' tab-btn--active' : ''} text-sm`}
+                      style={{ padding: '2px 10px' }}
                       aria-pressed={nationBonusTrait === trait}
                       onClick={() => applyNationBonus(trait)}>
                       {trait}{nationBonusTrait === trait ? ' (applied)' : ''}
                     </button>
                   ))}
                   {nationBonusTrait && (
-                    <span style={{ fontSize: '0.78rem', color: 'var(--color-accent-fg)' }}>
+                    <span className="text-sm text-accent" >
                       +1 {nationBonusTrait} applied
                     </span>
                   )}
@@ -555,7 +555,7 @@ export default function SeventhSeaForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tab7sTraits')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               {t('traitsHint')} {nationTraits && (nationBonusTrait
                 ? `${fields.nation}: +1 ${nationBonusTrait} applied via Identity tab.`
                 : `${fields.nation} grants +1 to ${nationTraits[0]} or ${nationTraits[1]} -- select on the Identity tab.`)}
@@ -577,7 +577,7 @@ export default function SeventhSeaForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tab7sSkills')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               {t('skillsHint')} {guidedMode && 'Max 3 per skill at creation. Rank 3 grants a reroll.'}
             </p>
             {guidedMode && <PointsBudget spent={skillSpent} budget={SKILL_BUDGET} />}
@@ -589,11 +589,11 @@ export default function SeventhSeaForm() {
               ))}
             </div>
           </fieldset>
-          <details style={{ marginTop: 'var(--space-sm)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('7sRiskRollCalc')}</summary>
+          <details className="mt-sm" >
+            <summary className="cursor-pointer font-semibold text-md text-accent" >{t('7sRiskRollCalc')}</summary>
             <fieldset>
               <legend>{t('7sRiskRollCalc')}</legend>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+              <p className="muted-hint muted-hint--xs mb-sm" >
                 Risks are resolved by rolling Trait + Skill in d10s, making sets of 10.
               </p>
               <table className="inv-table">
@@ -604,12 +604,12 @@ export default function SeventhSeaForm() {
                     if (rank === 0) return null
                     return (
                       <tr key={key}>
-                        <td style={{ fontWeight: 600 }}>{t(key)}</td>
-                        <td style={{ textAlign: 'center' }}>{rank}</td>
+                        <td className="font-semibold" >{t(key)}</td>
+                        <td className="text-center" >{rank}</td>
                         {TRAIT_KEYS.map(tk => {
                           const isStrong = rank >= 2 && fields[tk] >= 3
                           return (
-                            <td key={tk} style={{ textAlign: 'center', color: 'var(--color-accent-fg)', fontWeight: 600, background: isStrong ? 'rgba(46,204,113,0.15)' : undefined }}>
+                            <td key={tk} className="text-center text-accent font-semibold" style={{ background: isStrong ? 'rgba(46,204,113,0.15)' : undefined }}>
                               {rank + fields[tk]}d10
                             </td>
                           )
@@ -629,7 +629,7 @@ export default function SeventhSeaForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tab7sAdvantages')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('7sAdvantagesHint')}</p>
+            <p className="muted-hint muted-hint--xs mb-sm" >{t('7sAdvantagesHint')}</p>
             {guidedMode && <PointsBudget spent={advSpent} budget={ADVANTAGE_BUDGET} />}
             {disciplines.length > 0 && (
               <ul className="tag-list">
@@ -652,14 +652,14 @@ export default function SeventhSeaForm() {
           <fieldset>
             <legend>{t('7sAdvCatalogue')} ({filteredAdvantages.length})</legend>
             {guidedMode && (
-              <div style={{ padding: 'var(--space-sm) var(--space-md)', marginBottom: 'var(--space-sm)', background: advSpent > ADVANTAGE_BUDGET ? 'rgba(231,76,60,0.12)' : advSpent === ADVANTAGE_BUDGET ? 'rgba(46,204,113,0.12)' : 'rgba(52,152,219,0.10)', borderLeft: `3px solid ${advSpent > ADVANTAGE_BUDGET ? '#e74c3c' : advSpent === ADVANTAGE_BUDGET ? '#2ecc71' : 'var(--color-accent-fg)'}`, borderRadius: 'var(--radius)', fontSize: '0.9rem', fontWeight: 600 }}>
+              <div className="mb-sm rounded text-md font-semibold" style={{ padding: 'var(--space-sm) var(--space-md)', background: advSpent > ADVANTAGE_BUDGET ? 'rgba(231,76,60,0.12)' : advSpent === ADVANTAGE_BUDGET ? 'rgba(46,204,113,0.12)' : 'rgba(52,152,219,0.10)', borderLeft: `3px solid ${advSpent > ADVANTAGE_BUDGET ? '#e74c3c' : advSpent === ADVANTAGE_BUDGET ? '#2ecc71' : 'var(--color-accent-fg)'}` }}>
                 Spent: {advSpent}/{ADVANTAGE_BUDGET} pts -- {ADVANTAGE_BUDGET - advSpent >= 0 ? `${ADVANTAGE_BUDGET - advSpent} remaining` : `${advSpent - ADVANTAGE_BUDGET} over budget`}
               </div>
             )}
-            <div className="catalog-search-wrap" style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div className="catalog-search-wrap flex gap-sm flex-wrap items-center" >
               <input type="search" value={advSearch} onChange={e => setAdvSearch(e.target.value)}
-                placeholder="Search advantages..." aria-label="Search advantages" style={{ flex: 1, minWidth: 180 }} />
-              <select value={advSourceFilter} onChange={e => setAdvSourceFilter(e.target.value)} style={{ fontSize: '0.82rem', maxWidth: 200 }} aria-label="Filter by source book">
+                placeholder="Search advantages..." aria-label="Search advantages" className="flex-1" style={{ minWidth: 180 }} />
+              <select value={advSourceFilter} onChange={e => setAdvSourceFilter(e.target.value)} className="text-sm" style={{ maxWidth: 200 }} aria-label="Filter by source book">
                 <option value="">All Sources ({ADVANTAGES.length})</option>
                 {ALL_ADV_SOURCES.map(s => <option key={s} value={s}>{s} ({ADVANTAGES.filter(a => a.source === s).length})</option>)}
               </select>
@@ -690,13 +690,13 @@ export default function SeventhSeaForm() {
                               <span className="catalog-item-name">
                                 {a.name}
                                 {bgRecommendedAdvantages.has(a.name.toLowerCase()) && !already && (
-                                  <span style={{ marginLeft: '6px', fontSize: '0.7rem', fontWeight: 700, color: '#fff', background: 'var(--color-accent-fg)', padding: '1px 6px', borderRadius: '8px', verticalAlign: 'middle' }}>Recommended</span>
+                                  <span className="font-bold" style={{ marginLeft: '6px', fontSize: '0.7rem', color: '#fff', background: 'var(--color-accent-fg)', padding: '1px 6px', borderRadius: '8px', verticalAlign: 'middle' }}>Recommended</span>
                                 )}
                               </span>
                               <span className="catalog-item-desc">{a.description}</span>
-                              {a.source && <span className="muted-hint muted-hint--xs" style={{ display: 'block', marginTop: '2px', fontStyle: 'italic' }}>{a.source}</span>}
+                              {a.source && <span className="muted-hint muted-hint--xs font-italic" style={{ display: 'block', marginTop: '2px' }}>{a.source}</span>}
                               {wouldExceed && (
-                                <span className="muted-hint muted-hint--xs" style={{ color: 'var(--color-danger)', display: 'block', marginTop: '2px' }}>
+                                <span className="muted-hint muted-hint--xs text-danger" style={{ display: 'block', marginTop: '2px' }}>
                                   Exceeds {ADVANTAGE_BUDGET}-point budget ({advSpent} + {a.cost} = {advSpent + a.cost})
                                 </span>
                               )}
@@ -721,19 +721,19 @@ export default function SeventhSeaForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tab7sSorcery')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
+            <p className="muted-hint muted-hint--xs mb-md" >
               Sorcery is purchased as an Advantage (2 pts for Rank 1, 4 pts for Rank 2). Your nation determines which tradition you can learn.
             </p>
             {nationSorcery ? (
-              <div className="form-section" style={{ marginBottom: 'var(--space-md)' }}>
-                <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)', color: 'var(--color-accent-fg)' }}>{nationSorcery}</h3>
-                <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}><strong>{SORCERY_INFO[nationSorcery]?.nation}</strong></p>
-                <p style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>{SORCERY_INFO[nationSorcery]?.description}</p>
+              <div className="form-section mb-md" >
+                <h3 className="text-lg mb-sm text-accent" >{nationSorcery}</h3>
+                <p className="muted-hint muted-hint--xs mb-xs" ><strong>{SORCERY_INFO[nationSorcery]?.nation}</strong></p>
+                <p className="text-base lh-normal" >{SORCERY_INFO[nationSorcery]?.description}</p>
                 {(() => {
                   const hasSorcery = disciplines.some(d => d.name === 'Sorcery' && d.notes === nationSorcery)
                   const wouldExceed = guidedMode && (advSpent + 4) > ADVANTAGE_BUDGET
                   return !hasSorcery ? (
-                    <button className="btn btn-secondary" style={{ marginTop: 'var(--space-sm)' }}
+                    <button className="btn btn-secondary mt-sm" 
                       disabled={guidedMode && wouldExceed}
                       onClick={() => {
                         addDiscipline(characterId, { name: 'Sorcery', level: 4, notes: nationSorcery })
@@ -744,7 +744,7 @@ export default function SeventhSeaForm() {
                       {guidedMode && wouldExceed && ' -- exceeds budget'}
                     </button>
                   ) : (
-                    <p className="muted-hint muted-hint--xs" style={{ marginTop: 'var(--space-sm)', color: 'var(--color-accent-fg)' }}>
+                    <p className="muted-hint muted-hint--xs mt-sm text-accent" >
                       {nationSorcery} already added as an advantage.
                     </p>
                   )
@@ -754,15 +754,15 @@ export default function SeventhSeaForm() {
               <p className="muted-hint" style={{ paddingBottom: 0 }}>Select a nation on the Identity tab to see your available sorcery tradition.</p>
             )}
             {!nationSorcery && Object.entries(SORCERY_INFO).map(([name, info]) => (
-              <details key={name} style={{ marginBottom: 'var(--space-sm)' }}>
-                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{name} <span style={{ fontWeight: 400, fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>\u2014 {info.nation}</span></summary>
-                <p style={{ fontSize: '0.85rem', lineHeight: 1.6, padding: 'var(--space-sm) 0' }}>{info.description}</p>
+              <details key={name} className="mb-sm" >
+                <summary className="cursor-pointer font-semibold text-md text-accent" >{name} <span className="text-sm text-muted" style={{ fontWeight: 400 }}>\u2014 {info.nation}</span></summary>
+                <p className="text-base lh-normal" style={{ padding: 'var(--space-sm) 0' }}>{info.description}</p>
               </details>
             ))}
           </fieldset>
           <fieldset>
             <legend>{t('7sSorceryNotes')}</legend>
-            <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={5} style={{ width: '100%' }} placeholder="Describe your sorcerous abilities, Deals, Knights, Unguents, Runes, Strands, etc." />
+            <textarea name="sorceryDesc" value={fields.sorceryDesc} onChange={handleText} rows={5} className="w-full"  placeholder="Describe your sorcerous abilities, Deals, Knights, Unguents, Runes, Strands, etc." />
           </fieldset>
         </div>
       </div>
@@ -789,12 +789,12 @@ export default function SeventhSeaForm() {
               const traitVal = traitKey ? fields[traitKey] : 0
               const traitLow = requiredTrait && traitVal < 3
               return (
-                <div className="form-section" style={{ padding: 'var(--space-md)', marginTop: 'var(--space-sm)', marginBottom: 0, background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
-                  <div style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{style.name}</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginBottom: 'var(--space-xs)' }}>{style.nation}{style.source ? ` \u2014 ${style.source}` : ''}</div>
-                  <div style={{ fontSize: '0.9rem' }}>{style.description}</div>
+                <div className="form-section p-md mt-sm" style={{ marginBottom: 0, background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                  <div className="text-xl font-bold mb-xs" >{style.name}</div>
+                  <div className="text-sm text-muted mb-xs" >{style.nation}{style.source ? ` \u2014 ${style.source}` : ''}</div>
+                  <div className="text-md" >{style.description}</div>
                   {traitLow && (
-                    <p className="muted-hint muted-hint--xs" role="status" aria-live="polite" style={{ marginTop: 'var(--space-sm)', color: 'var(--color-text-muted)', fontStyle: 'italic' }}>
+                    <p className="muted-hint muted-hint--xs mt-sm text-muted font-italic" role="status" aria-live="polite" >
                       Your {requiredTrait} is {traitVal} -- this style works best with {requiredTrait} 3+.
                     </p>
                   )}
@@ -802,24 +802,24 @@ export default function SeventhSeaForm() {
               )
             })()}
           </fieldset>
-          <details style={{ marginTop: 'var(--space-sm)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)', marginBottom: 'var(--space-sm)' }}>{t('7sStyleRef')}</summary>
+          <details className="mt-sm" >
+            <summary className="cursor-pointer font-semibold text-md text-accent mb-sm" >{t('7sStyleRef')}</summary>
             <fieldset>
               <legend>{t('tab7sDueling')}</legend>
-              <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
+              <p className="muted-hint muted-hint--xs mb-md" >
                 Purchase the "Duelist Academy" Advantage (5 pts) to learn a style. Each style uses a specific Trait and grants unique Maneuvers.
               </p>
               {DUELING_STYLES.map(s => (
-                <details key={s.name} style={{ marginBottom: 'var(--space-sm)' }}>
-                  <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{s.name} <span style={{ fontWeight: 400, fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>\u2014 {s.nation}{s.source ? ` (${s.source})` : ''}</span></summary>
-                  <p style={{ fontSize: '0.85rem', lineHeight: 1.6, padding: 'var(--space-sm) 0' }}>{s.description}</p>
+                <details key={s.name} className="mb-sm" >
+                  <summary className="cursor-pointer font-semibold text-md text-accent" >{s.name} <span className="text-sm text-muted" style={{ fontWeight: 400 }}>\u2014 {s.nation}{s.source ? ` (${s.source})` : ''}</span></summary>
+                  <p className="text-base lh-normal" style={{ padding: 'var(--space-sm) 0' }}>{s.description}</p>
                 </details>
               ))}
             </fieldset>
           </details>
           <fieldset>
             <legend>{t('7sDuelingNotes')}</legend>
-            <textarea name="altName" value={fields.altName} onChange={handleText} rows={4} style={{ width: '100%' }} placeholder="Your dueling style, maneuvers learned, and notes..." />
+            <textarea name="altName" value={fields.altName} onChange={handleText} rows={4} className="w-full"  placeholder="Your dueling style, maneuvers learned, and notes..." />
           </fieldset>
         </div>
       </div>
@@ -829,7 +829,7 @@ export default function SeventhSeaForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('7sArcana')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('arcanaHint')}</p>
+            <p className="muted-hint muted-hint--xs mb-sm" >{t('arcanaHint')}</p>
             <div className="field-row">
               <CatalogSelect id="heroVirtue" name="heroVirtue" label={t('7sVirtue')} value={fields.heroVirtue}
                 onChange={handleField} catalog={VIRTUE_CATALOG} />
@@ -837,14 +837,14 @@ export default function SeventhSeaForm() {
                 onChange={handleField} catalog={HUBRIS_CATALOG} />
             </div>
             {(virtueEffect || hubrisEffect) && (
-              <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-sm)' }}>
+              <div className="flex gap-sm flex-wrap mt-sm" >
                 {virtueEffect && (
-                  <div style={{ flex: 1, minWidth: 200, padding: 'var(--space-sm) var(--space-md)', background: 'rgba(46,204,113,0.10)', borderLeft: '3px solid #2ecc71', borderRadius: 'var(--radius)', fontSize: '0.85rem' }}>
+                  <div className="flex-1 rounded text-base" style={{ minWidth: 200, padding: 'var(--space-sm) var(--space-md)', background: 'rgba(46,204,113,0.10)', borderLeft: '3px solid #2ecc71' }}>
                     <strong style={{ color: '#2ecc71' }}>Virtue:</strong> {virtueEffect}
                   </div>
                 )}
                 {hubrisEffect && (
-                  <div style={{ flex: 1, minWidth: 200, padding: 'var(--space-sm) var(--space-md)', background: 'rgba(231,76,60,0.10)', borderLeft: '3px solid #e74c3c', borderRadius: 'var(--radius)', fontSize: '0.85rem' }}>
+                  <div className="flex-1 rounded text-base" style={{ minWidth: 200, padding: 'var(--space-sm) var(--space-md)', background: 'rgba(231,76,60,0.10)', borderLeft: '3px solid #e74c3c' }}>
                     <strong style={{ color: '#e74c3c' }}>Hubris:</strong> {hubrisEffect}
                   </div>
                 )}
@@ -862,9 +862,9 @@ export default function SeventhSeaForm() {
             <div className="rating-grid">
               <div className="ability-row">
                 {guidedMode ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                  <div className="flex items-center gap-sm" >
                     <DotRating label={t('7sHeroPoints')} name="heroPoints" value={1} onChange={() => {}} min={1} max={1} />
-                    <span className="muted-hint muted-hint--xs" style={{ color: 'var(--color-accent-fg)', whiteSpace: 'nowrap' }}>Auto-set for character creation</span>
+                    <span className="muted-hint muted-hint--xs text-accent" style={{ whiteSpace: 'nowrap' }}>Auto-set for character creation</span>
                   </div>
                 ) : (
                   <DotRating label={t('7sHeroPoints')} name="heroPoints" value={fields.heroPoints} onChange={handleField} min={0} max={10} />
@@ -878,16 +878,16 @@ export default function SeventhSeaForm() {
 
           <fieldset>
             <legend>Wound Tracker</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Each Dramatic Wound equals your Resolve in regular wounds. Track regular wounds here and Dramatic Wounds are calculated automatically.
             </p>
-            <div className="field-row" style={{ alignItems: 'center' }}>
+            <div className="field-row items-center" >
               <div className="field" style={{ width: 140 }}>
                 <label>Regular Wounds</label>
                 <input type="number" min={0} max={99} value={wounds} onChange={e => setWounds(Math.max(0, parseInt(e.target.value) || 0))} />
               </div>
-              <div role="status" aria-live="polite" aria-atomic="true" style={{ flex: 1, padding: 'var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: 'var(--radius)', borderLeft: '3px solid var(--color-accent-fg)' }}>
-                <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '2px' }}>
+              <div role="status" aria-live="polite" aria-atomic="true" className="flex-1 p-sm rounded" style={{ background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                <div className="text-lg font-bold" style={{ marginBottom: '2px' }}>
                   {wounds} regular wound{wounds !== 1 ? 's' : ''} = {Math.floor(wounds / (fields.traitResolve || 1))} Dramatic Wound{Math.floor(wounds / (fields.traitResolve || 1)) !== 1 ? 's' : ''}
                 </div>
                 <div className="muted-hint muted-hint--xs">
@@ -907,22 +907,22 @@ export default function SeventhSeaForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tab7sBackgrounds')}{guidedMode ? ` -- Backgrounds: ${backgrounds.length}/2` : ''}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Choose 2 Backgrounds. Each provides a Quirk, Skills, and Advantages.
             </p>
             {guidedMode && (
               <span className={`points-remaining ${backgrounds.length < 2 ? 'points-remaining--ok' : backgrounds.length === 2 ? 'points-remaining--done' : 'points-remaining--over'}`}
-                style={{ display: 'inline-block', marginBottom: 'var(--space-sm)' }}>
+                className="mb-sm" style={{ display: 'inline-block' }}>
                 Backgrounds: {backgrounds.length}/2{backgrounds.length < 2 ? ` -- ${2 - backgrounds.length} remaining` : ''}
               </span>
             )}
             {bgAutoApplyMsg && (
-              <div role="status" aria-live="polite" style={{ padding: 'var(--space-sm) var(--space-md)', marginBottom: 'var(--space-sm)', background: 'rgba(46,204,113,0.12)', borderLeft: '3px solid #2ecc71', borderRadius: 'var(--radius)', fontSize: '0.85rem', color: 'var(--color-text)' }}>
+              <div role="status" aria-live="polite" className="mb-sm rounded text-base" style={{ padding: 'var(--space-sm) var(--space-md)', background: 'rgba(46,204,113,0.12)', borderLeft: '3px solid #2ecc71', color: 'var(--color-text)' }}>
                 {bgAutoApplyMsg}
               </div>
             )}
             {guidedMode && backgrounds.length >= 2 && (
-              <p className="points-remaining points-remaining--done" style={{ marginBottom: 'var(--space-sm)' }}>
+              <p className="points-remaining points-remaining--done mb-sm" >
                 Background limit reached (2/2). Remove one to add a different background.
               </p>
             )}
@@ -949,25 +949,25 @@ export default function SeventhSeaForm() {
               <aside className="tag-info-panel">
                 <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                 <p className="tag-info-panel-name">{entry.name}</p>
-                <p className="tag-info-panel-desc" style={{ marginBottom: 'var(--space-xs)' }}>
+                <p className="tag-info-panel-desc mb-xs" >
                   <strong>Skills:</strong> {entry.skills.join(', ')}
                 </p>
-                <p className="tag-info-panel-desc" style={{ marginBottom: 'var(--space-xs)' }}>
+                <p className="tag-info-panel-desc mb-xs" >
                   <strong>Advantages:</strong> {entry.advantages.join(', ')}
                 </p>
-                <div style={{ padding: 'var(--space-sm) var(--space-md)', marginTop: 'var(--space-sm)', background: 'rgba(241,196,15,0.12)', borderLeft: '3px solid #f1c40f', borderRadius: 'var(--radius)' }}>
-                  <span style={{ display: 'inline-block', fontSize: '0.72rem', fontWeight: 700, color: '#fff', background: '#f1c40f', padding: '1px 8px', borderRadius: '8px', marginRight: '6px', verticalAlign: 'middle' }}>Hero Point</span>
-                  <span style={{ fontSize: '0.85rem', fontStyle: 'italic' }}>{entry.quirk}</span>
+                <div className="mt-sm rounded" style={{ padding: 'var(--space-sm) var(--space-md)', background: 'rgba(241,196,15,0.12)', borderLeft: '3px solid #f1c40f' }}>
+                  <span className="text-xs font-bold" style={{ display: 'inline-block', color: '#fff', background: '#f1c40f', padding: '1px 8px', borderRadius: '8px', marginRight: '6px', verticalAlign: 'middle' }}>Hero Point</span>
+                  <span className="text-base font-italic" >{entry.quirk}</span>
                 </div>
               </aside>
             )
           })()}
           <fieldset>
             <legend>{t('7sBgCatalogue')} ({filteredBackgrounds.length})</legend>
-            <div className="catalog-search-wrap" style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div className="catalog-search-wrap flex gap-sm flex-wrap items-center" >
               <input type="search" value={bgSearch} onChange={e => setBgSearch(e.target.value)}
-                placeholder="Search backgrounds..." aria-label="Search backgrounds" style={{ flex: 1, minWidth: 180 }} />
-              <select value={bgSourceFilter} onChange={e => setBgSourceFilter(e.target.value)} style={{ fontSize: '0.82rem', maxWidth: 200 }} aria-label="Filter backgrounds by source">
+                placeholder="Search backgrounds..." aria-label="Search backgrounds" className="flex-1" style={{ minWidth: 180 }} />
+              <select value={bgSourceFilter} onChange={e => setBgSourceFilter(e.target.value)} className="text-sm" style={{ maxWidth: 200 }} aria-label="Filter backgrounds by source">
                 <option value="">All Sources ({BACKGROUND_CATALOG.length})</option>
                 {ALL_BG_SOURCES.map(s => <option key={s} value={s}>{s} ({BACKGROUND_CATALOG.filter(b => b.source === s).length})</option>)}
               </select>
@@ -991,7 +991,7 @@ export default function SeventhSeaForm() {
                         <div className="catalog-item-main">
                           <span className="catalog-item-name">{b.name}</span>
                           <span className="catalog-item-desc">{b.description}</span>
-                          {b.source && <span className="muted-hint muted-hint--xs" style={{ display: 'block', marginTop: '2px', fontStyle: 'italic' }}>{b.source}</span>}
+                          {b.source && <span className="muted-hint muted-hint--xs font-italic" style={{ display: 'block', marginTop: '2px' }}>{b.source}</span>}
                         </div>
                         <div className="catalog-item-meta">
                           {already ? <span className="catalog-item-check">{'\u2713'}</span> : <span className="catalog-item-add">+</span>}
@@ -1011,7 +1011,7 @@ export default function SeventhSeaForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tab7sSecretSocieties')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-md)' }}>
+            <p className="muted-hint muted-hint--xs mb-md" >
               Your Hero can join one Secret Society. Membership grants access to resources, allies, and missions — but also obligations and enemies.
             </p>
             <CatalogSelect id="secretSociety" name="demeanor" label="Select Society"
@@ -1024,40 +1024,40 @@ export default function SeventhSeaForm() {
             const sel = SECRET_SOCIETIES.find(s => s.value === fields.demeanor)
             if (!sel) return null
             return (
-              <fieldset style={{ background: 'var(--color-surface-raised)', borderRadius: 'var(--radius)', padding: 'var(--space-md)' }}>
+              <fieldset className="bg-raised rounded p-md" >
                 <legend>{sel.value}</legend>
-                <p style={{ fontSize: '0.88rem', lineHeight: 1.6, marginBottom: 'var(--space-md)' }}>{sel.description}</p>
+                <p className="lh-normal mb-md" style={{ fontSize: '0.88rem' }}>{sel.description}</p>
                 {sel.hierarchy && (
-                  <div style={{ marginBottom: 'var(--space-sm)' }}>
-                    <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 'var(--space-xs)' }}>Hierarchy</div>
-                    <p style={{ fontSize: '0.85rem', lineHeight: 1.5 }}>{sel.hierarchy}</p>
+                  <div className="mb-sm" >
+                    <div className="text-sm text-muted uppercase mb-xs" style={{ letterSpacing: '0.05em' }}>Hierarchy</div>
+                    <p className="text-base" style={{ lineHeight: 1.5 }}>{sel.hierarchy}</p>
                   </div>
                 )}
                 {sel.joining && (
-                  <div style={{ marginBottom: 'var(--space-sm)' }}>
-                    <div style={{ fontSize: '0.78rem', color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 'var(--space-xs)' }}>How to Join</div>
-                    <p style={{ fontSize: '0.85rem', lineHeight: 1.5 }}>{sel.joining}</p>
+                  <div className="mb-sm" >
+                    <div className="text-sm text-muted uppercase mb-xs" style={{ letterSpacing: '0.05em' }}>How to Join</div>
+                    <p className="text-base" style={{ lineHeight: 1.5 }}>{sel.joining}</p>
                   </div>
                 )}
                 {sel.source && (
-                  <p className="muted-hint muted-hint--xs" style={{ fontStyle: 'italic', marginTop: 'var(--space-sm)' }}>Source: {sel.source}</p>
+                  <p className="muted-hint muted-hint--xs font-italic mt-sm" >Source: {sel.source}</p>
                 )}
               </fieldset>
             )
           })()}
 
           {/* Reference: All Secret Societies */}
-          <details style={{ marginTop: 'var(--space-md)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>
+          <details className="mt-md" >
+            <summary className="cursor-pointer font-semibold text-md text-accent" >
               All Secret Societies Reference ({SECRET_SOCIETIES.length})
             </summary>
-            <div style={{ marginTop: 'var(--space-sm)' }}>
+            <div className="mt-sm" >
               {SECRET_SOCIETIES.map(s => (
-                <div key={s.value} style={{ padding: 'var(--space-sm) 0', borderBottom: '1px solid var(--color-border)' }}>
-                  <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '2px' }}>{s.value}</div>
+                <div key={s.value} className="border-b" style={{ padding: 'var(--space-sm) 0' }}>
+                  <div className="font-semibold text-md" style={{ marginBottom: '2px' }}>{s.value}</div>
                   <p className="muted-hint muted-hint--xs" style={{ marginBottom: '4px' }}>{s.description}</p>
                   {s.hierarchy && <p className="muted-hint muted-hint--xs"><strong>Ranks:</strong> {s.hierarchy}</p>}
-                  {s.source && <p className="muted-hint muted-hint--xs" style={{ fontStyle: 'italic' }}>{s.source}</p>}
+                  {s.source && <p className="muted-hint muted-hint--xs font-italic" >{s.source}</p>}
                 </div>
               ))}
             </div>
@@ -1070,7 +1070,7 @@ export default function SeventhSeaForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tab7sStories')} ({parsedStories.length})</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               Stories replace XP. Define a Goal, a Reward, and Steps. The number of steps determines the reward value: 1 step = 1-pt Advantage or Skill Rank, 3 steps = 3-pt Advantage, 5 steps = +1 Trait.
             </p>
           </fieldset>
@@ -1080,13 +1080,13 @@ export default function SeventhSeaForm() {
             <fieldset>
               <legend>{t('7sActiveStories')}</legend>
               {parsedStories.map((story, i) => (
-                <div key={i} className="form-section" style={{ padding: 'var(--space-md)', marginBottom: 'var(--space-sm)', borderLeft: '3px solid var(--color-accent-fg)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-xs)' }}>{story.title}</div>
+                <div key={i} className="form-section p-md mb-sm" style={{ borderLeft: '3px solid var(--color-accent-fg)' }}>
+                  <div className="flex justify-between items-start" >
+                    <div className="text-lg font-bold mb-xs" >{story.title}</div>
                     <button className="tag-remove" onClick={() => handleRemoveStory(i)}>{'\u00d7'}</button>
                   </div>
                   {story.lines.map((line, j) => (
-                    <p key={j} className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>{line}</p>
+                    <p key={j} className="muted-hint muted-hint--xs mb-xs" >{line}</p>
                   ))}
                 </div>
               ))}
@@ -1112,14 +1112,14 @@ export default function SeventhSeaForm() {
             </div>
             <div className="field">
               <label>{t('7sSteps')}</label>
-              <textarea value={newStory.steps} onChange={e => setNewStory(p => ({ ...p, steps: e.target.value }))} rows={3} style={{ width: '100%' }} placeholder={"Find the old map in the library\nSail to the island\nConfront the usurper"} />
+              <textarea value={newStory.steps} onChange={e => setNewStory(p => ({ ...p, steps: e.target.value }))} rows={3} className="w-full"  placeholder={"Find the old map in the library\nSail to the island\nConfront the usurper"} />
             </div>
             {(() => {
               const stepCount = newStory.steps ? newStory.steps.split('\n').filter(s => s.trim()).length : 0
               if (stepCount === 0) return null
               const tier = STORY_REWARD_TIERS.find(t => t.steps === Math.min(stepCount, 5)) || STORY_REWARD_TIERS[STORY_REWARD_TIERS.length - 1]
               return (
-                <p role="status" aria-live="polite" className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)', padding: 'var(--space-xs) var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderRadius: 'var(--radius)', borderLeft: '3px solid var(--color-accent-fg)' }}>
+                <p role="status" aria-live="polite" className="muted-hint muted-hint--xs mb-sm rounded" style={{ padding: 'var(--space-xs) var(--space-sm)', background: 'rgba(52,152,219,0.08)', borderLeft: '3px solid var(--color-accent-fg)' }}>
                   <strong>{stepCount} step{stepCount !== 1 ? 's' : ''}</strong> = <strong>{tier.reward}</strong>
                   {stepCount > 5 && ' (capped at 5-step reward tier)'}
                 </p>
@@ -1130,21 +1130,21 @@ export default function SeventhSeaForm() {
 
           {/* Raw Data */}
           <details>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('7sRawStoryData')}</summary>
-            <textarea name="heroStories" value={fields.heroStories} onChange={handleText} rows={8} style={{ width: '100%', marginTop: 'var(--space-sm)' }} placeholder="Stories are added from the form above. Edit directly here if needed." />
+            <summary className="cursor-pointer font-semibold text-md text-accent" >{t('7sRawStoryData')}</summary>
+            <textarea name="heroStories" value={fields.heroStories} onChange={handleText} rows={8} className="w-full mt-sm"  placeholder="Stories are added from the form above. Edit directly here if needed." />
           </details>
 
           {/* Story Rewards Reference */}
-          <details style={{ marginTop: 'var(--space-md)' }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', color: 'var(--color-accent-fg)' }}>{t('7sRewardsRef')}</summary>
-            <table className="inv-table" style={{ marginTop: 'var(--space-sm)' }}>
+          <details className="mt-md" >
+            <summary className="cursor-pointer font-semibold text-md text-accent" >{t('7sRewardsRef')}</summary>
+            <table className="inv-table mt-sm" >
               <thead><tr><th>Steps</th><th>Reward</th></tr></thead>
               <tbody>
-                <tr><td style={{ fontWeight: 600 }}>1</td><td>1-pt Advantage or new Skill Rank</td></tr>
-                <tr><td style={{ fontWeight: 600 }}>2</td><td>2-pt Advantage</td></tr>
-                <tr><td style={{ fontWeight: 600 }}>3</td><td>3-pt Advantage</td></tr>
-                <tr><td style={{ fontWeight: 600 }}>4</td><td>4-pt Advantage</td></tr>
-                <tr><td style={{ fontWeight: 600 }}>5</td><td>5-pt Advantage or +1 to a Trait</td></tr>
+                <tr><td className="font-semibold" >1</td><td>1-pt Advantage or new Skill Rank</td></tr>
+                <tr><td className="font-semibold" >2</td><td>2-pt Advantage</td></tr>
+                <tr><td className="font-semibold" >3</td><td>3-pt Advantage</td></tr>
+                <tr><td className="font-semibold" >4</td><td>4-pt Advantage</td></tr>
+                <tr><td className="font-semibold" >5</td><td>5-pt Advantage or +1 to a Trait</td></tr>
               </tbody>
             </table>
           </details>
@@ -1156,10 +1156,10 @@ export default function SeventhSeaForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('7sBelongings')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               7th Sea uses abstract Wealth rather than detailed inventories. List notable possessions: signature weapons, ships, heirlooms, and other meaningful items.
             </p>
-            <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={10} style={{ width: '100%' }} placeholder={
+            <textarea name="personalItems" value={fields.personalItems} onChange={handleText} rows={10} className="w-full"  placeholder={
 `Signature sword (Castillian rapier, family heirloom)
 Ship: The Silver Gull (brigantine, 20 crew)
 Port\u00e9-marked locket (blooded to my mother)
@@ -1172,9 +1172,9 @@ Coded journal of trade routes`} />
       {/* \u2500\u2500 Backstory \u2500\u2500 */}
       <div role="tabpanel" id={`tabpanel-12`} aria-labelledby={`tab-12`} hidden={tab !== 12}>
         <div className="form-section">
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full"  /></fieldset>
         </div>
       </div>
 

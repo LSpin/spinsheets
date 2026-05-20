@@ -52,9 +52,9 @@ export default function AdminPage() {
       {loading && <p className="status-loading">{t('loading')}</p>}
 
       {!loading && (
-        <table style={{ width: '100%', fontSize: '0.85rem', borderCollapse: 'collapse' }}>
+        <table className="w-full text-base" style={{ borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ borderBottom: '2px solid var(--color-border)', textAlign: 'left' }}>
+            <tr className="text-left" style={{ borderBottom: '2px solid var(--color-border)' }}>
               <th style={{ padding: '0.5rem' }}>ID</th>
               <th style={{ padding: '0.5rem' }}>{t('adminUsername')}</th>
               <th style={{ padding: '0.5rem' }}>{t('adminEmail')}</th>
@@ -65,7 +65,7 @@ export default function AdminPage() {
           </thead>
           <tbody>
             {users.map(u => (
-              <tr key={u.id} style={{ borderBottom: '1px solid var(--color-border)' }}>
+              <tr key={u.id} className="border-b">
                 <td style={{ padding: '0.5rem' }}>{u.id}</td>
                 <td style={{ padding: '0.5rem', fontWeight: u.role === 'ADMIN' ? 700 : 400 }}>{u.username}</td>
                 <td style={{ padding: '0.5rem' }}>{u.email}</td>

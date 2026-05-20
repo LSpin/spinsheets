@@ -104,10 +104,10 @@ export default function SplatSelectPage() {
       <div className="character-list-header">
         <h2 id="splat-heading">{isNpc ? t('newNpc') : t('newCharacter')}</h2>
       </div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {isNpc ? t('chooseNpcType') : t('chooseGameLine')}
       </p>
-      <div className="tab-list" role="tablist" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="tab-list mb-lg" role="tablist">
         {TABS.map(tb => (
           <button key={tb.key} role="tab" className={`btn btn-secondary${activeTab === tb.key ? ' tab-btn--active' : ''}`}
             onClick={() => setTab(tb.key)} aria-selected={activeTab === tb.key}>{t(tb.labelKey)}</button>

@@ -339,8 +339,8 @@ export default function WraithForm() {
           </fieldset>
           <fieldset>
             <legend>{t('wraithPassions')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('wraithPassionsHint')}</p>
-            <textarea name="clanCurse" value={fields.clanCurse} onChange={handleText} rows={6} style={{ width: '100%' }}
+            <p className="muted-hint muted-hint--xs mb-sm" >{t('wraithPassionsHint')}</p>
+            <textarea name="clanCurse" value={fields.clanCurse} onChange={handleText} rows={6} className="w-full" 
               aria-label="Passions and Fetters" placeholder={t('wraithPassionsPlaceholder')} />
           </fieldset>
         </div>
@@ -429,7 +429,7 @@ export default function WraithForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('wraithArcanoi')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>{t('wraithArcanoiHint')}</p>
+            <p className="muted-hint muted-hint--xs mb-sm" >{t('wraithArcanoiHint')}</p>
             {(() => {
               const parsed = {}
               ;(fields.sorceryDesc || '').split(',').map(s => s.trim()).filter(Boolean).forEach(entry => {
@@ -465,7 +465,7 @@ export default function WraithForm() {
         <div className="form-section">
           <fieldset>
             <legend>{t('tabShadow')}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               {t('wraithShadowHint') || 'The Shadow is the dark half of every wraith, seeking to drag it into Oblivion.'}
             </p>
             <div className="field-row">
@@ -477,7 +477,7 @@ export default function WraithForm() {
             {fields.sect && (() => {
               const thornsPart = (fields.shadowDesc || '').split('||')[0].split(',').map(s => s.trim()).filter(Boolean)
               return thornsPart.length === 0 ? (
-                <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+                <p className="status-warning mt-xs text-sm" role="status" aria-live="polite" >
                   Shadow Archetype "{fields.sect}" selected but no Thorns chosen. Every Shadow should have at least one Thorn.
                 </p>
               ) : null
@@ -485,7 +485,7 @@ export default function WraithForm() {
           </fieldset>
           <fieldset>
             <legend>{t('wraithDarkPassions') || 'Dark Passions & Thorns'}</legend>
-            <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-sm)' }}>
+            <p className="muted-hint muted-hint--xs mb-sm" >
               {t('wraithDarkPassionsHint') || 'Dark Passions fuel the Shadow. Thorns are powers the Shadow can use against the wraith.'}
             </p>
             {(() => {
@@ -504,23 +504,23 @@ export default function WraithForm() {
                       const isChecked = thornsPart.includes(thorn.name)
                       return (
                         <li key={thorn.name} className={`catalog-item${isChecked ? ' catalog-item--added' : ''}`}>
-                          <label style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-xs)', padding: 'var(--space-xs) var(--space-sm)', cursor: 'pointer', width: '100%' }}>
+                          <label className="flex items-start gap-xs cursor-pointer w-full" style={{ padding: 'var(--space-xs) var(--space-sm)' }}>
                             <input type="checkbox" checked={isChecked} onChange={() => {
                               const next = isChecked ? thornsPart.filter(n => n !== thorn.name) : [...thornsPart, thorn.name]
                               updateShadow(next, passionsPart)
                             }} style={{ marginTop: '3px' }} />
                             <div>
-                              <span className="catalog-item-name" style={{ fontWeight: 600 }}>{thorn.name}</span>
-                              <p className="catalog-item-desc" style={{ margin: '2px 0 0', fontSize: '0.82rem' }}>{thorn.description}</p>
+                              <span className="catalog-item-name font-semibold" >{thorn.name}</span>
+                              <p className="catalog-item-desc text-sm" style={{ margin: '2px 0 0' }}>{thorn.description}</p>
                             </div>
                           </label>
                         </li>
                       )
                     })}
                   </ul>
-                  <div style={{ marginTop: 'var(--space-md)' }}>
-                    <label style={{ fontWeight: 600, display: 'block', marginBottom: 'var(--space-xs)' }}>Dark Passions & Notes</label>
-                    <textarea value={passionsPart} onChange={e => updateShadow(thornsPart, e.target.value)} rows={6} style={{ width: '100%' }}
+                  <div className="mt-md" >
+                    <label className="font-semibold mb-xs" style={{ display: 'block' }}>Dark Passions & Notes</label>
+                    <textarea value={passionsPart} onChange={e => updateShadow(thornsPart, e.target.value)} rows={6} className="w-full" 
                       aria-label="Dark Passions and notes"
                       placeholder={'Dark Passions (emotion + rating):\nDestroy my family\'s legacy (Spite 3)\nBetray my Circle (Treachery 2)'} />
                   </div>
@@ -541,7 +541,7 @@ export default function WraithForm() {
               <DotRating label={t('temporary')} name="currentWillpower" value={fields.currentWillpower} onChange={handleField} min={0} max={fields.willpower} />
             </div>
             {fields.currentWillpower > fields.willpower && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite" >
                 Temporary Willpower cannot exceed permanent ({fields.willpower}).
               </p>
             )}
@@ -553,7 +553,7 @@ export default function WraithForm() {
               <DotRating label={t('temporary')} name="currentGnosis" value={fields.currentGnosis} onChange={handleField} min={0} max={fields.gnosis} />
             </div>
             {fields.currentGnosis === 0 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite" >
                 No Pathos remaining. The wraith cannot fuel Arcanoi.
               </p>
             )}
@@ -565,12 +565,12 @@ export default function WraithForm() {
               <DotRating label={t('temporary')} name="currentRage" value={fields.currentRage} onChange={handleField} min={0} max={fields.rage} />
             </div>
             {fields.currentRage <= 2 && fields.currentRage > 0 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite" >
                 Corpus critically low ({fields.currentRage}/{fields.rage}). Risk of dissolution.
               </p>
             )}
             {fields.currentRage === 0 && (
-              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+              <p className="status-warning mt-xs text-sm font-bold" role="alert" aria-live="assertive" >
                 Corpus destroyed. The wraith has been dissolved into the Tempest.
               </p>
             )}
@@ -581,12 +581,12 @@ export default function WraithForm() {
               <DotRating label={t('permanent')} name="quintessence" value={fields.quintessence} onChange={handleField} min={0} max={10} />
             </div>
             {fields.quintessence >= 7 && fields.quintessence < 10 && (
-              <p className="status-warning" role="status" aria-live="polite" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem' }}>
+              <p className="status-warning mt-xs text-sm" role="status" aria-live="polite" >
                 High Angst ({fields.quintessence}). The Shadow grows powerful and may attempt to seize control.
               </p>
             )}
             {fields.quintessence >= 10 && (
-              <p className="status-warning" role="alert" aria-live="assertive" style={{ marginTop: 'var(--space-xs)', fontSize: '0.8rem', fontWeight: 700 }}>
+              <p className="status-warning mt-xs text-sm font-bold" role="alert" aria-live="assertive" >
                 Angst at maximum. The Shadow dominates -- Spectre transformation imminent.
               </p>
             )}
@@ -628,8 +628,8 @@ export default function WraithForm() {
                         handleField(h.key, cycle[val] || '')
                       }}>
                       <td style={{ fontWeight: val ? 700 : 400 }}>{t(h.label)}</td>
-                      <td style={{ color: 'var(--color-text-muted)' }}>{h.penalty || '\u2014'}</td>
-                      <td style={{ fontWeight: 600, color: dmgColor }}>{dmgLabel}</td>
+                      <td className="text-muted" >{h.penalty || '\u2014'}</td>
+                      <td className="font-semibold" style={{ color: dmgColor }}>{dmgLabel}</td>
                     </tr>
                   )
                 })}
@@ -645,14 +645,14 @@ export default function WraithForm() {
           <fieldset>
             <legend>{t('backgrounds')} ({backgrounds.length})</legend>
             {backgrounds.length > 0 && (
-              <ul className="tag-list" style={{ marginBottom: 'var(--space-md)' }}>
+              <ul className="tag-list mb-md" >
                 {backgrounds.map(b => (
                   <li key={b.id} className={`tag tag--clickable${b.id === tagInfo?.id ? ' tag--active' : ''}`}
                     onClick={() => setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' })}
                     onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setTagInfo(ti => ti?.id === b.id ? null : { ...b, kind: 'background' }) } }}
                     role="button"
                     tabIndex={0}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+                    <span className="flex items-center gap-xs flex-wrap" >
                       <strong>{b.name}</strong>
                       <span onClick={e => e.stopPropagation()} style={{ display: 'inline-flex' }}>
                         <DotRating label="" name={`bg-${b.id}`} value={b.level} min={1} max={5}
@@ -671,11 +671,11 @@ export default function WraithForm() {
             {tagInfo?.kind === 'background' && (() => {
               const entry = WRAITH_BACKGROUNDS.find(bg => bg.value.toLowerCase() === tagInfo.name.toLowerCase())
               return (
-                <aside className="tag-info-panel" style={{ marginBottom: 'var(--space-md)' }}>
+                <aside className="tag-info-panel mb-md" >
                   <button className="tag-info-panel-close" onClick={() => setTagInfo(null)}>{t('close')}</button>
                   <p className="tag-info-panel-name">{tagInfo.name}</p>
                   <p className="tag-info-panel-desc">Background \u00b7 Level {tagInfo.level}</p>
-                  {entry?.description && <p style={{ fontSize: '0.82rem', lineHeight: 1.55 }}>{entry.description}</p>}
+                  {entry?.description && <p className="text-sm" style={{ lineHeight: 1.55 }}>{entry.description}</p>}
                   {entry?.levels && (
                     <ul className="tag-info-levels">
                       {entry.levels.map((lvl, i) => (
@@ -741,12 +741,12 @@ export default function WraithForm() {
       {/* Backstory */}
       <div role="tabpanel" id="tabpanel-11" aria-labelledby="tab-11" hidden={tab !== 11}>
         <div className="form-section">
-          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('goalsLabel')}</legend><textarea name="goals" value={fields.goals} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('alliesLabel')}</legend><textarea name="allies" value={fields.allies} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('enemiesLabel')}</legend><textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
-          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} style={{ width: '100%' }} /></fieldset>
+          <fieldset><legend>{t('backstoryLabel')}</legend><textarea name="backstory" value={fields.backstory} onChange={handleText} rows={8} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('appearanceLabel')}</legend><textarea name="appearanceDesc" value={fields.appearanceDesc} onChange={handleText} rows={4} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('goalsLabel')}</legend><textarea name="goals" value={fields.goals} onChange={handleText} rows={4} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('alliesLabel')}</legend><textarea name="allies" value={fields.allies} onChange={handleText} rows={4} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('enemiesLabel')}</legend><textarea name="enemies" value={fields.enemies} onChange={handleText} rows={4} className="w-full"  /></fieldset>
+          <fieldset><legend>{t('notes')}</legend><textarea name="notes" value={fields.notes} onChange={handleText} rows={4} className="w-full"  /></fieldset>
         </div>
       </div>
 

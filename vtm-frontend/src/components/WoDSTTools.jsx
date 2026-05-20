@@ -36,15 +36,15 @@ function HistoryPanel({ items, renderItem, label }) {
   const { t } = useLanguage()
   if (items.length === 0) return null
   return (
-    <div style={{ marginTop: 'var(--space-md)' }}>
+    <div className="mt-md">
       <button className="btn btn-secondary" onClick={() => setOpen(!open)}
         aria-expanded={open} style={{ fontSize: '0.82rem' }}>
         {open ? t('wodSTHideHistory') : t('wodSTShowHistory')} ({items.length})
       </button>
       {open && (
-        <ul aria-label={label} style={{ listStyle: 'none', padding: 0, marginTop: 'var(--space-sm)' }}>
+        <ul aria-label={label} style={{ listStyle: 'none', padding: 0 }} className="mt-sm">
           {items.map((item, i) => (
-            <li key={item.id || i} className="character-card" style={{ padding: 'var(--space-sm) var(--space-md)', marginBottom: 'var(--space-xs)' }}>
+            <li key={item.id || i} className="character-card mb-xs" style={{ padding: 'var(--space-sm) var(--space-md)' }}>
               {renderItem(item)}
             </li>
           ))}
@@ -58,9 +58,8 @@ function HistoryPanel({ items, renderItem, label }) {
 
 function ResultCard({ children, style }) {
   return (
-    <div className="character-card" role="status" aria-live="polite" style={{
+    <div className="character-card mt-md" role="status" aria-live="polite" style={{
       padding: 'var(--space-lg)',
-      marginTop: 'var(--space-md)',
       border: '1px solid var(--accent)',
       ...style,
     }}>
@@ -96,10 +95,10 @@ function FeedingSceneTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('wodSTFeedingHint')}
       </p>
-      <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+      <div className="flex gap-sm flex-wrap">
         <button className="btn btn-primary" onClick={rollAll}>{t('wodSTRollAll')}</button>
         {result && (
           <>
@@ -112,7 +111,7 @@ function FeedingSceneTab() {
 
       {result && (
         <ResultCard>
-          <div style={{ display: 'grid', gap: 'var(--space-sm)' }}>
+          <div className="grid gap-sm">
             <div><strong>{t('wodSTLocation')}:</strong> {result.location}</div>
             <div><strong>{t('wodSTPrey')}:</strong> {result.prey}</div>
             <div><strong>{t('wodSTComplication')}:</strong> {result.complication}</div>
@@ -121,7 +120,7 @@ function FeedingSceneTab() {
       )}
 
       <HistoryPanel items={history} label="Feeding scene history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
+        <div className="text-base">
           <strong>{item.location}</strong> — {item.prey}
         </div>
       )} />
@@ -144,7 +143,7 @@ function SpiritEncounterTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('wodSTSpiritHint')}
       </p>
       <button className="btn btn-primary" onClick={rollEncounter}>
@@ -158,7 +157,7 @@ function SpiritEncounterTab() {
       )}
 
       <HistoryPanel items={history} label="Spirit encounter history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>{item.text}</div>
+        <div className="text-base">{item.text}</div>
       )} />
     </div>
   )
@@ -190,10 +189,10 @@ function ParadoxBacklashTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('wodSTParadoxHint')}
       </p>
-      <div style={{ display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 'var(--space-md)' }}>
+      <div className="flex gap-md flex-wrap items-end mb-md">
         <div className="field" style={{ flex: '0 0 180px' }}>
           <label htmlFor="paradox-severity">{t('wodSTSeverity')}</label>
           <select id="paradox-severity" value={severity} onChange={e => setSeverity(e.target.value)}>
@@ -207,9 +206,9 @@ function ParadoxBacklashTab() {
 
       {result && (
         <ResultCard style={{ borderColor: severityColor(result.severity) }}>
-          <div style={{
-            fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 700,
-            color: severityColor(result.severity), letterSpacing: '0.05em', marginBottom: 'var(--space-xs)',
+          <div className="uppercase font-bold mb-xs" style={{
+            fontSize: '0.75rem',
+            color: severityColor(result.severity), letterSpacing: '0.05em',
           }}>
             {t(`wodST${result.severity.charAt(0).toUpperCase() + result.severity.slice(1)}`)} {t('wodSTParadox')}
           </div>
@@ -218,8 +217,8 @@ function ParadoxBacklashTab() {
       )}
 
       <HistoryPanel items={history} label="Paradox history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
-          <span style={{ color: severityColor(item.severity), fontWeight: 700 }}
+        <div className="text-base">
+          <span className="font-bold" style={{ color: severityColor(item.severity) }}
             aria-label={`Severity: ${item.severity}`}>
             [{item.severity}]
           </span>{' '}
@@ -253,7 +252,7 @@ function NPCGeneratorTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('wodSTNPCHint')}
       </p>
       <button className="btn btn-primary" onClick={generateNPC}>
@@ -265,7 +264,7 @@ function NPCGeneratorTab() {
           <h3 style={{ margin: '0 0 var(--space-sm) 0', color: 'var(--accent)' }}>
             {result.firstName} {result.lastName}
           </h3>
-          <div style={{ display: 'grid', gap: 'var(--space-xs)' }}>
+          <div className="grid gap-xs">
             <div><strong>{t('wodSTClanTribe')}:</strong> {result.clanTribe}</div>
             <div><strong>{t('wodSTPersonality')}:</strong> {result.personality}</div>
             <div><strong>{t('wodSTSecret')}:</strong> {result.secret}</div>
@@ -275,7 +274,7 @@ function NPCGeneratorTab() {
       )}
 
       <HistoryPanel items={history} label="NPC history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
+        <div className="text-base">
           <strong>{item.firstName} {item.lastName}</strong> — {item.clanTribe}, {item.personality}
         </div>
       )} />
@@ -298,7 +297,7 @@ function CityEventsTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('wodSTCityHint')}
       </p>
       <button className="btn btn-primary" onClick={rollEvent}>
@@ -312,7 +311,7 @@ function CityEventsTab() {
       )}
 
       <HistoryPanel items={history} label="City event history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>{item.text}</div>
+        <div className="text-base">{item.text}</div>
       )} />
     </div>
   )
@@ -355,11 +354,11 @@ function FrenzyReferenceTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('wodSTFrenzyHint')}
       </p>
 
-      <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-end', marginBottom: 'var(--space-lg)', flexWrap: 'wrap' }}>
+      <div className="flex gap-sm items-end mb-lg flex-wrap">
         <div className="field" style={{ flex: '0 0 140px' }}>
           <label htmlFor="frenzy-pool">{t('wodSTSelfControlPool')}</label>
           <input id="frenzy-pool" type="number" min={1} max={10} value={pool}
@@ -367,25 +366,25 @@ function FrenzyReferenceTab() {
         </div>
       </div>
 
-      <table style={{ width: '100%', fontSize: '0.85rem', borderCollapse: 'collapse', marginBottom: 'var(--space-md)' }}>
+      <table className="w-full text-base mb-md" style={{ borderCollapse: 'collapse' }}>
         <thead>
           <tr>
-            <th style={{ textAlign: 'left', padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}>{t('wodSTTrigger')}</th>
-            <th style={{ textAlign: 'left', padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}>{t('wodSTType')}</th>
-            <th style={{ textAlign: 'center', padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}>{t('wodSTDifficulty')}</th>
-            <th style={{ textAlign: 'left', padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}>{t('wodSTNotes')}</th>
-            <th style={{ textAlign: 'center', padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}></th>
+            <th className="text-left" style={{ padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}>{t('wodSTTrigger')}</th>
+            <th className="text-left" style={{ padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}>{t('wodSTType')}</th>
+            <th className="text-center" style={{ padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}>{t('wodSTDifficulty')}</th>
+            <th className="text-left" style={{ padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}>{t('wodSTNotes')}</th>
+            <th className="text-center" style={{ padding: 'var(--space-xs)', borderBottom: '1px solid var(--text-muted)' }}></th>
           </tr>
         </thead>
         <tbody>
           {FRENZY_TRIGGERS.map((row, i) => (
             <tr key={i} style={{ background: selectedDiff === row.difficulty && rollResult?.trigger === row.trigger ? 'var(--surface-2, rgba(255,255,255,0.05))' : undefined }}>
               <td style={{ padding: 'var(--space-xs)' }}>{row.trigger}</td>
-              <td style={{ padding: 'var(--space-xs)', color: row.type === 'Rotschreck' ? '#fd7e14' : '#fa5252', fontWeight: 600 }}
+              <td className="font-semibold" style={{ padding: 'var(--space-xs)', color: row.type === 'Rotschreck' ? '#fd7e14' : '#fa5252' }}
                 aria-label={`Type: ${row.type}`}>{row.type}</td>
-              <td style={{ padding: 'var(--space-xs)', textAlign: 'center', fontWeight: 700 }}>{row.difficulty}</td>
-              <td style={{ padding: 'var(--space-xs)', fontSize: '0.8rem', color: 'var(--text-muted)' }}>{row.notes}</td>
-              <td style={{ padding: 'var(--space-xs)', textAlign: 'center' }}>
+              <td className="text-center font-bold" style={{ padding: 'var(--space-xs)' }}>{row.difficulty}</td>
+              <td className="text-muted" style={{ padding: 'var(--space-xs)', fontSize: '0.8rem' }}>{row.notes}</td>
+              <td className="text-center" style={{ padding: 'var(--space-xs)' }}>
                 <button className="btn btn-secondary" style={{ padding: '2px 8px', fontSize: '0.75rem' }}
                   onClick={() => handleRoll(row.difficulty, row.trigger)}
                   aria-label={`Roll Self-Control against ${row.trigger}`}>
@@ -399,11 +398,11 @@ function FrenzyReferenceTab() {
 
       {rollResult && (
         <ResultCard>
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: 'var(--space-xs)' }}>
+          <div className="text-base text-muted mb-xs">
             {rollResult.trigger} — {t('wodSTDifficulty')} {rollResult.difficulty}, {t('wodSTPool')} {rollResult.pool}
           </div>
-          <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'center', flexWrap: 'wrap' }}>
-            <span style={{ fontWeight: 600 }}>{t('wodSTDice')}:</span>
+          <div className="flex gap-sm items-center flex-wrap">
+            <span className="font-semibold">{t('wodSTDice')}:</span>
             {rollResult.dice.map((d, i) => (
               <span key={i} style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
@@ -414,7 +413,7 @@ function FrenzyReferenceTab() {
                 border: '2px solid var(--text-muted, #555)',
               }}>{d}</span>
             ))}
-            <span style={{ fontWeight: 700, color: outcomeColor(rollResult.outcome), marginLeft: 'var(--space-sm)', fontSize: '1.1rem' }}
+            <span className="font-bold text-xl ml-sm" style={{ color: outcomeColor(rollResult.outcome) }}
               aria-label={`Outcome: ${outcomeLabel(rollResult.outcome)}`}>
               {outcomeLabel(rollResult.outcome)} ({rollResult.net} {t('wodSTSuccesses')})
             </span>
@@ -423,7 +422,7 @@ function FrenzyReferenceTab() {
       )}
 
       <HistoryPanel items={history} label="Frenzy roll history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>
+        <div className="text-base">
           <strong>{item.trigger}</strong> [{item.dice.join(', ')}] — <span style={{ color: outcomeColor(item.outcome) }} aria-label={`Outcome: ${outcomeLabel(item.outcome)}`}>{outcomeLabel(item.outcome)}</span>
         </div>
       )} />
@@ -446,7 +445,7 @@ function SceneComplicationsTab() {
 
   return (
     <div>
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>
+      <p className="muted-hint mb-md">
         {t('wodSTComplicationHint')}
       </p>
       <button className="btn btn-primary" onClick={rollComplication}>
@@ -455,9 +454,9 @@ function SceneComplicationsTab() {
 
       {result && (
         <ResultCard style={{ borderColor: '#fd7e14' }}>
-          <div style={{
-            fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 700,
-            color: '#fd7e14', letterSpacing: '0.05em', marginBottom: 'var(--space-xs)',
+          <div className="uppercase font-bold mb-xs" style={{
+            fontSize: '0.75rem',
+            color: '#fd7e14', letterSpacing: '0.05em',
           }}>
             {t('wodSTSceneComplication')}
           </div>
@@ -466,7 +465,7 @@ function SceneComplicationsTab() {
       )}
 
       <HistoryPanel items={history} label="Scene complication history" renderItem={(item) => (
-        <div style={{ fontSize: '0.85rem' }}>{item.text}</div>
+        <div className="text-base">{item.text}</div>
       )} />
     </div>
   )
@@ -496,16 +495,16 @@ export default function WoDSTTools() {
     <section aria-labelledby="wod-st-tools-heading">
       <div className="character-list-header">
         <div>
-          <button className="btn btn-secondary" onClick={() => navigate('/characters')} style={{ marginRight: 'var(--space-sm)' }}>
+          <button className="btn btn-secondary mr-sm" onClick={() => navigate('/characters')}>
             {t('back')}
           </button>
           <h2 id="wod-st-tools-heading" style={{ display: 'inline' }}>{t('wodSTTools')}</h2>
         </div>
       </div>
 
-      <p className="muted-hint" style={{ marginBottom: 'var(--space-md)' }}>{t('wodSTToolsDesc')}</p>
+      <p className="muted-hint mb-md">{t('wodSTToolsDesc')}</p>
 
-      <div className="tab-list" role="tablist" aria-label="ST Tools tabs" style={{ marginBottom: 'var(--space-lg)' }}>
+      <div className="tab-list mb-lg" role="tablist" aria-label="ST Tools tabs">
         {TABS.map(tab => (
           <button key={tab.key} role="tab"
             className={`btn btn-secondary${activeTab === tab.key ? ' tab-btn--active' : ''}`}
