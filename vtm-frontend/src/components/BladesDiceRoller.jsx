@@ -234,7 +234,7 @@ export default function BladesDiceRoller() {
               <span
                 key={`${result.id}-${i}`}
                 className={dieClass(die, i, result.determiningIndex)}
-                title={i === result.determiningIndex ? (result.isZeroDice ? 'Lowest' : 'Highest') : ''}
+                title={i === result.determiningIndex ? (result.isZeroDice ? t('bladesLowest') : t('bladesHighest')) : ''}
               >
                 {die}
               </span>

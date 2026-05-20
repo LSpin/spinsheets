@@ -52,7 +52,14 @@ const TURF_SLOTS = [
 ]
 
 const STANDARD_CREW_UPGRADES = [
-  'Vault', 'Boat House', 'Carriage House', 'Hidden Lair', 'Mastery', 'Quality', 'Secure Lair', 'Workshop',
+  { name: 'Vault', nameKey: 'bladesUpgrade_Vault' },
+  { name: 'Boat House', nameKey: 'bladesUpgrade_BoatHouse' },
+  { name: 'Carriage House', nameKey: 'bladesUpgrade_CarriageHouse' },
+  { name: 'Hidden Lair', nameKey: 'bladesUpgrade_HiddenLair' },
+  { name: 'Mastery', nameKey: 'bladesUpgrade_Mastery' },
+  { name: 'Quality', nameKey: 'bladesUpgrade_Quality' },
+  { name: 'Secure Lair', nameKey: 'bladesUpgrade_SecureLair' },
+  { name: 'Workshop', nameKey: 'bladesUpgrade_Workshop' },
 ]
 
 const FACTION_STATUS_KEYS = {
@@ -156,6 +163,7 @@ function FactionTracker({ factionData, onChange }) {
 }
 
 function TurfTracker({ turfData, onChange }) {
+  const { t } = useLanguage()
   const claimed = turfData ? turfData.split(',').map(s => s.trim()).filter(Boolean) : []
 
   function toggleTurf(name) {
@@ -170,8 +178,8 @@ function TurfTracker({ turfData, onChange }) {
   return (
     <div>
       <div style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm)', borderRadius: 6, background: 'var(--color-surface-elevated, rgba(255,255,255,0.06))' }}>
-        <strong>Total Turf Claimed: {totalClaimed}</strong>
-        {turfCount > 0 && <span className="muted-hint" style={{ marginLeft: 'var(--space-sm)' }}>({turfCount} turf = +{turfCount} coin per score)</span>}
+        <strong>{t('bladesTotalTurfClaimed')}: {totalClaimed}</strong>
+        {turfCount > 0 && <span className="muted-hint" style={{ marginLeft: 'var(--space-sm)' }}>({t('bladesTurfCoinHint').replace('{0}', turfCount)})</span>}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
         {TURF_SLOTS.map((slot, idx) => {
@@ -202,13 +210,13 @@ function TurfTracker({ turfData, onChange }) {
         })}
       </div>
       <div style={{ marginTop: 'var(--space-md)' }}>
-        <strong style={{ fontSize: '0.85rem' }}>Benefits Summary:</strong>
+        <strong style={{ fontSize: '0.85rem' }}>{t('bladesBenefitsSummary')}:</strong>
         <ul style={{ margin: 'var(--space-xs) 0 0 var(--space-md)', fontSize: '0.82rem' }}>
           {claimed.map(c => {
             const slot = TURF_SLOTS.find(s => c === s.name || c.startsWith(s.name))
             return slot ? <li key={c}><strong>{c}:</strong> {slot.benefit}</li> : <li key={c}>{c}</li>
           })}
-          {claimed.length === 0 && <li className="muted-hint">No turf claimed yet.</li>}
+          {claimed.length === 0 && <li className="muted-hint">{t('bladesNoTurfYet')}</li>}
         </ul>
       </div>
     </div>
@@ -265,6 +273,7 @@ function ClickTrack({ label, value, max, onChange, showButtons }) {
 }
 
 function CheckboxList({ items, selected, onChange }) {
+  const { t } = useLanguage()
   const sel = selected ? selected.split(',').map(s => s.trim()).filter(Boolean) : []
   function toggle(name) {
     const next = sel.includes(name) ? sel.filter(s => s !== name) : [...sel, name]
@@ -275,12 +284,13 @@ function CheckboxList({ items, selected, onChange }) {
       {items.map(item => {
         const isObj = typeof item === 'object'
         const name = isObj ? item.name : item
-        const desc = isObj ? item.description : null
+        const label = isObj && item.nameKey ? t(item.nameKey) : name
+        const desc = isObj ? (item.descKey ? t(item.descKey) : item.description) : null
         return (
           <label key={name} style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'flex-start', cursor: 'pointer', padding: 'var(--space-xs) 0' }}>
             <input type="checkbox" checked={sel.includes(name)} onChange={() => toggle(name)} style={{ marginTop: '3px' }} />
             <div>
-              <strong style={{ fontSize: '0.88rem' }}>{name}</strong>
+              <strong style={{ fontSize: '0.88rem' }}>{label}</strong>
               {desc && <span className="muted-hint muted-hint--xs" style={{ display: 'block' }}>{desc}</span>}
             </div>
           </label>
@@ -328,9 +338,16 @@ export default function BladesCrewForm() {
   const crewType = BLADES_CREW_TYPES[fields.bladesCrewType] || null
 
   // Merge standard crew upgrades with crew-type-specific upgrades
-  const allUpgrades = crewType
-    ? [...new Set([...crewType.upgrades, ...STANDARD_CREW_UPGRADES])]
-    : STANDARD_CREW_UPGRADES
+  const allUpgrades = (() => {
+    const combined = crewType ? [...crewType.upgrades, ...STANDARD_CREW_UPGRADES] : [...STANDARD_CREW_UPGRADES]
+    const seen = new Set()
+    return combined.filter(item => {
+      const key = typeof item === 'object' ? item.name : item
+      if (seen.has(key)) return false
+      seen.add(key)
+      return true
+    })
+  })()
 
   // Vault upgrade bonus: each "Vault" upgrade adds +8 capacity
   const upgradesList = fields.bladesCrewUpgrades ? fields.bladesCrewUpgrades.split(',').map(s => s.trim()).filter(Boolean) : []
@@ -448,7 +465,7 @@ export default function BladesCrewForm() {
             <legend>{t('bladesHuntingGrounds')}</legend>
             {crewType && (
               <div style={{ marginBottom: 'var(--space-sm)' }}>
-                <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>{t('bladesPreferredType')}: {crewType.huntingGrounds.join(', ')}</p>
+                <p className="muted-hint muted-hint--xs" style={{ marginBottom: 'var(--space-xs)' }}>{t('bladesPreferredType')}: {crewType.huntingGrounds.map((hg, idx) => crewType.huntingGroundsKeys?.[idx] ? t(crewType.huntingGroundsKeys[idx]) : hg).join(', ')}</p>
               </div>
             )}
             <div className="field">
@@ -560,15 +577,16 @@ export default function BladesCrewForm() {
             <legend>{t('tabBladesCrewContacts')}</legend>
             {crewType ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-                {crewType.contacts.map(contact => {
+                {crewType.contacts.map((contact, idx) => {
                   const active = contactsList.includes(contact)
+                  const contactLabel = crewType.contactKeys?.[idx] ? t(crewType.contactKeys[idx]) : contact
                   return (
                     <div key={contact} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
                       <button type="button" className={`btn btn-secondary`} style={{ minWidth: 36, padding: '2px 8px', background: active ? 'var(--color-accent-fg)' : undefined, color: active ? '#fff' : undefined }}
                         onClick={() => toggleContact(contact)}>
                         {active ? '+' : '-'}
                       </button>
-                      <span style={{ fontSize: '0.88rem' }}>{contact}</span>
+                      <span style={{ fontSize: '0.88rem' }}>{contactLabel}</span>
                     </div>
                   )
                 })}
