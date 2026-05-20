@@ -521,6 +521,126 @@
   border-color: #9aabbc;
 }
 
+/* ── Harm track — structured like the official sheet ── */
+
+.blades-harm-track {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.blades-harm-row {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.blades-harm-row:last-child {
+  border-bottom: none;
+}
+
+.blades-harm-level {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  min-width: 140px;
+  flex-shrink: 0;
+  background: var(--color-surface-raised);
+  border-right: 1px solid var(--color-border);
+}
+
+.blades-harm-num {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1;
+  min-width: 20px;
+  text-align: center;
+}
+
+.blades-harm-row--fatal .blades-harm-num { color: #e74c3c; }
+.blades-harm-row--severe .blades-harm-num { color: #e67e22; }
+.blades-harm-row--lesser .blades-harm-num { color: #f1c40f; }
+
+.blades-harm-label {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  line-height: 1.2;
+}
+
+.blades-harm-slots {
+  display: flex;
+  flex: 1;
+  gap: 0;
+}
+
+.blades-harm-input {
+  flex: 1;
+  background: transparent;
+  color: var(--color-text);
+  border: none;
+  border-left: 1px solid var(--color-border);
+  border-radius: 0;
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-style: italic;
+  box-shadow: none;
+  transition: background var(--transition);
+}
+
+.blades-harm-input:first-child {
+  border-left: none;
+}
+
+.blades-harm-input:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.blades-harm-input:focus {
+  background: rgba(255,255,255,0.04);
+  outline: none;
+  box-shadow: inset 0 0 0 1px var(--color-border-focus);
+}
+
+.blades-harm-input::placeholder {
+  font-style: italic;
+  color: var(--color-text-disabled);
+  font-size: 0.8rem;
+}
+
+/* Filled harm slots show urgency */
+.blades-harm-input:not(:placeholder-shown) {
+  font-style: normal;
+  font-weight: 500;
+}
+
+.blades-harm-row--fatal .blades-harm-input:not(:placeholder-shown) {
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.05);
+}
+
+.blades-harm-row--severe .blades-harm-input:not(:placeholder-shown) {
+  color: #e67e22;
+  background: rgba(230, 126, 34, 0.04);
+}
+
+@media (max-width: 640px) {
+  .blades-harm-level {
+    min-width: 50px;
+    padding: var(--space-xs) var(--space-sm);
+  }
+  .blades-harm-label { display: none; }
+  .blades-harm-input { padding: var(--space-xs) var(--space-sm); font-size: 0.82rem; }
+}
+
 /* Stress track */
 .blades-stress-track {
   display: flex;

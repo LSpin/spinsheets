@@ -546,20 +546,35 @@ export default function BladesForm() {
           </fieldset>
           <fieldset>
             <legend>{t('bladesHarm')}</legend>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
-              <div className="field-row">
-                <span style={{ minWidth: '80px', fontWeight: 600, fontSize: '0.85rem' }}>{t('bladesHarmLevel3')}</span>
-                <div className="field" style={{ flex: 1 }}><input name="bladesHarm3" value={fields.bladesHarm3} onChange={handleText} placeholder={t('bladesHarm3Ph')} /></div>
+            <div className="blades-harm-track">
+              <div className="blades-harm-row blades-harm-row--fatal">
+                <div className="blades-harm-level">
+                  <span className="blades-harm-num">3</span>
+                  <span className="blades-harm-label">{t('bladesHarmLevel3')}</span>
+                </div>
+                <div className="blades-harm-slots">
+                  <input name="bladesHarm3" value={fields.bladesHarm3} onChange={handleText} placeholder={t('bladesHarm3Ph')} className="blades-harm-input" />
+                </div>
               </div>
-              <div className="field-row">
-                <span style={{ minWidth: '80px', fontWeight: 600, fontSize: '0.85rem' }}>{t('bladesHarmLevel2')}</span>
-                <div className="field" style={{ flex: 1 }}><input name="bladesHarm2a" value={fields.bladesHarm2a} onChange={handleText} placeholder={t('bladesHarm2Ph')} /></div>
-                <div className="field" style={{ flex: 1 }}><input name="bladesHarm2b" value={fields.bladesHarm2b} onChange={handleText} placeholder={t('bladesHarm2Ph')} /></div>
+              <div className="blades-harm-row blades-harm-row--severe">
+                <div className="blades-harm-level">
+                  <span className="blades-harm-num">2</span>
+                  <span className="blades-harm-label">{t('bladesHarmLevel2')}</span>
+                </div>
+                <div className="blades-harm-slots">
+                  <input name="bladesHarm2a" value={fields.bladesHarm2a} onChange={handleText} placeholder={t('bladesHarm2Ph')} className="blades-harm-input" />
+                  <input name="bladesHarm2b" value={fields.bladesHarm2b} onChange={handleText} placeholder={t('bladesHarm2Ph')} className="blades-harm-input" />
+                </div>
               </div>
-              <div className="field-row">
-                <span style={{ minWidth: '80px', fontWeight: 600, fontSize: '0.85rem' }}>{t('bladesHarmLevel1')}</span>
-                <div className="field" style={{ flex: 1 }}><input name="bladesHarm1a" value={fields.bladesHarm1a} onChange={handleText} placeholder={t('bladesHarm1Ph')} /></div>
-                <div className="field" style={{ flex: 1 }}><input name="bladesHarm1b" value={fields.bladesHarm1b} onChange={handleText} placeholder={t('bladesHarm1Ph')} /></div>
+              <div className="blades-harm-row blades-harm-row--lesser">
+                <div className="blades-harm-level">
+                  <span className="blades-harm-num">1</span>
+                  <span className="blades-harm-label">{t('bladesHarmLevel1')}</span>
+                </div>
+                <div className="blades-harm-slots">
+                  <input name="bladesHarm1a" value={fields.bladesHarm1a} onChange={handleText} placeholder={t('bladesHarm1Ph')} className="blades-harm-input" />
+                  <input name="bladesHarm1b" value={fields.bladesHarm1b} onChange={handleText} placeholder={t('bladesHarm1Ph')} className="blades-harm-input" />
+                </div>
               </div>
             </div>
           </fieldset>
