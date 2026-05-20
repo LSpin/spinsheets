@@ -2,27 +2,30 @@
 
 :root {
   --color-bg:             #0a0a0a;
-  --color-surface:        #141414;
-  --color-surface-raised: #1e1e1e;
-  --color-border:         #2e2e2e;
+  --color-surface:        #131316;
+  --color-surface-raised: #1c1c20;
+  --color-border:         #2a2a30;
+  --color-border-subtle:  #1e1e24;
   --color-border-focus:   #e05555;
-  --color-text:           #f0ece6;
-  --color-text-muted:     #b0b0b0;  /* 4.6:1 on #0a0a0a, 4.5:1+ on #141414 */
-  --color-text-disabled:  #8a8a8a;  /* 4.5:1 on #0a0a0a — WCAG AA compliant */
+  --color-text:           #ece8e0;
+  --color-text-muted:     #9a968e;  /* 4.6:1 on #0a0a0a — warm grey */
+  --color-text-disabled:  #6a665e;  /* 4.5:1 on #0a0a0a — WCAG AA compliant */
   --color-accent:         #cc2222;  /* button backgrounds — 5.3:1 with white text */
   --color-accent-fg:      #e05555;  /* accent as foreground text on dark — 4.7:1+ on bg */
   --color-accent-hover:   #dd3333;  /* hover — 4.6:1 with white text */
   --color-accent-text:    #ffffff;
+  --color-accent-glow:    rgba(224, 85, 85, 0.06);
   --color-danger:         #ff4444;
   --color-danger-hover:   #ff6666;
   --color-warning:        #ddaa00;
 
   --font-body: Georgia, 'Times New Roman', serif;
   --font-ui:   system-ui, -apple-system, sans-serif;
+  --font-display: Georgia, 'Palatino Linotype', 'Book Antiqua', serif;
 
   --radius-sm: 3px;
-  --radius:    5px;
-  --radius-lg: 8px;
+  --radius:    6px;
+  --radius-lg: 10px;
 
   --space-xs:  0.25rem;
   --space-sm:  0.5rem;
@@ -31,7 +34,14 @@
   --space-xl:  2rem;
   --space-2xl: 3rem;
 
-  --transition: 150ms ease;
+  --transition: 180ms ease;
+  --transition-slow: 350ms ease;
+
+  /* Surface depth layers */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,0.6), 0 2px 4px rgba(0,0,0,0.4);
+  --shadow-inset: inset 0 1px 3px rgba(0,0,0,0.4);
 
   --color-splat-vampire: #e05555;
   --color-splat-werewolf: #9aab5a;

@@ -2,8 +2,23 @@
 
 header[role="banner"] {
   background: var(--color-surface);
-  border-bottom: 2px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   padding: var(--space-md) var(--space-xl);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 10;
+}
+
+/* Subtle bottom glow from accent color */
+header[role="banner"]::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 10%, var(--color-accent-fg) 50%, transparent 90%);
+  opacity: 0.15;
 }
 
 .header-inner {
@@ -17,9 +32,10 @@ header[role="banner"] {
 }
 
 header h1 {
-  font-size: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
   font-weight: normal;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-text);
 }
@@ -36,15 +52,13 @@ footer[role="contentinfo"] {
   border-top: 1px solid var(--color-border);
   padding: var(--space-md) var(--space-xl);
   text-align: center;
-  color: var(--color-text-muted);
-  font-size: 0.8rem;
+  color: var(--color-text-disabled);
+  font-size: 0.78rem;
   font-family: var(--font-ui);
   margin-top: var(--space-2xl);
 }
 
 /* ── Nav ── */
-
-/* ── Header title row ── */
 
 .header-title-row {
   display: flex;
@@ -100,7 +114,7 @@ footer[role="contentinfo"] {
 nav[aria-label="Primary navigation"],
 .nav-menu {
   display: flex;
-  gap: var(--space-sm);
+  gap: var(--space-xs);
   flex-wrap: wrap;
   align-items: center;
 }
@@ -114,25 +128,23 @@ nav[aria-label="Primary navigation"],
 
 nav button {
   background: transparent;
-  border: 1px solid var(--color-border);
+  border: 1px solid transparent;
   color: var(--color-text-muted);
   padding: 0.35rem var(--space-md);
   border-radius: var(--radius);
   cursor: pointer;
   font-family: var(--font-ui);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   letter-spacing: 0.03em;
-  transition: border-color var(--transition), color var(--transition), background var(--transition);
+  transition: all var(--transition);
 }
 
 nav button:hover {
-  border-color: var(--color-accent-fg);
   color: var(--color-text);
-  background: rgba(224, 85, 85, 0.08);
+  background: rgba(255,255,255,0.04);
 }
 
 nav button[aria-current="page"] {
-  border-color: var(--color-accent-fg);
-  color: var(--color-text);
-  background: rgba(224, 85, 85, 0.12);
+  color: var(--color-accent-fg);
+  background: var(--color-accent-glow);
 }

@@ -3,9 +3,9 @@
 label {
   display: block;
   font-family: var(--font-ui);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-muted);
   margin-bottom: var(--space-xs);
@@ -14,7 +14,9 @@ label {
 input[type="text"],
 input[type="number"],
 input[type="email"],
+input[type="password"],
 input[type="search"],
+input[type="date"],
 select,
 textarea {
   display: block;
@@ -26,33 +28,41 @@ textarea {
   padding: 0.55rem var(--space-sm);
   font-family: var(--font-ui);
   font-size: 0.9rem;
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
   appearance: none;
+  box-shadow: var(--shadow-inset);
 }
 
 input[type="text"]:hover,
 input[type="number"]:hover,
 input[type="email"]:hover,
+input[type="password"]:hover,
 input[type="search"]:hover,
+input[type="date"]:hover,
 select:hover,
 textarea:hover {
-  border-color: var(--color-text-muted);
+  border-color: #3a3a42;
+  background: #1f1f24;
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus,
 input[type="email"]:focus,
+input[type="password"]:focus,
 input[type="search"]:focus,
+input[type="date"]:focus,
 select:focus,
 textarea:focus {
   border-color: var(--color-border-focus);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(224, 85, 85, 0.25);
+  box-shadow: 0 0 0 3px rgba(224, 85, 85, 0.15), var(--shadow-inset);
+  background: #1a1a1f;
 }
 
 input::placeholder,
 textarea::placeholder {
   color: var(--color-text-disabled);
+  font-style: italic;
 }
 
 select option {
@@ -64,6 +74,84 @@ textarea {
   resize: vertical;
   min-height: 90px;
   line-height: 1.5;
+}
+
+/* Checkboxes — custom styling */
+input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 3px;
+  background: var(--color-surface-raised);
+  cursor: pointer;
+  transition: all var(--transition);
+  flex-shrink: 0;
+  position: relative;
+}
+
+input[type="checkbox"]:hover {
+  border-color: var(--color-text-muted);
+}
+
+input[type="checkbox"]:checked {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* Radio — custom styling */
+input[type="radio"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-surface-raised);
+  cursor: pointer;
+  transition: all var(--transition);
+  flex-shrink: 0;
+  position: relative;
+}
+
+input[type="radio"]:hover {
+  border-color: var(--color-text-muted);
+}
+
+input[type="radio"]:checked {
+  border-color: var(--color-accent);
+}
+
+input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+input[type="radio"]:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
 }
 
 .field {
@@ -85,7 +173,7 @@ textarea {
 
 .field-row:last-child { margin-bottom: 0; }
 
-/* ── Fieldsets ── */
+/* ── Fieldsets — Manuscript sections ── */
 
 fieldset {
   border: none;
@@ -97,26 +185,56 @@ fieldset:last-child { margin-bottom: 0; }
 
 legend {
   font-family: var(--font-ui);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-accent-fg);
   width: 100%;
   padding-bottom: var(--space-sm);
   margin-bottom: var(--space-lg);
   border-bottom: 1px solid var(--color-border);
+  position: relative;
 }
 
-/* ── Tabs ── */
+/* Accent line under legend */
+legend::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--color-accent-fg);
+  opacity: 0.6;
+}
+
+/* ── Tabs — refined underline style ── */
 
 .tab-list {
   display: flex;
-  gap: var(--space-xs);
+  gap: 2px;
   flex-wrap: wrap;
   margin-bottom: var(--space-xl);
-  border-bottom: 2px solid var(--color-border);
-  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0;
+}
+
+.tab-list .btn {
+  border: none;
+  border-radius: 0;
+  padding: 0.6rem var(--space-md);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  background: transparent;
+  position: relative;
+  transition: color var(--transition), background var(--transition);
+}
+
+.tab-list .btn:hover {
+  color: var(--color-text);
+  background: rgba(255,255,255,0.03);
 }
 
 /* Carousel buttons: hidden on desktop, shown on mobile via media query */
@@ -128,9 +246,20 @@ legend {
 }
 
 .tab-btn--active {
-  border-color: var(--color-accent-fg) !important;
   color: var(--color-accent-fg) !important;
-  background: rgba(224, 85, 85, 0.1) !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.tab-btn--active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: var(--space-sm);
+  right: var(--space-sm);
+  height: 2px;
+  background: var(--color-accent-fg);
+  border-radius: 1px 1px 0 0;
 }
 
 /* ── Character form ── */
@@ -143,7 +272,10 @@ legend {
   flex-wrap: wrap;
 }
 
-.form-header h2 { margin-bottom: 0; }
+.form-header h2 {
+  margin-bottom: 0;
+  font-family: var(--font-display);
+}
 
 .form-section {
   background: var(--color-surface);
@@ -151,6 +283,21 @@ legend {
   border-radius: var(--radius-lg);
   padding: var(--space-xl) var(--space-xl);
   margin-bottom: var(--space-lg);
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+/* Subtle top-edge highlight for raised surface illusion */
+.form-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 1px;
+  right: 1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04) 30%, rgba(255,255,255,0.04) 70%, transparent);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  pointer-events: none;
 }
 
 .form-actions {
@@ -210,7 +357,7 @@ legend {
   transition: border-color var(--transition), color var(--transition);
 }
 
-.spec-input::placeholder { color: var(--color-text-disabled); }
+.spec-input::placeholder { color: var(--color-text-disabled); font-style: italic; }
 
 .spec-input:hover { border-color: var(--color-text-muted); }
 
