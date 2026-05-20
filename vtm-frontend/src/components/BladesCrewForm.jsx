@@ -74,6 +74,7 @@ function getFactionStatusColor(status) {
 }
 
 function FactionTracker({ factionData, onChange }) {
+  const { t } = useLanguage()
   const [customName, setCustomName] = useState('')
   const [customTier, setCustomTier] = useState(1)
 
