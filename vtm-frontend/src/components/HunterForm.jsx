@@ -20,6 +20,7 @@ import TagInfoPanel from './TagInfoPanel'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { useLanguage } from '../i18n/LanguageContext'
 import ExportModal from './ExportModal'
+import SaveButton from './SaveButton'
 
 const ARCHETYPES = [
   { value: 'Architect', description: 'Driven to create something of lasting value.' },
@@ -117,7 +118,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
         {catalog?.map(c => <option key={c.value} value={c.value} />)}
       </datalist>
       <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={onField} max={max} />
-      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1', margin: 0 }}>{match.description}</p>}
+      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1' }}>{match.description}</p>}
     </div>
   )
 }
@@ -257,7 +258,7 @@ export default function HunterForm() {
   async function handleSave() {
     setSaving(true); setSaveError(null)
     try { await updateCharacter(characterId, fields) }
-    catch { setSaveError(t('failedToSave')) }
+    catch(e) { setSaveError(t('failedToSave')); throw e }
     finally { setSaving(false) }
   }
 
@@ -663,7 +664,7 @@ export default function HunterForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       {viewMode && (

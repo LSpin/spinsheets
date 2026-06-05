@@ -104,6 +104,20 @@ public class CharacterController {
             existing.setHobbyTalent2(updated.getHobbyTalent2());
             existing.setHobbyTalent3Name(updated.getHobbyTalent3Name());
             existing.setHobbyTalent3(updated.getHobbyTalent3());
+            existing.setHobbyTalent4Name(updated.getHobbyTalent4Name());
+            existing.setHobbyTalent4(updated.getHobbyTalent4());
+            existing.setHobbyTalent5Name(updated.getHobbyTalent5Name());
+            existing.setHobbyTalent5(updated.getHobbyTalent5());
+            existing.setHobbyTalent6Name(updated.getHobbyTalent6Name());
+            existing.setHobbyTalent6(updated.getHobbyTalent6());
+            existing.setHobbyTalent7Name(updated.getHobbyTalent7Name());
+            existing.setHobbyTalent7(updated.getHobbyTalent7());
+            existing.setHobbyTalent8Name(updated.getHobbyTalent8Name());
+            existing.setHobbyTalent8(updated.getHobbyTalent8());
+            existing.setHobbyTalent9Name(updated.getHobbyTalent9Name());
+            existing.setHobbyTalent9(updated.getHobbyTalent9());
+            existing.setHobbyTalent10Name(updated.getHobbyTalent10Name());
+            existing.setHobbyTalent10(updated.getHobbyTalent10());
             // Skills
             existing.setAnimalKen(updated.getAnimalKen());
             existing.setCrafts(updated.getCrafts());
@@ -122,6 +136,20 @@ public class CharacterController {
             existing.setProfSkill2(updated.getProfSkill2());
             existing.setProfSkill3Name(updated.getProfSkill3Name());
             existing.setProfSkill3(updated.getProfSkill3());
+            existing.setProfSkill4Name(updated.getProfSkill4Name());
+            existing.setProfSkill4(updated.getProfSkill4());
+            existing.setProfSkill5Name(updated.getProfSkill5Name());
+            existing.setProfSkill5(updated.getProfSkill5());
+            existing.setProfSkill6Name(updated.getProfSkill6Name());
+            existing.setProfSkill6(updated.getProfSkill6());
+            existing.setProfSkill7Name(updated.getProfSkill7Name());
+            existing.setProfSkill7(updated.getProfSkill7());
+            existing.setProfSkill8Name(updated.getProfSkill8Name());
+            existing.setProfSkill8(updated.getProfSkill8());
+            existing.setProfSkill9Name(updated.getProfSkill9Name());
+            existing.setProfSkill9(updated.getProfSkill9());
+            existing.setProfSkill10Name(updated.getProfSkill10Name());
+            existing.setProfSkill10(updated.getProfSkill10());
             // Knowledges
             existing.setAcademics(updated.getAcademics());
             existing.setComputer(updated.getComputer());
@@ -140,6 +168,20 @@ public class CharacterController {
             existing.setExpertKnowl2(updated.getExpertKnowl2());
             existing.setExpertKnowl3Name(updated.getExpertKnowl3Name());
             existing.setExpertKnowl3(updated.getExpertKnowl3());
+            existing.setExpertKnowl4Name(updated.getExpertKnowl4Name());
+            existing.setExpertKnowl4(updated.getExpertKnowl4());
+            existing.setExpertKnowl5Name(updated.getExpertKnowl5Name());
+            existing.setExpertKnowl5(updated.getExpertKnowl5());
+            existing.setExpertKnowl6Name(updated.getExpertKnowl6Name());
+            existing.setExpertKnowl6(updated.getExpertKnowl6());
+            existing.setExpertKnowl7Name(updated.getExpertKnowl7Name());
+            existing.setExpertKnowl7(updated.getExpertKnowl7());
+            existing.setExpertKnowl8Name(updated.getExpertKnowl8Name());
+            existing.setExpertKnowl8(updated.getExpertKnowl8());
+            existing.setExpertKnowl9Name(updated.getExpertKnowl9Name());
+            existing.setExpertKnowl9(updated.getExpertKnowl9());
+            existing.setExpertKnowl10Name(updated.getExpertKnowl10Name());
+            existing.setExpertKnowl10(updated.getExpertKnowl10());
             // Specialties — Attributes
             existing.setStrengthSpec(updated.getStrengthSpec());
             existing.setDexteritySpec(updated.getDexteritySpec());
@@ -197,6 +239,13 @@ public class CharacterController {
             existing.setCurrentWillpower(updated.getCurrentWillpower());
             existing.setCurrentBlood(updated.getCurrentBlood());
             existing.setWoundLevel(updated.getWoundLevel());
+            existing.setHealthBruised(updated.getHealthBruised());
+            existing.setHealthHurt(updated.getHealthHurt());
+            existing.setHealthInjured(updated.getHealthInjured());
+            existing.setHealthWounded(updated.getHealthWounded());
+            existing.setHealthMauled(updated.getHealthMauled());
+            existing.setHealthCrippled(updated.getHealthCrippled());
+            existing.setHealthIncap(updated.getHealthIncap());
             // W20 fields
             existing.setBreed(updated.getBreed());
             existing.setAuspice(updated.getAuspice());
@@ -225,6 +274,13 @@ public class CharacterController {
             existing.setCaernType(updated.getCaernType());
             existing.setSeptTotem(updated.getSeptTotem());
             existing.setSeptLeader(updated.getSeptLeader());
+            existing.setCulture(updated.getCulture());
+            existing.setCultureSpec(updated.getCultureSpec());
+            // C20 fields
+            existing.setKenning(updated.getKenning());
+            existing.setKenningSpec(updated.getKenningSpec());
+            existing.setGremayre(updated.getGremayre());
+            existing.setGremayreSpec(updated.getGremayreSpec());
             // M20 fields
             existing.setEssence(updated.getEssence());
             existing.setAffiliation(updated.getAffiliation());

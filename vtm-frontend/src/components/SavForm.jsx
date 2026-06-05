@@ -17,6 +17,7 @@ import {
   SAV_HERITAGES, SAV_BACKGROUNDS, SAV_VICES,
   SAV_PLAYBOOKS, SAV_PLAYBOOK_CATALOG, SAV_TRAUMA_CONDITIONS, SAV_STANDARD_ITEMS,
 } from '../data/savPlaybooks'
+import SaveButton from './SaveButton'
 
 // S&V reuses blades* entity fields but with different action names
 const BLADES_HERITAGES = SAV_HERITAGES
@@ -256,7 +257,7 @@ export default function SavForm() {
   async function handleSave() {
     setSaving(true); setSaveError(null)
     try { await updateCharacter(characterId, fields) }
-    catch { setSaveError(t('failedToSave')) }
+    catch(e) { setSaveError(t('failedToSave')); throw e }
     finally { setSaving(false) }
   }
 
@@ -952,7 +953,7 @@ export default function SavForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/sav')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       {viewMode && (

@@ -16,6 +16,7 @@ import { UESTRPG_RACES, UESTRPG_RACE_CATALOG, UESTRPG_ALIGNMENTS } from '../data
 import { UESTRPG_BACKGROUNDS, UESTRPG_SKILLS, UESTRPG_CONSTELLATION_CATALOG, UESTRPG_SPELLCASTING_ABILITIES } from '../data/uestrpgData'
 import { UESTRPG_EQUIPMENT_CATALOG } from '../data/uestrpgData'
 import { DND_SPELLS } from '../data/dnd5eSpells'
+import SaveButton from './SaveButton'
 
 const TAB_KEYS = ['tabIdentity', 'tabUestrpgAbilities', 'tabUestrpgSkills', 'tabUestrpgCombat', 'tabUestrpgFeatures', 'tabDndSpells', 'tabDndEquipment', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
 
@@ -184,7 +185,7 @@ export default function UestrpgForm() {
   async function handleSave() {
     setSaving(true); setSaveError(null)
     try { await updateCharacter(characterId, fields) }
-    catch { setSaveError(t('failedToSave')) }
+    catch(e) { setSaveError(t('failedToSave')); throw e }
     finally { setSaving(false) }
   }
 
@@ -762,7 +763,7 @@ export default function UestrpgForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/uestrpg')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       {viewMode && (

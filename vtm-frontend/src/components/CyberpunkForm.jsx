@@ -17,6 +17,7 @@ import {
   CP_CYBERWARE, CP_CYBERWARE_CATALOG, CP_WEAPONS, CP_WEAPONS_CATALOG,
   CP_ARMOR_CATALOG, CP_GEAR, CP_GEAR_CATALOG, CP_VEHICLES, CP_VEHICLES_CATALOG, CP_LIFEPATH_TABLES,
 } from '../data/cyberpunkData'
+import SaveButton from './SaveButton'
 
 const TAB_KEYS = ['tabCpIdentity', 'tabCpStats', 'tabCpSkills', 'tabCpCyberware', 'tabCpCombat', 'tabCpGear', 'tabCpVehicles', 'tabCpLifepath', 'tabBackstory', 'tabXpLog', 'tabDiceRoller', 'tabCpRulesRef']
 
@@ -156,7 +157,7 @@ export default function CyberpunkForm() {
   async function handleSave() {
     setSaving(true); setSaveError(null)
     try { await updateCharacter(characterId, fields) }
-    catch { setSaveError(t('failedToSave')) }
+    catch(e) { setSaveError(t('failedToSave')); throw e }
     finally { setSaving(false) }
   }
 
@@ -919,7 +920,7 @@ export default function CyberpunkForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/cyberpunk')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       {viewMode && (

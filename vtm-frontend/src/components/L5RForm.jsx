@@ -23,6 +23,7 @@ import RulesReferenceTab from './RulesReferenceTab'
 import { L5R_RULES } from '../data/l5rRules'
 import L5RDiceRoller from './L5RDiceRoller'
 import { L5R_HERO_NPCS, L5R_HERO_CATALOG } from '../data/l5rNpcs'
+import SaveButton from './SaveButton'
 
 // ── Clans & Families ──
 const CLANS = {
@@ -579,7 +580,7 @@ export default function L5RForm() {
   async function handleSave() {
     setSaving(true); setSaveError(null)
     try { await updateCharacter(characterId, fields) }
-    catch { setSaveError(t('failedToSave')) }
+    catch(e) { setSaveError(t('failedToSave')); throw e }
     finally { setSaving(false) }
   }
 
@@ -2809,7 +2810,7 @@ Traveling pack, spare kimono, 10 koku`} />
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/l5r')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       {viewMode && (

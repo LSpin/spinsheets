@@ -17,6 +17,7 @@ import {
   ASOIAF_DRAWBACK_CATALOG, ASOIAF_DRAWBACKS, ASOIAF_WEAPON_CATALOG, ASOIAF_WEAPONS,
   ASOIAF_ARMOR_CATALOG, ASOIAF_ARMOR, ASOIAF_HOUSE_RESOURCES,
 } from '../data/asoiafData'
+import SaveButton from './SaveButton'
 
 const TAB_KEYS = ['tabAsoiafIdentity', 'tabAsoiafAbilities', 'tabAsoiafDestiny', 'tabAsoiafDrawbacks', 'tabAsoiafCombat', 'tabAsoiafIntrigue', 'tabAsoiafEquipment', 'tabAsoiafHouse', 'tabBackstory', 'tabXpLog', 'tabDiceRoller', 'tabAsoiafRulesRef']
 
@@ -151,7 +152,7 @@ export default function AsoiafForm() {
   async function handleSave() {
     setSaving(true); setSaveError(null)
     try { await updateCharacter(characterId, fields) }
-    catch { setSaveError(t('failedToSave')) }
+    catch(e) { setSaveError(t('failedToSave')); throw e }
     finally { setSaving(false) }
   }
 
@@ -723,7 +724,7 @@ export default function AsoiafForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/asoiaf')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       {viewMode && (

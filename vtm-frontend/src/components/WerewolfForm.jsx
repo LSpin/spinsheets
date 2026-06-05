@@ -27,6 +27,7 @@ import CatalogSelect from './CatalogSelect'
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
+import SaveButton from './SaveButton'
 
 // ── Constants ──
 
@@ -403,6 +404,7 @@ export default function WerewolfForm() {
       await updateCharacter(characterId, fields)
     } catch (err) {
       setSaveError(err.response?.data?.message || t('failedToSave'))
+      throw err
     } finally { setSaving(false) }
   }
 
@@ -414,6 +416,7 @@ export default function WerewolfForm() {
       navigate('/characters')
     } catch (err) {
       setSaveError(err.response?.data?.message || t('failedToSave'))
+      throw err
     } finally { setSaving(false) }
   }
 
@@ -1299,9 +1302,7 @@ export default function WerewolfForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>
-          {saving ? t('saving') : t('quickSave')}
-        </button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>
           {t('doneEditing')}
         </button>

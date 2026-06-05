@@ -22,6 +22,7 @@ import {
   L5R5E_ARMOR, L5R5E_ARMOR_CATALOG,
   RING_DIE, SKILL_DIE,
 } from '../data/l5r5eData'
+import SaveButton from './SaveButton'
 
 const TAB_KEYS = ['tabL5r5eIdentity', 'tabL5r5e20Questions', 'tabL5r5eRings', 'tabL5r5eSkills', 'tabL5r5eTechniques', 'tabL5r5eAdvantages', 'tabL5r5eCombat', 'tabL5r5eSocial', 'tabL5r5eEquipment', 'tabBackstory', 'tabXpLog', 'tabDiceRoller', 'tabL5r5eRulesRef']
 
@@ -195,7 +196,7 @@ export default function L5R5eForm() {
   async function handleSave() {
     setSaving(true); setSaveError(null)
     try { await updateCharacter(characterId, fields) }
-    catch { setSaveError(t('failedToSave')) }
+    catch(e) { setSaveError(t('failedToSave')); throw e }
     finally { setSaving(false) }
   }
 
@@ -1445,7 +1446,7 @@ export default function L5R5eForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/l5r5e')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       {viewMode && (

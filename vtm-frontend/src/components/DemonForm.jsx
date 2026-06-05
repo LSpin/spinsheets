@@ -21,6 +21,7 @@ import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
 import { SECONDARY_TALENTS, SECONDARY_SKILLS, SECONDARY_KNOWLEDGES } from '../data/secondaryAbilities'
 import { DEMON_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
+import SaveButton from './SaveButton'
 
 // ── Constants ──
 
@@ -247,7 +248,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
         {catalog?.map(c => <option key={c.value} value={c.value} />)}
       </datalist>
       <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={onField} max={max} />
-      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1', margin: 0 }}>{match.description}</p>}
+      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1' }}>{match.description}</p>}
     </div>
   )
 }
@@ -343,6 +344,7 @@ export default function DemonForm() {
       await updateCharacter(characterId, fields)
     } catch (err) {
       setSaveError(err.response?.data?.message || t('failedToSave'))
+      throw err
     } finally { setSaving(false) }
   }
 
@@ -354,6 +356,7 @@ export default function DemonForm() {
       navigate('/characters')
     } catch (err) {
       setSaveError(err.response?.data?.message || t('failedToSave'))
+      throw err
     } finally { setSaving(false) }
   }
 
@@ -525,7 +528,7 @@ export default function DemonForm() {
                   <div className="ability-row">
                     <DotRating label={houseLoreInfo.primary} name={`lore-primary`} value={loresMap[houseLoreInfo.primary] || 0}
                       onChange={(_, val) => handleLore(houseLoreInfo.primary, val)} max={5} />
-                    <p className="muted-hint muted-hint--xs" style={{ margin: 0, gridColumn: '1 / -1' }}>
+                    <p className="muted-hint muted-hint--xs" style={{ gridColumn: '1 / -1' }}>
                       {DEMON_LORES.find(l => l.name === houseLoreInfo.primary)?.description}
                     </p>
                   </div>
@@ -544,7 +547,7 @@ export default function DemonForm() {
                       <div key={lore} className="ability-row">
                         <DotRating label={lore} name={`lore-${lore}`} value={loresMap[lore] || 0}
                           onChange={(_, val) => handleLore(lore, val)} max={5} />
-                        {info && <p className="muted-hint muted-hint--xs" style={{ margin: 0, gridColumn: '1 / -1' }}>{info.description}</p>}
+                        {info && <p className="muted-hint muted-hint--xs" style={{ gridColumn: '1 / -1' }}>{info.description}</p>}
                       </div>
                     )
                   })}
@@ -582,7 +585,7 @@ export default function DemonForm() {
                     <div key={lore.name} className="ability-row">
                       <DotRating label={lore.name} name={`lore-${lore.name}`} value={loresMap[lore.name] || 0}
                         onChange={(_, val) => handleLore(lore.name, val)} max={5} />
-                      <p className="muted-hint muted-hint--xs" style={{ margin: 0, gridColumn: '1 / -1' }}>{lore.description}</p>
+                      <p className="muted-hint muted-hint--xs" style={{ gridColumn: '1 / -1' }}>{lore.description}</p>
                     </div>
                   ))}
                 </div>
@@ -897,9 +900,7 @@ export default function DemonForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>
-          {saving ? t('saving') : t('quickSave')}
-        </button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>
           {t('doneEditing')}
         </button>

@@ -25,6 +25,7 @@ import ExportModal from './ExportModal'
 import CatalogSelect from './CatalogSelect'
 import { MAGE_BACKGROUNDS as BACKGROUNDS } from '../data/backgrounds'
 import { WONDER_TYPES, MAGE_WONDERS } from '../data/mageWonders'
+import SaveButton from './SaveButton'
 // Victorian-era Focus catalogs are defined inline below (MAGE_PARADIGMS, MAGE_PRACTICES, MAGE_INSTRUMENTS)
 import TagInfoPanel from './TagInfoPanel'
 import DicePoolsTab from './DicePoolsTab'
@@ -537,6 +538,7 @@ export default function VictorianMageForm() {
       await updateCharacter(characterId, fields)
     } catch (err) {
       setSaveError(err.response?.data?.message || t('failedToSave'))
+      throw err
     } finally { setSaving(false) }
   }
 
@@ -548,6 +550,7 @@ export default function VictorianMageForm() {
       navigate('/characters')
     } catch (err) {
       setSaveError(err.response?.data?.message || t('failedToSave'))
+      throw err
     } finally { setSaving(false) }
   }
 
@@ -1495,9 +1498,7 @@ export default function VictorianMageForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>
-          {saving ? t('saving') : t('quickSave')}
-        </button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>
           {t('doneEditing')}
         </button>

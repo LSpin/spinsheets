@@ -76,6 +76,12 @@
   min-height: 30px;
 }
 
+.btn-save-success {
+  border-color: #4a9 !important;
+  color: #4a9 !important;
+  transition: all 0.3s;
+}
+
 .btn:disabled {
   opacity: 0.35;
   cursor: not-allowed;

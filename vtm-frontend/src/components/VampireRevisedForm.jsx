@@ -27,6 +27,7 @@ import TagInfoPanel from './TagInfoPanel'
 import BloodSorcerySection from './BloodSorcerySection'
 import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
+import SaveButton from './SaveButton'
 
 // ── Constants ──
 
@@ -219,7 +220,7 @@ function CustomAbilityRow({ nameProp, ratingProp, placeholder, fields, onField, 
         list={`${nameProp}-list`} />
       {catalog && <datalist id={`${nameProp}-list`}>{catalog.map(c => <option key={c.value} value={c.value} />)}</datalist>}
       <DotRating label="" name={ratingProp} value={fields[ratingProp]} onChange={onField} max={max} />
-      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1', margin: 0 }}>{match.description}</p>}
+      {match && <p className="archetype-desc" style={{ gridColumn: '1 / -1' }}>{match.description}</p>}
     </div>
   )
 }
@@ -411,6 +412,7 @@ export default function VampireRevisedForm() {
       await updateCharacter(characterId, fields)
     } catch (err) {
       setSaveError(err.response?.data?.message || t('failedToSave'))
+      throw err
     } finally { setSaving(false) }
   }
 
@@ -422,6 +424,7 @@ export default function VampireRevisedForm() {
       navigate('/characters')
     } catch (err) {
       setSaveError(err.response?.data?.message || t('failedToSave'))
+      throw err
     } finally { setSaving(false) }
   }
 
@@ -1141,9 +1144,7 @@ export default function VampireRevisedForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/characters')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>
-          {saving ? t('saving') : t('quickSave')}
-        </button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>
           {t('doneEditing')}
         </button>

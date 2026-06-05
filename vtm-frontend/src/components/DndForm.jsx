@@ -17,6 +17,7 @@ import { DND_BACKGROUNDS, DND_SKILLS } from '../data/dnd5eBackgrounds'
 import { DND_SPELLS } from '../data/dnd5eSpells'
 import { DND_EQUIPMENT_CATALOG } from '../data/dnd5eEquipment'
 import { DND_FEATS } from '../data/dnd5eFeats'
+import SaveButton from './SaveButton'
 
 const TAB_KEYS = ['tabIdentity', 'tabDndAbilities', 'tabDndSkills', 'tabDndCombat', 'tabDndFeatures', 'tabDndSpells', 'tabDndEquipment', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
 
@@ -196,7 +197,7 @@ export default function DndForm() {
   async function handleSave() {
     setSaving(true); setSaveError(null)
     try { await updateCharacter(characterId, fields) }
-    catch { setSaveError(t('failedToSave')) }
+    catch(e) { setSaveError(t('failedToSave')); throw e }
     finally { setSaving(false) }
   }
 
@@ -853,7 +854,7 @@ export default function DndForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/dnd')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       {viewMode && (

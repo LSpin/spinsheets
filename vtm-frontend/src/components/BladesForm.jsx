@@ -17,6 +17,7 @@ import {
   BLADES_HERITAGES, BLADES_BACKGROUNDS, BLADES_VICES,
   BLADES_PLAYBOOKS, BLADES_PLAYBOOK_CATALOG, BLADES_TRAUMA_CONDITIONS, BLADES_STANDARD_ITEMS,
 } from '../data/bladesPlaybooks'
+import SaveButton from './SaveButton'
 
 const ALL_TAB_KEYS = ['tabIdentity', 'tabBladesActions', 'tabBladesAbilities', 'tabBladesStressHarm', 'tabBladesLoadout', 'tabBladesProjects', 'tabBladesCoinStash', 'tabBladesContacts', 'tabBladesDicePools', 'tabBackstory', 'tabXpLog', 'tabDiceRoller']
 const ST_ONLY_TABS = new Set()
@@ -245,7 +246,7 @@ export default function BladesForm() {
   async function handleSave() {
     setSaving(true); setSaveError(null)
     try { await updateCharacter(characterId, fields) }
-    catch { setSaveError(t('failedToSave')) }
+    catch(e) { setSaveError(t('failedToSave')); throw e }
     finally { setSaving(false) }
   }
 
@@ -952,7 +953,7 @@ export default function BladesForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/blades')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       {viewMode && (

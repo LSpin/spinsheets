@@ -10,6 +10,7 @@ import {
   L5R_ANTAGONIST_RANKS, L5R_ANTAGONIST_TYPES, L5R_PREMADE_ANTAGONISTS, L5R_ANTAGONIST_CATALOG,
 } from '../data/l5rAntagonists'
 import { L5R_VILLAIN_NPCS, L5R_VILLAIN_NPC_CATALOG } from '../data/l5rNpcs'
+import SaveButton from './SaveButton'
 
 const TAB_KEYS = ['tabL5rAntIdentity', 'tabL5rAntStats', 'tabL5rAntAbilities', 'tabBackstory']
 
@@ -68,7 +69,7 @@ export default function L5RAntagonistForm() {
 
   function handleField(name, value) { setFields(prev => ({ ...prev, [name]: typeof value === 'string' ? value : Number(value) })) }
   function handleText(e) { setFields(prev => ({ ...prev, [e.target.name]: e.target.value })) }
-  async function handleSave() { setSaving(true); setSaveError(null); try { await updateCharacter(characterId, fields) } catch { setSaveError(t('failedToSave')) } finally { setSaving(false) } }
+  async function handleSave() { setSaving(true); setSaveError(null); try { await updateCharacter(characterId, fields) } catch(e) { setSaveError(t('failedToSave')); throw e } finally { setSaving(false) } }
   async function handleDoneEditing() { await handleSave(); navigate('/l5r') }
 
   function loadTemplate(antName) {
@@ -295,7 +296,7 @@ export default function L5RAntagonistForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/l5r')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />

@@ -11,6 +11,7 @@ import TagInfoPanel from './TagInfoPanel'
 import SeventhSeaDiceRoller from './SeventhSeaDiceRoller'
 import { SEVEN_SEA_NPCS, SEVEN_SEA_NPC_CATALOG } from '../data/sevenSeaNpcs'
 import { SEVEN_SEA_ADVANTAGES, DUELING_STYLES, SEVEN_SEA_NATIONS, getAllArcana } from '../data/sevenSeaData'
+import SaveButton from './SaveButton'
 
 const SEVEN_SEA_ARCANA = getAllArcana()
 const VIRTUES = SEVEN_SEA_ARCANA.map(a => `${a.card} — ${a.virtue.name}`)
@@ -111,7 +112,7 @@ export default function SeventhSeaVillainForm() {
 
   function handleField(name, value) { setFields(prev => ({ ...prev, [name]: typeof value === 'string' ? value : Number(value) })) }
   function handleText(e) { setFields(prev => ({ ...prev, [e.target.name]: e.target.value })) }
-  async function handleSave() { setSaving(true); setSaveError(null); try { await updateCharacter(characterId, fields) } catch { setSaveError(t('failedToSave')) } finally { setSaving(false) } }
+  async function handleSave() { setSaving(true); setSaveError(null); try { await updateCharacter(characterId, fields) } catch(e) { setSaveError(t('failedToSave')); throw e } finally { setSaving(false) } }
   async function handleDoneEditing() { await handleSave(); navigate('/7thsea') }
 
   function loadTemplate(templateNameVal) {
@@ -536,7 +537,7 @@ Consequence if unchecked: Civil war engulfs Castille`} />
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/7thsea')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />

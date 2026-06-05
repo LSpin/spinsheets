@@ -8,6 +8,7 @@ import { useLanguage } from '../i18n/LanguageContext'
 import ExportModal from './ExportModal'
 import { useTheme } from '../context/ThemeContext'
 import { CP_PREMADE_NPCS, CP_NPC_CATALOG } from '../data/cyberpunkNpcs'
+import SaveButton from './SaveButton'
 
 const TAB_KEYS = ['tabCpAntIdentity', 'tabCpAntStats', 'tabCpAntCombat', 'tabBackstory']
 
@@ -67,7 +68,7 @@ export default function CyberpunkAntagonistForm() {
 
   function handleField(name, value) { setFields(prev => ({ ...prev, [name]: typeof value === 'string' ? value : Number(value) })) }
   function handleText(e) { setFields(prev => ({ ...prev, [e.target.name]: e.target.value })) }
-  async function handleSave() { setSaving(true); setSaveError(null); try { await updateCharacter(characterId, fields) } catch { setSaveError(t('failedToSave')) } finally { setSaving(false) } }
+  async function handleSave() { setSaving(true); setSaveError(null); try { await updateCharacter(characterId, fields) } catch(e) { setSaveError(t('failedToSave')); throw e } finally { setSaving(false) } }
   async function handleDoneEditing() { await handleSave(); navigate('/cyberpunk') }
 
   function loadTemplate(npcName) {
@@ -245,7 +246,7 @@ export default function CyberpunkAntagonistForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/cyberpunk')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />

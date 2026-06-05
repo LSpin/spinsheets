@@ -27,6 +27,7 @@ import ExportModal from './ExportModal'
 import XpLogSection from './XpLogSection'
 import DicePoolsTab from './DicePoolsTab'
 import StorytellerDiceRoller from './StorytellerDiceRoller'
+import SaveButton from './SaveButton'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -760,14 +761,15 @@ export default function CharacterForm() {
   async function handleSave() {
     if (validationErrors.length > 0) {
       setSaveError(validationErrors.join(' '))
-      return
+      throw new Error('validation')
     }
     setSaving(true)
     setSaveError(null)
     try {
       await updateCharacter(characterId, fields)
-    } catch {
+    } catch (err) {
       setSaveError(t('failedToSave'))
+      throw err
     } finally {
       setSaving(false)
     }
@@ -1582,14 +1584,7 @@ export default function CharacterForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={onBack}>{t('cancel')}</button>
-        <button
-          className="btn btn-secondary"
-          onClick={handleSave}
-          disabled={saving || validationErrors.length > 0}
-          title={validationErrors.length > 0 ? validationErrors.join(' ') : undefined}
-        >
-          {saving ? t('saving') : t('quickSave')}
-        </button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} validationErrors={validationErrors} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>
           {t('doneEditing')}
         </button>

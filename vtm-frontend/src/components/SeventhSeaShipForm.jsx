@@ -5,6 +5,7 @@ import useAutoCreate from '../hooks/useAutoCreate'
 import { useLanguage } from '../i18n/LanguageContext'
 import ExportModal from './ExportModal'
 import { useTheme } from '../context/ThemeContext'
+import SaveButton from './SaveButton'
 
 // ── Ship Builder Data (7th Sea 2e) ──
 const SHIP_ORIGINS = [
@@ -118,7 +119,7 @@ export default function SeventhSeaShipForm() {
 
   function handleField(name, value) { setFields(prev => ({ ...prev, [name]: typeof value === 'string' ? value : Number(value) })) }
   function handleText(e) { setFields(prev => ({ ...prev, [e.target.name]: e.target.value })) }
-  async function handleSave() { setSaving(true); setSaveError(null); try { await updateCharacter(characterId, fields) } catch { setSaveError(t('failedToSave')) } finally { setSaving(false) } }
+  async function handleSave() { setSaving(true); setSaveError(null); try { await updateCharacter(characterId, fields) } catch(e) { setSaveError(t('failedToSave')); throw e } finally { setSaving(false) } }
   async function handleDoneEditing() { await handleSave(); navigate('/7thsea') }
 
   // Parse ship data from JSON blob
@@ -303,7 +304,7 @@ export default function SeventhSeaShipForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/7thsea')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />

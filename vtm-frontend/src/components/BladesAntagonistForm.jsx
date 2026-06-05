@@ -9,6 +9,7 @@ import { useTheme } from '../context/ThemeContext'
 import {
   BLADES_THREAT_LEVELS, BLADES_ANTAGONIST_TYPES, BLADES_PREMADE_ANTAGONISTS, BLADES_ANTAGONIST_CATALOG,
 } from '../data/bladesAntagonists'
+import SaveButton from './SaveButton'
 
 const TAB_KEYS = ['tabBladesAntIdentity', 'tabBladesAntTraits', 'tabBackstory']
 
@@ -59,7 +60,7 @@ export default function BladesAntagonistForm() {
   async function handleSave() {
     setSaving(true); setSaveError(null)
     try { await updateCharacter(characterId, fields) }
-    catch { setSaveError(t('failedToSave')) }
+    catch(e) { setSaveError(t('failedToSave')); throw e }
     finally { setSaving(false) }
   }
 
@@ -215,7 +216,7 @@ export default function BladesAntagonistForm() {
       <div className="form-actions">
         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>{t('exportPdf')}</button>
         <button className="btn btn-secondary" onClick={() => navigate('/blades')}>{t('cancel')}</button>
-        <button className="btn btn-secondary" onClick={handleSave} disabled={saving}>{saving ? t('saving') : t('quickSave')}</button>
+        <SaveButton onSave={handleSave} disabled={saving} t={t} />
         <button className="btn btn-primary" onClick={handleDoneEditing} disabled={saving}>{t('doneEditing')}</button>
       </div>
       <ExportModal open={showExport} onClose={() => setShowExport(false)} tabKeys={TAB_KEYS} t={t} />
