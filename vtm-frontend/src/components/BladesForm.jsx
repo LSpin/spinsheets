@@ -106,7 +106,7 @@ const INITIAL = {
   // Contacts
   bladesContacts: '',
   // Deep Cuts: Economy
-  bladesStash: 0, bladesLifestyle: 0, bladesDebt: 0, bladesEdge: 0,
+  bladesCoin: 0, bladesStash: 0, bladesLifestyle: 0, bladesDebt: 0, bladesEdge: 0,
   // Shared
   notes: '', backstory: '',
   // Clocks (stored as JSON in havens field)
